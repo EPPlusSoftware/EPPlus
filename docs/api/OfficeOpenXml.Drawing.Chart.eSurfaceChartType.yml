@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  id: eSurfaceChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eSurfaceChartType.Surface
+  - OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopView
+  - OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopViewWireframe
+  - OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceWireframe
+  langs:
+  - csharp
+  - vb
+  name: eSurfaceChartType
+  nameWithType: eSurfaceChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSurfaceChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nSurface chart type\n"
+  example: []
+  syntax:
+    content: public enum eSurfaceChartType
+    content.vb: Public Enum eSurfaceChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.Surface
+  commentId: F:OfficeOpenXml.Drawing.Chart.eSurfaceChartType.Surface
+  id: Surface
+  parent: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  langs:
+  - csharp
+  - vb
+  name: Surface
+  nameWithType: eSurfaceChartType.Surface
+  fullName: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.Surface
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Surface
+    path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA surface chart\n"
+  example: []
+  syntax:
+    content: Surface = 83
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopView
+  commentId: F:OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopView
+  id: SurfaceTopView
+  parent: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  langs:
+  - csharp
+  - vb
+  name: SurfaceTopView
+  nameWithType: eSurfaceChartType.SurfaceTopView
+  fullName: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopView
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SurfaceTopView
+    path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA surface chart, top view\n"
+  example: []
+  syntax:
+    content: SurfaceTopView = 85
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopViewWireframe
+  commentId: F:OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopViewWireframe
+  id: SurfaceTopViewWireframe
+  parent: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  langs:
+  - csharp
+  - vb
+  name: SurfaceTopViewWireframe
+  nameWithType: eSurfaceChartType.SurfaceTopViewWireframe
+  fullName: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceTopViewWireframe
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SurfaceTopViewWireframe
+    path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA surface chart, top view and wireframe\n"
+  example: []
+  syntax:
+    content: SurfaceTopViewWireframe = 86
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceWireframe
+  commentId: F:OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceWireframe
+  id: SurfaceWireframe
+  parent: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  langs:
+  - csharp
+  - vb
+  name: SurfaceWireframe
+  nameWithType: eSurfaceChartType.SurfaceWireframe
+  fullName: OfficeOpenXml.Drawing.Chart.eSurfaceChartType.SurfaceWireframe
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SurfaceWireframe
+    path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA surface chart, wireframe\n"
+  example: []
+  syntax:
+    content: SurfaceWireframe = 84
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eSurfaceChartType
+  nameWithType: eSurfaceChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eSurfaceChartType

@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTextCapsType
+  commentId: T:OfficeOpenXml.Drawing.eTextCapsType
+  id: eTextCapsType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTextCapsType.All
+  - OfficeOpenXml.Drawing.eTextCapsType.None
+  - OfficeOpenXml.Drawing.eTextCapsType.Small
+  langs:
+  - csharp
+  - vb
+  name: eTextCapsType
+  nameWithType: eTextCapsType
+  fullName: OfficeOpenXml.Drawing.eTextCapsType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextCapsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextCapsType
+    path: ../src/EPPlus/Drawing/Enums/eTextCapsType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSpecifies the cap types of the text\n"
+  example: []
+  syntax:
+    content: public enum eTextCapsType
+    content.vb: Public Enum eTextCapsType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTextCapsType.All
+  commentId: F:OfficeOpenXml.Drawing.eTextCapsType.All
+  id: All
+  parent: OfficeOpenXml.Drawing.eTextCapsType
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: eTextCapsType.All
+  fullName: OfficeOpenXml.Drawing.eTextCapsType.All
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextCapsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: All
+    path: ../src/EPPlus/Drawing/Enums/eTextCapsType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nApply all caps on the text. All lower case letters are converted to upper case, but stored without change.\n"
+  example: []
+  syntax:
+    content: All = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTextCapsType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextCapsType.None
+  commentId: F:OfficeOpenXml.Drawing.eTextCapsType.None
+  id: None
+  parent: OfficeOpenXml.Drawing.eTextCapsType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eTextCapsType.None
+  fullName: OfficeOpenXml.Drawing.eTextCapsType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextCapsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Enums/eTextCapsType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNone\n"
+  example: []
+  syntax:
+    content: None = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTextCapsType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextCapsType.Small
+  commentId: F:OfficeOpenXml.Drawing.eTextCapsType.Small
+  id: Small
+  parent: OfficeOpenXml.Drawing.eTextCapsType
+  langs:
+  - csharp
+  - vb
+  name: Small
+  nameWithType: eTextCapsType.Small
+  fullName: OfficeOpenXml.Drawing.eTextCapsType.Small
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextCapsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Small
+    path: ../src/EPPlus/Drawing/Enums/eTextCapsType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nApply small caps to the text. Letters are converted to lower case.\n"
+  example: []
+  syntax:
+    content: Small = 2
+    return:
+      type: OfficeOpenXml.Drawing.eTextCapsType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTextCapsType
+  commentId: T:OfficeOpenXml.Drawing.eTextCapsType
+  parent: OfficeOpenXml.Drawing
+  name: eTextCapsType
+  nameWithType: eTextCapsType
+  fullName: OfficeOpenXml.Drawing.eTextCapsType

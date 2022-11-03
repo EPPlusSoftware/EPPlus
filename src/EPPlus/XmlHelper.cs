@@ -738,7 +738,7 @@ namespace OfficeOpenXml
         }
         internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="", bool allowNegative=true)
         {
-            if (d.HasValue==false)
+            if (d.HasValue==false || double.IsNaN(d.Value))
             {
                 DeleteNode(path);
             }
@@ -1004,6 +1004,10 @@ namespace OfficeOpenXml
             }
         }
         internal static bool GetBoolFromString(string s)
+        {
+            return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
+        }
+        internal static bool GetBoolFromNullString(string s)
         {
             return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
         }

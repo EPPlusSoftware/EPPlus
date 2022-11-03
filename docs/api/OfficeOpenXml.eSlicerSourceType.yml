@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eSlicerSourceType
+  commentId: T:OfficeOpenXml.eSlicerSourceType
+  id: eSlicerSourceType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eSlicerSourceType.PivotTable
+  - OfficeOpenXml.eSlicerSourceType.Table
+  langs:
+  - csharp
+  - vb
+  name: eSlicerSourceType
+  nameWithType: eSlicerSourceType
+  fullName: OfficeOpenXml.eSlicerSourceType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSlicerSourceType
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerSourceType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe source of the slicer data\n"
+  example: []
+  syntax:
+    content: public enum eSlicerSourceType
+    content.vb: Public Enum eSlicerSourceType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eSlicerSourceType.PivotTable
+  commentId: F:OfficeOpenXml.eSlicerSourceType.PivotTable
+  id: PivotTable
+  parent: OfficeOpenXml.eSlicerSourceType
+  langs:
+  - csharp
+  - vb
+  name: PivotTable
+  nameWithType: eSlicerSourceType.PivotTable
+  fullName: OfficeOpenXml.eSlicerSourceType.PivotTable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTable
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerSourceType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA pivot table\n"
+  example: []
+  syntax:
+    content: PivotTable = 0
+    return:
+      type: OfficeOpenXml.eSlicerSourceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerSourceType.Table
+  commentId: F:OfficeOpenXml.eSlicerSourceType.Table
+  id: Table
+  parent: OfficeOpenXml.eSlicerSourceType
+  langs:
+  - csharp
+  - vb
+  name: Table
+  nameWithType: eSlicerSourceType.Table
+  fullName: OfficeOpenXml.eSlicerSourceType.Table
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Table
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerSourceType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA table\n"
+  example: []
+  syntax:
+    content: Table = 1
+    return:
+      type: OfficeOpenXml.eSlicerSourceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eSlicerSourceType
+  commentId: T:OfficeOpenXml.eSlicerSourceType
+  parent: OfficeOpenXml
+  name: eSlicerSourceType
+  nameWithType: eSlicerSourceType
+  fullName: OfficeOpenXml.eSlicerSourceType

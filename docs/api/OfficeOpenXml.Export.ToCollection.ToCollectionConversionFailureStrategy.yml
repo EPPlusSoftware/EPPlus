@@ -1,0 +1,123 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  commentId: T:OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  id: ToCollectionConversionFailureStrategy
+  parent: OfficeOpenXml.Export.ToCollection
+  children:
+  - OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.Exception
+  - OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.SetDefaultValue
+  langs:
+  - csharp
+  - vb
+  name: ToCollectionConversionFailureStrategy
+  nameWithType: ToCollectionConversionFailureStrategy
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollectionConversionFailureStrategy
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nHow conversion failures should be handled when mapping properties in the ToCollection method.\n"
+  example: []
+  syntax:
+    content: public enum ToCollectionConversionFailureStrategy
+    content.vb: Public Enum ToCollectionConversionFailureStrategy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.Exception
+  commentId: F:OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.Exception
+  id: Exception
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  langs:
+  - csharp
+  - vb
+  name: Exception
+  nameWithType: ToCollectionConversionFailureStrategy.Exception
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.Exception
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Exception
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nThrow an Exception if the conversion fails. Blank values will return the default value for the type. An <xref href=\"OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException\" data-throw-if-not-resolved=\"false\"></xref> will be thrown on any datatype conversion failure when mapping properties.\n"
+  example: []
+  syntax:
+    content: Exception = 0
+    return:
+      type: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.SetDefaultValue
+  commentId: F:OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.SetDefaultValue
+  id: SetDefaultValue
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  langs:
+  - csharp
+  - vb
+  name: SetDefaultValue
+  nameWithType: ToCollectionConversionFailureStrategy.SetDefaultValue
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy.SetDefaultValue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetDefaultValue
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nSet the default value for the property.\n"
+  example: []
+  syntax:
+    content: SetDefaultValue = 1
+    return:
+      type: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.ToCollection
+  commentId: N:OfficeOpenXml.Export.ToCollection
+  name: OfficeOpenXml.Export.ToCollection
+  nameWithType: OfficeOpenXml.Export.ToCollection
+  fullName: OfficeOpenXml.Export.ToCollection
+- uid: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+  commentId: T:OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+  name: EPPlusDataTypeConvertionException
+  nameWithType: EPPlusDataTypeConvertionException
+  fullName: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  commentId: T:OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  parent: OfficeOpenXml.Export.ToCollection
+  name: ToCollectionConversionFailureStrategy
+  nameWithType: ToCollectionConversionFailureStrategy
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy

@@ -1,0 +1,433 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eControlType
+  commentId: T:OfficeOpenXml.Drawing.Controls.eControlType
+  id: eControlType
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eControlType.Button
+  - OfficeOpenXml.Drawing.Controls.eControlType.CheckBox
+  - OfficeOpenXml.Drawing.Controls.eControlType.Dialog
+  - OfficeOpenXml.Drawing.Controls.eControlType.DropDown
+  - OfficeOpenXml.Drawing.Controls.eControlType.EditBox
+  - OfficeOpenXml.Drawing.Controls.eControlType.GroupBox
+  - OfficeOpenXml.Drawing.Controls.eControlType.Label
+  - OfficeOpenXml.Drawing.Controls.eControlType.ListBox
+  - OfficeOpenXml.Drawing.Controls.eControlType.RadioButton
+  - OfficeOpenXml.Drawing.Controls.eControlType.ScrollBar
+  - OfficeOpenXml.Drawing.Controls.eControlType.SpinButton
+  langs:
+  - csharp
+  - vb
+  name: eControlType
+  nameWithType: eControlType
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eControlType
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nType of form control\n"
+  example: []
+  syntax:
+    content: public enum eControlType
+    content.vb: Public Enum eControlType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.Button
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.Button
+  id: Button
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: Button
+  nameWithType: eControlType.Button
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.Button
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Button
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA button\n"
+  example: []
+  syntax:
+    content: Button = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.CheckBox
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.CheckBox
+  id: CheckBox
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: CheckBox
+  nameWithType: eControlType.CheckBox
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.CheckBox
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CheckBox
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA check box\n"
+  example: []
+  syntax:
+    content: CheckBox = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.DropDown
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.DropDown
+  id: DropDown
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: DropDown
+  nameWithType: eControlType.DropDown
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.DropDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DropDown
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA combo box\n"
+  example: []
+  syntax:
+    content: DropDown = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.GroupBox
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.GroupBox
+  id: GroupBox
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: GroupBox
+  nameWithType: eControlType.GroupBox
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.GroupBox
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GroupBox
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA group box\n"
+  example: []
+  syntax:
+    content: GroupBox = 3
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.Label
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.Label
+  id: Label
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: Label
+  nameWithType: eControlType.Label
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.Label
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Label
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA label\n"
+  example: []
+  syntax:
+    content: Label = 4
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.ListBox
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.ListBox
+  id: ListBox
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: ListBox
+  nameWithType: eControlType.ListBox
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.ListBox
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ListBox
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA list box\n"
+  example: []
+  syntax:
+    content: ListBox = 5
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.RadioButton
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.RadioButton
+  id: RadioButton
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: RadioButton
+  nameWithType: eControlType.RadioButton
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.RadioButton
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RadioButton
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA radio button (option button)\n"
+  example: []
+  syntax:
+    content: RadioButton = 6
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.ScrollBar
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.ScrollBar
+  id: ScrollBar
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: ScrollBar
+  nameWithType: eControlType.ScrollBar
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.ScrollBar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ScrollBar
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA scroll bar\n"
+  example: []
+  syntax:
+    content: ScrollBar = 7
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.SpinButton
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.SpinButton
+  id: SpinButton
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: SpinButton
+  nameWithType: eControlType.SpinButton
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.SpinButton
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SpinButton
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA spin button\n"
+  example: []
+  syntax:
+    content: SpinButton = 8
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.EditBox
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.EditBox
+  id: EditBox
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: EditBox
+  nameWithType: eControlType.EditBox
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.EditBox
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EditBox
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nAn edit box. Unsupported. Editboxes can only be used in dialog sheets.\n"
+  example: []
+  syntax:
+    content: EditBox = 9
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eControlType.Dialog
+  commentId: F:OfficeOpenXml.Drawing.Controls.eControlType.Dialog
+  id: Dialog
+  parent: OfficeOpenXml.Drawing.Controls.eControlType
+  langs:
+  - csharp
+  - vb
+  name: Dialog
+  nameWithType: eControlType.Dialog
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType.Dialog
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dialog
+    path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA dialog. Unsupported.\n"
+  example: []
+  syntax:
+    content: Dialog = 10
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eControlType
+  commentId: T:OfficeOpenXml.Drawing.Controls.eControlType
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eControlType
+  nameWithType: eControlType
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType

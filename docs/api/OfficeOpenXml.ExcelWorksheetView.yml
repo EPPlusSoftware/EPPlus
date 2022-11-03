@@ -1,0 +1,1421 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelWorksheetView
+  commentId: T:OfficeOpenXml.ExcelWorksheetView
+  id: ExcelWorksheetView
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelWorksheetView.ActiveCell
+  - OfficeOpenXml.ExcelWorksheetView.BottomLeftPane
+  - OfficeOpenXml.ExcelWorksheetView.BottomRightPane
+  - OfficeOpenXml.ExcelWorksheetView.FreezePanes(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheetView.PageBreakView
+  - OfficeOpenXml.ExcelWorksheetView.PageLayoutView
+  - OfficeOpenXml.ExcelWorksheetView.Panes
+  - OfficeOpenXml.ExcelWorksheetView.PaneSettings
+  - OfficeOpenXml.ExcelWorksheetView.RightToLeft
+  - OfficeOpenXml.ExcelWorksheetView.SelectedRange
+  - OfficeOpenXml.ExcelWorksheetView.SetTabSelected(System.Boolean,System.Boolean)
+  - OfficeOpenXml.ExcelWorksheetView.SheetViewElement
+  - OfficeOpenXml.ExcelWorksheetView.ShowGridLines
+  - OfficeOpenXml.ExcelWorksheetView.ShowHeaders
+  - OfficeOpenXml.ExcelWorksheetView.SplitPanes(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheetView.TabSelected
+  - OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti
+  - OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+  - OfficeOpenXml.ExcelWorksheetView.TopLeftPane
+  - OfficeOpenXml.ExcelWorksheetView.TopRightPane
+  - OfficeOpenXml.ExcelWorksheetView.UnFreezePanes
+  - OfficeOpenXml.ExcelWorksheetView.ZoomScale
+  langs:
+  - csharp
+  - vb
+  name: ExcelWorksheetView
+  nameWithType: ExcelWorksheetView
+  fullName: OfficeOpenXml.ExcelWorksheetView
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelWorksheetView
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents the different view states of the worksheet\n"
+  example: []
+  syntax:
+    content: 'public class ExcelWorksheetView : XmlHelper'
+    content.vb: >-
+      Public Class ExcelWorksheetView
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelWorksheetView.SheetViewElement
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.SheetViewElement
+  id: SheetViewElement
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: SheetViewElement
+  nameWithType: ExcelWorksheetView.SheetViewElement
+  fullName: OfficeOpenXml.ExcelWorksheetView.SheetViewElement
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SheetViewElement
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 340
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns a reference to the sheetView element\n"
+  example: []
+  syntax:
+    content: protected XmlElement SheetViewElement { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlElement
+    content.vb: Protected ReadOnly Property SheetViewElement As XmlElement
+  overload: OfficeOpenXml.ExcelWorksheetView.SheetViewElement*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.ActiveCell
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ActiveCell
+  id: ActiveCell
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: ActiveCell
+  nameWithType: ExcelWorksheetView.ActiveCell
+  fullName: OfficeOpenXml.ExcelWorksheetView.ActiveCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveCell
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 353
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe active cell. Single cell address.                \nThis cell must be inside the selected range. If not, the selected range is set to the active cell address\n"
+  example: []
+  syntax:
+    content: public string ActiveCell { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ActiveCell As String
+  overload: OfficeOpenXml.ExcelWorksheetView.ActiveCell*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+  id: TopLeftCell
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: TopLeftCell
+  nameWithType: ExcelWorksheetView.TopLeftCell
+  fullName: OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeftCell
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 381
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe Top-Left Cell visible. Single cell address.\nEmpty string or null is the same as A1.\n"
+  example: []
+  syntax:
+    content: public string TopLeftCell { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TopLeftCell As String
+  overload: OfficeOpenXml.ExcelWorksheetView.TopLeftCell*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.SelectedRange
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.SelectedRange
+  id: SelectedRange
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: SelectedRange
+  nameWithType: ExcelWorksheetView.SelectedRange
+  fullName: OfficeOpenXml.ExcelWorksheetView.SelectedRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedRange
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 414
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSelected Cells in the worksheet. Used in combination with ActiveCell.\nIf the active cell is not inside the selected range, the active cell will be set to the first cell in the selected range.\nIf the selected range has multiple adresses, these are separated with space. If the active cell is not within the first address in this list, the attribute ActiveCellId must be set (not supported, so it must be set via the XML).\n"
+  example: []
+  syntax:
+    content: public string SelectedRange { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property SelectedRange As String
+  overload: OfficeOpenXml.ExcelWorksheetView.SelectedRange*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.PaneSettings
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.PaneSettings
+  id: PaneSettings
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: PaneSettings
+  nameWithType: ExcelWorksheetView.PaneSettings
+  fullName: OfficeOpenXml.ExcelWorksheetView.PaneSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaneSettings
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 438
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContains settings for the active pane\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetView.ExcelWorksheetViewPaneSettings PaneSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+    content.vb: Public ReadOnly Property PaneSettings As ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+  overload: OfficeOpenXml.ExcelWorksheetView.PaneSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.TabSelected
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.TabSelected
+  id: TabSelected
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: TabSelected
+  nameWithType: ExcelWorksheetView.TabSelected
+  fullName: OfficeOpenXml.ExcelWorksheetView.TabSelected
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TabSelected
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 471
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the worksheet is selected within the workbook. NOTE: Setter clears other selected tabs.\n"
+  example: []
+  syntax:
+    content: public bool TabSelected { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property TabSelected As Boolean
+  overload: OfficeOpenXml.ExcelWorksheetView.TabSelected*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti
+  id: TabSelectedMulti
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: TabSelectedMulti
+  nameWithType: ExcelWorksheetView.TabSelectedMulti
+  fullName: OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TabSelectedMulti
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 486
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the worksheet is selected within the workbook. NOTE: Setter keeps other selected tabs.\n"
+  example: []
+  syntax:
+    content: public bool TabSelectedMulti { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property TabSelectedMulti As Boolean
+  overload: OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.SetTabSelected(System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorksheetView.SetTabSelected(System.Boolean,System.Boolean)
+  id: SetTabSelected(System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: SetTabSelected(Boolean, Boolean)
+  nameWithType: ExcelWorksheetView.SetTabSelected(Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelWorksheetView.SetTabSelected(System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetTabSelected
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 503
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets whether the worksheet is selected within the workbook.\n"
+  example: []
+  syntax:
+    content: public void SetTabSelected(bool isSelected = true, bool allowMultiple = false)
+    parameters:
+    - id: isSelected
+      type: System.Boolean
+      description: Whether the tab is selected, defaults to true.
+    - id: allowMultiple
+      type: System.Boolean
+      description: Whether to allow multiple active tabs, defaults to false.
+    content.vb: Public Sub SetTabSelected(isSelected As Boolean = True, allowMultiple As Boolean = False)
+  overload: OfficeOpenXml.ExcelWorksheetView.SetTabSelected*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.PageLayoutView
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.PageLayoutView
+  id: PageLayoutView
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: PageLayoutView
+  nameWithType: ExcelWorksheetView.PageLayoutView
+  fullName: OfficeOpenXml.ExcelWorksheetView.PageLayoutView
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageLayoutView
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 528
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the view mode of the worksheet to pagelayout\n"
+  example: []
+  syntax:
+    content: public bool PageLayoutView { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PageLayoutView As Boolean
+  overload: OfficeOpenXml.ExcelWorksheetView.PageLayoutView*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.PageBreakView
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.PageBreakView
+  id: PageBreakView
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: PageBreakView
+  nameWithType: ExcelWorksheetView.PageBreakView
+  fullName: OfficeOpenXml.ExcelWorksheetView.PageBreakView
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageBreakView
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 545
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the view mode of the worksheet to pagebreak\n"
+  example: []
+  syntax:
+    content: public bool PageBreakView { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PageBreakView As Boolean
+  overload: OfficeOpenXml.ExcelWorksheetView.PageBreakView*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.ShowGridLines
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ShowGridLines
+  id: ShowGridLines
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: ShowGridLines
+  nameWithType: ExcelWorksheetView.ShowGridLines
+  fullName: OfficeOpenXml.ExcelWorksheetView.ShowGridLines
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowGridLines
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 562
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShow gridlines in the worksheet\n"
+  example: []
+  syntax:
+    content: public bool ShowGridLines { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowGridLines As Boolean
+  overload: OfficeOpenXml.ExcelWorksheetView.ShowGridLines*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.ShowHeaders
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ShowHeaders
+  id: ShowHeaders
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: ShowHeaders
+  nameWithType: ExcelWorksheetView.ShowHeaders
+  fullName: OfficeOpenXml.ExcelWorksheetView.ShowHeaders
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowHeaders
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 576
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShow the Column/Row headers (containg column letters and row numbers)\n"
+  example: []
+  syntax:
+    content: public bool ShowHeaders { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowHeaders As Boolean
+  overload: OfficeOpenXml.ExcelWorksheetView.ShowHeaders*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.ZoomScale
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ZoomScale
+  id: ZoomScale
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: ZoomScale
+  nameWithType: ExcelWorksheetView.ZoomScale
+  fullName: OfficeOpenXml.ExcelWorksheetView.ZoomScale
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZoomScale
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 590
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nWindow zoom magnification for current view representing percent values.\n"
+  example: []
+  syntax:
+    content: public int ZoomScale { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ZoomScale As Integer
+  overload: OfficeOpenXml.ExcelWorksheetView.ZoomScale*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.RightToLeft
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.RightToLeft
+  id: RightToLeft
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: RightToLeft
+  nameWithType: ExcelWorksheetView.RightToLeft
+  fullName: OfficeOpenXml.ExcelWorksheetView.RightToLeft
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightToLeft
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 608
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the sheet is in &apos;right to left&apos; display mode. Column A is on the far right and column B to the left of A. Text is also &apos;right to left&apos;.\n"
+  example: []
+  syntax:
+    content: public bool RightToLeft { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RightToLeft As Boolean
+  overload: OfficeOpenXml.ExcelWorksheetView.RightToLeft*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.Panes
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.Panes
+  id: Panes
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: Panes
+  nameWithType: ExcelWorksheetView.Panes
+  fullName: OfficeOpenXml.ExcelWorksheetView.Panes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Panes
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 633
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference to the panes\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetView.ExcelWorksheetPanes[] Panes { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes[]
+    content.vb: Public ReadOnly Property Panes As ExcelWorksheetView.ExcelWorksheetPanes()
+  overload: OfficeOpenXml.ExcelWorksheetView.Panes*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.TopLeftPane
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.TopLeftPane
+  id: TopLeftPane
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: TopLeftPane
+  nameWithType: ExcelWorksheetView.TopLeftPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.TopLeftPane
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeftPane
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 641
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe top left pane or the top pane if the sheet is horizontaly split. This property returns null if the pane does not exist in the <xref href=\"OfficeOpenXml.ExcelWorksheetView.Panes\" data-throw-if-not-resolved=\"false\"></xref> array.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetView.ExcelWorksheetPanes TopLeftPane { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+    content.vb: Public ReadOnly Property TopLeftPane As ExcelWorksheetView.ExcelWorksheetPanes
+  overload: OfficeOpenXml.ExcelWorksheetView.TopLeftPane*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.TopRightPane
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.TopRightPane
+  id: TopRightPane
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: TopRightPane
+  nameWithType: ExcelWorksheetView.TopRightPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.TopRightPane
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopRightPane
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 651
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe top right pane. This property returns null if the pane does not exist in the <xref href=\"OfficeOpenXml.ExcelWorksheetView.Panes\" data-throw-if-not-resolved=\"false\"></xref> array.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetView.ExcelWorksheetPanes TopRightPane { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+    content.vb: Public ReadOnly Property TopRightPane As ExcelWorksheetView.ExcelWorksheetPanes
+  overload: OfficeOpenXml.ExcelWorksheetView.TopRightPane*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.BottomLeftPane
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.BottomLeftPane
+  id: BottomLeftPane
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: BottomLeftPane
+  nameWithType: ExcelWorksheetView.BottomLeftPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.BottomLeftPane
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomLeftPane
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 661
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe bottom left pane. This property returns null if the pane does not exist in the <xref href=\"OfficeOpenXml.ExcelWorksheetView.Panes\" data-throw-if-not-resolved=\"false\"></xref> array.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetView.ExcelWorksheetPanes BottomLeftPane { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+    content.vb: Public ReadOnly Property BottomLeftPane As ExcelWorksheetView.ExcelWorksheetPanes
+  overload: OfficeOpenXml.ExcelWorksheetView.BottomLeftPane*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.BottomRightPane
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.BottomRightPane
+  id: BottomRightPane
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: BottomRightPane
+  nameWithType: ExcelWorksheetView.BottomRightPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.BottomRightPane
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomRightPane
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 671
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe bottom right pane. This property returns null if the pane does not exist in the <xref href=\"OfficeOpenXml.ExcelWorksheetView.Panes\" data-throw-if-not-resolved=\"false\"></xref> array.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetView.ExcelWorksheetPanes BottomRightPane { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+    content.vb: Public ReadOnly Property BottomRightPane As ExcelWorksheetView.ExcelWorksheetPanes
+  overload: OfficeOpenXml.ExcelWorksheetView.BottomRightPane*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.FreezePanes(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheetView.FreezePanes(System.Int32,System.Int32)
+  id: FreezePanes(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: FreezePanes(Int32, Int32)
+  nameWithType: ExcelWorksheetView.FreezePanes(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheetView.FreezePanes(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FreezePanes
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 685
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFreeze the columns/rows to left and above the cell\n"
+  example: []
+  syntax:
+    content: public void FreezePanes(int Row, int Column)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: ''
+    - id: Column
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub FreezePanes(Row As Integer, Column As Integer)
+  overload: OfficeOpenXml.ExcelWorksheetView.FreezePanes*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels(System.Int32,System.Int32)
+  id: SplitPanesPixels(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: SplitPanesPixels(Int32, Int32)
+  nameWithType: ExcelWorksheetView.SplitPanesPixels(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SplitPanesPixels
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 797
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSplit panes at the position in pixels from the top-left corner.\n"
+  example: []
+  syntax:
+    content: public void SplitPanesPixels(int pixelsY, int pixelsX)
+    parameters:
+    - id: pixelsY
+      type: System.Int32
+      description: Vertical pixels
+    - id: pixelsX
+      type: System.Int32
+      description: Horizontal pixels
+    content.vb: Public Sub SplitPanesPixels(pixelsY As Integer, pixelsX As Integer)
+  overload: OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.SplitPanes(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheetView.SplitPanes(System.Int32,System.Int32)
+  id: SplitPanes(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: SplitPanes(Int32, Int32)
+  nameWithType: ExcelWorksheetView.SplitPanes(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheetView.SplitPanes(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SplitPanes
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 836
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSplit the window at the supplied row/column. \nThe split is performed using the current width/height of the visible rows and columns, so any changes to column width or row heights after the split will not effect the split position.\nTo remove split call this method with zero as value of both paramerters or use <xref href=\"OfficeOpenXml.ExcelWorksheetView.UnFreezePanes\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public void SplitPanes(int rowsTop, int columnsLeft)
+    parameters:
+    - id: rowsTop
+      type: System.Int32
+      description: Splits the panes at the coordinate after this visible row. Zero mean no split on row level
+    - id: columnsLeft
+      type: System.Int32
+      description: Splits the panes at the coordinate after this visible column. Zero means no split on column level.
+    content.vb: Public Sub SplitPanes(rowsTop As Integer, columnsLeft As Integer)
+  overload: OfficeOpenXml.ExcelWorksheetView.SplitPanes*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.UnFreezePanes
+  commentId: M:OfficeOpenXml.ExcelWorksheetView.UnFreezePanes
+  id: UnFreezePanes
+  parent: OfficeOpenXml.ExcelWorksheetView
+  langs:
+  - csharp
+  - vb
+  name: UnFreezePanes()
+  nameWithType: ExcelWorksheetView.UnFreezePanes()
+  fullName: OfficeOpenXml.ExcelWorksheetView.UnFreezePanes()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnFreezePanes
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 933
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUnlock all rows and columns to scroll freely\n"
+  example: []
+  syntax:
+    content: public void UnFreezePanes()
+    content.vb: Public Sub UnFreezePanes
+  overload: OfficeOpenXml.ExcelWorksheetView.UnFreezePanes*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelWorksheetView.SheetViewElement*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.SheetViewElement
+  name: SheetViewElement
+  nameWithType: ExcelWorksheetView.SheetViewElement
+  fullName: OfficeOpenXml.ExcelWorksheetView.SheetViewElement
+- uid: System.Xml.XmlElement
+  commentId: T:System.Xml.XmlElement
+  parent: System.Xml
+  isExternal: true
+  name: XmlElement
+  nameWithType: XmlElement
+  fullName: System.Xml.XmlElement
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.ExcelWorksheetView.ActiveCell*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ActiveCell
+  name: ActiveCell
+  nameWithType: ExcelWorksheetView.ActiveCell
+  fullName: OfficeOpenXml.ExcelWorksheetView.ActiveCell
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelWorksheetView.TopLeftCell*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+  name: TopLeftCell
+  nameWithType: ExcelWorksheetView.TopLeftCell
+  fullName: OfficeOpenXml.ExcelWorksheetView.TopLeftCell
+- uid: OfficeOpenXml.ExcelWorksheetView.SelectedRange*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.SelectedRange
+  name: SelectedRange
+  nameWithType: ExcelWorksheetView.SelectedRange
+  fullName: OfficeOpenXml.ExcelWorksheetView.SelectedRange
+- uid: OfficeOpenXml.ExcelWorksheetView.PaneSettings*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.PaneSettings
+  name: PaneSettings
+  nameWithType: ExcelWorksheetView.PaneSettings
+  fullName: OfficeOpenXml.ExcelWorksheetView.PaneSettings
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+  commentId: T:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+  parent: OfficeOpenXml
+  name: ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+  nameWithType: ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+- uid: OfficeOpenXml.ExcelWorksheetView.TabSelected*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.TabSelected
+  name: TabSelected
+  nameWithType: ExcelWorksheetView.TabSelected
+  fullName: OfficeOpenXml.ExcelWorksheetView.TabSelected
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti
+  name: TabSelectedMulti
+  nameWithType: ExcelWorksheetView.TabSelectedMulti
+  fullName: OfficeOpenXml.ExcelWorksheetView.TabSelectedMulti
+- uid: OfficeOpenXml.ExcelWorksheetView.SetTabSelected*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.SetTabSelected
+  name: SetTabSelected
+  nameWithType: ExcelWorksheetView.SetTabSelected
+  fullName: OfficeOpenXml.ExcelWorksheetView.SetTabSelected
+- uid: OfficeOpenXml.ExcelWorksheetView.PageLayoutView*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.PageLayoutView
+  name: PageLayoutView
+  nameWithType: ExcelWorksheetView.PageLayoutView
+  fullName: OfficeOpenXml.ExcelWorksheetView.PageLayoutView
+- uid: OfficeOpenXml.ExcelWorksheetView.PageBreakView*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.PageBreakView
+  name: PageBreakView
+  nameWithType: ExcelWorksheetView.PageBreakView
+  fullName: OfficeOpenXml.ExcelWorksheetView.PageBreakView
+- uid: OfficeOpenXml.ExcelWorksheetView.ShowGridLines*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ShowGridLines
+  name: ShowGridLines
+  nameWithType: ExcelWorksheetView.ShowGridLines
+  fullName: OfficeOpenXml.ExcelWorksheetView.ShowGridLines
+- uid: OfficeOpenXml.ExcelWorksheetView.ShowHeaders*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ShowHeaders
+  name: ShowHeaders
+  nameWithType: ExcelWorksheetView.ShowHeaders
+  fullName: OfficeOpenXml.ExcelWorksheetView.ShowHeaders
+- uid: OfficeOpenXml.ExcelWorksheetView.ZoomScale*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ZoomScale
+  name: ZoomScale
+  nameWithType: ExcelWorksheetView.ZoomScale
+  fullName: OfficeOpenXml.ExcelWorksheetView.ZoomScale
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelWorksheetView.RightToLeft*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.RightToLeft
+  name: RightToLeft
+  nameWithType: ExcelWorksheetView.RightToLeft
+  fullName: OfficeOpenXml.ExcelWorksheetView.RightToLeft
+- uid: OfficeOpenXml.ExcelWorksheetView.Panes*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.Panes
+  name: Panes
+  nameWithType: ExcelWorksheetView.Panes
+  fullName: OfficeOpenXml.ExcelWorksheetView.Panes
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes[]
+  isExternal: true
+  name: ExcelWorksheetView.ExcelWorksheetPanes[]
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes[]
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes[]
+  nameWithType.vb: ExcelWorksheetView.ExcelWorksheetPanes()
+  fullName.vb: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes()
+  name.vb: ExcelWorksheetView.ExcelWorksheetPanes()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+    name: ExcelWorksheetView.ExcelWorksheetPanes
+    nameWithType: ExcelWorksheetView.ExcelWorksheetPanes
+    fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+    name: ExcelWorksheetView.ExcelWorksheetPanes
+    nameWithType: ExcelWorksheetView.ExcelWorksheetPanes
+    fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.ExcelWorksheetView.Panes
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.Panes
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorksheetView.TopLeftPane*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.TopLeftPane
+  name: TopLeftPane
+  nameWithType: ExcelWorksheetView.TopLeftPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.TopLeftPane
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  commentId: T:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  parent: OfficeOpenXml
+  name: ExcelWorksheetView.ExcelWorksheetPanes
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+- uid: OfficeOpenXml.ExcelWorksheetView.TopRightPane*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.TopRightPane
+  name: TopRightPane
+  nameWithType: ExcelWorksheetView.TopRightPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.TopRightPane
+- uid: OfficeOpenXml.ExcelWorksheetView.BottomLeftPane*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.BottomLeftPane
+  name: BottomLeftPane
+  nameWithType: ExcelWorksheetView.BottomLeftPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.BottomLeftPane
+- uid: OfficeOpenXml.ExcelWorksheetView.BottomRightPane*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.BottomRightPane
+  name: BottomRightPane
+  nameWithType: ExcelWorksheetView.BottomRightPane
+  fullName: OfficeOpenXml.ExcelWorksheetView.BottomRightPane
+- uid: OfficeOpenXml.ExcelWorksheetView.FreezePanes*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.FreezePanes
+  name: FreezePanes
+  nameWithType: ExcelWorksheetView.FreezePanes
+  fullName: OfficeOpenXml.ExcelWorksheetView.FreezePanes
+- uid: OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels
+  name: SplitPanesPixels
+  nameWithType: ExcelWorksheetView.SplitPanesPixels
+  fullName: OfficeOpenXml.ExcelWorksheetView.SplitPanesPixels
+- uid: OfficeOpenXml.ExcelWorksheetView.UnFreezePanes
+  commentId: M:OfficeOpenXml.ExcelWorksheetView.UnFreezePanes
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorksheetView.SplitPanes*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.SplitPanes
+  name: SplitPanes
+  nameWithType: ExcelWorksheetView.SplitPanes
+  fullName: OfficeOpenXml.ExcelWorksheetView.SplitPanes
+- uid: OfficeOpenXml.ExcelWorksheetView.UnFreezePanes*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.UnFreezePanes
+  name: UnFreezePanes
+  nameWithType: ExcelWorksheetView.UnFreezePanes
+  fullName: OfficeOpenXml.ExcelWorksheetView.UnFreezePanes

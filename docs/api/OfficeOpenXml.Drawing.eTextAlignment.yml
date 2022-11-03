@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTextAlignment
+  commentId: T:OfficeOpenXml.Drawing.eTextAlignment
+  id: eTextAlignment
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTextAlignment.Center
+  - OfficeOpenXml.Drawing.eTextAlignment.Distributed
+  - OfficeOpenXml.Drawing.eTextAlignment.Justified
+  - OfficeOpenXml.Drawing.eTextAlignment.JustifiedLow
+  - OfficeOpenXml.Drawing.eTextAlignment.Left
+  - OfficeOpenXml.Drawing.eTextAlignment.Right
+  - OfficeOpenXml.Drawing.eTextAlignment.ThaiDistributed
+  langs:
+  - csharp
+  - vb
+  name: eTextAlignment
+  nameWithType: eTextAlignment
+  fullName: OfficeOpenXml.Drawing.eTextAlignment
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextAlignment
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nText alignment\n"
+  example: []
+  syntax:
+    content: public enum eTextAlignment
+    content.vb: Public Enum eTextAlignment
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTextAlignment.Left
+  commentId: F:OfficeOpenXml.Drawing.eTextAlignment.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.eTextAlignment
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eTextAlignment.Left
+  fullName: OfficeOpenXml.Drawing.eTextAlignment.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft alignment\n"
+  example: []
+  syntax:
+    content: Left = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTextAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAlignment.Center
+  commentId: F:OfficeOpenXml.Drawing.eTextAlignment.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.eTextAlignment
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: eTextAlignment.Center
+  fullName: OfficeOpenXml.Drawing.eTextAlignment.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCenter alignment\n"
+  example: []
+  syntax:
+    content: Center = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTextAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAlignment.Right
+  commentId: F:OfficeOpenXml.Drawing.eTextAlignment.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.eTextAlignment
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eTextAlignment.Right
+  fullName: OfficeOpenXml.Drawing.eTextAlignment.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRight alignment\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.Drawing.eTextAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAlignment.Distributed
+  commentId: F:OfficeOpenXml.Drawing.eTextAlignment.Distributed
+  id: Distributed
+  parent: OfficeOpenXml.Drawing.eTextAlignment
+  langs:
+  - csharp
+  - vb
+  name: Distributed
+  nameWithType: eTextAlignment.Distributed
+  fullName: OfficeOpenXml.Drawing.eTextAlignment.Distributed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Distributed
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDistributes the text words across an entire text line\n"
+  example: []
+  syntax:
+    content: Distributed = 3
+    return:
+      type: OfficeOpenXml.Drawing.eTextAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAlignment.Justified
+  commentId: F:OfficeOpenXml.Drawing.eTextAlignment.Justified
+  id: Justified
+  parent: OfficeOpenXml.Drawing.eTextAlignment
+  langs:
+  - csharp
+  - vb
+  name: Justified
+  nameWithType: eTextAlignment.Justified
+  fullName: OfficeOpenXml.Drawing.eTextAlignment.Justified
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Justified
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAlign text so that it is justified across the whole line.\n"
+  example: []
+  syntax:
+    content: Justified = 4
+    return:
+      type: OfficeOpenXml.Drawing.eTextAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAlignment.JustifiedLow
+  commentId: F:OfficeOpenXml.Drawing.eTextAlignment.JustifiedLow
+  id: JustifiedLow
+  parent: OfficeOpenXml.Drawing.eTextAlignment
+  langs:
+  - csharp
+  - vb
+  name: JustifiedLow
+  nameWithType: eTextAlignment.JustifiedLow
+  fullName: OfficeOpenXml.Drawing.eTextAlignment.JustifiedLow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JustifiedLow
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAligns the text with an adjusted kashida length for Arabic text\n"
+  example: []
+  syntax:
+    content: JustifiedLow = 5
+    return:
+      type: OfficeOpenXml.Drawing.eTextAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAlignment.ThaiDistributed
+  commentId: F:OfficeOpenXml.Drawing.eTextAlignment.ThaiDistributed
+  id: ThaiDistributed
+  parent: OfficeOpenXml.Drawing.eTextAlignment
+  langs:
+  - csharp
+  - vb
+  name: ThaiDistributed
+  nameWithType: eTextAlignment.ThaiDistributed
+  fullName: OfficeOpenXml.Drawing.eTextAlignment.ThaiDistributed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThaiDistributed
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDistributes Thai text specially, specially, because each character is treated as a word\n"
+  example: []
+  syntax:
+    content: ThaiDistributed = 6
+    return:
+      type: OfficeOpenXml.Drawing.eTextAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTextAlignment
+  commentId: T:OfficeOpenXml.Drawing.eTextAlignment
+  parent: OfficeOpenXml.Drawing
+  name: eTextAlignment
+  nameWithType: eTextAlignment
+  fullName: OfficeOpenXml.Drawing.eTextAlignment

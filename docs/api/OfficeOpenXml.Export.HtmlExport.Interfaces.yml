@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Interfaces
+  id: OfficeOpenXml.Export.HtmlExport.Interfaces
+  children:
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.HtmlExport.Interfaces
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Interfaces
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: IExcelHtmlRangeExporter
+  nameWithType: IExcelHtmlRangeExporter
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: IExcelHtmlTableExporter
+  nameWithType: IExcelHtmlTableExporter
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: OfficeOpenXml.Export.HtmlExport.Interfaces
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Interfaces
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces

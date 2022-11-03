@@ -1,0 +1,124 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eFillStartPosition
+  commentId: T:OfficeOpenXml.eFillStartPosition
+  id: eFillStartPosition
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eFillStartPosition.BottomRight
+  - OfficeOpenXml.eFillStartPosition.TopLeft
+  langs:
+  - csharp
+  - vb
+  name: eFillStartPosition
+  nameWithType: eFillStartPosition
+  fullName: OfficeOpenXml.eFillStartPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/eFillStartPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eFillStartPosition
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/eFillStartPosition.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the fill starts from the top-left cell or the bottom-right cell.\nAlso see <xref href=\"OfficeOpenXml.eFillDirection\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public enum eFillStartPosition
+    content.vb: Public Enum eFillStartPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eFillStartPosition.TopLeft
+  commentId: F:OfficeOpenXml.eFillStartPosition.TopLeft
+  id: TopLeft
+  parent: OfficeOpenXml.eFillStartPosition
+  langs:
+  - csharp
+  - vb
+  name: TopLeft
+  nameWithType: eFillStartPosition.TopLeft
+  fullName: OfficeOpenXml.eFillStartPosition.TopLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/eFillStartPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeft
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/eFillStartPosition.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe fill starts from the top-left cell and fills to the left and down depending on the <xref href=\"OfficeOpenXml.eFillDirection\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: TopLeft = 0
+    return:
+      type: OfficeOpenXml.eFillStartPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eFillStartPosition.BottomRight
+  commentId: F:OfficeOpenXml.eFillStartPosition.BottomRight
+  id: BottomRight
+  parent: OfficeOpenXml.eFillStartPosition
+  langs:
+  - csharp
+  - vb
+  name: BottomRight
+  nameWithType: eFillStartPosition.BottomRight
+  fullName: OfficeOpenXml.eFillStartPosition.BottomRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/eFillStartPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomRight
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/eFillStartPosition.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe fill starts from the bottom-right cell and fills to the right and up depending on the <xref href=\"OfficeOpenXml.eFillDirection\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: BottomRight = 1
+    return:
+      type: OfficeOpenXml.eFillStartPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.eFillDirection
+  commentId: T:OfficeOpenXml.eFillDirection
+  parent: OfficeOpenXml
+  name: eFillDirection
+  nameWithType: eFillDirection
+  fullName: OfficeOpenXml.eFillDirection
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eFillStartPosition
+  commentId: T:OfficeOpenXml.eFillStartPosition
+  parent: OfficeOpenXml
+  name: eFillStartPosition
+  nameWithType: eFillStartPosition
+  fullName: OfficeOpenXml.eFillStartPosition

@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  id: ExcelVerticalAlignmentFont
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Baseline
+  - OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None
+  - OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Subscript
+  - OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Superscript
+  langs:
+  - csharp
+  - vb
+  name: ExcelVerticalAlignmentFont
+  nameWithType: ExcelVerticalAlignmentFont
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVerticalAlignmentFont
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFont-Vertical Align\n"
+  example: []
+  syntax:
+    content: public enum ExcelVerticalAlignmentFont
+    content.vb: Public Enum ExcelVerticalAlignmentFont
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None
+  id: None
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ExcelVerticalAlignmentFont.None
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNone\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Baseline
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Baseline
+  id: Baseline
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  langs:
+  - csharp
+  - vb
+  name: Baseline
+  nameWithType: ExcelVerticalAlignmentFont.Baseline
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Baseline
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Baseline
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe text in the parent run will be located at the baseline and presented in the same size as surrounding text\n"
+  example: []
+  syntax:
+    content: Baseline = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Subscript
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Subscript
+  id: Subscript
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  langs:
+  - csharp
+  - vb
+  name: Subscript
+  nameWithType: ExcelVerticalAlignmentFont.Subscript
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Subscript
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Subscript
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe text will be subscript.\n"
+  example: []
+  syntax:
+    content: Subscript = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Superscript
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Superscript
+  id: Superscript
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  langs:
+  - csharp
+  - vb
+  name: Superscript
+  nameWithType: ExcelVerticalAlignmentFont.Superscript
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont.Superscript
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Superscript
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignmentFont.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe text will be superscript.\n"
+  example: []
+  syntax:
+    content: Superscript = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  parent: OfficeOpenXml.Style
+  name: ExcelVerticalAlignmentFont
+  nameWithType: ExcelVerticalAlignmentFont
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont

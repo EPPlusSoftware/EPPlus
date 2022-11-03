@@ -1,0 +1,466 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  commentId: T:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  id: ExcelThemeEffectStyle
+  parent: OfficeOpenXml.Drawing.Theme
+  children:
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD
+  langs:
+  - csharp
+  - vb
+  name: ExcelThemeEffectStyle
+  nameWithType: ExcelThemeEffectStyle
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelThemeEffectStyle
+    path: ../src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAn effect style for a theme\n"
+  example: []
+  syntax:
+    content: 'public class ExcelThemeEffectStyle : XmlHelper'
+    content.vb: >-
+      Public Class ExcelThemeEffectStyle
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect
+  id: Effect
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: Effect
+  nameWithType: ExcelThemeEffectStyle.Effect
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Effect
+    path: ../src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nEffects\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingEffectStyle Effect { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+    content.vb: Public ReadOnly Property Effect As ExcelDrawingEffectStyle
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD
+  id: ThreeD
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: ThreeD
+  nameWithType: ExcelThemeEffectStyle.ThreeD
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreeD
+    path: ../src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\n3D settings\n"
+  example: []
+  syntax:
+    content: public ExcelDrawing3D ThreeD { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+    content.vb: Public ReadOnly Property ThreeD As ExcelDrawing3D
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Theme
+  commentId: N:OfficeOpenXml.Drawing.Theme
+  name: OfficeOpenXml.Drawing.Theme
+  nameWithType: OfficeOpenXml.Drawing.Theme
+  fullName: OfficeOpenXml.Drawing.Theme
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect
+  name: Effect
+  nameWithType: ExcelThemeEffectStyle.Effect
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.Effect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingEffectStyle
+  nameWithType: ExcelDrawingEffectStyle
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+- uid: OfficeOpenXml.Drawing.Style.Effect
+  commentId: N:OfficeOpenXml.Drawing.Style.Effect
+  name: OfficeOpenXml.Drawing.Style.Effect
+  nameWithType: OfficeOpenXml.Drawing.Style.Effect
+  fullName: OfficeOpenXml.Drawing.Style.Effect
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD
+  name: ThreeD
+  nameWithType: ExcelThemeEffectStyle.ThreeD
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle.ThreeD
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  name: ExcelDrawing3D
+  nameWithType: ExcelDrawing3D
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+- uid: OfficeOpenXml.Drawing.Style.ThreeD
+  commentId: N:OfficeOpenXml.Drawing.Style.ThreeD
+  name: OfficeOpenXml.Drawing.Style.ThreeD
+  nameWithType: OfficeOpenXml.Drawing.Style.ThreeD
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD

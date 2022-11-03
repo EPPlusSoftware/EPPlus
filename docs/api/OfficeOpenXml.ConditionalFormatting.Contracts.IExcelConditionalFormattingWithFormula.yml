@@ -1,0 +1,95 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  id: IExcelConditionalFormattingWithFormula
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingWithFormula
+  nameWithType: IExcelConditionalFormattingWithFormula
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingWithFormula
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingWithFormula\n"
+  example: []
+  syntax:
+    content: public interface IExcelConditionalFormattingWithFormula
+    content.vb: Public Interface IExcelConditionalFormattingWithFormula
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  id: Formula
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: IExcelConditionalFormattingWithFormula.Formula
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nFormula Attribute\n"
+  example: []
+  syntax:
+    content: string Formula { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Formula As String
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  name: Formula
+  nameWithType: IExcelConditionalFormattingWithFormula.Formula
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

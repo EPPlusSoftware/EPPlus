@@ -445,7 +445,7 @@ namespace OfficeOpenXml.Table
         private string ToJsonString(JsonTableExportSettings s)
         {
             var exporter = new JsonTableExport(this, s);
-            var ms = new MemoryStream();            
+            var ms = RecyclableMemory.GetStream();
             exporter.Export(ms);
             return s.Encoding.GetString(ms.ToArray());
         }
@@ -471,7 +471,130 @@ namespace OfficeOpenXml.Table
         }
 
         #endregion
+#if (!NET35)
+        /// <summary>
+        /// Returns a collection of T for the tables data range. The total row is not included.
+        /// The table must have headers.
+        /// Headers will be mapped to properties using the name or the objects attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>()
+        {
+            if(ShowHeader==false)
+            {
+                throw new InvalidOperationException("The table must have headers.");
+            }
+            return ToCollection<T>(ToCollectionTableOptions.Default);
+        }
+        /// <summary>
+        /// Returns a collection of T for the tables data range. The total row is not included.
+        /// The table must have headers.
+        /// Headers will be mapped to properties using the name or the property attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>(Action<ToCollectionTableOptions> options)
+        {
+            var o = new ToCollectionTableOptions();
+            options.Invoke(o);
+            return ToCollection<T>(o);
+        }
+        /// <summary>
+        /// Returns a collection of T for the tables data range. The total row is not included.
+        /// The table must have headers.
+        /// Headers will be mapped to properties using the name or the property attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="options">Settings for the method</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>(ToCollectionTableOptions options)
+        {
+            
+            if (ShowHeader == false && (options.Headers==null || options.Headers.Length == 0))
+            {
+                throw new InvalidOperationException("The table must have headers or the headers must be supplied in the options.");
+            }
+            var ro = new ToCollectionRangeOptions(options) { HeaderRow = 0 };
+            if (ShowTotal)
+            {
+                var r = Range;
+                return WorkSheet.Cells[r._fromRow, r._fromCol, r._toRow - 1, r._toCol].ToCollection<T>(ro);
+            }
+            else
+            {
+                return Range.ToCollection<T>(ro);
+            }
+        }
 
+#endif
+        /// <summary>
+        /// Returns a collection of T for the table. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The the table must have headers.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow)
+        {
+            return ToCollectionWithMappings(setRow, ToCollectionTableOptions.Default);
+        }
+
+        /// <summary>
+        /// Returns a collection of T for the table. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The the table must have headers.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollectionWithMappings<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow, Action<ToCollectionTableOptions> options)
+        {
+            var o = ToCollectionTableOptions.Default;
+            options.Invoke(o);
+            return ToCollectionWithMappings(setRow, o);
+        }
+
+        /// <summary>
+        /// Returns a collection of T for the table. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The the table must have headers.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollectionWithMappings<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow, ToCollectionTableOptions options)
+        {
+            if (ShowHeader == false && (options.Headers == null || options.Headers.Length == 0))
+            {
+                throw new InvalidOperationException("The table must have headers or the headers must be supplied in the options.");
+            }
+            var ro = new ToCollectionRangeOptions(options);
+            ro.HeaderRow = 0;
+            if (ShowTotal)
+            {
+                var r = Range;
+                return WorkSheet.Cells[r._fromRow, r._fromCol, r._toRow - 1, r._toCol].ToCollectionWithMappings(setRow, ro);
+            }
+            else
+            {
+                return Range.ToCollectionWithMappings(setRow, ro);
+            }
+        }
+        
         internal ExcelTableColumnCollection _cols = null;
         /// <summary>
         /// Collection of the columns in the table
@@ -1140,7 +1263,7 @@ namespace OfficeOpenXml.Table
         /// </summary>
         public ExcelDxfBorderBase TableBorderStyle { get; set; }
 
-        #region Sorting
+#region Sorting
         private TableSorter _tableSorter = null;
         const string SortStatePath = "d:sortState";
         SortState _sortState = null;
@@ -1219,6 +1342,6 @@ namespace OfficeOpenXml.Table
             _tableSorter.Sort(configuration);
         }
 
-        #endregion
+#endregion
     }
 }

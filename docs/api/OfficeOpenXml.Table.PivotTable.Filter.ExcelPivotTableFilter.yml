@@ -1,0 +1,684 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  commentId: T:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  id: ExcelPivotTableFilter
+  parent: OfficeOpenXml.Table.PivotTable.Filter
+  children:
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableFilter
+  nameWithType: ExcelPivotTableFilter
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableFilter
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nDefines a pivot table filter\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableFilter : XmlHelper'
+    content.vb: >-
+      Public Class ExcelPivotTableFilter
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id
+  commentId: P:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id
+  id: Id
+  parent: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ExcelPivotTableFilter.Id
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Id
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nThe id \n"
+  example: []
+  syntax:
+    content: public int Id { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Id As Integer
+  overload: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name
+  commentId: P:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name
+  id: Name
+  parent: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelPivotTableFilter.Name
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nThe name of the pivot filter\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description
+  commentId: P:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description
+  id: Description
+  parent: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: ExcelPivotTableFilter.Description
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Description
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nThe description of the pivot filter\n"
+  example: []
+  syntax:
+    content: public string Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Description As String
+  overload: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type
+  commentId: P:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type
+  id: Type
+  parent: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelPivotTableFilter.Type
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 383
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nThe type of pivot filter\n"
+  example: []
+  syntax:
+    content: public ePivotTableFilterType Type { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+    content.vb: Public ReadOnly Property Type As ePivotTableFilterType
+  overload: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder
+  commentId: P:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder
+  id: EvalOrder
+  parent: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  langs:
+  - csharp
+  - vb
+  name: EvalOrder
+  nameWithType: ExcelPivotTableFilter.EvalOrder
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EvalOrder
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 399
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nThe evaluation order of the pivot filter\n"
+  example: []
+  syntax:
+    content: public int EvalOrder { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property EvalOrder As Integer
+  overload: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1
+  commentId: P:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1
+  id: Value1
+  parent: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  langs:
+  - csharp
+  - vb
+  name: Value1
+  nameWithType: ExcelPivotTableFilter.Value1
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value1
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 457
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nThe value 1 to compare the filter to\n"
+  example: []
+  syntax:
+    content: public object Value1 { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public Property Value1 As Object
+  overload: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2
+  commentId: P:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2
+  id: Value2
+  parent: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  langs:
+  - csharp
+  - vb
+  name: Value2
+  nameWithType: ExcelPivotTableFilter.Value2
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value2
+    path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
+    startLine: 466
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable.Filter
+  summary: "\nThe value 2 to compare the filter to\n"
+  example: []
+  syntax:
+    content: public object Value2 { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public Property Value2 As Object
+  overload: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable.Filter
+  commentId: N:OfficeOpenXml.Table.PivotTable.Filter
+  name: OfficeOpenXml.Table.PivotTable.Filter
+  nameWithType: OfficeOpenXml.Table.PivotTable.Filter
+  fullName: OfficeOpenXml.Table.PivotTable.Filter
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id
+  name: Id
+  nameWithType: ExcelPivotTableFilter.Id
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name
+  name: Name
+  nameWithType: ExcelPivotTableFilter.Name
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description
+  name: Description
+  nameWithType: ExcelPivotTableFilter.Description
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Description
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type
+  name: Type
+  nameWithType: ExcelPivotTableFilter.Type
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Type
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableFilterType
+  nameWithType: ePivotTableFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder
+  name: EvalOrder
+  nameWithType: ExcelPivotTableFilter.EvalOrder
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.EvalOrder
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1
+  name: Value1
+  nameWithType: ExcelPivotTableFilter.Value1
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value1
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2
+  name: Value2
+  nameWithType: ExcelPivotTableFilter.Value2
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter.Value2

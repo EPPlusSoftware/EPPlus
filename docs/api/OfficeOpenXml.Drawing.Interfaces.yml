@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Interfaces
+  commentId: N:OfficeOpenXml.Drawing.Interfaces
+  id: OfficeOpenXml.Drawing.Interfaces
+  children:
+  - OfficeOpenXml.Drawing.Interfaces.IDrawingDataLabel
+  - OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Drawing.Interfaces
+  nameWithType: OfficeOpenXml.Drawing.Interfaces
+  fullName: OfficeOpenXml.Drawing.Interfaces
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Interfaces.IDrawingDataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces
+  name: IDrawingDataLabel
+  nameWithType: IDrawingDataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingDataLabel
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces
+  name: IDrawingSerieDataLabel
+  nameWithType: IDrawingSerieDataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+- uid: OfficeOpenXml.Drawing.Interfaces
+  commentId: N:OfficeOpenXml.Drawing.Interfaces
+  name: OfficeOpenXml.Drawing.Interfaces
+  nameWithType: OfficeOpenXml.Drawing.Interfaces
+  fullName: OfficeOpenXml.Drawing.Interfaces

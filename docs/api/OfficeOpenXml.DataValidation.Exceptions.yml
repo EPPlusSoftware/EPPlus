@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Exceptions
+  commentId: N:OfficeOpenXml.DataValidation.Exceptions
+  id: OfficeOpenXml.DataValidation.Exceptions
+  children:
+  - OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
+  - OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.DataValidation.Exceptions
+  nameWithType: OfficeOpenXml.DataValidation.Exceptions
+  fullName: OfficeOpenXml.DataValidation.Exceptions
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
+  commentId: T:OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
+  name: DataValidationFormulaTooLongException
+  nameWithType: DataValidationFormulaTooLongException
+  fullName: OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
+- uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
+  commentId: T:OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
+  name: DataValidationStaleException
+  nameWithType: DataValidationStaleException
+  fullName: OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.eAttributeDataType
+  commentId: T:OfficeOpenXml.VBA.eAttributeDataType
+  id: eAttributeDataType
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.eAttributeDataType.NonString
+  - OfficeOpenXml.VBA.eAttributeDataType.String
+  langs:
+  - csharp
+  - vb
+  name: eAttributeDataType
+  nameWithType: eAttributeDataType
+  fullName: OfficeOpenXml.VBA.eAttributeDataType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eAttributeDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eAttributeDataType
+    path: ../src/EPPlus/Vba/enums/eAttributeDataType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nTo determine if the attribute uses double quotes around the value\n"
+  example: []
+  syntax:
+    content: public enum eAttributeDataType
+    content.vb: Public Enum eAttributeDataType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.VBA.eAttributeDataType.String
+  commentId: F:OfficeOpenXml.VBA.eAttributeDataType.String
+  id: String
+  parent: OfficeOpenXml.VBA.eAttributeDataType
+  langs:
+  - csharp
+  - vb
+  name: String
+  nameWithType: eAttributeDataType.String
+  fullName: OfficeOpenXml.VBA.eAttributeDataType.String
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eAttributeDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: String
+    path: ../src/EPPlus/Vba/enums/eAttributeDataType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA string\n"
+  example: []
+  syntax:
+    content: String = 0
+    return:
+      type: OfficeOpenXml.VBA.eAttributeDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.eAttributeDataType.NonString
+  commentId: F:OfficeOpenXml.VBA.eAttributeDataType.NonString
+  id: NonString
+  parent: OfficeOpenXml.VBA.eAttributeDataType
+  langs:
+  - csharp
+  - vb
+  name: NonString
+  nameWithType: eAttributeDataType.NonString
+  fullName: OfficeOpenXml.VBA.eAttributeDataType.NonString
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eAttributeDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NonString
+    path: ../src/EPPlus/Vba/enums/eAttributeDataType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nNot a string\n"
+  example: []
+  syntax:
+    content: NonString = 1
+    return:
+      type: OfficeOpenXml.VBA.eAttributeDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: OfficeOpenXml.VBA.eAttributeDataType
+  commentId: T:OfficeOpenXml.VBA.eAttributeDataType
+  parent: OfficeOpenXml.VBA
+  name: eAttributeDataType
+  nameWithType: eAttributeDataType
+  fullName: OfficeOpenXml.VBA.eAttributeDataType

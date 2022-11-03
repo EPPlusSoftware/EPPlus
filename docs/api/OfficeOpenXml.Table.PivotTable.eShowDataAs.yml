@@ -1,0 +1,573 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  commentId: T:OfficeOpenXml.Table.PivotTable.eShowDataAs
+  id: eShowDataAs
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.Difference
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.Index
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.Normal
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.Percent
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentDifference
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfColumn
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParent
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentColumn
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentRow
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRow
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRunningTotal
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfTotal
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.RankAscending
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.RankDescending
+  - OfficeOpenXml.Table.PivotTable.eShowDataAs.RunningTotal
+  langs:
+  - csharp
+  - vb
+  name: eShowDataAs
+  nameWithType: eShowDataAs
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eShowDataAs
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe data formats for a field in the PivotTable\n"
+  example: []
+  syntax:
+    content: public enum eShowDataAs
+    content.vb: Public Enum eShowDataAs
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.Difference
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.Difference
+  id: Difference
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: Difference
+  nameWithType: eShowDataAs.Difference
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.Difference
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Difference
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the &quot;difference from&quot; a value.\n"
+  example: []
+  syntax:
+    content: Difference = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.Index
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.Index
+  id: Index
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: Index
+  nameWithType: eShowDataAs.Index
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.Index
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Index
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the index.\n((Cell Value) x (Grand Total of Grand Totals)) / ((Grand Row Total) x (Grand Column Total))\n"
+  example: []
+  syntax:
+    content: Index = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.Normal
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.Normal
+  id: Normal
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: eShowDataAs.Normal
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.Normal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Normal
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as its normal datatype.\n"
+  example: []
+  syntax:
+    content: Normal = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.Percent
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.Percent
+  id: Percent
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: Percent
+  nameWithType: eShowDataAs.Percent
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.Percent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percent
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is show as the percentage of a value\n"
+  example: []
+  syntax:
+    content: Percent = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentDifference
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentDifference
+  id: PercentDifference
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentDifference
+  nameWithType: eShowDataAs.PercentDifference
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentDifference
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentDifference
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage difference from a value.\n"
+  example: []
+  syntax:
+    content: PercentDifference = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfColumn
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfColumn
+  id: PercentOfColumn
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentOfColumn
+  nameWithType: eShowDataAs.PercentOfColumn
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentOfColumn
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage of the column.\n"
+  example: []
+  syntax:
+    content: PercentOfColumn = 5
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRow
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRow
+  id: PercentOfRow
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentOfRow
+  nameWithType: eShowDataAs.PercentOfRow
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentOfRow
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage of the row\n"
+  example: []
+  syntax:
+    content: PercentOfRow = 6
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfTotal
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfTotal
+  id: PercentOfTotal
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentOfTotal
+  nameWithType: eShowDataAs.PercentOfTotal
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfTotal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentOfTotal
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage of the total\n"
+  example: []
+  syntax:
+    content: PercentOfTotal = 7
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.RunningTotal
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.RunningTotal
+  id: RunningTotal
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: RunningTotal
+  nameWithType: eShowDataAs.RunningTotal
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.RunningTotal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RunningTotal
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the running total in the the table\n"
+  example: []
+  syntax:
+    content: RunningTotal = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentRow
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentRow
+  id: PercentOfParentRow
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentOfParentRow
+  nameWithType: eShowDataAs.PercentOfParentRow
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentOfParentRow
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage of the parent row total\n"
+  example: []
+  syntax:
+    content: PercentOfParentRow = 9
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentColumn
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentColumn
+  id: PercentOfParentColumn
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentOfParentColumn
+  nameWithType: eShowDataAs.PercentOfParentColumn
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParentColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentOfParentColumn
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage of the parent column total\n"
+  example: []
+  syntax:
+    content: PercentOfParentColumn = 10
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParent
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParent
+  id: PercentOfParent
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentOfParent
+  nameWithType: eShowDataAs.PercentOfParent
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfParent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentOfParent
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage of the parent total\n"
+  example: []
+  syntax:
+    content: PercentOfParent = 11
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.RankAscending
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.RankAscending
+  id: RankAscending
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: RankAscending
+  nameWithType: eShowDataAs.RankAscending
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.RankAscending
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RankAscending
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the rank ascending.\nLists the smallest item in the field as 1, and each larger value with a higher rank value.\n"
+  example: []
+  syntax:
+    content: RankAscending = 12
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.RankDescending
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.RankDescending
+  id: RankDescending
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: RankDescending
+  nameWithType: eShowDataAs.RankDescending
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.RankDescending
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RankDescending
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 77
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the rank descending.\nLists the largest item in the field as 1, and each smaller value with a higher rank value.\n"
+  example: []
+  syntax:
+    content: RankDescending = 13
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRunningTotal
+  commentId: F:OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRunningTotal
+  id: PercentOfRunningTotal
+  parent: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: PercentOfRunningTotal
+  nameWithType: eShowDataAs.PercentOfRunningTotal
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs.PercentOfRunningTotal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentOfRunningTotal
+    path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field is shown as the percentage of the running total\n"
+  example: []
+  syntax:
+    content: PercentOfRunningTotal = 14
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.eShowDataAs
+  commentId: T:OfficeOpenXml.Table.PivotTable.eShowDataAs
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eShowDataAs
+  nameWithType: eShowDataAs
+  fullName: OfficeOpenXml.Table.PivotTable.eShowDataAs

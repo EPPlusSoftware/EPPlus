@@ -1,0 +1,593 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  commentId: T:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  id: ArgumentInfo`1
+  parent: OfficeOpenXml.FormulaParsing.Utilities
+  children:
+  - OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.#ctor(`0)
+  - OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Name
+  - OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Named(System.String)
+  - OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Value
+  langs:
+  - csharp
+  - vb
+  name: ArgumentInfo<T>
+  nameWithType: ArgumentInfo<T>
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ArgumentInfo
+    path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Utilities
+  summary: "\nRepresent a function argument to validate\n"
+  example: []
+  syntax:
+    content: public class ArgumentInfo<T>
+    typeParameters:
+    - id: T
+      description: Type of the argument to validate
+    content.vb: Public Class ArgumentInfo(Of T)
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: ArgumentInfo(Of T)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T)
+  name.vb: ArgumentInfo(Of T)
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.#ctor(`0)
+  commentId: M:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.#ctor(`0)
+  id: '#ctor(`0)'
+  parent: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  langs:
+  - csharp
+  - vb
+  name: ArgumentInfo(T)
+  nameWithType: ArgumentInfo<T>.ArgumentInfo(T)
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.ArgumentInfo(T)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Utilities
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ArgumentInfo(T val)
+    parameters:
+    - id: val
+      type: '{T}'
+      description: The argument to validate
+    content.vb: Public Sub New(val As T)
+  overload: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.#ctor*
+  nameWithType.vb: ArgumentInfo(Of T).ArgumentInfo(T)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).ArgumentInfo(T)
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Value
+  commentId: P:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Value
+  id: Value
+  parent: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: ArgumentInfo<T>.Value
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Utilities
+  summary: "\nThe argument to validate\n"
+  example: []
+  syntax:
+    content: public T Value { get; }
+    parameters: []
+    return:
+      type: '{T}'
+    content.vb: Public ReadOnly Property Value As T
+  overload: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Value*
+  nameWithType.vb: ArgumentInfo(Of T).Value
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).Value
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Name
+  commentId: P:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Name
+  id: Name
+  parent: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ArgumentInfo<T>.Name
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Utilities
+  summary: "\nVariable name of the argument\n"
+  example: []
+  syntax:
+    content: public string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Name As String
+  overload: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Name*
+  nameWithType.vb: ArgumentInfo(Of T).Name
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).Name
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Named(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Named(System.String)
+  id: Named(System.String)
+  parent: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  langs:
+  - csharp
+  - vb
+  name: Named(String)
+  nameWithType: ArgumentInfo<T>.Named(String)
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.Named(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Named
+    path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Utilities
+  summary: "\nSets the variable name of the argument.\n"
+  example: []
+  syntax:
+    content: public ArgumentInfo<T> Named(string argName)
+    parameters:
+    - id: argName
+      type: System.String
+      description: The name
+    return:
+      type: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+      description: ''
+    content.vb: Public Function Named(argName As String) As ArgumentInfo(Of T)
+  overload: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Named*
+  nameWithType.vb: ArgumentInfo(Of T).Named(String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).Named(System.String)
+references:
+- uid: OfficeOpenXml.FormulaParsing.Utilities
+  commentId: N:OfficeOpenXml.FormulaParsing.Utilities
+  name: OfficeOpenXml.FormulaParsing.Utilities
+  nameWithType: OfficeOpenXml.FormulaParsing.Utilities
+  fullName: OfficeOpenXml.FormulaParsing.Utilities
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.#ctor
+  name: ArgumentInfo
+  nameWithType: ArgumentInfo<T>.ArgumentInfo
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.ArgumentInfo
+  nameWithType.vb: ArgumentInfo(Of T).ArgumentInfo
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).ArgumentInfo
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Value*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Value
+  name: Value
+  nameWithType: ArgumentInfo<T>.Value
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.Value
+  nameWithType.vb: ArgumentInfo(Of T).Value
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).Value
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Name*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Name
+  name: Name
+  nameWithType: ArgumentInfo<T>.Name
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.Name
+  nameWithType.vb: ArgumentInfo(Of T).Name
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Named*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1.Named
+  name: Named
+  nameWithType: ArgumentInfo<T>.Named
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>.Named
+  nameWithType.vb: ArgumentInfo(Of T).Named
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T).Named
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  commentId: T:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  parent: OfficeOpenXml.FormulaParsing.Utilities
+  name: ArgumentInfo<T>
+  nameWithType: ArgumentInfo<T>
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>
+  nameWithType.vb: ArgumentInfo(Of T)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T)
+  name.vb: ArgumentInfo(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+    name: ArgumentInfo
+    nameWithType: ArgumentInfo
+    fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+    name: ArgumentInfo
+    nameWithType: ArgumentInfo
+    fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

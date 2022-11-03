@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eEditAs
+  commentId: T:OfficeOpenXml.Drawing.eEditAs
+  id: eEditAs
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eEditAs.Absolute
+  - OfficeOpenXml.Drawing.eEditAs.OneCell
+  - OfficeOpenXml.Drawing.eEditAs.TwoCell
+  langs:
+  - csharp
+  - vb
+  name: eEditAs
+  nameWithType: eEditAs
+  fullName: OfficeOpenXml.Drawing.eEditAs
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEditAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eEditAs
+    path: ../src/EPPlus/Drawing/Enums/eEditAs.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHow the drawing will be resized.\n"
+  example: []
+  syntax:
+    content: public enum eEditAs
+    content.vb: Public Enum eEditAs
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eEditAs.Absolute
+  commentId: F:OfficeOpenXml.Drawing.eEditAs.Absolute
+  id: Absolute
+  parent: OfficeOpenXml.Drawing.eEditAs
+  langs:
+  - csharp
+  - vb
+  name: Absolute
+  nameWithType: eEditAs.Absolute
+  fullName: OfficeOpenXml.Drawing.eEditAs.Absolute
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEditAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Absolute
+    path: ../src/EPPlus/Drawing/Enums/eEditAs.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe Drawing is positioned absolute to the top left corner of the worksheet and is NOT resized when rows and columns are resized. \n"
+  example: []
+  syntax:
+    content: Absolute = 0
+    return:
+      type: OfficeOpenXml.Drawing.eEditAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eEditAs.OneCell
+  commentId: F:OfficeOpenXml.Drawing.eEditAs.OneCell
+  id: OneCell
+  parent: OfficeOpenXml.Drawing.eEditAs
+  langs:
+  - csharp
+  - vb
+  name: OneCell
+  nameWithType: eEditAs.OneCell
+  fullName: OfficeOpenXml.Drawing.eEditAs.OneCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEditAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OneCell
+    path: ../src/EPPlus/Drawing/Enums/eEditAs.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe Drawing will move with the worksheet but is NOT resized when rows and columns are resized. \n"
+  example: []
+  syntax:
+    content: OneCell = 1
+    return:
+      type: OfficeOpenXml.Drawing.eEditAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eEditAs.TwoCell
+  commentId: F:OfficeOpenXml.Drawing.eEditAs.TwoCell
+  id: TwoCell
+  parent: OfficeOpenXml.Drawing.eEditAs
+  langs:
+  - csharp
+  - vb
+  name: TwoCell
+  nameWithType: eEditAs.TwoCell
+  fullName: OfficeOpenXml.Drawing.eEditAs.TwoCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEditAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TwoCell
+    path: ../src/EPPlus/Drawing/Enums/eEditAs.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe Drawing will move and resize when rows and columns are resized. \n"
+  example: []
+  syntax:
+    content: TwoCell = 2
+    return:
+      type: OfficeOpenXml.Drawing.eEditAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eEditAs
+  commentId: T:OfficeOpenXml.Drawing.eEditAs
+  parent: OfficeOpenXml.Drawing
+  name: eEditAs
+  nameWithType: eEditAs
+  fullName: OfficeOpenXml.Drawing.eEditAs

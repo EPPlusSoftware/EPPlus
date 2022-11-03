@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  id: eSlicerStyleElement
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  children:
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithNoData
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithNoData
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithNoData
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithNoData
+  langs:
+  - csharp
+  - vb
+  name: eSlicerStyleElement
+  nameWithType: eSlicerStyleElement
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSlicerStyleElement
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nA type specifing the type of style element for a named custom slicer style.\n"
+  example: []
+  syntax:
+    content: public enum eSlicerStyleElement
+    content.vb: Public Enum eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithData
+  id: UnselectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: UnselectedItemWithData
+  nameWithType: eSlicerStyleElement.UnselectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnselectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a slicer item with data that is not selected\n"
+  example: []
+  syntax:
+    content: UnselectedItemWithData = 0
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithData
+  id: SelectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SelectedItemWithData
+  nameWithType: eSlicerStyleElement.SelectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a slicer item that is selected\n"
+  example: []
+  syntax:
+    content: SelectedItemWithData = 1
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithNoData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithNoData
+  id: UnselectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: UnselectedItemWithNoData
+  nameWithType: eSlicerStyleElement.UnselectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.UnselectedItemWithNoData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnselectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a slicer item with no data that is not selected\n"
+  example: []
+  syntax:
+    content: UnselectedItemWithNoData = 2
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithNoData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithNoData
+  id: SelectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SelectedItemWithNoData
+  nameWithType: eSlicerStyleElement.SelectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.SelectedItemWithNoData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a select slicer item with no data.\n"
+  example: []
+  syntax:
+    content: SelectedItemWithNoData = 3
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithData
+  id: HoveredUnselectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: HoveredUnselectedItemWithData
+  nameWithType: eSlicerStyleElement.HoveredUnselectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredUnselectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a slicer item with data that is not selected and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: HoveredUnselectedItemWithData = 4
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithData
+  id: HoveredSelectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: HoveredSelectedItemWithData
+  nameWithType: eSlicerStyleElement.HoveredSelectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredSelectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a selected slicer item with data and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: HoveredSelectedItemWithData = 5
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithNoData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithNoData
+  id: HoveredUnselectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: HoveredUnselectedItemWithNoData
+  nameWithType: eSlicerStyleElement.HoveredUnselectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredUnselectedItemWithNoData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredUnselectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a slicer item with no data that is not selected and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: HoveredUnselectedItemWithNoData = 6
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithNoData
+  commentId: F:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithNoData
+  id: HoveredSelectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: HoveredSelectedItemWithNoData
+  nameWithType: eSlicerStyleElement.HoveredSelectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement.HoveredSelectedItemWithNoData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredSelectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nStyles a selected slicer item with no data and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: HoveredSelectedItemWithNoData = 7
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Slicer.Style
+  commentId: N:OfficeOpenXml.Drawing.Slicer.Style
+  name: OfficeOpenXml.Drawing.Slicer.Style
+  nameWithType: OfficeOpenXml.Drawing.Slicer.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.Style
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  name: eSlicerStyleElement
+  nameWithType: eSlicerStyleElement
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement

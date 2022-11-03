@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eErrorType
+  commentId: T:OfficeOpenXml.eErrorType
+  id: eErrorType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eErrorType.Div0
+  - OfficeOpenXml.eErrorType.NA
+  - OfficeOpenXml.eErrorType.Name
+  - OfficeOpenXml.eErrorType.Null
+  - OfficeOpenXml.eErrorType.Num
+  - OfficeOpenXml.eErrorType.Ref
+  - OfficeOpenXml.eErrorType.Value
+  langs:
+  - csharp
+  - vb
+  name: eErrorType
+  nameWithType: eErrorType
+  fullName: OfficeOpenXml.eErrorType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eErrorType
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents the errortypes in excel\n"
+  example: []
+  syntax:
+    content: public enum eErrorType
+    content.vb: Public Enum eErrorType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eErrorType.Div0
+  commentId: F:OfficeOpenXml.eErrorType.Div0
+  id: Div0
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Div0
+  nameWithType: eErrorType.Div0
+  fullName: OfficeOpenXml.eErrorType.Div0
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Div0
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDivision by zero\n"
+  example: []
+  syntax:
+    content: Div0 = 0
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.NA
+  commentId: F:OfficeOpenXml.eErrorType.NA
+  id: NA
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: NA
+  nameWithType: eErrorType.NA
+  fullName: OfficeOpenXml.eErrorType.NA
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NA
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNot applicable\n"
+  example: []
+  syntax:
+    content: NA = 1
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Name
+  commentId: F:OfficeOpenXml.eErrorType.Name
+  id: Name
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: eErrorType.Name
+  fullName: OfficeOpenXml.eErrorType.Name
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nName error\n"
+  example: []
+  syntax:
+    content: Name = 2
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Null
+  commentId: F:OfficeOpenXml.eErrorType.Null
+  id: "Null"
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: "Null"
+  nameWithType: eErrorType.Null
+  fullName: OfficeOpenXml.eErrorType.Null
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: "Null"
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNull error\n"
+  example: []
+  syntax:
+    content: Null = 3
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Num
+  commentId: F:OfficeOpenXml.eErrorType.Num
+  id: Num
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Num
+  nameWithType: eErrorType.Num
+  fullName: OfficeOpenXml.eErrorType.Num
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Num
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNum error\n"
+  example: []
+  syntax:
+    content: Num = 4
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Ref
+  commentId: F:OfficeOpenXml.eErrorType.Ref
+  id: Ref
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Ref
+  nameWithType: eErrorType.Ref
+  fullName: OfficeOpenXml.eErrorType.Ref
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ref
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference error\n"
+  example: []
+  syntax:
+    content: Ref = 5
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Value
+  commentId: F:OfficeOpenXml.eErrorType.Value
+  id: Value
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: eErrorType.Value
+  fullName: OfficeOpenXml.eErrorType.Value
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nValue error\n"
+  example: []
+  syntax:
+    content: Value = 6
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eErrorType
+  commentId: T:OfficeOpenXml.eErrorType
+  parent: OfficeOpenXml
+  name: eErrorType
+  nameWithType: eErrorType
+  fullName: OfficeOpenXml.eErrorType

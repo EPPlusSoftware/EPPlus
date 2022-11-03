@@ -1,0 +1,521 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  id: ExcelPivotTableFieldDateGroup
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableFieldDateGroup
+  nameWithType: ExcelPivotTableFieldDateGroup
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableFieldDateGroup
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date group\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableFieldDateGroup : ExcelPivotTableFieldGroup'
+    content.vb: >-
+      Public Class ExcelPivotTableFieldDateGroup
+          Inherits ExcelPivotTableFieldGroup
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  inheritedMembers:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.BaseIndex
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.ParentIndex
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy
+  id: GroupBy
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  langs:
+  - csharp
+  - vb
+  name: GroupBy
+  nameWithType: ExcelPivotTableFieldDateGroup.GroupBy
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GroupBy
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nHow to group the date field\n"
+  example: []
+  syntax:
+    content: public eDateGroupBy GroupBy { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+    content.vb: Public ReadOnly Property GroupBy As eDateGroupBy
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart
+  id: AutoStart
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  langs:
+  - csharp
+  - vb
+  name: AutoStart
+  nameWithType: ExcelPivotTableFieldDateGroup.AutoStart
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoStart
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAuto detect start date\n"
+  example: []
+  syntax:
+    content: public bool AutoStart { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property AutoStart As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd
+  id: AutoEnd
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+  langs:
+  - csharp
+  - vb
+  name: AutoEnd
+  nameWithType: ExcelPivotTableFieldDateGroup.AutoEnd
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoEnd
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAuto detect end date\n"
+  example: []
+  syntax:
+    content: public bool AutoEnd { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property AutoEnd As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableFieldGroup
+  nameWithType: ExcelPivotTableFieldGroup
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.BaseIndex
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.BaseIndex
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  name: BaseIndex
+  nameWithType: ExcelPivotTableFieldGroup.BaseIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.BaseIndex
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.ParentIndex
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.ParentIndex
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  name: ParentIndex
+  nameWithType: ExcelPivotTableFieldGroup.ParentIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup.ParentIndex
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy
+  name: GroupBy
+  nameWithType: ExcelPivotTableFieldDateGroup.GroupBy
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.GroupBy
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  commentId: T:OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eDateGroupBy
+  nameWithType: eDateGroupBy
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart
+  name: AutoStart
+  nameWithType: ExcelPivotTableFieldDateGroup.AutoStart
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoStart
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd
+  name: AutoEnd
+  nameWithType: ExcelPivotTableFieldDateGroup.AutoEnd
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup.AutoEnd

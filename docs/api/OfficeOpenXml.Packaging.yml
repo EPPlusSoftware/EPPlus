@@ -1,0 +1,47 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging
+  commentId: N:OfficeOpenXml.Packaging
+  id: OfficeOpenXml.Packaging
+  children:
+  - OfficeOpenXml.Packaging.TargetMode
+  - OfficeOpenXml.Packaging.ZipPackagePartBase
+  - OfficeOpenXml.Packaging.ZipPackageRelationship
+  - OfficeOpenXml.Packaging.ZipPackageRelationshipCollection
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Packaging
+  nameWithType: OfficeOpenXml.Packaging
+  fullName: OfficeOpenXml.Packaging
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Packaging.TargetMode
+  commentId: T:OfficeOpenXml.Packaging.TargetMode
+  parent: OfficeOpenXml.Packaging
+  name: TargetMode
+  nameWithType: TargetMode
+  fullName: OfficeOpenXml.Packaging.TargetMode
+- uid: OfficeOpenXml.Packaging.ZipPackagePartBase
+  commentId: T:OfficeOpenXml.Packaging.ZipPackagePartBase
+  name: ZipPackagePartBase
+  nameWithType: ZipPackagePartBase
+  fullName: OfficeOpenXml.Packaging.ZipPackagePartBase
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship
+  commentId: T:OfficeOpenXml.Packaging.ZipPackageRelationship
+  name: ZipPackageRelationship
+  nameWithType: ZipPackageRelationship
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationshipCollection
+  commentId: T:OfficeOpenXml.Packaging.ZipPackageRelationshipCollection
+  parent: OfficeOpenXml.Packaging
+  name: ZipPackageRelationshipCollection
+  nameWithType: ZipPackageRelationshipCollection
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationshipCollection
+- uid: OfficeOpenXml.Packaging
+  commentId: N:OfficeOpenXml.Packaging
+  name: OfficeOpenXml.Packaging
+  nameWithType: OfficeOpenXml.Packaging
+  fullName: OfficeOpenXml.Packaging

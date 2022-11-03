@@ -1,0 +1,538 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  id: ePivotTableCaptionFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBeginsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionContains
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEndsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBeginsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotContains
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEndsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEqual
+  langs:
+  - csharp
+  - vb
+  name: ePivotTableCaptionFilterType
+  nameWithType: ePivotTableCaptionFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePivotTableCaptionFilterType
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines a pivot table caption filter type\n"
+  example: []
+  syntax:
+    content: public enum ePivotTableCaptionFilterType
+    content.vb: Public Enum ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBeginsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBeginsWith
+  id: CaptionBeginsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionBeginsWith
+  nameWithType: ePivotTableCaptionFilterType.CaptionBeginsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBeginsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionBeginsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Begins With\n"
+  example: []
+  syntax:
+    content: CaptionBeginsWith = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBetween
+  id: CaptionBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionBetween
+  nameWithType: ePivotTableCaptionFilterType.CaptionBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Between\n"
+  example: []
+  syntax:
+    content: CaptionBetween = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionContains
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionContains
+  id: CaptionContains
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionContains
+  nameWithType: ePivotTableCaptionFilterType.CaptionContains
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionContains
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionContains
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Contains\n"
+  example: []
+  syntax:
+    content: CaptionContains = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEndsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEndsWith
+  id: CaptionEndsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionEndsWith
+  nameWithType: ePivotTableCaptionFilterType.CaptionEndsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEndsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionEndsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Ends With\n"
+  example: []
+  syntax:
+    content: CaptionEndsWith = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEqual
+  id: CaptionEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionEqual
+  nameWithType: ePivotTableCaptionFilterType.CaptionEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Equal\n"
+  example: []
+  syntax:
+    content: CaptionEqual = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThan
+  id: CaptionGreaterThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionGreaterThan
+  nameWithType: ePivotTableCaptionFilterType.CaptionGreaterThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionGreaterThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Greater Than\n"
+  example: []
+  syntax:
+    content: CaptionGreaterThan = 5
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThanOrEqual
+  id: CaptionGreaterThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionGreaterThanOrEqual
+  nameWithType: ePivotTableCaptionFilterType.CaptionGreaterThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionGreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionGreaterThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Greater Than Or Equal\n"
+  example: []
+  syntax:
+    content: CaptionGreaterThanOrEqual = 6
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThan
+  id: CaptionLessThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionLessThan
+  nameWithType: ePivotTableCaptionFilterType.CaptionLessThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionLessThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Less Than\n"
+  example: []
+  syntax:
+    content: CaptionLessThan = 7
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThanOrEqual
+  id: CaptionLessThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionLessThanOrEqual
+  nameWithType: ePivotTableCaptionFilterType.CaptionLessThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionLessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionLessThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Less Than Or Equal\n"
+  example: []
+  syntax:
+    content: CaptionLessThanOrEqual = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBeginsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBeginsWith
+  id: CaptionNotBeginsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotBeginsWith
+  nameWithType: ePivotTableCaptionFilterType.CaptionNotBeginsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBeginsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotBeginsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Begins With\n"
+  example: []
+  syntax:
+    content: CaptionNotBeginsWith = 9
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBetween
+  id: CaptionNotBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotBetween
+  nameWithType: ePivotTableCaptionFilterType.CaptionNotBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Between\n"
+  example: []
+  syntax:
+    content: CaptionNotBetween = 10
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotContains
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotContains
+  id: CaptionNotContains
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotContains
+  nameWithType: ePivotTableCaptionFilterType.CaptionNotContains
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotContains
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotContains
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Contains\n"
+  example: []
+  syntax:
+    content: CaptionNotContains = 11
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEndsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEndsWith
+  id: CaptionNotEndsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotEndsWith
+  nameWithType: ePivotTableCaptionFilterType.CaptionNotEndsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEndsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotEndsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Ends With\n"
+  example: []
+  syntax:
+    content: CaptionNotEndsWith = 12
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEqual
+  id: CaptionNotEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotEqual
+  nameWithType: ePivotTableCaptionFilterType.CaptionNotEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType.CaptionNotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Equal\n"
+  example: []
+  syntax:
+    content: CaptionNotEqual = 13
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableCaptionFilterType
+  nameWithType: ePivotTableCaptionFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType

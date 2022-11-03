@@ -1,0 +1,1753 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  id: ExcelChartStyle
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  children:
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartStyle
+  nameWithType: ExcelChartStyle
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartStyle
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nRepresents a style for a chart\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartStyle : XmlHelper'
+    content.vb: >-
+      Public Class ExcelChartStyle
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle
+  id: AxisTitle
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: AxisTitle
+  nameWithType: ExcelChartStyle.AxisTitle
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AxisTitle
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for an axis title.\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry AxisTitle { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property AxisTitle As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis
+  id: CategoryAxis
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: CategoryAxis
+  nameWithType: ExcelChartStyle.CategoryAxis
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CategoryAxis
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a category axis\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry CategoryAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property CategoryAxis As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea
+  id: ChartArea
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: ChartArea
+  nameWithType: ExcelChartStyle.ChartArea
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ChartArea
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a chart area\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry ChartArea { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property ChartArea As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel
+  id: DataLabel
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataLabel
+  nameWithType: ExcelChartStyle.DataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataLabel
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a data label\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataLabel { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataLabel As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout
+  id: DataLabelCallout
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataLabelCallout
+  nameWithType: ExcelChartStyle.DataLabelCallout
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataLabelCallout
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a data label callout\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataLabelCallout { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataLabelCallout As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint
+  id: DataPoint
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataPoint
+  nameWithType: ExcelChartStyle.DataPoint
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPoint
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a data point on a 2-D chart of type column, bar,	filled radar, stock, bubble, pie, doughnut, area and 3-D bubble.\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataPoint { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataPoint As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D
+  id: DataPoint3D
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataPoint3D
+  nameWithType: ExcelChartStyle.DataPoint3D
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPoint3D
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 127
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a data point on a 3-D chart of type column, bar, line, pie, area and surface.\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataPoint3D { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataPoint3D As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine
+  id: DataPointLine
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataPointLine
+  nameWithType: ExcelChartStyle.DataPointLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPointLine
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a data point on a 2-D chart of type line, scatter and radar\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataPointLine { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataPointLine As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker
+  id: DataPointMarker
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataPointMarker
+  nameWithType: ExcelChartStyle.DataPointMarker
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPointMarker
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 157
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a datapoint marker\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataPointMarker { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataPointMarker As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout
+  id: DataPointMarkerLayout
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataPointMarkerLayout
+  nameWithType: ExcelChartStyle.DataPointMarkerLayout
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPointMarkerLayout
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 172
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nExtended marker properties for a datapoint \n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleMarkerLayout DataPointMarkerLayout { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleMarkerLayout
+    content.vb: Public ReadOnly Property DataPointMarkerLayout As ExcelChartStyleMarkerLayout
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe
+  id: DataPointWireframe
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataPointWireframe
+  nameWithType: ExcelChartStyle.DataPointWireframe
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPointWireframe
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a datapoint on a surface wireframe chart\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataPointWireframe { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataPointWireframe As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable
+  id: DataTable
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DataTable
+  nameWithType: ExcelChartStyle.DataTable
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataTable
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 207
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a Data table\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DataTable { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DataTable As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar
+  id: DownBar
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DownBar
+  nameWithType: ExcelChartStyle.DownBar
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DownBar
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a downbar\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DownBar { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DownBar As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine
+  id: DropLine
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: DropLine
+  nameWithType: ExcelChartStyle.DropLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DropLine
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 237
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a dropline\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry DropLine { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property DropLine As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar
+  id: ErrorBar
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: ErrorBar
+  nameWithType: ExcelChartStyle.ErrorBar
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ErrorBar
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 252
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for an errorbar\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry ErrorBar { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property ErrorBar As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor
+  id: Floor
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Floor
+  nameWithType: ExcelChartStyle.Floor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Floor
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a floor\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry Floor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property Floor As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor
+  id: GridlineMajor
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: GridlineMajor
+  nameWithType: ExcelChartStyle.GridlineMajor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GridlineMajor
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a major gridline\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry GridlineMajor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property GridlineMajor As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor
+  id: GridlineMinor
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: GridlineMinor
+  nameWithType: ExcelChartStyle.GridlineMinor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GridlineMinor
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 297
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a minor gridline\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry GridlineMinor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property GridlineMinor As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine
+  id: HighLowLine
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: HighLowLine
+  nameWithType: ExcelChartStyle.HighLowLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HighLowLine
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 312
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a high low line\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry HighLowLine { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property HighLowLine As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine
+  id: LeaderLine
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: LeaderLine
+  nameWithType: ExcelChartStyle.LeaderLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeaderLine
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 327
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a leader line\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry LeaderLine { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property LeaderLine As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend
+  id: Legend
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Legend
+  nameWithType: ExcelChartStyle.Legend
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Legend
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 345
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a chart legend\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry Legend { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property Legend As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea
+  id: PlotArea
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: PlotArea
+  nameWithType: ExcelChartStyle.PlotArea
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PlotArea
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 360
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a plot area in a 2D chart\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry PlotArea { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property PlotArea As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D
+  id: PlotArea3D
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: PlotArea3D
+  nameWithType: ExcelChartStyle.PlotArea3D
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PlotArea3D
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 375
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a plot area in a 3D chart\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry PlotArea3D { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property PlotArea3D As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis
+  id: SeriesAxis
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: SeriesAxis
+  nameWithType: ExcelChartStyle.SeriesAxis
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SeriesAxis
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 390
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a series axis\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry SeriesAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property SeriesAxis As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine
+  id: SeriesLine
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: SeriesLine
+  nameWithType: ExcelChartStyle.SeriesLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SeriesLine
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 405
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a series line\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry SeriesLine { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property SeriesLine As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title
+  id: Title
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: ExcelChartStyle.Title
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Title
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 420
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a chart title\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry Title { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property Title As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline
+  id: Trendline
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Trendline
+  nameWithType: ExcelChartStyle.Trendline
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Trendline
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 435
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a trend line\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry Trendline { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property Trendline As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel
+  id: TrendlineLabel
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: TrendlineLabel
+  nameWithType: ExcelChartStyle.TrendlineLabel
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TrendlineLabel
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 450
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a trend line label\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry TrendlineLabel { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property TrendlineLabel As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar
+  id: UpBar
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: UpBar
+  nameWithType: ExcelChartStyle.UpBar
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpBar
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 465
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a up bar\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry UpBar { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property UpBar As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis
+  id: ValueAxis
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: ValueAxis
+  nameWithType: ExcelChartStyle.ValueAxis
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueAxis
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 480
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a value axis\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry ValueAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property ValueAxis As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall
+  id: Wall
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Wall
+  nameWithType: ExcelChartStyle.Wall
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Wall
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 495
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nDefault formatting for a wall\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleEntry Wall { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    content.vb: Public ReadOnly Property Wall As ExcelChartStyleEntry
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id
+  id: Id
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ExcelChartStyle.Id
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Id
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyle.cs
+    startLine: 510
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe id of the chart style\n"
+  example: []
+  syntax:
+    content: public int Id { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Id As Integer
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Chart.Style
+  commentId: N:OfficeOpenXml.Drawing.Chart.Style
+  name: OfficeOpenXml.Drawing.Chart.Style
+  nameWithType: OfficeOpenXml.Drawing.Chart.Style
+  fullName: OfficeOpenXml.Drawing.Chart.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle
+  name: AxisTitle
+  nameWithType: ExcelChartStyle.AxisTitle
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.AxisTitle
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  name: ExcelChartStyleEntry
+  nameWithType: ExcelChartStyleEntry
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis
+  name: CategoryAxis
+  nameWithType: ExcelChartStyle.CategoryAxis
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.CategoryAxis
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea
+  name: ChartArea
+  nameWithType: ExcelChartStyle.ChartArea
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ChartArea
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel
+  name: DataLabel
+  nameWithType: ExcelChartStyle.DataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabel
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout
+  name: DataLabelCallout
+  nameWithType: ExcelChartStyle.DataLabelCallout
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataLabelCallout
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint
+  name: DataPoint
+  nameWithType: ExcelChartStyle.DataPoint
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D
+  name: DataPoint3D
+  nameWithType: ExcelChartStyle.DataPoint3D
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPoint3D
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine
+  name: DataPointLine
+  nameWithType: ExcelChartStyle.DataPointLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointLine
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker
+  name: DataPointMarker
+  nameWithType: ExcelChartStyle.DataPointMarker
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarker
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout
+  name: DataPointMarkerLayout
+  nameWithType: ExcelChartStyle.DataPointMarkerLayout
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointMarkerLayout
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleMarkerLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleMarkerLayout
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  name: ExcelChartStyleMarkerLayout
+  nameWithType: ExcelChartStyleMarkerLayout
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleMarkerLayout
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe
+  name: DataPointWireframe
+  nameWithType: ExcelChartStyle.DataPointWireframe
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataPointWireframe
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable
+  name: DataTable
+  nameWithType: ExcelChartStyle.DataTable
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DataTable
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar
+  name: DownBar
+  nameWithType: ExcelChartStyle.DownBar
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DownBar
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine
+  name: DropLine
+  nameWithType: ExcelChartStyle.DropLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.DropLine
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar
+  name: ErrorBar
+  nameWithType: ExcelChartStyle.ErrorBar
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ErrorBar
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor
+  name: Floor
+  nameWithType: ExcelChartStyle.Floor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Floor
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor
+  name: GridlineMajor
+  nameWithType: ExcelChartStyle.GridlineMajor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMajor
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor
+  name: GridlineMinor
+  nameWithType: ExcelChartStyle.GridlineMinor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.GridlineMinor
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine
+  name: HighLowLine
+  nameWithType: ExcelChartStyle.HighLowLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.HighLowLine
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine
+  name: LeaderLine
+  nameWithType: ExcelChartStyle.LeaderLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.LeaderLine
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend
+  name: Legend
+  nameWithType: ExcelChartStyle.Legend
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Legend
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea
+  name: PlotArea
+  nameWithType: ExcelChartStyle.PlotArea
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D
+  name: PlotArea3D
+  nameWithType: ExcelChartStyle.PlotArea3D
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.PlotArea3D
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis
+  name: SeriesAxis
+  nameWithType: ExcelChartStyle.SeriesAxis
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesAxis
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine
+  name: SeriesLine
+  nameWithType: ExcelChartStyle.SeriesLine
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.SeriesLine
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title
+  name: Title
+  nameWithType: ExcelChartStyle.Title
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Title
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline
+  name: Trendline
+  nameWithType: ExcelChartStyle.Trendline
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Trendline
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel
+  name: TrendlineLabel
+  nameWithType: ExcelChartStyle.TrendlineLabel
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.TrendlineLabel
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar
+  name: UpBar
+  nameWithType: ExcelChartStyle.UpBar
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.UpBar
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis
+  name: ValueAxis
+  nameWithType: ExcelChartStyle.ValueAxis
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.ValueAxis
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall
+  name: Wall
+  nameWithType: ExcelChartStyle.Wall
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Wall
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id
+  name: Id
+  nameWithType: ExcelChartStyle.Id
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

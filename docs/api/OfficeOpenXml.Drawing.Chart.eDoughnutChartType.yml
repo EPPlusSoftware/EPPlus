@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  id: eDoughnutChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eDoughnutChartType.Doughnut
+  - OfficeOpenXml.Drawing.Chart.eDoughnutChartType.DoughnutExploded
+  langs:
+  - csharp
+  - vb
+  name: eDoughnutChartType
+  nameWithType: eDoughnutChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDoughnutChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDoughnutChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eDoughnutChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDoughnut chart types\n"
+  example: []
+  syntax:
+    content: public enum eDoughnutChartType
+    content.vb: Public Enum eDoughnutChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eDoughnutChartType.Doughnut
+  commentId: F:OfficeOpenXml.Drawing.Chart.eDoughnutChartType.Doughnut
+  id: Doughnut
+  parent: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  langs:
+  - csharp
+  - vb
+  name: Doughnut
+  nameWithType: eDoughnutChartType.Doughnut
+  fullName: OfficeOpenXml.Drawing.Chart.eDoughnutChartType.Doughnut
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDoughnutChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Doughnut
+    path: ../src/EPPlus/Drawing/Chart/enums/eDoughnutChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA doughnut chart\n"
+  example: []
+  syntax:
+    content: Doughnut = -4120
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eDoughnutChartType.DoughnutExploded
+  commentId: F:OfficeOpenXml.Drawing.Chart.eDoughnutChartType.DoughnutExploded
+  id: DoughnutExploded
+  parent: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  langs:
+  - csharp
+  - vb
+  name: DoughnutExploded
+  nameWithType: eDoughnutChartType.DoughnutExploded
+  fullName: OfficeOpenXml.Drawing.Chart.eDoughnutChartType.DoughnutExploded
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDoughnutChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DoughnutExploded
+    path: ../src/EPPlus/Drawing/Chart/enums/eDoughnutChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAn exploded doughnut chart\n"
+  example: []
+  syntax:
+    content: DoughnutExploded = 80
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eDoughnutChartType
+  nameWithType: eDoughnutChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eDoughnutChartType

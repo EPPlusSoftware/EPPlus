@@ -1,0 +1,555 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  id: ExcelVmlDrawingBorder
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlDrawingBorder
+  nameWithType: ExcelVmlDrawingBorder
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlDrawingBorder
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nBorder line settings for a vml drawing\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVmlDrawingBorder : XmlHelper'
+    content.vb: >-
+      Public Class ExcelVmlDrawingBorder
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle
+  id: LineStyle
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  langs:
+  - csharp
+  - vb
+  name: LineStyle
+  nameWithType: ExcelVmlDrawingBorder.LineStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineStyle
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe style of the border\n"
+  example: []
+  syntax:
+    content: public eVmlLineStyle LineStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eVmlLineStyle
+    content.vb: Public Property LineStyle As eVmlLineStyle
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle
+  id: DashStyle
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  langs:
+  - csharp
+  - vb
+  name: DashStyle
+  nameWithType: ExcelVmlDrawingBorder.DashStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashStyle
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nDash style for the border \n"
+  example: []
+  syntax:
+    content: public eVmlDashStyle DashStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+    content.vb: Public Property DashStyle As eVmlDashStyle
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle
+  id: CustomDashStyle
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  langs:
+  - csharp
+  - vb
+  name: CustomDashStyle
+  nameWithType: ExcelVmlDrawingBorder.CustomDashStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CustomDashStyle
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nCustom dash style.\nA series on numbers representing the width followed by the space between.        \nExample 1 : 8 2 1 2 1 2 --> Long dash dot dot. Space is twice the line width (2). LongDash (8) Dot (1). \nExample 2 : 0 2 --> 0 implies a circular dot. 2 is the space between.\n"
+  example: []
+  syntax:
+    content: public string CustomDashStyle { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CustomDashStyle As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width
+  id: Width
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: ExcelVmlDrawingBorder.Width
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Width
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingBorder.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe width of the border\n"
+  example: []
+  syntax:
+    content: public ExcelVmlMeasurementUnit Width { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+    content.vb: Public ReadOnly Property Width As ExcelVmlMeasurementUnit
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle
+  name: LineStyle
+  nameWithType: ExcelVmlDrawingBorder.LineStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.LineStyle
+- uid: OfficeOpenXml.eVmlLineStyle
+  commentId: T:OfficeOpenXml.eVmlLineStyle
+  parent: OfficeOpenXml
+  name: eVmlLineStyle
+  nameWithType: eVmlLineStyle
+  fullName: OfficeOpenXml.eVmlLineStyle
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle
+  name: DashStyle
+  nameWithType: ExcelVmlDrawingBorder.DashStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.DashStyle
+- uid: OfficeOpenXml.eVmlDashStyle
+  commentId: T:OfficeOpenXml.eVmlDashStyle
+  parent: OfficeOpenXml
+  name: eVmlDashStyle
+  nameWithType: eVmlDashStyle
+  fullName: OfficeOpenXml.eVmlDashStyle
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle
+  name: CustomDashStyle
+  nameWithType: ExcelVmlDrawingBorder.CustomDashStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.CustomDashStyle
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width
+  name: Width
+  nameWithType: ExcelVmlDrawingBorder.Width
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder.Width
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlMeasurementUnit
+  nameWithType: ExcelVmlMeasurementUnit
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit

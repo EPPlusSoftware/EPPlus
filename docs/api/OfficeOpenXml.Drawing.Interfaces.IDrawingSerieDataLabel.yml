@@ -1,0 +1,148 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  id: IDrawingSerieDataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces
+  children:
+  - OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  - OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  langs:
+  - csharp
+  - vb
+  name: IDrawingSerieDataLabel
+  nameWithType: IDrawingSerieDataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IDrawingSerieDataLabel
+    path: ../src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Interfaces
+  summary: "\nInterface for handling data labels on a serie\n"
+  example: []
+  syntax:
+    content: public interface IDrawingSerieDataLabel
+    content.vb: Public Interface IDrawingSerieDataLabel
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  commentId: P:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  id: DataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  langs:
+  - csharp
+  - vb
+  name: DataLabel
+  nameWithType: IDrawingSerieDataLabel.DataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataLabel
+    path: ../src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Interfaces
+  summary: "\nData labels\n"
+  example: []
+  syntax:
+    content: ExcelChartSerieDataLabel DataLabel { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+    content.vb: ReadOnly Property DataLabel As ExcelChartSerieDataLabel
+  overload: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  commentId: P:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  id: HasDataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  langs:
+  - csharp
+  - vb
+  name: HasDataLabel
+  nameWithType: IDrawingSerieDataLabel.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasDataLabel
+    path: ../src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Interfaces
+  summary: "\nIf the chart part has data labels\n"
+  example: []
+  syntax:
+    content: bool HasDataLabel { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: ReadOnly Property HasDataLabel As Boolean
+  overload: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Interfaces
+  commentId: N:OfficeOpenXml.Drawing.Interfaces
+  name: OfficeOpenXml.Drawing.Interfaces
+  nameWithType: OfficeOpenXml.Drawing.Interfaces
+  fullName: OfficeOpenXml.Drawing.Interfaces
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  name: DataLabel
+  nameWithType: IDrawingSerieDataLabel.DataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerieDataLabel
+  nameWithType: ExcelChartSerieDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  name: HasDataLabel
+  nameWithType: IDrawingSerieDataLabel.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

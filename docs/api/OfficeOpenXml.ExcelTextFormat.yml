@@ -1,0 +1,507 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelTextFormat
+  commentId: T:OfficeOpenXml.ExcelTextFormat
+  id: ExcelTextFormat
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelTextFormat.#ctor
+  - OfficeOpenXml.ExcelTextFormat.DataTypes
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextFormat
+  nameWithType: ExcelTextFormat
+  fullName: OfficeOpenXml.ExcelTextFormat
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTextFormat
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDescribes how to split a CSV text. Used by the ExcelRange.LoadFromText method\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTextFormat : ExcelTextFormatBase'
+    content.vb: >-
+      Public Class ExcelTextFormat
+          Inherits ExcelTextFormatBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.ExcelTextFormatBase
+  inheritedMembers:
+  - OfficeOpenXml.ExcelTextFormatBase.Delimiter
+  - OfficeOpenXml.ExcelTextFormatBase.TextQualifier
+  - OfficeOpenXml.ExcelTextFormatBase.EOL
+  - OfficeOpenXml.ExcelTextFormatBase.Culture
+  - OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
+  - OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
+  - OfficeOpenXml.ExcelTextFormatBase.Encoding
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelTextFormat.#ctor
+  commentId: M:OfficeOpenXml.ExcelTextFormat.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.ExcelTextFormat
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextFormat()
+  nameWithType: ExcelTextFormat.ExcelTextFormat()
+  fullName: OfficeOpenXml.ExcelTextFormat.ExcelTextFormat()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDescribes how to split a CSV text\n\nDefault values\n<p><strong>Property-Value</strong></p>\n"
+  example: []
+  syntax:
+    content: public ExcelTextFormat()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.ExcelTextFormat.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormat.DataTypes
+  commentId: P:OfficeOpenXml.ExcelTextFormat.DataTypes
+  id: DataTypes
+  parent: OfficeOpenXml.ExcelTextFormat
+  langs:
+  - csharp
+  - vb
+  name: DataTypes
+  nameWithType: ExcelTextFormat.DataTypes
+  fullName: OfficeOpenXml.ExcelTextFormat.DataTypes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataTypes
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDatatypes list for each column (if column is not present Unknown is assumed)\n"
+  example: []
+  syntax:
+    content: public eDataTypes[] DataTypes { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eDataTypes[]
+    content.vb: Public Property DataTypes As eDataTypes()
+  overload: OfficeOpenXml.ExcelTextFormat.DataTypes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.ExcelTextFormatBase
+  commentId: T:OfficeOpenXml.ExcelTextFormatBase
+  parent: OfficeOpenXml
+  name: ExcelTextFormatBase
+  nameWithType: ExcelTextFormatBase
+  fullName: OfficeOpenXml.ExcelTextFormatBase
+- uid: OfficeOpenXml.ExcelTextFormatBase.Delimiter
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.Delimiter
+  parent: OfficeOpenXml.ExcelTextFormatBase
+  name: Delimiter
+  nameWithType: ExcelTextFormatBase.Delimiter
+  fullName: OfficeOpenXml.ExcelTextFormatBase.Delimiter
+- uid: OfficeOpenXml.ExcelTextFormatBase.TextQualifier
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.TextQualifier
+  parent: OfficeOpenXml.ExcelTextFormatBase
+  name: TextQualifier
+  nameWithType: ExcelTextFormatBase.TextQualifier
+  fullName: OfficeOpenXml.ExcelTextFormatBase.TextQualifier
+- uid: OfficeOpenXml.ExcelTextFormatBase.EOL
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.EOL
+  parent: OfficeOpenXml.ExcelTextFormatBase
+  name: EOL
+  nameWithType: ExcelTextFormatBase.EOL
+  fullName: OfficeOpenXml.ExcelTextFormatBase.EOL
+- uid: OfficeOpenXml.ExcelTextFormatBase.Culture
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.Culture
+  parent: OfficeOpenXml.ExcelTextFormatBase
+  name: Culture
+  nameWithType: ExcelTextFormatBase.Culture
+  fullName: OfficeOpenXml.ExcelTextFormatBase.Culture
+- uid: OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
+  parent: OfficeOpenXml.ExcelTextFormatBase
+  name: SkipLinesBeginning
+  nameWithType: ExcelTextFormatBase.SkipLinesBeginning
+  fullName: OfficeOpenXml.ExcelTextFormatBase.SkipLinesBeginning
+- uid: OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
+  parent: OfficeOpenXml.ExcelTextFormatBase
+  name: SkipLinesEnd
+  nameWithType: ExcelTextFormatBase.SkipLinesEnd
+  fullName: OfficeOpenXml.ExcelTextFormatBase.SkipLinesEnd
+- uid: OfficeOpenXml.ExcelTextFormatBase.Encoding
+  commentId: P:OfficeOpenXml.ExcelTextFormatBase.Encoding
+  parent: OfficeOpenXml.ExcelTextFormatBase
+  name: Encoding
+  nameWithType: ExcelTextFormatBase.Encoding
+  fullName: OfficeOpenXml.ExcelTextFormatBase.Encoding
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelTextFormat.#ctor*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormat.#ctor
+  name: ExcelTextFormat
+  nameWithType: ExcelTextFormat.ExcelTextFormat
+  fullName: OfficeOpenXml.ExcelTextFormat.ExcelTextFormat
+- uid: OfficeOpenXml.ExcelTextFormat.DataTypes*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormat.DataTypes
+  name: DataTypes
+  nameWithType: ExcelTextFormat.DataTypes
+  fullName: OfficeOpenXml.ExcelTextFormat.DataTypes
+- uid: OfficeOpenXml.eDataTypes[]
+  isExternal: true
+  name: eDataTypes[]
+  nameWithType: eDataTypes[]
+  fullName: OfficeOpenXml.eDataTypes[]
+  nameWithType.vb: eDataTypes()
+  fullName.vb: OfficeOpenXml.eDataTypes()
+  name.vb: eDataTypes()
+  spec.csharp:
+  - uid: OfficeOpenXml.eDataTypes
+    name: eDataTypes
+    nameWithType: eDataTypes
+    fullName: OfficeOpenXml.eDataTypes
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.eDataTypes
+    name: eDataTypes
+    nameWithType: eDataTypes
+    fullName: OfficeOpenXml.eDataTypes
+  - name: ()
+    nameWithType: ()
+    fullName: ()

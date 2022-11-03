@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  id: ePivotTableTop10FilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Count
+  - OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Percent
+  - OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Sum
+  langs:
+  - csharp
+  - vb
+  name: ePivotTableTop10FilterType
+  nameWithType: ePivotTableTop10FilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePivotTableTop10FilterType
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines a pivot table top 10 filter type\n"
+  example: []
+  syntax:
+    content: public enum ePivotTableTop10FilterType
+    content.vb: Public Enum ePivotTableTop10FilterType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Count
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Count
+  id: Count
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ePivotTableTop10FilterType.Count
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Count
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA top/bottom filter - Count\n"
+  example: []
+  syntax:
+    content: Count = 400
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Sum
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Sum
+  id: Sum
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  langs:
+  - csharp
+  - vb
+  name: Sum
+  nameWithType: ePivotTableTop10FilterType.Sum
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Sum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sum
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA top/bottom filter - Sum\n"
+  example: []
+  syntax:
+    content: Sum = 401
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Percent
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Percent
+  id: Percent
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  langs:
+  - csharp
+  - vb
+  name: Percent
+  nameWithType: ePivotTableTop10FilterType.Percent
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType.Percent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percent
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA top/bottom filter - Percent\n"
+  example: []
+  syntax:
+    content: Percent = 402
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableTop10FilterType
+  nameWithType: ePivotTableTop10FilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType

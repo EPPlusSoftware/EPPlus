@@ -1,0 +1,956 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  commentId: T:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  id: ExcelThemeEffectStyles
+  parent: OfficeOpenXml.Drawing.Theme
+  children:
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle)
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(System.Int32)
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelThemeEffectStyles
+  nameWithType: ExcelThemeEffectStyles
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelThemeEffectStyles
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nThe effect styles within the theme\n"
+  example: []
+  syntax:
+    content: 'public class ExcelThemeEffectStyles : XmlHelper, IEnumerable<ExcelThemeEffectStyle>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelThemeEffectStyles
+          Inherits XmlHelper
+          Implements IEnumerable(Of ExcelThemeEffectStyle), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelThemeEffectStyles.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nGets the enumerator for the collection\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelThemeEffectStyle> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}
+      description: The enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelThemeEffectStyle)
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelThemeEffectStyles.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelThemeEffectStyles.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelThemeEffectStyles.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nIndexer for the collection\n"
+  example: []
+  syntax:
+    content: public ExcelThemeEffectStyle this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index
+    return:
+      type: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+      description: The effect style
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelThemeEffectStyle
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item*
+  nameWithType.vb: ExcelThemeEffectStyles.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add
+  commentId: M:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add
+  id: Add
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  langs:
+  - csharp
+  - vb
+  name: Add()
+  nameWithType: ExcelThemeEffectStyles.Add()
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAdds a new effect style\n"
+  example: []
+  syntax:
+    content: public ExcelThemeEffectStyle Add()
+    return:
+      type: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+      description: ''
+    content.vb: Public Function Add As ExcelThemeEffectStyle
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle)
+  commentId: M:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle)
+  id: Remove(OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle)
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelThemeEffectStyle)
+  nameWithType: ExcelThemeEffectStyles.Remove(ExcelThemeEffectStyle)
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nRemoves an effect style. The collection must have at least three effect styles.\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelThemeEffectStyle item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+      description: The Item
+    content.vb: Public Sub Remove(item As ExcelThemeEffectStyle)
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(System.Int32)
+  id: Remove(System.Int32)
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  langs:
+  - csharp
+  - vb
+  name: Remove(Int32)
+  nameWithType: ExcelThemeEffectStyles.Remove(Int32)
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nRemove the effect style at the specified index. The collection must have at least three effect styles.\n"
+  example: []
+  syntax:
+    content: public void Remove(int Index)
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: The index
+    content.vb: Public Sub Remove(Index As Integer)
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelThemeEffectStyles.Count
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/Theme/ExcelDrawingEffectStyles.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Theme
+  commentId: N:OfficeOpenXml.Drawing.Theme
+  name: OfficeOpenXml.Drawing.Theme
+  nameWithType: OfficeOpenXml.Drawing.Theme
+  fullName: OfficeOpenXml.Drawing.Theme
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelThemeEffectStyle>
+  nameWithType: IEnumerable<ExcelThemeEffectStyle>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle>
+  nameWithType.vb: IEnumerable(Of ExcelThemeEffectStyle)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle)
+  name.vb: IEnumerable(Of ExcelThemeEffectStyle)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+    name: ExcelThemeEffectStyle
+    nameWithType: ExcelThemeEffectStyle
+    fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+    name: ExcelThemeEffectStyle
+    nameWithType: ExcelThemeEffectStyle
+    fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelThemeEffectStyles.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelThemeEffectStyle>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelThemeEffectStyle).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelThemeEffectStyle>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelThemeEffectStyle).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelThemeEffectStyle>
+  nameWithType: IEnumerator<ExcelThemeEffectStyle>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle>
+  nameWithType.vb: IEnumerator(Of ExcelThemeEffectStyle)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle)
+  name.vb: IEnumerator(Of ExcelThemeEffectStyle)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+    name: ExcelThemeEffectStyle
+    nameWithType: ExcelThemeEffectStyle
+    fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+    name: ExcelThemeEffectStyle
+    nameWithType: ExcelThemeEffectStyle
+    fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelThemeEffectStyles.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelThemeEffectStyles.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item
+  name: Item
+  nameWithType: ExcelThemeEffectStyles.Item
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  commentId: T:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  parent: OfficeOpenXml.Drawing.Theme
+  name: ExcelThemeEffectStyle
+  nameWithType: ExcelThemeEffectStyle
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add
+  name: Add
+  nameWithType: ExcelThemeEffectStyles.Add
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Add
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove
+  name: Remove
+  nameWithType: ExcelThemeEffectStyles.Remove
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Remove
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count
+  name: Count
+  nameWithType: ExcelThemeEffectStyles.Count
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles.Count

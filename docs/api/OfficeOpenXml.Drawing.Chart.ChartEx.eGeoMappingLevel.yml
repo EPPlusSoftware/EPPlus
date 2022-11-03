@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  id: eGeoMappingLevel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.Automatic
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegion
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegionList
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.County
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.DataOnly
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.PostalCode
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.State
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.World
+  langs:
+  - csharp
+  - vb
+  name: eGeoMappingLevel
+  nameWithType: eGeoMappingLevel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eGeoMappingLevel
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nGeomapping level\n"
+  example: []
+  syntax:
+    content: public enum eGeoMappingLevel
+    content.vb: Public Enum eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.Automatic
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.Automatic
+  id: Automatic
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: Automatic
+  nameWithType: eGeoMappingLevel.Automatic
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.Automatic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Automatic
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nGeomapping level is handled automatic\n"
+  example: []
+  syntax:
+    content: Automatic = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.DataOnly
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.DataOnly
+  id: DataOnly
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: DataOnly
+  nameWithType: eGeoMappingLevel.DataOnly
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.DataOnly
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataOnly
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nOnly regions which correspond to data points in the geographical category of a geospatial series are in view.\n"
+  example: []
+  syntax:
+    content: DataOnly = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.PostalCode
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.PostalCode
+  id: PostalCode
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: PostalCode
+  nameWithType: eGeoMappingLevel.PostalCode
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.PostalCode
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PostalCode
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe level of view for the series is set to postal code.\n"
+  example: []
+  syntax:
+    content: PostalCode = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.County
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.County
+  id: County
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: County
+  nameWithType: eGeoMappingLevel.County
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.County
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: County
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe level of view for the series is set to county.\n"
+  example: []
+  syntax:
+    content: County = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.State
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.State
+  id: State
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: State
+  nameWithType: eGeoMappingLevel.State
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.State
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: State
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe level of view for the series is set to state or province.\n"
+  example: []
+  syntax:
+    content: State = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegion
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegion
+  id: CountryRegion
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: CountryRegion
+  nameWithType: eGeoMappingLevel.CountryRegion
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegion
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountryRegion
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe level of view for series is set to country/region.\n"
+  example: []
+  syntax:
+    content: CountryRegion = 5
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegionList
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegionList
+  id: CountryRegionList
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: CountryRegionList
+  nameWithType: eGeoMappingLevel.CountryRegionList
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.CountryRegionList
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountryRegionList
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe level of view for the series is set to continent.\n"
+  example: []
+  syntax:
+    content: CountryRegionList = 6
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.World
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.World
+  id: World
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  langs:
+  - csharp
+  - vb
+  name: World
+  nameWithType: eGeoMappingLevel.World
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel.World
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: World
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe level of view for the series is set to the entire world.\n"
+  example: []
+  syntax:
+    content: World = 7
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eGeoMappingLevel
+  nameWithType: eGeoMappingLevel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel

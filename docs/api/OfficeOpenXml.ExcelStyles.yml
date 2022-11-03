@@ -1,0 +1,1912 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelStyles
+  commentId: T:OfficeOpenXml.ExcelStyles
+  id: ExcelStyles
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelStyles.Borders
+  - OfficeOpenXml.ExcelStyles.CellStyleXfs
+  - OfficeOpenXml.ExcelStyles.CellXfs
+  - OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String)
+  - OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String,OfficeOpenXml.Style.ExcelStyle)
+  - OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String)
+  - OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  - OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  - OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String)
+  - OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String,OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle)
+  - OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String,OfficeOpenXml.eSlicerStyle)
+  - OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String)
+  - OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  - OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  - OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  - OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String)
+  - OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  - OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  - OfficeOpenXml.ExcelStyles.Dxfs
+  - OfficeOpenXml.ExcelStyles.Fills
+  - OfficeOpenXml.ExcelStyles.Fonts
+  - OfficeOpenXml.ExcelStyles.NamedStyles
+  - OfficeOpenXml.ExcelStyles.NumberFormats
+  - OfficeOpenXml.ExcelStyles.SlicerStyles
+  - OfficeOpenXml.ExcelStyles.TableStyles
+  - OfficeOpenXml.ExcelStyles.UpdateXml
+  langs:
+  - csharp
+  - vb
+  name: ExcelStyles
+  nameWithType: ExcelStyles
+  fullName: OfficeOpenXml.ExcelStyles
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelStyles
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContaints all shared cell styles for a workbook\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelStyles : XmlHelper'
+    content.vb: >-
+      Public NotInheritable Class ExcelStyles
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.ExcelStyles.NumberFormats
+  commentId: F:OfficeOpenXml.ExcelStyles.NumberFormats
+  id: NumberFormats
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: NumberFormats
+  nameWithType: ExcelStyles.NumberFormats
+  fullName: OfficeOpenXml.ExcelStyles.NumberFormats
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberFormats
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 759
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContains all numberformats for the package\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelNumberFormatXml> NumberFormats
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml}
+    content.vb: Public NumberFormats As ExcelStyleCollection(Of ExcelNumberFormatXml)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.Fonts
+  commentId: F:OfficeOpenXml.ExcelStyles.Fonts
+  id: Fonts
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: Fonts
+  nameWithType: ExcelStyles.Fonts
+  fullName: OfficeOpenXml.ExcelStyles.Fonts
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fonts
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 763
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContains all font styles for the package\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelFontXml> Fonts
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelFontXml}
+    content.vb: Public Fonts As ExcelStyleCollection(Of ExcelFontXml)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.Fills
+  commentId: F:OfficeOpenXml.ExcelStyles.Fills
+  id: Fills
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: Fills
+  nameWithType: ExcelStyles.Fills
+  fullName: OfficeOpenXml.ExcelStyles.Fills
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fills
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 767
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContains all fill styles for the package\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelFillXml> Fills
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelFillXml}
+    content.vb: Public Fills As ExcelStyleCollection(Of ExcelFillXml)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.Borders
+  commentId: F:OfficeOpenXml.ExcelStyles.Borders
+  id: Borders
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: Borders
+  nameWithType: ExcelStyles.Borders
+  fullName: OfficeOpenXml.ExcelStyles.Borders
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Borders
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 771
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContain all border styles for the package\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelBorderXml> Borders
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelBorderXml}
+    content.vb: Public Borders As ExcelStyleCollection(Of ExcelBorderXml)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CellStyleXfs
+  commentId: F:OfficeOpenXml.ExcelStyles.CellStyleXfs
+  id: CellStyleXfs
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CellStyleXfs
+  nameWithType: ExcelStyles.CellStyleXfs
+  fullName: OfficeOpenXml.ExcelStyles.CellStyleXfs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellStyleXfs
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 775
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContain all named cell styles for the package\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelXfs> CellStyleXfs
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelXfs}
+    content.vb: Public CellStyleXfs As ExcelStyleCollection(Of ExcelXfs)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CellXfs
+  commentId: F:OfficeOpenXml.ExcelStyles.CellXfs
+  id: CellXfs
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CellXfs
+  nameWithType: ExcelStyles.CellXfs
+  fullName: OfficeOpenXml.ExcelStyles.CellXfs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellXfs
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 779
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContain all cell styles for the package\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelXfs> CellXfs
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelXfs}
+    content.vb: Public CellXfs As ExcelStyleCollection(Of ExcelXfs)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.NamedStyles
+  commentId: F:OfficeOpenXml.ExcelStyles.NamedStyles
+  id: NamedStyles
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: NamedStyles
+  nameWithType: ExcelStyles.NamedStyles
+  fullName: OfficeOpenXml.ExcelStyles.NamedStyles
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NamedStyles
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 783
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContain all named styles for the package\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelNamedStyleXml> NamedStyles
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml}
+    content.vb: Public NamedStyles As ExcelStyleCollection(Of ExcelNamedStyleXml)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.TableStyles
+  commentId: F:OfficeOpenXml.ExcelStyles.TableStyles
+  id: TableStyles
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: TableStyles
+  nameWithType: ExcelStyles.TableStyles
+  fullName: OfficeOpenXml.ExcelStyles.TableStyles
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyles
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 787
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContain all table styles for the package. Tables styles can be used to customly format tables and pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelNamedStyleCollection<ExcelTableNamedStyleBase> TableStyles
+    return:
+      type: OfficeOpenXml.ExcelNamedStyleCollection{OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase}
+    content.vb: Public TableStyles As ExcelNamedStyleCollection(Of ExcelTableNamedStyleBase)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.SlicerStyles
+  commentId: F:OfficeOpenXml.ExcelStyles.SlicerStyles
+  id: SlicerStyles
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: SlicerStyles
+  nameWithType: ExcelStyles.SlicerStyles
+  fullName: OfficeOpenXml.ExcelStyles.SlicerStyles
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SlicerStyles
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 791
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContain all slicer styles for the package. Tables styles can be used to customly format tables and pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelNamedStyleCollection<ExcelSlicerNamedStyle> SlicerStyles
+    return:
+      type: OfficeOpenXml.ExcelNamedStyleCollection{OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle}
+    content.vb: Public SlicerStyles As ExcelNamedStyleCollection(Of ExcelSlicerNamedStyle)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.Dxfs
+  commentId: F:OfficeOpenXml.ExcelStyles.Dxfs
+  id: Dxfs
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: Dxfs
+  nameWithType: ExcelStyles.Dxfs
+  fullName: OfficeOpenXml.ExcelStyles.Dxfs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dxfs
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 795
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nContain differential formatting styles for the package. This collection does not contain style records for slicers.\n"
+  example: []
+  syntax:
+    content: public ExcelStyleCollection<ExcelDxfStyleBase> Dxfs
+    return:
+      type: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase}
+    content.vb: Public Dxfs As ExcelStyleCollection(Of ExcelDxfStyleBase)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String)
+  id: CreateNamedStyle(System.String)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateNamedStyle(String)
+  nameWithType: ExcelStyles.CreateNamedStyle(String)
+  fullName: OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateNamedStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 807
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a named style that can be applied to cells in the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelNamedStyleXml CreateNamedStyle(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+      description: A named style object that can be custumized
+    content.vb: Public Function CreateNamedStyle(name As String) As ExcelNamedStyleXml
+  overload: OfficeOpenXml.ExcelStyles.CreateNamedStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String,OfficeOpenXml.Style.ExcelStyle)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String,OfficeOpenXml.Style.ExcelStyle)
+  id: CreateNamedStyle(System.String,OfficeOpenXml.Style.ExcelStyle)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateNamedStyle(String, ExcelStyle)
+  nameWithType: ExcelStyles.CreateNamedStyle(String, ExcelStyle)
+  fullName: OfficeOpenXml.ExcelStyles.CreateNamedStyle(System.String, OfficeOpenXml.Style.ExcelStyle)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateNamedStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 817
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a named style that can be applied to cells in the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelNamedStyleXml CreateNamedStyle(string name, ExcelStyle Template)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: Template
+      type: OfficeOpenXml.Style.ExcelStyle
+      description: A template style
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+      description: A named style object that can be custumized
+    content.vb: Public Function CreateNamedStyle(name As String, Template As ExcelStyle) As ExcelNamedStyleXml
+  overload: OfficeOpenXml.ExcelStyles.CreateNamedStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String)
+  id: CreatePivotTableStyle(System.String)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreatePivotTableStyle(String)
+  nameWithType: ExcelStyles.CreatePivotTableStyle(String)
+  fullName: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreatePivotTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 885
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables style only visible for pivot tables and with elements specific to pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreatePivotTableStyle(name As String) As ExcelPivotTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  id: CreatePivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreatePivotTableStyle(String, PivotTableStyles)
+  nameWithType: ExcelStyles.CreatePivotTableStyle(String, PivotTableStyles)
+  fullName: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String, OfficeOpenXml.Table.PivotTableStyles)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreatePivotTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 903
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables style only visible for pivot tables and with elements specific to pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name, PivotTableStyles templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.Table.PivotTableStyles
+      description: The built-in table style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreatePivotTableStyle(name As String, templateStyle As PivotTableStyles) As ExcelPivotTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  id: CreatePivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreatePivotTableStyle(String, ExcelTableNamedStyleBase)
+  nameWithType: ExcelStyles.CreatePivotTableStyle(String, ExcelTableNamedStyleBase)
+  fullName: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle(System.String, OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreatePivotTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 915
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables style only visible for pivot tables and with elements specific to pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableNamedStyle CreatePivotTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+      description: The table style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreatePivotTableStyle(name As String, templateStyle As ExcelTableNamedStyleBase) As ExcelPivotTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String)
+  id: CreateTableStyle(System.String)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateTableStyle(String)
+  nameWithType: ExcelStyles.CreateTableStyle(String)
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 927
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables style only visible for tables and with elements specific to pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelTableNamedStyle CreateTableStyle(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreateTableStyle(name As String) As ExcelTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  id: CreateTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateTableStyle(String, TableStyles)
+  nameWithType: ExcelStyles.CreateTableStyle(String, TableStyles)
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String, OfficeOpenXml.Table.TableStyles)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 945
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables style only visible for tables and with elements specific to pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelTableNamedStyle CreateTableStyle(string name, TableStyles templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.Table.TableStyles
+      description: The built-in table style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreateTableStyle(name As String, templateStyle As TableStyles) As ExcelTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  id: CreateTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateTableStyle(String, ExcelTableNamedStyleBase)
+  nameWithType: ExcelStyles.CreateTableStyle(String, ExcelTableNamedStyleBase)
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableStyle(System.String, OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 957
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables style only visible for tables and with elements specific to pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelTableNamedStyle CreateTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+      description: The table style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreateTableStyle(name As String, templateStyle As ExcelTableNamedStyleBase) As ExcelTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String)
+  id: CreateTableAndPivotTableStyle(System.String)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateTableAndPivotTableStyle(String)
+  nameWithType: ExcelStyles.CreateTableAndPivotTableStyle(String)
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTableAndPivotTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 969
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables visible for tables and pivot tables and with elements for both.\n"
+  example: []
+  syntax:
+    content: public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreateTableAndPivotTableStyle(name As String) As ExcelTableAndPivotTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  id: CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.TableStyles)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateTableAndPivotTableStyle(String, TableStyles)
+  nameWithType: ExcelStyles.CreateTableAndPivotTableStyle(String, TableStyles)
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String, OfficeOpenXml.Table.TableStyles)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTableAndPivotTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 986
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables visible for tables and pivot tables and with elements for both.\n"
+  example: []
+  syntax:
+    content: public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, TableStyles templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.Table.TableStyles
+      description: The built-in table style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreateTableAndPivotTableStyle(name As String, templateStyle As TableStyles) As ExcelTableAndPivotTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  id: CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Table.PivotTableStyles)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateTableAndPivotTableStyle(String, PivotTableStyles)
+  nameWithType: ExcelStyles.CreateTableAndPivotTableStyle(String, PivotTableStyles)
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String, OfficeOpenXml.Table.PivotTableStyles)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTableAndPivotTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 1003
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables visible for tables and pivot tables and with elements for both.\n"
+  example: []
+  syntax:
+    content: public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, PivotTableStyles templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.Table.PivotTableStyles
+      description: The built-in pivot table style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreateTableAndPivotTableStyle(name As String, templateStyle As PivotTableStyles) As ExcelTableAndPivotTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  id: CreateTableAndPivotTableStyle(System.String,OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateTableAndPivotTableStyle(String, ExcelTableNamedStyleBase)
+  nameWithType: ExcelStyles.CreateTableAndPivotTableStyle(String, ExcelTableNamedStyleBase)
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle(System.String, OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTableAndPivotTableStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 1020
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a tables visible for tables and pivot tables and with elements for both.\n"
+  example: []
+  syntax:
+    content: public ExcelTableAndPivotTableNamedStyle CreateTableAndPivotTableStyle(string name, ExcelTableNamedStyleBase templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+      description: The table style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+      description: The table style object
+    content.vb: Public Function CreateTableAndPivotTableStyle(name As String, templateStyle As ExcelTableNamedStyleBase) As ExcelTableAndPivotTableNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String)
+  id: CreateSlicerStyle(System.String)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateSlicerStyle(String)
+  nameWithType: ExcelStyles.CreateSlicerStyle(String)
+  fullName: OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateSlicerStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 1032
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a custom slicer style.\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerNamedStyle CreateSlicerStyle(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+      description: The slicer style object
+    content.vb: Public Function CreateSlicerStyle(name As String) As ExcelSlicerNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateSlicerStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String,OfficeOpenXml.eSlicerStyle)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String,OfficeOpenXml.eSlicerStyle)
+  id: CreateSlicerStyle(System.String,OfficeOpenXml.eSlicerStyle)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateSlicerStyle(String, eSlicerStyle)
+  nameWithType: ExcelStyles.CreateSlicerStyle(String, eSlicerStyle)
+  fullName: OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String, OfficeOpenXml.eSlicerStyle)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateSlicerStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 1073
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a custom slicer style.\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerNamedStyle CreateSlicerStyle(string name, eSlicerStyle templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style
+    - id: templateStyle
+      type: OfficeOpenXml.eSlicerStyle
+      description: The slicer style to use as a template for this custom style
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+      description: The slicer style object
+    content.vb: Public Function CreateSlicerStyle(name As String, templateStyle As eSlicerStyle) As ExcelSlicerNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateSlicerStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String,OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle)
+  commentId: M:OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String,OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle)
+  id: CreateSlicerStyle(System.String,OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle)
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: CreateSlicerStyle(String, ExcelSlicerNamedStyle)
+  nameWithType: ExcelStyles.CreateSlicerStyle(String, ExcelSlicerNamedStyle)
+  fullName: OfficeOpenXml.ExcelStyles.CreateSlicerStyle(System.String, OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateSlicerStyle
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 1104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a custom named slicer style from another style.\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerNamedStyle CreateSlicerStyle(string name, ExcelSlicerNamedStyle templateStyle)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the style.
+    - id: templateStyle
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+      description: The slicer style to us as template.
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+      description: ''
+    content.vb: Public Function CreateSlicerStyle(name As String, templateStyle As ExcelSlicerNamedStyle) As ExcelSlicerNamedStyle
+  overload: OfficeOpenXml.ExcelStyles.CreateSlicerStyle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelStyles.UpdateXml
+  commentId: M:OfficeOpenXml.ExcelStyles.UpdateXml
+  id: UpdateXml
+  parent: OfficeOpenXml.ExcelStyles
+  langs:
+  - csharp
+  - vb
+  name: UpdateXml()
+  nameWithType: ExcelStyles.UpdateXml()
+  fullName: OfficeOpenXml.ExcelStyles.UpdateXml()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpdateXml
+    path: ../src/EPPlus/ExcelStyles.cs
+    startLine: 1114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUpdate the changes to the Style.Xml file inside the package.\nThis will remove any unused styles from the collections.\n"
+  example: []
+  syntax:
+    content: public void UpdateXml()
+    content.vb: Public Sub UpdateXml
+  overload: OfficeOpenXml.ExcelStyles.UpdateXml*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml}
+  commentId: T:OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<ExcelNumberFormatXml>
+  nameWithType: ExcelStyleCollection<ExcelNumberFormatXml>
+  fullName: OfficeOpenXml.ExcelStyleCollection<OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml>
+  nameWithType.vb: ExcelStyleCollection(Of ExcelNumberFormatXml)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml)
+  name.vb: ExcelStyleCollection(Of ExcelNumberFormatXml)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+    name: ExcelNumberFormatXml
+    nameWithType: ExcelNumberFormatXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+    name: ExcelNumberFormatXml
+    nameWithType: ExcelNumberFormatXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyleCollection`1
+  commentId: T:OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<T>
+  nameWithType: ExcelStyleCollection<T>
+  fullName: OfficeOpenXml.ExcelStyleCollection<T>
+  nameWithType.vb: ExcelStyleCollection(Of T)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of T)
+  name.vb: ExcelStyleCollection(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelFontXml}
+  commentId: T:OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelFontXml}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<ExcelFontXml>
+  nameWithType: ExcelStyleCollection<ExcelFontXml>
+  fullName: OfficeOpenXml.ExcelStyleCollection<OfficeOpenXml.Style.XmlAccess.ExcelFontXml>
+  nameWithType.vb: ExcelStyleCollection(Of ExcelFontXml)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of OfficeOpenXml.Style.XmlAccess.ExcelFontXml)
+  name.vb: ExcelStyleCollection(Of ExcelFontXml)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+    name: ExcelFontXml
+    nameWithType: ExcelFontXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+    name: ExcelFontXml
+    nameWithType: ExcelFontXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelFillXml}
+  commentId: T:OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelFillXml}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<ExcelFillXml>
+  nameWithType: ExcelStyleCollection<ExcelFillXml>
+  fullName: OfficeOpenXml.ExcelStyleCollection<OfficeOpenXml.Style.XmlAccess.ExcelFillXml>
+  nameWithType.vb: ExcelStyleCollection(Of ExcelFillXml)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of OfficeOpenXml.Style.XmlAccess.ExcelFillXml)
+  name.vb: ExcelStyleCollection(Of ExcelFillXml)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+    name: ExcelFillXml
+    nameWithType: ExcelFillXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+    name: ExcelFillXml
+    nameWithType: ExcelFillXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelBorderXml}
+  commentId: T:OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelBorderXml}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<ExcelBorderXml>
+  nameWithType: ExcelStyleCollection<ExcelBorderXml>
+  fullName: OfficeOpenXml.ExcelStyleCollection<OfficeOpenXml.Style.XmlAccess.ExcelBorderXml>
+  nameWithType.vb: ExcelStyleCollection(Of ExcelBorderXml)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of OfficeOpenXml.Style.XmlAccess.ExcelBorderXml)
+  name.vb: ExcelStyleCollection(Of ExcelBorderXml)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+    name: ExcelBorderXml
+    nameWithType: ExcelBorderXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+    name: ExcelBorderXml
+    nameWithType: ExcelBorderXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelXfs}
+  commentId: T:OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelXfs}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<ExcelXfs>
+  nameWithType: ExcelStyleCollection<ExcelXfs>
+  fullName: OfficeOpenXml.ExcelStyleCollection<OfficeOpenXml.Style.XmlAccess.ExcelXfs>
+  nameWithType.vb: ExcelStyleCollection(Of ExcelXfs)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of OfficeOpenXml.Style.XmlAccess.ExcelXfs)
+  name.vb: ExcelStyleCollection(Of ExcelXfs)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+    name: ExcelXfs
+    nameWithType: ExcelXfs
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+    name: ExcelXfs
+    nameWithType: ExcelXfs
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml}
+  commentId: T:OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<ExcelNamedStyleXml>
+  nameWithType: ExcelStyleCollection<ExcelNamedStyleXml>
+  fullName: OfficeOpenXml.ExcelStyleCollection<OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml>
+  nameWithType.vb: ExcelStyleCollection(Of ExcelNamedStyleXml)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml)
+  name.vb: ExcelStyleCollection(Of ExcelNamedStyleXml)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+    name: ExcelNamedStyleXml
+    nameWithType: ExcelNamedStyleXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+    name: ExcelNamedStyleXml
+    nameWithType: ExcelNamedStyleXml
+    fullName: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelNamedStyleCollection{OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase}
+  commentId: T:OfficeOpenXml.ExcelNamedStyleCollection{OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelNamedStyleCollection`1
+  name: ExcelNamedStyleCollection<ExcelTableNamedStyleBase>
+  nameWithType: ExcelNamedStyleCollection<ExcelTableNamedStyleBase>
+  fullName: OfficeOpenXml.ExcelNamedStyleCollection<OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase>
+  nameWithType.vb: ExcelNamedStyleCollection(Of ExcelTableNamedStyleBase)
+  fullName.vb: OfficeOpenXml.ExcelNamedStyleCollection(Of OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase)
+  name.vb: ExcelNamedStyleCollection(Of ExcelTableNamedStyleBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+    name: ExcelNamedStyleCollection
+    nameWithType: ExcelNamedStyleCollection
+    fullName: OfficeOpenXml.ExcelNamedStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+    name: ExcelTableNamedStyleBase
+    nameWithType: ExcelTableNamedStyleBase
+    fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+    name: ExcelNamedStyleCollection
+    nameWithType: ExcelNamedStyleCollection
+    fullName: OfficeOpenXml.ExcelNamedStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+    name: ExcelTableNamedStyleBase
+    nameWithType: ExcelTableNamedStyleBase
+    fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+  commentId: T:OfficeOpenXml.ExcelNamedStyleCollection`1
+  name: ExcelNamedStyleCollection<T>
+  nameWithType: ExcelNamedStyleCollection<T>
+  fullName: OfficeOpenXml.ExcelNamedStyleCollection<T>
+  nameWithType.vb: ExcelNamedStyleCollection(Of T)
+  fullName.vb: OfficeOpenXml.ExcelNamedStyleCollection(Of T)
+  name.vb: ExcelNamedStyleCollection(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+    name: ExcelNamedStyleCollection
+    nameWithType: ExcelNamedStyleCollection
+    fullName: OfficeOpenXml.ExcelNamedStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+    name: ExcelNamedStyleCollection
+    nameWithType: ExcelNamedStyleCollection
+    fullName: OfficeOpenXml.ExcelNamedStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelNamedStyleCollection{OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle}
+  commentId: T:OfficeOpenXml.ExcelNamedStyleCollection{OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelNamedStyleCollection`1
+  name: ExcelNamedStyleCollection<ExcelSlicerNamedStyle>
+  nameWithType: ExcelNamedStyleCollection<ExcelSlicerNamedStyle>
+  fullName: OfficeOpenXml.ExcelNamedStyleCollection<OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle>
+  nameWithType.vb: ExcelNamedStyleCollection(Of ExcelSlicerNamedStyle)
+  fullName.vb: OfficeOpenXml.ExcelNamedStyleCollection(Of OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle)
+  name.vb: ExcelNamedStyleCollection(Of ExcelSlicerNamedStyle)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+    name: ExcelNamedStyleCollection
+    nameWithType: ExcelNamedStyleCollection
+    fullName: OfficeOpenXml.ExcelNamedStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+    name: ExcelSlicerNamedStyle
+    nameWithType: ExcelSlicerNamedStyle
+    fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+    name: ExcelNamedStyleCollection
+    nameWithType: ExcelNamedStyleCollection
+    fullName: OfficeOpenXml.ExcelNamedStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+    name: ExcelSlicerNamedStyle
+    nameWithType: ExcelSlicerNamedStyle
+    fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase}
+  commentId: T:OfficeOpenXml.ExcelStyleCollection{OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase}
+  parent: OfficeOpenXml
+  definition: OfficeOpenXml.ExcelStyleCollection`1
+  name: ExcelStyleCollection<ExcelDxfStyleBase>
+  nameWithType: ExcelStyleCollection<ExcelDxfStyleBase>
+  fullName: OfficeOpenXml.ExcelStyleCollection<OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase>
+  nameWithType.vb: ExcelStyleCollection(Of ExcelDxfStyleBase)
+  fullName.vb: OfficeOpenXml.ExcelStyleCollection(Of OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase)
+  name.vb: ExcelStyleCollection(Of ExcelDxfStyleBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+    name: ExcelDxfStyleBase
+    nameWithType: ExcelDxfStyleBase
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection
+    nameWithType: ExcelStyleCollection
+    fullName: OfficeOpenXml.ExcelStyleCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+    name: ExcelDxfStyleBase
+    nameWithType: ExcelDxfStyleBase
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelStyles.CreateNamedStyle*
+  commentId: Overload:OfficeOpenXml.ExcelStyles.CreateNamedStyle
+  name: CreateNamedStyle
+  nameWithType: ExcelStyles.CreateNamedStyle
+  fullName: OfficeOpenXml.ExcelStyles.CreateNamedStyle
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelNamedStyleXml
+  nameWithType: ExcelNamedStyleXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+- uid: OfficeOpenXml.Style.XmlAccess
+  commentId: N:OfficeOpenXml.Style.XmlAccess
+  name: OfficeOpenXml.Style.XmlAccess
+  nameWithType: OfficeOpenXml.Style.XmlAccess
+  fullName: OfficeOpenXml.Style.XmlAccess
+- uid: OfficeOpenXml.Style.ExcelStyle
+  commentId: T:OfficeOpenXml.Style.ExcelStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelStyle
+  nameWithType: ExcelStyle
+  fullName: OfficeOpenXml.Style.ExcelStyle
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle*
+  commentId: Overload:OfficeOpenXml.ExcelStyles.CreatePivotTableStyle
+  name: CreatePivotTableStyle
+  nameWithType: ExcelStyles.CreatePivotTableStyle
+  fullName: OfficeOpenXml.ExcelStyles.CreatePivotTableStyle
+- uid: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelPivotTableNamedStyle
+  nameWithType: ExcelPivotTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+- uid: OfficeOpenXml.Style.Table
+  commentId: N:OfficeOpenXml.Style.Table
+  name: OfficeOpenXml.Style.Table
+  nameWithType: OfficeOpenXml.Style.Table
+  fullName: OfficeOpenXml.Style.Table
+- uid: OfficeOpenXml.Table.PivotTableStyles
+  commentId: T:OfficeOpenXml.Table.PivotTableStyles
+  parent: OfficeOpenXml.Table
+  name: PivotTableStyles
+  nameWithType: PivotTableStyles
+  fullName: OfficeOpenXml.Table.PivotTableStyles
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableNamedStyleBase
+  nameWithType: ExcelTableNamedStyleBase
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+- uid: OfficeOpenXml.ExcelStyles.CreateTableStyle*
+  commentId: Overload:OfficeOpenXml.ExcelStyles.CreateTableStyle
+  name: CreateTableStyle
+  nameWithType: ExcelStyles.CreateTableStyle
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableNamedStyle
+  nameWithType: ExcelTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+- uid: OfficeOpenXml.Table.TableStyles
+  commentId: T:OfficeOpenXml.Table.TableStyles
+  parent: OfficeOpenXml.Table
+  name: TableStyles
+  nameWithType: TableStyles
+  fullName: OfficeOpenXml.Table.TableStyles
+- uid: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle*
+  commentId: Overload:OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle
+  name: CreateTableAndPivotTableStyle
+  nameWithType: ExcelStyles.CreateTableAndPivotTableStyle
+  fullName: OfficeOpenXml.ExcelStyles.CreateTableAndPivotTableStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableAndPivotTableNamedStyle
+  nameWithType: ExcelTableAndPivotTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+- uid: OfficeOpenXml.ExcelStyles.CreateSlicerStyle*
+  commentId: Overload:OfficeOpenXml.ExcelStyles.CreateSlicerStyle
+  name: CreateSlicerStyle
+  nameWithType: ExcelStyles.CreateSlicerStyle
+  fullName: OfficeOpenXml.ExcelStyles.CreateSlicerStyle
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  name: ExcelSlicerNamedStyle
+  nameWithType: ExcelSlicerNamedStyle
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+- uid: OfficeOpenXml.Drawing.Slicer.Style
+  commentId: N:OfficeOpenXml.Drawing.Slicer.Style
+  name: OfficeOpenXml.Drawing.Slicer.Style
+  nameWithType: OfficeOpenXml.Drawing.Slicer.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.Style
+- uid: OfficeOpenXml.eSlicerStyle
+  commentId: T:OfficeOpenXml.eSlicerStyle
+  parent: OfficeOpenXml
+  name: eSlicerStyle
+  nameWithType: eSlicerStyle
+  fullName: OfficeOpenXml.eSlicerStyle
+- uid: OfficeOpenXml.ExcelStyles.UpdateXml*
+  commentId: Overload:OfficeOpenXml.ExcelStyles.UpdateXml
+  name: UpdateXml
+  nameWithType: ExcelStyles.UpdateXml
+  fullName: OfficeOpenXml.ExcelStyles.UpdateXml

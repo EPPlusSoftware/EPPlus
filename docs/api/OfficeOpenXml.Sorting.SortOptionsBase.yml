@@ -1,0 +1,493 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sorting.SortOptionsBase
+  commentId: T:OfficeOpenXml.Sorting.SortOptionsBase
+  id: SortOptionsBase
+  parent: OfficeOpenXml.Sorting
+  children:
+  - OfficeOpenXml.Sorting.SortOptionsBase.#ctor
+  - OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  - OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  langs:
+  - csharp
+  - vb
+  name: SortOptionsBase
+  nameWithType: SortOptionsBase
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortOptionsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortOptionsBase
+    path: ../src/EPPlus/Sorting/SortOptionsBase.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nBase class for Sort options.\n"
+  example: []
+  syntax:
+    content: public abstract class SortOptionsBase
+    content.vb: Public MustInherit Class SortOptionsBase
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.Sorting.RangeSortOptions
+  - OfficeOpenXml.Sorting.TableSortOptions
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.#ctor
+  commentId: M:OfficeOpenXml.Sorting.SortOptionsBase.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.Sorting.SortOptionsBase
+  langs:
+  - csharp
+  - vb
+  name: SortOptionsBase()
+  nameWithType: SortOptionsBase.SortOptionsBase()
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.SortOptionsBase()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortOptionsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Sorting/SortOptionsBase.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public SortOptionsBase()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.Sorting.SortOptionsBase.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  commentId: P:OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  id: Culture
+  parent: OfficeOpenXml.Sorting.SortOptionsBase
+  langs:
+  - csharp
+  - vb
+  name: Culture
+  nameWithType: SortOptionsBase.Culture
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortOptionsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Culture
+    path: ../src/EPPlus/Sorting/SortOptionsBase.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nCulture to use in sort\n"
+  example: []
+  syntax:
+    content: public CultureInfo Culture { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Property Culture As CultureInfo
+  overload: OfficeOpenXml.Sorting.SortOptionsBase.Culture*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  commentId: P:OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  id: CompareOptions
+  parent: OfficeOpenXml.Sorting.SortOptionsBase
+  langs:
+  - csharp
+  - vb
+  name: CompareOptions
+  nameWithType: SortOptionsBase.CompareOptions
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortOptionsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompareOptions
+    path: ../src/EPPlus/Sorting/SortOptionsBase.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nCompare options  to use in sort\n"
+  example: []
+  syntax:
+    content: public CompareOptions CompareOptions { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CompareOptions
+    content.vb: Public Property CompareOptions As CompareOptions
+  overload: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.#ctor*
+  commentId: Overload:OfficeOpenXml.Sorting.SortOptionsBase.#ctor
+  name: SortOptionsBase
+  nameWithType: SortOptionsBase.SortOptionsBase
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.SortOptionsBase
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.Culture*
+  commentId: Overload:OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  name: Culture
+  nameWithType: SortOptionsBase.Culture
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.Culture
+- uid: System.Globalization.CultureInfo
+  commentId: T:System.Globalization.CultureInfo
+  parent: System.Globalization
+  isExternal: true
+  name: CultureInfo
+  nameWithType: CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: System.Globalization
+  commentId: N:System.Globalization
+  isExternal: true
+  name: System.Globalization
+  nameWithType: System.Globalization
+  fullName: System.Globalization
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions*
+  commentId: Overload:OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  name: CompareOptions
+  nameWithType: SortOptionsBase.CompareOptions
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+- uid: System.Globalization.CompareOptions
+  commentId: T:System.Globalization.CompareOptions
+  parent: System.Globalization
+  isExternal: true
+  name: CompareOptions
+  nameWithType: CompareOptions
+  fullName: System.Globalization.CompareOptions

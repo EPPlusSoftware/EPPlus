@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  id: ExcelDataValidationOperator
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.between
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThan
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThanOrEqual
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThan
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThanOrEqual
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notBetween
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notEqual
+  langs:
+  - csharp
+  - vb
+  name: ExcelDataValidationOperator
+  nameWithType: ExcelDataValidationOperator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDataValidationOperator
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nOperator for comparison between Formula and Formula2 in a validation.\n"
+  example: []
+  syntax:
+    content: public enum ExcelDataValidationOperator
+    content.vb: Public Enum ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.between
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.between
+  id: between
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: between
+  nameWithType: ExcelDataValidationOperator.between
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.between
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: between
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should be between two values\n"
+  example: []
+  syntax:
+    content: between = 0
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal
+  id: equal
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: equal
+  nameWithType: ExcelDataValidationOperator.equal
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: equal
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should be eqal to a specific value\n"
+  example: []
+  syntax:
+    content: equal = 2
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThan
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThan
+  id: greaterThan
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: greaterThan
+  nameWithType: ExcelDataValidationOperator.greaterThan
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: greaterThan
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should be greater than a specific value\n"
+  example: []
+  syntax:
+    content: greaterThan = 6
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThanOrEqual
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThanOrEqual
+  id: greaterThanOrEqual
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: greaterThanOrEqual
+  nameWithType: ExcelDataValidationOperator.greaterThanOrEqual
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.greaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: greaterThanOrEqual
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should be greater than or equal to a specific value\n"
+  example: []
+  syntax:
+    content: greaterThanOrEqual = 7
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThan
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThan
+  id: lessThan
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: lessThan
+  nameWithType: ExcelDataValidationOperator.lessThan
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: lessThan
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should be less than a specific value\n"
+  example: []
+  syntax:
+    content: lessThan = 4
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThanOrEqual
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThanOrEqual
+  id: lessThanOrEqual
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: lessThanOrEqual
+  nameWithType: ExcelDataValidationOperator.lessThanOrEqual
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.lessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: lessThanOrEqual
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should be less than or equal to a specific value\n"
+  example: []
+  syntax:
+    content: lessThanOrEqual = 5
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notBetween
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notBetween
+  id: notBetween
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: notBetween
+  nameWithType: ExcelDataValidationOperator.notBetween
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: notBetween
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should not be between two specified values\n"
+  example: []
+  syntax:
+    content: notBetween = 1
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notEqual
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notEqual
+  id: notEqual
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  langs:
+  - csharp
+  - vb
+  name: notEqual
+  nameWithType: ExcelDataValidationOperator.notEqual
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator.notEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: notEqual
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nThe value of the validated cell should not be eqal to a specific value\n"
+  example: []
+  syntax:
+    content: notEqual = 3
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationOperator
+  nameWithType: ExcelDataValidationOperator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  id: eFormulaDirection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Column
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Row
+  langs:
+  - csharp
+  - vb
+  name: eFormulaDirection
+  nameWithType: eFormulaDirection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eFormulaDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eFormulaDirection
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eFormulaDirection.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSide positions for a chart element\n"
+  example: []
+  syntax:
+    content: public enum eFormulaDirection
+    content.vb: Public Enum eFormulaDirection
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Column
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Column
+  id: Column
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: eFormulaDirection.Column
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Column
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eFormulaDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eFormulaDirection.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe formula is interpreted column-wise\n"
+  example: []
+  syntax:
+    content: Column = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Row
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Row
+  id: Row
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: eFormulaDirection.Row
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection.Row
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eFormulaDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eFormulaDirection.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe formula is interpreted row-wise\n"
+  example: []
+  syntax:
+    content: Row = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eFormulaDirection
+  nameWithType: eFormulaDirection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection

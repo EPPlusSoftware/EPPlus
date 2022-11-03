@@ -1,0 +1,453 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelBorderItem
+  commentId: T:OfficeOpenXml.Style.ExcelBorderItem
+  id: ExcelBorderItem
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelBorderItem.Color
+  - OfficeOpenXml.Style.ExcelBorderItem.Style
+  langs:
+  - csharp
+  - vb
+  name: ExcelBorderItem
+  nameWithType: ExcelBorderItem
+  fullName: OfficeOpenXml.Style.ExcelBorderItem
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorderItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelBorderItem
+    path: ../src/EPPlus/Style/ExcelBorderItem.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCell border style\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelBorderItem : StyleBase'
+    content.vb: >-
+      Public NotInheritable Class ExcelBorderItem
+          Inherits StyleBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Style.StyleBase
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Style.ExcelBorderItem.Style
+  commentId: P:OfficeOpenXml.Style.ExcelBorderItem.Style
+  id: Style
+  parent: OfficeOpenXml.Style.ExcelBorderItem
+  langs:
+  - csharp
+  - vb
+  name: Style
+  nameWithType: ExcelBorderItem.Style
+  fullName: OfficeOpenXml.Style.ExcelBorderItem.Style
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorderItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style
+    path: ../src/EPPlus/Style/ExcelBorderItem.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe line style of the border\n"
+  example: []
+  syntax:
+    content: public ExcelBorderStyle Style { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+    content.vb: Public Property Style As ExcelBorderStyle
+  overload: OfficeOpenXml.Style.ExcelBorderItem.Style*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelBorderItem.Color
+  commentId: P:OfficeOpenXml.Style.ExcelBorderItem.Color
+  id: Color
+  parent: OfficeOpenXml.Style.ExcelBorderItem
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: ExcelBorderItem.Color
+  fullName: OfficeOpenXml.Style.ExcelBorderItem.Color
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorderItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/Style/ExcelBorderItem.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe color of the border\n"
+  example: []
+  syntax:
+    content: public ExcelColor Color { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelColor
+    content.vb: Public ReadOnly Property Color As ExcelColor
+  overload: OfficeOpenXml.Style.ExcelBorderItem.Color*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Style.StyleBase
+  commentId: T:OfficeOpenXml.Style.StyleBase
+  parent: OfficeOpenXml.Style
+  name: StyleBase
+  nameWithType: StyleBase
+  fullName: OfficeOpenXml.Style.StyleBase
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Style.ExcelBorderItem.Style*
+  commentId: Overload:OfficeOpenXml.Style.ExcelBorderItem.Style
+  name: Style
+  nameWithType: ExcelBorderItem.Style
+  fullName: OfficeOpenXml.Style.ExcelBorderItem.Style
+- uid: OfficeOpenXml.Style.ExcelBorderStyle
+  commentId: T:OfficeOpenXml.Style.ExcelBorderStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelBorderStyle
+  nameWithType: ExcelBorderStyle
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle
+- uid: OfficeOpenXml.Style.ExcelBorderItem.Color*
+  commentId: Overload:OfficeOpenXml.Style.ExcelBorderItem.Color
+  name: Color
+  nameWithType: ExcelBorderItem.Color
+  fullName: OfficeOpenXml.Style.ExcelBorderItem.Color
+- uid: OfficeOpenXml.Style.ExcelColor
+  commentId: T:OfficeOpenXml.Style.ExcelColor
+  parent: OfficeOpenXml.Style
+  name: ExcelColor
+  nameWithType: ExcelColor
+  fullName: OfficeOpenXml.Style.ExcelColor

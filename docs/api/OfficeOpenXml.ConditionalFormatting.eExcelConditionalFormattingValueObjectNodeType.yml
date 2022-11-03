@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  id: eExcelConditionalFormattingValueObjectNodeType
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Cfvo
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Color
+  langs:
+  - csharp
+  - vb
+  name: eExcelConditionalFormattingValueObjectNodeType
+  nameWithType: eExcelConditionalFormattingValueObjectNodeType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelConditionalFormattingValueObjectNodeType
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 412
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEnum for Conditional Formatting Value Object Node Type\n"
+  example: []
+  syntax:
+    content: public enum eExcelConditionalFormattingValueObjectNodeType
+    content.vb: Public Enum eExcelConditionalFormattingValueObjectNodeType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Cfvo
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Cfvo
+  id: Cfvo
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  langs:
+  - csharp
+  - vb
+  name: Cfvo
+  nameWithType: eExcelConditionalFormattingValueObjectNodeType.Cfvo
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Cfvo
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cfvo
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 417
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n&apos;cfvo&apos; node\n"
+  example: []
+  syntax:
+    content: Cfvo = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Color
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Color
+  id: Color
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: eExcelConditionalFormattingValueObjectNodeType.Color
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType.Color
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 422
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n&apos;color&apos; node\n"
+  example: []
+  syntax:
+    content: Color = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelConditionalFormattingValueObjectNodeType
+  nameWithType: eExcelConditionalFormattingValueObjectNodeType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType

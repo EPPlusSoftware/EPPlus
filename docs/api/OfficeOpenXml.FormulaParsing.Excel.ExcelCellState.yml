@@ -1,0 +1,163 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  id: ExcelCellState
+  parent: OfficeOpenXml.FormulaParsing.Excel
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.ContainsError
+  - OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.HiddenCell
+  - OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.IsResultOfSubtotal
+  langs:
+  - csharp
+  - vb
+  name: ExcelCellState
+  nameWithType: ExcelCellState
+  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelCellState
+    path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nThe state of a cell\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum ExcelCellState
+    content.vb: >-
+      <Flags>
+
+      Public Enum ExcelCellState
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.HiddenCell
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.HiddenCell
+  id: HiddenCell
+  parent: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  langs:
+  - csharp
+  - vb
+  name: HiddenCell
+  nameWithType: ExcelCellState.HiddenCell
+  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.HiddenCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HiddenCell
+    path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nThe cell is hidden\n"
+  example: []
+  syntax:
+    content: HiddenCell = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.ContainsError
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.ContainsError
+  id: ContainsError
+  parent: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  langs:
+  - csharp
+  - vb
+  name: ContainsError
+  nameWithType: ExcelCellState.ContainsError
+  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.ContainsError
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContainsError
+    path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nThe cell contains a cell error\n"
+  example: []
+  syntax:
+    content: ContainsError = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.IsResultOfSubtotal
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.IsResultOfSubtotal
+  id: IsResultOfSubtotal
+  parent: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  langs:
+  - csharp
+  - vb
+  name: IsResultOfSubtotal
+  nameWithType: ExcelCellState.IsResultOfSubtotal
+  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState.IsResultOfSubtotal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsResultOfSubtotal
+    path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel
+  summary: "\nThe cell contains a result of a subtotal function.\n"
+  example: []
+  syntax:
+    content: IsResultOfSubtotal = 4
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel
+  name: OfficeOpenXml.FormulaParsing.Excel
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel
+  fullName: OfficeOpenXml.FormulaParsing.Excel
+- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  parent: OfficeOpenXml.FormulaParsing.Excel
+  name: ExcelCellState
+  nameWithType: ExcelCellState
+  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState

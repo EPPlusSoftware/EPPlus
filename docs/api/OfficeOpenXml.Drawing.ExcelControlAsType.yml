@@ -1,0 +1,858 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType
+  commentId: T:OfficeOpenXml.Drawing.ExcelControlAsType
+  id: ExcelControlAsType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelControlAsType.Button
+  - OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox
+  - OfficeOpenXml.Drawing.ExcelControlAsType.DropDown
+  - OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox
+  - OfficeOpenXml.Drawing.ExcelControlAsType.Label
+  - OfficeOpenXml.Drawing.ExcelControlAsType.ListBox
+  - OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton
+  - OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar
+  - OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton
+  - OfficeOpenXml.Drawing.ExcelControlAsType.Type``1
+  langs:
+  - csharp
+  - vb
+  name: ExcelControlAsType
+  nameWithType: ExcelControlAsType
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelControlAsType
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nProvides a simple way to type cast control drawing object top its top level class.\n"
+  example: []
+  syntax:
+    content: public class ExcelControlAsType
+    content.vb: Public Class ExcelControlAsType
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.Type``1
+  commentId: M:OfficeOpenXml.Drawing.ExcelControlAsType.Type``1
+  id: Type``1
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: Type<T>()
+  nameWithType: ExcelControlAsType.Type<T>()
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.Type<T>()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nConverts the drawing to it&apos;s top level or other nested drawing class.        \n"
+  example: []
+  syntax:
+    content: >-
+      public T Type<T>()
+          where T : ExcelControl
+    typeParameters:
+    - id: T
+      description: The type of drawing. T must be inherited from ExcelDrawing
+    return:
+      type: '{T}'
+      description: The drawing as type T
+    content.vb: Public Function Type(Of T As ExcelControl) As T
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.Type*
+  nameWithType.vb: ExcelControlAsType.Type(Of T)()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.ExcelControlAsType.Type(Of T)()
+  name.vb: Type(Of T)()
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.Button
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.Button
+  id: Button
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: Button
+  nameWithType: ExcelControlAsType.Button
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.Button
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Button
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a button. \nIf this drawing is not a button, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlButton Button { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlButton
+      description: The drawing as a button
+    content.vb: Public ReadOnly Property Button As ExcelControlButton
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.Button*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.DropDown
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.DropDown
+  id: DropDown
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: DropDown
+  nameWithType: ExcelControlAsType.DropDown
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.DropDown
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DropDown
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a drop-down. \nIf this drawing is not a drop-down, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlDropDown DropDown { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+      description: The drawing as a drop-down
+    content.vb: Public ReadOnly Property DropDown As ExcelControlDropDown
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.DropDown*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox
+  id: GroupBox
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: GroupBox
+  nameWithType: ExcelControlAsType.GroupBox
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GroupBox
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a group box. \nIf this drawing is not a group box, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlGroupBox GroupBox { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+      description: The drawing as a group box
+    content.vb: Public ReadOnly Property GroupBox As ExcelControlGroupBox
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.Label
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.Label
+  id: Label
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: Label
+  nameWithType: ExcelControlAsType.Label
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.Label
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Label
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a label. \nIf this drawing is not a label, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlLabel Label { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+      description: The drawing as a label
+    content.vb: Public ReadOnly Property Label As ExcelControlLabel
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.Label*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.ListBox
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.ListBox
+  id: ListBox
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: ListBox
+  nameWithType: ExcelControlAsType.ListBox
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.ListBox
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ListBox
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a list box. \nIf this drawing is not a list box, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlListBox ListBox { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+      description: The drawing as a list box
+    content.vb: Public ReadOnly Property ListBox As ExcelControlListBox
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.ListBox*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox
+  id: CheckBox
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: CheckBox
+  nameWithType: ExcelControlAsType.CheckBox
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CheckBox
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a check box. \nIf this drawing is not a check box, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlCheckBox CheckBox { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+      description: The drawing as a check box
+    content.vb: Public ReadOnly Property CheckBox As ExcelControlCheckBox
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton
+  id: RadioButton
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: RadioButton
+  nameWithType: ExcelControlAsType.RadioButton
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RadioButton
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a radio button. \nIf this drawing is not a radio button, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlRadioButton RadioButton { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+      description: The drawing as a radio button
+    content.vb: Public ReadOnly Property RadioButton As ExcelControlRadioButton
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar
+  id: ScrollBar
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: ScrollBar
+  nameWithType: ExcelControlAsType.ScrollBar
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ScrollBar
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a scroll bar. \nIf this drawing is not a scroll bar, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlScrollBar ScrollBar { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+      description: The drawing as a scroll bar
+    content.vb: Public ReadOnly Property ScrollBar As ExcelControlScrollBar
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton
+  commentId: P:OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton
+  id: SpinButton
+  parent: OfficeOpenXml.Drawing.ExcelControlAsType
+  langs:
+  - csharp
+  - vb
+  name: SpinButton
+  nameWithType: ExcelControlAsType.SpinButton
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelControlAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SpinButton
+    path: ../src/EPPlus/Drawing/ExcelControlAsType.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a spin button. \nIf this drawing is not a spin button, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelControlSpinButton SpinButton { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+      description: The drawing as a spin button
+    content.vb: Public ReadOnly Property SpinButton As ExcelControlSpinButton
+  overload: OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.Type*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.Type
+  name: Type
+  nameWithType: ExcelControlAsType.Type
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.Type
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.Button*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.Button
+  name: Button
+  nameWithType: ExcelControlAsType.Button
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.Button
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlButton
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlButton
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlButton
+  nameWithType: ExcelControlButton
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlButton
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.DropDown*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.DropDown
+  name: DropDown
+  nameWithType: ExcelControlAsType.DropDown
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.DropDown
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlDropDown
+  nameWithType: ExcelControlDropDown
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox
+  name: GroupBox
+  nameWithType: ExcelControlAsType.GroupBox
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.GroupBox
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlGroupBox
+  nameWithType: ExcelControlGroupBox
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.Label*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.Label
+  name: Label
+  nameWithType: ExcelControlAsType.Label
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.Label
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlLabel
+  nameWithType: ExcelControlLabel
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.ListBox*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.ListBox
+  name: ListBox
+  nameWithType: ExcelControlAsType.ListBox
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.ListBox
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlListBox
+  nameWithType: ExcelControlListBox
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox
+  name: CheckBox
+  nameWithType: ExcelControlAsType.CheckBox
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.CheckBox
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlCheckBox
+  nameWithType: ExcelControlCheckBox
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton
+  name: RadioButton
+  nameWithType: ExcelControlAsType.RadioButton
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.RadioButton
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlRadioButton
+  nameWithType: ExcelControlRadioButton
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar
+  name: ScrollBar
+  nameWithType: ExcelControlAsType.ScrollBar
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.ScrollBar
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlScrollBar
+  nameWithType: ExcelControlScrollBar
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton
+  name: SpinButton
+  nameWithType: ExcelControlAsType.SpinButton
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType.SpinButton
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlSpinButton
+  nameWithType: ExcelControlSpinButton
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton

@@ -1,0 +1,398 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  id: eExcelConditionalFormattingTimePeriodType
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Last7Days
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastMonth
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastWeek
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextMonth
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextWeek
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisMonth
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisWeek
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Today
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Tomorrow
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Yesterday
+  langs:
+  - csharp
+  - vb
+  name: eExcelConditionalFormattingTimePeriodType
+  nameWithType: eExcelConditionalFormattingTimePeriodType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelConditionalFormattingTimePeriodType
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 494
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEnum for Conditional Formatting Time Period Type ST_TimePeriod §18.18.82\n"
+  example: []
+  syntax:
+    content: public enum eExcelConditionalFormattingTimePeriodType
+    content.vb: Public Enum eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Last7Days
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Last7Days
+  id: Last7Days
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: Last7Days
+  nameWithType: eExcelConditionalFormattingTimePeriodType.Last7Days
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Last7Days
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Last7Days
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 499
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nLast 7 Days. A date in the last seven days.\n"
+  example: []
+  syntax:
+    content: Last7Days = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastMonth
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastMonth
+  id: LastMonth
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: LastMonth
+  nameWithType: eExcelConditionalFormattingTimePeriodType.LastMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastMonth
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 504
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nLast Month. A date occuring in the last calendar month.\n"
+  example: []
+  syntax:
+    content: LastMonth = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastWeek
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastWeek
+  id: LastWeek
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: LastWeek
+  nameWithType: eExcelConditionalFormattingTimePeriodType.LastWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.LastWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastWeek
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 509
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nLast Week. A date occuring last week.\n"
+  example: []
+  syntax:
+    content: LastWeek = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextMonth
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextMonth
+  id: NextMonth
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: NextMonth
+  nameWithType: eExcelConditionalFormattingTimePeriodType.NextMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextMonth
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 514
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nNext Month. A date occuring in the next calendar month.\n"
+  example: []
+  syntax:
+    content: NextMonth = 3
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextWeek
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextWeek
+  id: NextWeek
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: NextWeek
+  nameWithType: eExcelConditionalFormattingTimePeriodType.NextWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.NextWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextWeek
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 519
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nNext Week. A date occuring next week.\n"
+  example: []
+  syntax:
+    content: NextWeek = 4
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisMonth
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisMonth
+  id: ThisMonth
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: ThisMonth
+  nameWithType: eExcelConditionalFormattingTimePeriodType.ThisMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisMonth
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 524
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThis Month. A date occuring in this calendar month.\n"
+  example: []
+  syntax:
+    content: ThisMonth = 5
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisWeek
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisWeek
+  id: ThisWeek
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: ThisWeek
+  nameWithType: eExcelConditionalFormattingTimePeriodType.ThisWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.ThisWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisWeek
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 529
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThis Week. A date occuring this week.\n"
+  example: []
+  syntax:
+    content: ThisWeek = 6
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Today
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Today
+  id: Today
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: Today
+  nameWithType: eExcelConditionalFormattingTimePeriodType.Today
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Today
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Today
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 534
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nToday. Today&apos;s date.\n"
+  example: []
+  syntax:
+    content: Today = 7
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Tomorrow
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Tomorrow
+  id: Tomorrow
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: Tomorrow
+  nameWithType: eExcelConditionalFormattingTimePeriodType.Tomorrow
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Tomorrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tomorrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 539
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nTomorrow. Tomorrow&apos;s date.\n"
+  example: []
+  syntax:
+    content: Tomorrow = 8
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Yesterday
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Yesterday
+  id: Yesterday
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  langs:
+  - csharp
+  - vb
+  name: Yesterday
+  nameWithType: eExcelConditionalFormattingTimePeriodType.Yesterday
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType.Yesterday
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Yesterday
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 544
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nYesterday. Yesterday&apos;s date.\n"
+  example: []
+  syntax:
+    content: Yesterday = 9
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelConditionalFormattingTimePeriodType
+  nameWithType: eExcelConditionalFormattingTimePeriodType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType

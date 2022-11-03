@@ -1,0 +1,340 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  commentId: T:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  id: IFormulaParserLogger
+  parent: OfficeOpenXml.FormulaParsing.Logging
+  children:
+  - OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.Exception)
+  - OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  - OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(System.String)
+  - OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted
+  - OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String)
+  - OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String,System.Int64)
+  langs:
+  - csharp
+  - vb
+  name: IFormulaParserLogger
+  nameWithType: IFormulaParserLogger
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IFormulaParserLogger
+    path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Logging
+  summary: "\nUsed for logging during FormulaParsing\n"
+  example: []
+  syntax:
+    content: 'public interface IFormulaParserLogger : IDisposable'
+    content.vb: >-
+      Public Interface IFormulaParserLogger
+          Inherits IDisposable
+  inheritedMembers:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.Exception)
+  commentId: M:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.Exception)
+  id: Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.Exception)
+  parent: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  langs:
+  - csharp
+  - vb
+  name: Log(ParsingContext, Exception)
+  nameWithType: IFormulaParserLogger.Log(ParsingContext, Exception)
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext, System.Exception)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Log
+    path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Logging
+  summary: "\nCalled each time an exception occurs during formula parsing.\n"
+  example: []
+  syntax:
+    content: void Log(ParsingContext context, Exception ex)
+    parameters:
+    - id: context
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
+    - id: ex
+      type: System.Exception
+      description: ''
+    content.vb: Sub Log(context As ParsingContext, ex As Exception)
+  overload: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log*
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  id: Log(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  parent: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  langs:
+  - csharp
+  - vb
+  name: Log(ParsingContext, String)
+  nameWithType: IFormulaParserLogger.Log(ParsingContext, String)
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(OfficeOpenXml.FormulaParsing.ParsingContext, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Log
+    path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Logging
+  summary: "\nCalled each time information should be logged during formula parsing.\n"
+  example: []
+  syntax:
+    content: void Log(ParsingContext context, string message)
+    parameters:
+    - id: context
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
+    - id: message
+      type: System.String
+      description: ''
+    content.vb: Sub Log(context As ParsingContext, message As String)
+  overload: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log*
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(System.String)
+  id: Log(System.String)
+  parent: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  langs:
+  - csharp
+  - vb
+  name: Log(String)
+  nameWithType: IFormulaParserLogger.Log(String)
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Log
+    path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Logging
+  summary: "\nCalled to log a message outside the parsing context.\n"
+  example: []
+  syntax:
+    content: void Log(string message)
+    parameters:
+    - id: message
+      type: System.String
+      description: ''
+    content.vb: Sub Log(message As String)
+  overload: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log*
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted
+  commentId: M:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted
+  id: LogCellCounted
+  parent: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  langs:
+  - csharp
+  - vb
+  name: LogCellCounted()
+  nameWithType: IFormulaParserLogger.LogCellCounted()
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LogCellCounted
+    path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Logging
+  summary: "\nCalled each time a cell within the calc chain is accessed during formula parsing.\n"
+  example: []
+  syntax:
+    content: void LogCellCounted()
+    content.vb: Sub LogCellCounted
+  overload: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted*
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String)
+  id: LogFunction(System.String)
+  parent: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  langs:
+  - csharp
+  - vb
+  name: LogFunction(String)
+  nameWithType: IFormulaParserLogger.LogFunction(String)
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LogFunction
+    path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Logging
+  summary: "\nCalled each time a function is called during formula parsing.\n"
+  example: []
+  syntax:
+    content: void LogFunction(string func)
+    parameters:
+    - id: func
+      type: System.String
+      description: ''
+    content.vb: Sub LogFunction(func As String)
+  overload: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction*
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String,System.Int64)
+  commentId: M:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String,System.Int64)
+  id: LogFunction(System.String,System.Int64)
+  parent: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  langs:
+  - csharp
+  - vb
+  name: LogFunction(String, Int64)
+  nameWithType: IFormulaParserLogger.LogFunction(String, Int64)
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction(System.String, System.Int64)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LogFunction
+    path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Logging
+  summary: "\nSome functions measure performance, if so this function will be called.\n"
+  example: []
+  syntax:
+    content: void LogFunction(string func, long milliseconds)
+    parameters:
+    - id: func
+      type: System.String
+      description: ''
+    - id: milliseconds
+      type: System.Int64
+      description: ''
+    content.vb: Sub LogFunction(func As String, milliseconds As Long)
+  overload: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction*
+references:
+- uid: OfficeOpenXml.FormulaParsing.Logging
+  commentId: N:OfficeOpenXml.FormulaParsing.Logging
+  name: OfficeOpenXml.FormulaParsing.Logging
+  nameWithType: OfficeOpenXml.FormulaParsing.Logging
+  fullName: OfficeOpenXml.FormulaParsing.Logging
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log
+  name: Log
+  nameWithType: IFormulaParserLogger.Log
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.Log
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext
+  commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
+  parent: OfficeOpenXml.FormulaParsing
+  name: ParsingContext
+  nameWithType: ParsingContext
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+- uid: System.Exception
+  commentId: T:System.Exception
+  parent: System
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted
+  name: LogCellCounted
+  nameWithType: IFormulaParserLogger.LogCellCounted
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogCellCounted
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction
+  name: LogFunction
+  nameWithType: IFormulaParserLogger.LogFunction
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger.LogFunction
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64

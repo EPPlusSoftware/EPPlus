@@ -1,0 +1,1363 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType
+  commentId: T:OfficeOpenXml.Drawing.ExcelChartAsType
+  id: ExcelChartAsType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.BarChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.Chart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.LineChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.PieChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.StockChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart
+  - OfficeOpenXml.Drawing.ExcelChartAsType.Type``1
+  - OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartAsType
+  nameWithType: ExcelChartAsType
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartAsType
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nProvides easy access to convert the drawing to a it&apos;s typed ExcelChart class.\n"
+  example: []
+  syntax:
+    content: public class ExcelChartAsType
+    content.vb: Public Class ExcelChartAsType
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.Type``1
+  commentId: M:OfficeOpenXml.Drawing.ExcelChartAsType.Type``1
+  id: Type``1
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: Type<T>()
+  nameWithType: ExcelChartAsType.Type<T>()
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.Type<T>()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nConverts the drawing to it&apos;s top level or other nested drawing class.        \n"
+  example: []
+  syntax:
+    content: >-
+      public T Type<T>()
+          where T : ExcelChart
+    typeParameters:
+    - id: T
+      description: The type of drawing. T must be inherited from ExcelDrawing
+    return:
+      type: '{T}'
+      description: The drawing as type T
+    content.vb: Public Function Type(Of T As ExcelChart) As T
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.Type*
+  nameWithType.vb: ExcelChartAsType.Type(Of T)()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.ExcelChartAsType.Type(Of T)()
+  name.vb: Type(Of T)()
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.Chart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.Chart
+  id: Chart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: Chart
+  nameWithType: ExcelChartAsType.Chart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.Chart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a generic chart. This the base class for all charts.\nIf this drawing is not a chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelChart Chart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: The drawing as a chart
+    content.vb: Public ReadOnly Property Chart As ExcelChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.Chart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart
+  id: AreaChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: AreaChart
+  nameWithType: ExcelChartAsType.AreaChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AreaChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as an area chart. \nIf this drawing is not an area chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelAreaChart AreaChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+      description: The drawing as an area chart
+    content.vb: Public ReadOnly Property AreaChart As ExcelAreaChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.BarChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.BarChart
+  id: BarChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: BarChart
+  nameWithType: ExcelChartAsType.BarChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.BarChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a bar chart. \nIf this drawing is not a bar chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelBarChart BarChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+      description: The drawing as a bar chart
+    content.vb: Public ReadOnly Property BarChart As ExcelBarChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.BarChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart
+  id: BubbleChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: BubbleChart
+  nameWithType: ExcelChartAsType.BubbleChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BubbleChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a bubble chart. \nIf this drawing is not a bubble chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelBubbleChart BubbleChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+      description: The drawing as a bubble chart
+    content.vb: Public ReadOnly Property BubbleChart As ExcelBubbleChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart
+  id: DoughnutChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: DoughnutChart
+  nameWithType: ExcelChartAsType.DoughnutChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DoughnutChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a doughnut chart. \nIf this drawing is not a doughnut chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelDoughnutChart DoughnutChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+      description: The drawing as a doughnut chart
+    content.vb: Public ReadOnly Property DoughnutChart As ExcelDoughnutChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart
+  id: OfPieChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: OfPieChart
+  nameWithType: ExcelChartAsType.OfPieChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OfPieChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a PieOfPie or a BarOfPie chart. \nIf this drawing is not a PieOfPie or a BarOfPie chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelOfPieChart OfPieChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+      description: The drawing as a PieOfPie or a BarOfPie chart
+    content.vb: Public ReadOnly Property OfPieChart As ExcelOfPieChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.PieChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.PieChart
+  id: PieChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: PieChart
+  nameWithType: ExcelChartAsType.PieChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.PieChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PieChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 116
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a pie chart. \nIf this drawing is not a pie chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelPieChart PieChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+      description: The drawing as a pie chart
+    content.vb: Public ReadOnly Property PieChart As ExcelPieChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.PieChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.LineChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.LineChart
+  id: LineChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: LineChart
+  nameWithType: ExcelChartAsType.LineChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.LineChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a line chart. \nIf this drawing is not a line chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelLineChart LineChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+      description: The drawing as a line chart
+    content.vb: Public ReadOnly Property LineChart As ExcelLineChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.LineChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart
+  id: RadarChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: RadarChart
+  nameWithType: ExcelChartAsType.RadarChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RadarChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a radar chart. \nIf this drawing is not a radar chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelRadarChart RadarChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+      description: The drawing as a radar chart
+    content.vb: Public ReadOnly Property RadarChart As ExcelRadarChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart
+  id: ScatterChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: ScatterChart
+  nameWithType: ExcelChartAsType.ScatterChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ScatterChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 152
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a scatter chart. \nIf this drawing is not a scatter chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelScatterChart ScatterChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+      description: The drawing as a scatter chart
+    content.vb: Public ReadOnly Property ScatterChart As ExcelScatterChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.StockChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.StockChart
+  id: StockChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: StockChart
+  nameWithType: ExcelChartAsType.StockChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.StockChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StockChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a stock chart. \nIf this drawing is not a stock chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelStockChart StockChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+      description: The drawing as a stock chart
+    content.vb: Public ReadOnly Property StockChart As ExcelStockChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.StockChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart
+  id: SurfaceChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: SurfaceChart
+  nameWithType: ExcelChartAsType.SurfaceChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SurfaceChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 176
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a surface chart. \nIf this drawing is not a surface chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelSurfaceChart SurfaceChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+      description: The drawing as a surface chart
+    content.vb: Public ReadOnly Property SurfaceChart As ExcelSurfaceChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart
+  id: SunburstChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: SunburstChart
+  nameWithType: ExcelChartAsType.SunburstChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SunburstChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a sunburst chart. \nIf this drawing is not a sunburst chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelSunburstChart SunburstChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+      description: The drawing as a sunburst chart
+    content.vb: Public ReadOnly Property SunburstChart As ExcelSunburstChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart
+  id: TreemapChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: TreemapChart
+  nameWithType: ExcelChartAsType.TreemapChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TreemapChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a treemap chart. \nIf this drawing is not a treemap chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelTreemapChart TreemapChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+      description: The drawing as a treemap chart
+    content.vb: Public ReadOnly Property TreemapChart As ExcelTreemapChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart
+  id: BoxWhiskerChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: BoxWhiskerChart
+  nameWithType: ExcelChartAsType.BoxWhiskerChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BoxWhiskerChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a boxwhisker chart. \nIf this drawing is not a boxwhisker chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelBoxWhiskerChart BoxWhiskerChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+      description: The drawing as a boxwhisker chart
+    content.vb: Public ReadOnly Property BoxWhiskerChart As ExcelBoxWhiskerChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart
+  id: HistogramChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: HistogramChart
+  nameWithType: ExcelChartAsType.HistogramChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HistogramChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a histogram chart. \nIf this drawing is not a histogram chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelHistogramChart HistogramChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+      description: The drawing as a histogram Chart
+    content.vb: Public ReadOnly Property HistogramChart As ExcelHistogramChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart
+  id: FunnelChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: FunnelChart
+  nameWithType: ExcelChartAsType.FunnelChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FunnelChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns return the drawing as a funnel chart. \nIf this drawing is not a funnel chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelFunnelChart FunnelChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+      description: The drawing as a funnel Chart
+    content.vb: Public ReadOnly Property FunnelChart As ExcelFunnelChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart
+  id: WaterfallChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: WaterfallChart
+  nameWithType: ExcelChartAsType.WaterfallChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WaterfallChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a waterfall chart. \nIf this drawing is not a waterfall chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelWaterfallChart WaterfallChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+      description: The drawing as a waterfall chart
+    content.vb: Public ReadOnly Property WaterfallChart As ExcelWaterfallChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart
+  commentId: P:OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart
+  id: RegionMapChart
+  parent: OfficeOpenXml.Drawing.ExcelChartAsType
+  langs:
+  - csharp
+  - vb
+  name: RegionMapChart
+  nameWithType: ExcelChartAsType.RegionMapChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelChartAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RegionMapChart
+    path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a region map chart. \nIf this drawing is not a region map chart, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelRegionMapChart RegionMapChart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+      description: The drawing as a region map chart
+    content.vb: Public ReadOnly Property RegionMapChart As ExcelRegionMapChart
+  overload: OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.Type*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.Type
+  name: Type
+  nameWithType: ExcelChartAsType.Type
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.Type
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.Chart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.Chart
+  name: Chart
+  nameWithType: ExcelChartAsType.Chart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChart
+  nameWithType: ExcelChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart
+  name: AreaChart
+  nameWithType: ExcelChartAsType.AreaChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.AreaChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelAreaChart
+  nameWithType: ExcelAreaChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.BarChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.BarChart
+  name: BarChart
+  nameWithType: ExcelChartAsType.BarChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.BarChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelBarChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelBarChart
+  nameWithType: ExcelBarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart
+  name: BubbleChart
+  nameWithType: ExcelChartAsType.BubbleChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.BubbleChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelBubbleChart
+  nameWithType: ExcelBubbleChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart
+  name: DoughnutChart
+  nameWithType: ExcelChartAsType.DoughnutChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.DoughnutChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDoughnutChart
+  nameWithType: ExcelDoughnutChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart
+  name: OfPieChart
+  nameWithType: ExcelChartAsType.OfPieChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.OfPieChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelOfPieChart
+  nameWithType: ExcelOfPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.PieChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.PieChart
+  name: PieChart
+  nameWithType: ExcelChartAsType.PieChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.PieChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelPieChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelPieChart
+  nameWithType: ExcelPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.LineChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.LineChart
+  name: LineChart
+  nameWithType: ExcelChartAsType.LineChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.LineChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelLineChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelLineChart
+  nameWithType: ExcelLineChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart
+  name: RadarChart
+  nameWithType: ExcelChartAsType.RadarChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.RadarChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelRadarChart
+  nameWithType: ExcelRadarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart
+  name: ScatterChart
+  nameWithType: ExcelChartAsType.ScatterChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.ScatterChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelScatterChart
+  nameWithType: ExcelScatterChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.StockChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.StockChart
+  name: StockChart
+  nameWithType: ExcelChartAsType.StockChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.StockChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelStockChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelStockChart
+  nameWithType: ExcelStockChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart
+  name: SurfaceChart
+  nameWithType: ExcelChartAsType.SurfaceChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.SurfaceChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelSurfaceChart
+  nameWithType: ExcelSurfaceChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart
+  name: SunburstChart
+  nameWithType: ExcelChartAsType.SunburstChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.SunburstChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelSunburstChart
+  nameWithType: ExcelSunburstChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart
+  name: TreemapChart
+  nameWithType: ExcelChartAsType.TreemapChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.TreemapChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelTreemapChart
+  nameWithType: ExcelTreemapChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart
+  name: BoxWhiskerChart
+  nameWithType: ExcelChartAsType.BoxWhiskerChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.BoxWhiskerChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelBoxWhiskerChart
+  nameWithType: ExcelBoxWhiskerChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart
+  name: HistogramChart
+  nameWithType: ExcelChartAsType.HistogramChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.HistogramChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelHistogramChart
+  nameWithType: ExcelHistogramChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart
+  name: FunnelChart
+  nameWithType: ExcelChartAsType.FunnelChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.FunnelChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelFunnelChart
+  nameWithType: ExcelFunnelChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart
+  name: WaterfallChart
+  nameWithType: ExcelChartAsType.WaterfallChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.WaterfallChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelWaterfallChart
+  nameWithType: ExcelWaterfallChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart
+  name: RegionMapChart
+  nameWithType: ExcelChartAsType.RegionMapChart
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType.RegionMapChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelRegionMapChart
+  nameWithType: ExcelRegionMapChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart

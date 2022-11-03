@@ -1,0 +1,1098 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eSystemColor
+  commentId: T:OfficeOpenXml.Drawing.eSystemColor
+  id: eSystemColor
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eSystemColor.ActiveBorder
+  - OfficeOpenXml.Drawing.eSystemColor.ActiveCaption
+  - OfficeOpenXml.Drawing.eSystemColor.AppWorkspace
+  - OfficeOpenXml.Drawing.eSystemColor.Background
+  - OfficeOpenXml.Drawing.eSystemColor.ButtonFace
+  - OfficeOpenXml.Drawing.eSystemColor.ButtonHighlight
+  - OfficeOpenXml.Drawing.eSystemColor.ButtonShadow
+  - OfficeOpenXml.Drawing.eSystemColor.ButtonText
+  - OfficeOpenXml.Drawing.eSystemColor.CaptionText
+  - OfficeOpenXml.Drawing.eSystemColor.DarkShadow3d
+  - OfficeOpenXml.Drawing.eSystemColor.GradientActiveCaption
+  - OfficeOpenXml.Drawing.eSystemColor.GradientInactiveCaption
+  - OfficeOpenXml.Drawing.eSystemColor.GrayText
+  - OfficeOpenXml.Drawing.eSystemColor.Highlight
+  - OfficeOpenXml.Drawing.eSystemColor.HighlightText
+  - OfficeOpenXml.Drawing.eSystemColor.HotLight
+  - OfficeOpenXml.Drawing.eSystemColor.InactiveBorder
+  - OfficeOpenXml.Drawing.eSystemColor.InactiveCaption
+  - OfficeOpenXml.Drawing.eSystemColor.InactiveCaptionText
+  - OfficeOpenXml.Drawing.eSystemColor.InfoBackground
+  - OfficeOpenXml.Drawing.eSystemColor.InfoText
+  - OfficeOpenXml.Drawing.eSystemColor.Light3d
+  - OfficeOpenXml.Drawing.eSystemColor.Menu
+  - OfficeOpenXml.Drawing.eSystemColor.MenuBar
+  - OfficeOpenXml.Drawing.eSystemColor.MenuHighlight
+  - OfficeOpenXml.Drawing.eSystemColor.MenuText
+  - OfficeOpenXml.Drawing.eSystemColor.ScrollBar
+  - OfficeOpenXml.Drawing.eSystemColor.Window
+  - OfficeOpenXml.Drawing.eSystemColor.WindowFrame
+  - OfficeOpenXml.Drawing.eSystemColor.WindowText
+  langs:
+  - csharp
+  - vb
+  name: eSystemColor
+  nameWithType: eSystemColor
+  fullName: OfficeOpenXml.Drawing.eSystemColor
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSystemColor
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSystem colors\n"
+  example: []
+  syntax:
+    content: public enum eSystemColor
+    content.vb: Public Enum eSystemColor
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eSystemColor.ScrollBar
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.ScrollBar
+  id: ScrollBar
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: ScrollBar
+  nameWithType: eSystemColor.ScrollBar
+  fullName: OfficeOpenXml.Drawing.eSystemColor.ScrollBar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ScrollBar
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nScroll Bar System Color\n"
+  example: []
+  syntax:
+    content: ScrollBar = 0
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.Background
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.Background
+  id: Background
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: Background
+  nameWithType: eSystemColor.Background
+  fullName: OfficeOpenXml.Drawing.eSystemColor.Background
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Background
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBackground System Color\n"
+  example: []
+  syntax:
+    content: Background = 1
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.ActiveCaption
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.ActiveCaption
+  id: ActiveCaption
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: ActiveCaption
+  nameWithType: eSystemColor.ActiveCaption
+  fullName: OfficeOpenXml.Drawing.eSystemColor.ActiveCaption
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveCaption
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nActive Caption System Color\n"
+  example: []
+  syntax:
+    content: ActiveCaption = 2
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.InactiveCaption
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.InactiveCaption
+  id: InactiveCaption
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: InactiveCaption
+  nameWithType: eSystemColor.InactiveCaption
+  fullName: OfficeOpenXml.Drawing.eSystemColor.InactiveCaption
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InactiveCaption
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nInactive Caption System Color\n"
+  example: []
+  syntax:
+    content: InactiveCaption = 3
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.Menu
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.Menu
+  id: Menu
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: Menu
+  nameWithType: eSystemColor.Menu
+  fullName: OfficeOpenXml.Drawing.eSystemColor.Menu
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Menu
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMenu System Color\n"
+  example: []
+  syntax:
+    content: Menu = 4
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.Window
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.Window
+  id: Window
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: Window
+  nameWithType: eSystemColor.Window
+  fullName: OfficeOpenXml.Drawing.eSystemColor.Window
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Window
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWindow Background System Color\n"
+  example: []
+  syntax:
+    content: Window = 5
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.WindowFrame
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.WindowFrame
+  id: WindowFrame
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: WindowFrame
+  nameWithType: eSystemColor.WindowFrame
+  fullName: OfficeOpenXml.Drawing.eSystemColor.WindowFrame
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WindowFrame
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWindow Frame System Color\n"
+  example: []
+  syntax:
+    content: WindowFrame = 6
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.MenuText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.MenuText
+  id: MenuText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: MenuText
+  nameWithType: eSystemColor.MenuText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.MenuText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MenuText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMenu Text System Color\n"
+  example: []
+  syntax:
+    content: MenuText = 7
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.WindowText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.WindowText
+  id: WindowText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: WindowText
+  nameWithType: eSystemColor.WindowText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.WindowText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WindowText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWindow Text System Color\n"
+  example: []
+  syntax:
+    content: WindowText = 8
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.CaptionText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.CaptionText
+  id: CaptionText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: CaptionText
+  nameWithType: eSystemColor.CaptionText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.CaptionText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCaption Text System Color\n"
+  example: []
+  syntax:
+    content: CaptionText = 9
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.ActiveBorder
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.ActiveBorder
+  id: ActiveBorder
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: ActiveBorder
+  nameWithType: eSystemColor.ActiveBorder
+  fullName: OfficeOpenXml.Drawing.eSystemColor.ActiveBorder
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveBorder
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nActive Border System Color\n"
+  example: []
+  syntax:
+    content: ActiveBorder = 10
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.InactiveBorder
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.InactiveBorder
+  id: InactiveBorder
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: InactiveBorder
+  nameWithType: eSystemColor.InactiveBorder
+  fullName: OfficeOpenXml.Drawing.eSystemColor.InactiveBorder
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InactiveBorder
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nInactive Border System Color\n"
+  example: []
+  syntax:
+    content: InactiveBorder = 11
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.AppWorkspace
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.AppWorkspace
+  id: AppWorkspace
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: AppWorkspace
+  nameWithType: eSystemColor.AppWorkspace
+  fullName: OfficeOpenXml.Drawing.eSystemColor.AppWorkspace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AppWorkspace
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nApplication Workspace System Color\n"
+  example: []
+  syntax:
+    content: AppWorkspace = 12
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.Highlight
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.Highlight
+  id: Highlight
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: Highlight
+  nameWithType: eSystemColor.Highlight
+  fullName: OfficeOpenXml.Drawing.eSystemColor.Highlight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Highlight
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHighlight System Color\n"
+  example: []
+  syntax:
+    content: Highlight = 13
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.HighlightText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.HighlightText
+  id: HighlightText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: HighlightText
+  nameWithType: eSystemColor.HighlightText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.HighlightText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HighlightText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHighlight Text System Color\n"
+  example: []
+  syntax:
+    content: HighlightText = 14
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.ButtonFace
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.ButtonFace
+  id: ButtonFace
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: ButtonFace
+  nameWithType: eSystemColor.ButtonFace
+  fullName: OfficeOpenXml.Drawing.eSystemColor.ButtonFace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ButtonFace
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nButton Face System Color\n"
+  example: []
+  syntax:
+    content: ButtonFace = 15
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.ButtonShadow
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.ButtonShadow
+  id: ButtonShadow
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: ButtonShadow
+  nameWithType: eSystemColor.ButtonShadow
+  fullName: OfficeOpenXml.Drawing.eSystemColor.ButtonShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ButtonShadow
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nButton Shadow System Color\n"
+  example: []
+  syntax:
+    content: ButtonShadow = 16
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.GrayText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.GrayText
+  id: GrayText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: GrayText
+  nameWithType: eSystemColor.GrayText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.GrayText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrayText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGray Text System Color\n"
+  example: []
+  syntax:
+    content: GrayText = 17
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.ButtonText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.ButtonText
+  id: ButtonText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: ButtonText
+  nameWithType: eSystemColor.ButtonText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.ButtonText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ButtonText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nButton Text System Color\n"
+  example: []
+  syntax:
+    content: ButtonText = 18
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.InactiveCaptionText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.InactiveCaptionText
+  id: InactiveCaptionText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: InactiveCaptionText
+  nameWithType: eSystemColor.InactiveCaptionText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.InactiveCaptionText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InactiveCaptionText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nInactive Caption Text System Color\n"
+  example: []
+  syntax:
+    content: InactiveCaptionText = 19
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.ButtonHighlight
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.ButtonHighlight
+  id: ButtonHighlight
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: ButtonHighlight
+  nameWithType: eSystemColor.ButtonHighlight
+  fullName: OfficeOpenXml.Drawing.eSystemColor.ButtonHighlight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ButtonHighlight
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nButton Highlight System Color\n"
+  example: []
+  syntax:
+    content: ButtonHighlight = 20
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.DarkShadow3d
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.DarkShadow3d
+  id: DarkShadow3d
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: DarkShadow3d
+  nameWithType: eSystemColor.DarkShadow3d
+  fullName: OfficeOpenXml.Drawing.eSystemColor.DarkShadow3d
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkShadow3d
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n3D Dark System Color\n"
+  example: []
+  syntax:
+    content: DarkShadow3d = 21
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.Light3d
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.Light3d
+  id: Light3d
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: Light3d
+  nameWithType: eSystemColor.Light3d
+  fullName: OfficeOpenXml.Drawing.eSystemColor.Light3d
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light3d
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n3D Light System Color\n"
+  example: []
+  syntax:
+    content: Light3d = 22
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.InfoText
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.InfoText
+  id: InfoText
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: InfoText
+  nameWithType: eSystemColor.InfoText
+  fullName: OfficeOpenXml.Drawing.eSystemColor.InfoText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InfoText
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nInfo Text System Color (Tooltip)\n"
+  example: []
+  syntax:
+    content: InfoText = 23
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.InfoBackground
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.InfoBackground
+  id: InfoBackground
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: InfoBackground
+  nameWithType: eSystemColor.InfoBackground
+  fullName: OfficeOpenXml.Drawing.eSystemColor.InfoBackground
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InfoBackground
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nInfo Background System Color (Tooltip)\n"
+  example: []
+  syntax:
+    content: InfoBackground = 24
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.HotLight
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.HotLight
+  id: HotLight
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: HotLight
+  nameWithType: eSystemColor.HotLight
+  fullName: OfficeOpenXml.Drawing.eSystemColor.HotLight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HotLight
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHot Light System Color\n"
+  example: []
+  syntax:
+    content: HotLight = 25
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.GradientActiveCaption
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.GradientActiveCaption
+  id: GradientActiveCaption
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: GradientActiveCaption
+  nameWithType: eSystemColor.GradientActiveCaption
+  fullName: OfficeOpenXml.Drawing.eSystemColor.GradientActiveCaption
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GradientActiveCaption
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGradient Active Caption System Color\n"
+  example: []
+  syntax:
+    content: GradientActiveCaption = 26
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.GradientInactiveCaption
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.GradientInactiveCaption
+  id: GradientInactiveCaption
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: GradientInactiveCaption
+  nameWithType: eSystemColor.GradientInactiveCaption
+  fullName: OfficeOpenXml.Drawing.eSystemColor.GradientInactiveCaption
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GradientInactiveCaption
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGradient Inactive Caption System Color\n"
+  example: []
+  syntax:
+    content: GradientInactiveCaption = 27
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.MenuHighlight
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.MenuHighlight
+  id: MenuHighlight
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: MenuHighlight
+  nameWithType: eSystemColor.MenuHighlight
+  fullName: OfficeOpenXml.Drawing.eSystemColor.MenuHighlight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MenuHighlight
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMenu Highlight System Color\n"
+  example: []
+  syntax:
+    content: MenuHighlight = 28
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eSystemColor.MenuBar
+  commentId: F:OfficeOpenXml.Drawing.eSystemColor.MenuBar
+  id: MenuBar
+  parent: OfficeOpenXml.Drawing.eSystemColor
+  langs:
+  - csharp
+  - vb
+  name: MenuBar
+  nameWithType: eSystemColor.MenuBar
+  fullName: OfficeOpenXml.Drawing.eSystemColor.MenuBar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eSystemColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MenuBar
+    path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMenu Bar System Color\n"
+  example: []
+  syntax:
+    content: MenuBar = 29
+    return:
+      type: OfficeOpenXml.Drawing.eSystemColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eSystemColor
+  commentId: T:OfficeOpenXml.Drawing.eSystemColor
+  parent: OfficeOpenXml.Drawing
+  name: eSystemColor
+  nameWithType: eSystemColor
+  fullName: OfficeOpenXml.Drawing.eSystemColor

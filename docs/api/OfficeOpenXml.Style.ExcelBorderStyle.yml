@@ -1,0 +1,503 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelBorderStyle
+  commentId: T:OfficeOpenXml.Style.ExcelBorderStyle
+  id: ExcelBorderStyle
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelBorderStyle.DashDot
+  - OfficeOpenXml.Style.ExcelBorderStyle.DashDotDot
+  - OfficeOpenXml.Style.ExcelBorderStyle.Dashed
+  - OfficeOpenXml.Style.ExcelBorderStyle.Dotted
+  - OfficeOpenXml.Style.ExcelBorderStyle.Double
+  - OfficeOpenXml.Style.ExcelBorderStyle.Hair
+  - OfficeOpenXml.Style.ExcelBorderStyle.Medium
+  - OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDot
+  - OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDotDot
+  - OfficeOpenXml.Style.ExcelBorderStyle.MediumDashed
+  - OfficeOpenXml.Style.ExcelBorderStyle.None
+  - OfficeOpenXml.Style.ExcelBorderStyle.Thick
+  - OfficeOpenXml.Style.ExcelBorderStyle.Thin
+  langs:
+  - csharp
+  - vb
+  name: ExcelBorderStyle
+  nameWithType: ExcelBorderStyle
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelBorderStyle
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBorder line style\n"
+  example: []
+  syntax:
+    content: public enum ExcelBorderStyle
+    content.vb: Public Enum ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.None
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.None
+  id: None
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ExcelBorderStyle.None
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNo border style\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.Hair
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.Hair
+  id: Hair
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: Hair
+  nameWithType: ExcelBorderStyle.Hair
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.Hair
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hair
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nHairline\n"
+  example: []
+  syntax:
+    content: Hair = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.Dotted
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.Dotted
+  id: Dotted
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: Dotted
+  nameWithType: ExcelBorderStyle.Dotted
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.Dotted
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dotted
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDotted\n"
+  example: []
+  syntax:
+    content: Dotted = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.DashDot
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.DashDot
+  id: DashDot
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: DashDot
+  nameWithType: ExcelBorderStyle.DashDot
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.DashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashDot
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDash Dot\n"
+  example: []
+  syntax:
+    content: DashDot = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.Thin
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.Thin
+  id: Thin
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: Thin
+  nameWithType: ExcelBorderStyle.Thin
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.Thin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Thin
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThin single line\n"
+  example: []
+  syntax:
+    content: Thin = 4
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.DashDotDot
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.DashDotDot
+  id: DashDotDot
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: DashDotDot
+  nameWithType: ExcelBorderStyle.DashDotDot
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.DashDotDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashDotDot
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDash Dot Dot\n"
+  example: []
+  syntax:
+    content: DashDotDot = 5
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.Dashed
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.Dashed
+  id: Dashed
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: Dashed
+  nameWithType: ExcelBorderStyle.Dashed
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.Dashed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dashed
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDashed\n"
+  example: []
+  syntax:
+    content: Dashed = 6
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDotDot
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDotDot
+  id: MediumDashDotDot
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: MediumDashDotDot
+  nameWithType: ExcelBorderStyle.MediumDashDotDot
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDotDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumDashDotDot
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDash Dot Dot, medium thickness\n"
+  example: []
+  syntax:
+    content: MediumDashDotDot = 7
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.MediumDashed
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.MediumDashed
+  id: MediumDashed
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: MediumDashed
+  nameWithType: ExcelBorderStyle.MediumDashed
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.MediumDashed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumDashed
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDashed, medium thickness\n"
+  example: []
+  syntax:
+    content: MediumDashed = 8
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDot
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDot
+  id: MediumDashDot
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: MediumDashDot
+  nameWithType: ExcelBorderStyle.MediumDashDot
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.MediumDashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumDashDot
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDash Dot, medium thickness\n"
+  example: []
+  syntax:
+    content: MediumDashDot = 9
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.Thick
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.Thick
+  id: Thick
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: Thick
+  nameWithType: ExcelBorderStyle.Thick
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.Thick
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Thick
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSingle line, Thick\n"
+  example: []
+  syntax:
+    content: Thick = 10
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.Medium
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.Medium
+  id: Medium
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: Medium
+  nameWithType: ExcelBorderStyle.Medium
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.Medium
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSingle line, medium thickness\n"
+  example: []
+  syntax:
+    content: Medium = 11
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelBorderStyle.Double
+  commentId: F:OfficeOpenXml.Style.ExcelBorderStyle.Double
+  id: Double
+  parent: OfficeOpenXml.Style.ExcelBorderStyle
+  langs:
+  - csharp
+  - vb
+  name: Double
+  nameWithType: ExcelBorderStyle.Double
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle.Double
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelBorderStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Double
+    path: ../src/EPPlus/Style/enums/ExcelBorderStyle.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDouble line\n"
+  example: []
+  syntax:
+    content: Double = 12
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelBorderStyle
+  commentId: T:OfficeOpenXml.Style.ExcelBorderStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelBorderStyle
+  nameWithType: ExcelBorderStyle
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle

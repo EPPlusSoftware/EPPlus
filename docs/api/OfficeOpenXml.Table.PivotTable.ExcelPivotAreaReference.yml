@@ -1,0 +1,554 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference
+  id: ExcelPivotAreaReference
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotAreaReference
+  nameWithType: ExcelPivotAreaReference
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReference.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotAreaReference
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReference.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA reference to a field in a pivot area \n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotAreaReference : ExcelPivotAreaReferenceBase'
+    content.vb: >-
+      Public Class ExcelPivotAreaReference
+          Inherits ExcelPivotAreaReferenceBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  inheritedMembers:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field
+  id: Field
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference
+  langs:
+  - csharp
+  - vb
+  name: Field
+  nameWithType: ExcelPivotAreaReference.Field
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReference.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Field
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReference.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot table field referenced\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableField Field { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    content.vb: Public ReadOnly Property Field As ExcelPivotTableField
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items
+  id: Items
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference
+  langs:
+  - csharp
+  - vb
+  name: Items
+  nameWithType: ExcelPivotAreaReference.Items
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReference.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Items
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReference.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nReferences to the pivot table cache or within the table.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotAreaReferenceItems Items { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+    content.vb: Public ReadOnly Property Items As ExcelPivotAreaReferenceItems
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotAreaReferenceBase
+  nameWithType: ExcelPivotAreaReferenceBase
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: Selected
+  nameWithType: ExcelPivotAreaReferenceBase.Selected
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: DefaultSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.DefaultSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: AvgSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.AvgSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: CountSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.CountSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: CountASubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.CountASubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: MaxSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.MaxSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: MinSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.MinSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: ProductSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.ProductSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: StdDevPSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: StdDevSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.StdDevSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: SumSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.SumSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: VarPSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.VarPSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  name: VarSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.VarSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field
+  name: Field
+  nameWithType: ExcelPivotAreaReference.Field
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Field
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableField
+  nameWithType: ExcelPivotTableField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items
+  name: Items
+  nameWithType: ExcelPivotAreaReference.Items
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference.Items
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotAreaReferenceItems
+  nameWithType: ExcelPivotAreaReferenceItems
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems

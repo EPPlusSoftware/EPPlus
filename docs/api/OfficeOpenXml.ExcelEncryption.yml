@@ -1,0 +1,680 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelEncryption
+  commentId: T:OfficeOpenXml.ExcelEncryption
+  id: ExcelEncryption
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelEncryption.Algorithm
+  - OfficeOpenXml.ExcelEncryption.DecryptPackage(System.IO.Stream,System.String)
+  - OfficeOpenXml.ExcelEncryption.EncryptPackage(System.IO.Stream,System.String,OfficeOpenXml.EncryptionVersion,OfficeOpenXml.EncryptionAlgorithm)
+  - OfficeOpenXml.ExcelEncryption.IsEncrypted
+  - OfficeOpenXml.ExcelEncryption.Password
+  - OfficeOpenXml.ExcelEncryption.Version
+  langs:
+  - csharp
+  - vb
+  name: ExcelEncryption
+  nameWithType: ExcelEncryption
+  fullName: OfficeOpenXml.ExcelEncryption
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelEncryption
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHow and if the workbook is encrypted\n<xref href=\"OfficeOpenXml.ExcelProtection\" data-throw-if-not-resolved=\"false\"></xref> \n<xref href=\"OfficeOpenXml.ExcelSheetProtection\" data-throw-if-not-resolved=\"false\"></xref> \n"
+  example: []
+  syntax:
+    content: public class ExcelEncryption
+    content.vb: Public Class ExcelEncryption
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelEncryption.IsEncrypted
+  commentId: P:OfficeOpenXml.ExcelEncryption.IsEncrypted
+  id: IsEncrypted
+  parent: OfficeOpenXml.ExcelEncryption
+  langs:
+  - csharp
+  - vb
+  name: IsEncrypted
+  nameWithType: ExcelEncryption.IsEncrypted
+  fullName: OfficeOpenXml.ExcelEncryption.IsEncrypted
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsEncrypted
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIs the package encrypted\n"
+  example: []
+  syntax:
+    content: public bool IsEncrypted { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsEncrypted As Boolean
+  overload: OfficeOpenXml.ExcelEncryption.IsEncrypted*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelEncryption.Password
+  commentId: P:OfficeOpenXml.ExcelEncryption.Password
+  id: Password
+  parent: OfficeOpenXml.ExcelEncryption
+  langs:
+  - csharp
+  - vb
+  name: Password
+  nameWithType: ExcelEncryption.Password
+  fullName: OfficeOpenXml.ExcelEncryption.Password
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Password
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe password used to encrypt the workbook.\n"
+  example: []
+  syntax:
+    content: public string Password { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Password As String
+  overload: OfficeOpenXml.ExcelEncryption.Password*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelEncryption.Algorithm
+  commentId: P:OfficeOpenXml.ExcelEncryption.Algorithm
+  id: Algorithm
+  parent: OfficeOpenXml.ExcelEncryption
+  langs:
+  - csharp
+  - vb
+  name: Algorithm
+  nameWithType: ExcelEncryption.Algorithm
+  fullName: OfficeOpenXml.ExcelEncryption.Algorithm
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Algorithm
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAlgorithm used for encrypting the package. Default is AES 128-bit for standard and AES 256 for agile\n"
+  example: []
+  syntax:
+    content: public EncryptionAlgorithm Algorithm { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.EncryptionAlgorithm
+    content.vb: Public Property Algorithm As EncryptionAlgorithm
+  overload: OfficeOpenXml.ExcelEncryption.Algorithm*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelEncryption.Version
+  commentId: P:OfficeOpenXml.ExcelEncryption.Version
+  id: Version
+  parent: OfficeOpenXml.ExcelEncryption
+  langs:
+  - csharp
+  - vb
+  name: Version
+  nameWithType: ExcelEncryption.Version
+  fullName: OfficeOpenXml.ExcelEncryption.Version
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Version
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe version of the encryption.        \n"
+  example: []
+  syntax:
+    content: public EncryptionVersion Version { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.EncryptionVersion
+    content.vb: Public Property Version As EncryptionVersion
+  overload: OfficeOpenXml.ExcelEncryption.Version*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelEncryption.EncryptPackage(System.IO.Stream,System.String,OfficeOpenXml.EncryptionVersion,OfficeOpenXml.EncryptionAlgorithm)
+  commentId: M:OfficeOpenXml.ExcelEncryption.EncryptPackage(System.IO.Stream,System.String,OfficeOpenXml.EncryptionVersion,OfficeOpenXml.EncryptionAlgorithm)
+  id: EncryptPackage(System.IO.Stream,System.String,OfficeOpenXml.EncryptionVersion,OfficeOpenXml.EncryptionAlgorithm)
+  parent: OfficeOpenXml.ExcelEncryption
+  langs:
+  - csharp
+  - vb
+  name: EncryptPackage(Stream, String, EncryptionVersion, EncryptionAlgorithm)
+  nameWithType: ExcelEncryption.EncryptPackage(Stream, String, EncryptionVersion, EncryptionAlgorithm)
+  fullName: OfficeOpenXml.ExcelEncryption.EncryptPackage(System.IO.Stream, System.String, OfficeOpenXml.EncryptionVersion, OfficeOpenXml.EncryptionAlgorithm)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EncryptPackage
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nEncrypts a stream using the office encryption.\n"
+  example: []
+  syntax:
+    content: public static MemoryStream EncryptPackage(Stream stream, string password, EncryptionVersion encryptionVersion = EncryptionVersion.Agile, EncryptionAlgorithm algorithm = EncryptionAlgorithm.AES256)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream containing the non-encrypted package.
+    - id: password
+      type: System.String
+      description: The password to encrypt with
+    - id: encryptionVersion
+      type: OfficeOpenXml.EncryptionVersion
+      description: The encryption version
+    - id: algorithm
+      type: OfficeOpenXml.EncryptionAlgorithm
+      description: The algorithm to use for the encryption
+    return:
+      type: System.IO.MemoryStream
+      description: A MemoryStream containing the encypted package
+    content.vb: Public Shared Function EncryptPackage(stream As Stream, password As String, encryptionVersion As EncryptionVersion = EncryptionVersion.Agile, algorithm As EncryptionAlgorithm = EncryptionAlgorithm.AES256) As MemoryStream
+  overload: OfficeOpenXml.ExcelEncryption.EncryptPackage*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelEncryption.DecryptPackage(System.IO.Stream,System.String)
+  commentId: M:OfficeOpenXml.ExcelEncryption.DecryptPackage(System.IO.Stream,System.String)
+  id: DecryptPackage(System.IO.Stream,System.String)
+  parent: OfficeOpenXml.ExcelEncryption
+  langs:
+  - csharp
+  - vb
+  name: DecryptPackage(Stream, String)
+  nameWithType: ExcelEncryption.DecryptPackage(Stream, String)
+  fullName: OfficeOpenXml.ExcelEncryption.DecryptPackage(System.IO.Stream, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DecryptPackage
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDecrypts a stream using the office encryption.\n"
+  example: []
+  syntax:
+    content: public static MemoryStream DecryptPackage(Stream stream, string password)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream containing the encrypted package.
+    - id: password
+      type: System.String
+      description: The password to decrypt with
+    return:
+      type: System.IO.MemoryStream
+      description: A memorystream with the encypted package
+    content.vb: Public Shared Function DecryptPackage(stream As Stream, password As String) As MemoryStream
+  overload: OfficeOpenXml.ExcelEncryption.DecryptPackage*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: OfficeOpenXml.ExcelProtection
+  commentId: T:OfficeOpenXml.ExcelProtection
+  parent: OfficeOpenXml
+  name: ExcelProtection
+  nameWithType: ExcelProtection
+  fullName: OfficeOpenXml.ExcelProtection
+- uid: OfficeOpenXml.ExcelSheetProtection
+  commentId: T:OfficeOpenXml.ExcelSheetProtection
+  parent: OfficeOpenXml
+  name: ExcelSheetProtection
+  nameWithType: ExcelSheetProtection
+  fullName: OfficeOpenXml.ExcelSheetProtection
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelEncryption.IsEncrypted*
+  commentId: Overload:OfficeOpenXml.ExcelEncryption.IsEncrypted
+  name: IsEncrypted
+  nameWithType: ExcelEncryption.IsEncrypted
+  fullName: OfficeOpenXml.ExcelEncryption.IsEncrypted
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelEncryption.Password*
+  commentId: Overload:OfficeOpenXml.ExcelEncryption.Password
+  name: Password
+  nameWithType: ExcelEncryption.Password
+  fullName: OfficeOpenXml.ExcelEncryption.Password
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelEncryption.Algorithm*
+  commentId: Overload:OfficeOpenXml.ExcelEncryption.Algorithm
+  name: Algorithm
+  nameWithType: ExcelEncryption.Algorithm
+  fullName: OfficeOpenXml.ExcelEncryption.Algorithm
+- uid: OfficeOpenXml.EncryptionAlgorithm
+  commentId: T:OfficeOpenXml.EncryptionAlgorithm
+  parent: OfficeOpenXml
+  name: EncryptionAlgorithm
+  nameWithType: EncryptionAlgorithm
+  fullName: OfficeOpenXml.EncryptionAlgorithm
+- uid: OfficeOpenXml.ExcelEncryption.Version*
+  commentId: Overload:OfficeOpenXml.ExcelEncryption.Version
+  name: Version
+  nameWithType: ExcelEncryption.Version
+  fullName: OfficeOpenXml.ExcelEncryption.Version
+- uid: OfficeOpenXml.EncryptionVersion
+  commentId: T:OfficeOpenXml.EncryptionVersion
+  parent: OfficeOpenXml
+  name: EncryptionVersion
+  nameWithType: EncryptionVersion
+  fullName: OfficeOpenXml.EncryptionVersion
+- uid: OfficeOpenXml.ExcelEncryption.EncryptPackage*
+  commentId: Overload:OfficeOpenXml.ExcelEncryption.EncryptPackage
+  name: EncryptPackage
+  nameWithType: ExcelEncryption.EncryptPackage
+  fullName: OfficeOpenXml.ExcelEncryption.EncryptPackage
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System.IO.MemoryStream
+  commentId: T:System.IO.MemoryStream
+  parent: System.IO
+  isExternal: true
+  name: MemoryStream
+  nameWithType: MemoryStream
+  fullName: System.IO.MemoryStream
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.ExcelEncryption.DecryptPackage*
+  commentId: Overload:OfficeOpenXml.ExcelEncryption.DecryptPackage
+  name: DecryptPackage
+  nameWithType: ExcelEncryption.DecryptPackage
+  fullName: OfficeOpenXml.ExcelEncryption.DecryptPackage

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.eDxfFillStyle
+  commentId: T:OfficeOpenXml.Style.eDxfFillStyle
+  id: eDxfFillStyle
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.eDxfFillStyle.GradientFill
+  - OfficeOpenXml.Style.eDxfFillStyle.PatternFill
+  langs:
+  - csharp
+  - vb
+  name: eDxfFillStyle
+  nameWithType: eDxfFillStyle
+  fullName: OfficeOpenXml.Style.eDxfFillStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eDxfFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDxfFillStyle
+    path: ../src/EPPlus/Style/enums/eDxfFillStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFill style for a differential style\n"
+  example: []
+  syntax:
+    content: public enum eDxfFillStyle
+    content.vb: Public Enum eDxfFillStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.eDxfFillStyle.PatternFill
+  commentId: F:OfficeOpenXml.Style.eDxfFillStyle.PatternFill
+  id: PatternFill
+  parent: OfficeOpenXml.Style.eDxfFillStyle
+  langs:
+  - csharp
+  - vb
+  name: PatternFill
+  nameWithType: eDxfFillStyle.PatternFill
+  fullName: OfficeOpenXml.Style.eDxfFillStyle.PatternFill
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eDxfFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PatternFill
+    path: ../src/EPPlus/Style/enums/eDxfFillStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFill using the selected pattern and color\n"
+  example: []
+  syntax:
+    content: PatternFill = 0
+    return:
+      type: OfficeOpenXml.Style.eDxfFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eDxfFillStyle.GradientFill
+  commentId: F:OfficeOpenXml.Style.eDxfFillStyle.GradientFill
+  id: GradientFill
+  parent: OfficeOpenXml.Style.eDxfFillStyle
+  langs:
+  - csharp
+  - vb
+  name: GradientFill
+  nameWithType: eDxfFillStyle.GradientFill
+  fullName: OfficeOpenXml.Style.eDxfFillStyle.GradientFill
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eDxfFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GradientFill
+    path: ../src/EPPlus/Style/enums/eDxfFillStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA gradient fill using multiple colors.        \n"
+  example: []
+  syntax:
+    content: GradientFill = 1
+    return:
+      type: OfficeOpenXml.Style.eDxfFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.eDxfFillStyle
+  commentId: T:OfficeOpenXml.Style.eDxfFillStyle
+  parent: OfficeOpenXml.Style
+  name: eDxfFillStyle
+  nameWithType: eDxfFillStyle
+  fullName: OfficeOpenXml.Style.eDxfFillStyle

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eErrorBarDirection
+  commentId: T:OfficeOpenXml.Drawing.eErrorBarDirection
+  id: eErrorBarDirection
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eErrorBarDirection.X
+  - OfficeOpenXml.Drawing.eErrorBarDirection.Y
+  langs:
+  - csharp
+  - vb
+  name: eErrorBarDirection
+  nameWithType: eErrorBarDirection
+  fullName: OfficeOpenXml.Drawing.eErrorBarDirection
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eErrorBarDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eErrorBarDirection
+    path: ../src/EPPlus/Drawing/Enums/eErrorBarDirection.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe possible directions for error bars\n"
+  example: []
+  syntax:
+    content: public enum eErrorBarDirection
+    content.vb: Public Enum eErrorBarDirection
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eErrorBarDirection.X
+  commentId: F:OfficeOpenXml.Drawing.eErrorBarDirection.X
+  id: X
+  parent: OfficeOpenXml.Drawing.eErrorBarDirection
+  langs:
+  - csharp
+  - vb
+  name: X
+  nameWithType: eErrorBarDirection.X
+  fullName: OfficeOpenXml.Drawing.eErrorBarDirection.X
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eErrorBarDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: X
+    path: ../src/EPPlus/Drawing/Enums/eErrorBarDirection.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nError bars will be shown in the x direction\n"
+  example: []
+  syntax:
+    content: X = 0
+    return:
+      type: OfficeOpenXml.Drawing.eErrorBarDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eErrorBarDirection.Y
+  commentId: F:OfficeOpenXml.Drawing.eErrorBarDirection.Y
+  id: Y
+  parent: OfficeOpenXml.Drawing.eErrorBarDirection
+  langs:
+  - csharp
+  - vb
+  name: Y
+  nameWithType: eErrorBarDirection.Y
+  fullName: OfficeOpenXml.Drawing.eErrorBarDirection.Y
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eErrorBarDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Y
+    path: ../src/EPPlus/Drawing/Enums/eErrorBarDirection.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nError bars will be shown in the y direction\n"
+  example: []
+  syntax:
+    content: Y = 1
+    return:
+      type: OfficeOpenXml.Drawing.eErrorBarDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eErrorBarDirection
+  commentId: T:OfficeOpenXml.Drawing.eErrorBarDirection
+  parent: OfficeOpenXml.Drawing
+  name: eErrorBarDirection
+  nameWithType: eErrorBarDirection
+  fullName: OfficeOpenXml.Drawing.eErrorBarDirection

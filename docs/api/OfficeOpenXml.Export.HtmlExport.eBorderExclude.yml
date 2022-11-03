@@ -1,0 +1,233 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  id: eBorderExclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.eBorderExclude.All
+  - OfficeOpenXml.Export.HtmlExport.eBorderExclude.Bottom
+  - OfficeOpenXml.Export.HtmlExport.eBorderExclude.Left
+  - OfficeOpenXml.Export.HtmlExport.eBorderExclude.Right
+  - OfficeOpenXml.Export.HtmlExport.eBorderExclude.Top
+  langs:
+  - csharp
+  - vb
+  name: eBorderExclude
+  nameWithType: eBorderExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eBorderExclude
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude border properties in the css\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum eBorderExclude
+    content.vb: >-
+      <Flags>
+
+      Public Enum eBorderExclude
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude.All
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eBorderExclude.All
+  id: All
+  parent: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: eBorderExclude.All
+  fullName: OfficeOpenXml.Export.HtmlExport.eBorderExclude.All
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: All
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude all border properties.\n"
+  example: []
+  syntax:
+    content: All = 15
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Top
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eBorderExclude.Top
+  id: Top
+  parent: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eBorderExclude.Top
+  fullName: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude top border properties\n"
+  example: []
+  syntax:
+    content: Top = 1
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Bottom
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eBorderExclude.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eBorderExclude.Bottom
+  fullName: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude bottom border properties\n"
+  example: []
+  syntax:
+    content: Bottom = 2
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Left
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eBorderExclude.Left
+  id: Left
+  parent: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eBorderExclude.Left
+  fullName: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude left border properties\n"
+  example: []
+  syntax:
+    content: Left = 4
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Right
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eBorderExclude.Right
+  id: Right
+  parent: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eBorderExclude.Right
+  fullName: OfficeOpenXml.Export.HtmlExport.eBorderExclude.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eBorderExclude.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude right border properties\n"
+  example: []
+  syntax:
+    content: Right = 8
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eBorderExclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: eBorderExclude
+  nameWithType: eBorderExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.eBorderExclude

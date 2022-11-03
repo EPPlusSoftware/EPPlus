@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Configuration
+  commentId: N:OfficeOpenXml.Configuration
+  id: OfficeOpenXml.Configuration
+  children:
+  - OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Configuration
+  nameWithType: OfficeOpenXml.Configuration
+  fullName: OfficeOpenXml.Configuration
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  commentId: T:OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  name: ExcelPackageConfiguration
+  nameWithType: ExcelPackageConfiguration
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration

@@ -267,7 +267,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 foreach (var sf in ws._sharedFormulas.Values)
                 {
                     //Do not convert array formulas.
-                    if (sf.IsArray == false && (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0))
+                    if (sf.FormulaType == ExcelWorksheet.FormulaType.Shared && (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0))
                     {
                         if (ConvertEffectedSharedFormulaIfReferenceWithinRange(ws, range, sf, wsUpdate.Name))
                         {

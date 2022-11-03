@@ -73,6 +73,7 @@ namespace OfficeOpenXml.Drawing
         {
             //Create relationship
             node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
+            
             if (type == ePictureType.Svg)
             {
                 node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relID;

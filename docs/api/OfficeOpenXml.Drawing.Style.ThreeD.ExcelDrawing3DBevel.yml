@@ -1,0 +1,505 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  id: ExcelDrawing3DBevel
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  children:
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawing3DBevel
+  nameWithType: ExcelDrawing3DBevel
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawing3DBevel
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nDefines a bevel off a shape\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawing3DBevel : XmlHelper'
+    content.vb: >-
+      Public Class ExcelDrawing3DBevel
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width
+  id: Width
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: ExcelDrawing3DBevel.Width
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Width
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe width of the bevel in points (pt)\n"
+  example: []
+  syntax:
+    content: public double Width { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Width As Double
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height
+  id: Height
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: ExcelDrawing3DBevel.Height
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Height
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe height of the bevel in points (pt)\n"
+  example: []
+  syntax:
+    content: public double Height { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Height As Double
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType
+  id: BevelType
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  langs:
+  - csharp
+  - vb
+  name: BevelType
+  nameWithType: ExcelDrawing3DBevel.BevelType
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BevelType
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DBevel.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nA preset bevel that can be applied to a shape.\n"
+  example: []
+  syntax:
+    content: public eBevelPresetType BevelType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.eBevelPresetType
+    content.vb: Public Property BevelType As eBevelPresetType
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Style.ThreeD
+  commentId: N:OfficeOpenXml.Drawing.Style.ThreeD
+  name: OfficeOpenXml.Drawing.Style.ThreeD
+  nameWithType: OfficeOpenXml.Drawing.Style.ThreeD
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width
+  name: Width
+  nameWithType: ExcelDrawing3DBevel.Width
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Width
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height
+  name: Height
+  nameWithType: ExcelDrawing3DBevel.Height
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.Height
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType
+  name: BevelType
+  nameWithType: ExcelDrawing3DBevel.BevelType
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel.BevelType
+- uid: OfficeOpenXml.Drawing.eBevelPresetType
+  commentId: T:OfficeOpenXml.Drawing.eBevelPresetType
+  parent: OfficeOpenXml.Drawing
+  name: eBevelPresetType
+  nameWithType: eBevelPresetType
+  fullName: OfficeOpenXml.Drawing.eBevelPresetType
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing

@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  id: eExcelconditionalFormatting4IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Arrows
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.ArrowsGray
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Rating
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.RedToBlack
+  - OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.TrafficLights
+  langs:
+  - csharp
+  - vb
+  name: eExcelconditionalFormatting4IconsSetType
+  nameWithType: eExcelconditionalFormatting4IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelconditionalFormatting4IconsSetType
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 596
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n18.18.42 ST_IconSetType (Icon Set Type) - Only 4 icons\n"
+  example: []
+  syntax:
+    content: public enum eExcelconditionalFormatting4IconsSetType
+    content.vb: Public Enum eExcelconditionalFormatting4IconsSetType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Arrows
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Arrows
+  id: Arrows
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  langs:
+  - csharp
+  - vb
+  name: Arrows
+  nameWithType: eExcelconditionalFormatting4IconsSetType.Arrows
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Arrows
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Arrows
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 601
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n(4 Arrows) 4 arrows icon set.\n"
+  example: []
+  syntax:
+    content: Arrows = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.ArrowsGray
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.ArrowsGray
+  id: ArrowsGray
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  langs:
+  - csharp
+  - vb
+  name: ArrowsGray
+  nameWithType: eExcelconditionalFormatting4IconsSetType.ArrowsGray
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.ArrowsGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ArrowsGray
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 606
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n(4 Arrows (Gray)) 4 gray arrows icon set.\n"
+  example: []
+  syntax:
+    content: ArrowsGray = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Rating
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Rating
+  id: Rating
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  langs:
+  - csharp
+  - vb
+  name: Rating
+  nameWithType: eExcelconditionalFormatting4IconsSetType.Rating
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.Rating
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rating
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 611
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n(4 Ratings) 4 ratings icon set.\n"
+  example: []
+  syntax:
+    content: Rating = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.RedToBlack
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.RedToBlack
+  id: RedToBlack
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  langs:
+  - csharp
+  - vb
+  name: RedToBlack
+  nameWithType: eExcelconditionalFormatting4IconsSetType.RedToBlack
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.RedToBlack
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RedToBlack
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 616
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n(4 Red To Black) 4 &apos;red to black&apos; icon set.\n"
+  example: []
+  syntax:
+    content: RedToBlack = 3
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.TrafficLights
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.TrafficLights
+  id: TrafficLights
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  langs:
+  - csharp
+  - vb
+  name: TrafficLights
+  nameWithType: eExcelconditionalFormatting4IconsSetType.TrafficLights
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType.TrafficLights
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TrafficLights
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 621
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n(4 Traffic Lights) 4 traffic lights icon set.\n"
+  example: []
+  syntax:
+    content: TrafficLights = 4
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormatting4IconsSetType
+  nameWithType: eExcelconditionalFormatting4IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType

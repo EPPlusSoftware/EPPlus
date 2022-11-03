@@ -1,0 +1,638 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend
+  id: ExcelChartExLegend
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExLegend
+  nameWithType: ExcelChartExLegend
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExLegend
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+    startLine: 11
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA legend for an Extended chart\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExLegend : ExcelChartLegend'
+    content.vb: >-
+      Public Class ExcelChartExLegend
+          Inherits ExcelChartLegend
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Entries
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Overlay
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Font
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+  id: PositionAlignment
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend
+  langs:
+  - csharp
+  - vb
+  name: PositionAlignment
+  nameWithType: ExcelChartExLegend.PositionAlignment
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PositionAlignment
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe side position alignment of the legend\n"
+  example: []
+  syntax:
+    content: public ePositionAlign PositionAlignment { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+    content.vb: Public Property PositionAlignment As ePositionAlign
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+  id: Position
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: ExcelChartExLegend.Position
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Position
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe position of the Legend.\n"
+  remarks: Setting the Position to TopRight will set the <xref href="OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position" data-throw-if-not-resolved="false"></xref> to Right and the <xref href="OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment" data-throw-if-not-resolved="false"></xref> to Min
+  example: []
+  syntax:
+    content: public override eLegendPosition Position { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLegendPosition
+    content.vb: Public Overrides Property Position As eLegendPosition
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Position
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add
+  id: Add
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend
+  langs:
+  - csharp
+  - vb
+  name: Add()
+  nameWithType: ExcelChartExLegend.Add()
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExLegend.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nAdds a legend to the chart\n"
+  example: []
+  syntax:
+    content: public override void Add()
+    content.vb: Public Overrides Sub Add
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartLegend
+  nameWithType: ExcelChartLegend
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Entries
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Entries
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Entries
+  nameWithType: ExcelChartLegend.Entries
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Entries
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Overlay
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Overlay
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Overlay
+  nameWithType: ExcelChartLegend.Overlay
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Overlay
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Fill
+  nameWithType: ExcelChartLegend.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Border
+  nameWithType: ExcelChartLegend.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Font
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Font
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Font
+  nameWithType: ExcelChartLegend.Font
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Font
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextBody
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextBody
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: TextBody
+  nameWithType: ExcelChartLegend.TextBody
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.TextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Effect
+  nameWithType: ExcelChartLegend.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: ThreeD
+  nameWithType: ExcelChartLegend.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.ThreeD
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Remove()
+  nameWithType: ExcelChartLegend.Remove()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
+    name: Remove
+    nameWithType: ExcelChartLegend.Remove
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
+    name: Remove
+    nameWithType: ExcelChartLegend.Remove
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Remove
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+  name: PositionAlignment
+  nameWithType: ExcelChartExLegend.PositionAlignment
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ePositionAlign
+  nameWithType: ePositionAlign
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.PositionAlignment
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Position
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Position
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Position
+  nameWithType: ExcelChartLegend.Position
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Position
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+  name: Position
+  nameWithType: ExcelChartExLegend.Position
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Position
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLegendPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLegendPosition
+  nameWithType: eLegendPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  name: Add()
+  nameWithType: ExcelChartLegend.Add()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add
+    name: Add
+    nameWithType: ExcelChartLegend.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add
+    name: Add
+    nameWithType: ExcelChartLegend.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartLegend.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add
+  name: Add
+  nameWithType: ExcelChartExLegend.Add
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend.Add

@@ -1,0 +1,986 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  id: FillDateParams
+  parent: OfficeOpenXml.Core.Worksheet.Fill
+  children:
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.Collections.Generic.IEnumerable{System.DateTime})
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.DateTime[])
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays(System.DayOfWeek[])
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue
+  langs:
+  - csharp
+  - vb
+  name: FillDateParams
+  nameWithType: FillDateParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FillDateParams
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nParameters for the <xref href=\"OfficeOpenXml.ExcelRangeBase.FillDateTime(System.Action%7bOfficeOpenXml.Core.Worksheet.Fill.FillDateParams%7d)\" data-throw-if-not-resolved=\"false\"></xref> method \n"
+  example: []
+  syntax:
+    content: 'public class FillDateParams : FillParams'
+    content.vb: >-
+      Public Class FillDateParams
+          Inherits FillParams
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  inheritedMembers:
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue
+  id: StartValue
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  langs:
+  - csharp
+  - vb
+  name: StartValue
+  nameWithType: FillDateParams.StartValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StartValue
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nThe start value. If null, the first value in the row/column is used. \n<xref href=\"OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public DateTime? StartValue { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.DateTime}
+    content.vb: Public Property StartValue As Date?
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue
+  id: EndValue
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  langs:
+  - csharp
+  - vb
+  name: EndValue
+  nameWithType: FillDateParams.EndValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndValue
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nWhen this value is exceeded the fill stops\n"
+  example: []
+  syntax:
+    content: public DateTime? EndValue { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.DateTime}
+    content.vb: Public Property EndValue As Date?
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue
+  id: StepValue
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  langs:
+  - csharp
+  - vb
+  name: StepValue
+  nameWithType: FillDateParams.StepValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StepValue
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nThe value to add for each step. \n"
+  example: []
+  syntax:
+    content: public int StepValue { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property StepValue As Integer
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit
+  id: DateTimeUnit
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  langs:
+  - csharp
+  - vb
+  name: DateTimeUnit
+  nameWithType: FillDateParams.DateTimeUnit
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateTimeUnit
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nThe date unit added per cell\n"
+  example: []
+  syntax:
+    content: public eDateTimeUnit DateTimeUnit { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+    content.vb: Public Property DateTimeUnit As eDateTimeUnit
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays(System.DayOfWeek[])
+  commentId: M:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays(System.DayOfWeek[])
+  id: SetExcludedWeekdays(System.DayOfWeek[])
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  langs:
+  - csharp
+  - vb
+  name: SetExcludedWeekdays(DayOfWeek[])
+  nameWithType: FillDateParams.SetExcludedWeekdays(DayOfWeek[])
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays(System.DayOfWeek[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetExcludedWeekdays
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nExcludes the week days supplied\n"
+  example: []
+  syntax:
+    content: public void SetExcludedWeekdays(params DayOfWeek[] weekdays)
+    parameters:
+    - id: weekdays
+      type: System.DayOfWeek[]
+      description: The excluded week days
+    content.vb: Public Sub SetExcludedWeekdays(ParamArray weekdays As DayOfWeek())
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays*
+  nameWithType.vb: FillDateParams.SetExcludedWeekdays(DayOfWeek())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays(System.DayOfWeek())
+  name.vb: SetExcludedWeekdays(DayOfWeek())
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.DateTime[])
+  commentId: M:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.DateTime[])
+  id: SetExcludedDates(System.DateTime[])
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  langs:
+  - csharp
+  - vb
+  name: SetExcludedDates(DateTime[])
+  nameWithType: FillDateParams.SetExcludedDates(DateTime[])
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.DateTime[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetExcludedDates
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nExcludes the dates supplied\n"
+  example: []
+  syntax:
+    content: public void SetExcludedDates(params DateTime[] holidayDates)
+    parameters:
+    - id: holidayDates
+      type: System.DateTime[]
+      description: The dates treated as week days
+    content.vb: Public Sub SetExcludedDates(ParamArray holidayDates As Date())
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates*
+  nameWithType.vb: FillDateParams.SetExcludedDates(DateTime())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.DateTime())
+  name.vb: SetExcludedDates(DateTime())
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.Collections.Generic.IEnumerable{System.DateTime})
+  commentId: M:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.Collections.Generic.IEnumerable{System.DateTime})
+  id: SetExcludedDates(System.Collections.Generic.IEnumerable{System.DateTime})
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  langs:
+  - csharp
+  - vb
+  name: SetExcludedDates(IEnumerable<DateTime>)
+  nameWithType: FillDateParams.SetExcludedDates(IEnumerable<DateTime>)
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.Collections.Generic.IEnumerable<System.DateTime>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetExcludedDates
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nExcludes the dates supplied\n"
+  example: []
+  syntax:
+    content: public void SetExcludedDates(IEnumerable<DateTime> holidayDates)
+    parameters:
+    - id: holidayDates
+      type: System.Collections.Generic.IEnumerable{System.DateTime}
+      description: The dates treated as week days
+    content.vb: Public Sub SetExcludedDates(holidayDates As IEnumerable(Of Date))
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates*
+  nameWithType.vb: FillDateParams.SetExcludedDates(IEnumerable(Of DateTime))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates(System.Collections.Generic.IEnumerable(Of System.DateTime))
+  name.vb: SetExcludedDates(IEnumerable(Of DateTime))
+references:
+- uid: OfficeOpenXml.ExcelRangeBase.FillDateTime(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillDateParams})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.FillDateTime(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillDateParams})
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: FillDateTime(Action<FillDateParams>)
+  nameWithType: ExcelRangeBase.FillDateTime(Action<FillDateParams>)
+  fullName: OfficeOpenXml.ExcelRangeBase.FillDateTime(System.Action<OfficeOpenXml.Core.Worksheet.Fill.FillDateParams>)
+  nameWithType.vb: ExcelRangeBase.FillDateTime(Action(Of FillDateParams))
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.FillDateTime(System.Action(Of OfficeOpenXml.Core.Worksheet.Fill.FillDateParams))
+  name.vb: FillDateTime(Action(Of FillDateParams))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.FillDateTime(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillDateParams})
+    name: FillDateTime
+    nameWithType: ExcelRangeBase.FillDateTime
+    fullName: OfficeOpenXml.ExcelRangeBase.FillDateTime
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+    name: FillDateParams
+    nameWithType: FillDateParams
+    fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.FillDateTime(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillDateParams})
+    name: FillDateTime
+    nameWithType: ExcelRangeBase.FillDateTime
+    fullName: OfficeOpenXml.ExcelRangeBase.FillDateTime
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+    name: FillDateParams
+    nameWithType: FillDateParams
+    fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.Worksheet.Fill
+  commentId: N:OfficeOpenXml.Core.Worksheet.Fill
+  name: OfficeOpenXml.Core.Worksheet.Fill
+  nameWithType: OfficeOpenXml.Core.Worksheet.Fill
+  fullName: OfficeOpenXml.Core.Worksheet.Fill
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  parent: OfficeOpenXml.Core.Worksheet.Fill
+  name: FillParams
+  nameWithType: FillParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  name: StartPosition
+  nameWithType: FillParams.StartPosition
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  name: Direction
+  nameWithType: FillParams.Direction
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  name: NumberFormat
+  nameWithType: FillParams.NumberFormat
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue
+  name: StartValue
+  nameWithType: FillDateParams.StartValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StartValue
+- uid: System.Nullable{System.DateTime}
+  commentId: T:System.Nullable{System.DateTime}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<DateTime>
+  nameWithType: Nullable<DateTime>
+  fullName: System.Nullable<System.DateTime>
+  nameWithType.vb: Nullable(Of DateTime)
+  fullName.vb: System.Nullable(Of System.DateTime)
+  name.vb: Nullable(Of DateTime)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue
+  name: EndValue
+  nameWithType: FillDateParams.EndValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.EndValue
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue
+  name: StepValue
+  nameWithType: FillDateParams.StepValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.StepValue
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit
+  name: DateTimeUnit
+  nameWithType: FillDateParams.DateTimeUnit
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.DateTimeUnit
+- uid: OfficeOpenXml.eDateTimeUnit
+  commentId: T:OfficeOpenXml.eDateTimeUnit
+  parent: OfficeOpenXml
+  name: eDateTimeUnit
+  nameWithType: eDateTimeUnit
+  fullName: OfficeOpenXml.eDateTimeUnit
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays
+  name: SetExcludedWeekdays
+  nameWithType: FillDateParams.SetExcludedWeekdays
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedWeekdays
+- uid: System.DayOfWeek[]
+  isExternal: true
+  name: DayOfWeek[]
+  nameWithType: DayOfWeek[]
+  fullName: System.DayOfWeek[]
+  nameWithType.vb: DayOfWeek()
+  fullName.vb: System.DayOfWeek()
+  name.vb: DayOfWeek()
+  spec.csharp:
+  - uid: System.DayOfWeek
+    name: DayOfWeek
+    nameWithType: DayOfWeek
+    fullName: System.DayOfWeek
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.DayOfWeek
+    name: DayOfWeek
+    nameWithType: DayOfWeek
+    fullName: System.DayOfWeek
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates
+  name: SetExcludedDates
+  nameWithType: FillDateParams.SetExcludedDates
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams.SetExcludedDates
+- uid: System.DateTime[]
+  isExternal: true
+  name: DateTime[]
+  nameWithType: DateTime[]
+  fullName: System.DateTime[]
+  nameWithType.vb: DateTime()
+  fullName.vb: System.DateTime()
+  name.vb: DateTime()
+  spec.csharp:
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.Collections.Generic.IEnumerable{System.DateTime}
+  commentId: T:System.Collections.Generic.IEnumerable{System.DateTime}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<DateTime>
+  nameWithType: IEnumerable<DateTime>
+  fullName: System.Collections.Generic.IEnumerable<System.DateTime>
+  nameWithType.vb: IEnumerable(Of DateTime)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.DateTime)
+  name.vb: IEnumerable(Of DateTime)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.DateTime
+    name: DateTime
+    nameWithType: DateTime
+    fullName: System.DateTime
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic

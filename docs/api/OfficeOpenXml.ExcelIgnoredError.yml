@@ -1,0 +1,796 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelIgnoredError
+  commentId: T:OfficeOpenXml.ExcelIgnoredError
+  id: ExcelIgnoredError
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelIgnoredError.Address
+  - OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+  - OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
+  - OfficeOpenXml.ExcelIgnoredError.EvaluationError
+  - OfficeOpenXml.ExcelIgnoredError.Formula
+  - OfficeOpenXml.ExcelIgnoredError.FormulaRange
+  - OfficeOpenXml.ExcelIgnoredError.ListDataValidation
+  - OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText
+  - OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear
+  - OfficeOpenXml.ExcelIgnoredError.UnlockedFormula
+  langs:
+  - csharp
+  - vb
+  name: ExcelIgnoredError
+  nameWithType: ExcelIgnoredError
+  fullName: OfficeOpenXml.ExcelIgnoredError
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelIgnoredError
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nError ignore options for a worksheet\n"
+  example: []
+  syntax:
+    content: 'public class ExcelIgnoredError : XmlHelper'
+    content.vb: >-
+      Public Class ExcelIgnoredError
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText
+  id: NumberStoredAsText
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: NumberStoredAsText
+  nameWithType: ExcelIgnoredError.NumberStoredAsText
+  fullName: OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberStoredAsText
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when numbers are formatted as text or are preceded by an apostrophe\n"
+  example: []
+  syntax:
+    content: public bool NumberStoredAsText { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property NumberStoredAsText As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+  id: CalculatedColumm
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: CalculatedColumm
+  nameWithType: ExcelIgnoredError.CalculatedColumm
+  fullName: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CalculatedColumm
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculated Column\n"
+  example: []
+  syntax:
+    content: public bool CalculatedColumm { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CalculatedColumm As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
+  id: EmptyCellReference
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: EmptyCellReference
+  nameWithType: ExcelIgnoredError.EmptyCellReference
+  fullName: OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EmptyCellReference
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when a formula refers an empty cell\n"
+  example: []
+  syntax:
+    content: public bool EmptyCellReference { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property EmptyCellReference As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.EmptyCellReference*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.EvaluationError
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.EvaluationError
+  id: EvaluationError
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: EvaluationError
+  nameWithType: ExcelIgnoredError.EvaluationError
+  fullName: OfficeOpenXml.ExcelIgnoredError.EvaluationError
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EvaluationError
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when formulas fail to Evaluate\n"
+  example: []
+  syntax:
+    content: public bool EvaluationError { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property EvaluationError As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.EvaluationError*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.Formula
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.Formula
+  id: Formula
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: ExcelIgnoredError.Formula
+  fullName: OfficeOpenXml.ExcelIgnoredError.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when a formula in a region of your worksheet differs from other formulas in the same region.\n"
+  example: []
+  syntax:
+    content: public bool Formula { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Formula As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.Formula*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.FormulaRange
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.FormulaRange
+  id: FormulaRange
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: FormulaRange
+  nameWithType: ExcelIgnoredError.FormulaRange
+  fullName: OfficeOpenXml.ExcelIgnoredError.FormulaRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormulaRange
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when formulas omit certain cells in a region.\n"
+  example: []
+  syntax:
+    content: public bool FormulaRange { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FormulaRange As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.FormulaRange*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.ListDataValidation
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.ListDataValidation
+  id: ListDataValidation
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: ListDataValidation
+  nameWithType: ExcelIgnoredError.ListDataValidation
+  fullName: OfficeOpenXml.ExcelIgnoredError.ListDataValidation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ListDataValidation
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when a cell&apos;s value in a Table does not comply with the Data Validation rules specified\n"
+  example: []
+  syntax:
+    content: public bool ListDataValidation { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ListDataValidation As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.ListDataValidation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.Address
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.Address
+  id: Address
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExcelIgnoredError.Address
+  fullName: OfficeOpenXml.ExcelIgnoredError.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe address\n"
+  example: []
+  syntax:
+    content: public ExcelAddressBase Address { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public ReadOnly Property Address As ExcelAddressBase
+  overload: OfficeOpenXml.ExcelIgnoredError.Address*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear
+  id: TwoDigitTextYear
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: TwoDigitTextYear
+  nameWithType: ExcelIgnoredError.TwoDigitTextYear
+  fullName: OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TwoDigitTextYear
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when formulas contain text formatted cells with years represented as 2 digits.\n"
+  example: []
+  syntax:
+    content: public bool TwoDigitTextYear { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property TwoDigitTextYear As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelIgnoredError.UnlockedFormula
+  commentId: P:OfficeOpenXml.ExcelIgnoredError.UnlockedFormula
+  id: UnlockedFormula
+  parent: OfficeOpenXml.ExcelIgnoredError
+  langs:
+  - csharp
+  - vb
+  name: UnlockedFormula
+  nameWithType: ExcelIgnoredError.UnlockedFormula
+  fullName: OfficeOpenXml.ExcelIgnoredError.UnlockedFormula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelIgnoredError.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnlockedFormula
+    path: ../src/EPPlus/ExcelIgnoredError.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore errors when unlocked cells contain formulas\n"
+  example: []
+  syntax:
+    content: public bool UnlockedFormula { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UnlockedFormula As Boolean
+  overload: OfficeOpenXml.ExcelIgnoredError.UnlockedFormula*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText
+  name: NumberStoredAsText
+  nameWithType: ExcelIgnoredError.NumberStoredAsText
+  fullName: OfficeOpenXml.ExcelIgnoredError.NumberStoredAsText
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+  name: CalculatedColumm
+  nameWithType: ExcelIgnoredError.CalculatedColumm
+  fullName: OfficeOpenXml.ExcelIgnoredError.CalculatedColumm
+- uid: OfficeOpenXml.ExcelIgnoredError.EmptyCellReference*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
+  name: EmptyCellReference
+  nameWithType: ExcelIgnoredError.EmptyCellReference
+  fullName: OfficeOpenXml.ExcelIgnoredError.EmptyCellReference
+- uid: OfficeOpenXml.ExcelIgnoredError.EvaluationError*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.EvaluationError
+  name: EvaluationError
+  nameWithType: ExcelIgnoredError.EvaluationError
+  fullName: OfficeOpenXml.ExcelIgnoredError.EvaluationError
+- uid: OfficeOpenXml.ExcelIgnoredError.Formula*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.Formula
+  name: Formula
+  nameWithType: ExcelIgnoredError.Formula
+  fullName: OfficeOpenXml.ExcelIgnoredError.Formula
+- uid: OfficeOpenXml.ExcelIgnoredError.FormulaRange*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.FormulaRange
+  name: FormulaRange
+  nameWithType: ExcelIgnoredError.FormulaRange
+  fullName: OfficeOpenXml.ExcelIgnoredError.FormulaRange
+- uid: OfficeOpenXml.ExcelIgnoredError.ListDataValidation*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.ListDataValidation
+  name: ListDataValidation
+  nameWithType: ExcelIgnoredError.ListDataValidation
+  fullName: OfficeOpenXml.ExcelIgnoredError.ListDataValidation
+- uid: OfficeOpenXml.ExcelIgnoredError.Address*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.Address
+  name: Address
+  nameWithType: ExcelIgnoredError.Address
+  fullName: OfficeOpenXml.ExcelIgnoredError.Address
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear
+  name: TwoDigitTextYear
+  nameWithType: ExcelIgnoredError.TwoDigitTextYear
+  fullName: OfficeOpenXml.ExcelIgnoredError.TwoDigitTextYear
+- uid: OfficeOpenXml.ExcelIgnoredError.UnlockedFormula*
+  commentId: Overload:OfficeOpenXml.ExcelIgnoredError.UnlockedFormula
+  name: UnlockedFormula
+  nameWithType: ExcelIgnoredError.UnlockedFormula
+  fullName: OfficeOpenXml.ExcelIgnoredError.UnlockedFormula

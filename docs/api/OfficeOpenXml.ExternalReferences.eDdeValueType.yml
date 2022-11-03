@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType
+  commentId: T:OfficeOpenXml.ExternalReferences.eDdeValueType
+  id: eDdeValueType
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.eDdeValueType.Boolean
+  - OfficeOpenXml.ExternalReferences.eDdeValueType.Error
+  - OfficeOpenXml.ExternalReferences.eDdeValueType.Nil
+  - OfficeOpenXml.ExternalReferences.eDdeValueType.Number
+  - OfficeOpenXml.ExternalReferences.eDdeValueType.String
+  langs:
+  - csharp
+  - vb
+  name: eDdeValueType
+  nameWithType: eDdeValueType
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDdeValueType
+    path: ../src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe type of DDE value.\n"
+  example: []
+  syntax:
+    content: public enum eDdeValueType
+    content.vb: Public Enum eDdeValueType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType.Boolean
+  commentId: F:OfficeOpenXml.ExternalReferences.eDdeValueType.Boolean
+  id: Boolean
+  parent: OfficeOpenXml.ExternalReferences.eDdeValueType
+  langs:
+  - csharp
+  - vb
+  name: Boolean
+  nameWithType: eDdeValueType.Boolean
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType.Boolean
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Boolean
+    path: ../src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe value is a boolean.\n"
+  example: []
+  syntax:
+    content: Boolean = 0
+    return:
+      type: OfficeOpenXml.ExternalReferences.eDdeValueType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType.Error
+  commentId: F:OfficeOpenXml.ExternalReferences.eDdeValueType.Error
+  id: Error
+  parent: OfficeOpenXml.ExternalReferences.eDdeValueType
+  langs:
+  - csharp
+  - vb
+  name: Error
+  nameWithType: eDdeValueType.Error
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType.Error
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Error
+    path: ../src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe value is an error.\n"
+  example: []
+  syntax:
+    content: Error = 1
+    return:
+      type: OfficeOpenXml.ExternalReferences.eDdeValueType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType.Number
+  commentId: F:OfficeOpenXml.ExternalReferences.eDdeValueType.Number
+  id: Number
+  parent: OfficeOpenXml.ExternalReferences.eDdeValueType
+  langs:
+  - csharp
+  - vb
+  name: Number
+  nameWithType: eDdeValueType.Number
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType.Number
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Number
+    path: ../src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe value is a real number.\n"
+  example: []
+  syntax:
+    content: Number = 2
+    return:
+      type: OfficeOpenXml.ExternalReferences.eDdeValueType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType.Nil
+  commentId: F:OfficeOpenXml.ExternalReferences.eDdeValueType.Nil
+  id: Nil
+  parent: OfficeOpenXml.ExternalReferences.eDdeValueType
+  langs:
+  - csharp
+  - vb
+  name: Nil
+  nameWithType: eDdeValueType.Nil
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType.Nil
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Nil
+    path: ../src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe value is nil.\n"
+  example: []
+  syntax:
+    content: Nil = 3
+    return:
+      type: OfficeOpenXml.ExternalReferences.eDdeValueType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType.String
+  commentId: F:OfficeOpenXml.ExternalReferences.eDdeValueType.String
+  id: String
+  parent: OfficeOpenXml.ExternalReferences.eDdeValueType
+  langs:
+  - csharp
+  - vb
+  name: String
+  nameWithType: eDdeValueType.String
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType.String
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: String
+    path: ../src/EPPlus/ExternalReferences/enum/eDdeValueType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe value is a string.\n"
+  example: []
+  syntax:
+    content: String = 4
+    return:
+      type: OfficeOpenXml.ExternalReferences.eDdeValueType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType
+  commentId: T:OfficeOpenXml.ExternalReferences.eDdeValueType
+  parent: OfficeOpenXml.ExternalReferences
+  name: eDdeValueType
+  nameWithType: eDdeValueType
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType

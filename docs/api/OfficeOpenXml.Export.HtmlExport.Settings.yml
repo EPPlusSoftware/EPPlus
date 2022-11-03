@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.Settings
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Settings
+  id: OfficeOpenXml.Export.HtmlExport.Settings
+  children:
+  - OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.HtmlExport.Settings
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Settings
+  fullName: OfficeOpenXml.Export.HtmlExport.Settings
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+  parent: OfficeOpenXml.Export.HtmlExport.Settings
+  name: HtmlTableExportSettings
+  nameWithType: HtmlTableExportSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+- uid: OfficeOpenXml.Export.HtmlExport.Settings
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Settings
+  name: OfficeOpenXml.Export.HtmlExport.Settings
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Settings
+  fullName: OfficeOpenXml.Export.HtmlExport.Settings

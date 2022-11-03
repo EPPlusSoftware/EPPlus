@@ -1,0 +1,933 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  id: ExcelChartExDataPointCollection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExDataPointCollection
+  nameWithType: ExcelChartExDataPointCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExDataPointCollection
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA collection of datapoints for a chart\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExDataPointCollection : XmlHelper, IEnumerable<ExcelChartExDataPoint>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelChartExDataPointCollection
+          Inherits XmlHelper
+          Implements IEnumerable(Of ExcelChartExDataPoint), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add(System.Int32)
+  id: Add(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(Int32)
+  nameWithType: ExcelChartExDataPointCollection.Add(Int32)
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nAdds a new datapoint to the collection\n"
+  example: []
+  syntax:
+    content: public ExcelChartExDataPoint Add(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero based index
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+      description: The datapoint
+    content.vb: Public Function Add(index As Integer) As ExcelChartExDataPoint
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey(System.Int32)
+  id: ContainsKey(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  langs:
+  - csharp
+  - vb
+  name: ContainsKey(Int32)
+  nameWithType: ExcelChartExDataPointCollection.ContainsKey(Int32)
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContainsKey
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nCheckes if the index exists in the collection\n"
+  example: []
+  syntax:
+    content: public bool ContainsKey(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index
+    return:
+      type: System.Boolean
+      description: true if exists
+    content.vb: Public Function ContainsKey(index As Integer) As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelChartExDataPointCollection.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+    startLine: 88
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nIndexer\n"
+  example: []
+  syntax:
+    content: public ExcelChartExDataPoint this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+      description: ''
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelChartExDataPoint
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item*
+  nameWithType.vb: ExcelChartExDataPointCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelChartExDataPointCollection.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelChartExDataPointCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+    startLine: 109
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nGets the enumerator for the collection\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelChartExDataPoint> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}
+      description: The enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelChartExDataPoint)
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelChartExDataPointCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataPointCollection.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartExDataPointCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelChartExDataPoint>
+  nameWithType: IEnumerable<ExcelChartExDataPoint>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint>
+  nameWithType.vb: IEnumerable(Of ExcelChartExDataPoint)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint)
+  name.vb: IEnumerable(Of ExcelChartExDataPoint)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+    name: ExcelChartExDataPoint
+    nameWithType: ExcelChartExDataPoint
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+    name: ExcelChartExDataPoint
+    nameWithType: ExcelChartExDataPoint
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add
+  name: Add
+  nameWithType: ExcelChartExDataPointCollection.Add
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Add
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExDataPoint
+  nameWithType: ExcelChartExDataPoint
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey
+  name: ContainsKey
+  nameWithType: ExcelChartExDataPointCollection.ContainsKey
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.ContainsKey
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item
+  name: Item
+  nameWithType: ExcelChartExDataPointCollection.Item
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Item
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count
+  name: Count
+  nameWithType: ExcelChartExDataPointCollection.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.Count
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelChartExDataPointCollection.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelChartExDataPoint>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelChartExDataPoint).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelChartExDataPoint>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelChartExDataPoint).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelChartExDataPoint>
+  nameWithType: IEnumerator<ExcelChartExDataPoint>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint>
+  nameWithType.vb: IEnumerator(Of ExcelChartExDataPoint)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint)
+  name.vb: IEnumerator(Of ExcelChartExDataPoint)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+    name: ExcelChartExDataPoint
+    nameWithType: ExcelChartExDataPoint
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+    name: ExcelChartExDataPoint
+    nameWithType: ExcelChartExDataPoint
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelChartExDataPointCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartExDataPointCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator

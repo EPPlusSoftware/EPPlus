@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTimeUnit
+  id: eTimeUnit
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eTimeUnit.Days
+  - OfficeOpenXml.Drawing.Chart.eTimeUnit.Months
+  - OfficeOpenXml.Drawing.Chart.eTimeUnit.Years
+  langs:
+  - csharp
+  - vb
+  name: eTimeUnit
+  nameWithType: eTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTimeUnit
+    path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe time unit of major and minor datetime axis values\n"
+  example: []
+  syntax:
+    content: public enum eTimeUnit
+    content.vb: Public Enum eTimeUnit
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eTimeUnit.Years
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTimeUnit.Years
+  id: Years
+  parent: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Years
+  nameWithType: eTimeUnit.Years
+  fullName: OfficeOpenXml.Drawing.Chart.eTimeUnit.Years
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Years
+    path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nYears\n"
+  example: []
+  syntax:
+    content: Years = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTimeUnit.Months
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTimeUnit.Months
+  id: Months
+  parent: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Months
+  nameWithType: eTimeUnit.Months
+  fullName: OfficeOpenXml.Drawing.Chart.eTimeUnit.Months
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Months
+    path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMonths\n"
+  example: []
+  syntax:
+    content: Months = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTimeUnit.Days
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTimeUnit.Days
+  id: Days
+  parent: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Days
+  nameWithType: eTimeUnit.Days
+  fullName: OfficeOpenXml.Drawing.Chart.eTimeUnit.Days
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Days
+    path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nDays\n"
+  example: []
+  syntax:
+    content: Days = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTimeUnit
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eTimeUnit
+  nameWithType: eTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.eTimeUnit

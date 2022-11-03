@@ -1,0 +1,187 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  id: IOperator
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
+  langs:
+  - csharp
+  - vb
+  name: IOperator
+  nameWithType: IOperator
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IOperator
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: public interface IOperator
+    content.vb: Public Interface IOperator
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
+  id: Operator
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  langs:
+  - csharp
+  - vb
+  name: Operator
+  nameWithType: IOperator.Operator
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Operator
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: Operators Operator { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+    content.vb: ReadOnly Property Operator As Operators
+  overload: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  id: Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  langs:
+  - csharp
+  - vb
+  name: Apply(CompileResult, CompileResult)
+  nameWithType: IOperator.Apply(CompileResult, CompileResult)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult, OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Apply
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: CompileResult Apply(CompileResult left, CompileResult right)
+    parameters:
+    - id: left
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    - id: right
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    content.vb: Function Apply(left As CompileResult, right As CompileResult) As CompileResult
+  overload: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply*
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
+  id: Precedence
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  langs:
+  - csharp
+  - vb
+  name: Precedence
+  nameWithType: IOperator.Precedence
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Precedence
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/IOperator.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: int Precedence { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: ReadOnly Property Precedence As Integer
+  overload: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: OfficeOpenXml.FormulaParsing.Excel.Operators
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Operators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
+  name: Operator
+  nameWithType: IOperator.Operator
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: Operators
+  nameWithType: Operators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply
+  name: Apply
+  nameWithType: IOperator.Apply
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
+  name: Precedence
+  nameWithType: IOperator.Precedence
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

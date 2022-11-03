@@ -1,0 +1,72 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+  commentId: T:OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+  id: IParsingLifetimeEventHandler
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
+  langs:
+  - csharp
+  - vb
+  name: IParsingLifetimeEventHandler
+  nameWithType: IParsingLifetimeEventHandler
+  fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IParsingLifetimeEventHandler.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IParsingLifetimeEventHandler
+    path: ../src/EPPlus/FormulaParsing/IParsingLifetimeEventHandler.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: public interface IParsingLifetimeEventHandler
+    content.vb: Public Interface IParsingLifetimeEventHandler
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
+  commentId: M:OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
+  id: ParsingCompleted
+  parent: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+  langs:
+  - csharp
+  - vb
+  name: ParsingCompleted()
+  nameWithType: IParsingLifetimeEventHandler.ParsingCompleted()
+  fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IParsingLifetimeEventHandler.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ParsingCompleted
+    path: ../src/EPPlus/FormulaParsing/IParsingLifetimeEventHandler.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: void ParsingCompleted()
+    content.vb: Sub ParsingCompleted
+  overload: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted*
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
+  name: ParsingCompleted
+  nameWithType: IParsingLifetimeEventHandler.ParsingCompleted
+  fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted

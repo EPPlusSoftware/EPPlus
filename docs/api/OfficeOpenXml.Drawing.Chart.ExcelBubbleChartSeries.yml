@@ -1,0 +1,1561 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries
+  id: ExcelBubbleChartSeries
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(System.String,System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: ExcelBubbleChartSeries
+  nameWithType: ExcelBubbleChartSeries
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSeries.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelBubbleChartSeries
+    path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSeries.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nRepresents a collection of bubble chart series\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelBubbleChartSeries : ExcelChartSeries<ExcelBubbleChartSerie>, IEnumerable<ExcelBubbleChartSerie>, IEnumerable'
+    content.vb: >-
+      Public NotInheritable Class ExcelBubbleChartSeries
+          Inherits ExcelChartSeries(Of ExcelBubbleChartSerie)
+          Implements IEnumerable(Of ExcelBubbleChartSerie), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Count
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Delete(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Chart
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(System.String)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(System.String,System.String)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.AddSeries(System.String,System.String,System.String)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.GetEnumerator
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.System#Collections#IEnumerable#GetEnumerator
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  id: Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelRangeBase, ExcelRangeBase, ExcelRangeBase)
+  nameWithType: ExcelBubbleChartSeries.Add(ExcelRangeBase, ExcelRangeBase, ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSeries.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSeries.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new serie to a bubble chart\n"
+  example: []
+  syntax:
+    content: public ExcelChartSerie Add(ExcelRangeBase Serie, ExcelRangeBase XSerie, ExcelRangeBase BubbleSize)
+    parameters:
+    - id: Serie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The Y-Axis range
+    - id: XSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The X-Axis range
+    - id: BubbleSize
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The size of the bubbles range. If set to null, a size of 1 is used
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+      description: ''
+    content.vb: Public Function Add(Serie As ExcelRangeBase, XSerie As ExcelRangeBase, BubbleSize As ExcelRangeBase) As ExcelChartSerie
+  overload: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(System.String,System.String,System.String)
+  id: Add(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries
+  langs:
+  - csharp
+  - vb
+  name: Add(String, String, String)
+  nameWithType: ExcelBubbleChartSeries.Add(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add(System.String, System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSeries.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSeries.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public ExcelChartSerie Add(string SerieAddress, string XSerieAddress, string BubbleSizeAddress)
+    parameters:
+    - id: SerieAddress
+      type: System.String
+      description: The Y-Axis range
+    - id: XSerieAddress
+      type: System.String
+      description: The X-Axis range
+    - id: BubbleSizeAddress
+      type: System.String
+      description: The size of the bubbles range. If set to null or String.Empty, a size of 1 is used
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+      description: ''
+    content.vb: Public Function Add(SerieAddress As String, XSerieAddress As String, BubbleSizeAddress As String) As ExcelChartSerie
+  overload: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  parent: OfficeOpenXml.Drawing.Chart
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+  name: ExcelChartSeries<ExcelBubbleChartSerie>
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie)
+  name.vb: ExcelChartSeries(Of ExcelBubbleChartSerie)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+    name: ExcelChartSeries
+    nameWithType: ExcelChartSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+    name: ExcelBubbleChartSerie
+    nameWithType: ExcelBubbleChartSerie
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+    name: ExcelChartSeries
+    nameWithType: ExcelChartSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+    name: ExcelBubbleChartSerie
+    nameWithType: ExcelBubbleChartSerie
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelBubbleChartSerie>
+  nameWithType: IEnumerable<ExcelBubbleChartSerie>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>
+  nameWithType.vb: IEnumerable(Of ExcelBubbleChartSerie)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie)
+  name.vb: IEnumerable(Of ExcelBubbleChartSerie)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+    name: ExcelBubbleChartSerie
+    nameWithType: ExcelBubbleChartSerie
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+    name: ExcelBubbleChartSerie
+    nameWithType: ExcelBubbleChartSerie
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Item[System.Int32]
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Item(Int32)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Item
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).Item
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Count
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Count
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Count
+  name: Count
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Count
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Count
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Count
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Delete(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Delete(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Delete(System.Int32)
+  name: Delete(Int32)
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Delete(Int32)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Delete(System.Int32)
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Delete(Int32)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Delete(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Delete(System.Int32)
+    name: Delete
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Delete
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Delete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Delete(System.Int32)
+    name: Delete
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).Delete
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Delete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Chart
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Chart
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Chart
+  name: Chart
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Chart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Chart
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Chart
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Chart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase)
+  name: Add(ExcelRangeBase)
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add(ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add(OfficeOpenXml.ExcelRangeBase)
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Add(ExcelRangeBase)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add(OfficeOpenXml.ExcelRangeBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(System.String)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String)
+  name: Add(String)
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add(String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add(System.String)
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Add(String)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String)
+    name: Add
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String)
+    name: Add
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  name: Add(ExcelRangeBase, ExcelRangeBase)
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add(ExcelRangeBase, ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase)
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Add(ExcelRangeBase, ExcelRangeBase)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.Add(System.String,System.String)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String,System.String)
+  name: Add(String, String)
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add(String, String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add(System.String, System.String)
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).Add(String, String)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add(System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String,System.String)
+    name: Add
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String,System.String)
+    name: Add
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.AddSeries(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.AddSeries(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.AddSeries(System.String,System.String,System.String)
+  name: AddSeries(String, String, String)
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.AddSeries(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.AddSeries(System.String, System.String, System.String)
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).AddSeries(String, String, String)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).AddSeries(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.AddSeries(System.String,System.String,System.String)
+    name: AddSeries
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.AddSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.AddSeries
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.AddSeries(System.String,System.String,System.String)
+    name: AddSeries
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).AddSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).AddSeries
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.GetEnumerator
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.GetEnumerator()
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).GetEnumerator()
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<ExcelBubbleChartSerie>.GetEnumerator()
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.IEnumerable<ExcelBubbleChartSerie>.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.GetEnumerator()
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<ExcelBubbleChartSerie>.GetEnumerator
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.IEnumerable<ExcelBubbleChartSerie>.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSeries{OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie}
+  definition: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelChartSeries(Of ExcelBubbleChartSerie).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelChartSeries<ExcelBubbleChartSerie>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelChartSeries(Of ExcelBubbleChartSerie).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+  name: ExcelChartSeries<T>
+  nameWithType: ExcelChartSeries<T>
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>
+  nameWithType.vb: ExcelChartSeries(Of T)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T)
+  name.vb: ExcelChartSeries(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+    name: ExcelChartSeries
+    nameWithType: ExcelChartSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+    name: ExcelChartSeries
+    nameWithType: ExcelChartSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: ExcelChartSeries<T>.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Item[System.Int32]
+  nameWithType.vb: ExcelChartSeries(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelChartSeries<T>.Item
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelChartSeries(Of T).Item
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Count
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Count
+  name: Count
+  nameWithType: ExcelChartSeries<T>.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Count
+  nameWithType.vb: ExcelChartSeries(Of T).Count
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Count
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Delete(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Delete(System.Int32)
+  isExternal: true
+  name: Delete(Int32)
+  nameWithType: ExcelChartSeries<T>.Delete(Int32)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Delete(System.Int32)
+  nameWithType.vb: ExcelChartSeries(Of T).Delete(Int32)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Delete(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Delete(System.Int32)
+    name: Delete
+    nameWithType: ExcelChartSeries<T>.Delete
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Delete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Delete(System.Int32)
+    name: Delete
+    nameWithType: ExcelChartSeries(Of T).Delete
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Delete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Chart
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Chart
+  name: Chart
+  nameWithType: ExcelChartSeries<T>.Chart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Chart
+  nameWithType.vb: ExcelChartSeries(Of T).Chart
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Chart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase)
+  name: Add(ExcelRangeBase)
+  nameWithType: ExcelChartSeries<T>.Add(ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add(OfficeOpenXml.ExcelRangeBase)
+  nameWithType.vb: ExcelChartSeries(Of T).Add(ExcelRangeBase)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add(OfficeOpenXml.ExcelRangeBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries<T>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries(Of T).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String)
+  isExternal: true
+  name: Add(String)
+  nameWithType: ExcelChartSeries<T>.Add(String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add(System.String)
+  nameWithType.vb: ExcelChartSeries(Of T).Add(String)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String)
+    name: Add
+    nameWithType: ExcelChartSeries<T>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String)
+    name: Add
+    nameWithType: ExcelChartSeries(Of T).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  name: Add(ExcelRangeBase, ExcelRangeBase)
+  nameWithType: ExcelChartSeries<T>.Add(ExcelRangeBase, ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase)
+  nameWithType.vb: ExcelChartSeries(Of T).Add(ExcelRangeBase, ExcelRangeBase)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries<T>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+    name: Add
+    nameWithType: ExcelChartSeries(Of T).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String,System.String)
+  isExternal: true
+  name: Add(String, String)
+  nameWithType: ExcelChartSeries<T>.Add(String, String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add(System.String, System.String)
+  nameWithType.vb: ExcelChartSeries(Of T).Add(String, String)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add(System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String,System.String)
+    name: Add
+    nameWithType: ExcelChartSeries<T>.Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.Add(System.String,System.String)
+    name: Add
+    nameWithType: ExcelChartSeries(Of T).Add
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).Add
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.AddSeries(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.AddSeries(System.String,System.String,System.String)
+  isExternal: true
+  name: AddSeries(String, String, String)
+  nameWithType: ExcelChartSeries<T>.AddSeries(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.AddSeries(System.String, System.String, System.String)
+  nameWithType.vb: ExcelChartSeries(Of T).AddSeries(String, String, String)
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).AddSeries(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.AddSeries(System.String,System.String,System.String)
+    name: AddSeries
+    nameWithType: ExcelChartSeries<T>.AddSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.AddSeries
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.AddSeries(System.String,System.String,System.String)
+    name: AddSeries
+    nameWithType: ExcelChartSeries(Of T).AddSeries
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).AddSeries
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelChartSeries<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.GetEnumerator()
+  nameWithType.vb: ExcelChartSeries(Of T).GetEnumerator()
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelChartSeries<T>.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelChartSeries(Of T).GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<T>.GetEnumerator()
+  nameWithType: ExcelChartSeries<T>.IEnumerable<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: ExcelChartSeries(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<T>.GetEnumerator
+    nameWithType: ExcelChartSeries<T>.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: ExcelChartSeries(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelChartSeries<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelChartSeries(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelChartSeries<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelChartSeries(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSeries(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add
+  name: Add
+  nameWithType: ExcelBubbleChartSeries.Add
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries.Add
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerie
+  nameWithType: ExcelChartSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

@@ -1,0 +1,1698 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  id: ZlibCodec
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  children:
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesIn
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesOut
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.CompressLevel
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32,System.Boolean)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Boolean)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32,System.Boolean)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InputBuffer
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Message
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextIn
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextOut
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.OutputBuffer
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary(System.Byte[])
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Strategy
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesIn
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesOut
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.WindowBits
+  langs:
+  - csharp
+  - vb
+  name: ZlibCodec
+  nameWithType: ZlibCodec
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZlibCodec
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nEncoder and Decoder for ZLIB and DEFLATE (IETF RFC1950 and RFC1951).\n"
+  remarks: "\nThis class compresses and decompresses data according to the Deflate algorithm\nand optionally, the ZLIB format, as documented in <a href=\"http://www.ietf.org/rfc/rfc1950.txt\">RFC 1950 - ZLIB</a> and <a href=\"http://www.ietf.org/rfc/rfc1951.txt\">RFC 1951 - DEFLATE</a>.\n"
+  example: []
+  syntax:
+    content: public sealed class ZlibCodec
+    content.vb: Public NotInheritable Class ZlibCodec
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InputBuffer
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InputBuffer
+  id: InputBuffer
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InputBuffer
+  nameWithType: ZlibCodec.InputBuffer
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InputBuffer
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InputBuffer
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe buffer from which data is taken.\n"
+  example: []
+  syntax:
+    content: public byte[] InputBuffer
+    return:
+      type: System.Byte[]
+    content.vb: Public InputBuffer As Byte()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextIn
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextIn
+  id: NextIn
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: NextIn
+  nameWithType: ZlibCodec.NextIn
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextIn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextIn
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nAn index into the InputBuffer array, indicating where to start reading. \n"
+  example: []
+  syntax:
+    content: public int NextIn
+    return:
+      type: System.Int32
+    content.vb: Public NextIn As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesIn
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesIn
+  id: AvailableBytesIn
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: AvailableBytesIn
+  nameWithType: ZlibCodec.AvailableBytesIn
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesIn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AvailableBytesIn
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe number of bytes available in the InputBuffer, starting at NextIn. \n"
+  remarks: "\nGenerally you should set this to InputBuffer.Length before the first Inflate() or Deflate() call. \nThe class will update this number as calls to Inflate/Deflate are made.\n"
+  example: []
+  syntax:
+    content: public int AvailableBytesIn
+    return:
+      type: System.Int32
+    content.vb: Public AvailableBytesIn As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesIn
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesIn
+  id: TotalBytesIn
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: TotalBytesIn
+  nameWithType: ZlibCodec.TotalBytesIn
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesIn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalBytesIn
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nTotal number of bytes read so far, through all calls to Inflate()/Deflate().\n"
+  example: []
+  syntax:
+    content: public long TotalBytesIn
+    return:
+      type: System.Int64
+    content.vb: Public TotalBytesIn As Long
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.OutputBuffer
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.OutputBuffer
+  id: OutputBuffer
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: OutputBuffer
+  nameWithType: ZlibCodec.OutputBuffer
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.OutputBuffer
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutputBuffer
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 115
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nBuffer to store output data.\n"
+  example: []
+  syntax:
+    content: public byte[] OutputBuffer
+    return:
+      type: System.Byte[]
+    content.vb: Public OutputBuffer As Byte()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextOut
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextOut
+  id: NextOut
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: NextOut
+  nameWithType: ZlibCodec.NextOut
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.NextOut
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextOut
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 120
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nAn index into the OutputBuffer array, indicating where to start writing. \n"
+  example: []
+  syntax:
+    content: public int NextOut
+    return:
+      type: System.Int32
+    content.vb: Public NextOut As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesOut
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesOut
+  id: AvailableBytesOut
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: AvailableBytesOut
+  nameWithType: ZlibCodec.AvailableBytesOut
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.AvailableBytesOut
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AvailableBytesOut
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe number of bytes available in the OutputBuffer, starting at NextOut. \n"
+  remarks: "\nGenerally you should set this to OutputBuffer.Length before the first Inflate() or Deflate() call. \nThe class will update this number as calls to Inflate/Deflate are made.\n"
+  example: []
+  syntax:
+    content: public int AvailableBytesOut
+    return:
+      type: System.Int32
+    content.vb: Public AvailableBytesOut As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesOut
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesOut
+  id: TotalBytesOut
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: TotalBytesOut
+  nameWithType: ZlibCodec.TotalBytesOut
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.TotalBytesOut
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalBytesOut
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nTotal number of bytes written to the output so far, through all calls to Inflate()/Deflate().\n"
+  example: []
+  syntax:
+    content: public long TotalBytesOut
+    return:
+      type: System.Int64
+    content.vb: Public TotalBytesOut As Long
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Message
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Message
+  id: Message
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: Message
+  nameWithType: ZlibCodec.Message
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Message
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Message
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nused for diagnostics, when something goes wrong!\n"
+  example: []
+  syntax:
+    content: public string Message
+    return:
+      type: System.String
+    content.vb: Public Message As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.CompressLevel
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.CompressLevel
+  id: CompressLevel
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: CompressLevel
+  nameWithType: ZlibCodec.CompressLevel
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.CompressLevel
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompressLevel
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 149
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe compression level to use in this codec.  Useful only in compression mode.\n"
+  example: []
+  syntax:
+    content: public CompressionLevel CompressLevel
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+    content.vb: Public CompressLevel As CompressionLevel
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.WindowBits
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.WindowBits
+  id: WindowBits
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: WindowBits
+  nameWithType: ZlibCodec.WindowBits
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.WindowBits
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WindowBits
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 160
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe number of Window Bits to use.  \n"
+  remarks: "\nThis gauges the size of the sliding window, and hence the \ncompression effectiveness as well as memory consumption. It&apos;s best to just leave this \nsetting alone if you don&apos;t know what it is.  The maximum value is 15 bits, which implies\na 32k window.  \n"
+  example: []
+  syntax:
+    content: public int WindowBits
+    return:
+      type: System.Int32
+    content.vb: Public WindowBits As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Strategy
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Strategy
+  id: Strategy
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: Strategy
+  nameWithType: ZlibCodec.Strategy
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Strategy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Strategy
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe compression strategy to use.\n"
+  remarks: "\nThis is only effective in compression.  The theory offered by ZLIB is that different\nstrategies could potentially produce significant differences in compression behavior\nfor different data sets.  Unfortunately I don&apos;t have any good recommendations for how\nto set it differently.  When I tested changing the strategy I got minimally different\ncompression performance. It&apos;s best to leave this property alone if you don&apos;t have a\ngood feel for it.  Or, you may want to produce a test harness that runs through the\ndifferent strategy options and evaluates them on different file types. If you do that,\nlet me know your results.\n"
+  example: []
+  syntax:
+    content: public CompressionStrategy Strategy
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+    content.vb: Public Strategy As CompressionStrategy
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32
+  id: Adler32
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: Adler32
+  nameWithType: ZlibCodec.Adler32
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Adler32
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 181
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe Adler32 checksum on the data transferred through the codec so far. You probably don&apos;t need to look at this.\n"
+  example: []
+  syntax:
+    content: public int Adler32 { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Adler32 As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: ZlibCodec()
+  nameWithType: ZlibCodec.ZlibCodec()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ZlibCodec()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCreate a ZlibCodec.\n"
+  remarks: "\nIf you use this default constructor, you will later have to explicitly call \nInitializeInflate() or InitializeDeflate() before using the ZlibCodec to compress \nor decompress. \n"
+  example: []
+  syntax:
+    content: public ZlibCodec()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  id: '#ctor(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)'
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: ZlibCodec(CompressionMode)
+  nameWithType: ZlibCodec.ZlibCodec(CompressionMode)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ZlibCodec(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 200
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCreate a ZlibCodec that either compresses or decompresses.\n"
+  example: []
+  syntax:
+    content: public ZlibCodec(CompressionMode mode)
+    parameters:
+    - id: mode
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+      description: "\nIndicates whether the codec should compress (deflate) or decompress (inflate).\n"
+    content.vb: Public Sub New(mode As CompressionMode)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate
+  id: InitializeInflate
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeInflate()
+  nameWithType: ZlibCodec.InitializeInflate()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeInflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 223
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the inflation state. \n"
+  remarks: "\nIt is not necessary to call this before using the ZlibCodec to inflate data; \nIt is implicitly called when you call the constructor.\n"
+  example: []
+  syntax:
+    content: public int InitializeInflate()
+    return:
+      type: System.Int32
+      description: Z_OK if everything goes well.
+    content.vb: Public Function InitializeInflate As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Boolean)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Boolean)
+  id: InitializeInflate(System.Boolean)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeInflate(Boolean)
+  nameWithType: ZlibCodec.InitializeInflate(Boolean)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeInflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the inflation state with an explicit flag to\ngovern the handling of RFC1950 header bytes.\n"
+  remarks: "\nBy default, the ZLIB header defined in <a href=\"http://www.ietf.org/rfc/rfc1950.txt\">RFC 1950</a> is expected.  If\nyou want to read a zlib stream you should specify true for\nexpectRfc1950Header.  If you have a deflate stream, you will want to specify\nfalse. It is only necessary to invoke this initializer explicitly if you\nwant to specify false.\n"
+  example: []
+  syntax:
+    content: public int InitializeInflate(bool expectRfc1950Header)
+    parameters:
+    - id: expectRfc1950Header
+      type: System.Boolean
+      description: >-
+        whether to expect an RFC1950 header byte
+
+        pair when reading the stream of data to be inflated.
+    return:
+      type: System.Int32
+      description: Z_OK if everything goes well.
+    content.vb: Public Function InitializeInflate(expectRfc1950Header As Boolean) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32)
+  id: InitializeInflate(System.Int32)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeInflate(Int32)
+  nameWithType: ZlibCodec.InitializeInflate(Int32)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeInflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 257
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the ZlibCodec for inflation, with the specified number of window bits. \n"
+  example: []
+  syntax:
+    content: public int InitializeInflate(int windowBits)
+    parameters:
+    - id: windowBits
+      type: System.Int32
+      description: "The number of window bits to use. If you need to ask what that is, \nthen you shouldn&apos;t be calling this initializer."
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function InitializeInflate(windowBits As Integer) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32,System.Boolean)
+  id: InitializeInflate(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeInflate(Int32, Boolean)
+  nameWithType: ZlibCodec.InitializeInflate(Int32, Boolean)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeInflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the inflation state with an explicit flag to govern the handling of\nRFC1950 header bytes. \n"
+  remarks: "\nIf you want to read a zlib stream you should specify true for\nexpectRfc1950Header. In this case, the library will expect to find a ZLIB\nheader, as defined in <a href=\"http://www.ietf.org/rfc/rfc1950.txt\">RFC\n1950</a>, in the compressed stream.  If you will be reading a DEFLATE or\nGZIP stream, which does not have such a header, you will want to specify\nfalse.\n"
+  example: []
+  syntax:
+    content: public int InitializeInflate(int windowBits, bool expectRfc1950Header)
+    parameters:
+    - id: windowBits
+      type: System.Int32
+      description: "The number of window bits to use. If you need to ask what that is, \nthen you shouldn&apos;t be calling this initializer."
+    - id: expectRfc1950Header
+      type: System.Boolean
+      description: "whether to expect an RFC1950 header byte pair when reading \nthe stream of data to be inflated."
+    return:
+      type: System.Int32
+      description: Z_OK if everything goes well.
+    content.vb: Public Function InitializeInflate(windowBits As Integer, expectRfc1950Header As Boolean) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  id: Inflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: Inflate(FlushType)
+  nameWithType: ZlibCodec.Inflate(FlushType)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Inflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 353
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInflate the data in the InputBuffer, placing the result in the OutputBuffer.\n"
+  remarks: "\nYou must have set InputBuffer and OutputBuffer, NextIn and NextOut, and AvailableBytesIn and \nAvailableBytesOut  before calling this method.\n"
+  example:
+  - "\n<pre><code>private void InflateBuffer()\n{\n    int bufferSize = 1024;\n    byte[] buffer = new byte[bufferSize];\n    ZlibCodec decompressor = new ZlibCodec();\n\n    Console.WriteLine(&quot;\\n============================================&quot;);\n    Console.WriteLine(&quot;Size of Buffer to Inflate: {0} bytes.&quot;, CompressedBytes.Length);\n    MemoryStream ms = new MemoryStream(DecompressedBytes);\n\n    int rc = decompressor.InitializeInflate();\n\n    decompressor.InputBuffer = CompressedBytes;\n    decompressor.NextIn = 0;\n    decompressor.AvailableBytesIn = CompressedBytes.Length;\n\n    decompressor.OutputBuffer = buffer;\n\n    // pass 1: inflate \n    do\n    {\n        decompressor.NextOut = 0;\n        decompressor.AvailableBytesOut = buffer.Length;\n        rc = decompressor.Inflate(FlushType.None);\n\n        if (rc != ZlibConstants.Z_OK &amp;&amp; rc != ZlibConstants.Z_STREAM_END)\n            throw new Exception(&quot;inflating: &quot; + decompressor.Message);\n\n        ms.Write(decompressor.OutputBuffer, 0, buffer.Length - decompressor.AvailableBytesOut);\n    }\n    while (decompressor.AvailableBytesIn > 0 || decompressor.AvailableBytesOut == 0);\n\n    // pass 2: finish and flush\n    do\n    {\n        decompressor.NextOut = 0;\n        decompressor.AvailableBytesOut = buffer.Length;\n        rc = decompressor.Inflate(FlushType.Finish);\n\n        if (rc != ZlibConstants.Z_STREAM_END &amp;&amp; rc != ZlibConstants.Z_OK)\n            throw new Exception(&quot;inflating: &quot; + decompressor.Message);\n\n        if (buffer.Length - decompressor.AvailableBytesOut > 0)\n            ms.Write(buffer, 0, buffer.Length - decompressor.AvailableBytesOut);\n    }\n    while (decompressor.AvailableBytesIn > 0 || decompressor.AvailableBytesOut == 0);\n\n    decompressor.EndInflate();\n}</code></pre>\n"
+  syntax:
+    content: public int Inflate(FlushType flush)
+    parameters:
+    - id: flush
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+      description: The flush to use when inflating.
+    return:
+      type: System.Int32
+      description: Z_OK if everything goes well.
+    content.vb: Public Function Inflate(flush As FlushType) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate
+  id: EndInflate
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: EndInflate()
+  nameWithType: ZlibCodec.EndInflate()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndInflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 370
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nEnds an inflation session. \n"
+  remarks: "\nCall this after successively calling Inflate().  This will cause all buffers to be flushed. \nAfter calling this you cannot call Inflate() without a intervening call to one of the\nInitializeInflate() overloads.\n"
+  example: []
+  syntax:
+    content: public int EndInflate()
+    return:
+      type: System.Int32
+      description: Z_OK if everything goes well.
+    content.vb: Public Function EndInflate As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate
+  id: SyncInflate
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: SyncInflate()
+  nameWithType: ZlibCodec.SyncInflate()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SyncInflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 383
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nI don&apos;t know what this does!\n"
+  example: []
+  syntax:
+    content: public int SyncInflate()
+    return:
+      type: System.Int32
+      description: Z_OK if everything goes well.
+    content.vb: Public Function SyncInflate As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate
+  id: InitializeDeflate
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeDeflate()
+  nameWithType: ZlibCodec.InitializeDeflate()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeDeflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 430
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the ZlibCodec for deflation operation.\n"
+  remarks: "\nThe codec will use the MAX window bits and the default level of compression.\n"
+  example:
+  - "\n<pre><code> int bufferSize = 40000;\n byte[] CompressedBytes = new byte[bufferSize];\n byte[] DecompressedBytes = new byte[bufferSize];\n\n ZlibCodec compressor = new ZlibCodec();\n\n compressor.InitializeDeflate(CompressionLevel.Default);\n\n compressor.InputBuffer = System.Text.ASCIIEncoding.ASCII.GetBytes(TextToCompress);\n compressor.NextIn = 0;\n compressor.AvailableBytesIn = compressor.InputBuffer.Length;\n\n compressor.OutputBuffer = CompressedBytes;\n compressor.NextOut = 0;\n compressor.AvailableBytesOut = CompressedBytes.Length;\n\n while (compressor.TotalBytesIn != TextToCompress.Length &amp;&amp; compressor.TotalBytesOut &lt; bufferSize)\n {\n   compressor.Deflate(FlushType.None);\n }\n\n while (true)\n {\n   int rc= compressor.Deflate(FlushType.Finish);\n   if (rc == ZlibConstants.Z_STREAM_END) break;\n }\n\n compressor.EndDeflate();</code></pre>\n"
+  syntax:
+    content: public int InitializeDeflate()
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well. You generally don&apos;t need to check the return code.
+    content.vb: Public Function InitializeDeflate As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  id: InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeDeflate(CompressionLevel)
+  nameWithType: ZlibCodec.InitializeDeflate(CompressionLevel)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeDeflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 444
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the ZlibCodec for deflation operation, using the specified CompressionLevel.\n"
+  remarks: "\nThe codec will use the maximum window bits (15) and the specified\nCompressionLevel.  It will emit a ZLIB stream as it compresses.\n"
+  example: []
+  syntax:
+    content: public int InitializeDeflate(CompressionLevel level)
+    parameters:
+    - id: level
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+      description: The compression level for the codec.
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function InitializeDeflate(level As CompressionLevel) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)
+  id: InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeDeflate(CompressionLevel, Boolean)
+  nameWithType: ZlibCodec.InitializeDeflate(CompressionLevel, Boolean)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeDeflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 465
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the ZlibCodec for deflation operation, using the specified CompressionLevel, \nand the explicit flag governing whether to emit an RFC1950 header byte pair.\n"
+  remarks: "\nThe codec will use the maximum window bits (15) and the specified CompressionLevel.\nIf you want to generate a zlib stream, you should specify true for\nwantRfc1950Header. In this case, the library will emit a ZLIB\nheader, as defined in <a href=\"http://www.ietf.org/rfc/rfc1950.txt\">RFC\n1950</a>, in the compressed stream.  \n"
+  example: []
+  syntax:
+    content: public int InitializeDeflate(CompressionLevel level, bool wantRfc1950Header)
+    parameters:
+    - id: level
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+      description: The compression level for the codec.
+    - id: wantRfc1950Header
+      type: System.Boolean
+      description: whether to emit an initial RFC1950 byte pair in the compressed stream.
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function InitializeDeflate(level As CompressionLevel, wantRfc1950Header As Boolean) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32)
+  id: InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeDeflate(CompressionLevel, Int32)
+  nameWithType: ZlibCodec.InitializeDeflate(CompressionLevel, Int32)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeDeflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 482
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the ZlibCodec for deflation operation, using the specified CompressionLevel, \nand the specified number of window bits. \n"
+  remarks: "\nThe codec will use the specified number of window bits and the specified CompressionLevel.\n"
+  example: []
+  syntax:
+    content: public int InitializeDeflate(CompressionLevel level, int bits)
+    parameters:
+    - id: level
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+      description: The compression level for the codec.
+    - id: bits
+      type: System.Int32
+      description: the number of window bits to use.  If you don&apos;t know what this means, don&apos;t use this method.
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function InitializeDeflate(level As CompressionLevel, bits As Integer) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32,System.Boolean)
+  id: InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: InitializeDeflate(CompressionLevel, Int32, Boolean)
+  nameWithType: ZlibCodec.InitializeDeflate(CompressionLevel, Int32, Boolean)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel, System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializeDeflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 499
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nInitialize the ZlibCodec for deflation operation, using the specified\nCompressionLevel, the specified number of window bits, and the explicit flag\ngoverning whether to emit an RFC1950 header byte pair.\n"
+  example: []
+  syntax:
+    content: public int InitializeDeflate(CompressionLevel level, int bits, bool wantRfc1950Header)
+    parameters:
+    - id: level
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+      description: The compression level for the codec.
+    - id: bits
+      type: System.Int32
+      description: the number of window bits to use.  If you don&apos;t know what this means, don&apos;t use this method.
+    - id: wantRfc1950Header
+      type: System.Boolean
+      description: whether to emit an initial RFC1950 byte pair in the compressed stream.
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function InitializeDeflate(level As CompressionLevel, bits As Integer, wantRfc1950Header As Boolean) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  id: Deflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: Deflate(FlushType)
+  nameWithType: ZlibCodec.Deflate(FlushType)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate(OfficeOpenXml.Packaging.Ionic.Zlib.FlushType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Deflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 583
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nDeflate one batch of data.\n"
+  remarks: "\nYou must have set InputBuffer and OutputBuffer before calling this method.\n"
+  example:
+  - "\n<pre><code>private void DeflateBuffer(CompressionLevel level)\n{\n    int bufferSize = 1024;\n    byte[] buffer = new byte[bufferSize];\n    ZlibCodec compressor = new ZlibCodec();\n\n    Console.WriteLine(&quot;\\n============================================&quot;);\n    Console.WriteLine(&quot;Size of Buffer to Deflate: {0} bytes.&quot;, UncompressedBytes.Length);\n    MemoryStream ms = new MemoryStream();\n\n    int rc = compressor.InitializeDeflate(level);\n\n    compressor.InputBuffer = UncompressedBytes;\n    compressor.NextIn = 0;\n    compressor.AvailableBytesIn = UncompressedBytes.Length;\n\n    compressor.OutputBuffer = buffer;\n\n    // pass 1: deflate \n    do\n    {\n        compressor.NextOut = 0;\n        compressor.AvailableBytesOut = buffer.Length;\n        rc = compressor.Deflate(FlushType.None);\n\n        if (rc != ZlibConstants.Z_OK &amp;&amp; rc != ZlibConstants.Z_STREAM_END)\n            throw new Exception(&quot;deflating: &quot; + compressor.Message);\n\n        ms.Write(compressor.OutputBuffer, 0, buffer.Length - compressor.AvailableBytesOut);\n    }\n    while (compressor.AvailableBytesIn > 0 || compressor.AvailableBytesOut == 0);\n\n    // pass 2: finish and flush\n    do\n    {\n        compressor.NextOut = 0;\n        compressor.AvailableBytesOut = buffer.Length;\n        rc = compressor.Deflate(FlushType.Finish);\n\n        if (rc != ZlibConstants.Z_STREAM_END &amp;&amp; rc != ZlibConstants.Z_OK)\n            throw new Exception(&quot;deflating: &quot; + compressor.Message);\n\n        if (buffer.Length - compressor.AvailableBytesOut > 0)\n            ms.Write(buffer, 0, buffer.Length - compressor.AvailableBytesOut);\n    }\n    while (compressor.AvailableBytesIn > 0 || compressor.AvailableBytesOut == 0);\n\n    compressor.EndDeflate();\n\n    ms.Seek(0, SeekOrigin.Begin);\n    CompressedBytes = new byte[compressor.TotalBytesOut];\n    ms.Read(CompressedBytes, 0, CompressedBytes.Length);\n}</code></pre>\n"
+  syntax:
+    content: public int Deflate(FlushType flush)
+    parameters:
+    - id: flush
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+      description: "whether to flush all data as you deflate. Generally you will want to \nuse Z_NO_FLUSH here, in a series of calls to Deflate(), and then call EndDeflate() to \nflush everything. \n"
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function Deflate(flush As FlushType) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate
+  id: EndDeflate
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: EndDeflate()
+  nameWithType: ZlibCodec.EndDeflate()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndDeflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 597
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nEnd a deflation session.\n"
+  remarks: "\nCall this after making a series of one or more calls to Deflate(). All buffers are flushed.\n"
+  example: []
+  syntax:
+    content: public int EndDeflate()
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function EndDeflate As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate
+  id: ResetDeflate
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: ResetDeflate()
+  nameWithType: ZlibCodec.ResetDeflate()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResetDeflate
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 616
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nReset a codec for another deflation session.\n"
+  remarks: "\nCall this to reset the deflation state.  For example if a thread is deflating\nnon-consecutive blocks, you can call Reset() after the Deflate(Sync) of the first\nblock and before the next Deflate(None) of the second block.\n"
+  example: []
+  syntax:
+    content: public void ResetDeflate()
+    content.vb: Public Sub ResetDeflate
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy)
+  id: SetDeflateParams(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: SetDeflateParams(CompressionLevel, CompressionStrategy)
+  nameWithType: ZlibCodec.SetDeflateParams(CompressionLevel, CompressionStrategy)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams(OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel, OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetDeflateParams
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 630
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nSet the CompressionStrategy and CompressionLevel for a deflation session.\n"
+  example: []
+  syntax:
+    content: public int SetDeflateParams(CompressionLevel level, CompressionStrategy strategy)
+    parameters:
+    - id: level
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+      description: the level of compression to use.
+    - id: strategy
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+      description: the strategy to use for compression.
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function SetDeflateParams(level As CompressionLevel, strategy As CompressionStrategy) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary(System.Byte[])
+  id: SetDictionary(System.Byte[])
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+  langs:
+  - csharp
+  - vb
+  name: SetDictionary(Byte[])
+  nameWithType: ZlibCodec.SetDictionary(Byte[])
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary(System.Byte[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetDictionary
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
+    startLine: 643
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nSet the dictionary to be used for either Inflation or Deflation.\n"
+  example: []
+  syntax:
+    content: public int SetDictionary(byte[] dictionary)
+    parameters:
+    - id: dictionary
+      type: System.Byte[]
+      description: The dictionary bytes to use.
+    return:
+      type: System.Int32
+      description: Z_OK if all goes well.
+    content.vb: Public Function SetDictionary(dictionary As Byte()) As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary*
+  nameWithType.vb: ZlibCodec.SetDictionary(Byte())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary(System.Byte())
+  name.vb: SetDictionary(Byte())
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionStrategy
+  nameWithType: CompressionStrategy
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32
+  name: Adler32
+  nameWithType: ZlibCodec.Adler32
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Adler32
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.#ctor
+  name: ZlibCodec
+  nameWithType: ZlibCodec.ZlibCodec
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ZlibCodec
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionMode
+  nameWithType: CompressionMode
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate
+  name: InitializeInflate
+  nameWithType: ZlibCodec.InitializeInflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeInflate
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate
+  name: Inflate
+  nameWithType: ZlibCodec.Inflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Inflate
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: FlushType
+  nameWithType: FlushType
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate
+  name: EndInflate
+  nameWithType: ZlibCodec.EndInflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndInflate
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate
+  name: SyncInflate
+  nameWithType: ZlibCodec.SyncInflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SyncInflate
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate
+  name: InitializeDeflate
+  nameWithType: ZlibCodec.InitializeDeflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.InitializeDeflate
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate
+  name: Deflate
+  nameWithType: ZlibCodec.Deflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.Deflate
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate
+  name: EndDeflate
+  nameWithType: ZlibCodec.EndDeflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.EndDeflate
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate
+  name: ResetDeflate
+  nameWithType: ZlibCodec.ResetDeflate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.ResetDeflate
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams
+  name: SetDeflateParams
+  nameWithType: ZlibCodec.SetDeflateParams
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDeflateParams
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary
+  name: SetDictionary
+  nameWithType: ZlibCodec.SetDictionary
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec.SetDictionary

@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  id: eTickLabelPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eTickLabelPosition.High
+  - OfficeOpenXml.Drawing.Chart.eTickLabelPosition.Low
+  - OfficeOpenXml.Drawing.Chart.eTickLabelPosition.NextTo
+  - OfficeOpenXml.Drawing.Chart.eTickLabelPosition.None
+  langs:
+  - csharp
+  - vb
+  name: eTickLabelPosition
+  nameWithType: eTickLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTickLabelPosition
+    path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAxis label position\n"
+  example: []
+  syntax:
+    content: public enum eTickLabelPosition
+    content.vb: Public Enum eTickLabelPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.High
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTickLabelPosition.High
+  id: High
+  parent: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: High
+  nameWithType: eTickLabelPosition.High
+  fullName: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.High
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: High
+    path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe axis labels will be at the high end of the perpendicular axis\n"
+  example: []
+  syntax:
+    content: High = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.Low
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTickLabelPosition.Low
+  id: Low
+  parent: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: Low
+  nameWithType: eTickLabelPosition.Low
+  fullName: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.Low
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Low
+    path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe axis labels will be at the low end of the perpendicular axis\n"
+  example: []
+  syntax:
+    content: Low = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.NextTo
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTickLabelPosition.NextTo
+  id: NextTo
+  parent: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: NextTo
+  nameWithType: eTickLabelPosition.NextTo
+  fullName: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.NextTo
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextTo
+    path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe axis labels will be next to the axis.\n"
+  example: []
+  syntax:
+    content: NextTo = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.None
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTickLabelPosition.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eTickLabelPosition.None
+  fullName: OfficeOpenXml.Drawing.Chart.eTickLabelPosition.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nNo axis labels are drawn\n"
+  example: []
+  syntax:
+    content: None = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eTickLabelPosition
+  nameWithType: eTickLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eTickLabelPosition

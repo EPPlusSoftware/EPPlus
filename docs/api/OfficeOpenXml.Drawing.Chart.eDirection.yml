@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eDirection
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDirection
+  id: eDirection
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eDirection.Bar
+  - OfficeOpenXml.Drawing.Chart.eDirection.Column
+  langs:
+  - csharp
+  - vb
+  name: eDirection
+  nameWithType: eDirection
+  fullName: OfficeOpenXml.Drawing.Chart.eDirection
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDirection
+    path: ../src/EPPlus/Drawing/Chart/enums/eDirection.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBar or column\n"
+  example: []
+  syntax:
+    content: public enum eDirection
+    content.vb: Public Enum eDirection
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eDirection.Column
+  commentId: F:OfficeOpenXml.Drawing.Chart.eDirection.Column
+  id: Column
+  parent: OfficeOpenXml.Drawing.Chart.eDirection
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: eDirection.Column
+  fullName: OfficeOpenXml.Drawing.Chart.eDirection.Column
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/Drawing/Chart/enums/eDirection.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA column\n"
+  example: []
+  syntax:
+    content: Column = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eDirection.Bar
+  commentId: F:OfficeOpenXml.Drawing.Chart.eDirection.Bar
+  id: Bar
+  parent: OfficeOpenXml.Drawing.Chart.eDirection
+  langs:
+  - csharp
+  - vb
+  name: Bar
+  nameWithType: eDirection.Bar
+  fullName: OfficeOpenXml.Drawing.Chart.eDirection.Bar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bar
+    path: ../src/EPPlus/Drawing/Chart/enums/eDirection.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA bar\n"
+  example: []
+  syntax:
+    content: Bar = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eDirection
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDirection
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eDirection
+  nameWithType: eDirection
+  fullName: OfficeOpenXml.Drawing.Chart.eDirection

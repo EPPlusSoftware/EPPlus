@@ -1,0 +1,929 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  id: ExcelPivotAreaReferenceBase
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotAreaReferenceBase
+  nameWithType: ExcelPivotAreaReferenceBase
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotAreaReferenceBase
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nBase class for pivot area references\n"
+  example: []
+  syntax:
+    content: 'public abstract class ExcelPivotAreaReferenceBase : XmlHelper'
+    content.vb: >-
+      Public MustInherit Class ExcelPivotAreaReferenceBase
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  derivedClasses:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaDataFieldReference
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  id: Selected
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: Selected
+  nameWithType: ExcelPivotAreaReferenceBase.Selected
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Selected
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf this field has selection. This property is used when the pivot table is in outline view. It is also used when both header and data cells have selection.\n"
+  example: []
+  syntax:
+    content: public bool Selected { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Selected As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  id: DefaultSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: DefaultSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.DefaultSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DefaultSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the default subtotal is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool DefaultSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DefaultSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  id: AvgSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: AvgSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.AvgSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AvgSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the Average aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool AvgSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AvgSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  id: CountSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: CountSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.CountSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the Count aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool CountSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CountSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  id: CountASubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: CountASubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.CountASubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountASubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the CountA aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool CountASubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CountASubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  id: MaxSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: MaxSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.MaxSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the Maximum aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool MaxSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property MaxSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  id: MinSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: MinSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.MinSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MinSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the Minimum aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool MinSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property MinSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  id: ProductSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: ProductSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.ProductSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProductSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the Product aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool ProductSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ProductSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  id: StdDevPSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: StdDevPSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDevPSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 196
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the population standard deviation aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool StdDevPSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property StdDevPSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  id: StdDevSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: StdDevSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.StdDevSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDevSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the standard deviation aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool StdDevSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property StdDevSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  id: SumSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: SumSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.SumSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SumSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 224
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the sum aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool SumSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SumSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  id: VarPSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: VarPSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.VarPSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VarPSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the population variance aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool VarPSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property VarPSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  id: VarSubtotal
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  langs:
+  - csharp
+  - vb
+  name: VarSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.VarSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VarSubtotal
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceBase.cs
+    startLine: 252
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the variance aggregation function is included in the filter.\n"
+  example: []
+  syntax:
+    content: public bool VarSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property VarSubtotal As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+  name: Selected
+  nameWithType: ExcelPivotAreaReferenceBase.Selected
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.Selected
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+  name: DefaultSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.DefaultSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.DefaultSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+  name: AvgSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.AvgSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.AvgSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+  name: CountSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.CountSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+  name: CountASubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.CountASubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.CountASubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+  name: MaxSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.MaxSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MaxSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+  name: MinSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.MinSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.MinSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+  name: ProductSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.ProductSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.ProductSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  name: StdDevPSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.StdDevPSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevPSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+  name: StdDevSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.StdDevSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.StdDevSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+  name: SumSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.SumSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.SumSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+  name: VarPSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.VarPSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarPSubtotal
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal
+  name: VarSubtotal
+  nameWithType: ExcelPivotAreaReferenceBase.VarSubtotal
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase.VarSubtotal

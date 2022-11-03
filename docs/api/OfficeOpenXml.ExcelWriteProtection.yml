@@ -1,0 +1,579 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelWriteProtection
+  commentId: T:OfficeOpenXml.ExcelWriteProtection
+  id: ExcelWriteProtection
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelWriteProtection.IsReadOnly
+  - OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended
+  - OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly
+  - OfficeOpenXml.ExcelWriteProtection.SetReadOnly(System.String,System.String)
+  - OfficeOpenXml.ExcelWriteProtection.UserName
+  langs:
+  - csharp
+  - vb
+  name: ExcelWriteProtection
+  nameWithType: ExcelWriteProtection
+  fullName: OfficeOpenXml.ExcelWriteProtection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelFileSharing.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelWriteProtection
+    path: ../src/EPPlus/ExcelFileSharing.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFile sharing settings for the workbook.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelWriteProtection : XmlHelper'
+    content.vb: >-
+      Public Class ExcelWriteProtection
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelWriteProtection.SetReadOnly(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelWriteProtection.SetReadOnly(System.String,System.String)
+  id: SetReadOnly(System.String,System.String)
+  parent: OfficeOpenXml.ExcelWriteProtection
+  langs:
+  - csharp
+  - vb
+  name: SetReadOnly(String, String)
+  nameWithType: ExcelWriteProtection.SetReadOnly(String, String)
+  fullName: OfficeOpenXml.ExcelWriteProtection.SetReadOnly(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelFileSharing.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetReadOnly
+    path: ../src/EPPlus/ExcelFileSharing.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nWrites protectes the workbook with a password. \nEPPlus uses SHA-512 as hash algorithm with a spin count of 100000.\n"
+  example: []
+  syntax:
+    content: public void SetReadOnly(string userName, string password)
+    parameters:
+    - id: userName
+      type: System.String
+      description: The name of the person enforcing the write protection
+    - id: password
+      type: System.String
+      description: The password. Setting the password to null or empty will remove the read-only mode.
+    content.vb: Public Sub SetReadOnly(userName As String, password As String)
+  overload: OfficeOpenXml.ExcelWriteProtection.SetReadOnly*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly
+  commentId: M:OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly
+  id: RemoveReadOnly
+  parent: OfficeOpenXml.ExcelWriteProtection
+  langs:
+  - csharp
+  - vb
+  name: RemoveReadOnly()
+  nameWithType: ExcelWriteProtection.RemoveReadOnly()
+  fullName: OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelFileSharing.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveReadOnly
+    path: ../src/EPPlus/ExcelFileSharing.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemove any write protection set on the workbook\n"
+  example: []
+  syntax:
+    content: public void RemoveReadOnly()
+    content.vb: Public Sub RemoveReadOnly
+  overload: OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWriteProtection.IsReadOnly
+  commentId: P:OfficeOpenXml.ExcelWriteProtection.IsReadOnly
+  id: IsReadOnly
+  parent: OfficeOpenXml.ExcelWriteProtection
+  langs:
+  - csharp
+  - vb
+  name: IsReadOnly
+  nameWithType: ExcelWriteProtection.IsReadOnly
+  fullName: OfficeOpenXml.ExcelWriteProtection.IsReadOnly
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelFileSharing.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsReadOnly
+    path: ../src/EPPlus/ExcelFileSharing.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the workbook is set to readonly and has a password set.\n"
+  example: []
+  syntax:
+    content: public bool IsReadOnly { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsReadOnly As Boolean
+  overload: OfficeOpenXml.ExcelWriteProtection.IsReadOnly*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWriteProtection.UserName
+  commentId: P:OfficeOpenXml.ExcelWriteProtection.UserName
+  id: UserName
+  parent: OfficeOpenXml.ExcelWriteProtection
+  langs:
+  - csharp
+  - vb
+  name: UserName
+  nameWithType: ExcelWriteProtection.UserName
+  fullName: OfficeOpenXml.ExcelWriteProtection.UserName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelFileSharing.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UserName
+    path: ../src/EPPlus/ExcelFileSharing.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name of the person enforcing the write protection.\n"
+  example: []
+  syntax:
+    content: public string UserName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property UserName As String
+  overload: OfficeOpenXml.ExcelWriteProtection.UserName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended
+  commentId: P:OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended
+  id: ReadOnlyRecommended
+  parent: OfficeOpenXml.ExcelWriteProtection
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyRecommended
+  nameWithType: ExcelWriteProtection.ReadOnlyRecommended
+  fullName: OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelFileSharing.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ReadOnlyRecommended
+    path: ../src/EPPlus/ExcelFileSharing.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the author recommends that you open the workbook in read-only mode.\n"
+  example: []
+  syntax:
+    content: public bool ReadOnlyRecommended { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ReadOnlyRecommended As Boolean
+  overload: OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelWriteProtection.SetReadOnly*
+  commentId: Overload:OfficeOpenXml.ExcelWriteProtection.SetReadOnly
+  name: SetReadOnly
+  nameWithType: ExcelWriteProtection.SetReadOnly
+  fullName: OfficeOpenXml.ExcelWriteProtection.SetReadOnly
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly*
+  commentId: Overload:OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly
+  name: RemoveReadOnly
+  nameWithType: ExcelWriteProtection.RemoveReadOnly
+  fullName: OfficeOpenXml.ExcelWriteProtection.RemoveReadOnly
+- uid: OfficeOpenXml.ExcelWriteProtection.IsReadOnly*
+  commentId: Overload:OfficeOpenXml.ExcelWriteProtection.IsReadOnly
+  name: IsReadOnly
+  nameWithType: ExcelWriteProtection.IsReadOnly
+  fullName: OfficeOpenXml.ExcelWriteProtection.IsReadOnly
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelWriteProtection.UserName*
+  commentId: Overload:OfficeOpenXml.ExcelWriteProtection.UserName
+  name: UserName
+  nameWithType: ExcelWriteProtection.UserName
+  fullName: OfficeOpenXml.ExcelWriteProtection.UserName
+- uid: OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended*
+  commentId: Overload:OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended
+  name: ReadOnlyRecommended
+  nameWithType: ExcelWriteProtection.ReadOnlyRecommended
+  fullName: OfficeOpenXml.ExcelWriteProtection.ReadOnlyRecommended

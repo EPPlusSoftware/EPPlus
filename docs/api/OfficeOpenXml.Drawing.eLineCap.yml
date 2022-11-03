@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eLineCap
+  commentId: T:OfficeOpenXml.Drawing.eLineCap
+  id: eLineCap
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eLineCap.Flat
+  - OfficeOpenXml.Drawing.eLineCap.Round
+  - OfficeOpenXml.Drawing.eLineCap.Square
+  langs:
+  - csharp
+  - vb
+  name: eLineCap
+  nameWithType: eLineCap
+  fullName: OfficeOpenXml.Drawing.eLineCap
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineCap.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLineCap
+    path: ../src/EPPlus/Drawing/Enums/eLineCap.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe Type of Line cap\n"
+  example: []
+  syntax:
+    content: public enum eLineCap
+    content.vb: Public Enum eLineCap
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eLineCap.Flat
+  commentId: F:OfficeOpenXml.Drawing.eLineCap.Flat
+  id: Flat
+  parent: OfficeOpenXml.Drawing.eLineCap
+  langs:
+  - csharp
+  - vb
+  name: Flat
+  nameWithType: eLineCap.Flat
+  fullName: OfficeOpenXml.Drawing.eLineCap.Flat
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineCap.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Flat
+    path: ../src/EPPlus/Drawing/Enums/eLineCap.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA flat line cap\n"
+  example: []
+  syntax:
+    content: Flat = 0
+    return:
+      type: OfficeOpenXml.Drawing.eLineCap
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineCap.Round
+  commentId: F:OfficeOpenXml.Drawing.eLineCap.Round
+  id: Round
+  parent: OfficeOpenXml.Drawing.eLineCap
+  langs:
+  - csharp
+  - vb
+  name: Round
+  nameWithType: eLineCap.Round
+  fullName: OfficeOpenXml.Drawing.eLineCap.Round
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineCap.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Round
+    path: ../src/EPPlus/Drawing/Enums/eLineCap.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA round line cap\n"
+  example: []
+  syntax:
+    content: Round = 1
+    return:
+      type: OfficeOpenXml.Drawing.eLineCap
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineCap.Square
+  commentId: F:OfficeOpenXml.Drawing.eLineCap.Square
+  id: Square
+  parent: OfficeOpenXml.Drawing.eLineCap
+  langs:
+  - csharp
+  - vb
+  name: Square
+  nameWithType: eLineCap.Square
+  fullName: OfficeOpenXml.Drawing.eLineCap.Square
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineCap.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Square
+    path: ../src/EPPlus/Drawing/Enums/eLineCap.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Square line cap\n"
+  example: []
+  syntax:
+    content: Square = 2
+    return:
+      type: OfficeOpenXml.Drawing.eLineCap
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eLineCap
+  commentId: T:OfficeOpenXml.Drawing.eLineCap
+  parent: OfficeOpenXml.Drawing
+  name: eLineCap
+  nameWithType: eLineCap
+  fullName: OfficeOpenXml.Drawing.eLineCap

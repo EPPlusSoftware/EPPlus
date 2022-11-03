@@ -1,0 +1,949 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  id: ExcelThreadedCommentThread
+  parent: OfficeOpenXml.ThreadedComments
+  children:
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String,System.String)
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String,System.String,OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[])
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove(OfficeOpenXml.ThreadedComments.ExcelThreadedComment)
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet
+  langs:
+  - csharp
+  - vb
+  name: ExcelThreadedCommentThread
+  nameWithType: ExcelThreadedCommentThread
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelThreadedCommentThread
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nRepresents a thread of <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref>s in a cell on a worksheet. Contains functionality to add and modify these comments.\n"
+  example: []
+  syntax:
+    content: public class ExcelThreadedCommentThread
+    content.vb: Public Class ExcelThreadedCommentThread
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress
+  id: CellAddress
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: CellAddress
+  nameWithType: ExcelThreadedCommentThread.CellAddress
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellAddress
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nThe address of the cell of the comment thread\n"
+  example: []
+  syntax:
+    content: public ExcelCellAddress CellAddress { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelCellAddress
+    content.vb: Public ReadOnly Property CellAddress As ExcelCellAddress
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments
+  id: Comments
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: Comments
+  nameWithType: ExcelThreadedCommentThread.Comments
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Comments
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nA collection of comments in the thread.\n"
+  example: []
+  syntax:
+    content: public ExcelThreadedCommentCollection Comments { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+    content.vb: Public ReadOnly Property Comments As ExcelThreadedCommentCollection
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: ExcelThreadedCommentThread.Worksheet
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nThe worksheet where this comment thread resides\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet Worksheet { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public ReadOnly Property Worksheet As ExcelWorksheet
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml
+  id: ThreadedCommentsXml
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: ThreadedCommentsXml
+  nameWithType: ExcelThreadedCommentThread.ThreadedCommentsXml
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreadedCommentsXml
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nThe raw xml representing this comment thread.\n"
+  example: []
+  syntax:
+    content: public XmlDocument ThreadedCommentsXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property ThreadedCommentsXml As XmlDocument
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String,System.String)
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String,System.String)
+  id: AddComment(System.String,System.String)
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: AddComment(String, String)
+  nameWithType: ExcelThreadedCommentThread.AddComment(String, String)
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddComment
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref> to the thread\n"
+  example: []
+  syntax:
+    content: public ExcelThreadedComment AddComment(string personId, string text)
+    parameters:
+    - id: personId
+      type: System.String
+      description: Id of the author, see <xref href="OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson" data-throw-if-not-resolved="false"></xref>
+    - id: text
+      type: System.String
+      description: Text of the comment
+    return:
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+    content.vb: Public Function AddComment(personId As String, text As String) As ExcelThreadedComment
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String,System.String,OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[])
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String,System.String,OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[])
+  id: AddComment(System.String,System.String,OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[])
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: AddComment(String, String, ExcelThreadedCommentPerson[])
+  nameWithType: ExcelThreadedCommentThread.AddComment(String, String, ExcelThreadedCommentPerson[])
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String, System.String, OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddComment
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref> with mentions in the text to the thread.\n"
+  example: []
+  syntax:
+    content: public ExcelThreadedComment AddComment(string personId, string textWithFormats, params ExcelThreadedCommentPerson[] personsToMention)
+    parameters:
+    - id: personId
+      type: System.String
+      description: Id of the <xref href="OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson?text=autor" data-throw-if-not-resolved="false"></xref>
+    - id: textWithFormats
+      type: System.String
+      description: A string with format placeholders - same as in string.Format. Index in these should correspond to an index in the <code data-dev-comment-type="paramref" class="paramref">personsToMention</code> array.
+    - id: personsToMention
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[]
+      description: A params array of <xref href="OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson" data-throw-if-not-resolved="false"></xref>. Their DisplayName property will be used to replace the format placeholders.
+    return:
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+      description: The added <xref href="OfficeOpenXml.ThreadedComments.ExcelThreadedComment" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Function AddComment(personId As String, textWithFormats As String, ParamArray personsToMention As ExcelThreadedCommentPerson()) As ExcelThreadedComment
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment*
+  nameWithType.vb: ExcelThreadedCommentThread.AddComment(String, String, ExcelThreadedCommentPerson())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment(System.String, System.String, OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson())
+  name.vb: AddComment(String, String, ExcelThreadedCommentPerson())
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove(OfficeOpenXml.ThreadedComments.ExcelThreadedComment)
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove(OfficeOpenXml.ThreadedComments.ExcelThreadedComment)
+  id: Remove(OfficeOpenXml.ThreadedComments.ExcelThreadedComment)
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelThreadedComment)
+  nameWithType: ExcelThreadedCommentThread.Remove(ExcelThreadedComment)
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove(OfficeOpenXml.ThreadedComments.ExcelThreadedComment)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 167
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nRemoves a <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref> from the thread.\n"
+  example: []
+  syntax:
+    content: public bool Remove(ExcelThreadedComment comment)
+    parameters:
+    - id: comment
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+      description: The comment to remove
+    return:
+      type: System.Boolean
+      description: true if the comment was removed, otherwise false
+    content.vb: Public Function Remove(comment As ExcelThreadedComment) As Boolean
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread
+  id: ResolveThread
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: ResolveThread()
+  nameWithType: ExcelThreadedCommentThread.ResolveThread()
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResolveThread
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nCloses the thread, only the author can re-open it.\n"
+  example: []
+  syntax:
+    content: public void ResolveThread()
+    content.vb: Public Sub ResolveThread
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved
+  id: IsResolved
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: IsResolved
+  nameWithType: ExcelThreadedCommentThread.IsResolved
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsResolved
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nIf true the thread is resolved, i.e. closed for edits or further comments.\n"
+  example: []
+  syntax:
+    content: public bool IsResolved { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsResolved As Boolean
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread
+  id: ReopenThread
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: ReopenThread()
+  nameWithType: ExcelThreadedCommentThread.ReopenThread()
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ReopenThread
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 201
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nRe-opens a resolved thread.\n"
+  example: []
+  syntax:
+    content: public void ReopenThread()
+    content.vb: Public Sub ReopenThread
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread
+  id: DeleteThread
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: DeleteThread()
+  nameWithType: ExcelThreadedCommentThread.DeleteThread()
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteThread
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nDeletes all <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref>s in the thread and the legacy <xref href=\"OfficeOpenXml.ExcelComment\" data-throw-if-not-resolved=\"false\"></xref> in the cell.\n"
+  example: []
+  syntax:
+    content: public void DeleteThread()
+    content.vb: Public Sub DeleteThread
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString
+  id: ToString
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelThreadedCommentThread.ToString()
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
+    startLine: 256
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nReturns a string that represents the current object.\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: A string that represents the current object.
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedComment
+  nameWithType: ExcelThreadedComment
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+- uid: OfficeOpenXml.ThreadedComments
+  commentId: N:OfficeOpenXml.ThreadedComments
+  name: OfficeOpenXml.ThreadedComments
+  nameWithType: OfficeOpenXml.ThreadedComments
+  fullName: OfficeOpenXml.ThreadedComments
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress
+  name: CellAddress
+  nameWithType: ExcelThreadedCommentThread.CellAddress
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.CellAddress
+- uid: OfficeOpenXml.ExcelCellAddress
+  commentId: T:OfficeOpenXml.ExcelCellAddress
+  parent: OfficeOpenXml
+  name: ExcelCellAddress
+  nameWithType: ExcelCellAddress
+  fullName: OfficeOpenXml.ExcelCellAddress
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments
+  name: Comments
+  nameWithType: ExcelThreadedCommentThread.Comments
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Comments
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedCommentCollection
+  nameWithType: ExcelThreadedCommentCollection
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet
+  name: Worksheet
+  nameWithType: ExcelThreadedCommentThread.Worksheet
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Worksheet
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml
+  name: ThreadedCommentsXml
+  nameWithType: ExcelThreadedCommentThread.ThreadedCommentsXml
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ThreadedCommentsXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedCommentPerson
+  nameWithType: ExcelThreadedCommentPerson
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment
+  name: AddComment
+  nameWithType: ExcelThreadedCommentThread.AddComment
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.AddComment
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[]
+  isExternal: true
+  name: ExcelThreadedCommentPerson[]
+  nameWithType: ExcelThreadedCommentPerson[]
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson[]
+  nameWithType.vb: ExcelThreadedCommentPerson()
+  fullName.vb: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson()
+  name.vb: ExcelThreadedCommentPerson()
+  spec.csharp:
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+    name: ExcelThreadedCommentPerson
+    nameWithType: ExcelThreadedCommentPerson
+    fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+    name: ExcelThreadedCommentPerson
+    nameWithType: ExcelThreadedCommentPerson
+    fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove
+  name: Remove
+  nameWithType: ExcelThreadedCommentThread.Remove
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.Remove
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread
+  name: ResolveThread
+  nameWithType: ExcelThreadedCommentThread.ResolveThread
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ResolveThread
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved
+  name: IsResolved
+  nameWithType: ExcelThreadedCommentThread.IsResolved
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.IsResolved
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread
+  name: ReopenThread
+  nameWithType: ExcelThreadedCommentThread.ReopenThread
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ReopenThread
+- uid: OfficeOpenXml.ExcelComment
+  commentId: T:OfficeOpenXml.ExcelComment
+  parent: OfficeOpenXml
+  name: ExcelComment
+  nameWithType: ExcelComment
+  fullName: OfficeOpenXml.ExcelComment
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread
+  name: DeleteThread
+  nameWithType: ExcelThreadedCommentThread.DeleteThread
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.DeleteThread
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString
+  name: ToString
+  nameWithType: ExcelThreadedCommentThread.ToString
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread.ToString

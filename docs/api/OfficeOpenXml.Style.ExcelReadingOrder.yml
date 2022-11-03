@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelReadingOrder
+  commentId: T:OfficeOpenXml.Style.ExcelReadingOrder
+  id: ExcelReadingOrder
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelReadingOrder.ContextDependent
+  - OfficeOpenXml.Style.ExcelReadingOrder.LeftToRight
+  - OfficeOpenXml.Style.ExcelReadingOrder.RightToLeft
+  langs:
+  - csharp
+  - vb
+  name: ExcelReadingOrder
+  nameWithType: ExcelReadingOrder
+  fullName: OfficeOpenXml.Style.ExcelReadingOrder
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelReadingOrder
+    path: ../src/EPPlus/Style/enums/ExcelReadingOrder.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe reading order\n"
+  example: []
+  syntax:
+    content: public enum ExcelReadingOrder
+    content.vb: Public Enum ExcelReadingOrder
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelReadingOrder.ContextDependent
+  commentId: F:OfficeOpenXml.Style.ExcelReadingOrder.ContextDependent
+  id: ContextDependent
+  parent: OfficeOpenXml.Style.ExcelReadingOrder
+  langs:
+  - csharp
+  - vb
+  name: ContextDependent
+  nameWithType: ExcelReadingOrder.ContextDependent
+  fullName: OfficeOpenXml.Style.ExcelReadingOrder.ContextDependent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContextDependent
+    path: ../src/EPPlus/Style/enums/ExcelReadingOrder.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nReading order is determined by the first non-whitespace character\n"
+  example: []
+  syntax:
+    content: ContextDependent = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelReadingOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelReadingOrder.LeftToRight
+  commentId: F:OfficeOpenXml.Style.ExcelReadingOrder.LeftToRight
+  id: LeftToRight
+  parent: OfficeOpenXml.Style.ExcelReadingOrder
+  langs:
+  - csharp
+  - vb
+  name: LeftToRight
+  nameWithType: ExcelReadingOrder.LeftToRight
+  fullName: OfficeOpenXml.Style.ExcelReadingOrder.LeftToRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftToRight
+    path: ../src/EPPlus/Style/enums/ExcelReadingOrder.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLeft to Right\n"
+  example: []
+  syntax:
+    content: LeftToRight = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelReadingOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelReadingOrder.RightToLeft
+  commentId: F:OfficeOpenXml.Style.ExcelReadingOrder.RightToLeft
+  id: RightToLeft
+  parent: OfficeOpenXml.Style.ExcelReadingOrder
+  langs:
+  - csharp
+  - vb
+  name: RightToLeft
+  nameWithType: ExcelReadingOrder.RightToLeft
+  fullName: OfficeOpenXml.Style.ExcelReadingOrder.RightToLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightToLeft
+    path: ../src/EPPlus/Style/enums/ExcelReadingOrder.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nRight to Left\n"
+  example: []
+  syntax:
+    content: RightToLeft = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelReadingOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelReadingOrder
+  commentId: T:OfficeOpenXml.Style.ExcelReadingOrder
+  parent: OfficeOpenXml.Style
+  name: ExcelReadingOrder
+  nameWithType: ExcelReadingOrder
+  fullName: OfficeOpenXml.Style.ExcelReadingOrder

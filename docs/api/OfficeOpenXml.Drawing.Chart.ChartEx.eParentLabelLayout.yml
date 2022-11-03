@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  id: eParentLabelLayout
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Banner
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.None
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Overlapping
+  langs:
+  - csharp
+  - vb
+  name: eParentLabelLayout
+  nameWithType: eParentLabelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eParentLabelLayout
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe layout type for the parent labels\n"
+  example: []
+  syntax:
+    content: public enum eParentLabelLayout
+    content.vb: Public Enum eParentLabelLayout
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.None
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eParentLabelLayout.None
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nNo parent labels are shown\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Banner
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Banner
+  id: Banner
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  langs:
+  - csharp
+  - vb
+  name: Banner
+  nameWithType: eParentLabelLayout.Banner
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Banner
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Banner
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nParent label layout is a banner above the category\n"
+  example: []
+  syntax:
+    content: Banner = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Overlapping
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Overlapping
+  id: Overlapping
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  langs:
+  - csharp
+  - vb
+  name: Overlapping
+  nameWithType: eParentLabelLayout.Overlapping
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout.Overlapping
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Overlapping
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nParent label is laid out within the category\n"
+  example: []
+  syntax:
+    content: Overlapping = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eParentLabelLayout
+  nameWithType: eParentLabelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout

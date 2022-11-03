@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  commentId: T:OfficeOpenXml.Drawing.Chart.eCrossBetween
+  id: eCrossBetween
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eCrossBetween.Between
+  - OfficeOpenXml.Drawing.Chart.eCrossBetween.MidCat
+  langs:
+  - csharp
+  - vb
+  name: eCrossBetween
+  nameWithType: eCrossBetween
+  fullName: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eCrossBetween.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eCrossBetween
+    path: ../src/EPPlus/Drawing/Chart/enums/eCrossBetween.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nHow the axis are crossed\n"
+  example: []
+  syntax:
+    content: public enum eCrossBetween
+    content.vb: Public Enum eCrossBetween
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eCrossBetween.Between
+  commentId: F:OfficeOpenXml.Drawing.Chart.eCrossBetween.Between
+  id: Between
+  parent: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  langs:
+  - csharp
+  - vb
+  name: Between
+  nameWithType: eCrossBetween.Between
+  fullName: OfficeOpenXml.Drawing.Chart.eCrossBetween.Between
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eCrossBetween.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Between
+    path: ../src/EPPlus/Drawing/Chart/enums/eCrossBetween.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe value axis will cross the category axis between data markers\n"
+  example: []
+  syntax:
+    content: Between = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eCrossBetween.MidCat
+  commentId: F:OfficeOpenXml.Drawing.Chart.eCrossBetween.MidCat
+  id: MidCat
+  parent: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  langs:
+  - csharp
+  - vb
+  name: MidCat
+  nameWithType: eCrossBetween.MidCat
+  fullName: OfficeOpenXml.Drawing.Chart.eCrossBetween.MidCat
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eCrossBetween.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MidCat
+    path: ../src/EPPlus/Drawing/Chart/enums/eCrossBetween.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe value axis will cross the category axis at the middle of a category.\n"
+  example: []
+  syntax:
+    content: MidCat = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  commentId: T:OfficeOpenXml.Drawing.Chart.eCrossBetween
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eCrossBetween
+  nameWithType: eCrossBetween
+  fullName: OfficeOpenXml.Drawing.Chart.eCrossBetween

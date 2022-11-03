@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eCalculationMethod
+  commentId: T:OfficeOpenXml.eCalculationMethod
+  id: eCalculationMethod
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eCalculationMethod.Add
+  - OfficeOpenXml.eCalculationMethod.Multiply
+  langs:
+  - csharp
+  - vb
+  name: eCalculationMethod
+  nameWithType: eCalculationMethod
+  fullName: OfficeOpenXml.eCalculationMethod
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eCalculationMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eCalculationMethod
+    path: ../src/EPPlus/Core/Worksheet/Fill/eCalculationMethod.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculation Method for number fill operations\n"
+  example: []
+  syntax:
+    content: public enum eCalculationMethod
+    content.vb: Public Enum eCalculationMethod
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eCalculationMethod.Add
+  commentId: F:OfficeOpenXml.eCalculationMethod.Add
+  id: Add
+  parent: OfficeOpenXml.eCalculationMethod
+  langs:
+  - csharp
+  - vb
+  name: Add
+  nameWithType: eCalculationMethod.Add
+  fullName: OfficeOpenXml.eCalculationMethod.Add
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eCalculationMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Core/Worksheet/Fill/eCalculationMethod.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdd the value to the next fill\n"
+  example: []
+  syntax:
+    content: Add = 0
+    return:
+      type: OfficeOpenXml.eCalculationMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eCalculationMethod.Multiply
+  commentId: F:OfficeOpenXml.eCalculationMethod.Multiply
+  id: Multiply
+  parent: OfficeOpenXml.eCalculationMethod
+  langs:
+  - csharp
+  - vb
+  name: Multiply
+  nameWithType: eCalculationMethod.Multiply
+  fullName: OfficeOpenXml.eCalculationMethod.Multiply
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eCalculationMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Multiply
+    path: ../src/EPPlus/Core/Worksheet/Fill/eCalculationMethod.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMultiply the value to the next fill\n"
+  example: []
+  syntax:
+    content: Multiply = 1
+    return:
+      type: OfficeOpenXml.eCalculationMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eCalculationMethod
+  commentId: T:OfficeOpenXml.eCalculationMethod
+  parent: OfficeOpenXml
+  name: eCalculationMethod
+  nameWithType: eCalculationMethod
+  fullName: OfficeOpenXml.eCalculationMethod

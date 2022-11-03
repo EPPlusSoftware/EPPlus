@@ -1,0 +1,1737 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelWorksheets
+  commentId: T:OfficeOpenXml.ExcelWorksheets
+  id: ExcelWorksheets
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelWorksheets.Add(System.String)
+  - OfficeOpenXml.ExcelWorksheets.Add(System.String,OfficeOpenXml.ExcelWorksheet)
+  - OfficeOpenXml.ExcelWorksheets.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  - OfficeOpenXml.ExcelWorksheets.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.ExcelWorksheets.AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.ExcelWorksheets.Copy(System.String,System.String)
+  - OfficeOpenXml.ExcelWorksheets.Count
+  - OfficeOpenXml.ExcelWorksheets.Delete(OfficeOpenXml.ExcelWorksheet)
+  - OfficeOpenXml.ExcelWorksheets.Delete(System.Int32)
+  - OfficeOpenXml.ExcelWorksheets.Delete(System.String)
+  - OfficeOpenXml.ExcelWorksheets.Dispose
+  - OfficeOpenXml.ExcelWorksheets.GetEnumerator
+  - OfficeOpenXml.ExcelWorksheets.Item(System.Int32)
+  - OfficeOpenXml.ExcelWorksheets.Item(System.String)
+  - OfficeOpenXml.ExcelWorksheets.MoveAfter(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheets.MoveAfter(System.String,System.String)
+  - OfficeOpenXml.ExcelWorksheets.MoveBefore(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheets.MoveBefore(System.String,System.String)
+  - OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.Int32)
+  - OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.String)
+  - OfficeOpenXml.ExcelWorksheets.MoveToStart(System.Int32)
+  - OfficeOpenXml.ExcelWorksheets.MoveToStart(System.String)
+  - OfficeOpenXml.ExcelWorksheets.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelWorksheets
+  nameWithType: ExcelWorksheets
+  fullName: OfficeOpenXml.ExcelWorksheets
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelWorksheets
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe collection of worksheets for the workbook\n"
+  example: []
+  syntax:
+    content: 'public class ExcelWorksheets : XmlHelper, IEnumerable<ExcelWorksheet>, IEnumerable, IDisposable'
+    content.vb: >-
+      Public Class ExcelWorksheets
+          Inherits XmlHelper
+          Implements IEnumerable(Of ExcelWorksheet), IEnumerable, IDisposable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelWorksheet}
+  - System.Collections.IEnumerable
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelWorksheets.Count
+  commentId: P:OfficeOpenXml.ExcelWorksheets.Count
+  id: Count
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelWorksheets.Count
+  fullName: OfficeOpenXml.ExcelWorksheets.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 109
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the number of worksheets in the workbook\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.ExcelWorksheets.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheets.GetEnumerator
+  commentId: M:OfficeOpenXml.ExcelWorksheets.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelWorksheets.GetEnumerator()
+  fullName: OfficeOpenXml.ExcelWorksheets.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nForeach support\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelWorksheet> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelWorksheet}
+      description: An enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelWorksheet)
+  overload: OfficeOpenXml.ExcelWorksheets.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelWorksheet}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.ExcelWorksheets.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelWorksheets.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.ExcelWorksheets.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.ExcelWorksheets.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelWorksheets.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.ExcelWorksheets.Add(System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.Add(System.String)
+  id: Add(System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Add(String)
+  nameWithType: ExcelWorksheets.Add(String)
+  fullName: OfficeOpenXml.ExcelWorksheets.Add(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a new blank worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet Add(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the workbook
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public Function Add(Name As String) As ExcelWorksheet
+  overload: OfficeOpenXml.ExcelWorksheets.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.Add(System.String,OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.Add(System.String,OfficeOpenXml.ExcelWorksheet)
+  id: Add(System.String,OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Add(String, ExcelWorksheet)
+  nameWithType: ExcelWorksheets.Add(String, ExcelWorksheet)
+  fullName: OfficeOpenXml.ExcelWorksheets.Add(System.String, OfficeOpenXml.ExcelWorksheet)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 191
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a copy of a worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet Add(string Name, ExcelWorksheet Copy)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the workbook
+    - id: Copy
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet to be copied
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public Function Add(Name As String, Copy As ExcelWorksheet) As ExcelWorksheet
+  overload: OfficeOpenXml.ExcelWorksheets.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  id: AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: AddChart(String, eChartType)
+  nameWithType: ExcelWorksheets.AddChart(String, eChartType)
+  fullName: OfficeOpenXml.ExcelWorksheets.AddChart(System.String, OfficeOpenXml.Drawing.Chart.eChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChart
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 204
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a chartsheet to the workbook.\n"
+  example: []
+  syntax:
+    content: public ExcelChartsheet AddChart(string Name, eChartType chartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the worksheet
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eChartType
+      description: The type of chart
+    return:
+      type: OfficeOpenXml.ExcelChartsheet
+      description: ''
+    content.vb: Public Function AddChart(Name As String, chartType As eChartType) As ExcelChartsheet
+  overload: OfficeOpenXml.ExcelWorksheets.AddChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: AddChart(String, eChartType, ExcelPivotTable)
+  nameWithType: ExcelWorksheets.AddChart(String, eChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.ExcelWorksheets.AddChart(System.String, OfficeOpenXml.Drawing.Chart.eChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChart
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 219
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a chartsheet to the workbook.\n"
+  example: []
+  syntax:
+    content: public ExcelChartsheet AddChart(string Name, eChartType chartType, ExcelPivotTable pivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the worksheet
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eChartType
+      description: The type of chart
+    - id: pivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source
+    return:
+      type: OfficeOpenXml.ExcelChartsheet
+      description: ''
+    content.vb: Public Function AddChart(Name As String, chartType As eChartType, pivotTableSource As ExcelPivotTable) As ExcelChartsheet
+  overload: OfficeOpenXml.ExcelWorksheets.AddChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  id: AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: AddStockChart(String, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase)
+  nameWithType: ExcelWorksheets.AddStockChart(String, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase)
+  fullName: OfficeOpenXml.ExcelWorksheets.AddStockChart(System.String, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddStockChart
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a stock chart sheet to the workbook.\n"
+  example: []
+  syntax:
+    content: public ExcelChartsheet AddStockChart(string Name, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie = null)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the worksheet
+    - id: CategorySerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The category serie. A serie containing dates or names
+    - id: HighSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The high price serie
+    - id: LowSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The low price serie
+    - id: CloseSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The close price serie containing
+    - id: OpenSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart
+    - id: VolumeSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart
+    return:
+      type: OfficeOpenXml.ExcelChartsheet
+      description: ''
+    content.vb: Public Function AddStockChart(Name As String, CategorySerie As ExcelRangeBase, HighSerie As ExcelRangeBase, LowSerie As ExcelRangeBase, CloseSerie As ExcelRangeBase, OpenSerie As ExcelRangeBase = Nothing, VolumeSerie As ExcelRangeBase = Nothing) As ExcelChartsheet
+  overload: OfficeOpenXml.ExcelWorksheets.AddStockChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.Delete(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.Delete(System.Int32)
+  id: Delete(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Delete(Int32)
+  nameWithType: ExcelWorksheets.Delete(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheets.Delete(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 382
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDeletes a worksheet from the collection\n"
+  example: []
+  syntax:
+    content: public void Delete(int Index)
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: The position of the worksheet in the workbook
+    content.vb: Public Sub Delete(Index As Integer)
+  overload: OfficeOpenXml.ExcelWorksheets.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.Delete(System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.Delete(System.String)
+  id: Delete(System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Delete(String)
+  nameWithType: ExcelWorksheets.Delete(String)
+  fullName: OfficeOpenXml.ExcelWorksheets.Delete(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 472
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDeletes a worksheet from the collection\n"
+  example: []
+  syntax:
+    content: public void Delete(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the worksheet in the workbook
+    content.vb: Public Sub Delete(name As String)
+  overload: OfficeOpenXml.ExcelWorksheets.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.Delete(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.Delete(OfficeOpenXml.ExcelWorksheet)
+  id: Delete(OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Delete(ExcelWorksheet)
+  nameWithType: ExcelWorksheets.Delete(ExcelWorksheet)
+  fullName: OfficeOpenXml.ExcelWorksheets.Delete(OfficeOpenXml.ExcelWorksheet)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 485
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDelete a worksheet from the collection\n"
+  example: []
+  syntax:
+    content: public void Delete(ExcelWorksheet Worksheet)
+    parameters:
+    - id: Worksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet to delete
+    content.vb: Public Sub Delete(Worksheet As ExcelWorksheet)
+  overload: OfficeOpenXml.ExcelWorksheets.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.Item(System.Int32)
+  commentId: P:OfficeOpenXml.ExcelWorksheets.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelWorksheets.Item[Int32]
+  fullName: OfficeOpenXml.ExcelWorksheets.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 525
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the worksheet at the specified position. \n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet this[int PositionID] { get; }
+    parameters:
+    - id: PositionID
+      type: System.Int32
+      description: The position of the worksheet. Collection is zero-based or one-base depending on the Package.Compatibility.IsWorksheets1Based propery. Default is Zero based
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+      description: ''
+    content.vb: Public ReadOnly Property Item(PositionID As Integer) As ExcelWorksheet
+  overload: OfficeOpenXml.ExcelWorksheets.Item*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelPackage.Compatibility
+    commentId: P:OfficeOpenXml.ExcelPackage.Compatibility
+  nameWithType.vb: ExcelWorksheets.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.ExcelWorksheets.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.ExcelWorksheets.Item(System.String)
+  commentId: P:OfficeOpenXml.ExcelWorksheets.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelWorksheets.Item[String]
+  fullName: OfficeOpenXml.ExcelWorksheets.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 546
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the worksheet matching the specified name\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet this[string Name] { get; }
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the worksheet
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+      description: ''
+    content.vb: Public ReadOnly Property Item(Name As String) As ExcelWorksheet
+  overload: OfficeOpenXml.ExcelWorksheets.Item*
+  nameWithType.vb: ExcelWorksheets.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.ExcelWorksheets.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.ExcelWorksheets.Copy(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.Copy(System.String,System.String)
+  id: Copy(System.String,System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Copy(String, String)
+  nameWithType: ExcelWorksheets.Copy(String, String)
+  fullName: OfficeOpenXml.ExcelWorksheets.Copy(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Copy
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 559
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCopies the named worksheet and creates a new worksheet in the same workbook\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet Copy(string Name, string NewName)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the existing worksheet
+    - id: NewName
+      type: System.String
+      description: The name of the new worksheet to create
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The new copy added to the end of the worksheets collection
+    content.vb: Public Function Copy(Name As String, NewName As String) As ExcelWorksheet
+  overload: OfficeOpenXml.ExcelWorksheets.Copy*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveBefore(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveBefore(System.String,System.String)
+  id: MoveBefore(System.String,System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveBefore(String, String)
+  nameWithType: ExcelWorksheets.MoveBefore(String, String)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveBefore(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveBefore
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 616
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the position before the target worksheet\n"
+  example: []
+  syntax:
+    content: public void MoveBefore(string sourceName, string targetName)
+    parameters:
+    - id: sourceName
+      type: System.String
+      description: The name of the source worksheet
+    - id: targetName
+      type: System.String
+      description: The name of the target worksheet
+    content.vb: Public Sub MoveBefore(sourceName As String, targetName As String)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveBefore*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveBefore(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveBefore(System.Int32,System.Int32)
+  id: MoveBefore(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveBefore(Int32, Int32)
+  nameWithType: ExcelWorksheets.MoveBefore(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveBefore(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveBefore
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 626
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the position before the target worksheet\n"
+  example: []
+  syntax:
+    content: public void MoveBefore(int sourcePositionId, int targetPositionId)
+    parameters:
+    - id: sourcePositionId
+      type: System.Int32
+      description: The id of the source worksheet
+    - id: targetPositionId
+      type: System.Int32
+      description: The id of the target worksheet
+    content.vb: Public Sub MoveBefore(sourcePositionId As Integer, targetPositionId As Integer)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveBefore*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveAfter(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveAfter(System.String,System.String)
+  id: MoveAfter(System.String,System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveAfter(String, String)
+  nameWithType: ExcelWorksheets.MoveAfter(String, String)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveAfter(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveAfter
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 636
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the position after the target worksheet\n"
+  example: []
+  syntax:
+    content: public void MoveAfter(string sourceName, string targetName)
+    parameters:
+    - id: sourceName
+      type: System.String
+      description: The name of the source worksheet
+    - id: targetName
+      type: System.String
+      description: The name of the target worksheet
+    content.vb: Public Sub MoveAfter(sourceName As String, targetName As String)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveAfter*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveAfter(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveAfter(System.Int32,System.Int32)
+  id: MoveAfter(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveAfter(Int32, Int32)
+  nameWithType: ExcelWorksheets.MoveAfter(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveAfter(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveAfter
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 646
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the position after the target worksheet\n"
+  example: []
+  syntax:
+    content: public void MoveAfter(int sourcePositionId, int targetPositionId)
+    parameters:
+    - id: sourcePositionId
+      type: System.Int32
+      description: The id of the source worksheet
+    - id: targetPositionId
+      type: System.Int32
+      description: The id of the target worksheet
+    content.vb: Public Sub MoveAfter(sourcePositionId As Integer, targetPositionId As Integer)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveAfter*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveToStart(System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveToStart(System.String)
+  id: MoveToStart(System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveToStart(String)
+  nameWithType: ExcelWorksheets.MoveToStart(String)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveToStart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveToStart
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 655
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the start of the worksheets collection\n"
+  example: []
+  syntax:
+    content: public void MoveToStart(string sourceName)
+    parameters:
+    - id: sourceName
+      type: System.String
+      description: The name of the source worksheet
+    content.vb: Public Sub MoveToStart(sourceName As String)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveToStart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveToStart(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveToStart(System.Int32)
+  id: MoveToStart(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveToStart(Int32)
+  nameWithType: ExcelWorksheets.MoveToStart(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveToStart(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveToStart
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 665
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the start of the worksheets collection\n"
+  example: []
+  syntax:
+    content: public void MoveToStart(int sourcePositionId)
+    parameters:
+    - id: sourcePositionId
+      type: System.Int32
+      description: The position of the source worksheet
+    content.vb: Public Sub MoveToStart(sourcePositionId As Integer)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveToStart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.String)
+  id: MoveToEnd(System.String)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveToEnd(String)
+  nameWithType: ExcelWorksheets.MoveToEnd(String)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveToEnd
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 674
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the end of the worksheets collection\n"
+  example: []
+  syntax:
+    content: public void MoveToEnd(string sourceName)
+    parameters:
+    - id: sourceName
+      type: System.String
+      description: The name of the source worksheet
+    content.vb: Public Sub MoveToEnd(sourceName As String)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveToEnd*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.Int32)
+  id: MoveToEnd(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: MoveToEnd(Int32)
+  nameWithType: ExcelWorksheets.MoveToEnd(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveToEnd(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveToEnd
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 685
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMoves the source worksheet to the end of the worksheets collection\n"
+  example: []
+  syntax:
+    content: public void MoveToEnd(int sourcePositionId)
+    parameters:
+    - id: sourcePositionId
+      type: System.Int32
+      description: The position of the source worksheet
+    content.vb: Public Sub MoveToEnd(sourcePositionId As Integer)
+  overload: OfficeOpenXml.ExcelWorksheets.MoveToEnd*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheets.Dispose
+  commentId: M:OfficeOpenXml.ExcelWorksheets.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelWorksheets.Dispose()
+  fullName: OfficeOpenXml.ExcelWorksheets.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 693
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDispose the worksheets collection\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.ExcelWorksheets.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelWorksheet}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelWorksheet}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelWorksheet>
+  nameWithType: IEnumerable<ExcelWorksheet>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelWorksheet>
+  nameWithType.vb: IEnumerable(Of ExcelWorksheet)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelWorksheet)
+  name.vb: IEnumerable(Of ExcelWorksheet)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.ExcelWorksheets.Count*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.Count
+  name: Count
+  nameWithType: ExcelWorksheets.Count
+  fullName: OfficeOpenXml.ExcelWorksheets.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelWorksheets.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelWorksheets.GetEnumerator
+  fullName: OfficeOpenXml.ExcelWorksheets.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelWorksheet}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelWorksheet}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelWorksheet}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelWorksheet>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelWorksheet>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelWorksheet).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelWorksheet).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelWorksheet>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelWorksheet>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelWorksheet).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelWorksheet).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelWorksheet}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelWorksheet}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelWorksheet>
+  nameWithType: IEnumerator<ExcelWorksheet>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.ExcelWorksheet>
+  nameWithType.vb: IEnumerator(Of ExcelWorksheet)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.ExcelWorksheet)
+  name.vb: IEnumerator(Of ExcelWorksheet)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheets.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelWorksheets.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.ExcelWorksheets.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelWorksheets.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.ExcelWorksheets.Add*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.Add
+  name: Add
+  nameWithType: ExcelWorksheets.Add
+  fullName: OfficeOpenXml.ExcelWorksheets.Add
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml.ExcelWorksheets.AddChart*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.AddChart
+  name: AddChart
+  nameWithType: ExcelWorksheets.AddChart
+  fullName: OfficeOpenXml.ExcelWorksheets.AddChart
+- uid: OfficeOpenXml.Drawing.Chart.eChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eChartType
+  nameWithType: eChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eChartType
+- uid: OfficeOpenXml.ExcelChartsheet
+  commentId: T:OfficeOpenXml.ExcelChartsheet
+  parent: OfficeOpenXml
+  name: ExcelChartsheet
+  nameWithType: ExcelChartsheet
+  fullName: OfficeOpenXml.ExcelChartsheet
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTable
+  nameWithType: ExcelPivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.ExcelWorksheets.AddStockChart*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.AddStockChart
+  name: AddStockChart
+  nameWithType: ExcelWorksheets.AddStockChart
+  fullName: OfficeOpenXml.ExcelWorksheets.AddStockChart
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.ExcelWorksheets.Delete*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.Delete
+  name: Delete
+  nameWithType: ExcelWorksheets.Delete
+  fullName: OfficeOpenXml.ExcelWorksheets.Delete
+- uid: OfficeOpenXml.ExcelPackage.Compatibility
+  commentId: P:OfficeOpenXml.ExcelPackage.Compatibility
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorksheets.Item*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.Item
+  name: Item
+  nameWithType: ExcelWorksheets.Item
+  fullName: OfficeOpenXml.ExcelWorksheets.Item
+- uid: OfficeOpenXml.ExcelWorksheets.Copy*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.Copy
+  name: Copy
+  nameWithType: ExcelWorksheets.Copy
+  fullName: OfficeOpenXml.ExcelWorksheets.Copy
+- uid: OfficeOpenXml.ExcelWorksheets.MoveBefore*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.MoveBefore
+  name: MoveBefore
+  nameWithType: ExcelWorksheets.MoveBefore
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveBefore
+- uid: OfficeOpenXml.ExcelWorksheets.MoveAfter*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.MoveAfter
+  name: MoveAfter
+  nameWithType: ExcelWorksheets.MoveAfter
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveAfter
+- uid: OfficeOpenXml.ExcelWorksheets.MoveToStart*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.MoveToStart
+  name: MoveToStart
+  nameWithType: ExcelWorksheets.MoveToStart
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveToStart
+- uid: OfficeOpenXml.ExcelWorksheets.MoveToEnd*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.MoveToEnd
+  name: MoveToEnd
+  nameWithType: ExcelWorksheets.MoveToEnd
+  fullName: OfficeOpenXml.ExcelWorksheets.MoveToEnd
+- uid: OfficeOpenXml.ExcelWorksheets.Dispose*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.Dispose
+  name: Dispose
+  nameWithType: ExcelWorksheets.Dispose
+  fullName: OfficeOpenXml.ExcelWorksheets.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )

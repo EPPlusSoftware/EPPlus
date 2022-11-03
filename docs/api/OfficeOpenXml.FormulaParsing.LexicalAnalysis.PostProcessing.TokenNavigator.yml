@@ -1,0 +1,1002 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  id: TokenNavigator
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  children:
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.#ctor(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token})
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition(System.Int32)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex(System.Int32)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken
+  langs:
+  - csharp
+  - vb
+  name: TokenNavigator
+  nameWithType: TokenNavigator
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TokenNavigator
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nHelper class for reading and modifying tokens compiled by the <xref href=\"OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenizerContext\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public class TokenNavigator
+    content.vb: Public Class TokenNavigator
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.#ctor(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token})
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.#ctor(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token})
+  id: '#ctor(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token})'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: TokenNavigator(IList<Token>)
+  nameWithType: TokenNavigator.TokenNavigator(IList<Token>)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.TokenNavigator(System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  syntax:
+    content: public TokenNavigator(IList<Token> tokens)
+    parameters:
+    - id: tokens
+      type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: Public Sub New(tokens As IList(Of Token))
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.#ctor*
+  nameWithType.vb: TokenNavigator.TokenNavigator(IList(Of Token))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.TokenNavigator(System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token))
+  name.vb: TokenNavigator(IList(Of Token))
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext
+  id: HasNext
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: HasNext()
+  nameWithType: TokenNavigator.HasNext()
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasNext
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nReturns true if there is a next token relative to the current token.\n"
+  example: []
+  syntax:
+    content: public bool HasNext()
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Function HasNext As Boolean
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev
+  id: HasPrev
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: HasPrev()
+  nameWithType: TokenNavigator.HasPrev()
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasPrev
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nReturns true if there is a previous token relative to the current token.\n"
+  example: []
+  syntax:
+    content: public bool HasPrev()
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Function HasPrev As Boolean
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext
+  id: MoveNext
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: MoveNext()
+  nameWithType: TokenNavigator.MoveNext()
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveNext
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nMoves to the next token\n"
+  example: []
+  syntax:
+    content: public void MoveNext()
+    content.vb: Public Sub MoveNext
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index
+  id: Index
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: Index
+  nameWithType: TokenNavigator.Index
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Index
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nThe index of the current token.\n"
+  example: []
+  syntax:
+    content: public int Index { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Index As Integer
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens
+  id: NbrOfRemainingTokens
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: NbrOfRemainingTokens
+  nameWithType: TokenNavigator.NbrOfRemainingTokens
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NbrOfRemainingTokens
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nRemaining number of tokens\n"
+  example: []
+  syntax:
+    content: public int NbrOfRemainingTokens { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property NbrOfRemainingTokens As Integer
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken
+  id: CurrentToken
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: CurrentToken
+  nameWithType: TokenNavigator.CurrentToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurrentToken
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nThe current token.\n"
+  example: []
+  syntax:
+    content: public Token CurrentToken { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    content.vb: Public ReadOnly Property CurrentToken As Token
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken
+  id: PreviousToken
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: PreviousToken
+  nameWithType: TokenNavigator.PreviousToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PreviousToken
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nThe token before the current token. If current token is the first token, null will be returned.\n"
+  example: []
+  syntax:
+    content: public Token? PreviousToken { get; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: Public ReadOnly Property PreviousToken As Token?
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken
+  id: NextToken
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: NextToken
+  nameWithType: TokenNavigator.NextToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextToken
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 85
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  syntax:
+    content: public Token NextToken { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    content.vb: Public ReadOnly Property NextToken As Token
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex(System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex(System.Int32)
+  id: MoveIndex(System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: MoveIndex(Int32)
+  nameWithType: TokenNavigator.MoveIndex(Int32)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveIndex
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nMoves to a position relative to current token\n"
+  example: []
+  syntax:
+    content: public void MoveIndex(int relativePosition)
+    parameters:
+    - id: relativePosition
+      type: System.Int32
+      description: The requested position relative to current
+    content.vb: Public Sub MoveIndex(relativePosition As Integer)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition(System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition(System.Int32)
+  id: GetTokenAtRelativePosition(System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+  langs:
+  - csharp
+  - vb
+  name: GetTokenAtRelativePosition(Int32)
+  nameWithType: TokenNavigator.GetTokenAtRelativePosition(Int32)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetTokenAtRelativePosition
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/PostProcessing/TokenNavigator.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  summary: "\nReturns a token using a relative position (offset) of the current token.\n"
+  example: []
+  syntax:
+    content: public Token GetTokenAtRelativePosition(int relativePosition)
+    parameters:
+    - id: relativePosition
+      type: System.Int32
+      description: Offset, can be positive or negative
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+      description: The <xref href="OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token" data-throw-if-not-resolved="false"></xref> of the requested position
+    content.vb: Public Function GetTokenAtRelativePosition(relativePosition As Integer) As Token
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenizerContext
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenizerContext
+  isExternal: true
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.#ctor
+  name: TokenNavigator
+  nameWithType: TokenNavigator.TokenNavigator
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.TokenNavigator
+- uid: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  commentId: T:System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  name: IList<Token>
+  nameWithType: IList<Token>
+  fullName: System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
+  nameWithType.vb: IList(Of Token)
+  fullName.vb: System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  name.vb: IList(Of Token)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext
+  name: HasNext
+  nameWithType: TokenNavigator.HasNext
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasNext
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev
+  name: HasPrev
+  nameWithType: TokenNavigator.HasPrev
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.HasPrev
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext
+  name: MoveNext
+  nameWithType: TokenNavigator.MoveNext
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveNext
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index
+  name: Index
+  nameWithType: TokenNavigator.Index
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.Index
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens
+  name: NbrOfRemainingTokens
+  nameWithType: TokenNavigator.NbrOfRemainingTokens
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NbrOfRemainingTokens
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken
+  name: CurrentToken
+  nameWithType: TokenNavigator.CurrentToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.CurrentToken
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: Token
+  nameWithType: Token
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken
+  name: PreviousToken
+  nameWithType: TokenNavigator.PreviousToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.PreviousToken
+- uid: System.Nullable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  commentId: T:System.Nullable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Token>
+  nameWithType: Nullable<Token>
+  fullName: System.Nullable<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
+  nameWithType.vb: Nullable(Of Token)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  name.vb: Nullable(Of Token)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken
+  name: NextToken
+  nameWithType: TokenNavigator.NextToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.NextToken
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex
+  name: MoveIndex
+  nameWithType: TokenNavigator.MoveIndex
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.MoveIndex
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition
+  name: GetTokenAtRelativePosition
+  nameWithType: TokenNavigator.GetTokenAtRelativePosition
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator.GetTokenAtRelativePosition

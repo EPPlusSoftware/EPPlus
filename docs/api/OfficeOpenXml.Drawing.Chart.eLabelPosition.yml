@@ -1,0 +1,363 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLabelPosition
+  id: eLabelPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.BestFit
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.Bottom
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.Center
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.InBase
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.InEnd
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.Left
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.OutEnd
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.Right
+  - OfficeOpenXml.Drawing.Chart.eLabelPosition.Top
+  langs:
+  - csharp
+  - vb
+  name: eLabelPosition
+  nameWithType: eLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLabelPosition
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPosition of the labels\n"
+  example: []
+  syntax:
+    content: public enum eLabelPosition
+    content.vb: Public Enum eLabelPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.BestFit
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.BestFit
+  id: BestFit
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: BestFit
+  nameWithType: eLabelPosition.BestFit
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.BestFit
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BestFit
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBest fit\n"
+  example: []
+  syntax:
+    content: BestFit = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.Left
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eLabelPosition.Left
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLeft aligned\n"
+  example: []
+  syntax:
+    content: Left = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.Right
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eLabelPosition.Right
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nRight aligned\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.Center
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: eLabelPosition.Center
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nCenter aligned\n"
+  example: []
+  syntax:
+    content: Center = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.Top
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eLabelPosition.Top
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nTop aligned\n"
+  example: []
+  syntax:
+    content: Top = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.Bottom
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eLabelPosition.Bottom
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBottom aligned\n"
+  example: []
+  syntax:
+    content: Bottom = 5
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.InBase
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.InBase
+  id: InBase
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: InBase
+  nameWithType: eLabelPosition.InBase
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.InBase
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InBase
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLabels will be displayed inside the data marker\n"
+  example: []
+  syntax:
+    content: InBase = 6
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.InEnd
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.InEnd
+  id: InEnd
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: InEnd
+  nameWithType: eLabelPosition.InEnd
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.InEnd
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InEnd
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLabels will be displayed inside the end of the data marker\n"
+  example: []
+  syntax:
+    content: InEnd = 7
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition.OutEnd
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLabelPosition.OutEnd
+  id: OutEnd
+  parent: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  langs:
+  - csharp
+  - vb
+  name: OutEnd
+  nameWithType: eLabelPosition.OutEnd
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition.OutEnd
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutEnd
+    path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLabels will be displayed outside the end of the data marker\n"
+  example: []
+  syntax:
+    content: OutEnd = 8
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLabelPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLabelPosition
+  nameWithType: eLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition

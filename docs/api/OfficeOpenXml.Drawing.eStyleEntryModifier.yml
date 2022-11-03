@@ -1,0 +1,128 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eStyleEntryModifier
+  commentId: T:OfficeOpenXml.Drawing.eStyleEntryModifier
+  id: eStyleEntryModifier
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoFillOverride
+  - OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoLineOverride
+  langs:
+  - csharp
+  - vb
+  name: eStyleEntryModifier
+  nameWithType: eStyleEntryModifier
+  fullName: OfficeOpenXml.Drawing.eStyleEntryModifier
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eStyleEntryModifier
+    path: ../src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nModifiers for a style entry\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum eStyleEntryModifier
+    content.vb: >-
+      <Flags>
+
+      Public Enum eStyleEntryModifier
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoFillOverride
+  commentId: F:OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoFillOverride
+  id: AllowNoFillOverride
+  parent: OfficeOpenXml.Drawing.eStyleEntryModifier
+  langs:
+  - csharp
+  - vb
+  name: AllowNoFillOverride
+  nameWithType: eStyleEntryModifier.AllowNoFillOverride
+  fullName: OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoFillOverride
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowNoFillOverride
+    path: ../src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThis style entry can be replaced with no fill\n"
+  example: []
+  syntax:
+    content: AllowNoFillOverride = 1
+    return:
+      type: OfficeOpenXml.Drawing.eStyleEntryModifier
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoLineOverride
+  commentId: F:OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoLineOverride
+  id: AllowNoLineOverride
+  parent: OfficeOpenXml.Drawing.eStyleEntryModifier
+  langs:
+  - csharp
+  - vb
+  name: AllowNoLineOverride
+  nameWithType: eStyleEntryModifier.AllowNoLineOverride
+  fullName: OfficeOpenXml.Drawing.eStyleEntryModifier.AllowNoLineOverride
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowNoLineOverride
+    path: ../src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThis style entry can be replaced with no line\n"
+  example: []
+  syntax:
+    content: AllowNoLineOverride = 2
+    return:
+      type: OfficeOpenXml.Drawing.eStyleEntryModifier
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eStyleEntryModifier
+  commentId: T:OfficeOpenXml.Drawing.eStyleEntryModifier
+  parent: OfficeOpenXml.Drawing
+  name: eStyleEntryModifier
+  nameWithType: eStyleEntryModifier
+  fullName: OfficeOpenXml.Drawing.eStyleEntryModifier

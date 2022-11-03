@@ -1,0 +1,734 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  id: ExcelPivotTableDataField
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableDataField
+  nameWithType: ExcelPivotTableDataField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableDataField
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA pivot table data field\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableDataField : XmlHelper'
+    content.vb: >-
+      Public Class ExcelPivotTableDataField
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field
+  id: Field
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: Field
+  nameWithType: ExcelPivotTableDataField.Field
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Field
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableField Field { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    content.vb: Public ReadOnly Property Field As ExcelPivotTableField
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index
+  id: Index
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: Index
+  nameWithType: ExcelPivotTableDataField.Index
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Index
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe index of the datafield\n"
+  example: []
+  syntax:
+    content: public int Index { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Index As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name
+  id: Name
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelPivotTableDataField.Name
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe name of the datafield\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField
+  id: BaseField
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: BaseField
+  nameWithType: ExcelPivotTableDataField.BaseField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BaseField
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nField index. Reference to the field collection\n"
+  example: []
+  syntax:
+    content: public int BaseField { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property BaseField As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem
+  id: BaseItem
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: BaseItem
+  nameWithType: ExcelPivotTableDataField.BaseItem
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BaseItem
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe index to the base item when the ShowDataAs calculation is in use\n"
+  example: []
+  syntax:
+    content: public int BaseItem { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property BaseItem As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format
+  id: Format
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: Format
+  nameWithType: ExcelPivotTableDataField.Format
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Format
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe number format for the data field\n"
+  example: []
+  syntax:
+    content: public string Format { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Format As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function
+  id: Function
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: Function
+  nameWithType: ExcelPivotTableDataField.Function
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Function
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nType of aggregate function\n"
+  example: []
+  syntax:
+    content: public DataFieldFunctions Function { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+    content.vb: Public Property Function As DataFieldFunctions
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs
+  id: ShowDataAs
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  langs:
+  - csharp
+  - vb
+  name: ShowDataAs
+  nameWithType: ExcelPivotTableDataField.ShowDataAs
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowDataAs
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
+    startLine: 195
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRepresents a pivot fields Show As properties.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableDataFieldShowDataAs ShowDataAs { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldShowDataAs
+    content.vb: Public ReadOnly Property ShowDataAs As ExcelPivotTableDataFieldShowDataAs
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field
+  name: Field
+  nameWithType: ExcelPivotTableDataField.Field
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Field
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableField
+  nameWithType: ExcelPivotTableField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index
+  name: Index
+  nameWithType: ExcelPivotTableDataField.Index
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Index
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name
+  name: Name
+  nameWithType: ExcelPivotTableDataField.Name
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField
+  name: BaseField
+  nameWithType: ExcelPivotTableDataField.BaseField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem
+  name: BaseItem
+  nameWithType: ExcelPivotTableDataField.BaseItem
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.BaseItem
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format
+  name: Format
+  nameWithType: ExcelPivotTableDataField.Format
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Format
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function
+  name: Function
+  nameWithType: ExcelPivotTableDataField.Function
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.Function
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  commentId: T:OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  parent: OfficeOpenXml.Table.PivotTable
+  name: DataFieldFunctions
+  nameWithType: DataFieldFunctions
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs
+  name: ShowDataAs
+  nameWithType: ExcelPivotTableDataField.ShowDataAs
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField.ShowDataAs
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldShowDataAs
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldShowDataAs
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableDataFieldShowDataAs
+  nameWithType: ExcelPivotTableDataFieldShowDataAs
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldShowDataAs

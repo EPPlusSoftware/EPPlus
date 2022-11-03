@@ -1,0 +1,537 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  id: ExcelVmlDrawingPosition
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlDrawingPosition
+  nameWithType: ExcelVmlDrawingPosition
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlDrawingPosition
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe position of a VML drawing. Used for comments\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVmlDrawingPosition : XmlHelper'
+    content.vb: >-
+      Public Class ExcelVmlDrawingPosition
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+  id: Row
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: ExcelVmlDrawingPosition.Row
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nRow. Zero based\n"
+  example: []
+  syntax:
+    content: public int Row { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Row As Integer
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+  id: RowOffset
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  langs:
+  - csharp
+  - vb
+  name: RowOffset
+  nameWithType: ExcelVmlDrawingPosition.RowOffset
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowOffset
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nRow offset in pixels. Zero based\n"
+  example: []
+  syntax:
+    content: public int RowOffset { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property RowOffset As Integer
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
+  id: Column
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: ExcelVmlDrawingPosition.Column
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nColumn. Zero based\n"
+  example: []
+  syntax:
+    content: public int Column { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Column As Integer
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
+  id: ColumnOffset
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  langs:
+  - csharp
+  - vb
+  name: ColumnOffset
+  nameWithType: ExcelVmlDrawingPosition.ColumnOffset
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnOffset
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingPosition.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nColumn offset. Zero based\n"
+  example: []
+  syntax:
+    content: public int ColumnOffset { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ColumnOffset As Integer
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+  name: Row
+  nameWithType: ExcelVmlDrawingPosition.Row
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Row
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+  name: RowOffset
+  nameWithType: ExcelVmlDrawingPosition.RowOffset
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.RowOffset
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
+  name: Column
+  nameWithType: ExcelVmlDrawingPosition.Column
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.Column
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset
+  name: ColumnOffset
+  nameWithType: ExcelVmlDrawingPosition.ColumnOffset
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition.ColumnOffset

@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  id: eExternalWorkbookCacheStatus
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Failed
+  - OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.LoadedFromPackage
+  - OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.NotUpdated
+  - OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Updated
+  langs:
+  - csharp
+  - vb
+  name: eExternalWorkbookCacheStatus
+  nameWithType: eExternalWorkbookCacheStatus
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExternalWorkbookCacheStatus
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe status of an external workbooks cache.\n"
+  example: []
+  syntax:
+    content: public enum eExternalWorkbookCacheStatus
+    content.vb: Public Enum eExternalWorkbookCacheStatus
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.NotUpdated
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.NotUpdated
+  id: NotUpdated
+  parent: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  langs:
+  - csharp
+  - vb
+  name: NotUpdated
+  nameWithType: eExternalWorkbookCacheStatus.NotUpdated
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.NotUpdated
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotUpdated
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nCache has not been updated. Saving an external reference with this status will update the cache on save.\n"
+  example: []
+  syntax:
+    content: NotUpdated = 0
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.LoadedFromPackage
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.LoadedFromPackage
+  id: LoadedFromPackage
+  parent: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  langs:
+  - csharp
+  - vb
+  name: LoadedFromPackage
+  nameWithType: eExternalWorkbookCacheStatus.LoadedFromPackage
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.LoadedFromPackage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadedFromPackage
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nCache has been loaded from the external reference cache within the package.\n"
+  example: []
+  syntax:
+    content: LoadedFromPackage = 1
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Failed
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Failed
+  id: Failed
+  parent: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  langs:
+  - csharp
+  - vb
+  name: Failed
+  nameWithType: eExternalWorkbookCacheStatus.Failed
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Failed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Failed
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nUpdate of the cache failed. Any loaded data from the package is still available. \n"
+  example: []
+  syntax:
+    content: Failed = 2
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Updated
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Updated
+  id: Updated
+  parent: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  langs:
+  - csharp
+  - vb
+  name: Updated
+  nameWithType: eExternalWorkbookCacheStatus.Updated
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Updated
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Updated
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalWorkbookCacheStatus.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe cache has been successfully updated\n"
+  example: []
+  syntax:
+    content: Updated = 3
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  parent: OfficeOpenXml.ExternalReferences
+  name: eExternalWorkbookCacheStatus
+  nameWithType: eExternalWorkbookCacheStatus
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus

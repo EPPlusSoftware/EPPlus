@@ -1,0 +1,171 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalLinkType
+  id: eExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.eExternalLinkType.DdeLink
+  - OfficeOpenXml.ExternalReferences.eExternalLinkType.ExternalWorkbook
+  - OfficeOpenXml.ExternalReferences.eExternalLinkType.OleLink
+  langs:
+  - csharp
+  - vb
+  name: eExternalLinkType
+  nameWithType: eExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExternalLinkType
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe type of external link\n"
+  example: []
+  syntax:
+    content: public enum eExternalLinkType
+    content.vb: Public Enum eExternalLinkType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType.ExternalWorkbook
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalLinkType.ExternalWorkbook
+  id: ExternalWorkbook
+  parent: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  langs:
+  - csharp
+  - vb
+  name: ExternalWorkbook
+  nameWithType: eExternalLinkType.ExternalWorkbook
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType.ExternalWorkbook
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalWorkbook
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe external link is of type <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: ExternalWorkbook = 0
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType.DdeLink
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalLinkType.DdeLink
+  id: DdeLink
+  parent: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  langs:
+  - csharp
+  - vb
+  name: DdeLink
+  nameWithType: eExternalLinkType.DdeLink
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType.DdeLink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DdeLink
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe external link is of type <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: DdeLink = 1
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType.OleLink
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalLinkType.OleLink
+  id: OleLink
+  parent: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  langs:
+  - csharp
+  - vb
+  name: OleLink
+  nameWithType: eExternalLinkType.OleLink
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType.OleLink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OleLink
+    path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe external link is of type <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalOleLink\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: OleLink = 2
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalWorkbook
+  nameWithType: ExcelExternalWorkbook
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences
+  name: eExternalLinkType
+  nameWithType: eExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalDdeLink
+  nameWithType: ExcelExternalDdeLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalOleLink
+  nameWithType: ExcelExternalOleLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink

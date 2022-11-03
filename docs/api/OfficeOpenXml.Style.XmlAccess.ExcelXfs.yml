@@ -1,0 +1,1116 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  id: ExcelXfs
+  parent: OfficeOpenXml.Style.XmlAccess
+  children:
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText
+  - OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId
+  langs:
+  - csharp
+  - vb
+  name: ExcelXfs
+  nameWithType: ExcelXfs
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelXfs
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nXml access class xfs records. This is the top level style object.\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelXfs : StyleXmlHelper'
+    content.vb: >-
+      Public NotInheritable Class ExcelXfs
+          Inherits StyleXmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId
+  id: XfId
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: XfId
+  nameWithType: ExcelXfs.XfId
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XfId
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nStyle index\n"
+  example: []
+  syntax:
+    content: public int XfId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property XfId As Integer
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat
+  id: Numberformat
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: Numberformat
+  nameWithType: ExcelXfs.Numberformat
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Numberformat
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 159
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nNumberformat properties\n"
+  example: []
+  syntax:
+    content: public ExcelNumberFormatXml Numberformat { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+    content.vb: Public ReadOnly Property Numberformat As ExcelNumberFormatXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font
+  id: Font
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: Font
+  nameWithType: ExcelXfs.Font
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Font
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nFont properties\n"
+  example: []
+  syntax:
+    content: public ExcelFontXml Font { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+    content.vb: Public ReadOnly Property Font As ExcelFontXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill
+  id: Fill
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: Fill
+  nameWithType: ExcelXfs.Fill
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fill
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nFill properties\n"
+  example: []
+  syntax:
+    content: public ExcelFillXml Fill { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+    content.vb: Public ReadOnly Property Fill As ExcelFillXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border
+  id: Border
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: Border
+  nameWithType: ExcelXfs.Border
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Border
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nBorder style properties\n"
+  example: []
+  syntax:
+    content: public ExcelBorderXml Border { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+    content.vb: Public ReadOnly Property Border As ExcelBorderXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment
+  id: HorizontalAlignment
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: HorizontalAlignment
+  nameWithType: ExcelXfs.HorizontalAlignment
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalAlignment
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 201
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nHorizontal alignment\n"
+  example: []
+  syntax:
+    content: public ExcelHorizontalAlignment HorizontalAlignment { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+    content.vb: Public Property HorizontalAlignment As ExcelHorizontalAlignment
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment
+  id: VerticalAlignment
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: VerticalAlignment
+  nameWithType: ExcelXfs.VerticalAlignment
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalAlignment
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 207
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nVertical alignment\n"
+  example: []
+  syntax:
+    content: public ExcelVerticalAlignment VerticalAlignment { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignment
+    content.vb: Public Property VerticalAlignment As ExcelVerticalAlignment
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine
+  id: JustifyLastLine
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: JustifyLastLine
+  nameWithType: ExcelXfs.JustifyLastLine
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JustifyLastLine
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 212
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nIf the cells justified or distributed alignment should be used on the last line of text\n"
+  example: []
+  syntax:
+    content: public bool JustifyLastLine { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property JustifyLastLine As Boolean
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText
+  id: WrapText
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: WrapText
+  nameWithType: ExcelXfs.WrapText
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WrapText
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nWraped text\n"
+  example: []
+  syntax:
+    content: public bool WrapText { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property WrapText As Boolean
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation
+  id: TextRotation
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: TextRotation
+  nameWithType: ExcelXfs.TextRotation
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextRotation
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 224
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nText rotation angle\n"
+  example: []
+  syntax:
+    content: public int TextRotation { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TextRotation As Integer
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked
+  id: Locked
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: Locked
+  nameWithType: ExcelXfs.Locked
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Locked
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 240
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nLocked when sheet is protected\n"
+  example: []
+  syntax:
+    content: public bool Locked { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Locked As Boolean
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: ExcelXfs.Hidden
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nHide formulas when sheet is protected\n"
+  example: []
+  syntax:
+    content: public bool Hidden { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Hidden As Boolean
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix
+  id: QuotePrefix
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: QuotePrefix
+  nameWithType: ExcelXfs.QuotePrefix
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: QuotePrefix
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 251
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nPrefix the formula with a quote.\n"
+  example: []
+  syntax:
+    content: public bool QuotePrefix { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property QuotePrefix As Boolean
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder
+  id: ReadingOrder
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: ReadingOrder
+  nameWithType: ExcelXfs.ReadingOrder
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ReadingOrder
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 257
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nReadingorder\n"
+  example: []
+  syntax:
+    content: public ExcelReadingOrder ReadingOrder { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelReadingOrder
+    content.vb: Public Property ReadingOrder As ExcelReadingOrder
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit
+  id: ShrinkToFit
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: ShrinkToFit
+  nameWithType: ExcelXfs.ShrinkToFit
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShrinkToFit
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 273
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nShrink to fit\n"
+  example: []
+  syntax:
+    content: public bool ShrinkToFit { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShrinkToFit As Boolean
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent
+  id: Indent
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+  langs:
+  - csharp
+  - vb
+  name: Indent
+  nameWithType: ExcelXfs.Indent
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indent
+    path: ../src/EPPlus/Style/XmlAccess/ExcelXfsXml.cs
+    startLine: 279
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nIndentation\n"
+  example: []
+  syntax:
+    content: public int Indent { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Indent As Integer
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Style.XmlAccess
+  commentId: N:OfficeOpenXml.Style.XmlAccess
+  name: OfficeOpenXml.Style.XmlAccess
+  nameWithType: OfficeOpenXml.Style.XmlAccess
+  fullName: OfficeOpenXml.Style.XmlAccess
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  commentId: T:OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: StyleXmlHelper
+  nameWithType: StyleXmlHelper
+  fullName: OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId
+  name: XfId
+  nameWithType: ExcelXfs.XfId
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.XfId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat
+  name: Numberformat
+  nameWithType: ExcelXfs.Numberformat
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Numberformat
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelNumberFormatXml
+  nameWithType: ExcelNumberFormatXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font
+  name: Font
+  nameWithType: ExcelXfs.Font
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Font
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelFontXml
+  nameWithType: ExcelFontXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill
+  name: Fill
+  nameWithType: ExcelXfs.Fill
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Fill
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelFillXml
+  nameWithType: ExcelFillXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border
+  name: Border
+  nameWithType: ExcelXfs.Border
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Border
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelBorderXml
+  nameWithType: ExcelBorderXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment
+  name: HorizontalAlignment
+  nameWithType: ExcelXfs.HorizontalAlignment
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.HorizontalAlignment
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  commentId: T:OfficeOpenXml.Style.ExcelHorizontalAlignment
+  parent: OfficeOpenXml.Style
+  name: ExcelHorizontalAlignment
+  nameWithType: ExcelHorizontalAlignment
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment
+  name: VerticalAlignment
+  nameWithType: ExcelXfs.VerticalAlignment
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.VerticalAlignment
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignment
+  parent: OfficeOpenXml.Style
+  name: ExcelVerticalAlignment
+  nameWithType: ExcelVerticalAlignment
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine
+  name: JustifyLastLine
+  nameWithType: ExcelXfs.JustifyLastLine
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.JustifyLastLine
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText
+  name: WrapText
+  nameWithType: ExcelXfs.WrapText
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.WrapText
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation
+  name: TextRotation
+  nameWithType: ExcelXfs.TextRotation
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.TextRotation
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked
+  name: Locked
+  nameWithType: ExcelXfs.Locked
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Locked
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden
+  name: Hidden
+  nameWithType: ExcelXfs.Hidden
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Hidden
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix
+  name: QuotePrefix
+  nameWithType: ExcelXfs.QuotePrefix
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.QuotePrefix
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder
+  name: ReadingOrder
+  nameWithType: ExcelXfs.ReadingOrder
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ReadingOrder
+- uid: OfficeOpenXml.Style.ExcelReadingOrder
+  commentId: T:OfficeOpenXml.Style.ExcelReadingOrder
+  parent: OfficeOpenXml.Style
+  name: ExcelReadingOrder
+  nameWithType: ExcelReadingOrder
+  fullName: OfficeOpenXml.Style.ExcelReadingOrder
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit
+  name: ShrinkToFit
+  nameWithType: ExcelXfs.ShrinkToFit
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.ShrinkToFit
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent
+  name: Indent
+  nameWithType: ExcelXfs.Indent
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelXfs.Indent

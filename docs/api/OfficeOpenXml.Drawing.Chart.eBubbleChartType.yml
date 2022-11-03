@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  id: eBubbleChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble
+  - OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble3DEffect
+  langs:
+  - csharp
+  - vb
+  name: eBubbleChartType
+  nameWithType: eBubbleChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eBubbleChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBubble chart types\n"
+  example: []
+  syntax:
+    content: public enum eBubbleChartType
+    content.vb: Public Enum eBubbleChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble
+  id: Bubble
+  parent: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  langs:
+  - csharp
+  - vb
+  name: Bubble
+  nameWithType: eBubbleChartType.Bubble
+  fullName: OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bubble
+    path: ../src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA bubble chart \n"
+  example: []
+  syntax:
+    content: Bubble = 15
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble3DEffect
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble3DEffect
+  id: Bubble3DEffect
+  parent: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  langs:
+  - csharp
+  - vb
+  name: Bubble3DEffect
+  nameWithType: eBubbleChartType.Bubble3DEffect
+  fullName: OfficeOpenXml.Drawing.Chart.eBubbleChartType.Bubble3DEffect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bubble3DEffect
+    path: ../src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA 3D bubble chart \n"
+  example: []
+  syntax:
+    content: Bubble3DEffect = 87
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eBubbleChartType
+  nameWithType: eBubbleChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eBubbleChartType

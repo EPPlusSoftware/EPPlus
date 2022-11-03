@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  id: eXAxisPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eXAxisPosition.Bottom
+  - OfficeOpenXml.Drawing.Chart.eXAxisPosition.Top
+  langs:
+  - csharp
+  - vb
+  name: eXAxisPosition
+  nameWithType: eXAxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eXAxisPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eXAxisPosition
+    path: ../src/EPPlus/Drawing/Chart/enums/eXAxisPosition.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPosition of the X-Axis\n"
+  example: []
+  syntax:
+    content: public enum eXAxisPosition
+    content.vb: Public Enum eXAxisPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eXAxisPosition.Bottom
+  commentId: F:OfficeOpenXml.Drawing.Chart.eXAxisPosition.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eXAxisPosition.Bottom
+  fullName: OfficeOpenXml.Drawing.Chart.eXAxisPosition.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eXAxisPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Chart/enums/eXAxisPosition.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nTo the bottom\n"
+  example: []
+  syntax:
+    content: Bottom = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eXAxisPosition.Top
+  commentId: F:OfficeOpenXml.Drawing.Chart.eXAxisPosition.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eXAxisPosition.Top
+  fullName: OfficeOpenXml.Drawing.Chart.eXAxisPosition.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eXAxisPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Chart/enums/eXAxisPosition.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nTo the top\n"
+  example: []
+  syntax:
+    content: Top = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eXAxisPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eXAxisPosition
+  nameWithType: eXAxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eXAxisPosition

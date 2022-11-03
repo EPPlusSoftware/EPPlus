@@ -1,0 +1,514 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sorting.RangeSortOptions
+  commentId: T:OfficeOpenXml.Sorting.RangeSortOptions
+  id: RangeSortOptions
+  parent: OfficeOpenXml.Sorting
+  children:
+  - OfficeOpenXml.Sorting.RangeSortOptions.Create
+  - OfficeOpenXml.Sorting.RangeSortOptions.SortBy
+  - OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy
+  langs:
+  - csharp
+  - vb
+  name: RangeSortOptions
+  nameWithType: RangeSortOptions
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sorting/RangeSortOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RangeSortOptions
+    path: ../src/EPPlus/Sorting/RangeSortOptions.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSort options for sorting a range.\n"
+  example: []
+  syntax:
+    content: 'public class RangeSortOptions : SortOptionsBase'
+    content.vb: >-
+      Public Class RangeSortOptions
+          Inherits SortOptionsBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Sorting.SortOptionsBase
+  inheritedMembers:
+  - OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  - OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Sorting.RangeSortOptions.Create
+  commentId: M:OfficeOpenXml.Sorting.RangeSortOptions.Create
+  id: Create
+  parent: OfficeOpenXml.Sorting.RangeSortOptions
+  langs:
+  - csharp
+  - vb
+  name: Create()
+  nameWithType: RangeSortOptions.Create()
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions.Create()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/RangeSortOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Create
+    path: ../src/EPPlus/Sorting/RangeSortOptions.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nCreates a new instance.\n"
+  example: []
+  syntax:
+    content: public static RangeSortOptions Create()
+    return:
+      type: OfficeOpenXml.Sorting.RangeSortOptions
+      description: ''
+    content.vb: Public Shared Function Create As RangeSortOptions
+  overload: OfficeOpenXml.Sorting.RangeSortOptions.Create*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.Sorting.RangeSortOptions.SortBy
+  commentId: P:OfficeOpenXml.Sorting.RangeSortOptions.SortBy
+  id: SortBy
+  parent: OfficeOpenXml.Sorting.RangeSortOptions
+  langs:
+  - csharp
+  - vb
+  name: SortBy
+  nameWithType: RangeSortOptions.SortBy
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions.SortBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/RangeSortOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortBy
+    path: ../src/EPPlus/Sorting/RangeSortOptions.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nCreates the first sort layer (i.e. the first sort condition) for a row based/top to bottom sort.\n"
+  example: []
+  syntax:
+    content: public RangeSortLayer SortBy { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sorting.RangeSortLayer
+    content.vb: Public ReadOnly Property SortBy As RangeSortLayer
+  overload: OfficeOpenXml.Sorting.RangeSortOptions.SortBy*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy
+  commentId: P:OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy
+  id: SortLeftToRightBy
+  parent: OfficeOpenXml.Sorting.RangeSortOptions
+  langs:
+  - csharp
+  - vb
+  name: SortLeftToRightBy
+  nameWithType: RangeSortOptions.SortLeftToRightBy
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/RangeSortOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortLeftToRightBy
+    path: ../src/EPPlus/Sorting/RangeSortOptions.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nCreates the first sort layer (i.e. the first sort condition) for a column based/left to right sort.\n"
+  example: []
+  syntax:
+    content: public RangeLeftToRightSortLayer SortLeftToRightBy { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+    content.vb: Public ReadOnly Property SortLeftToRightBy As RangeLeftToRightSortLayer
+  overload: OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Sorting.SortOptionsBase
+  commentId: T:OfficeOpenXml.Sorting.SortOptionsBase
+  parent: OfficeOpenXml.Sorting
+  name: SortOptionsBase
+  nameWithType: SortOptionsBase
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  commentId: P:OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  parent: OfficeOpenXml.Sorting.SortOptionsBase
+  name: Culture
+  nameWithType: SortOptionsBase.Culture
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.Culture
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  commentId: P:OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  parent: OfficeOpenXml.Sorting.SortOptionsBase
+  name: CompareOptions
+  nameWithType: SortOptionsBase.CompareOptions
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Sorting.RangeSortOptions.Create*
+  commentId: Overload:OfficeOpenXml.Sorting.RangeSortOptions.Create
+  name: Create
+  nameWithType: RangeSortOptions.Create
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions.Create
+- uid: OfficeOpenXml.Sorting.RangeSortOptions
+  commentId: T:OfficeOpenXml.Sorting.RangeSortOptions
+  parent: OfficeOpenXml.Sorting
+  name: RangeSortOptions
+  nameWithType: RangeSortOptions
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions
+- uid: OfficeOpenXml.Sorting.RangeSortOptions.SortBy*
+  commentId: Overload:OfficeOpenXml.Sorting.RangeSortOptions.SortBy
+  name: SortBy
+  nameWithType: RangeSortOptions.SortBy
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions.SortBy
+- uid: OfficeOpenXml.Sorting.RangeSortLayer
+  commentId: T:OfficeOpenXml.Sorting.RangeSortLayer
+  parent: OfficeOpenXml.Sorting
+  name: RangeSortLayer
+  nameWithType: RangeSortLayer
+  fullName: OfficeOpenXml.Sorting.RangeSortLayer
+- uid: OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy*
+  commentId: Overload:OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy
+  name: SortLeftToRightBy
+  nameWithType: RangeSortOptions.SortLeftToRightBy
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions.SortLeftToRightBy
+- uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  commentId: T:OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  parent: OfficeOpenXml.Sorting
+  name: RangeLeftToRightSortLayer
+  nameWithType: RangeLeftToRightSortLayer
+  fullName: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer

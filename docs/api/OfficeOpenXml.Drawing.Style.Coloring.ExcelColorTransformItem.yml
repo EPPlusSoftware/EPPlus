@@ -1,0 +1,589 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  id: ExcelColorTransformItem
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  children:
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value
+  langs:
+  - csharp
+  - vb
+  name: ExcelColorTransformItem
+  nameWithType: ExcelColorTransformItem
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelColorTransformItem
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nDifferent types of transformation performed on a color \n"
+  example: []
+  syntax:
+    content: 'public class ExcelColorTransformItem : XmlHelper, IColorTransformItem'
+    content.vb: >-
+      Public Class ExcelColorTransformItem
+          Inherits XmlHelper
+          Implements IColorTransformItem
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type
+  id: Type
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelColorTransformItem.Type
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nThe type of transformation\n"
+  example: []
+  syntax:
+    content: public eColorTransformType Type { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+    content.vb: Public ReadOnly Property Type As eColorTransformType
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type*
+  implements:
+  - OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType
+  id: DataType
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  langs:
+  - csharp
+  - vb
+  name: DataType
+  nameWithType: ExcelColorTransformItem.DataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataType
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nDatatype for color transformation\n"
+  example: []
+  syntax:
+    content: public eColorTransformDataType DataType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+    content.vb: Public ReadOnly Property DataType As eColorTransformDataType
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType*
+  implements:
+  - OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value
+  id: Value
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: ExcelColorTransformItem.Value
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nThe value of the color tranformation\n"
+  example: []
+  syntax:
+    content: public double Value { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Value As Double
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value*
+  implements:
+  - OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString
+  id: ToString
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelColorTransformItem.ToString()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nConverts the object to a string\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The type
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  commentId: N:OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  nameWithType: OfficeOpenXml.Drawing.Style.Coloring
+  fullName: OfficeOpenXml.Drawing.Style.Coloring
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: IColorTransformItem
+  nameWithType: IColorTransformItem
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type
+  name: Type
+  nameWithType: ExcelColorTransformItem.Type
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Type
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  parent: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  name: Type
+  nameWithType: IColorTransformItem.Type
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: eColorTransformType
+  nameWithType: eColorTransformType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType
+  name: DataType
+  nameWithType: ExcelColorTransformItem.DataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.DataType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  parent: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  name: DataType
+  nameWithType: IColorTransformItem.DataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: eColorTransformDataType
+  nameWithType: eColorTransformDataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value
+  name: Value
+  nameWithType: ExcelColorTransformItem.Value
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.Value
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  parent: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  name: Value
+  nameWithType: IColorTransformItem.Value
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString
+  name: ToString
+  nameWithType: ExcelColorTransformItem.ToString
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

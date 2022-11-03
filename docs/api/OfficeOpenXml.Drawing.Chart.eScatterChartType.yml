@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eScatterChartType
+  id: eScatterChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatter
+  - OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLines
+  - OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLinesNoMarkers
+  - OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmooth
+  - OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmoothNoMarkers
+  langs:
+  - csharp
+  - vb
+  name: eScatterChartType
+  nameWithType: eScatterChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eScatterChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nScatter chart types\n"
+  example: []
+  syntax:
+    content: public enum eScatterChartType
+    content.vb: Public Enum eScatterChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatter
+  commentId: F:OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatter
+  id: XYScatter
+  parent: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  langs:
+  - csharp
+  - vb
+  name: XYScatter
+  nameWithType: eScatterChartType.XYScatter
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XYScatter
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA XY scatter chart\n"
+  example: []
+  syntax:
+    content: XYScatter = -4169
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLines
+  commentId: F:OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLines
+  id: XYScatterLines
+  parent: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  langs:
+  - csharp
+  - vb
+  name: XYScatterLines
+  nameWithType: eScatterChartType.XYScatterLines
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLines
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XYScatterLines
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA scatter line chart with markers\n"
+  example: []
+  syntax:
+    content: XYScatterLines = 74
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLinesNoMarkers
+  commentId: F:OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLinesNoMarkers
+  id: XYScatterLinesNoMarkers
+  parent: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  langs:
+  - csharp
+  - vb
+  name: XYScatterLinesNoMarkers
+  nameWithType: eScatterChartType.XYScatterLinesNoMarkers
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterLinesNoMarkers
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XYScatterLinesNoMarkers
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA scatter line chart with no markers\n"
+  example: []
+  syntax:
+    content: XYScatterLinesNoMarkers = 75
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmooth
+  commentId: F:OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmooth
+  id: XYScatterSmooth
+  parent: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  langs:
+  - csharp
+  - vb
+  name: XYScatterSmooth
+  nameWithType: eScatterChartType.XYScatterSmooth
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmooth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XYScatterSmooth
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA scatter line chart with markers and smooth lines\n"
+  example: []
+  syntax:
+    content: XYScatterSmooth = 72
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmoothNoMarkers
+  commentId: F:OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmoothNoMarkers
+  id: XYScatterSmoothNoMarkers
+  parent: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  langs:
+  - csharp
+  - vb
+  name: XYScatterSmoothNoMarkers
+  nameWithType: eScatterChartType.XYScatterSmoothNoMarkers
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType.XYScatterSmoothNoMarkers
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XYScatterSmoothNoMarkers
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA scatter line chart with no markers and smooth lines\n"
+  example: []
+  syntax:
+    content: XYScatterSmoothNoMarkers = 73
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eScatterChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eScatterChartType
+  nameWithType: eScatterChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType

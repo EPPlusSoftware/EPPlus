@@ -1,0 +1,267 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  id: IExcelConditionalFormattingIconSetGroup`1
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Reverse
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.ShowValue
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingIconSetGroup<T>
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingIconSetGroup
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingIconSetGroup\n"
+  example: []
+  syntax:
+    content: 'public interface IExcelConditionalFormattingIconSetGroup<T> : IExcelConditionalFormattingRule'
+    typeParameters:
+    - id: T
+    content.vb: >-
+      Public Interface IExcelConditionalFormattingIconSetGroup(Of T)
+          Inherits IExcelConditionalFormattingRule
+  inheritedMembers:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T)
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T)
+  name.vb: IExcelConditionalFormattingIconSetGroup(Of T)
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Reverse
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Reverse
+  id: Reverse
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  langs:
+  - csharp
+  - vb
+  name: Reverse
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.Reverse
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.Reverse
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Reverse
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nReverse\n"
+  example: []
+  syntax:
+    content: bool Reverse { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property Reverse As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Reverse*
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).Reverse
+  modifiers.csharp:
+  - get
+  - set
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).Reverse
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.ShowValue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.ShowValue
+  id: ShowValue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  langs:
+  - csharp
+  - vb
+  name: ShowValue
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.ShowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.ShowValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowValue
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nShowValue\n"
+  example: []
+  syntax:
+    content: bool ShowValue { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property ShowValue As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.ShowValue*
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
+  modifiers.csharp:
+  - get
+  - set
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet
+  id: IconSet
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  langs:
+  - csharp
+  - vb
+  name: IconSet
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.IconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.IconSet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IconSet
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIconSet (3, 4 ou 5 IconSet)\n"
+  example: []
+  syntax:
+    content: T IconSet { get; set; }
+    parameters: []
+    return:
+      type: '{T}'
+    content.vb: Property IconSet As T
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet*
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).IconSet
+  modifiers.csharp:
+  - get
+  - set
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).IconSet
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Node
+  nameWithType: IExcelConditionalFormattingRule.Node
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Type
+  nameWithType: IExcelConditionalFormattingRule.Type
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Address
+  nameWithType: IExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Priority
+  nameWithType: IExcelConditionalFormattingRule.Priority
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: StopIfTrue
+  nameWithType: IExcelConditionalFormattingRule.StopIfTrue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Style
+  nameWithType: IExcelConditionalFormattingRule.Style
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: PivotTable
+  nameWithType: IExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: As
+  nameWithType: IExcelConditionalFormattingRule.As
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingRule
+  nameWithType: IExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Reverse*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.Reverse
+  name: Reverse
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.Reverse
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.Reverse
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).Reverse
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).Reverse
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.ShowValue*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.ShowValue
+  name: ShowValue
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.ShowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.ShowValue
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).ShowValue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1.IconSet
+  name: IconSet
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>.IconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>.IconSet
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T).IconSet
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T).IconSet
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T

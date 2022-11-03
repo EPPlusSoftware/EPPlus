@@ -1,0 +1,1248 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  id: ExcelDxfGradientFillColorCollection
+  parent: OfficeOpenXml.Style.Dxf
+  children:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add(System.Double)
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Double)
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Int32)
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove(OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor)
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Double)
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Int32)
+  - OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelDxfGradientFillColorCollection
+  nameWithType: ExcelDxfGradientFillColorCollection
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDxfGradientFillColorCollection
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nA collection of colors and their positions used for a gradiant fill.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDxfGradientFillColorCollection : DxfStyleBase, IEnumerable<ExcelDxfGradientFillColor>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelDxfGradientFillColorCollection
+          Inherits DxfStyleBase
+          Implements IEnumerable(Of ExcelDxfGradientFillColor), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelDxfGradientFillColorCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nGet the enumerator\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelDxfGradientFillColor> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}
+      description: The enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelDxfGradientFillColor)
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelDxfGradientFillColorCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nGet the enumerator\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+      description: The enumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDxfGradientFillColorCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelDxfGradientFillColorCollection.Item[Int32]
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nIndexer for the collection\n"
+  example: []
+  syntax:
+    content: public ExcelDxfGradientFillColor this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index in the collection
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+      description: The color
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelDxfGradientFillColor
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item*
+  nameWithType.vb: ExcelDxfGradientFillColorCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Double)
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Double)
+  id: Item(System.Double)
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Double]
+  nameWithType: ExcelDxfGradientFillColorCollection.Item[Double]
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item[System.Double]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nGets the first occurance with the color with the specified position\n"
+  example: []
+  syntax:
+    content: public ExcelDxfGradientFillColor this[double position] { get; }
+    parameters:
+    - id: position
+      type: System.Double
+      description: The position in percentage
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+      description: The color
+    content.vb: Public ReadOnly Property Item(position As Double) As ExcelDxfGradientFillColor
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item*
+  nameWithType.vb: ExcelDxfGradientFillColorCollection.Item(Double)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item(System.Double)
+  name.vb: Item(Double)
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add(System.Double)
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add(System.Double)
+  id: Add(System.Double)
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(Double)
+  nameWithType: ExcelDxfGradientFillColorCollection.Add(Double)
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nAdds a RGB color at the specified position\n"
+  example: []
+  syntax:
+    content: public ExcelDxfGradientFillColor Add(double position)
+    parameters:
+    - id: position
+      type: System.Double
+      description: The position from 0 to 100%
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+      description: The gradient color position object
+    content.vb: Public Function Add(position As Double) As ExcelDxfGradientFillColor
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelDxfGradientFillColorCollection.Count
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue
+  id: HasValue
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: HasValue
+  nameWithType: ExcelDxfGradientFillColorCollection.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasValue
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nIf the style has any value set\n"
+  example: []
+  syntax:
+    content: public override bool HasValue { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property HasValue As Boolean
+  overridden: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Int32)
+  nameWithType: ExcelDxfGradientFillColorCollection.RemoveAt(Int32)
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nRemove the style at the index in the collection.\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Double)
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Double)
+  id: RemoveAt(System.Double)
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Double)
+  nameWithType: ExcelDxfGradientFillColorCollection.RemoveAt(Double)
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 131
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nRemove the style at the position from the collection.\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(double position)
+    parameters:
+    - id: position
+      type: System.Double
+      description: ''
+    content.vb: Public Sub RemoveAt(position As Double)
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove(OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor)
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove(OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor)
+  id: Remove(OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor)
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelDxfGradientFillColor)
+  nameWithType: ExcelDxfGradientFillColorCollection.Remove(ExcelDxfGradientFillColor)
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove(OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 143
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nRemove the style from the collection\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelDxfGradientFillColor item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+      description: ''
+    content.vb: Public Sub Remove(item As ExcelDxfGradientFillColor)
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelDxfGradientFillColorCollection.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFillColorCollection.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nClear all style items from the collection\n"
+  example: []
+  syntax:
+    content: public override void Clear()
+    content.vb: Public Overrides Sub Clear
+  overridden: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  commentId: T:OfficeOpenXml.Style.Dxf.DxfStyleBase
+  parent: OfficeOpenXml.Style.Dxf
+  name: DxfStyleBase
+  nameWithType: DxfStyleBase
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelDxfGradientFillColor>
+  nameWithType: IEnumerable<ExcelDxfGradientFillColor>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor>
+  nameWithType.vb: IEnumerable(Of ExcelDxfGradientFillColor)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor)
+  name.vb: IEnumerable(Of ExcelDxfGradientFillColor)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+    name: ExcelDxfGradientFillColor
+    nameWithType: ExcelDxfGradientFillColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+    name: ExcelDxfGradientFillColor
+    nameWithType: ExcelDxfGradientFillColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  commentId: M:OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  isExternal: true
+  name: SetValueColor(XmlHelper, String, ExcelDxfColor)
+  nameWithType: DxfStyleBase.SetValueColor(XmlHelper, String, ExcelDxfColor)
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper, System.String, OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelDxfGradientFillColorCollection.GetEnumerator
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelDxfGradientFillColor>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelDxfGradientFillColor).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelDxfGradientFillColor>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelDxfGradientFillColor).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelDxfGradientFillColor>
+  nameWithType: IEnumerator<ExcelDxfGradientFillColor>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor>
+  nameWithType.vb: IEnumerator(Of ExcelDxfGradientFillColor)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor)
+  name.vb: IEnumerator(Of ExcelDxfGradientFillColor)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+    name: ExcelDxfGradientFillColor
+    nameWithType: ExcelDxfGradientFillColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+    name: ExcelDxfGradientFillColor
+    nameWithType: ExcelDxfGradientFillColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelDxfGradientFillColorCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDxfGradientFillColorCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item
+  name: Item
+  nameWithType: ExcelDxfGradientFillColorCollection.Item
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfGradientFillColor
+  nameWithType: ExcelDxfGradientFillColor
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add
+  name: Add
+  nameWithType: ExcelDxfGradientFillColorCollection.Add
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Add
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count
+  name: Count
+  nameWithType: ExcelDxfGradientFillColorCollection.Count
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Count
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  name: HasValue
+  nameWithType: DxfStyleBase.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue
+  name: HasValue
+  nameWithType: ExcelDxfGradientFillColorCollection.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.HasValue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt
+  name: RemoveAt
+  nameWithType: ExcelDxfGradientFillColorCollection.RemoveAt
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.RemoveAt
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove
+  name: Remove
+  nameWithType: ExcelDxfGradientFillColorCollection.Remove
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Remove
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  name: Clear()
+  nameWithType: DxfStyleBase.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear()
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+    name: Clear
+    nameWithType: DxfStyleBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+    name: Clear
+    nameWithType: DxfStyleBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear
+  name: Clear
+  nameWithType: ExcelDxfGradientFillColorCollection.Clear
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection.Clear

@@ -1,0 +1,647 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  id: ExcelTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  children:
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableNamedStyle
+  nameWithType: ExcelTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableNamedStyle
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nA custom named table style that applies to tables only\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTableNamedStyle : ExcelTableNamedStyleBase'
+    content.vb: >-
+      Public Class ExcelTableNamedStyle
+          Inherits ExcelTableNamedStyleBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  inheritedMembers:
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.Name
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.WholeTable
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumnStripe
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondColumnStripe
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstRowStripe
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondRowStripe
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.LastColumn
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumn
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.HeaderRow
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.TotalRow
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstHeaderCell
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.As
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell
+  id: LastHeaderCell
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: LastHeaderCell
+  nameWithType: ExcelTableNamedStyle.LastHeaderCell
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastHeaderCell
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nApplies to the last header cell of a table\n"
+  example: []
+  syntax:
+    content: public ExcelTableStyleElement LastHeaderCell { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelTableStyleElement
+    content.vb: Public ReadOnly Property LastHeaderCell As ExcelTableStyleElement
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell
+  id: FirstTotalCell
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: FirstTotalCell
+  nameWithType: ExcelTableNamedStyle.FirstTotalCell
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstTotalCell
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nApplies to the first total cell of a table\n"
+  example: []
+  syntax:
+    content: public ExcelTableStyleElement FirstTotalCell { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelTableStyleElement
+    content.vb: Public ReadOnly Property FirstTotalCell As ExcelTableStyleElement
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell
+  id: LastTotalCell
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: LastTotalCell
+  nameWithType: ExcelTableNamedStyle.LastTotalCell
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastTotalCell
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nApplies to the last total cell of a table\n"
+  example: []
+  syntax:
+    content: public ExcelTableStyleElement LastTotalCell { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelTableStyleElement
+    content.vb: Public ReadOnly Property LastTotalCell As ExcelTableStyleElement
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo
+  id: AppliesTo
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: AppliesTo
+  nameWithType: ExcelTableNamedStyle.AppliesTo
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AppliesTo
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nIf the style applies to tables, pivot table or both\n"
+  example: []
+  syntax:
+    content: public override eTableNamedStyleAppliesTo AppliesTo { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eTableNamedStyleAppliesTo
+    content.vb: Public Overrides ReadOnly Property AppliesTo As eTableNamedStyleAppliesTo
+  overridden: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.AppliesTo
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Style.Table
+  commentId: N:OfficeOpenXml.Style.Table
+  name: OfficeOpenXml.Style.Table
+  nameWithType: OfficeOpenXml.Style.Table
+  fullName: OfficeOpenXml.Style.Table
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableNamedStyleBase
+  nameWithType: ExcelTableNamedStyleBase
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.Name
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.Name
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: Name
+  nameWithType: ExcelTableNamedStyleBase.Name
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.Name
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.WholeTable
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.WholeTable
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: WholeTable
+  nameWithType: ExcelTableNamedStyleBase.WholeTable
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.WholeTable
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumnStripe
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumnStripe
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: FirstColumnStripe
+  nameWithType: ExcelTableNamedStyleBase.FirstColumnStripe
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumnStripe
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondColumnStripe
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondColumnStripe
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: SecondColumnStripe
+  nameWithType: ExcelTableNamedStyleBase.SecondColumnStripe
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondColumnStripe
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstRowStripe
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstRowStripe
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: FirstRowStripe
+  nameWithType: ExcelTableNamedStyleBase.FirstRowStripe
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstRowStripe
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondRowStripe
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondRowStripe
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: SecondRowStripe
+  nameWithType: ExcelTableNamedStyleBase.SecondRowStripe
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.SecondRowStripe
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.LastColumn
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.LastColumn
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: LastColumn
+  nameWithType: ExcelTableNamedStyleBase.LastColumn
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.LastColumn
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumn
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumn
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: FirstColumn
+  nameWithType: ExcelTableNamedStyleBase.FirstColumn
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstColumn
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.HeaderRow
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.HeaderRow
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: HeaderRow
+  nameWithType: ExcelTableNamedStyleBase.HeaderRow
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.HeaderRow
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.TotalRow
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.TotalRow
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: TotalRow
+  nameWithType: ExcelTableNamedStyleBase.TotalRow
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.TotalRow
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstHeaderCell
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstHeaderCell
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: FirstHeaderCell
+  nameWithType: ExcelTableNamedStyleBase.FirstHeaderCell
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.FirstHeaderCell
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.As
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.As
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: As
+  nameWithType: ExcelTableNamedStyleBase.As
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.As
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell
+  name: LastHeaderCell
+  nameWithType: ExcelTableNamedStyle.LastHeaderCell
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastHeaderCell
+- uid: OfficeOpenXml.Style.ExcelTableStyleElement
+  commentId: T:OfficeOpenXml.Style.ExcelTableStyleElement
+  parent: OfficeOpenXml.Style
+  name: ExcelTableStyleElement
+  nameWithType: ExcelTableStyleElement
+  fullName: OfficeOpenXml.Style.ExcelTableStyleElement
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell
+  name: FirstTotalCell
+  nameWithType: ExcelTableNamedStyle.FirstTotalCell
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.FirstTotalCell
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell
+  name: LastTotalCell
+  nameWithType: ExcelTableNamedStyle.LastTotalCell
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.LastTotalCell
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.AppliesTo
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.AppliesTo
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  name: AppliesTo
+  nameWithType: ExcelTableNamedStyleBase.AppliesTo
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase.AppliesTo
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo
+  name: AppliesTo
+  nameWithType: ExcelTableNamedStyle.AppliesTo
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle.AppliesTo
+- uid: OfficeOpenXml.eTableNamedStyleAppliesTo
+  commentId: T:OfficeOpenXml.eTableNamedStyleAppliesTo
+  parent: OfficeOpenXml
+  name: eTableNamedStyleAppliesTo
+  nameWithType: eTableNamedStyleAppliesTo
+  fullName: OfficeOpenXml.eTableNamedStyleAppliesTo

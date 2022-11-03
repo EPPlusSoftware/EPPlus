@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  id: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: DayCountBasis
+  nameWithType: DayCountBasis
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount

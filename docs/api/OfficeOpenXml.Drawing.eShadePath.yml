@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eShadePath
+  commentId: T:OfficeOpenXml.Drawing.eShadePath
+  id: eShadePath
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eShadePath.Circle
+  - OfficeOpenXml.Drawing.eShadePath.Linear
+  - OfficeOpenXml.Drawing.eShadePath.Rectangle
+  - OfficeOpenXml.Drawing.eShadePath.Shape
+  langs:
+  - csharp
+  - vb
+  name: eShadePath
+  nameWithType: eShadePath
+  fullName: OfficeOpenXml.Drawing.eShadePath
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShadePath.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eShadePath
+    path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe path for a gradiant color\n"
+  example: []
+  syntax:
+    content: public enum eShadePath
+    content.vb: Public Enum eShadePath
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eShadePath.Linear
+  commentId: F:OfficeOpenXml.Drawing.eShadePath.Linear
+  id: Linear
+  parent: OfficeOpenXml.Drawing.eShadePath
+  langs:
+  - csharp
+  - vb
+  name: Linear
+  nameWithType: eShadePath.Linear
+  fullName: OfficeOpenXml.Drawing.eShadePath.Linear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShadePath.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Linear
+    path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe gradient folows a linear path\n"
+  example: []
+  syntax:
+    content: Linear = 0
+    return:
+      type: OfficeOpenXml.Drawing.eShadePath
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShadePath.Circle
+  commentId: F:OfficeOpenXml.Drawing.eShadePath.Circle
+  id: Circle
+  parent: OfficeOpenXml.Drawing.eShadePath
+  langs:
+  - csharp
+  - vb
+  name: Circle
+  nameWithType: eShadePath.Circle
+  fullName: OfficeOpenXml.Drawing.eShadePath.Circle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShadePath.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Circle
+    path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe gradient follows a circular path\n"
+  example: []
+  syntax:
+    content: Circle = 1
+    return:
+      type: OfficeOpenXml.Drawing.eShadePath
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShadePath.Rectangle
+  commentId: F:OfficeOpenXml.Drawing.eShadePath.Rectangle
+  id: Rectangle
+  parent: OfficeOpenXml.Drawing.eShadePath
+  langs:
+  - csharp
+  - vb
+  name: Rectangle
+  nameWithType: eShadePath.Rectangle
+  fullName: OfficeOpenXml.Drawing.eShadePath.Rectangle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShadePath.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rectangle
+    path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe gradient follows a rectangular path\n"
+  example: []
+  syntax:
+    content: Rectangle = 2
+    return:
+      type: OfficeOpenXml.Drawing.eShadePath
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShadePath.Shape
+  commentId: F:OfficeOpenXml.Drawing.eShadePath.Shape
+  id: Shape
+  parent: OfficeOpenXml.Drawing.eShadePath
+  langs:
+  - csharp
+  - vb
+  name: Shape
+  nameWithType: eShadePath.Shape
+  fullName: OfficeOpenXml.Drawing.eShadePath.Shape
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShadePath.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Shape
+    path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe gradient follows the shape\n"
+  example: []
+  syntax:
+    content: Shape = 3
+    return:
+      type: OfficeOpenXml.Drawing.eShadePath
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eShadePath
+  commentId: T:OfficeOpenXml.Drawing.eShadePath
+  parent: OfficeOpenXml.Drawing
+  name: eShadePath
+  nameWithType: eShadePath
+  fullName: OfficeOpenXml.Drawing.eShadePath

@@ -1,0 +1,713 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelFillStyle
+  commentId: T:OfficeOpenXml.Style.ExcelFillStyle
+  id: ExcelFillStyle
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelFillStyle.DarkDown
+  - OfficeOpenXml.Style.ExcelFillStyle.DarkGray
+  - OfficeOpenXml.Style.ExcelFillStyle.DarkGrid
+  - OfficeOpenXml.Style.ExcelFillStyle.DarkHorizontal
+  - OfficeOpenXml.Style.ExcelFillStyle.DarkTrellis
+  - OfficeOpenXml.Style.ExcelFillStyle.DarkUp
+  - OfficeOpenXml.Style.ExcelFillStyle.DarkVertical
+  - OfficeOpenXml.Style.ExcelFillStyle.Gray0625
+  - OfficeOpenXml.Style.ExcelFillStyle.Gray125
+  - OfficeOpenXml.Style.ExcelFillStyle.LightDown
+  - OfficeOpenXml.Style.ExcelFillStyle.LightGray
+  - OfficeOpenXml.Style.ExcelFillStyle.LightGrid
+  - OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal
+  - OfficeOpenXml.Style.ExcelFillStyle.LightTrellis
+  - OfficeOpenXml.Style.ExcelFillStyle.LightUp
+  - OfficeOpenXml.Style.ExcelFillStyle.LightVertical
+  - OfficeOpenXml.Style.ExcelFillStyle.MediumGray
+  - OfficeOpenXml.Style.ExcelFillStyle.None
+  - OfficeOpenXml.Style.ExcelFillStyle.Solid
+  langs:
+  - csharp
+  - vb
+  name: ExcelFillStyle
+  nameWithType: ExcelFillStyle
+  fullName: OfficeOpenXml.Style.ExcelFillStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFillStyle
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFill pattern\n"
+  example: []
+  syntax:
+    content: public enum ExcelFillStyle
+    content.vb: Public Enum ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelFillStyle.None
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.None
+  id: None
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ExcelFillStyle.None
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNo fill\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.Solid
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.Solid
+  id: Solid
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: Solid
+  nameWithType: ExcelFillStyle.Solid
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.Solid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Solid
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA solid fill\n"
+  example: []
+  syntax:
+    content: Solid = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.DarkGray
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.DarkGray
+  id: DarkGray
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: DarkGray
+  nameWithType: ExcelFillStyle.DarkGray
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.DarkGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkGray
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDark gray\n"
+  example: []
+  syntax:
+    content: DarkGray = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.MediumGray
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.MediumGray
+  id: MediumGray
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: MediumGray
+  nameWithType: ExcelFillStyle.MediumGray
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.MediumGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumGray
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nMedium gray\n"
+  example: []
+  syntax:
+    content: MediumGray = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.LightGray
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.LightGray
+  id: LightGray
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: LightGray
+  nameWithType: ExcelFillStyle.LightGray
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.LightGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightGray
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLight gray\n"
+  example: []
+  syntax:
+    content: LightGray = 4
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.Gray125
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.Gray125
+  id: Gray125
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: Gray125
+  nameWithType: ExcelFillStyle.Gray125
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.Gray125
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gray125
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGrayscale of 0.125, 1/8\n"
+  example: []
+  syntax:
+    content: Gray125 = 5
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.Gray0625
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.Gray0625
+  id: Gray0625
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: Gray0625
+  nameWithType: ExcelFillStyle.Gray0625
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.Gray0625
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gray0625
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGrayscale of 0.0625, 1/16\n"
+  example: []
+  syntax:
+    content: Gray0625 = 6
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.DarkVertical
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.DarkVertical
+  id: DarkVertical
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: DarkVertical
+  nameWithType: ExcelFillStyle.DarkVertical
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.DarkVertical
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkVertical
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDark vertical\n"
+  example: []
+  syntax:
+    content: DarkVertical = 7
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.DarkHorizontal
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.DarkHorizontal
+  id: DarkHorizontal
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: DarkHorizontal
+  nameWithType: ExcelFillStyle.DarkHorizontal
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.DarkHorizontal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkHorizontal
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDark horizontal\n"
+  example: []
+  syntax:
+    content: DarkHorizontal = 8
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.DarkDown
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.DarkDown
+  id: DarkDown
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: DarkDown
+  nameWithType: ExcelFillStyle.DarkDown
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.DarkDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkDown
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDark down\n"
+  example: []
+  syntax:
+    content: DarkDown = 9
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.DarkUp
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.DarkUp
+  id: DarkUp
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: DarkUp
+  nameWithType: ExcelFillStyle.DarkUp
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.DarkUp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkUp
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDark up\n"
+  example: []
+  syntax:
+    content: DarkUp = 10
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.DarkGrid
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.DarkGrid
+  id: DarkGrid
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: DarkGrid
+  nameWithType: ExcelFillStyle.DarkGrid
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.DarkGrid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkGrid
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDark grid\n"
+  example: []
+  syntax:
+    content: DarkGrid = 11
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.DarkTrellis
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.DarkTrellis
+  id: DarkTrellis
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: DarkTrellis
+  nameWithType: ExcelFillStyle.DarkTrellis
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.DarkTrellis
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkTrellis
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDark trellis\n"
+  example: []
+  syntax:
+    content: DarkTrellis = 12
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.LightVertical
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.LightVertical
+  id: LightVertical
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: LightVertical
+  nameWithType: ExcelFillStyle.LightVertical
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.LightVertical
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightVertical
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLight vertical\n"
+  example: []
+  syntax:
+    content: LightVertical = 13
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal
+  id: LightHorizontal
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: LightHorizontal
+  nameWithType: ExcelFillStyle.LightHorizontal
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.LightHorizontal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightHorizontal
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLight horizontal\n"
+  example: []
+  syntax:
+    content: LightHorizontal = 14
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.LightDown
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.LightDown
+  id: LightDown
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: LightDown
+  nameWithType: ExcelFillStyle.LightDown
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.LightDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightDown
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLight down\n"
+  example: []
+  syntax:
+    content: LightDown = 15
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.LightUp
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.LightUp
+  id: LightUp
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: LightUp
+  nameWithType: ExcelFillStyle.LightUp
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.LightUp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightUp
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLight up\n"
+  example: []
+  syntax:
+    content: LightUp = 16
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.LightGrid
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.LightGrid
+  id: LightGrid
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: LightGrid
+  nameWithType: ExcelFillStyle.LightGrid
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.LightGrid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightGrid
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLight grid\n"
+  example: []
+  syntax:
+    content: LightGrid = 17
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillStyle.LightTrellis
+  commentId: F:OfficeOpenXml.Style.ExcelFillStyle.LightTrellis
+  id: LightTrellis
+  parent: OfficeOpenXml.Style.ExcelFillStyle
+  langs:
+  - csharp
+  - vb
+  name: LightTrellis
+  nameWithType: ExcelFillStyle.LightTrellis
+  fullName: OfficeOpenXml.Style.ExcelFillStyle.LightTrellis
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightTrellis
+    path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLight trellis\n"
+  example: []
+  syntax:
+    content: LightTrellis = 18
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelFillStyle
+  commentId: T:OfficeOpenXml.Style.ExcelFillStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelFillStyle
+  nameWithType: ExcelFillStyle
+  fullName: OfficeOpenXml.Style.ExcelFillStyle

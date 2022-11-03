@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignment
+  id: ExcelVerticalAlignment
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelVerticalAlignment.Bottom
+  - OfficeOpenXml.Style.ExcelVerticalAlignment.Center
+  - OfficeOpenXml.Style.ExcelVerticalAlignment.Distributed
+  - OfficeOpenXml.Style.ExcelVerticalAlignment.Justify
+  - OfficeOpenXml.Style.ExcelVerticalAlignment.Top
+  langs:
+  - csharp
+  - vb
+  name: ExcelVerticalAlignment
+  nameWithType: ExcelVerticalAlignment
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVerticalAlignment
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nVertical text alignment\n"
+  example: []
+  syntax:
+    content: public enum ExcelVerticalAlignment
+    content.vb: Public Enum ExcelVerticalAlignment
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment.Top
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignment.Top
+  id: Top
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: ExcelVerticalAlignment.Top
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nTop aligned\n"
+  example: []
+  syntax:
+    content: Top = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment.Center
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignment.Center
+  id: Center
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: ExcelVerticalAlignment.Center
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCenter aligned\n"
+  example: []
+  syntax:
+    content: Center = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment.Bottom
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignment.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: ExcelVerticalAlignment.Bottom
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBottom aligned\n"
+  example: []
+  syntax:
+    content: Bottom = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment.Distributed
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignment.Distributed
+  id: Distributed
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Distributed
+  nameWithType: ExcelVerticalAlignment.Distributed
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment.Distributed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Distributed
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDistributed. Each line of text inside the cell is evenly distributed across the height of the cell\n"
+  example: []
+  syntax:
+    content: Distributed = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment.Justify
+  commentId: F:OfficeOpenXml.Style.ExcelVerticalAlignment.Justify
+  id: Justify
+  parent: OfficeOpenXml.Style.ExcelVerticalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Justify
+  nameWithType: ExcelVerticalAlignment.Justify
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment.Justify
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Justify
+    path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nJustify. Each line of text inside the cell is evenly distributed across the height of the cell\n"
+  example: []
+  syntax:
+    content: Justify = 4
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignment
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignment
+  parent: OfficeOpenXml.Style
+  name: ExcelVerticalAlignment
+  nameWithType: ExcelVerticalAlignment
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignment

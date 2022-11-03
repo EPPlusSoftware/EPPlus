@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eVmlLineStyle
+  commentId: T:OfficeOpenXml.eVmlLineStyle
+  id: eVmlLineStyle
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eVmlLineStyle.NoLine
+  - OfficeOpenXml.eVmlLineStyle.Single
+  - OfficeOpenXml.eVmlLineStyle.ThickBetweenThin
+  - OfficeOpenXml.eVmlLineStyle.ThickThin
+  - OfficeOpenXml.eVmlLineStyle.ThinThick
+  - OfficeOpenXml.eVmlLineStyle.ThinThin
+  langs:
+  - csharp
+  - vb
+  name: eVmlLineStyle
+  nameWithType: eVmlLineStyle
+  fullName: OfficeOpenXml.eVmlLineStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eVmlLineStyle
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe line style of a vml drawing\n"
+  example: []
+  syntax:
+    content: public enum eVmlLineStyle
+    content.vb: Public Enum eVmlLineStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eVmlLineStyle.NoLine
+  commentId: F:OfficeOpenXml.eVmlLineStyle.NoLine
+  id: NoLine
+  parent: OfficeOpenXml.eVmlLineStyle
+  langs:
+  - csharp
+  - vb
+  name: NoLine
+  nameWithType: eVmlLineStyle.NoLine
+  fullName: OfficeOpenXml.eVmlLineStyle.NoLine
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoLine
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNo line style\n"
+  example: []
+  syntax:
+    content: NoLine = 0
+    return:
+      type: OfficeOpenXml.eVmlLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlLineStyle.Single
+  commentId: F:OfficeOpenXml.eVmlLineStyle.Single
+  id: Single
+  parent: OfficeOpenXml.eVmlLineStyle
+  langs:
+  - csharp
+  - vb
+  name: Single
+  nameWithType: eVmlLineStyle.Single
+  fullName: OfficeOpenXml.eVmlLineStyle.Single
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Single
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA single line\n"
+  example: []
+  syntax:
+    content: Single = 1
+    return:
+      type: OfficeOpenXml.eVmlLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlLineStyle.ThinThin
+  commentId: F:OfficeOpenXml.eVmlLineStyle.ThinThin
+  id: ThinThin
+  parent: OfficeOpenXml.eVmlLineStyle
+  langs:
+  - csharp
+  - vb
+  name: ThinThin
+  nameWithType: eVmlLineStyle.ThinThin
+  fullName: OfficeOpenXml.eVmlLineStyle.ThinThin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThinThin
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThin thin line style\n"
+  example: []
+  syntax:
+    content: ThinThin = 2
+    return:
+      type: OfficeOpenXml.eVmlLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlLineStyle.ThinThick
+  commentId: F:OfficeOpenXml.eVmlLineStyle.ThinThick
+  id: ThinThick
+  parent: OfficeOpenXml.eVmlLineStyle
+  langs:
+  - csharp
+  - vb
+  name: ThinThick
+  nameWithType: eVmlLineStyle.ThinThick
+  fullName: OfficeOpenXml.eVmlLineStyle.ThinThick
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThinThick
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThin thick line style\n"
+  example: []
+  syntax:
+    content: ThinThick = 3
+    return:
+      type: OfficeOpenXml.eVmlLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlLineStyle.ThickThin
+  commentId: F:OfficeOpenXml.eVmlLineStyle.ThickThin
+  id: ThickThin
+  parent: OfficeOpenXml.eVmlLineStyle
+  langs:
+  - csharp
+  - vb
+  name: ThickThin
+  nameWithType: eVmlLineStyle.ThickThin
+  fullName: OfficeOpenXml.eVmlLineStyle.ThickThin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThickThin
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThick thin line style\n"
+  example: []
+  syntax:
+    content: ThickThin = 4
+    return:
+      type: OfficeOpenXml.eVmlLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlLineStyle.ThickBetweenThin
+  commentId: F:OfficeOpenXml.eVmlLineStyle.ThickBetweenThin
+  id: ThickBetweenThin
+  parent: OfficeOpenXml.eVmlLineStyle
+  langs:
+  - csharp
+  - vb
+  name: ThickBetweenThin
+  nameWithType: eVmlLineStyle.ThickBetweenThin
+  fullName: OfficeOpenXml.eVmlLineStyle.ThickBetweenThin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThickBetweenThin
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThick between thin line style\n"
+  example: []
+  syntax:
+    content: ThickBetweenThin = 5
+    return:
+      type: OfficeOpenXml.eVmlLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eVmlLineStyle
+  commentId: T:OfficeOpenXml.eVmlLineStyle
+  parent: OfficeOpenXml
+  name: eVmlLineStyle
+  nameWithType: eVmlLineStyle
+  fullName: OfficeOpenXml.eVmlLineStyle

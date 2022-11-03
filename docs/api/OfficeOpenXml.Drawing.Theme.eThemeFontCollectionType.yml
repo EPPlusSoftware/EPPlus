@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  commentId: T:OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  id: eThemeFontCollectionType
+  parent: OfficeOpenXml.Drawing.Theme
+  children:
+  - OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Major
+  - OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Minor
+  - OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.None
+  langs:
+  - csharp
+  - vb
+  name: eThemeFontCollectionType
+  nameWithType: eThemeFontCollectionType
+  fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eThemeFontCollectionType
+    path: ../src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nTheme font collection type\n"
+  example: []
+  syntax:
+    content: public enum eThemeFontCollectionType
+    content.vb: Public Enum eThemeFontCollectionType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.None
+  commentId: F:OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eThemeFontCollectionType.None
+  fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nDo not reference a font collection\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Minor
+  commentId: F:OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Minor
+  id: Minor
+  parent: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  langs:
+  - csharp
+  - vb
+  name: Minor
+  nameWithType: eThemeFontCollectionType.Minor
+  fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Minor
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minor
+    path: ../src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nReference the minor font collection\n"
+  example: []
+  syntax:
+    content: Minor = 1
+    return:
+      type: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Major
+  commentId: F:OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Major
+  id: Major
+  parent: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  langs:
+  - csharp
+  - vb
+  name: Major
+  nameWithType: eThemeFontCollectionType.Major
+  fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType.Major
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Major
+    path: ../src/EPPlus/Drawing/Theme/eFontCollectionType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nReference the major font collection\n"
+  example: []
+  syntax:
+    content: Major = 2
+    return:
+      type: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Theme
+  commentId: N:OfficeOpenXml.Drawing.Theme
+  name: OfficeOpenXml.Drawing.Theme
+  nameWithType: OfficeOpenXml.Drawing.Theme
+  fullName: OfficeOpenXml.Drawing.Theme
+- uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  commentId: T:OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  parent: OfficeOpenXml.Drawing.Theme
+  name: eThemeFontCollectionType
+  nameWithType: eThemeFontCollectionType
+  fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType

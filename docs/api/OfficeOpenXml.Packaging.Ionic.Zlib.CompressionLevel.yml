@@ -1,0 +1,538 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  id: CompressionLevel
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  children:
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestCompression
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestSpeed
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Default
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level0
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level1
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level2
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level3
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level4
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level5
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level6
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level7
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level8
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level9
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.None
+  langs:
+  - csharp
+  - vb
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompressionLevel
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe compression level to be used when using a DeflateStream or ZlibStream with CompressionMode.Compress.\n"
+  example: []
+  syntax:
+    content: public enum CompressionLevel
+    content.vb: Public Enum CompressionLevel
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.None
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.None
+  id: None
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: CompressionLevel.None
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 149
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nNone means that the data will be simply stored, with no change at all.\nIf you are producing ZIPs for use on Mac OSX, be aware that archives produced with CompressionLevel.None\ncannot be opened with the default zip reader. Use a different CompressionLevel.\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level0
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level0
+  id: Level0
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level0
+  nameWithType: CompressionLevel.Level0
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level0
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level0
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nSame as None.\n"
+  example: []
+  syntax:
+    content: Level0 = 0
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestSpeed
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestSpeed
+  id: BestSpeed
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: BestSpeed
+  nameWithType: CompressionLevel.BestSpeed
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestSpeed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BestSpeed
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe fastest but least effective compression.\n"
+  example: []
+  syntax:
+    content: BestSpeed = 1
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level1
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level1
+  id: Level1
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level1
+  nameWithType: CompressionLevel.Level1
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level1
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 163
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA synonym for BestSpeed.\n"
+  example: []
+  syntax:
+    content: Level1 = 1
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level2
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level2
+  id: Level2
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level2
+  nameWithType: CompressionLevel.Level2
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level2
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA little slower, but better, than level 1.\n"
+  example: []
+  syntax:
+    content: Level2 = 2
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level3
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level3
+  id: Level3
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level3
+  nameWithType: CompressionLevel.Level3
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level3
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 173
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA little slower, but better, than level 2.\n"
+  example: []
+  syntax:
+    content: Level3 = 3
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level4
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level4
+  id: Level4
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level4
+  nameWithType: CompressionLevel.Level4
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level4
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA little slower, but better, than level 3.\n"
+  example: []
+  syntax:
+    content: Level4 = 4
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level5
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level5
+  id: Level5
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level5
+  nameWithType: CompressionLevel.Level5
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level5
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA little slower than level 4, but with better compression.\n"
+  example: []
+  syntax:
+    content: Level5 = 5
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Default
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Default
+  id: Default
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: CompressionLevel.Default
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Default
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 188
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe default compression level, with a good balance of speed and compression efficiency.\n"
+  example: []
+  syntax:
+    content: Default = 6
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level6
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level6
+  id: Level6
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level6
+  nameWithType: CompressionLevel.Level6
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level6
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA synonym for Default.\n"
+  example: []
+  syntax:
+    content: Level6 = 6
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level7
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level7
+  id: Level7
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level7
+  nameWithType: CompressionLevel.Level7
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level7
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 197
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nPretty good compression!\n"
+  example: []
+  syntax:
+    content: Level7 = 7
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level8
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level8
+  id: Level8
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level8
+  nameWithType: CompressionLevel.Level8
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level8
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nBetter compression than Level7!\n"
+  example: []
+  syntax:
+    content: Level8 = 8
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestCompression
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestCompression
+  id: BestCompression
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: BestCompression
+  nameWithType: CompressionLevel.BestCompression
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.BestCompression
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BestCompression
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 208
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe &quot;best&quot; compression, where best means greatest reduction in size of the input data stream.\nThis is also the slowest compression.\n"
+  example: []
+  syntax:
+    content: BestCompression = 9
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level9
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level9
+  id: Level9
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level9
+  nameWithType: CompressionLevel.Level9
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel.Level9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level9
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA synonym for BestCompression.\n"
+  example: []
+  syntax:
+    content: Level9 = 9
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel

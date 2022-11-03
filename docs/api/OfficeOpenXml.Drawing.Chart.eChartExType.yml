@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartExType
+  id: eChartExType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eChartExType.BoxWhisker
+  - OfficeOpenXml.Drawing.Chart.eChartExType.Funnel
+  - OfficeOpenXml.Drawing.Chart.eChartExType.Histogram
+  - OfficeOpenXml.Drawing.Chart.eChartExType.Pareto
+  - OfficeOpenXml.Drawing.Chart.eChartExType.RegionMap
+  - OfficeOpenXml.Drawing.Chart.eChartExType.Sunburst
+  - OfficeOpenXml.Drawing.Chart.eChartExType.Treemap
+  - OfficeOpenXml.Drawing.Chart.eChartExType.Waterfall
+  langs:
+  - csharp
+  - vb
+  name: eChartExType
+  nameWithType: eChartExType
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eChartExType
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nChart type\n"
+  example: []
+  syntax:
+    content: public enum eChartExType
+    content.vb: Public Enum eChartExType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.Treemap
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.Treemap
+  id: Treemap
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: Treemap
+  nameWithType: eChartExType.Treemap
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.Treemap
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Treemap
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA treemap chart\n"
+  example: []
+  syntax:
+    content: Treemap = 117
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.Histogram
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.Histogram
+  id: Histogram
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: Histogram
+  nameWithType: eChartExType.Histogram
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.Histogram
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Histogram
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA histogram chart\n"
+  example: []
+  syntax:
+    content: Histogram = 118
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.Waterfall
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.Waterfall
+  id: Waterfall
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: Waterfall
+  nameWithType: eChartExType.Waterfall
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.Waterfall
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Waterfall
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA waterfall chart\n"
+  example: []
+  syntax:
+    content: Waterfall = 119
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.Sunburst
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.Sunburst
+  id: Sunburst
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: Sunburst
+  nameWithType: eChartExType.Sunburst
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.Sunburst
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sunburst
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA sunburst chart\n"
+  example: []
+  syntax:
+    content: Sunburst = 120
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.BoxWhisker
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.BoxWhisker
+  id: BoxWhisker
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: BoxWhisker
+  nameWithType: eChartExType.BoxWhisker
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.BoxWhisker
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BoxWhisker
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA box whisker\n"
+  example: []
+  syntax:
+    content: BoxWhisker = 121
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.Pareto
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.Pareto
+  id: Pareto
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: Pareto
+  nameWithType: eChartExType.Pareto
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.Pareto
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pareto
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA Histogram Pareto chart\n"
+  example: []
+  syntax:
+    content: Pareto = 122
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.Funnel
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.Funnel
+  id: Funnel
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: Funnel
+  nameWithType: eChartExType.Funnel
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.Funnel
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Funnel
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA funnel chart\n"
+  example: []
+  syntax:
+    content: Funnel = 123
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType.RegionMap
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartExType.RegionMap
+  id: RegionMap
+  parent: OfficeOpenXml.Drawing.Chart.eChartExType
+  langs:
+  - csharp
+  - vb
+  name: RegionMap
+  nameWithType: eChartExType.RegionMap
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType.RegionMap
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RegionMap
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA region map chart\n"
+  example: []
+  syntax:
+    content: RegionMap = 140
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartExType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eChartExType
+  nameWithType: eChartExType
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType

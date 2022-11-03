@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  id: ePivotAreaType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePivotAreaType.All
+  - OfficeOpenXml.Table.PivotTable.ePivotAreaType.Data
+  - OfficeOpenXml.Table.PivotTable.ePivotAreaType.FieldButton
+  - OfficeOpenXml.Table.PivotTable.ePivotAreaType.None
+  - OfficeOpenXml.Table.PivotTable.ePivotAreaType.Normal
+  - OfficeOpenXml.Table.PivotTable.ePivotAreaType.Origin
+  - OfficeOpenXml.Table.PivotTable.ePivotAreaType.TopEnd
+  langs:
+  - csharp
+  - vb
+  name: ePivotAreaType
+  nameWithType: ePivotAreaType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePivotAreaType
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines the pivot area affected by a style\n"
+  example: []
+  syntax:
+    content: public enum ePivotAreaType
+    content.vb: Public Enum ePivotAreaType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType.All
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotAreaType.All
+  id: All
+  parent: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: ePivotAreaType.All
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType.All
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: All
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRefers to the whole pivot table\n"
+  example: []
+  syntax:
+    content: All = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType.FieldButton
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotAreaType.FieldButton
+  id: FieldButton
+  parent: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: FieldButton
+  nameWithType: ePivotAreaType.FieldButton
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType.FieldButton
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FieldButton
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRefers to a field button\n"
+  example: []
+  syntax:
+    content: FieldButton = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType.Data
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotAreaType.Data
+  id: Data
+  parent: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: Data
+  nameWithType: ePivotAreaType.Data
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType.Data
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Data
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRefers to data in the data area.\n"
+  example: []
+  syntax:
+    content: Data = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType.None
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotAreaType.None
+  id: None
+  parent: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ePivotAreaType.None
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRefers to no pivot area\n"
+  example: []
+  syntax:
+    content: None = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType.Normal
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotAreaType.Normal
+  id: Normal
+  parent: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: ePivotAreaType.Normal
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType.Normal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Normal
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRefers to a header or item\n"
+  example: []
+  syntax:
+    content: Normal = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType.Origin
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotAreaType.Origin
+  id: Origin
+  parent: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: Origin
+  nameWithType: ePivotAreaType.Origin
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType.Origin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Origin
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRefers to the blank cells at the top-left(LTR sheets) or bottom-right(RTL sheets) of the pivot table.\n"
+  example: []
+  syntax:
+    content: Origin = 5
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType.TopEnd
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotAreaType.TopEnd
+  id: TopEnd
+  parent: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: TopEnd
+  nameWithType: ePivotAreaType.TopEnd
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType.TopEnd
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopEnd
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRefers to the blank cells at the top of the pivot table, on its trailing edge. \n"
+  example: []
+  syntax:
+    content: TopEnd = 6
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotAreaType
+  nameWithType: ePivotAreaType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType

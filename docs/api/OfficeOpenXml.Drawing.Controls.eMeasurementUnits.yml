@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  commentId: T:OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  id: eMeasurementUnits
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Centimeters
+  - OfficeOpenXml.Drawing.Controls.eMeasurementUnits.EMUs
+  - OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Inches
+  - OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Millimeters
+  - OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Picas
+  - OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Pixels
+  - OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Points
+  langs:
+  - csharp
+  - vb
+  name: eMeasurementUnits
+  nameWithType: eMeasurementUnits
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eMeasurementUnits
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nUnits of measurement\n"
+  example: []
+  syntax:
+    content: public enum eMeasurementUnits
+    content.vb: Public Enum eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Inches
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Inches
+  id: Inches
+  parent: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  langs:
+  - csharp
+  - vb
+  name: Inches
+  nameWithType: eMeasurementUnits.Inches
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Inches
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Inches
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nInches\n"
+  example: []
+  syntax:
+    content: Inches = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Centimeters
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Centimeters
+  id: Centimeters
+  parent: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  langs:
+  - csharp
+  - vb
+  name: Centimeters
+  nameWithType: eMeasurementUnits.Centimeters
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Centimeters
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Centimeters
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nCentimeters\n"
+  example: []
+  syntax:
+    content: Centimeters = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Millimeters
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Millimeters
+  id: Millimeters
+  parent: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  langs:
+  - csharp
+  - vb
+  name: Millimeters
+  nameWithType: eMeasurementUnits.Millimeters
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Millimeters
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Millimeters
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nMillimeters\n"
+  example: []
+  syntax:
+    content: Millimeters = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Points
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Points
+  id: Points
+  parent: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  langs:
+  - csharp
+  - vb
+  name: Points
+  nameWithType: eMeasurementUnits.Points
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Points
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Points
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nPoints\n"
+  example: []
+  syntax:
+    content: Points = 3
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Picas
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Picas
+  id: Picas
+  parent: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  langs:
+  - csharp
+  - vb
+  name: Picas
+  nameWithType: eMeasurementUnits.Picas
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Picas
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Picas
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nPicas\n"
+  example: []
+  syntax:
+    content: Picas = 4
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Pixels
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Pixels
+  id: Pixels
+  parent: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  langs:
+  - csharp
+  - vb
+  name: Pixels
+  nameWithType: eMeasurementUnits.Pixels
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Pixels
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pixels
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nPixels\n"
+  example: []
+  syntax:
+    content: Pixels = 5
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.EMUs
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.EMUs
+  id: EMUs
+  parent: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  langs:
+  - csharp
+  - vb
+  name: EMUs
+  nameWithType: eMeasurementUnits.EMUs
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.EMUs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EMUs
+    path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nEnglish metric unit\n"
+  example: []
+  syntax:
+    content: EMUs = 6
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  commentId: T:OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eMeasurementUnits
+  nameWithType: eMeasurementUnits
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits

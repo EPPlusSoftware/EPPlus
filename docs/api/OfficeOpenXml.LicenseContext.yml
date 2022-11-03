@@ -1,0 +1,121 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LicenseContext
+  commentId: T:OfficeOpenXml.LicenseContext
+  id: LicenseContext
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.LicenseContext.Commercial
+  - OfficeOpenXml.LicenseContext.NonCommercial
+  langs:
+  - csharp
+  - vb
+  name: LicenseContext
+  nameWithType: LicenseContext
+  fullName: OfficeOpenXml.LicenseContext
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LicenseContext
+    path: ../src/EPPlus/Enums.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSpecifies with license EPPlus is used under.\nLicensetype must be specified in order to use the library\n<xref href=\"OfficeOpenXml.ExcelPackage.LicenseContext\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public enum LicenseContext
+    content.vb: Public Enum LicenseContext
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.LicenseContext.NonCommercial
+  commentId: F:OfficeOpenXml.LicenseContext.NonCommercial
+  id: NonCommercial
+  parent: OfficeOpenXml.LicenseContext
+  langs:
+  - csharp
+  - vb
+  name: NonCommercial
+  nameWithType: LicenseContext.NonCommercial
+  fullName: OfficeOpenXml.LicenseContext.NonCommercial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NonCommercial
+    path: ../src/EPPlus/Enums.cs
+    startLine: 181
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nYou comply with the Polyform Non Commercial License.\nSee https://polyformproject.org/licenses/noncommercial/1.0.0/\n"
+  example: []
+  syntax:
+    content: NonCommercial = 0
+    return:
+      type: OfficeOpenXml.LicenseContext
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.LicenseContext.Commercial
+  commentId: F:OfficeOpenXml.LicenseContext.Commercial
+  id: Commercial
+  parent: OfficeOpenXml.LicenseContext
+  langs:
+  - csharp
+  - vb
+  name: Commercial
+  nameWithType: LicenseContext.Commercial
+  fullName: OfficeOpenXml.LicenseContext.Commercial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Commercial
+    path: ../src/EPPlus/Enums.cs
+    startLine: 185
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nYou have a commercial license purchased at https://epplussoftware.com/licenseoverview\n"
+  example: []
+  syntax:
+    content: Commercial = 1
+    return:
+      type: OfficeOpenXml.LicenseContext
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ExcelPackage.LicenseContext
+  commentId: P:OfficeOpenXml.ExcelPackage.LicenseContext
+  isExternal: true
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.LicenseContext
+  commentId: T:OfficeOpenXml.LicenseContext
+  parent: OfficeOpenXml
+  name: LicenseContext
+  nameWithType: LicenseContext
+  fullName: OfficeOpenXml.LicenseContext

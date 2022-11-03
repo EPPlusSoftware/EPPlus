@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  id: eColorBy
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.CategoryNames
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.Value
+  langs:
+  - csharp
+  - vb
+  name: eColorBy
+  nameWithType: eColorBy
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eColorBy
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nHow to color a region map chart serie\n"
+  example: []
+  syntax:
+    content: public enum eColorBy
+    content.vb: Public Enum eColorBy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.Value
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.Value
+  id: Value
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: eColorBy.Value
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.Value
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nRegion map chart is colored by values\n"
+  example: []
+  syntax:
+    content: Value = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.CategoryNames
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.CategoryNames
+  id: CategoryNames
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  langs:
+  - csharp
+  - vb
+  name: CategoryNames
+  nameWithType: eColorBy.CategoryNames
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy.CategoryNames
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CategoryNames
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nRegion map chart is colored by secondary category names\n"
+  example: []
+  syntax:
+    content: CategoryNames = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eColorBy
+  nameWithType: eColorBy
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy

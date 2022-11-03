@@ -1,0 +1,421 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation
+  commentId: T:OfficeOpenXml.DataValidation.IRangeDataValidation
+  id: IRangeDataValidation
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: IRangeDataValidation
+  nameWithType: IRangeDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IRangeDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nProvides functionality for adding datavalidation to a range (<xref href=\"OfficeOpenXml.ExcelRangeBase\" data-throw-if-not-resolved=\"false\"></xref>). Each method will\nreturn a configurable validation.\n"
+  example: []
+  syntax:
+    content: public interface IRangeDataValidation
+    content.vb: Public Interface IRangeDataValidation
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation
+  id: AddAnyDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddAnyDataValidation()
+  nameWithType: IRangeDataValidation.AddAnyDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAnyDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny\" data-throw-if-not-resolved=\"false\"></xref> to the range.\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationAny AddAnyDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+      description: A <xref href="OfficeOpenXml.DataValidation.ExcelDataValidationAny" data-throw-if-not-resolved="false"></xref> that can be configured for any validation
+    content.vb: Function AddAnyDataValidation As IExcelDataValidationAny
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation
+  id: AddIntegerDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddIntegerDataValidation()
+  nameWithType: IRangeDataValidation.AddIntegerDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddIntegerDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationInt AddIntegerDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+      description: A <xref href="OfficeOpenXml.DataValidation.ExcelDataValidationInt" data-throw-if-not-resolved="false"></xref> that can be configured for integer data validation
+    content.vb: Function AddIntegerDataValidation As IExcelDataValidationInt
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation
+  id: AddDecimalDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddDecimalDataValidation()
+  nameWithType: IRangeDataValidation.AddDecimalDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDecimalDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationDecimal\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationDecimal AddDecimalDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+      description: A <xref href="OfficeOpenXml.DataValidation.ExcelDataValidationDecimal" data-throw-if-not-resolved="false"></xref> that can be configured for decimal data validation
+    content.vb: Function AddDecimalDataValidation As IExcelDataValidationDecimal
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation
+  id: AddDateTimeDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddDateTimeDataValidation()
+  nameWithType: IRangeDataValidation.AddDateTimeDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDateTimeDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationDateTime\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationDateTime AddDateTimeDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+      description: A <xref href="OfficeOpenXml.DataValidation.ExcelDataValidationDecimal" data-throw-if-not-resolved="false"></xref> that can be configured for datetime data validation
+    content.vb: Function AddDateTimeDataValidation As IExcelDataValidationDateTime
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation
+  id: AddListDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddListDataValidation()
+  nameWithType: IRangeDataValidation.AddListDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddListDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationList AddListDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+      description: A <xref href="OfficeOpenXml.DataValidation.ExcelDataValidationList" data-throw-if-not-resolved="false"></xref> that can be configured for datetime data validation
+    content.vb: Function AddListDataValidation As IExcelDataValidationList
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation
+  id: AddTextLengthDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddTextLengthDataValidation()
+  nameWithType: IRangeDataValidation.AddTextLengthDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTextLengthDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> regarding text length validation to the range.\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationInt AddTextLengthDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+      description: ''
+    content.vb: Function AddTextLengthDataValidation As IExcelDataValidationInt
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation
+  id: AddTimeDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddTimeDataValidation()
+  nameWithType: IRangeDataValidation.AddTimeDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTimeDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime\" data-throw-if-not-resolved=\"false\"></xref> to the range.\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationTime AddTimeDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+      description: A <xref href="OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime" data-throw-if-not-resolved="false"></xref> that can be configured for time data validation
+    content.vb: Function AddTimeDataValidation As IExcelDataValidationTime
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation
+  id: AddCustomDataValidation
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: AddCustomDataValidation()
+  nameWithType: IRangeDataValidation.AddCustomDataValidation()
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddCustomDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom\" data-throw-if-not-resolved=\"false\"></xref> to the range.\n"
+  example: []
+  syntax:
+    content: IExcelDataValidationCustom AddCustomDataValidation()
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+      description: A <xref href="OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom" data-throw-if-not-resolved="false"></xref> that can be configured for custom validation
+    content.vb: Function AddCustomDataValidation As IExcelDataValidationCustom
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation*
+references:
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationAny
+  nameWithType: IExcelDataValidationAny
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAny
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationAny
+  name: ExcelDataValidationAny
+  nameWithType: ExcelDataValidationAny
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAny
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation
+  name: AddAnyDataValidation
+  nameWithType: IRangeDataValidation.AddAnyDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddAnyDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Contracts
+  name: OfficeOpenXml.DataValidation.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Contracts
+  fullName: OfficeOpenXml.DataValidation.Contracts
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationInt
+  nameWithType: IExcelDataValidationInt
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  name: ExcelDataValidationInt
+  nameWithType: ExcelDataValidationInt
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationInt
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation
+  name: AddIntegerDataValidation
+  nameWithType: IRangeDataValidation.AddIntegerDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+  name: ExcelDataValidationDecimal
+  nameWithType: ExcelDataValidationDecimal
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation
+  name: AddDecimalDataValidation
+  nameWithType: IRangeDataValidation.AddDecimalDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDecimalDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationDecimal
+  nameWithType: IExcelDataValidationDecimal
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+  name: ExcelDataValidationDateTime
+  nameWithType: ExcelDataValidationDateTime
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation
+  name: AddDateTimeDataValidation
+  nameWithType: IRangeDataValidation.AddDateTimeDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddDateTimeDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationDateTime
+  nameWithType: IExcelDataValidationDateTime
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationList
+  nameWithType: IExcelDataValidationList
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationList
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationList
+  name: ExcelDataValidationList
+  nameWithType: ExcelDataValidationList
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationList
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation
+  name: AddListDataValidation
+  nameWithType: IRangeDataValidation.AddListDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation
+  name: AddTextLengthDataValidation
+  nameWithType: IRangeDataValidation.AddTextLengthDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationTime
+  nameWithType: IExcelDataValidationTime
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation
+  name: AddTimeDataValidation
+  nameWithType: IRangeDataValidation.AddTimeDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationCustom
+  nameWithType: IExcelDataValidationCustom
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation
+  name: AddCustomDataValidation
+  nameWithType: IRangeDataValidation.AddCustomDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation

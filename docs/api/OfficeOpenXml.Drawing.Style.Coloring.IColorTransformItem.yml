@@ -1,0 +1,189 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  id: IColorTransformItem
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  children:
+  - OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  - OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  - OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  langs:
+  - csharp
+  - vb
+  name: IColorTransformItem
+  nameWithType: IColorTransformItem
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IColorTransformItem
+    path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nColor transformation item\n"
+  example: []
+  syntax:
+    content: public interface IColorTransformItem
+    content.vb: Public Interface IColorTransformItem
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  id: Type
+  parent: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: IColorTransformItem.Type
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nType of tranformation\n"
+  example: []
+  syntax:
+    content: eColorTransformType Type { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+    content.vb: ReadOnly Property Type As eColorTransformType
+  overload: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  id: DataType
+  parent: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  langs:
+  - csharp
+  - vb
+  name: DataType
+  nameWithType: IColorTransformItem.DataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataType
+    path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nDatetype of the value property\n"
+  example: []
+  syntax:
+    content: eColorTransformDataType DataType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+    content.vb: ReadOnly Property DataType As eColorTransformDataType
+  overload: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  id: Value
+  parent: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: IColorTransformItem.Value
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nThe value\n"
+  example: []
+  syntax:
+    content: double Value { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Property Value As Double
+  overload: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  commentId: N:OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  nameWithType: OfficeOpenXml.Drawing.Style.Coloring
+  fullName: OfficeOpenXml.Drawing.Style.Coloring
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+  name: Type
+  nameWithType: IColorTransformItem.Type
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Type
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: eColorTransformType
+  nameWithType: eColorTransformType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+  name: DataType
+  nameWithType: IColorTransformItem.DataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.DataType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: eColorTransformDataType
+  nameWithType: eColorTransformDataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+  name: Value
+  nameWithType: IColorTransformItem.Value
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem.Value
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

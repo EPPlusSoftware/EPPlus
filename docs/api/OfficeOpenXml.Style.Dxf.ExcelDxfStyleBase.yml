@@ -1,0 +1,653 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  id: ExcelDxfStyleBase
+  parent: OfficeOpenXml.Style.Dxf
+  children:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
+  langs:
+  - csharp
+  - vb
+  name: ExcelDxfStyleBase
+  nameWithType: ExcelDxfStyleBase
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDxfStyleBase
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nBase class for differential formatting styles\n"
+  example: []
+  syntax:
+    content: 'public abstract class ExcelDxfStyleBase : DxfStyleBase'
+    content.vb: >-
+      Public MustInherit Class ExcelDxfStyleBase
+          Inherits DxfStyleBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase
+  derivedClasses:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyleFont
+  - OfficeOpenXml.Style.Dxf.ExcelDxfStyleLimitedFont
+  inheritedMembers:
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill
+  id: Fill
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  langs:
+  - csharp
+  - vb
+  name: Fill
+  nameWithType: ExcelDxfStyleBase.Fill
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fill
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nFill formatting settings\n"
+  example: []
+  syntax:
+    content: public ExcelDxfFill Fill { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfFill
+    content.vb: Public Property Fill As ExcelDxfFill
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border
+  id: Border
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  langs:
+  - csharp
+  - vb
+  name: Border
+  nameWithType: ExcelDxfStyleBase.Border
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Border
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nBorder formatting settings\n"
+  example: []
+  syntax:
+    content: public ExcelDxfBorderBase Border { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+    content.vb: Public Property Border As ExcelDxfBorderBase
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
+  id: HasValue
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  langs:
+  - csharp
+  - vb
+  name: HasValue
+  nameWithType: ExcelDxfStyleBase.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasValue
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nIf the object has any properties set\n"
+  example: []
+  syntax:
+    content: public override bool HasValue { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property HasValue As Boolean
+  overridden: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear
+  id: Clear
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelDxfStyleBase.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleBase.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nClears all properties\n"
+  example: []
+  syntax:
+    content: public override void Clear()
+    content.vb: Public Overrides Sub Clear
+  overridden: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  commentId: T:OfficeOpenXml.Style.Dxf.DxfStyleBase
+  parent: OfficeOpenXml.Style.Dxf
+  name: DxfStyleBase
+  nameWithType: DxfStyleBase
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  commentId: M:OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  isExternal: true
+  name: SetValueColor(XmlHelper, String, ExcelDxfColor)
+  nameWithType: DxfStyleBase.SetValueColor(XmlHelper, String, ExcelDxfColor)
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper, System.String, OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill
+  name: Fill
+  nameWithType: ExcelDxfStyleBase.Fill
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Fill
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFill
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfFill
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfFill
+  nameWithType: ExcelDxfFill
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFill
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border
+  name: Border
+  nameWithType: ExcelDxfStyleBase.Border
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Border
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfBorderBase
+  nameWithType: ExcelDxfBorderBase
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  name: HasValue
+  nameWithType: DxfStyleBase.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.HasValue
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
+  name: HasValue
+  nameWithType: ExcelDxfStyleBase.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.HasValue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  name: Clear()
+  nameWithType: DxfStyleBase.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear()
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+    name: Clear
+    nameWithType: DxfStyleBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+    name: Clear
+    nameWithType: DxfStyleBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear
+  name: Clear
+  nameWithType: ExcelDxfStyleBase.Clear
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase.Clear

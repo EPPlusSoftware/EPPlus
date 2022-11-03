@@ -1,0 +1,220 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  id: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.eCalendarType
+  - OfficeOpenXml.Filter.eDateTimeGrouping
+  - OfficeOpenXml.Filter.eDynamicFilterType
+  - OfficeOpenXml.Filter.eFilterOperator
+  - OfficeOpenXml.Filter.ExcelAutoFilter
+  - OfficeOpenXml.Filter.ExcelColorFilterColumn
+  - OfficeOpenXml.Filter.ExcelCustomFilterColumn
+  - OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  - OfficeOpenXml.Filter.ExcelFilterCollection`1
+  - OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+  - OfficeOpenXml.Filter.ExcelFilterColumn
+  - OfficeOpenXml.Filter.ExcelFilterColumnCollection
+  - OfficeOpenXml.Filter.ExcelFilterCustomItem
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  - OfficeOpenXml.Filter.ExcelFilterItem
+  - OfficeOpenXml.Filter.ExcelFilterValueItem
+  - OfficeOpenXml.Filter.ExcelIconFilterColumn
+  - OfficeOpenXml.Filter.ExcelTop10FilterColumn
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection
+  - OfficeOpenXml.Filter.ExcelValueFilterColumn
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Filter.eCalendarType
+  commentId: T:OfficeOpenXml.Filter.eCalendarType
+  parent: OfficeOpenXml.Filter
+  name: eCalendarType
+  nameWithType: eCalendarType
+  fullName: OfficeOpenXml.Filter.eCalendarType
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping
+  commentId: T:OfficeOpenXml.Filter.eDateTimeGrouping
+  parent: OfficeOpenXml.Filter
+  name: eDateTimeGrouping
+  nameWithType: eDateTimeGrouping
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping
+- uid: OfficeOpenXml.Filter.eDynamicFilterType
+  commentId: T:OfficeOpenXml.Filter.eDynamicFilterType
+  parent: OfficeOpenXml.Filter
+  name: eDynamicFilterType
+  nameWithType: eDynamicFilterType
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType
+- uid: OfficeOpenXml.Filter.eFilterOperator
+  commentId: T:OfficeOpenXml.Filter.eFilterOperator
+  parent: OfficeOpenXml.Filter
+  name: eFilterOperator
+  nameWithType: eFilterOperator
+  fullName: OfficeOpenXml.Filter.eFilterOperator
+- uid: OfficeOpenXml.Filter.ExcelAutoFilter
+  commentId: T:OfficeOpenXml.Filter.ExcelAutoFilter
+  parent: OfficeOpenXml.Filter
+  name: ExcelAutoFilter
+  nameWithType: ExcelAutoFilter
+  fullName: OfficeOpenXml.Filter.ExcelAutoFilter
+- uid: OfficeOpenXml.Filter.ExcelColorFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelColorFilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelColorFilterColumn
+  nameWithType: ExcelColorFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelColorFilterColumn
+- uid: OfficeOpenXml.Filter.ExcelCustomFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelCustomFilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelCustomFilterColumn
+  nameWithType: ExcelCustomFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelCustomFilterColumn
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterDateGroupItem
+  nameWithType: ExcelFilterDateGroupItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelDynamicFilterColumn
+  nameWithType: ExcelDynamicFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+  name: ExcelFilterCollectionBase<T>
+  nameWithType: ExcelFilterCollectionBase<T>
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>
+  nameWithType.vb: ExcelFilterCollectionBase(Of T)
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T)
+  name.vb: ExcelFilterCollectionBase(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+    name: ExcelFilterCollectionBase
+    nameWithType: ExcelFilterCollectionBase
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+    name: ExcelFilterCollectionBase
+    nameWithType: ExcelFilterCollectionBase
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterCollection`1
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterCollection`1
+  name: ExcelFilterCollection<T>
+  nameWithType: ExcelFilterCollection<T>
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollection<T>
+  nameWithType.vb: ExcelFilterCollection(Of T)
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollection(Of T)
+  name.vb: ExcelFilterCollection(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollection`1
+    name: ExcelFilterCollection
+    nameWithType: ExcelFilterCollection
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollection`1
+    name: ExcelFilterCollection
+    nameWithType: ExcelFilterCollection
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterColumn
+  nameWithType: ExcelFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumn
+- uid: OfficeOpenXml.Filter.ExcelFilterColumnCollection
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterColumnCollection
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterColumnCollection
+  nameWithType: ExcelFilterColumnCollection
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumnCollection
+- uid: OfficeOpenXml.Filter.ExcelFilterCustomItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterCustomItem
+  name: ExcelFilterCustomItem
+  nameWithType: ExcelFilterCustomItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterCustomItem
+- uid: OfficeOpenXml.Filter.ExcelFilterItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterItem
+  nameWithType: ExcelFilterItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterItem
+- uid: OfficeOpenXml.Filter.ExcelFilterValueItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterValueItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterValueItem
+  nameWithType: ExcelFilterValueItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterValueItem
+- uid: OfficeOpenXml.Filter.ExcelIconFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelIconFilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelIconFilterColumn
+  nameWithType: ExcelIconFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelIconFilterColumn
+- uid: OfficeOpenXml.Filter.ExcelTop10FilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelTop10FilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelTop10FilterColumn
+  nameWithType: ExcelTop10FilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelTop10FilterColumn
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  commentId: T:OfficeOpenXml.Filter.ExcelValueFilterCollection
+  parent: OfficeOpenXml.Filter
+  name: ExcelValueFilterCollection
+  nameWithType: ExcelValueFilterCollection
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection
+- uid: OfficeOpenXml.Filter.ExcelValueFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelValueFilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelValueFilterColumn
+  nameWithType: ExcelValueFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterColumn
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter

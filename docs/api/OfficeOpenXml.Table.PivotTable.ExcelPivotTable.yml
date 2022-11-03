@@ -1,0 +1,3117 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  id: ExcelPivotTable
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotNullValue
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact(System.Boolean)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTable
+  nameWithType: ExcelPivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTable
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAn Excel Pivottable\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTable : XmlHelper'
+    content.vb: >-
+      Public Class ExcelPivotTable
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotNullValue
+  commentId: F:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotNullValue
+  id: PivotNullValue
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: PivotNullValue
+  nameWithType: ExcelPivotTable.PivotNullValue
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotNullValue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotNullValue
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRepresents a null value in a pivot table caches shared items list.\n"
+  example: []
+  syntax:
+    content: public static PivotNull PivotNullValue
+    return:
+      type: OfficeOpenXml.Table.PivotTable.PivotNull
+    content.vb: Public Shared PivotNullValue As PivotNull
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles
+  id: Styles
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Styles
+  nameWithType: ExcelPivotTable.Styles
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Styles
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIndividual styles for the pivot table.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyleCollection Styles { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+    content.vb: Public ReadOnly Property Styles As ExcelPivotTableAreaStyleCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml
+  id: PivotTableXml
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: PivotTableXml
+  nameWithType: ExcelPivotTable.PivotTableXml
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTableXml
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 244
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nProvides access to the XML data representing the pivottable in the package.\n"
+  example: []
+  syntax:
+    content: public XmlDocument PivotTableXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property PivotTableXml As XmlDocument
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri
+  id: PivotTableUri
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: PivotTableUri
+  nameWithType: ExcelPivotTable.PivotTableUri
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTableUri
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe package internal URI to the pivottable Xml Document.\n"
+  example: []
+  syntax:
+    content: public Uri PivotTableUri { get; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public ReadOnly Property PivotTableUri As Uri
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name
+  id: Name
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelPivotTable.Name
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 263
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nName of the pivottable object in Excel\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition
+  id: CacheDefinition
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: CacheDefinition
+  nameWithType: ExcelPivotTable.CacheDefinition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheDefinition
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 289
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nReference to the pivot table cache definition object\n"
+  example: []
+  syntax:
+    content: public ExcelPivotCacheDefinition CacheDefinition { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+    content.vb: Public ReadOnly Property CacheDefinition As ExcelPivotCacheDefinition
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet
+  id: WorkSheet
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: WorkSheet
+  nameWithType: ExcelPivotTable.WorkSheet
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorkSheet
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 303
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe worksheet where the pivottable is located\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet WorkSheet { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public Property WorkSheet As ExcelWorksheet
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address
+  id: Address
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExcelPivotTable.Address
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 311
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe location of the pivot table\n"
+  example: []
+  syntax:
+    content: public ExcelAddressBase Address { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public ReadOnly Property Address As ExcelAddressBase
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+  id: DataOnRows
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: DataOnRows
+  nameWithType: ExcelPivotTable.DataOnRows
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataOnRows
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 319
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf multiple datafields are displayed in the row area or the column area\n"
+  example: []
+  syntax:
+    content: public bool DataOnRows { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DataOnRows As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition
+  id: ValuesFieldPosition
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ValuesFieldPosition
+  nameWithType: ExcelPivotTable.ValuesFieldPosition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValuesFieldPosition
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 336
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe position of the values in the row- or column- fields list. Position is dependent on <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows\" data-throw-if-not-resolved=\"false\"></xref>.\nIf DataOnRows is true then the position is within the <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields\" data-throw-if-not-resolved=\"false\"></xref> collection,\na value of false the position is within the <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields\" data-throw-if-not-resolved=\"false\"></xref> collection.\nA negative value or a value out of range of the add the &quot;Σ values&quot; field to the end of the collection.\n"
+  example: []
+  syntax:
+    content: public int ValuesFieldPosition { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ValuesFieldPosition As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats
+  id: ApplyNumberFormats
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ApplyNumberFormats
+  nameWithType: ExcelPivotTable.ApplyNumberFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplyNumberFormats
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 344
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nif true apply legacy table autoformat number format properties.\n"
+  example: []
+  syntax:
+    content: public bool ApplyNumberFormats { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ApplyNumberFormats As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats
+  id: ApplyBorderFormats
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ApplyBorderFormats
+  nameWithType: ExcelPivotTable.ApplyBorderFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplyBorderFormats
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 358
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf true apply legacy table autoformat border properties\n"
+  example: []
+  syntax:
+    content: public bool ApplyBorderFormats { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ApplyBorderFormats As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats
+  id: ApplyFontFormats
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ApplyFontFormats
+  nameWithType: ExcelPivotTable.ApplyFontFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplyFontFormats
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 372
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf true apply legacy table autoformat font properties\n"
+  example: []
+  syntax:
+    content: public bool ApplyFontFormats { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ApplyFontFormats As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats
+  id: ApplyPatternFormats
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ApplyPatternFormats
+  nameWithType: ExcelPivotTable.ApplyPatternFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplyPatternFormats
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 386
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf true apply legacy table autoformat pattern properties\n"
+  example: []
+  syntax:
+    content: public bool ApplyPatternFormats { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ApplyPatternFormats As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats
+  id: ApplyWidthHeightFormats
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ApplyWidthHeightFormats
+  nameWithType: ExcelPivotTable.ApplyWidthHeightFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ApplyWidthHeightFormats
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 400
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf true apply legacy table autoformat width/height properties.\n"
+  example: []
+  syntax:
+    content: public bool ApplyWidthHeightFormats { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ApplyWidthHeightFormats As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips
+  id: ShowMemberPropertyTips
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowMemberPropertyTips
+  nameWithType: ExcelPivotTable.ShowMemberPropertyTips
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowMemberPropertyTips
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 414
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nShow member property information\n"
+  example: []
+  syntax:
+    content: public bool ShowMemberPropertyTips { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowMemberPropertyTips As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember
+  id: ShowCalcMember
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowCalcMember
+  nameWithType: ExcelPivotTable.ShowCalcMember
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowCalcMember
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 428
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nShow the drill indicators\n"
+  example: []
+  syntax:
+    content: public bool ShowCalcMember { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowCalcMember As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill
+  id: EnableDrill
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: EnableDrill
+  nameWithType: ExcelPivotTable.EnableDrill
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EnableDrill
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 442
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the user is prevented from drilling down on a PivotItem or aggregate value\n"
+  example: []
+  syntax:
+    content: public bool EnableDrill { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property EnableDrill As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill
+  id: ShowDrill
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowDrill
+  nameWithType: ExcelPivotTable.ShowDrill
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowDrill
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 456
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nShow the drill down buttons\n"
+  example: []
+  syntax:
+    content: public bool ShowDrill { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowDrill As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips
+  id: ShowDataTips
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowDataTips
+  nameWithType: ExcelPivotTable.ShowDataTips
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowDataTips
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 470
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the tooltips should be displayed for PivotTable data cells.\n"
+  example: []
+  syntax:
+    content: public bool ShowDataTips { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowDataTips As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles
+  id: FieldPrintTitles
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: FieldPrintTitles
+  nameWithType: ExcelPivotTable.FieldPrintTitles
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FieldPrintTitles
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 484
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the row and column titles from the PivotTable should be printed.\n"
+  example: []
+  syntax:
+    content: public bool FieldPrintTitles { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FieldPrintTitles As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles
+  id: ItemPrintTitles
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ItemPrintTitles
+  nameWithType: ExcelPivotTable.ItemPrintTitles
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ItemPrintTitles
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 498
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the row and column titles from the PivotTable should be printed.\n"
+  example: []
+  syntax:
+    content: public bool ItemPrintTitles { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ItemPrintTitles As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals
+  id: ColumnGrandTotals
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ColumnGrandTotals
+  nameWithType: ExcelPivotTable.ColumnGrandTotals
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnGrandTotals
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 512
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the grand totals should be displayed for the PivotTable columns\n"
+  example: []
+  syntax:
+    content: public bool ColumnGrandTotals { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ColumnGrandTotals As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals
+  id: RowGrandTotals
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: RowGrandTotals
+  nameWithType: ExcelPivotTable.RowGrandTotals
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowGrandTotals
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 526
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the grand totals should be displayed for the PivotTable rows\n"
+  example: []
+  syntax:
+    content: public bool RowGrandTotals { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RowGrandTotals As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill
+  id: PrintDrill
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: PrintDrill
+  nameWithType: ExcelPivotTable.PrintDrill
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrintDrill
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 540
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the drill indicators expand collapse buttons should be printed.\n"
+  example: []
+  syntax:
+    content: public bool PrintDrill { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PrintDrill As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError
+  id: ShowError
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowError
+  nameWithType: ExcelPivotTable.ShowError
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowError
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 554
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIndicates whether to show error messages in cells.\n"
+  example: []
+  syntax:
+    content: public bool ShowError { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowError As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption
+  id: ErrorCaption
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ErrorCaption
+  nameWithType: ExcelPivotTable.ErrorCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ErrorCaption
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 568
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe string to be displayed in cells that contain errors.\n"
+  example: []
+  syntax:
+    content: public string ErrorCaption { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ErrorCaption As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption
+  id: DataCaption
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: DataCaption
+  nameWithType: ExcelPivotTable.DataCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataCaption
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 583
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSpecifies the name of the value area field header in the PivotTable. \nThis caption is shown when the PivotTable when two or more fields are in the values area.\n"
+  example: []
+  syntax:
+    content: public string DataCaption { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataCaption As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders
+  id: ShowHeaders
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowHeaders
+  nameWithType: ExcelPivotTable.ShowHeaders
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowHeaders
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 597
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nShow field headers\n"
+  example: []
+  syntax:
+    content: public bool ShowHeaders { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowHeaders As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap
+  id: PageWrap
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: PageWrap
+  nameWithType: ExcelPivotTable.PageWrap
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageWrap
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 611
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe number of page fields to display before starting another row or column\n"
+  example: []
+  syntax:
+    content: public int PageWrap { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property PageWrap As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting
+  id: UseAutoFormatting
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: UseAutoFormatting
+  nameWithType: ExcelPivotTable.UseAutoFormatting
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseAutoFormatting
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 629
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates whether legacy auto formatting has been applied to the PivotTable view\n"
+  example: []
+  syntax:
+    content: public bool UseAutoFormatting { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UseAutoFormatting As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+  id: GridDropZones
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: GridDropZones
+  nameWithType: ExcelPivotTable.GridDropZones
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GridDropZones
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 643
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates if the in-grid drop zones should be displayed at runtime, and if classic layout is applied\n"
+  example: []
+  syntax:
+    content: public bool GridDropZones { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property GridDropZones As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent
+  id: Indent
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Indent
+  nameWithType: ExcelPivotTable.Indent
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indent
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 657
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe indentation increment for compact axis and can be used to set the Report Layout to Compact Form\n"
+  example: []
+  syntax:
+    content: public int Indent { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Indent As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData
+  id: OutlineData
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: OutlineData
+  nameWithType: ExcelPivotTable.OutlineData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutlineData
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 671
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates whether data fields in the PivotTable should be displayed in outline form\n"
+  example: []
+  syntax:
+    content: public bool OutlineData { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property OutlineData As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline
+  id: Outline
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Outline
+  nameWithType: ExcelPivotTable.Outline
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Outline
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 685
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates whether new fields should have their outline flag set to true\n"
+  example: []
+  syntax:
+    content: public bool Outline { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Outline As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters
+  id: MultipleFieldFilters
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: MultipleFieldFilters
+  nameWithType: ExcelPivotTable.MultipleFieldFilters
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MultipleFieldFilters
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 699
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates if the fields of a PivotTable can have multiple filters set on them\n"
+  example: []
+  syntax:
+    content: public bool MultipleFieldFilters { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property MultipleFieldFilters As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact
+  id: Compact
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Compact
+  nameWithType: ExcelPivotTable.Compact
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Compact
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 713
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates if new fields should have their compact flag set to true\n"
+  example: []
+  syntax:
+    content: public bool Compact { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Compact As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact(System.Boolean)
+  id: SetCompact(System.Boolean)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: SetCompact(Boolean)
+  nameWithType: ExcelPivotTable.SetCompact(Boolean)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetCompact
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 728
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSets all pivot table fields <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Compact\" data-throw-if-not-resolved=\"false\"></xref> property to the value supplied.\n"
+  example: []
+  syntax:
+    content: public void SetCompact(bool value = true)
+    parameters:
+    - id: value
+      type: System.Boolean
+      description: The the value for the Compact property.
+    content.vb: Public Sub SetCompact(value As Boolean = True)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData
+  id: CompactData
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: CompactData
+  nameWithType: ExcelPivotTable.CompactData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompactData
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 739
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates if the field next to the data field in the PivotTable should be displayed in the same column of the spreadsheet.\n"
+  example: []
+  syntax:
+    content: public bool CompactData { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CompactData As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption
+  id: GrandTotalCaption
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: GrandTotalCaption
+  nameWithType: ExcelPivotTable.GrandTotalCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrandTotalCaption
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 753
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSpecifies the string to be displayed for grand totals.\n"
+  example: []
+  syntax:
+    content: public string GrandTotalCaption { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property GrandTotalCaption As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption
+  id: RowHeaderCaption
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: RowHeaderCaption
+  nameWithType: ExcelPivotTable.RowHeaderCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowHeaderCaption
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 767
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe text to be displayed in row header in compact mode.\n"
+  example: []
+  syntax:
+    content: public string RowHeaderCaption { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property RowHeaderCaption As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption
+  id: ColumnHeaderCaption
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ColumnHeaderCaption
+  nameWithType: ExcelPivotTable.ColumnHeaderCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnHeaderCaption
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 781
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe text to be displayed in column header in compact mode.\n"
+  example: []
+  syntax:
+    content: public string ColumnHeaderCaption { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ColumnHeaderCaption As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption
+  id: MissingCaption
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: MissingCaption
+  nameWithType: ExcelPivotTable.MissingCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MissingCaption
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 795
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe text to be displayed in cells with no value\n"
+  example: []
+  syntax:
+    content: public string MissingCaption { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property MissingCaption As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters
+  id: Filters
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Filters
+  nameWithType: ExcelPivotTable.Filters
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Filters
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 810
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nFilters applied to the pivot table\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableFilterCollection Filters { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+    content.vb: Public ReadOnly Property Filters As ExcelPivotTableFilterCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow
+  id: FirstHeaderRow
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: FirstHeaderRow
+  nameWithType: ExcelPivotTable.FirstHeaderRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstHeaderRow
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 825
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe first row of the PivotTable header, relative to the top left cell in the ref value\n"
+  example: []
+  syntax:
+    content: public int FirstHeaderRow { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property FirstHeaderRow As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow
+  id: FirstDataRow
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: FirstDataRow
+  nameWithType: ExcelPivotTable.FirstDataRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstDataRow
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 840
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe first column of the PivotTable data, relative to the top left cell in the range\n"
+  example: []
+  syntax:
+    content: public int FirstDataRow { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property FirstDataRow As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol
+  id: FirstDataCol
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: FirstDataCol
+  nameWithType: ExcelPivotTable.FirstDataCol
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstDataCol
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 855
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe first column of the PivotTable data, relative to the top left cell in the range.\n"
+  example: []
+  syntax:
+    content: public int FirstDataCol { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property FirstDataCol As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields
+  id: Fields
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: Fields
+  nameWithType: ExcelPivotTable.Fields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fields
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 870
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe fields in the table \n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableFieldCollection Fields { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection
+    content.vb: Public ReadOnly Property Fields As ExcelPivotTableFieldCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+  id: RowFields
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: RowFields
+  nameWithType: ExcelPivotTable.RowFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowFields
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 885
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRow label fields \n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableRowColumnFieldCollection RowFields { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+    content.vb: Public ReadOnly Property RowFields As ExcelPivotTableRowColumnFieldCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+  id: ColumnFields
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ColumnFields
+  nameWithType: ExcelPivotTable.ColumnFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnFields
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 900
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nColumn label fields \n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableRowColumnFieldCollection ColumnFields { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+    content.vb: Public ReadOnly Property ColumnFields As ExcelPivotTableRowColumnFieldCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+  id: DataFields
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: DataFields
+  nameWithType: ExcelPivotTable.DataFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataFields
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 915
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nValue fields \n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableDataFieldCollection DataFields { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
+    content.vb: Public ReadOnly Property DataFields As ExcelPivotTableDataFieldCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields
+  id: PageFields
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: PageFields
+  nameWithType: ExcelPivotTable.PageFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageFields
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 930
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nReport filter fields\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableRowColumnFieldCollection PageFields { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+    content.vb: Public ReadOnly Property PageFields As ExcelPivotTableRowColumnFieldCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName
+  id: StyleName
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: StyleName
+  nameWithType: ExcelPivotTable.StyleName
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StyleName
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 945
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nPivot style name. Used for custom styles\n"
+  example: []
+  syntax:
+    content: public string StyleName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property StyleName As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders
+  id: ShowColumnHeaders
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowColumnHeaders
+  nameWithType: ExcelPivotTable.ShowColumnHeaders
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowColumnHeaders
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 998
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nWhether to show column headers for the pivot table.\n"
+  example: []
+  syntax:
+    content: public bool ShowColumnHeaders { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowColumnHeaders As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes
+  id: ShowColumnStripes
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowColumnStripes
+  nameWithType: ExcelPivotTable.ShowColumnStripes
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowColumnStripes
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 1013
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nWhether to show column stripe formatting for the pivot table.\n"
+  example: []
+  syntax:
+    content: public bool ShowColumnStripes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowColumnStripes As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn
+  id: ShowLastColumn
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowLastColumn
+  nameWithType: ExcelPivotTable.ShowLastColumn
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowLastColumn
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 1028
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nWhether to show the last column for the pivot table.\n"
+  example: []
+  syntax:
+    content: public bool ShowLastColumn { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowLastColumn As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders
+  id: ShowRowHeaders
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowRowHeaders
+  nameWithType: ExcelPivotTable.ShowRowHeaders
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowRowHeaders
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 1043
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nWhether to show row headers for the pivot table.\n"
+  example: []
+  syntax:
+    content: public bool ShowRowHeaders { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowRowHeaders As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes
+  id: ShowRowStripes
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowRowStripes
+  nameWithType: ExcelPivotTable.ShowRowStripes
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowRowStripes
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 1058
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nWhether to show row stripe formatting for the pivot table.\n"
+  example: []
+  syntax:
+    content: public bool ShowRowStripes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowRowStripes As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle
+  id: TableStyle
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: TableStyle
+  nameWithType: ExcelPivotTable.TableStyle
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyle
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 1073
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe table style. If this property is Custom, the style from the StyleName propery is used.\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Use the PivotTableStyle property for more options")]
+
+      public TableStyles TableStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+    content.vb: >-
+      <Obsolete("Use the PivotTableStyle property for more options")>
+
+      Public Property TableStyle As TableStyles
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Use the PivotTableStyle property for more options
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle
+  id: PivotTableStyle
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: PivotTableStyle
+  nameWithType: ExcelPivotTable.PivotTableStyle
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTableStyle
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 1093
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot table style. If this property is Custom, the style from the StyleName propery is used.\n"
+  example: []
+  syntax:
+    content: public PivotTableStyles PivotTableStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+    content.vb: Public Property PivotTableStyle As PivotTableStyles
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow
+  id: ShowValuesRow
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  langs:
+  - csharp
+  - vb
+  name: ShowValuesRow
+  nameWithType: ExcelPivotTable.ShowValuesRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowValuesRow
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 1114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the pivot tables value row is visible or not. \nThis property only applies when <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones\" data-throw-if-not-resolved=\"false\"></xref> is set to false.\n"
+  example: []
+  syntax:
+    content: public bool ShowValuesRow { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowValuesRow As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.PivotNull
+  commentId: T:OfficeOpenXml.Table.PivotTable.PivotNull
+  parent: OfficeOpenXml.Table.PivotTable
+  name: PivotNull
+  nameWithType: PivotNull
+  fullName: OfficeOpenXml.Table.PivotTable.PivotNull
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles
+  name: Styles
+  nameWithType: ExcelPivotTable.Styles
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Styles
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableAreaStyleCollection
+  nameWithType: ExcelPivotTableAreaStyleCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml
+  name: PivotTableXml
+  nameWithType: ExcelPivotTable.PivotTableXml
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri
+  name: PivotTableUri
+  nameWithType: ExcelPivotTable.PivotTableUri
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableUri
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name
+  name: Name
+  nameWithType: ExcelPivotTable.Name
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition
+  name: CacheDefinition
+  nameWithType: ExcelPivotTable.CacheDefinition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CacheDefinition
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotCacheDefinition
+  nameWithType: ExcelPivotCacheDefinition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet
+  name: WorkSheet
+  nameWithType: ExcelPivotTable.WorkSheet
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.WorkSheet
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address
+  name: Address
+  nameWithType: ExcelPivotTable.Address
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Address
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+  name: DataOnRows
+  nameWithType: ExcelPivotTable.DataOnRows
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataOnRows
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition
+  name: ValuesFieldPosition
+  nameWithType: ExcelPivotTable.ValuesFieldPosition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ValuesFieldPosition
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats
+  name: ApplyNumberFormats
+  nameWithType: ExcelPivotTable.ApplyNumberFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyNumberFormats
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats
+  name: ApplyBorderFormats
+  nameWithType: ExcelPivotTable.ApplyBorderFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyBorderFormats
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats
+  name: ApplyFontFormats
+  nameWithType: ExcelPivotTable.ApplyFontFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyFontFormats
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats
+  name: ApplyPatternFormats
+  nameWithType: ExcelPivotTable.ApplyPatternFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyPatternFormats
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats
+  name: ApplyWidthHeightFormats
+  nameWithType: ExcelPivotTable.ApplyWidthHeightFormats
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ApplyWidthHeightFormats
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips
+  name: ShowMemberPropertyTips
+  nameWithType: ExcelPivotTable.ShowMemberPropertyTips
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowMemberPropertyTips
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember
+  name: ShowCalcMember
+  nameWithType: ExcelPivotTable.ShowCalcMember
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowCalcMember
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill
+  name: EnableDrill
+  nameWithType: ExcelPivotTable.EnableDrill
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.EnableDrill
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill
+  name: ShowDrill
+  nameWithType: ExcelPivotTable.ShowDrill
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDrill
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips
+  name: ShowDataTips
+  nameWithType: ExcelPivotTable.ShowDataTips
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowDataTips
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles
+  name: FieldPrintTitles
+  nameWithType: ExcelPivotTable.FieldPrintTitles
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FieldPrintTitles
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles
+  name: ItemPrintTitles
+  nameWithType: ExcelPivotTable.ItemPrintTitles
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ItemPrintTitles
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals
+  name: ColumnGrandTotals
+  nameWithType: ExcelPivotTable.ColumnGrandTotals
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnGrandTotals
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals
+  name: RowGrandTotals
+  nameWithType: ExcelPivotTable.RowGrandTotals
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowGrandTotals
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill
+  name: PrintDrill
+  nameWithType: ExcelPivotTable.PrintDrill
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PrintDrill
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError
+  name: ShowError
+  nameWithType: ExcelPivotTable.ShowError
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowError
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption
+  name: ErrorCaption
+  nameWithType: ExcelPivotTable.ErrorCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ErrorCaption
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption
+  name: DataCaption
+  nameWithType: ExcelPivotTable.DataCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataCaption
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders
+  name: ShowHeaders
+  nameWithType: ExcelPivotTable.ShowHeaders
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowHeaders
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap
+  name: PageWrap
+  nameWithType: ExcelPivotTable.PageWrap
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageWrap
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting
+  name: UseAutoFormatting
+  nameWithType: ExcelPivotTable.UseAutoFormatting
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.UseAutoFormatting
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+  name: GridDropZones
+  nameWithType: ExcelPivotTable.GridDropZones
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent
+  name: Indent
+  nameWithType: ExcelPivotTable.Indent
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Indent
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData
+  name: OutlineData
+  nameWithType: ExcelPivotTable.OutlineData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.OutlineData
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline
+  name: Outline
+  nameWithType: ExcelPivotTable.Outline
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Outline
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters
+  name: MultipleFieldFilters
+  nameWithType: ExcelPivotTable.MultipleFieldFilters
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MultipleFieldFilters
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact
+  name: Compact
+  nameWithType: ExcelPivotTable.Compact
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Compact
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Compact
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Compact
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact
+  name: SetCompact
+  nameWithType: ExcelPivotTable.SetCompact
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.SetCompact
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData
+  name: CompactData
+  nameWithType: ExcelPivotTable.CompactData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.CompactData
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption
+  name: GrandTotalCaption
+  nameWithType: ExcelPivotTable.GrandTotalCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GrandTotalCaption
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption
+  name: RowHeaderCaption
+  nameWithType: ExcelPivotTable.RowHeaderCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowHeaderCaption
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption
+  name: ColumnHeaderCaption
+  nameWithType: ExcelPivotTable.ColumnHeaderCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnHeaderCaption
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption
+  name: MissingCaption
+  nameWithType: ExcelPivotTable.MissingCaption
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.MissingCaption
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters
+  name: Filters
+  nameWithType: ExcelPivotTable.Filters
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Filters
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+  parent: OfficeOpenXml.Table.PivotTable.Filter
+  name: ExcelPivotTableFilterCollection
+  nameWithType: ExcelPivotTableFilterCollection
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+- uid: OfficeOpenXml.Table.PivotTable.Filter
+  commentId: N:OfficeOpenXml.Table.PivotTable.Filter
+  name: OfficeOpenXml.Table.PivotTable.Filter
+  nameWithType: OfficeOpenXml.Table.PivotTable.Filter
+  fullName: OfficeOpenXml.Table.PivotTable.Filter
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow
+  name: FirstHeaderRow
+  nameWithType: ExcelPivotTable.FirstHeaderRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstHeaderRow
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow
+  name: FirstDataRow
+  nameWithType: ExcelPivotTable.FirstDataRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataRow
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol
+  name: FirstDataCol
+  nameWithType: ExcelPivotTable.FirstDataCol
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.FirstDataCol
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields
+  name: Fields
+  nameWithType: ExcelPivotTable.Fields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Fields
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableFieldCollection
+  nameWithType: ExcelPivotTableFieldCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+  name: RowFields
+  nameWithType: ExcelPivotTable.RowFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.RowFields
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableRowColumnFieldCollection
+  nameWithType: ExcelPivotTableRowColumnFieldCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+  name: ColumnFields
+  nameWithType: ExcelPivotTable.ColumnFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ColumnFields
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+  name: DataFields
+  nameWithType: ExcelPivotTable.DataFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.DataFields
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableDataFieldCollection
+  nameWithType: ExcelPivotTableDataFieldCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields
+  name: PageFields
+  nameWithType: ExcelPivotTable.PageFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PageFields
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName
+  name: StyleName
+  nameWithType: ExcelPivotTable.StyleName
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.StyleName
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders
+  name: ShowColumnHeaders
+  nameWithType: ExcelPivotTable.ShowColumnHeaders
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnHeaders
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes
+  name: ShowColumnStripes
+  nameWithType: ExcelPivotTable.ShowColumnStripes
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowColumnStripes
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn
+  name: ShowLastColumn
+  nameWithType: ExcelPivotTable.ShowLastColumn
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowLastColumn
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders
+  name: ShowRowHeaders
+  nameWithType: ExcelPivotTable.ShowRowHeaders
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowHeaders
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes
+  name: ShowRowStripes
+  nameWithType: ExcelPivotTable.ShowRowStripes
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowRowStripes
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle
+  name: TableStyle
+  nameWithType: ExcelPivotTable.TableStyle
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.TableStyle
+- uid: OfficeOpenXml.Table.TableStyles
+  commentId: T:OfficeOpenXml.Table.TableStyles
+  parent: OfficeOpenXml.Table
+  name: TableStyles
+  nameWithType: TableStyles
+  fullName: OfficeOpenXml.Table.TableStyles
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle
+  name: PivotTableStyle
+  nameWithType: ExcelPivotTable.PivotTableStyle
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.PivotTableStyle
+- uid: OfficeOpenXml.Table.PivotTableStyles
+  commentId: T:OfficeOpenXml.Table.PivotTableStyles
+  parent: OfficeOpenXml.Table
+  name: PivotTableStyles
+  nameWithType: PivotTableStyles
+  fullName: OfficeOpenXml.Table.PivotTableStyles
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.GridDropZones
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow
+  name: ShowValuesRow
+  nameWithType: ExcelPivotTable.ShowValuesRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.ShowValuesRow

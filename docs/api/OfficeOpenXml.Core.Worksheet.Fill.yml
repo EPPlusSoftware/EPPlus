@@ -1,0 +1,46 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Core.Worksheet.Fill
+  commentId: N:OfficeOpenXml.Core.Worksheet.Fill
+  id: OfficeOpenXml.Core.Worksheet.Fill
+  children:
+  - OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  - OfficeOpenXml.Core.Worksheet.Fill.FillListParams
+  - OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Core.Worksheet.Fill
+  nameWithType: OfficeOpenXml.Core.Worksheet.Fill
+  fullName: OfficeOpenXml.Core.Worksheet.Fill
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+  name: FillDateParams
+  nameWithType: FillDateParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillListParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillListParams
+  name: FillListParams
+  nameWithType: FillListParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillListParams
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  name: FillNumberParams
+  nameWithType: FillNumberParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  parent: OfficeOpenXml.Core.Worksheet.Fill
+  name: FillParams
+  nameWithType: FillParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+- uid: OfficeOpenXml.Core.Worksheet.Fill
+  commentId: N:OfficeOpenXml.Core.Worksheet.Fill
+  name: OfficeOpenXml.Core.Worksheet.Fill
+  nameWithType: OfficeOpenXml.Core.Worksheet.Fill
+  fullName: OfficeOpenXml.Core.Worksheet.Fill

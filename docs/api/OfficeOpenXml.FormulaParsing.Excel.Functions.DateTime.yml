@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  id: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Days
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Days
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Days
+  name: Days
+  nameWithType: Days
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Days

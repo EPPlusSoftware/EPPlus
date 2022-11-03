@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel
+  id: OfficeOpenXml.FormulaParsing.Excel
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel
+  fullName: OfficeOpenXml.FormulaParsing.Excel
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  parent: OfficeOpenXml.FormulaParsing.Excel
+  name: ExcelCellState
+  nameWithType: ExcelCellState
+  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+- uid: OfficeOpenXml.FormulaParsing.Excel
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel
+  name: OfficeOpenXml.FormulaParsing.Excel
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel
+  fullName: OfficeOpenXml.FormulaParsing.Excel

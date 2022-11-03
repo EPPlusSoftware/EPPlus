@@ -1,0 +1,448 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  id: ExcelVmlMeasurementUnit
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlMeasurementUnit
+  nameWithType: ExcelVmlMeasurementUnit
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlMeasurementUnit
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
+    startLine: 11
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nHandles values with different measurement units. \n"
+  example: []
+  syntax:
+    content: public class ExcelVmlMeasurementUnit
+    content.vb: Public Class ExcelVmlMeasurementUnit
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value
+  id: Value
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: ExcelVmlMeasurementUnit.Value
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe value of the specified unit.\n"
+  example: []
+  syntax:
+    content: public double Value { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Value As Double
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit
+  id: Unit
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  langs:
+  - csharp
+  - vb
+  name: Unit
+  nameWithType: ExcelVmlMeasurementUnit.Unit
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Unit
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe unit of measurement.\n"
+  example: []
+  syntax:
+    content: public eMeasurementUnits Unit { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+    content.vb: Public Property Unit As eMeasurementUnits
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value
+  name: Value
+  nameWithType: ExcelVmlMeasurementUnit.Value
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Value
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit
+  name: Unit
+  nameWithType: ExcelVmlMeasurementUnit.Unit
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit.Unit
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  commentId: T:OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eMeasurementUnits
+  nameWithType: eMeasurementUnits
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls

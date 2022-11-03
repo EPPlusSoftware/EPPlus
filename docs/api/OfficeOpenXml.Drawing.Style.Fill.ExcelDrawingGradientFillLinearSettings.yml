@@ -1,0 +1,444 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings
+  commentId: T:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings
+  id: ExcelDrawingGradientFillLinearSettings
+  parent: OfficeOpenXml.Drawing.Style.Fill
+  children:
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingGradientFillLinearSettings
+  nameWithType: ExcelDrawingGradientFillLinearSettings
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingGradientFillLinearSettings
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nSettings specific for linear gradiant fills\n"
+  example: []
+  syntax:
+    content: public class ExcelDrawingGradientFillLinearSettings
+    content.vb: Public Class ExcelDrawingGradientFillLinearSettings
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+  id: Angel
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings
+  langs:
+  - csharp
+  - vb
+  name: Angel
+  nameWithType: ExcelDrawingGradientFillLinearSettings.Angel
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Angel
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nThe direction of color change for the gradient.To define this angle, let its value\nbe x measured clockwise.Then( -sin x, cos x) is a vector parallel to the line of constant color in the gradient fill.\n"
+  example: []
+  syntax:
+    content: public double Angel { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Angel As Double
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled
+  id: Scaled
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings
+  langs:
+  - csharp
+  - vb
+  name: Scaled
+  nameWithType: ExcelDrawingGradientFillLinearSettings.Scaled
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Scaled
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFillLinearSettings.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nIf the gradient angle scales with the fill.\n"
+  example: []
+  syntax:
+    content: public bool Scaled { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Scaled As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Style.Fill
+  commentId: N:OfficeOpenXml.Drawing.Style.Fill
+  name: OfficeOpenXml.Drawing.Style.Fill
+  nameWithType: OfficeOpenXml.Drawing.Style.Fill
+  fullName: OfficeOpenXml.Drawing.Style.Fill
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+  name: Angel
+  nameWithType: ExcelDrawingGradientFillLinearSettings.Angel
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Angel
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled
+  name: Scaled
+  nameWithType: ExcelDrawingGradientFillLinearSettings.Scaled
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings.Scaled
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

@@ -1,0 +1,119 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Slicer
+  commentId: N:OfficeOpenXml.Drawing.Slicer
+  id: OfficeOpenXml.Drawing.Slicer
+  children:
+  - OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicer
+  - OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache
+  - OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData
+  - OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItem
+  - OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItemCollection
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  - OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  - OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Drawing.Slicer
+  nameWithType: OfficeOpenXml.Drawing.Slicer
+  fullName: OfficeOpenXml.Drawing.Slicer
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicer
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicer
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelPivotTableSlicer
+  nameWithType: ExcelPivotTableSlicer
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicer
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache
+  name: ExcelPivotTableSlicerCache
+  nameWithType: ExcelPivotTableSlicerCache
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelPivotTableSlicerCacheTabularData
+  nameWithType: ExcelPivotTableSlicerCacheTabularData
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItem
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItem
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelPivotTableSlicerItem
+  nameWithType: ExcelPivotTableSlicerItem
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItem
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItemCollection
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItemCollection
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelPivotTableSlicerItemCollection
+  nameWithType: ExcelPivotTableSlicerItemCollection
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItemCollection
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+  name: ExcelSlicer<T>
+  nameWithType: ExcelSlicer<T>
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>
+  nameWithType.vb: ExcelSlicer(Of T)
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T)
+  name.vb: ExcelSlicer(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+    name: ExcelSlicer
+    nameWithType: ExcelSlicer
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+    name: ExcelSlicer
+    nameWithType: ExcelSlicer
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelSlicerCache
+  nameWithType: ExcelSlicerCache
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelSlicerPivotTableCollection
+  nameWithType: ExcelSlicerPivotTableCollection
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelTableSlicer
+  nameWithType: ExcelTableSlicer
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+  name: ExcelTableSlicerCache
+  nameWithType: ExcelTableSlicerCache
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+- uid: OfficeOpenXml.Drawing.Slicer
+  commentId: N:OfficeOpenXml.Drawing.Slicer
+  name: OfficeOpenXml.Drawing.Slicer
+  nameWithType: OfficeOpenXml.Drawing.Slicer
+  fullName: OfficeOpenXml.Drawing.Slicer

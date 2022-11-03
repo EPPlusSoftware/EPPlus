@@ -1,0 +1,468 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eVmlDashStyle
+  commentId: T:OfficeOpenXml.eVmlDashStyle
+  id: eVmlDashStyle
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eVmlDashStyle.Custom
+  - OfficeOpenXml.eVmlDashStyle.Dash
+  - OfficeOpenXml.eVmlDashStyle.DashDot
+  - OfficeOpenXml.eVmlDashStyle.Dot
+  - OfficeOpenXml.eVmlDashStyle.LongDash
+  - OfficeOpenXml.eVmlDashStyle.LongDashDot
+  - OfficeOpenXml.eVmlDashStyle.LongDashDotDot
+  - OfficeOpenXml.eVmlDashStyle.ShortDash
+  - OfficeOpenXml.eVmlDashStyle.ShortDashDot
+  - OfficeOpenXml.eVmlDashStyle.ShortDashDotDot
+  - OfficeOpenXml.eVmlDashStyle.ShortDot
+  - OfficeOpenXml.eVmlDashStyle.Solid
+  langs:
+  - csharp
+  - vb
+  name: eVmlDashStyle
+  nameWithType: eVmlDashStyle
+  fullName: OfficeOpenXml.eVmlDashStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eVmlDashStyle
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDash style for a line used in VML drawings\n"
+  example: []
+  syntax:
+    content: public enum eVmlDashStyle
+    content.vb: Public Enum eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eVmlDashStyle.Solid
+  commentId: F:OfficeOpenXml.eVmlDashStyle.Solid
+  id: Solid
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: Solid
+  nameWithType: eVmlDashStyle.Solid
+  fullName: OfficeOpenXml.eVmlDashStyle.Solid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Solid
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA solid line\n"
+  example: []
+  syntax:
+    content: Solid = 0
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.ShortDash
+  commentId: F:OfficeOpenXml.eVmlDashStyle.ShortDash
+  id: ShortDash
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: ShortDash
+  nameWithType: eVmlDashStyle.ShortDash
+  fullName: OfficeOpenXml.eVmlDashStyle.ShortDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShortDash
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShort - Dash\n"
+  example: []
+  syntax:
+    content: ShortDash = 1
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.ShortDot
+  commentId: F:OfficeOpenXml.eVmlDashStyle.ShortDot
+  id: ShortDot
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: ShortDot
+  nameWithType: eVmlDashStyle.ShortDot
+  fullName: OfficeOpenXml.eVmlDashStyle.ShortDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShortDot
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShort - Dot\n"
+  example: []
+  syntax:
+    content: ShortDot = 2
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.ShortDashDot
+  commentId: F:OfficeOpenXml.eVmlDashStyle.ShortDashDot
+  id: ShortDashDot
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: ShortDashDot
+  nameWithType: eVmlDashStyle.ShortDashDot
+  fullName: OfficeOpenXml.eVmlDashStyle.ShortDashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShortDashDot
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShort - Dash - Dot\n"
+  example: []
+  syntax:
+    content: ShortDashDot = 3
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.ShortDashDotDot
+  commentId: F:OfficeOpenXml.eVmlDashStyle.ShortDashDotDot
+  id: ShortDashDotDot
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: ShortDashDotDot
+  nameWithType: eVmlDashStyle.ShortDashDotDot
+  fullName: OfficeOpenXml.eVmlDashStyle.ShortDashDotDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShortDashDotDot
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShort - Dash - Dot - Dot\n"
+  example: []
+  syntax:
+    content: ShortDashDotDot = 4
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.Dot
+  commentId: F:OfficeOpenXml.eVmlDashStyle.Dot
+  id: Dot
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: Dot
+  nameWithType: eVmlDashStyle.Dot
+  fullName: OfficeOpenXml.eVmlDashStyle.Dot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dot
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDotted\n"
+  example: []
+  syntax:
+    content: Dot = 5
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.Dash
+  commentId: F:OfficeOpenXml.eVmlDashStyle.Dash
+  id: Dash
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: Dash
+  nameWithType: eVmlDashStyle.Dash
+  fullName: OfficeOpenXml.eVmlDashStyle.Dash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dash
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDashed\n"
+  example: []
+  syntax:
+    content: Dash = 6
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.LongDash
+  commentId: F:OfficeOpenXml.eVmlDashStyle.LongDash
+  id: LongDash
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: LongDash
+  nameWithType: eVmlDashStyle.LongDash
+  fullName: OfficeOpenXml.eVmlDashStyle.LongDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDash
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLong dashes\n"
+  example: []
+  syntax:
+    content: LongDash = 7
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.DashDot
+  commentId: F:OfficeOpenXml.eVmlDashStyle.DashDot
+  id: DashDot
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: DashDot
+  nameWithType: eVmlDashStyle.DashDot
+  fullName: OfficeOpenXml.eVmlDashStyle.DashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashDot
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDash - Dot\n"
+  example: []
+  syntax:
+    content: DashDot = 8
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.LongDashDot
+  commentId: F:OfficeOpenXml.eVmlDashStyle.LongDashDot
+  id: LongDashDot
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: LongDashDot
+  nameWithType: eVmlDashStyle.LongDashDot
+  fullName: OfficeOpenXml.eVmlDashStyle.LongDashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDashDot
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLong Dash - Dot\n"
+  example: []
+  syntax:
+    content: LongDashDot = 9
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.LongDashDotDot
+  commentId: F:OfficeOpenXml.eVmlDashStyle.LongDashDotDot
+  id: LongDashDotDot
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: LongDashDotDot
+  nameWithType: eVmlDashStyle.LongDashDotDot
+  fullName: OfficeOpenXml.eVmlDashStyle.LongDashDotDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDashDotDot
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLong Dash - Dot - Dot\n"
+  example: []
+  syntax:
+    content: LongDashDotDot = 10
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eVmlDashStyle.Custom
+  commentId: F:OfficeOpenXml.eVmlDashStyle.Custom
+  id: Custom
+  parent: OfficeOpenXml.eVmlDashStyle
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: eVmlDashStyle.Custom
+  fullName: OfficeOpenXml.eVmlDashStyle.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCustom dash style.\n"
+  example: []
+  syntax:
+    content: Custom = 11
+    return:
+      type: OfficeOpenXml.eVmlDashStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eVmlDashStyle
+  commentId: T:OfficeOpenXml.eVmlDashStyle
+  parent: OfficeOpenXml
+  name: eVmlDashStyle
+  nameWithType: eVmlDashStyle
+  fullName: OfficeOpenXml.eVmlDashStyle

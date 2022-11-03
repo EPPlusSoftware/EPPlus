@@ -1,0 +1,178 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  id: IFormulaCellInfo
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  - OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  - OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  langs:
+  - csharp
+  - vb
+  name: IFormulaCellInfo
+  nameWithType: IFormulaCellInfo
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IFormulaCellInfo
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nRepresents a formula cell\n"
+  example: []
+  syntax:
+    content: public interface IFormulaCellInfo
+    content.vb: Public Interface IFormulaCellInfo
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: IFormulaCellInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe worksheet\n"
+  example: []
+  syntax:
+    content: string Worksheet { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Worksheet As String
+  overload: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: IFormulaCellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe address\n"
+  example: []
+  syntax:
+    content: string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Address As String
+  overload: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  commentId: P:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  id: Formula
+  parent: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: IFormulaCellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/IFormulaCellInfo.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe formula\n"
+  example: []
+  syntax:
+    content: string Formula { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Formula As String
+  overload: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  name: Worksheet
+  nameWithType: IFormulaCellInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  name: Address
+  nameWithType: IFormulaCellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  name: Formula
+  nameWithType: IFormulaCellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula

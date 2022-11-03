@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.eModuleType
+  commentId: T:OfficeOpenXml.VBA.eModuleType
+  id: eModuleType
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.eModuleType.Class
+  - OfficeOpenXml.VBA.eModuleType.Designer
+  - OfficeOpenXml.VBA.eModuleType.Document
+  - OfficeOpenXml.VBA.eModuleType.Module
+  langs:
+  - csharp
+  - vb
+  name: eModuleType
+  nameWithType: eModuleType
+  fullName: OfficeOpenXml.VBA.eModuleType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eModuleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eModuleType
+    path: ../src/EPPlus/Vba/enums/eModuleType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nType of VBA module\n"
+  example: []
+  syntax:
+    content: public enum eModuleType
+    content.vb: Public Enum eModuleType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.VBA.eModuleType.Document
+  commentId: F:OfficeOpenXml.VBA.eModuleType.Document
+  id: Document
+  parent: OfficeOpenXml.VBA.eModuleType
+  langs:
+  - csharp
+  - vb
+  name: Document
+  nameWithType: eModuleType.Document
+  fullName: OfficeOpenXml.VBA.eModuleType.Document
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eModuleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Document
+    path: ../src/EPPlus/Vba/enums/eModuleType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA Workbook or Worksheet objects\n"
+  example: []
+  syntax:
+    content: Document = 0
+    return:
+      type: OfficeOpenXml.VBA.eModuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.eModuleType.Module
+  commentId: F:OfficeOpenXml.VBA.eModuleType.Module
+  id: Module
+  parent: OfficeOpenXml.VBA.eModuleType
+  langs:
+  - csharp
+  - vb
+  name: Module
+  nameWithType: eModuleType.Module
+  fullName: OfficeOpenXml.VBA.eModuleType.Module
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eModuleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Module
+    path: ../src/EPPlus/Vba/enums/eModuleType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA Module\n"
+  example: []
+  syntax:
+    content: Module = 1
+    return:
+      type: OfficeOpenXml.VBA.eModuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.eModuleType.Class
+  commentId: F:OfficeOpenXml.VBA.eModuleType.Class
+  id: Class
+  parent: OfficeOpenXml.VBA.eModuleType
+  langs:
+  - csharp
+  - vb
+  name: Class
+  nameWithType: eModuleType.Class
+  fullName: OfficeOpenXml.VBA.eModuleType.Class
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eModuleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Class
+    path: ../src/EPPlus/Vba/enums/eModuleType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA Class\n"
+  example: []
+  syntax:
+    content: Class = 2
+    return:
+      type: OfficeOpenXml.VBA.eModuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.eModuleType.Designer
+  commentId: F:OfficeOpenXml.VBA.eModuleType.Designer
+  id: Designer
+  parent: OfficeOpenXml.VBA.eModuleType
+  langs:
+  - csharp
+  - vb
+  name: Designer
+  nameWithType: eModuleType.Designer
+  fullName: OfficeOpenXml.VBA.eModuleType.Designer
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eModuleType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Designer
+    path: ../src/EPPlus/Vba/enums/eModuleType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nDesigner, typically a user form\n"
+  example: []
+  syntax:
+    content: Designer = 3
+    return:
+      type: OfficeOpenXml.VBA.eModuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: OfficeOpenXml.VBA.eModuleType
+  commentId: T:OfficeOpenXml.VBA.eModuleType
+  parent: OfficeOpenXml.VBA
+  name: eModuleType
+  nameWithType: eModuleType
+  fullName: OfficeOpenXml.VBA.eModuleType

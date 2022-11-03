@@ -1,0 +1,735 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FontSize
+  commentId: T:OfficeOpenXml.FontSize
+  id: FontSize
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.FontSize.DefaultFont
+  - OfficeOpenXml.FontSize.FontHeights
+  - OfficeOpenXml.FontSize.FontWidths
+  - OfficeOpenXml.FontSize.LoadAllFontsFromResource
+  - OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
+  - OfficeOpenXml.FontSize.NonExistingFont
+  langs:
+  - csharp
+  - vb
+  name: FontSize
+  nameWithType: FontSize
+  fullName: OfficeOpenXml.FontSize
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FontSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FontSize
+    path: ../src/EPPlus/FontSize.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA collection of fonts and there size in pixels used when determining auto widths for columns.\nThis is used as .NET and Excel does not measure font widths in pixels in a similar way.\n"
+  example: []
+  syntax:
+    content: public static class FontSize
+    content.vb: Public Module FontSize
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: OfficeOpenXml.FontSize.DefaultFont
+  commentId: F:OfficeOpenXml.FontSize.DefaultFont
+  id: DefaultFont
+  parent: OfficeOpenXml.FontSize
+  langs:
+  - csharp
+  - vb
+  name: DefaultFont
+  nameWithType: FontSize.DefaultFont
+  fullName: OfficeOpenXml.FontSize.DefaultFont
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FontSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DefaultFont
+    path: ../src/EPPlus/FontSize.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDefault font used in EPPlus\n"
+  example: []
+  syntax:
+    content: public const string DefaultFont = "Calibri"
+    return:
+      type: System.String
+    content.vb: Public Const DefaultFont As String = "Calibri"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FontSize.NonExistingFont
+  commentId: F:OfficeOpenXml.FontSize.NonExistingFont
+  id: NonExistingFont
+  parent: OfficeOpenXml.FontSize
+  langs:
+  - csharp
+  - vb
+  name: NonExistingFont
+  nameWithType: FontSize.NonExistingFont
+  fullName: OfficeOpenXml.FontSize.NonExistingFont
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FontSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NonExistingFont
+    path: ../src/EPPlus/FontSize.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFont used in EPPlus if the font name supplied cannot be found\n"
+  example: []
+  syntax:
+    content: public const string NonExistingFont = "Arial"
+    return:
+      type: System.String
+    content.vb: Public Const NonExistingFont As String = "Arial"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FontSize.FontWidths
+  commentId: F:OfficeOpenXml.FontSize.FontWidths
+  id: FontWidths
+  parent: OfficeOpenXml.FontSize
+  langs:
+  - csharp
+  - vb
+  name: FontWidths
+  nameWithType: FontSize.FontWidths
+  fullName: OfficeOpenXml.FontSize.FontWidths
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FontSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FontWidths
+    path: ../src/EPPlus/FontSize.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDictionary containing Font Width in pixels.\nYou can add your own fonts and sizes here.\n"
+  example: []
+  syntax:
+    content: public static Dictionary<string, Dictionary<float, short>> FontWidths
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.Single,System.Int16}}
+    content.vb: Public Shared FontWidths As Dictionary(Of String, Dictionary(Of Single, Short))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.FontSize.FontHeights
+  commentId: F:OfficeOpenXml.FontSize.FontHeights
+  id: FontHeights
+  parent: OfficeOpenXml.FontSize
+  langs:
+  - csharp
+  - vb
+  name: FontHeights
+  nameWithType: FontSize.FontHeights
+  fullName: OfficeOpenXml.FontSize.FontHeights
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FontSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FontHeights
+    path: ../src/EPPlus/FontSize.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDictionary containing default Font Heights in pixels for the row height calculates.\nYou can add your own fonts and sizes here.\n"
+  example: []
+  syntax:
+    content: public static Dictionary<string, Dictionary<float, short>> FontHeights
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.Single,System.Int16}}
+    content.vb: Public Shared FontHeights As Dictionary(Of String, Dictionary(Of Single, Short))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.FontSize.LoadAllFontsFromResource
+  commentId: M:OfficeOpenXml.FontSize.LoadAllFontsFromResource
+  id: LoadAllFontsFromResource
+  parent: OfficeOpenXml.FontSize
+  langs:
+  - csharp
+  - vb
+  name: LoadAllFontsFromResource()
+  nameWithType: FontSize.LoadAllFontsFromResource()
+  fullName: OfficeOpenXml.FontSize.LoadAllFontsFromResource()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FontSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAllFontsFromResource
+    path: ../src/EPPlus/FontSize.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the fonts default heights/widths from the internal resource file\n"
+  example: []
+  syntax:
+    content: public static void LoadAllFontsFromResource()
+    content.vb: Public Shared Sub LoadAllFontsFromResource
+  overload: OfficeOpenXml.FontSize.LoadAllFontsFromResource*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
+  commentId: M:OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
+  id: LoadFontsFromResource(System.String)
+  parent: OfficeOpenXml.FontSize
+  langs:
+  - csharp
+  - vb
+  name: LoadFontsFromResource(String)
+  nameWithType: FontSize.LoadFontsFromResource(String)
+  fullName: OfficeOpenXml.FontSize.LoadFontsFromResource(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FontSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFontsFromResource
+    path: ../src/EPPlus/FontSize.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoad the specified fonts default heights/widths from the internal resource file\n"
+  example: []
+  syntax:
+    content: public static void LoadFontsFromResource(string fontName)
+    parameters:
+    - id: fontName
+      type: System.String
+      description: The name of the font.
+    content.vb: Public Shared Sub LoadFontsFromResource(fontName As String)
+  overload: OfficeOpenXml.FontSize.LoadFontsFromResource*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.Single,System.Int16}}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.Single,System.Int16}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<String, Dictionary<Single, Int16>>
+  nameWithType: Dictionary<String, Dictionary<Single, Int16>>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.Collections.Generic.Dictionary<System.Single, System.Int16>>
+  nameWithType.vb: Dictionary(Of String, Dictionary(Of Single, Int16))
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.Collections.Generic.Dictionary(Of System.Single, System.Int16))
+  name.vb: Dictionary(Of String, Dictionary(Of Single, Int16))
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int16
+    name: Int16
+    nameWithType: Int16
+    fullName: System.Int16
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int16
+    name: Int16
+    nameWithType: Int16
+    fullName: System.Int16
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FontSize.LoadAllFontsFromResource*
+  commentId: Overload:OfficeOpenXml.FontSize.LoadAllFontsFromResource
+  name: LoadAllFontsFromResource
+  nameWithType: FontSize.LoadAllFontsFromResource
+  fullName: OfficeOpenXml.FontSize.LoadAllFontsFromResource
+- uid: OfficeOpenXml.FontSize.LoadFontsFromResource*
+  commentId: Overload:OfficeOpenXml.FontSize.LoadFontsFromResource
+  name: LoadFontsFromResource
+  nameWithType: FontSize.LoadFontsFromResource
+  fullName: OfficeOpenXml.FontSize.LoadFontsFromResource

@@ -1,0 +1,1047 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelTextFont
+  commentId: T:OfficeOpenXml.Style.ExcelTextFont
+  id: ExcelTextFont
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelTextFont.Bold
+  - OfficeOpenXml.Style.ExcelTextFont.Color
+  - OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  - OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  - OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  - OfficeOpenXml.Style.ExcelTextFont.Fill
+  - OfficeOpenXml.Style.ExcelTextFont.Italic
+  - OfficeOpenXml.Style.ExcelTextFont.Kerning
+  - OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  - OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - OfficeOpenXml.Style.ExcelTextFont.Size
+  - OfficeOpenXml.Style.ExcelTextFont.Strike
+  - OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  - OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextFont
+  nameWithType: ExcelTextFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTextFont
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nUsed by Rich-text and Paragraphs.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTextFont : XmlHelper'
+    content.vb: >-
+      Public Class ExcelTextFont
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  derivedClasses:
+  - OfficeOpenXml.Style.ExcelParagraph
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  id: LatinFont
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: LatinFont
+  nameWithType: ExcelTextFont.LatinFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LatinFont
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe latin typeface name\n"
+  example: []
+  syntax:
+    content: public string LatinFont { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LatinFont As String
+  overload: OfficeOpenXml.Style.ExcelTextFont.LatinFont*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  id: EastAsianFont
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: EastAsianFont
+  nameWithType: ExcelTextFont.EastAsianFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EastAsianFont
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe East Asian typeface name\n"
+  example: []
+  syntax:
+    content: public string EastAsianFont { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property EastAsianFont As String
+  overload: OfficeOpenXml.Style.ExcelTextFont.EastAsianFont*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  id: ComplexFont
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: ComplexFont
+  nameWithType: ExcelTextFont.ComplexFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ComplexFont
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe complex font typeface name\n"
+  example: []
+  syntax:
+    content: public string ComplexFont { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ComplexFont As String
+  overload: OfficeOpenXml.Style.ExcelTextFont.ComplexFont*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  commentId: M:OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  id: CreateTopNode
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: CreateTopNode()
+  nameWithType: ExcelTextFont.CreateTopNode()
+  fullName: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateTopNode
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCreates the top nodes of the collection\n"
+  example: []
+  syntax:
+    content: protected void CreateTopNode()
+    content.vb: Protected Sub CreateTopNode
+  overload: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: OfficeOpenXml.Style.ExcelTextFont.Bold
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Bold
+  id: Bold
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: Bold
+  nameWithType: ExcelTextFont.Bold
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Bold
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bold
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nIf the font is bold\n"
+  example: []
+  syntax:
+    content: public bool Bold { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Bold As Boolean
+  overload: OfficeOpenXml.Style.ExcelTextFont.Bold*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  id: UnderLine
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: UnderLine
+  nameWithType: ExcelTextFont.UnderLine
+  fullName: OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderLine
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe fonts underline style\n"
+  example: []
+  syntax:
+    content: public eUnderLineType UnderLine { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+    content.vb: Public Property UnderLine As eUnderLineType
+  overload: OfficeOpenXml.Style.ExcelTextFont.UnderLine*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  id: UnderLineColor
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: UnderLineColor
+  nameWithType: ExcelTextFont.UnderLineColor
+  fullName: OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderLineColor
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe fonts underline color\n"
+  example: []
+  syntax:
+    content: public Color UnderLineColor { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Public Property UnderLineColor As Color
+  overload: OfficeOpenXml.Style.ExcelTextFont.UnderLineColor*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.Italic
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Italic
+  id: Italic
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: Italic
+  nameWithType: ExcelTextFont.Italic
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Italic
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Italic
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 188
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nIf the font is italic\n"
+  example: []
+  syntax:
+    content: public bool Italic { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Italic As Boolean
+  overload: OfficeOpenXml.Style.ExcelTextFont.Italic*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.Strike
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Strike
+  id: Strike
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: Strike
+  nameWithType: ExcelTextFont.Strike
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Strike
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Strike
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 204
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFont strike out type\n"
+  example: []
+  syntax:
+    content: public eStrikeType Strike { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.eStrikeType
+    content.vb: Public Property Strike As eStrikeType
+  overload: OfficeOpenXml.Style.ExcelTextFont.Strike*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.Size
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Size
+  id: Size
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: ExcelTextFont.Size
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Size
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Size
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 220
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFont size\n"
+  example: []
+  syntax:
+    content: public float Size { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Size As Single
+  overload: OfficeOpenXml.Style.ExcelTextFont.Size*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.Fill
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Fill
+  id: Fill
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: Fill
+  nameWithType: ExcelTextFont.Fill
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Fill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fill
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA reference to the fill properties\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingFill Fill { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawingFill
+    content.vb: Public ReadOnly Property Fill As ExcelDrawingFill
+  overload: OfficeOpenXml.Style.ExcelTextFont.Fill*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelTextFont.Color
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Color
+  id: Color
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: ExcelTextFont.Color
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Color
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 255
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSets the default color of the text.\nThis sets the Fill to a SolidFill with the specified color.\n<remark>\nUse the Fill property for more options\n</remark>\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Use the Fill property for more options")]
+
+      public Color Color { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: >-
+      <Obsolete("Use the Fill property for more options")>
+
+      Public Property Color As Color
+  overload: OfficeOpenXml.Style.ExcelTextFont.Color*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Use the Fill property for more options
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.Kerning
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Kerning
+  id: Kerning
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: Kerning
+  nameWithType: ExcelTextFont.Kerning
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Kerning
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Kerning
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 280
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSpecifies the minimum font size at which character kerning occurs for this text run\n"
+  example: []
+  syntax:
+    content: public double Kerning { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Kerning As Double
+  overload: OfficeOpenXml.Style.ExcelTextFont.Kerning*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  id: SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  langs:
+  - csharp
+  - vb
+  name: SetFromFont(String, Single, Boolean, Boolean, Boolean, Boolean)
+  nameWithType: ExcelTextFont.SetFromFont(String, Single, Boolean, Boolean, Boolean, Boolean)
+  fullName: OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String, System.Single, System.Boolean, System.Boolean, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelTextFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetFromFont
+    path: ../src/EPPlus/Style/ExcelTextFont.cs
+    startLine: 302
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the font style properties\n"
+  example: []
+  syntax:
+    content: public void SetFromFont(string name, float size, bool bold = false, bool italic = false, bool underline = false, bool strikeout = false)
+    parameters:
+    - id: name
+      type: System.String
+      description: Font family name
+    - id: size
+      type: System.Single
+      description: Font size
+    - id: bold
+      type: System.Boolean
+      description: ''
+    - id: italic
+      type: System.Boolean
+      description: ''
+    - id: underline
+      type: System.Boolean
+      description: ''
+    - id: strikeout
+      type: System.Boolean
+      description: ''
+    content.vb: Public Sub SetFromFont(name As String, size As Single, bold As Boolean = False, italic As Boolean = False, underline As Boolean = False, strikeout As Boolean = False)
+  overload: OfficeOpenXml.Style.ExcelTextFont.SetFromFont*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.ExcelTextFont.LatinFont*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  name: LatinFont
+  nameWithType: ExcelTextFont.LatinFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.LatinFont
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Style.ExcelTextFont.EastAsianFont*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  name: EastAsianFont
+  nameWithType: ExcelTextFont.EastAsianFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+- uid: OfficeOpenXml.Style.ExcelTextFont.ComplexFont*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  name: ComplexFont
+  nameWithType: ExcelTextFont.ComplexFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+- uid: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  name: CreateTopNode
+  nameWithType: ExcelTextFont.CreateTopNode
+  fullName: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+- uid: OfficeOpenXml.Style.ExcelTextFont.Bold*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.Bold
+  name: Bold
+  nameWithType: ExcelTextFont.Bold
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Bold
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.ExcelTextFont.UnderLine*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  name: UnderLine
+  nameWithType: ExcelTextFont.UnderLine
+  fullName: OfficeOpenXml.Style.ExcelTextFont.UnderLine
+- uid: OfficeOpenXml.Style.eUnderLineType
+  commentId: T:OfficeOpenXml.Style.eUnderLineType
+  parent: OfficeOpenXml.Style
+  name: eUnderLineType
+  nameWithType: eUnderLineType
+  fullName: OfficeOpenXml.Style.eUnderLineType
+- uid: OfficeOpenXml.Style.ExcelTextFont.UnderLineColor*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  name: UnderLineColor
+  nameWithType: ExcelTextFont.UnderLineColor
+  fullName: OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.Style.ExcelTextFont.Italic*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.Italic
+  name: Italic
+  nameWithType: ExcelTextFont.Italic
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Italic
+- uid: OfficeOpenXml.Style.ExcelTextFont.Strike*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.Strike
+  name: Strike
+  nameWithType: ExcelTextFont.Strike
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Strike
+- uid: OfficeOpenXml.Style.eStrikeType
+  commentId: T:OfficeOpenXml.Style.eStrikeType
+  parent: OfficeOpenXml.Style
+  name: eStrikeType
+  nameWithType: eStrikeType
+  fullName: OfficeOpenXml.Style.eStrikeType
+- uid: OfficeOpenXml.Style.ExcelTextFont.Size*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.Size
+  name: Size
+  nameWithType: ExcelTextFont.Size
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Size
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: OfficeOpenXml.Style.ExcelTextFont.Fill*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.Fill
+  name: Fill
+  nameWithType: ExcelTextFont.Fill
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Fill
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawingFill
+  parent: OfficeOpenXml.Drawing
+  name: ExcelDrawingFill
+  nameWithType: ExcelDrawingFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Style.ExcelTextFont.Color*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.Color
+  name: Color
+  nameWithType: ExcelTextFont.Color
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Color
+- uid: OfficeOpenXml.Style.ExcelTextFont.Kerning*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.Kerning
+  name: Kerning
+  nameWithType: ExcelTextFont.Kerning
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Kerning
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Style.ExcelTextFont.SetFromFont*
+  commentId: Overload:OfficeOpenXml.Style.ExcelTextFont.SetFromFont
+  name: SetFromFont
+  nameWithType: ExcelTextFont.SetFromFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.SetFromFont

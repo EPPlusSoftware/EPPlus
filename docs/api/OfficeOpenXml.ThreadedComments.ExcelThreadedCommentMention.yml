@@ -1,0 +1,627 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  id: ExcelThreadedCommentMention
+  parent: OfficeOpenXml.ThreadedComments
+  children:
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.#ctor(System.Xml.XmlNamespaceManager,System.Xml.XmlNode)
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex
+  langs:
+  - csharp
+  - vb
+  name: ExcelThreadedCommentMention
+  nameWithType: ExcelThreadedCommentMention
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelThreadedCommentMention
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nThis class represents a mention of a person in a <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: 'public class ExcelThreadedCommentMention : XmlHelper'
+    content.vb: >-
+      Public Class ExcelThreadedCommentMention
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.#ctor(System.Xml.XmlNamespaceManager,System.Xml.XmlNode)
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.#ctor(System.Xml.XmlNamespaceManager,System.Xml.XmlNode)
+  id: '#ctor(System.Xml.XmlNamespaceManager,System.Xml.XmlNode)'
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  langs:
+  - csharp
+  - vb
+  name: ExcelThreadedCommentMention(XmlNamespaceManager, XmlNode)
+  nameWithType: ExcelThreadedCommentMention.ExcelThreadedCommentMention(XmlNamespaceManager, XmlNode)
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.ExcelThreadedCommentMention(System.Xml.XmlNamespaceManager, System.Xml.XmlNode)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ExcelThreadedCommentMention(XmlNamespaceManager nameSpaceManager, XmlNode topNode)
+    parameters:
+    - id: nameSpaceManager
+      type: System.Xml.XmlNamespaceManager
+      description: Namespace manager of the <xref href="OfficeOpenXml.ExcelPackage" data-throw-if-not-resolved="false"></xref>
+    - id: topNode
+      type: System.Xml.XmlNode
+      description: An <xref href="System.Xml.XmlNode" data-throw-if-not-resolved="false"></xref> representing the mention
+    content.vb: Public Sub New(nameSpaceManager As XmlNamespaceManager, topNode As XmlNode)
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex
+  id: StartIndex
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  langs:
+  - csharp
+  - vb
+  name: StartIndex
+  nameWithType: ExcelThreadedCommentMention.StartIndex
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StartIndex
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nIndex in the <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref>s text where the mention starts\n"
+  example: []
+  syntax:
+    content: public int StartIndex { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property StartIndex As Integer
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length
+  id: Length
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: ExcelThreadedCommentMention.Length
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Length
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nLength of the mention, value for @John Doe would be 9.\n"
+  example: []
+  syntax:
+    content: public int Length { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Length As Integer
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId
+  id: MentionId
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  langs:
+  - csharp
+  - vb
+  name: MentionId
+  nameWithType: ExcelThreadedCommentMention.MentionId
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MentionId
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nId of this mention\n"
+  example: []
+  syntax:
+    content: public string MentionId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property MentionId As String
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId
+  id: MentionPersonId
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  langs:
+  - csharp
+  - vb
+  name: MentionPersonId
+  nameWithType: ExcelThreadedCommentMention.MentionPersonId
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MentionPersonId
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentMention.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nId of the <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson\" data-throw-if-not-resolved=\"false\"></xref> mentioned\n"
+  example: []
+  syntax:
+    content: public string MentionPersonId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property MentionPersonId As String
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedComment
+  nameWithType: ExcelThreadedComment
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+- uid: OfficeOpenXml.ThreadedComments
+  commentId: N:OfficeOpenXml.ThreadedComments
+  name: OfficeOpenXml.ThreadedComments
+  nameWithType: OfficeOpenXml.ThreadedComments
+  fullName: OfficeOpenXml.ThreadedComments
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  parent: OfficeOpenXml
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
+- uid: System.Xml.XmlNode
+  commentId: T:System.Xml.XmlNode
+  parent: System.Xml
+  isExternal: true
+  name: XmlNode
+  nameWithType: XmlNode
+  fullName: System.Xml.XmlNode
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.#ctor*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.#ctor
+  name: ExcelThreadedCommentMention
+  nameWithType: ExcelThreadedCommentMention.ExcelThreadedCommentMention
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.ExcelThreadedCommentMention
+- uid: System.Xml.XmlNamespaceManager
+  commentId: T:System.Xml.XmlNamespaceManager
+  parent: System.Xml
+  isExternal: true
+  name: XmlNamespaceManager
+  nameWithType: XmlNamespaceManager
+  fullName: System.Xml.XmlNamespaceManager
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex
+  name: StartIndex
+  nameWithType: ExcelThreadedCommentMention.StartIndex
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.StartIndex
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length
+  name: Length
+  nameWithType: ExcelThreadedCommentMention.Length
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.Length
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId
+  name: MentionId
+  nameWithType: ExcelThreadedCommentMention.MentionId
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedCommentPerson
+  nameWithType: ExcelThreadedCommentPerson
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId
+  name: MentionPersonId
+  nameWithType: ExcelThreadedCommentMention.MentionPersonId
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention.MentionPersonId

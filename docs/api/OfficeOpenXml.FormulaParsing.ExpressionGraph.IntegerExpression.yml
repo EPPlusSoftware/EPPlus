@@ -1,0 +1,707 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+  id: IntegerExpression
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  children:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.Double)
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.String)
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.String,System.Boolean)
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile
+  langs:
+  - csharp
+  - vb
+  name: IntegerExpression
+  nameWithType: IntegerExpression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IntegerExpression
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  syntax:
+    content: 'public class IntegerExpression : AtomicExpression'
+    content.vb: >-
+      Public Class IntegerExpression
+          Inherits AtomicExpression
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression
+  inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression.IsGroupedExpression
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Children
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Next
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Prev
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Operator
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.IgnoreCircularReference
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.HasChildren
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+  langs:
+  - csharp
+  - vb
+  name: IntegerExpression(String)
+  nameWithType: IntegerExpression.IntegerExpression(String)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.IntegerExpression(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  syntax:
+    content: public IntegerExpression(string expression)
+    parameters:
+    - id: expression
+      type: System.String
+    content.vb: Public Sub New(expression As String)
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.String,System.Boolean)
+  id: '#ctor(System.String,System.Boolean)'
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+  langs:
+  - csharp
+  - vb
+  name: IntegerExpression(String, Boolean)
+  nameWithType: IntegerExpression.IntegerExpression(String, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.IntegerExpression(System.String, System.Boolean)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  syntax:
+    content: public IntegerExpression(string expression, bool negate)
+    parameters:
+    - id: expression
+      type: System.String
+    - id: negate
+      type: System.Boolean
+    content.vb: Public Sub New(expression As String, negate As Boolean)
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.Double)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor(System.Double)
+  id: '#ctor(System.Double)'
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+  langs:
+  - csharp
+  - vb
+  name: IntegerExpression(Double)
+  nameWithType: IntegerExpression.IntegerExpression(Double)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.IntegerExpression(System.Double)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  syntax:
+    content: public IntegerExpression(double val)
+    parameters:
+    - id: val
+      type: System.Double
+    content.vb: Public Sub New(val As Double)
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile
+  id: Compile
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+  langs:
+  - csharp
+  - vb
+  name: Compile()
+  nameWithType: IntegerExpression.Compile()
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Compile
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/IntegerExpression.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  syntax:
+    content: public override CompileResult Compile()
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    content.vb: Public Overrides Function Compile As CompileResult
+  overridden: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: Expression
+  nameWithType: Expression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: AtomicExpression
+  nameWithType: AtomicExpression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression.IsGroupedExpression
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression.IsGroupedExpression
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression
+  name: IsGroupedExpression
+  nameWithType: AtomicExpression.IsGroupedExpression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression.IsGroupedExpression
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Children
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Children
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: Children
+  nameWithType: Expression.Children
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Children
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Next
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Next
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: Next
+  nameWithType: Expression.Next
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Next
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Prev
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Prev
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: Prev
+  nameWithType: Expression.Prev
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Prev
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Operator
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Operator
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: Operator
+  nameWithType: Expression.Operator
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Operator
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.IgnoreCircularReference
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.IgnoreCircularReference
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: IgnoreCircularReference
+  nameWithType: Expression.IgnoreCircularReference
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.IgnoreCircularReference
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.HasChildren
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.HasChildren
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: HasChildren
+  nameWithType: Expression.HasChildren
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.HasChildren
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: PrepareForNextChild()
+  nameWithType: Expression.PrepareForNextChild()
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild
+    name: PrepareForNextChild
+    nameWithType: Expression.PrepareForNextChild
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild
+    name: PrepareForNextChild
+    nameWithType: Expression.PrepareForNextChild
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.PrepareForNextChild
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: AddChild(Expression)
+  nameWithType: Expression.AddChild(Expression)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+    name: AddChild
+    nameWithType: Expression.AddChild
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    name: Expression
+    nameWithType: Expression
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+    name: AddChild
+    nameWithType: Expression.AddChild
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.AddChild
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    name: Expression
+    nameWithType: Expression
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: MergeWithNext()
+  nameWithType: Expression.MergeWithNext()
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext
+    name: MergeWithNext
+    nameWithType: Expression.MergeWithNext
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext
+    name: MergeWithNext
+    nameWithType: Expression.MergeWithNext
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.MergeWithNext
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.#ctor
+  name: IntegerExpression
+  nameWithType: IntegerExpression.IntegerExpression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.IntegerExpression
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  name: Compile()
+  nameWithType: Expression.Compile()
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile
+    name: Compile
+    nameWithType: Expression.Compile
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile
+    name: Compile
+    nameWithType: Expression.Compile
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression.Compile
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile
+  name: Compile
+  nameWithType: IntegerExpression.Compile
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression.Compile
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult

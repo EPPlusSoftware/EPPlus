@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTextAutofit
+  commentId: T:OfficeOpenXml.Drawing.eTextAutofit
+  id: eTextAutofit
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTextAutofit.NoAutofit
+  - OfficeOpenXml.Drawing.eTextAutofit.NormalAutofit
+  - OfficeOpenXml.Drawing.eTextAutofit.ShapeAutofit
+  langs:
+  - csharp
+  - vb
+  name: eTextAutofit
+  nameWithType: eTextAutofit
+  fullName: OfficeOpenXml.Drawing.eTextAutofit
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAutofit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextAutofit
+    path: ../src/EPPlus/Drawing/Enums/eTextAutofit.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHow autofit handles text.\n"
+  example: []
+  syntax:
+    content: public enum eTextAutofit
+    content.vb: Public Enum eTextAutofit
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTextAutofit.NoAutofit
+  commentId: F:OfficeOpenXml.Drawing.eTextAutofit.NoAutofit
+  id: NoAutofit
+  parent: OfficeOpenXml.Drawing.eTextAutofit
+  langs:
+  - csharp
+  - vb
+  name: NoAutofit
+  nameWithType: eTextAutofit.NoAutofit
+  fullName: OfficeOpenXml.Drawing.eTextAutofit.NoAutofit
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAutofit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoAutofit
+    path: ../src/EPPlus/Drawing/Enums/eTextAutofit.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNo autofit\n"
+  example: []
+  syntax:
+    content: NoAutofit = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTextAutofit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAutofit.NormalAutofit
+  commentId: F:OfficeOpenXml.Drawing.eTextAutofit.NormalAutofit
+  id: NormalAutofit
+  parent: OfficeOpenXml.Drawing.eTextAutofit
+  langs:
+  - csharp
+  - vb
+  name: NormalAutofit
+  nameWithType: eTextAutofit.NormalAutofit
+  fullName: OfficeOpenXml.Drawing.eTextAutofit.NormalAutofit
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAutofit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NormalAutofit
+    path: ../src/EPPlus/Drawing/Enums/eTextAutofit.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nText within the text body will be normally autofit\n"
+  example: []
+  syntax:
+    content: NormalAutofit = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTextAutofit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAutofit.ShapeAutofit
+  commentId: F:OfficeOpenXml.Drawing.eTextAutofit.ShapeAutofit
+  id: ShapeAutofit
+  parent: OfficeOpenXml.Drawing.eTextAutofit
+  langs:
+  - csharp
+  - vb
+  name: ShapeAutofit
+  nameWithType: eTextAutofit.ShapeAutofit
+  fullName: OfficeOpenXml.Drawing.eTextAutofit.ShapeAutofit
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAutofit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShapeAutofit
+    path: ../src/EPPlus/Drawing/Enums/eTextAutofit.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA shape will be autofit to fully contain the text within it\n"
+  example: []
+  syntax:
+    content: ShapeAutofit = 2
+    return:
+      type: OfficeOpenXml.Drawing.eTextAutofit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTextAutofit
+  commentId: T:OfficeOpenXml.Drawing.eTextAutofit
+  parent: OfficeOpenXml.Drawing
+  name: eTextAutofit
+  nameWithType: eTextAutofit
+  fullName: OfficeOpenXml.Drawing.eTextAutofit

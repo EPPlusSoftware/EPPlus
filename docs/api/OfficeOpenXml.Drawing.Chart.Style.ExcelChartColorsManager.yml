@@ -1,0 +1,623 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+  id: ExcelChartColorsManager
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  children:
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartColorsManager
+  nameWithType: ExcelChartColorsManager
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartColorsManager
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nRepresents a color style of a chart.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartColorsManager : XmlHelper'
+    content.vb: >-
+      Public Class ExcelChartColorsManager
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method
+  id: Method
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+  langs:
+  - csharp
+  - vb
+  name: Method
+  nameWithType: ExcelChartColorsManager.Method
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Method
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe method to use to calculate the colors\n"
+  remarks: AcrossLinear is not implemented yet, and will use WithinLinear
+  example: []
+  syntax:
+    content: public eChartColorStyleMethod Method { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+    content.vb: Public Property Method As eChartColorStyleMethod
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors
+  id: Colors
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+  langs:
+  - csharp
+  - vb
+  name: Colors
+  nameWithType: ExcelChartColorsManager.Colors
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Colors
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe colors to use for the calculation\n"
+  example: []
+  syntax:
+    content: public ReadOnlyCollection<ExcelDrawingColorManager> Colors { get; }
+    parameters: []
+    return:
+      type: System.Collections.ObjectModel.ReadOnlyCollection{OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager}
+    content.vb: Public ReadOnly Property Colors As ReadOnlyCollection(Of ExcelDrawingColorManager)
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations
+  id: Variations
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+  langs:
+  - csharp
+  - vb
+  name: Variations
+  nameWithType: ExcelChartColorsManager.Variations
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Variations
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartColors.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe variations to use for the calculation\n"
+  example: []
+  syntax:
+    content: public ReadOnlyCollection<ExcelColorTransformCollection> Variations { get; }
+    parameters: []
+    return:
+      type: System.Collections.ObjectModel.ReadOnlyCollection{OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection}
+    content.vb: Public ReadOnly Property Variations As ReadOnlyCollection(Of ExcelColorTransformCollection)
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Chart.Style
+  commentId: N:OfficeOpenXml.Drawing.Chart.Style
+  name: OfficeOpenXml.Drawing.Chart.Style
+  nameWithType: OfficeOpenXml.Drawing.Chart.Style
+  fullName: OfficeOpenXml.Drawing.Chart.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method
+  name: Method
+  nameWithType: ExcelChartColorsManager.Method
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Method
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  name: eChartColorStyleMethod
+  nameWithType: eChartColorStyleMethod
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors
+  name: Colors
+  nameWithType: ExcelChartColorsManager.Colors
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Colors
+- uid: System.Collections.ObjectModel.ReadOnlyCollection{OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager}
+  commentId: T:System.Collections.ObjectModel.ReadOnlyCollection{OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager}
+  parent: System.Collections.ObjectModel
+  definition: System.Collections.ObjectModel.ReadOnlyCollection`1
+  name: ReadOnlyCollection<ExcelDrawingColorManager>
+  nameWithType: ReadOnlyCollection<ExcelDrawingColorManager>
+  fullName: System.Collections.ObjectModel.ReadOnlyCollection<OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager>
+  nameWithType.vb: ReadOnlyCollection(Of ExcelDrawingColorManager)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager)
+  name.vb: ReadOnlyCollection(Of ExcelDrawingColorManager)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+    name: ExcelDrawingColorManager
+    nameWithType: ExcelDrawingColorManager
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+    name: ExcelDrawingColorManager
+    nameWithType: ExcelDrawingColorManager
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+  commentId: T:System.Collections.ObjectModel.ReadOnlyCollection`1
+  isExternal: true
+  name: ReadOnlyCollection<T>
+  nameWithType: ReadOnlyCollection<T>
+  fullName: System.Collections.ObjectModel.ReadOnlyCollection<T>
+  nameWithType.vb: ReadOnlyCollection(Of T)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of T)
+  name.vb: ReadOnlyCollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.ObjectModel
+  commentId: N:System.Collections.ObjectModel
+  isExternal: true
+  name: System.Collections.ObjectModel
+  nameWithType: System.Collections.ObjectModel
+  fullName: System.Collections.ObjectModel
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations
+  name: Variations
+  nameWithType: ExcelChartColorsManager.Variations
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager.Variations
+- uid: System.Collections.ObjectModel.ReadOnlyCollection{OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection}
+  commentId: T:System.Collections.ObjectModel.ReadOnlyCollection{OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection}
+  parent: System.Collections.ObjectModel
+  definition: System.Collections.ObjectModel.ReadOnlyCollection`1
+  name: ReadOnlyCollection<ExcelColorTransformCollection>
+  nameWithType: ReadOnlyCollection<ExcelColorTransformCollection>
+  fullName: System.Collections.ObjectModel.ReadOnlyCollection<OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection>
+  nameWithType.vb: ReadOnlyCollection(Of ExcelColorTransformCollection)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection)
+  name.vb: ReadOnlyCollection(Of ExcelColorTransformCollection)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+    name: ExcelColorTransformCollection
+    nameWithType: ExcelColorTransformCollection
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+    name: ExcelColorTransformCollection
+    nameWithType: ExcelColorTransformCollection
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  - name: )
+    nameWithType: )
+    fullName: )

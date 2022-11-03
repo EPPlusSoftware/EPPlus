@@ -69,6 +69,261 @@ namespace EPPlusTest.Core.Range
             Assert.IsTrue(ws.Cells["J1"].EntireColumn.Hidden);
         }
         [TestMethod]
+        public void Column_CollapsChildren_Right_L()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Right_HideL");
+            SetupColumnOutlineRight(ws);
+            ws.Cells["L1"].EntireColumn.CollapseChildren(false);
+
+            Assert.IsTrue(ws.Cells["A1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["K1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["L1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["M1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["N1"].EntireColumn.Hidden);
+        }
+        [TestMethod]
+        public void Column_CollapsChildren_Right_P()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Right_HideP");
+            SetupColumnOutlineRight(ws);
+            ws.Cells["P:P"].EntireColumn.CollapseChildren(true);
+
+            Assert.IsFalse(ws.Cells["P1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["M1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["N1"].EntireColumn.Hidden);
+
+            Assert.IsFalse(ws.Cells["A1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["K1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["L1"].EntireColumn.Hidden);
+        }
+
+        [TestMethod]
+        public void Column_CollapsChildren_Right_D()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Right_HideD");
+            SetupColumnOutlineRight(ws);
+            ws.Cells["D:D"].EntireColumn.CollapseChildren(true);
+
+            Assert.IsFalse(ws.Cells["P1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["M1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["N1"].EntireColumn.Hidden);
+
+            Assert.IsTrue(ws.Cells["A1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["C1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["D1"].EntireColumn.Hidden);
+        }
+        [TestMethod]
+        public void Column_CollapsChildren_SetLevel1()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Right_Level1");
+            SetupColumnOutlineRight(ws);
+            ws.Cells["A:P"].EntireColumn.SetVisibleOutlineLevel(1);
+
+            Assert.IsTrue(ws.Cells["M1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["C1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["B1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["A1"].EntireColumn.Hidden);
+
+            Assert.IsFalse(ws.Cells["D1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["N1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["K1"].EntireColumn.Hidden);
+        }
+        [TestMethod]
+        public void Column_CollapsChildren_SetLevel1_ExpandedChildren()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Right_Level1_ec");
+            SetupColumnOutlineRight(ws);
+            ws.Cells["A:P"].EntireColumn.SetVisibleOutlineLevel(1, false);
+
+            Assert.IsTrue(ws.Cells["M1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["C1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["B1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["A1"].EntireColumn.Hidden);
+
+            Assert.IsFalse(ws.Cells["D1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["N1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["K1"].EntireColumn.Hidden);
+        }
+        [TestMethod]
+        public void Column_CollapsChildren_SetLevel1_AlreadyCollapsed()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Right_Level1_ac");
+            SetupColumnOutlineRight(ws);
+            ws.Cells["A:P"].EntireColumn.CollapseChildren(true);
+            ws.Cells["A:P"].EntireColumn.SetVisibleOutlineLevel(2, false);
+        }
+
+        [TestMethod]
+        public void Column_CollapsChildren_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0_Left");
+            SetupColumnOutlineLeft(ws);
+
+            ws.Cells["B1:C1"].EntireColumn.CollapseChildren(false);
+            ws.Cells["N1"].EntireColumn.CollapseChildren(true);
+            ws.Cells["J:L"].EntireColumn.CollapseChildren(true);
+
+            Assert.IsFalse(ws.Cells["C1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["D1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["E10"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["G10"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["F1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["H1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["I1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["J1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["K10"].EntireColumn.Hidden);
+
+            Assert.IsTrue(ws.Cells["C3"].EntireColumn.Collapsed);
+            Assert.IsTrue(ws.Cells["N3"].EntireColumn.Collapsed);
+            Assert.IsTrue(ws.Cells["K3"].EntireColumn.Collapsed);
+            Assert.IsTrue(ws.Cells["L3"].EntireColumn.Collapsed);
+        }
+        [TestMethod]
+        public void Column_CollapsChildren_Left_A()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0_Left_A");
+            SetupColumnOutlineLeft(ws);
+
+            ws.Cells["A1"].EntireColumn.CollapseChildren(false);
+            
+            Assert.IsFalse(ws.Cells["A1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["C1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["D1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["E10"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["G10"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["F1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["H1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["I1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["J1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["P10"].EntireColumn.Hidden);
+        }
+        [TestMethod]
+        public void Row_CollapsChildren_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed_Level0");
+            SetupRowOutlineTop(ws);
+
+            ws.Cells["A3:A4"].EntireRow.CollapseChildren(false);
+            ws.Cells["A10"].EntireRow.CollapseChildren(true);
+            ws.Cells["13:13"].EntireRow.CollapseChildren(true);
+
+            Assert.IsFalse(ws.Cells["C1"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A4"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A5"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A6"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A14"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["H15"].EntireRow.Hidden);
+
+            Assert.IsTrue(ws.Cells["A3"].EntireRow.Collapsed);
+            Assert.IsTrue(ws.Cells["A10"].EntireRow.Collapsed);
+            Assert.IsTrue(ws.Cells["A13"].EntireRow.Collapsed);
+        }
+
+        [TestMethod]
+        public void Row_CollapsChildren_TopSummaryTop()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed_Level0_Below");
+            SetupRowOutlineBelow(ws);
+            ws.Cells["A13"].EntireRow.CollapseChildren(false);
+            ws.Cells["A2"].EntireRow.CollapseChildren(false);
+
+            Assert.IsTrue(ws.Cells["A1"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A2"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A12"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["A13"].EntireRow.Hidden);
+
+            Assert.IsTrue(ws.Cells["A2"].EntireRow.Collapsed);
+            Assert.IsTrue(ws.Cells["A13"].EntireRow.Collapsed);
+        }
+        [TestMethod]
+        public void Row_ExpandToLevel3()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed_ExpandToLevel3");
+            SetupRowOutlineBelow(ws);
+
+            ws.Cells["A1:A19"].EntireRow.SetVisibleOutlineLevel(1);
+
+            Assert.IsTrue(ws.Cells["A1"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A3"].EntireRow.Hidden);
+
+            Assert.IsFalse(ws.Cells["A4"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["A13"].EntireRow.Hidden);
+
+            Assert.IsTrue(ws.Cells["A14"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A16"].EntireRow.Hidden);
+
+            Assert.IsFalse(ws.Cells["A17"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["A19"].EntireRow.Hidden);
+        }
+        [TestMethod]
+        public void Row_ExpandAllAndCollapseSubLevel_Top()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed_ExpandHidden_Top");
+            SetupRowOutlineTop(ws);
+
+            ws.Cells["A1"].EntireRow.CollapseChildren(true);
+            ws.Cells["A3"].EntireRow.ExpandChildren(true);
+
+            Assert.IsFalse(ws.Cells["A1"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A3"].EntireRow.Hidden);
+
+            Assert.IsTrue(ws.Cells["A4"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A13"].EntireRow.Hidden);
+            
+            Assert.IsTrue(ws.Cells["A14"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A15"].EntireRow.Hidden);
+
+        }
+        [TestMethod]
+        public void Row_ExpandAllAndCollapseSubLevel_Bottom()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed_ExpandHidden_Bottom");
+            SetupRowOutlineBelow(ws);
+
+            ws.Cells["A13"].EntireRow.CollapseChildren(true);
+            ws.Cells["A4"].EntireRow.ExpandChildren(true);
+
+            Assert.IsFalse(ws.Cells["A13"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A12"].EntireRow.Hidden);
+
+            Assert.IsTrue(ws.Cells["A4"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A1"].EntireRow.Hidden);
+        }
+        [TestMethod]
+        public void Column_ExpandAllAndCollapseSubLevel_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Col_Collapsed_ExpandHidden_Left");
+            SetupColumnOutlineLeft(ws);
+
+            ws.Cells["A1"].EntireColumn.CollapseChildren(true);
+            ws.Cells["C1"].EntireColumn.ExpandChildren(true);
+
+            Assert.IsFalse(ws.Cells["A1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["C1"].EntireColumn.Hidden);
+
+            Assert.IsTrue(ws.Cells["D1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["K1"].EntireColumn.Hidden);
+
+            Assert.IsTrue(ws.Cells["M1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["P1"].EntireColumn.Hidden);
+            Assert.IsFalse(ws.Cells["Q1"].EntireColumn.Hidden);
+        }
+        [TestMethod]
+        public void Column_ExpandAllAndCollapseSubLevel_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Col_Collapsed_ExpandHidden_Right");
+            SetupColumnOutlineRight(ws);
+
+            ws.Cells["L1"].EntireColumn.CollapseChildren(true);
+            ws.Cells["D1"].EntireColumn.ExpandChildren(true);
+
+            Assert.IsFalse(ws.Cells["L1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["D1"].EntireColumn.Hidden);
+
+            Assert.IsTrue(ws.Cells["C1"].EntireColumn.Hidden);
+            Assert.IsTrue(ws.Cells["A1"].EntireColumn.Hidden);
+        }
+        [TestMethod]
         public void Column_SetStyleName()
         {
             var styleName = "Green Fill";
@@ -175,6 +430,47 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(1, ws.Cells["G15"].EntireRow.OutlineLevel);
             Assert.AreEqual(1, ws.Cells["H16"].EntireRow.OutlineLevel);
             Assert.AreEqual(1, ws.Cells["K19"].EntireRow.OutlineLevel);
+        }
+
+        private static void SetupColumnOutlineRight(ExcelWorksheet ws)
+        {
+            ws.OutLineSummaryRight = true;
+            ws.Cells["A:K"].EntireColumn.Group();
+            ws.Cells["M:O"].EntireColumn.Group();
+            ws.Cells["A:C"].EntireColumn.Group();
+            ws.Cells["A:A"].EntireColumn.Group();
+            ws.Cells["M:M"].EntireColumn.Group();
+        }
+
+        private static void SetupColumnOutlineLeft(ExcelWorksheet ws)
+        {
+            ws.OutLineSummaryRight = false;
+            ws.Columns[1, 16].Group();
+            ws.Columns[2, 16].Group();
+            ws.Columns[4, 16].Group();
+            ws.Columns[12, 13].Group();
+            ws.Columns[15, 16].Group();
+        }
+        private static void SetupRowOutlineTop(ExcelWorksheet ws)
+        {
+            ws.OutLineSummaryBelow = false;
+            ws.Rows[1, 15].Group();
+            ws.Rows[2, 15].Group();
+            ws.Rows[4, 15].Group();
+            ws.Rows[11, 12].Group();
+            ws.Rows[14, 15].Group();
+        }
+
+        private static void SetupRowOutlineBelow(ExcelWorksheet ws)
+        {
+            ws.OutLineSummaryBelow = true;
+
+            ws.Rows[1, 12].Group();
+            ws.Rows[1, 3].Group();
+            ws.Rows[1].Group();
+            ws.Rows[14, 18].Group();
+            ws.Rows[14, 15].Group();
+            ws.Rows[14, 16].Group();
         }
     }
 }

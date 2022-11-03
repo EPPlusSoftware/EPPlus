@@ -31,6 +31,7 @@ using OfficeOpenXml.Drawing.Slicer;
 using System.Text;
 using System.Runtime.InteropServices.ComTypes;
 using OfficeOpenXml.Constants;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml
 {
@@ -577,13 +578,14 @@ namespace OfficeOpenXml
             }
             return null;
         }
-        internal ExcelWorksheet GetByName(string Name)
+        internal ExcelWorksheet GetByName(string name)
         {
-            if (string.IsNullOrEmpty(Name)) return null;
+            if (string.IsNullOrEmpty(name)) return null;
+            name = ValidateFixSheetName(name);
             ExcelWorksheet ws = null;
             foreach (ExcelWorksheet worksheet in _worksheets)
             {
-                if (worksheet.Name.Equals(Name, StringComparison.OrdinalIgnoreCase))
+                if (worksheet.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     ws = worksheet;
             }
             return (ws);
@@ -700,6 +702,11 @@ namespace OfficeOpenXml
                 _worksheets = null;
                 _pck = null;
             }
+        }
+
+        internal void NormalStyleChange()
+        {
+            throw new NotImplementedException();
         }
     } // end class Worksheets
 }

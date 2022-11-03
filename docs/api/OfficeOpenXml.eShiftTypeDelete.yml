@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eShiftTypeDelete
+  commentId: T:OfficeOpenXml.eShiftTypeDelete
+  id: eShiftTypeDelete
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eShiftTypeDelete.EntireColumn
+  - OfficeOpenXml.eShiftTypeDelete.EntireRow
+  - OfficeOpenXml.eShiftTypeDelete.Left
+  - OfficeOpenXml.eShiftTypeDelete.Up
+  langs:
+  - csharp
+  - vb
+  name: eShiftTypeDelete
+  nameWithType: eShiftTypeDelete
+  fullName: OfficeOpenXml.eShiftTypeDelete
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eShiftTypeDelete
+    path: ../src/EPPlus/Enums.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTells how cells should be shifted in a delete operation\n"
+  example: []
+  syntax:
+    content: public enum eShiftTypeDelete
+    content.vb: Public Enum eShiftTypeDelete
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eShiftTypeDelete.Left
+  commentId: F:OfficeOpenXml.eShiftTypeDelete.Left
+  id: Left
+  parent: OfficeOpenXml.eShiftTypeDelete
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eShiftTypeDelete.Left
+  fullName: OfficeOpenXml.eShiftTypeDelete.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Enums.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCells in the range are shifted to the left\n"
+  example: []
+  syntax:
+    content: Left = 0
+    return:
+      type: OfficeOpenXml.eShiftTypeDelete
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eShiftTypeDelete.Up
+  commentId: F:OfficeOpenXml.eShiftTypeDelete.Up
+  id: Up
+  parent: OfficeOpenXml.eShiftTypeDelete
+  langs:
+  - csharp
+  - vb
+  name: Up
+  nameWithType: eShiftTypeDelete.Up
+  fullName: OfficeOpenXml.eShiftTypeDelete.Up
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Up
+    path: ../src/EPPlus/Enums.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCells in the range are shifted upwards\n"
+  example: []
+  syntax:
+    content: Up = 1
+    return:
+      type: OfficeOpenXml.eShiftTypeDelete
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eShiftTypeDelete.EntireRow
+  commentId: F:OfficeOpenXml.eShiftTypeDelete.EntireRow
+  id: EntireRow
+  parent: OfficeOpenXml.eShiftTypeDelete
+  langs:
+  - csharp
+  - vb
+  name: EntireRow
+  nameWithType: eShiftTypeDelete.EntireRow
+  fullName: OfficeOpenXml.eShiftTypeDelete.EntireRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EntireRow
+    path: ../src/EPPlus/Enums.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe range for the entire row is used in the shift operation\n"
+  example: []
+  syntax:
+    content: EntireRow = 2
+    return:
+      type: OfficeOpenXml.eShiftTypeDelete
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eShiftTypeDelete.EntireColumn
+  commentId: F:OfficeOpenXml.eShiftTypeDelete.EntireColumn
+  id: EntireColumn
+  parent: OfficeOpenXml.eShiftTypeDelete
+  langs:
+  - csharp
+  - vb
+  name: EntireColumn
+  nameWithType: eShiftTypeDelete.EntireColumn
+  fullName: OfficeOpenXml.eShiftTypeDelete.EntireColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EntireColumn
+    path: ../src/EPPlus/Enums.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe range for the entire column is used in the shift operation\n"
+  example: []
+  syntax:
+    content: EntireColumn = 3
+    return:
+      type: OfficeOpenXml.eShiftTypeDelete
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eShiftTypeDelete
+  commentId: T:OfficeOpenXml.eShiftTypeDelete
+  parent: OfficeOpenXml
+  name: eShiftTypeDelete
+  nameWithType: eShiftTypeDelete
+  fullName: OfficeOpenXml.eShiftTypeDelete

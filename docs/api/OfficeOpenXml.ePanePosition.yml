@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ePanePosition
+  commentId: T:OfficeOpenXml.ePanePosition
+  id: ePanePosition
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ePanePosition.BottomLeft
+  - OfficeOpenXml.ePanePosition.BottomRight
+  - OfficeOpenXml.ePanePosition.TopLeft
+  - OfficeOpenXml.ePanePosition.TopRight
+  langs:
+  - csharp
+  - vb
+  name: ePanePosition
+  nameWithType: ePanePosition
+  fullName: OfficeOpenXml.ePanePosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePanePosition
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe position of the pane.\n"
+  example: []
+  syntax:
+    content: public enum ePanePosition
+    content.vb: Public Enum ePanePosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ePanePosition.BottomLeft
+  commentId: F:OfficeOpenXml.ePanePosition.BottomLeft
+  id: BottomLeft
+  parent: OfficeOpenXml.ePanePosition
+  langs:
+  - csharp
+  - vb
+  name: BottomLeft
+  nameWithType: ePanePosition.BottomLeft
+  fullName: OfficeOpenXml.ePanePosition.BottomLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomLeft
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBottom Left Pane.\nUsed when worksheet view has both vertical and horizontal splits.\nAlso used when the worksheet is horizontaly split only, specifying this is the bottom pane.\n"
+  example: []
+  syntax:
+    content: BottomLeft = 0
+    return:
+      type: OfficeOpenXml.ePanePosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePanePosition.BottomRight
+  commentId: F:OfficeOpenXml.ePanePosition.BottomRight
+  id: BottomRight
+  parent: OfficeOpenXml.ePanePosition
+  langs:
+  - csharp
+  - vb
+  name: BottomRight
+  nameWithType: ePanePosition.BottomRight
+  fullName: OfficeOpenXml.ePanePosition.BottomRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomRight
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBottom Right Pane. \nThis property is only used when the worksheet has both vertical and horizontal splits.\n"
+  example: []
+  syntax:
+    content: BottomRight = 1
+    return:
+      type: OfficeOpenXml.ePanePosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePanePosition.TopLeft
+  commentId: F:OfficeOpenXml.ePanePosition.TopLeft
+  id: TopLeft
+  parent: OfficeOpenXml.ePanePosition
+  langs:
+  - csharp
+  - vb
+  name: TopLeft
+  nameWithType: ePanePosition.TopLeft
+  fullName: OfficeOpenXml.ePanePosition.TopLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeft
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTop Left Pane.\nUsed when worksheet view has both vertical and horizontal splits.\nAlso used when the worksheet is horizontaly split only, specifying this is the top pane.\n"
+  example: []
+  syntax:
+    content: TopLeft = 2
+    return:
+      type: OfficeOpenXml.ePanePosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePanePosition.TopRight
+  commentId: F:OfficeOpenXml.ePanePosition.TopRight
+  id: TopRight
+  parent: OfficeOpenXml.ePanePosition
+  langs:
+  - csharp
+  - vb
+  name: TopRight
+  nameWithType: ePanePosition.TopRight
+  fullName: OfficeOpenXml.ePanePosition.TopRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopRight
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTop Right Pane\nUsed when the worksheet view has both vertical and horizontal splits.\nAlso used when the worksheet is verticaly split only, specifying this is the right pane.\n"
+  example: []
+  syntax:
+    content: TopRight = 3
+    return:
+      type: OfficeOpenXml.ePanePosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ePanePosition
+  commentId: T:OfficeOpenXml.ePanePosition
+  parent: OfficeOpenXml
+  name: ePanePosition
+  nameWithType: ePanePosition
+  fullName: OfficeOpenXml.ePanePosition

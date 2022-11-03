@@ -1,0 +1,622 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship
+  commentId: T:OfficeOpenXml.Packaging.ZipPackageRelationship
+  id: ZipPackageRelationship
+  parent: OfficeOpenXml.Packaging
+  children:
+  - OfficeOpenXml.Packaging.ZipPackageRelationship.Id
+  - OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType
+  - OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri
+  - OfficeOpenXml.Packaging.ZipPackageRelationship.Target
+  - OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode
+  - OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri
+  langs:
+  - csharp
+  - vb
+  name: ZipPackageRelationship
+  nameWithType: ZipPackageRelationship
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Packaging/ZipPackageRelationship.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZipPackageRelationship
+    path: ../src/EPPlus/Packaging/ZipPackageRelationship.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nA relation ship between two parts in a package\n"
+  example: []
+  syntax:
+    content: public class ZipPackageRelationship
+    content.vb: Public Class ZipPackageRelationship
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri
+  commentId: P:OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri
+  id: SourceUri
+  parent: OfficeOpenXml.Packaging.ZipPackageRelationship
+  langs:
+  - csharp
+  - vb
+  name: SourceUri
+  nameWithType: ZipPackageRelationship.SourceUri
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/ZipPackageRelationship.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SourceUri
+    path: ../src/EPPlus/Packaging/ZipPackageRelationship.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nThe uri to the source part\n"
+  example: []
+  syntax:
+    content: public Uri SourceUri { get; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public ReadOnly Property SourceUri As Uri
+  overload: OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType
+  commentId: P:OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType
+  id: RelationshipType
+  parent: OfficeOpenXml.Packaging.ZipPackageRelationship
+  langs:
+  - csharp
+  - vb
+  name: RelationshipType
+  nameWithType: ZipPackageRelationship.RelationshipType
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/ZipPackageRelationship.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RelationshipType
+    path: ../src/EPPlus/Packaging/ZipPackageRelationship.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nThe relationship type\n"
+  example: []
+  syntax:
+    content: public string RelationshipType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property RelationshipType As String
+  overload: OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode
+  commentId: P:OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode
+  id: TargetMode
+  parent: OfficeOpenXml.Packaging.ZipPackageRelationship
+  langs:
+  - csharp
+  - vb
+  name: TargetMode
+  nameWithType: ZipPackageRelationship.TargetMode
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/ZipPackageRelationship.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TargetMode
+    path: ../src/EPPlus/Packaging/ZipPackageRelationship.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nTarget, internal or external\n"
+  example: []
+  syntax:
+    content: public TargetMode TargetMode { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Packaging.TargetMode
+    content.vb: Public ReadOnly Property TargetMode As TargetMode
+  overload: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.Id
+  commentId: P:OfficeOpenXml.Packaging.ZipPackageRelationship.Id
+  id: Id
+  parent: OfficeOpenXml.Packaging.ZipPackageRelationship
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ZipPackageRelationship.Id
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.Id
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/ZipPackageRelationship.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Id
+    path: ../src/EPPlus/Packaging/ZipPackageRelationship.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nThe relationship Id\n"
+  example: []
+  syntax:
+    content: public string Id { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Id As String
+  overload: OfficeOpenXml.Packaging.ZipPackageRelationship.Id*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri
+  commentId: P:OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri
+  id: TargetUri
+  parent: OfficeOpenXml.Packaging.ZipPackageRelationship
+  langs:
+  - csharp
+  - vb
+  name: TargetUri
+  nameWithType: ZipPackageRelationship.TargetUri
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/ZipPackageRelationship.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TargetUri
+    path: ../src/EPPlus/Packaging/ZipPackageRelationship.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nThe uri to the target part\n"
+  example: []
+  syntax:
+    content: public Uri TargetUri { get; set; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public Property TargetUri As Uri
+  overload: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.Target
+  commentId: P:OfficeOpenXml.Packaging.ZipPackageRelationship.Target
+  id: Target
+  parent: OfficeOpenXml.Packaging.ZipPackageRelationship
+  langs:
+  - csharp
+  - vb
+  name: Target
+  nameWithType: ZipPackageRelationship.Target
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.Target
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/ZipPackageRelationship.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Target
+    path: ../src/EPPlus/Packaging/ZipPackageRelationship.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nThe target if it&apos;s not a valid uri, for example an internal reference to a cell withing the package.\n"
+  example: []
+  syntax:
+    content: public string Target { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Target As String
+  overload: OfficeOpenXml.Packaging.ZipPackageRelationship.Target*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Packaging
+  commentId: N:OfficeOpenXml.Packaging
+  name: OfficeOpenXml.Packaging
+  nameWithType: OfficeOpenXml.Packaging
+  fullName: OfficeOpenXml.Packaging
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri*
+  commentId: Overload:OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri
+  name: SourceUri
+  nameWithType: ZipPackageRelationship.SourceUri
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.SourceUri
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType*
+  commentId: Overload:OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType
+  name: RelationshipType
+  nameWithType: ZipPackageRelationship.RelationshipType
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.RelationshipType
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode*
+  commentId: Overload:OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode
+  name: TargetMode
+  nameWithType: ZipPackageRelationship.TargetMode
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetMode
+- uid: OfficeOpenXml.Packaging.TargetMode
+  commentId: T:OfficeOpenXml.Packaging.TargetMode
+  parent: OfficeOpenXml.Packaging
+  name: TargetMode
+  nameWithType: TargetMode
+  fullName: OfficeOpenXml.Packaging.TargetMode
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.Id*
+  commentId: Overload:OfficeOpenXml.Packaging.ZipPackageRelationship.Id
+  name: Id
+  nameWithType: ZipPackageRelationship.Id
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.Id
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri*
+  commentId: Overload:OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri
+  name: TargetUri
+  nameWithType: ZipPackageRelationship.TargetUri
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.TargetUri
+- uid: OfficeOpenXml.Packaging.ZipPackageRelationship.Target*
+  commentId: Overload:OfficeOpenXml.Packaging.ZipPackageRelationship.Target
+  name: Target
+  nameWithType: ZipPackageRelationship.Target
+  fullName: OfficeOpenXml.Packaging.ZipPackageRelationship.Target

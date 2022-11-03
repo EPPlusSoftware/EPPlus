@@ -1,0 +1,680 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  id: ExcelControlMargin
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic
+  - OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin
+  - OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin
+  - OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin
+  - OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit(OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  - OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue(System.Double,OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  - OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin
+  langs:
+  - csharp
+  - vb
+  name: ExcelControlMargin
+  nameWithType: ExcelControlMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelControlMargin
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nMargin setting for a vml drawing\n"
+  example: []
+  syntax:
+    content: public class ExcelControlMargin
+    content.vb: Public Class ExcelControlMargin
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue(System.Double,OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  commentId: M:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue(System.Double,OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  id: SetValue(System.Double,OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  parent: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  langs:
+  - csharp
+  - vb
+  name: SetValue(Double, eMeasurementUnits)
+  nameWithType: ExcelControlMargin.SetValue(Double, eMeasurementUnits)
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue(System.Double, OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetValue
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nSets the margin value and unit of measurement for all margins.\n"
+  example: []
+  syntax:
+    content: public void SetValue(double marginValue, eMeasurementUnits unit = eMeasurementUnits.Points)
+    parameters:
+    - id: marginValue
+      type: System.Double
+      description: Margin value to set for all margins
+    - id: unit
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+      description: The unit to set for all margins. Default <xref href="OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Points" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Sub SetValue(marginValue As Double, unit As eMeasurementUnits = eMeasurementUnits.Points)
+  overload: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit(OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  commentId: M:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit(OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  id: SetUnit(OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  parent: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  langs:
+  - csharp
+  - vb
+  name: SetUnit(eMeasurementUnits)
+  nameWithType: ExcelControlMargin.SetUnit(eMeasurementUnits)
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit(OfficeOpenXml.Drawing.Controls.eMeasurementUnits)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetUnit
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nSets the margin unit of measurement for all margins.\n"
+  example: []
+  syntax:
+    content: public void SetUnit(eMeasurementUnits unit)
+    parameters:
+    - id: unit
+      type: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+      description: The unit to set for all margins.
+    content.vb: Public Sub SetUnit(unit As eMeasurementUnits)
+  overload: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic
+  commentId: P:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic
+  id: Automatic
+  parent: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  langs:
+  - csharp
+  - vb
+  name: Automatic
+  nameWithType: ExcelControlMargin.Automatic
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Automatic
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nMargin is autiomatic\n"
+  example: []
+  syntax:
+    content: public bool Automatic { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Automatic As Boolean
+  overload: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin
+  commentId: P:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin
+  id: LeftMargin
+  parent: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  langs:
+  - csharp
+  - vb
+  name: LeftMargin
+  nameWithType: ExcelControlMargin.LeftMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftMargin
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nLeft Margin\n"
+  example: []
+  syntax:
+    content: public ExcelVmlMeasurementUnit LeftMargin { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+    content.vb: Public ReadOnly Property LeftMargin As ExcelVmlMeasurementUnit
+  overload: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin
+  commentId: P:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin
+  id: RightMargin
+  parent: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  langs:
+  - csharp
+  - vb
+  name: RightMargin
+  nameWithType: ExcelControlMargin.RightMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightMargin
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nRight Margin\n"
+  example: []
+  syntax:
+    content: public ExcelVmlMeasurementUnit RightMargin { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+    content.vb: Public ReadOnly Property RightMargin As ExcelVmlMeasurementUnit
+  overload: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin
+  commentId: P:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin
+  id: TopMargin
+  parent: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  langs:
+  - csharp
+  - vb
+  name: TopMargin
+  nameWithType: ExcelControlMargin.TopMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopMargin
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nTop Margin\n"
+  example: []
+  syntax:
+    content: public ExcelVmlMeasurementUnit TopMargin { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+    content.vb: Public ReadOnly Property TopMargin As ExcelVmlMeasurementUnit
+  overload: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin
+  commentId: P:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin
+  id: BottomMargin
+  parent: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+  langs:
+  - csharp
+  - vb
+  name: BottomMargin
+  nameWithType: ExcelControlMargin.BottomMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomMargin
+    path: ../src/EPPlus/Drawing/Controls/ExcelControlMargins.cs
+    startLine: 131
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nBottom margin\n"
+  example: []
+  syntax:
+    content: public ExcelVmlMeasurementUnit BottomMargin { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+    content.vb: Public ReadOnly Property BottomMargin As ExcelVmlMeasurementUnit
+  overload: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Points
+  commentId: F:OfficeOpenXml.Drawing.Controls.eMeasurementUnits.Points
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue*
+  commentId: Overload:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue
+  name: SetValue
+  nameWithType: ExcelControlMargin.SetValue
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetValue
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  commentId: T:OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eMeasurementUnits
+  nameWithType: eMeasurementUnits
+  fullName: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit*
+  commentId: Overload:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit
+  name: SetUnit
+  nameWithType: ExcelControlMargin.SetUnit
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.SetUnit
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic*
+  commentId: Overload:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic
+  name: Automatic
+  nameWithType: ExcelControlMargin.Automatic
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.Automatic
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin*
+  commentId: Overload:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin
+  name: LeftMargin
+  nameWithType: ExcelControlMargin.LeftMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.LeftMargin
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlMeasurementUnit
+  nameWithType: ExcelVmlMeasurementUnit
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin*
+  commentId: Overload:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin
+  name: RightMargin
+  nameWithType: ExcelControlMargin.RightMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.RightMargin
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin*
+  commentId: Overload:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin
+  name: TopMargin
+  nameWithType: ExcelControlMargin.TopMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.TopMargin
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin*
+  commentId: Overload:OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin
+  name: BottomMargin
+  nameWithType: ExcelControlMargin.BottomMargin
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlMargin.BottomMargin

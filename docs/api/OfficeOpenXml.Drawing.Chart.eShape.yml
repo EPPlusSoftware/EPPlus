@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eShape
+  commentId: T:OfficeOpenXml.Drawing.Chart.eShape
+  id: eShape
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eShape.Box
+  - OfficeOpenXml.Drawing.Chart.eShape.Cone
+  - OfficeOpenXml.Drawing.Chart.eShape.ConeToMax
+  - OfficeOpenXml.Drawing.Chart.eShape.Cylinder
+  - OfficeOpenXml.Drawing.Chart.eShape.Pyramid
+  - OfficeOpenXml.Drawing.Chart.eShape.PyramidToMax
+  langs:
+  - csharp
+  - vb
+  name: eShape
+  nameWithType: eShape
+  fullName: OfficeOpenXml.Drawing.Chart.eShape
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eShape
+    path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nShape for bar charts\n"
+  example: []
+  syntax:
+    content: public enum eShape
+    content.vb: Public Enum eShape
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eShape.Box
+  commentId: F:OfficeOpenXml.Drawing.Chart.eShape.Box
+  id: Box
+  parent: OfficeOpenXml.Drawing.Chart.eShape
+  langs:
+  - csharp
+  - vb
+  name: Box
+  nameWithType: eShape.Box
+  fullName: OfficeOpenXml.Drawing.Chart.eShape.Box
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Box
+    path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA box shape\n"
+  example: []
+  syntax:
+    content: Box = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eShape
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eShape.Cone
+  commentId: F:OfficeOpenXml.Drawing.Chart.eShape.Cone
+  id: Cone
+  parent: OfficeOpenXml.Drawing.Chart.eShape
+  langs:
+  - csharp
+  - vb
+  name: Cone
+  nameWithType: eShape.Cone
+  fullName: OfficeOpenXml.Drawing.Chart.eShape.Cone
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cone
+    path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA cone shape\n"
+  example: []
+  syntax:
+    content: Cone = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eShape
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eShape.ConeToMax
+  commentId: F:OfficeOpenXml.Drawing.Chart.eShape.ConeToMax
+  id: ConeToMax
+  parent: OfficeOpenXml.Drawing.Chart.eShape
+  langs:
+  - csharp
+  - vb
+  name: ConeToMax
+  nameWithType: eShape.ConeToMax
+  fullName: OfficeOpenXml.Drawing.Chart.eShape.ConeToMax
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeToMax
+    path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA cone shape, truncated to max\n"
+  example: []
+  syntax:
+    content: ConeToMax = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eShape
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eShape.Cylinder
+  commentId: F:OfficeOpenXml.Drawing.Chart.eShape.Cylinder
+  id: Cylinder
+  parent: OfficeOpenXml.Drawing.Chart.eShape
+  langs:
+  - csharp
+  - vb
+  name: Cylinder
+  nameWithType: eShape.Cylinder
+  fullName: OfficeOpenXml.Drawing.Chart.eShape.Cylinder
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cylinder
+    path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA cylinder shape\n"
+  example: []
+  syntax:
+    content: Cylinder = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eShape
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eShape.Pyramid
+  commentId: F:OfficeOpenXml.Drawing.Chart.eShape.Pyramid
+  id: Pyramid
+  parent: OfficeOpenXml.Drawing.Chart.eShape
+  langs:
+  - csharp
+  - vb
+  name: Pyramid
+  nameWithType: eShape.Pyramid
+  fullName: OfficeOpenXml.Drawing.Chart.eShape.Pyramid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pyramid
+    path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA pyramid shape\n"
+  example: []
+  syntax:
+    content: Pyramid = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eShape
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eShape.PyramidToMax
+  commentId: F:OfficeOpenXml.Drawing.Chart.eShape.PyramidToMax
+  id: PyramidToMax
+  parent: OfficeOpenXml.Drawing.Chart.eShape
+  langs:
+  - csharp
+  - vb
+  name: PyramidToMax
+  nameWithType: eShape.PyramidToMax
+  fullName: OfficeOpenXml.Drawing.Chart.eShape.PyramidToMax
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidToMax
+    path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA pyramid shape, truncated to max\n"
+  example: []
+  syntax:
+    content: PyramidToMax = 5
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eShape
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eShape
+  commentId: T:OfficeOpenXml.Drawing.Chart.eShape
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eShape
+  nameWithType: eShape
+  fullName: OfficeOpenXml.Drawing.Chart.eShape

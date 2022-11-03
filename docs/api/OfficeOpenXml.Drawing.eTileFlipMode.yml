@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTileFlipMode
+  commentId: T:OfficeOpenXml.Drawing.eTileFlipMode
+  id: eTileFlipMode
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTileFlipMode.None
+  - OfficeOpenXml.Drawing.eTileFlipMode.X
+  - OfficeOpenXml.Drawing.eTileFlipMode.XY
+  - OfficeOpenXml.Drawing.eTileFlipMode.Y
+  langs:
+  - csharp
+  - vb
+  name: eTileFlipMode
+  nameWithType: eTileFlipMode
+  fullName: OfficeOpenXml.Drawing.eTileFlipMode
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTileFlipMode
+    path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSpecifies the direction(s) in which to flip the gradient while tiling\n"
+  example: []
+  syntax:
+    content: public enum eTileFlipMode
+    content.vb: Public Enum eTileFlipMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTileFlipMode.None
+  commentId: F:OfficeOpenXml.Drawing.eTileFlipMode.None
+  id: None
+  parent: OfficeOpenXml.Drawing.eTileFlipMode
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eTileFlipMode.None
+  fullName: OfficeOpenXml.Drawing.eTileFlipMode.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTiles are not flipped\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTileFlipMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTileFlipMode.X
+  commentId: F:OfficeOpenXml.Drawing.eTileFlipMode.X
+  id: X
+  parent: OfficeOpenXml.Drawing.eTileFlipMode
+  langs:
+  - csharp
+  - vb
+  name: X
+  nameWithType: eTileFlipMode.X
+  fullName: OfficeOpenXml.Drawing.eTileFlipMode.X
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: X
+    path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTiles are flipped horizontally.\n"
+  example: []
+  syntax:
+    content: X = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTileFlipMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTileFlipMode.XY
+  commentId: F:OfficeOpenXml.Drawing.eTileFlipMode.XY
+  id: XY
+  parent: OfficeOpenXml.Drawing.eTileFlipMode
+  langs:
+  - csharp
+  - vb
+  name: XY
+  nameWithType: eTileFlipMode.XY
+  fullName: OfficeOpenXml.Drawing.eTileFlipMode.XY
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XY
+    path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTiles are flipped horizontally and Vertically\n"
+  example: []
+  syntax:
+    content: XY = 2
+    return:
+      type: OfficeOpenXml.Drawing.eTileFlipMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTileFlipMode.Y
+  commentId: F:OfficeOpenXml.Drawing.eTileFlipMode.Y
+  id: Y
+  parent: OfficeOpenXml.Drawing.eTileFlipMode
+  langs:
+  - csharp
+  - vb
+  name: Y
+  nameWithType: eTileFlipMode.Y
+  fullName: OfficeOpenXml.Drawing.eTileFlipMode.Y
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Y
+    path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTiles are flipped vertically.\n"
+  example: []
+  syntax:
+    content: Y = 3
+    return:
+      type: OfficeOpenXml.Drawing.eTileFlipMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTileFlipMode
+  commentId: T:OfficeOpenXml.Drawing.eTileFlipMode
+  parent: OfficeOpenXml.Drawing
+  name: eTileFlipMode
+  nameWithType: eTileFlipMode
+  fullName: OfficeOpenXml.Drawing.eTileFlipMode

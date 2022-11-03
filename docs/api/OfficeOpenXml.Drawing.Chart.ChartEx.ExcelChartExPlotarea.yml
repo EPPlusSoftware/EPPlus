@@ -1,0 +1,576 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea
+  id: ExcelChartExPlotarea
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExPlotarea
+  nameWithType: ExcelChartExPlotarea
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExPlotarea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExPlotarea
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExPlotarea.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA plotarea for an extended chart\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelChartExPlotarea : ExcelChartPlotArea'
+    content.vb: >-
+      Public NotInheritable Class ExcelChartExPlotarea
+          Inherits ExcelChartPlotArea
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ChartTypes
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.DataTable
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ThreeD
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable
+  id: CreateDataTable
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea
+  langs:
+  - csharp
+  - vb
+  name: CreateDataTable()
+  nameWithType: ExcelChartExPlotarea.CreateDataTable()
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExPlotarea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateDataTable
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExPlotarea.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nNot applicable on extended charts. Will throw <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public override ExcelChartDataTable CreateDataTable()
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable
+      description: ''
+    content.vb: Public Overrides Function CreateDataTable As ExcelChartDataTable
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: Will always be thrown
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable
+  id: RemoveDataTable
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea
+  langs:
+  - csharp
+  - vb
+  name: RemoveDataTable()
+  nameWithType: ExcelChartExPlotarea.RemoveDataTable()
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExPlotarea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveDataTable
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExPlotarea.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nNot applicable on extended charts. Will throw <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public override void RemoveDataTable()
+    content.vb: Public Overrides Sub RemoveDataTable
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: Will always be thrown
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartPlotArea
+  nameWithType: ExcelChartPlotArea
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ChartTypes
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ChartTypes
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: ChartTypes
+  nameWithType: ExcelChartPlotArea.ChartTypes
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ChartTypes
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.DataTable
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.DataTable
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: DataTable
+  nameWithType: ExcelChartPlotArea.DataTable
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.DataTable
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: Fill
+  nameWithType: ExcelChartPlotArea.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: Border
+  nameWithType: ExcelChartPlotArea.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: Effect
+  nameWithType: ExcelChartPlotArea.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: ThreeD
+  nameWithType: ExcelChartPlotArea.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.ThreeD
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: CreateDataTable()
+  nameWithType: ExcelChartPlotArea.CreateDataTable()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable
+    name: CreateDataTable
+    nameWithType: ExcelChartPlotArea.CreateDataTable
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable
+    name: CreateDataTable
+    nameWithType: ExcelChartPlotArea.CreateDataTable
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.CreateDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable
+  name: CreateDataTable
+  nameWithType: ExcelChartExPlotarea.CreateDataTable
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.CreateDataTable
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartDataTable
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartDataTable
+  nameWithType: ExcelChartDataTable
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  name: RemoveDataTable()
+  nameWithType: ExcelChartPlotArea.RemoveDataTable()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable
+    name: RemoveDataTable
+    nameWithType: ExcelChartPlotArea.RemoveDataTable
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable
+    name: RemoveDataTable
+    nameWithType: ExcelChartPlotArea.RemoveDataTable
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea.RemoveDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable
+  name: RemoveDataTable
+  nameWithType: ExcelChartExPlotarea.RemoveDataTable
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea.RemoveDataTable

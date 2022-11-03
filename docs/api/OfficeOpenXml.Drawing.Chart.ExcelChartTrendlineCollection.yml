@@ -1,0 +1,872 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  id: ExcelChartTrendlineCollection
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add(OfficeOpenXml.Drawing.Chart.eTrendLine)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChartTrendline}#GetEnumerator
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartTrendlineCollection
+  nameWithType: ExcelChartTrendlineCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartTrendlineCollection
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA collection of trendlines.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartTrendlineCollection : IEnumerable<ExcelChartTrendline>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelChartTrendlineCollection
+          Implements IEnumerable(Of ExcelChartTrendline), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add(OfficeOpenXml.Drawing.Chart.eTrendLine)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add(OfficeOpenXml.Drawing.Chart.eTrendLine)
+  id: Add(OfficeOpenXml.Drawing.Chart.eTrendLine)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(eTrendLine)
+  nameWithType: ExcelChartTrendlineCollection.Add(eTrendLine)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add(OfficeOpenXml.Drawing.Chart.eTrendLine)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdd a new trendline\n"
+  example: []
+  syntax:
+    content: public ExcelChartTrendline Add(eTrendLine Type)
+    parameters:
+    - id: Type
+      type: OfficeOpenXml.Drawing.Chart.eTrendLine
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+      description: The trendline
+    content.vb: Public Function Add(Type As eTrendLine) As ExcelChartTrendline
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelChartTrendlineCollection.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nNumber of items in the collection.\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelChartTrendlineCollection.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nReturns a chart trendline at the specific position.  \n"
+  example: []
+  syntax:
+    content: public ExcelChartTrendline this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index in the collection. 0-base
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+      description: ''
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelChartTrendline
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item*
+  nameWithType.vb: ExcelChartTrendlineCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChartTrendline}#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChartTrendline}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChartTrendline}#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<ExcelChartTrendline>.GetEnumerator()
+  nameWithType: ExcelChartTrendlineCollection.IEnumerable<ExcelChartTrendline>.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  syntax:
+    content: IEnumerator<ExcelChartTrendline> IEnumerable<ExcelChartTrendline>.GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}
+    content.vb: Function System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator As IEnumerator(Of ExcelChartTrendline) Implements IEnumerable(Of ExcelChartTrendline).GetEnumerator
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChartTrendline}#GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}.GetEnumerator
+  nameWithType.vb: ExcelChartTrendlineCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelChartTrendlineCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendlineCollection.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartTrendlineCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelChartTrendline>
+  nameWithType: IEnumerable<ExcelChartTrendline>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>
+  nameWithType.vb: IEnumerable(Of ExcelChartTrendline)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ExcelChartTrendline)
+  name.vb: IEnumerable(Of ExcelChartTrendline)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+    name: ExcelChartTrendline
+    nameWithType: ExcelChartTrendline
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+    name: ExcelChartTrendline
+    nameWithType: ExcelChartTrendline
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add
+  name: Add
+  nameWithType: ExcelChartTrendlineCollection.Add
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Add
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTrendLine
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eTrendLine
+  nameWithType: eTrendLine
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartTrendline
+  nameWithType: ExcelChartTrendline
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count
+  name: Count
+  nameWithType: ExcelChartTrendlineCollection.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item
+  name: Item
+  nameWithType: ExcelChartTrendlineCollection.Item
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.Item
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChartTrendline}#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChartTrendline}#GetEnumerator
+  name: IEnumerable<ExcelChartTrendline>.GetEnumerator
+  nameWithType: ExcelChartTrendlineCollection.IEnumerable<ExcelChartTrendline>.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator
+  nameWithType.vb: ExcelChartTrendlineCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelChartTrendline>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelChartTrendline).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ExcelChartTrendline).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelChartTrendline>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelChartTrendline).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ExcelChartTrendline).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ExcelChartTrendline}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelChartTrendline>
+  nameWithType: IEnumerator<ExcelChartTrendline>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.Chart.ExcelChartTrendline>
+  nameWithType.vb: IEnumerator(Of ExcelChartTrendline)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.Chart.ExcelChartTrendline)
+  name.vb: IEnumerator(Of ExcelChartTrendline)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+    name: ExcelChartTrendline
+    nameWithType: ExcelChartTrendline
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+    name: ExcelChartTrendline
+    nameWithType: ExcelChartTrendline
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelChartTrendlineCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartTrendlineCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator

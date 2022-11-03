@@ -1,0 +1,738 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  commentId: T:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  id: ExcelDrawingBlipEffects
+  parent: OfficeOpenXml.Drawing.Style.Fill
+  children:
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingBlipEffects
+  nameWithType: ExcelDrawingBlipEffects
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingBlipEffects
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nEffects added to a blip fill\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawingBlipEffects : XmlHelper'
+    content.vb: >-
+      Public Class ExcelDrawingBlipEffects
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone
+  commentId: M:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone
+  id: AddDuotone
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: AddDuotone()
+  nameWithType: ExcelDrawingBlipEffects.AddDuotone()
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDuotone
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nAdds a duotone effect \n"
+  example: []
+  syntax:
+    content: public void AddDuotone()
+    content.vb: Public Sub AddDuotone
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone
+  commentId: M:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone
+  id: RemoveDuotone
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: RemoveDuotone()
+  nameWithType: ExcelDrawingBlipEffects.RemoveDuotone()
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveDuotone
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nRemoves a duotone effect.\n"
+  example: []
+  syntax:
+    content: public void RemoveDuotone()
+    content.vb: Public Sub RemoveDuotone
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone
+  id: Duotone
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: Duotone
+  nameWithType: ExcelDrawingBlipEffects.Duotone
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Duotone
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nA duo tone color effect.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingDuotoneEffect Duotone { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingDuotoneEffect
+    content.vb: Public ReadOnly Property Duotone As ExcelDrawingDuotoneEffect
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange
+  commentId: M:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange
+  id: AddColorChange
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: AddColorChange()
+  nameWithType: ExcelDrawingBlipEffects.AddColorChange()
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddColorChange
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nAdds a color change effect \n"
+  example: []
+  syntax:
+    content: public void AddColorChange()
+    content.vb: Public Sub AddColorChange
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange
+  commentId: M:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange
+  id: RemoveColorChange
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: RemoveColorChange()
+  nameWithType: ExcelDrawingBlipEffects.RemoveColorChange()
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveColorChange
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nRemoves a duotone effect.\n"
+  example: []
+  syntax:
+    content: public void RemoveColorChange()
+    content.vb: Public Sub RemoveColorChange
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange
+  id: ColorChange
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: ColorChange
+  nameWithType: ExcelDrawingBlipEffects.ColorChange
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorChange
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nA duo tone color effect.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingColorChangeEffect ColorChange { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorChangeEffect
+    content.vb: Public ReadOnly Property ColorChange As ExcelDrawingColorChangeEffect
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace
+  commentId: M:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace
+  id: AddColorReplace
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: AddColorReplace()
+  nameWithType: ExcelDrawingBlipEffects.AddColorReplace()
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddColorReplace
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 136
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nAdds a color change effect \n"
+  example: []
+  syntax:
+    content: public void AddColorReplace()
+    content.vb: Public Sub AddColorReplace
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace
+  commentId: M:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace
+  id: RemoveColorReplace
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: RemoveColorReplace()
+  nameWithType: ExcelDrawingBlipEffects.RemoveColorReplace()
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveColorReplace
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 149
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nRemoves a duotone effect.\n"
+  example: []
+  syntax:
+    content: public void RemoveColorReplace()
+    content.vb: Public Sub RemoveColorReplace
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace
+  id: ColorReplace
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  langs:
+  - csharp
+  - vb
+  name: ColorReplace
+  nameWithType: ExcelDrawingBlipEffects.ColorReplace
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorReplace
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
+    startLine: 157
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nAdds color replacement effect.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingColorReplaceEffect ColorReplace { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorReplaceEffect
+    content.vb: Public ReadOnly Property ColorReplace As ExcelDrawingColorReplaceEffect
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Style.Fill
+  commentId: N:OfficeOpenXml.Drawing.Style.Fill
+  name: OfficeOpenXml.Drawing.Style.Fill
+  nameWithType: OfficeOpenXml.Drawing.Style.Fill
+  fullName: OfficeOpenXml.Drawing.Style.Fill
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone
+  name: AddDuotone
+  nameWithType: ExcelDrawingBlipEffects.AddDuotone
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddDuotone
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone
+  name: RemoveDuotone
+  nameWithType: ExcelDrawingBlipEffects.RemoveDuotone
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveDuotone
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone
+  name: Duotone
+  nameWithType: ExcelDrawingBlipEffects.Duotone
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.Duotone
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingDuotoneEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingDuotoneEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingDuotoneEffect
+  nameWithType: ExcelDrawingDuotoneEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingDuotoneEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect
+  commentId: N:OfficeOpenXml.Drawing.Style.Effect
+  name: OfficeOpenXml.Drawing.Style.Effect
+  nameWithType: OfficeOpenXml.Drawing.Style.Effect
+  fullName: OfficeOpenXml.Drawing.Style.Effect
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange
+  name: AddColorChange
+  nameWithType: ExcelDrawingBlipEffects.AddColorChange
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorChange
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange
+  name: RemoveColorChange
+  nameWithType: ExcelDrawingBlipEffects.RemoveColorChange
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorChange
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange
+  name: ColorChange
+  nameWithType: ExcelDrawingBlipEffects.ColorChange
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorChange
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorChangeEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorChangeEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingColorChangeEffect
+  nameWithType: ExcelDrawingColorChangeEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorChangeEffect
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace
+  name: AddColorReplace
+  nameWithType: ExcelDrawingBlipEffects.AddColorReplace
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.AddColorReplace
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace
+  name: RemoveColorReplace
+  nameWithType: ExcelDrawingBlipEffects.RemoveColorReplace
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.RemoveColorReplace
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace
+  name: ColorReplace
+  nameWithType: ExcelDrawingBlipEffects.ColorReplace
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects.ColorReplace
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorReplaceEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorReplaceEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingColorReplaceEffect
+  nameWithType: ExcelDrawingColorReplaceEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorReplaceEffect

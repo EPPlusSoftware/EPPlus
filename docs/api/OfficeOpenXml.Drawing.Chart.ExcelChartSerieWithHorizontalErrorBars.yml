@@ -1,0 +1,892 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  id: ExcelChartSerieWithHorizontalErrorBars
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartSerieWithHorizontalErrorBars
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartSerieWithHorizontalErrorBars
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA base class used for chart series that support ErrorBars\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartSerieWithHorizontalErrorBars : ExcelChartSerieWithErrorBars'
+    content.vb: >-
+      Public Class ExcelChartSerieWithHorizontalErrorBars
+          Inherits ExcelChartSerieWithErrorBars
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  derivedClasses:
+  - OfficeOpenXml.Drawing.Chart.ExcelAreaChartSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  id: ErrorBarsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  langs:
+  - csharp
+  - vb
+  name: ErrorBarsX
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ErrorBarsX
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nHorizontal error bars\n<xref href=\"OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType%2cOfficeOpenXml.Drawing.eErrorValueType)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelChartErrorBars ErrorBarsX { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartErrorBars
+    content.vb: Public ReadOnly Property ErrorBarsX As ExcelChartErrorBars
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  id: AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  langs:
+  - csharp
+  - vb
+  name: AddErrorBars(eErrorBarType, eErrorValueType)
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(eErrorBarType, eErrorValueType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddErrorBars
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds error bars to the chart serie for both vertical and horizontal directions.\n"
+  example: []
+  syntax:
+    content: public override void AddErrorBars(eErrorBarType barType, eErrorValueType valueType)
+    parameters:
+    - id: barType
+      type: OfficeOpenXml.Drawing.eErrorBarType
+      description: The type of error bars
+    - id: valueType
+      type: OfficeOpenXml.Drawing.eErrorValueType
+      description: The type of value the error bars will show
+    content.vb: Public Overrides Sub AddErrorBars(barType As eErrorBarType, valueType As eErrorValueType)
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+  id: AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  langs:
+  - csharp
+  - vb
+  name: AddErrorBars(eErrorBarType, eErrorValueType, Nullable<eErrorBarDirection>)
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(eErrorBarType, eErrorValueType, Nullable<eErrorBarDirection>)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType, System.Nullable<OfficeOpenXml.Drawing.eErrorBarDirection>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddErrorBars
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds error bars to the chart serie for vertical or horizontal directions.\n"
+  example: []
+  syntax:
+    content: public void AddErrorBars(eErrorBarType barType, eErrorValueType valueType, eErrorBarDirection? direction)
+    parameters:
+    - id: barType
+      type: OfficeOpenXml.Drawing.eErrorBarType
+      description: The type of error bars
+    - id: valueType
+      type: OfficeOpenXml.Drawing.eErrorValueType
+      description: The type of value the error bars will show
+    - id: direction
+      type: System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection}
+      description: 'Direction for the error bars. A value of null will add both horizontal and vertical error bars. '
+    content.vb: Public Sub AddErrorBars(barType As eErrorBarType, valueType As eErrorValueType, direction As eErrorBarDirection?)
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars*
+  nameWithType.vb: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(eErrorBarType, eErrorValueType, Nullable(Of eErrorBarDirection))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType, System.Nullable(Of OfficeOpenXml.Drawing.eErrorBarDirection))
+  name.vb: AddErrorBars(eErrorBarType, eErrorValueType, Nullable(Of eErrorBarDirection))
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerie
+  nameWithType: ExcelChartSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartStandardSerie
+  nameWithType: ExcelChartStandardSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerieWithErrorBars
+  nameWithType: ExcelChartSerieWithErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  name: ErrorBars
+  nameWithType: ExcelChartSerieWithErrorBars.ErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  name: HasErrorBars()
+  nameWithType: ExcelChartSerieWithErrorBars.HasErrorBars()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+    name: HasErrorBars
+    nameWithType: ExcelChartSerieWithErrorBars.HasErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+    name: HasErrorBars
+    nameWithType: ExcelChartSerieWithErrorBars.HasErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: Header
+  nameWithType: ExcelChartStandardSerie.Header
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: HeaderAddress
+  nameWithType: ExcelChartStandardSerie.HeaderAddress
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: Series
+  nameWithType: ExcelChartStandardSerie.Series
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: XSeries
+  nameWithType: ExcelChartStandardSerie.XSeries
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: TrendLines
+  nameWithType: ExcelChartStandardSerie.TrendLines
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: NumberOfItems
+  nameWithType: ExcelChartStandardSerie.NumberOfItems
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: CreateCache()
+  nameWithType: ExcelChartStandardSerie.CreateCache()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+    name: CreateCache
+    nameWithType: ExcelChartStandardSerie.CreateCache
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+    name: CreateCache
+    nameWithType: ExcelChartStandardSerie.CreateCache
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsY
+  nameWithType: ExcelChartSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsX
+  nameWithType: ExcelChartSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsX
+  nameWithType: ExcelChartSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Fill
+  nameWithType: ExcelChartSerie.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Border
+  nameWithType: ExcelChartSerie.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Effect
+  nameWithType: ExcelChartSerie.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: ThreeD
+  nameWithType: ExcelChartSerie.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  name: ErrorBarsX
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  name: AddErrorBars(eErrorBarType, eErrorValueType)
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(eErrorBarType, eErrorValueType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  name: ErrorBarsX
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartErrorBars
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartErrorBars
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartErrorBars
+  nameWithType: ExcelChartErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartErrorBars
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerieWithHorizontalErrorBars
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  name: AddErrorBars(eErrorBarType, eErrorValueType)
+  nameWithType: ExcelChartSerieWithErrorBars.AddErrorBars(eErrorBarType, eErrorValueType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  name: AddErrorBars
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+- uid: OfficeOpenXml.Drawing.eErrorBarType
+  commentId: T:OfficeOpenXml.Drawing.eErrorBarType
+  parent: OfficeOpenXml.Drawing
+  name: eErrorBarType
+  nameWithType: eErrorBarType
+  fullName: OfficeOpenXml.Drawing.eErrorBarType
+- uid: OfficeOpenXml.Drawing.eErrorValueType
+  commentId: T:OfficeOpenXml.Drawing.eErrorValueType
+  parent: OfficeOpenXml.Drawing
+  name: eErrorValueType
+  nameWithType: eErrorValueType
+  fullName: OfficeOpenXml.Drawing.eErrorValueType
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eErrorBarDirection>
+  nameWithType: Nullable<eErrorBarDirection>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.eErrorBarDirection>
+  nameWithType.vb: Nullable(Of eErrorBarDirection)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.eErrorBarDirection)
+  name.vb: Nullable(Of eErrorBarDirection)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.eErrorBarDirection
+    name: eErrorBarDirection
+    nameWithType: eErrorBarDirection
+    fullName: OfficeOpenXml.Drawing.eErrorBarDirection
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.eErrorBarDirection
+    name: eErrorBarDirection
+    nameWithType: eErrorBarDirection
+    fullName: OfficeOpenXml.Drawing.eErrorBarDirection
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  id: eRegionLabelLayout
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.All
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.BestFitOnly
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.None
+  langs:
+  - csharp
+  - vb
+  name: eRegionLabelLayout
+  nameWithType: eRegionLabelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eRegionLabelLayout
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe layout type for region labels of a geospatial series\n"
+  example: []
+  syntax:
+    content: public enum eRegionLabelLayout
+    content.vb: Public Enum eRegionLabelLayout
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.None
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eRegionLabelLayout.None
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nNo region labels appear in a geospatial series\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.BestFitOnly
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.BestFitOnly
+  id: BestFitOnly
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  langs:
+  - csharp
+  - vb
+  name: BestFitOnly
+  nameWithType: eRegionLabelLayout.BestFitOnly
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.BestFitOnly
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BestFitOnly
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nRegion labels only appear if they can fit in their respective containing geometries in a geospatial series\n"
+  example: []
+  syntax:
+    content: BestFitOnly = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.All
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.All
+  id: All
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: eRegionLabelLayout.All
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout.All
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: All
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eRegionLabelLayout.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nAll region labels appear\n"
+  example: []
+  syntax:
+    content: All = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eRegionLabelLayout
+  nameWithType: eRegionLabelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout

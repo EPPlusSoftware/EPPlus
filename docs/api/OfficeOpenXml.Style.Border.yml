@@ -1,0 +1,770 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Border
+  commentId: T:OfficeOpenXml.Style.Border
+  id: Border
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
+  - OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
+  - OfficeOpenXml.Style.Border.Bottom
+  - OfficeOpenXml.Style.Border.Diagonal
+  - OfficeOpenXml.Style.Border.DiagonalDown
+  - OfficeOpenXml.Style.Border.DiagonalUp
+  - OfficeOpenXml.Style.Border.Left
+  - OfficeOpenXml.Style.Border.Right
+  - OfficeOpenXml.Style.Border.Top
+  langs:
+  - csharp
+  - vb
+  name: Border
+  nameWithType: Border
+  fullName: OfficeOpenXml.Style.Border
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Border
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCell Border style\n"
+  example: []
+  syntax:
+    content: 'public sealed class Border : StyleBase'
+    content.vb: >-
+      Public NotInheritable Class Border
+          Inherits StyleBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Style.StyleBase
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Style.Border.Left
+  commentId: P:OfficeOpenXml.Style.Border.Left
+  id: Left
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: Border.Left
+  fullName: OfficeOpenXml.Style.Border.Left
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLeft border style\n"
+  example: []
+  syntax:
+    content: public ExcelBorderItem Left { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderItem
+    content.vb: Public ReadOnly Property Left As ExcelBorderItem
+  overload: OfficeOpenXml.Style.Border.Left*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Border.Right
+  commentId: P:OfficeOpenXml.Style.Border.Right
+  id: Right
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: Border.Right
+  fullName: OfficeOpenXml.Style.Border.Right
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nRight border style\n"
+  example: []
+  syntax:
+    content: public ExcelBorderItem Right { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderItem
+    content.vb: Public ReadOnly Property Right As ExcelBorderItem
+  overload: OfficeOpenXml.Style.Border.Right*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Border.Top
+  commentId: P:OfficeOpenXml.Style.Border.Top
+  id: Top
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: Border.Top
+  fullName: OfficeOpenXml.Style.Border.Top
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nTop border style\n"
+  example: []
+  syntax:
+    content: public ExcelBorderItem Top { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderItem
+    content.vb: Public ReadOnly Property Top As ExcelBorderItem
+  overload: OfficeOpenXml.Style.Border.Top*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Border.Bottom
+  commentId: P:OfficeOpenXml.Style.Border.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: Border.Bottom
+  fullName: OfficeOpenXml.Style.Border.Bottom
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBottom border style\n"
+  example: []
+  syntax:
+    content: public ExcelBorderItem Bottom { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderItem
+    content.vb: Public ReadOnly Property Bottom As ExcelBorderItem
+  overload: OfficeOpenXml.Style.Border.Bottom*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Border.Diagonal
+  commentId: P:OfficeOpenXml.Style.Border.Diagonal
+  id: Diagonal
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: Diagonal
+  nameWithType: Border.Diagonal
+  fullName: OfficeOpenXml.Style.Border.Diagonal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Diagonal
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\n0Diagonal border style\n"
+  example: []
+  syntax:
+    content: public ExcelBorderItem Diagonal { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelBorderItem
+    content.vb: Public ReadOnly Property Diagonal As ExcelBorderItem
+  overload: OfficeOpenXml.Style.Border.Diagonal*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Border.DiagonalUp
+  commentId: P:OfficeOpenXml.Style.Border.DiagonalUp
+  id: DiagonalUp
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: DiagonalUp
+  nameWithType: Border.DiagonalUp
+  fullName: OfficeOpenXml.Style.Border.DiagonalUp
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DiagonalUp
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA diagonal from the bottom left to top right of the cell\n"
+  example: []
+  syntax:
+    content: public bool DiagonalUp { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DiagonalUp As Boolean
+  overload: OfficeOpenXml.Style.Border.DiagonalUp*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Border.DiagonalDown
+  commentId: P:OfficeOpenXml.Style.Border.DiagonalDown
+  id: DiagonalDown
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: DiagonalDown
+  nameWithType: Border.DiagonalDown
+  fullName: OfficeOpenXml.Style.Border.DiagonalDown
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DiagonalDown
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA diagonal from the top left to bottom right of the cell\n"
+  example: []
+  syntax:
+    content: public bool DiagonalDown { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DiagonalDown As Boolean
+  overload: OfficeOpenXml.Style.Border.DiagonalDown*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
+  commentId: M:OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
+  id: BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: BorderAround(ExcelBorderStyle)
+  nameWithType: Border.BorderAround(ExcelBorderStyle)
+  fullName: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BorderAround
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the border style around the range.\n"
+  example: []
+  syntax:
+    content: public void BorderAround(ExcelBorderStyle Style)
+    parameters:
+    - id: Style
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+      description: The border style
+    content.vb: Public Sub BorderAround(Style As ExcelBorderStyle)
+  overload: OfficeOpenXml.Style.Border.BorderAround*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
+  commentId: M:OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
+  id: BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
+  parent: OfficeOpenXml.Style.Border
+  langs:
+  - csharp
+  - vb
+  name: BorderAround(ExcelBorderStyle, Color)
+  nameWithType: Border.BorderAround(ExcelBorderStyle, Color)
+  fullName: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle, System.Drawing.Color)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelBorder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BorderAround
+    path: ../src/EPPlus/Style/ExcelBorder.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the border style around the range.\n"
+  example: []
+  syntax:
+    content: public void BorderAround(ExcelBorderStyle Style, Color Color)
+    parameters:
+    - id: Style
+      type: OfficeOpenXml.Style.ExcelBorderStyle
+      description: The border style
+    - id: Color
+      type: System.Drawing.Color
+      description: The color of the border
+    content.vb: Public Sub BorderAround(Style As ExcelBorderStyle, Color As Color)
+  overload: OfficeOpenXml.Style.Border.BorderAround*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Style.StyleBase
+  commentId: T:OfficeOpenXml.Style.StyleBase
+  parent: OfficeOpenXml.Style
+  name: StyleBase
+  nameWithType: StyleBase
+  fullName: OfficeOpenXml.Style.StyleBase
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Style.Border.Left*
+  commentId: Overload:OfficeOpenXml.Style.Border.Left
+  name: Left
+  nameWithType: Border.Left
+  fullName: OfficeOpenXml.Style.Border.Left
+- uid: OfficeOpenXml.Style.ExcelBorderItem
+  commentId: T:OfficeOpenXml.Style.ExcelBorderItem
+  parent: OfficeOpenXml.Style
+  name: ExcelBorderItem
+  nameWithType: ExcelBorderItem
+  fullName: OfficeOpenXml.Style.ExcelBorderItem
+- uid: OfficeOpenXml.Style.Border.Right*
+  commentId: Overload:OfficeOpenXml.Style.Border.Right
+  name: Right
+  nameWithType: Border.Right
+  fullName: OfficeOpenXml.Style.Border.Right
+- uid: OfficeOpenXml.Style.Border.Top*
+  commentId: Overload:OfficeOpenXml.Style.Border.Top
+  name: Top
+  nameWithType: Border.Top
+  fullName: OfficeOpenXml.Style.Border.Top
+- uid: OfficeOpenXml.Style.Border.Bottom*
+  commentId: Overload:OfficeOpenXml.Style.Border.Bottom
+  name: Bottom
+  nameWithType: Border.Bottom
+  fullName: OfficeOpenXml.Style.Border.Bottom
+- uid: OfficeOpenXml.Style.Border.Diagonal*
+  commentId: Overload:OfficeOpenXml.Style.Border.Diagonal
+  name: Diagonal
+  nameWithType: Border.Diagonal
+  fullName: OfficeOpenXml.Style.Border.Diagonal
+- uid: OfficeOpenXml.Style.Border.DiagonalUp*
+  commentId: Overload:OfficeOpenXml.Style.Border.DiagonalUp
+  name: DiagonalUp
+  nameWithType: Border.DiagonalUp
+  fullName: OfficeOpenXml.Style.Border.DiagonalUp
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.Border.DiagonalDown*
+  commentId: Overload:OfficeOpenXml.Style.Border.DiagonalDown
+  name: DiagonalDown
+  nameWithType: Border.DiagonalDown
+  fullName: OfficeOpenXml.Style.Border.DiagonalDown
+- uid: OfficeOpenXml.Style.Border.BorderAround*
+  commentId: Overload:OfficeOpenXml.Style.Border.BorderAround
+  name: BorderAround
+  nameWithType: Border.BorderAround
+  fullName: OfficeOpenXml.Style.Border.BorderAround
+- uid: OfficeOpenXml.Style.ExcelBorderStyle
+  commentId: T:OfficeOpenXml.Style.ExcelBorderStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelBorderStyle
+  nameWithType: ExcelBorderStyle
+  fullName: OfficeOpenXml.Style.ExcelBorderStyle
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing

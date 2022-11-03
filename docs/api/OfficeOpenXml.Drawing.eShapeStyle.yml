@@ -1,0 +1,6593 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eShapeStyle
+  commentId: T:OfficeOpenXml.Drawing.eShapeStyle
+  id: eShapeStyle
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout1
+  - OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout2
+  - OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout3
+  - OfficeOpenXml.Drawing.eShapeStyle.AccentCallout1
+  - OfficeOpenXml.Drawing.eShapeStyle.AccentCallout2
+  - OfficeOpenXml.Drawing.eShapeStyle.AccentCallout3
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBackPrevious
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBeginning
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBlank
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonDocument
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonEnd
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonForwardNext
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHelp
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHome
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonInformation
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonMovie
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonReturn
+  - OfficeOpenXml.Drawing.eShapeStyle.ActionButtonSound
+  - OfficeOpenXml.Drawing.eShapeStyle.Arc
+  - OfficeOpenXml.Drawing.eShapeStyle.BentArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.BentConnector2
+  - OfficeOpenXml.Drawing.eShapeStyle.BentConnector3
+  - OfficeOpenXml.Drawing.eShapeStyle.BentConnector4
+  - OfficeOpenXml.Drawing.eShapeStyle.BentConnector5
+  - OfficeOpenXml.Drawing.eShapeStyle.BentUpArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.Bevel
+  - OfficeOpenXml.Drawing.eShapeStyle.BlockArc
+  - OfficeOpenXml.Drawing.eShapeStyle.BorderCallout1
+  - OfficeOpenXml.Drawing.eShapeStyle.BorderCallout2
+  - OfficeOpenXml.Drawing.eShapeStyle.BorderCallout3
+  - OfficeOpenXml.Drawing.eShapeStyle.BracePair
+  - OfficeOpenXml.Drawing.eShapeStyle.BracketPair
+  - OfficeOpenXml.Drawing.eShapeStyle.Callout1
+  - OfficeOpenXml.Drawing.eShapeStyle.Callout2
+  - OfficeOpenXml.Drawing.eShapeStyle.Callout3
+  - OfficeOpenXml.Drawing.eShapeStyle.Can
+  - OfficeOpenXml.Drawing.eShapeStyle.ChartPlus
+  - OfficeOpenXml.Drawing.eShapeStyle.ChartStar
+  - OfficeOpenXml.Drawing.eShapeStyle.ChartX
+  - OfficeOpenXml.Drawing.eShapeStyle.Chevron
+  - OfficeOpenXml.Drawing.eShapeStyle.Chord
+  - OfficeOpenXml.Drawing.eShapeStyle.CircularArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.Cloud
+  - OfficeOpenXml.Drawing.eShapeStyle.CloudCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.Corner
+  - OfficeOpenXml.Drawing.eShapeStyle.CornerTabs
+  - OfficeOpenXml.Drawing.eShapeStyle.Cube
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector2
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector3
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector4
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector5
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedDownArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedLeftArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedRightArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.CurvedUpArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.Decagon
+  - OfficeOpenXml.Drawing.eShapeStyle.DiagStripe
+  - OfficeOpenXml.Drawing.eShapeStyle.Diamond
+  - OfficeOpenXml.Drawing.eShapeStyle.Dodecagon
+  - OfficeOpenXml.Drawing.eShapeStyle.Donut
+  - OfficeOpenXml.Drawing.eShapeStyle.DoubleWave
+  - OfficeOpenXml.Drawing.eShapeStyle.DownArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.DownArrowCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.Ellipse
+  - OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon
+  - OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon2
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartAlternateProcess
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartCollate
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartConnector
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartDecision
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartDelay
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartDisplay
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartDocument
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartExtract
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartInputOutput
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartInternalStorage
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDisk
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDrum
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticTape
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualInput
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualOperation
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartMerge
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartMultidocument
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartOfflineStorage
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartOffpageConnector
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartOnlineStorage
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartOr
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartPredefinedProcess
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartPreparation
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartProcess
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedCard
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedTape
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartSort
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartSummingJunction
+  - OfficeOpenXml.Drawing.eShapeStyle.FlowChartTerminator
+  - OfficeOpenXml.Drawing.eShapeStyle.FoldedCorner
+  - OfficeOpenXml.Drawing.eShapeStyle.Frame
+  - OfficeOpenXml.Drawing.eShapeStyle.Funnel
+  - OfficeOpenXml.Drawing.eShapeStyle.Gear6
+  - OfficeOpenXml.Drawing.eShapeStyle.Gear9
+  - OfficeOpenXml.Drawing.eShapeStyle.HalfFrame
+  - OfficeOpenXml.Drawing.eShapeStyle.Heart
+  - OfficeOpenXml.Drawing.eShapeStyle.Heptagon
+  - OfficeOpenXml.Drawing.eShapeStyle.Hexagon
+  - OfficeOpenXml.Drawing.eShapeStyle.HomePlate
+  - OfficeOpenXml.Drawing.eShapeStyle.HorizontalScroll
+  - OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal1
+  - OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal2
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftArrowCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftBrace
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftBracket
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftCircularArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrowCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftRightCircularArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftRightRibbon
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftRightUpArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.LeftUpArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.LightningBolt
+  - OfficeOpenXml.Drawing.eShapeStyle.Line
+  - OfficeOpenXml.Drawing.eShapeStyle.LineInv
+  - OfficeOpenXml.Drawing.eShapeStyle.MathDivide
+  - OfficeOpenXml.Drawing.eShapeStyle.MathEqual
+  - OfficeOpenXml.Drawing.eShapeStyle.MathMinus
+  - OfficeOpenXml.Drawing.eShapeStyle.MathMultiply
+  - OfficeOpenXml.Drawing.eShapeStyle.MathNotEqual
+  - OfficeOpenXml.Drawing.eShapeStyle.MathPlus
+  - OfficeOpenXml.Drawing.eShapeStyle.Moon
+  - OfficeOpenXml.Drawing.eShapeStyle.NonIsoscelesTrapezoid
+  - OfficeOpenXml.Drawing.eShapeStyle.NoSmoking
+  - OfficeOpenXml.Drawing.eShapeStyle.NotchedRightArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.Octagon
+  - OfficeOpenXml.Drawing.eShapeStyle.Parallelogram
+  - OfficeOpenXml.Drawing.eShapeStyle.Pentagon
+  - OfficeOpenXml.Drawing.eShapeStyle.Pie
+  - OfficeOpenXml.Drawing.eShapeStyle.PieWedge
+  - OfficeOpenXml.Drawing.eShapeStyle.Plaque
+  - OfficeOpenXml.Drawing.eShapeStyle.PlaqueTabs
+  - OfficeOpenXml.Drawing.eShapeStyle.Plus
+  - OfficeOpenXml.Drawing.eShapeStyle.QuadArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.QuadArrowCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.Rect
+  - OfficeOpenXml.Drawing.eShapeStyle.Ribbon
+  - OfficeOpenXml.Drawing.eShapeStyle.Ribbon2
+  - OfficeOpenXml.Drawing.eShapeStyle.RightArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.RightArrowCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.RightBrace
+  - OfficeOpenXml.Drawing.eShapeStyle.RightBracket
+  - OfficeOpenXml.Drawing.eShapeStyle.Round1Rect
+  - OfficeOpenXml.Drawing.eShapeStyle.Round2DiagRect
+  - OfficeOpenXml.Drawing.eShapeStyle.Round2SameRect
+  - OfficeOpenXml.Drawing.eShapeStyle.RoundRect
+  - OfficeOpenXml.Drawing.eShapeStyle.RtTriangle
+  - OfficeOpenXml.Drawing.eShapeStyle.SmileyFace
+  - OfficeOpenXml.Drawing.eShapeStyle.Snip1Rect
+  - OfficeOpenXml.Drawing.eShapeStyle.Snip2DiagRect
+  - OfficeOpenXml.Drawing.eShapeStyle.Snip2SameRect
+  - OfficeOpenXml.Drawing.eShapeStyle.SnipRoundRect
+  - OfficeOpenXml.Drawing.eShapeStyle.SquareTabs
+  - OfficeOpenXml.Drawing.eShapeStyle.Star10
+  - OfficeOpenXml.Drawing.eShapeStyle.Star12
+  - OfficeOpenXml.Drawing.eShapeStyle.Star16
+  - OfficeOpenXml.Drawing.eShapeStyle.Star24
+  - OfficeOpenXml.Drawing.eShapeStyle.Star32
+  - OfficeOpenXml.Drawing.eShapeStyle.Star4
+  - OfficeOpenXml.Drawing.eShapeStyle.Star5
+  - OfficeOpenXml.Drawing.eShapeStyle.Star6
+  - OfficeOpenXml.Drawing.eShapeStyle.Star7
+  - OfficeOpenXml.Drawing.eShapeStyle.Star8
+  - OfficeOpenXml.Drawing.eShapeStyle.StraightConnector1
+  - OfficeOpenXml.Drawing.eShapeStyle.StripedRightArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.Sun
+  - OfficeOpenXml.Drawing.eShapeStyle.SwooshArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.Teardrop
+  - OfficeOpenXml.Drawing.eShapeStyle.Trapezoid
+  - OfficeOpenXml.Drawing.eShapeStyle.Triangle
+  - OfficeOpenXml.Drawing.eShapeStyle.UpArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.UpArrowCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.UpDownArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.UpDownArrowCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.UturnArrow
+  - OfficeOpenXml.Drawing.eShapeStyle.VerticalScroll
+  - OfficeOpenXml.Drawing.eShapeStyle.Wave
+  - OfficeOpenXml.Drawing.eShapeStyle.WedgeEllipseCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.WedgeRectCallout
+  - OfficeOpenXml.Drawing.eShapeStyle.WedgeRoundRectCallout
+  langs:
+  - csharp
+  - vb
+  name: eShapeStyle
+  nameWithType: eShapeStyle
+  fullName: OfficeOpenXml.Drawing.eShapeStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eShapeStyle
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nShape style\n"
+  example: []
+  syntax:
+    content: public enum eShapeStyle
+    content.vb: Public Enum eShapeStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout1
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout1
+  id: AccentBorderCallout1
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: AccentBorderCallout1
+  nameWithType: eShapeStyle.AccentBorderCallout1
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AccentBorderCallout1
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: with border and accent bar\n"
+  example: []
+  syntax:
+    content: AccentBorderCallout1 = 0
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout2
+  id: AccentBorderCallout2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: AccentBorderCallout2
+  nameWithType: eShapeStyle.AccentBorderCallout2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AccentBorderCallout2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: with bent line and accent bar\n"
+  example: []
+  syntax:
+    content: AccentBorderCallout2 = 1
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout3
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout3
+  id: AccentBorderCallout3
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: AccentBorderCallout3
+  nameWithType: eShapeStyle.AccentBorderCallout3
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.AccentBorderCallout3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AccentBorderCallout3
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: with double bent line and accent bar\n"
+  example: []
+  syntax:
+    content: AccentBorderCallout3 = 2
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.AccentCallout1
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.AccentCallout1
+  id: AccentCallout1
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: AccentCallout1
+  nameWithType: eShapeStyle.AccentCallout1
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.AccentCallout1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AccentCallout1
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: with line\n"
+  example: []
+  syntax:
+    content: AccentCallout1 = 3
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.AccentCallout2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.AccentCallout2
+  id: AccentCallout2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: AccentCallout2
+  nameWithType: eShapeStyle.AccentCallout2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.AccentCallout2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AccentCallout2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: with bent line\n"
+  example: []
+  syntax:
+    content: AccentCallout2 = 4
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.AccentCallout3
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.AccentCallout3
+  id: AccentCallout3
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: AccentCallout3
+  nameWithType: eShapeStyle.AccentCallout3
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.AccentCallout3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AccentCallout3
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: with double bent line\n"
+  example: []
+  syntax:
+    content: AccentCallout3 = 5
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBackPrevious
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBackPrevious
+  id: ActionButtonBackPrevious
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonBackPrevious
+  nameWithType: eShapeStyle.ActionButtonBackPrevious
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBackPrevious
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonBackPrevious
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Back &lt;\n"
+  example: []
+  syntax:
+    content: ActionButtonBackPrevious = 6
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBeginning
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBeginning
+  id: ActionButtonBeginning
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonBeginning
+  nameWithType: eShapeStyle.ActionButtonBeginning
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBeginning
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonBeginning
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Begining |&lt;\n"
+  example: []
+  syntax:
+    content: ActionButtonBeginning = 7
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBlank
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBlank
+  id: ActionButtonBlank
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonBlank
+  nameWithType: eShapeStyle.ActionButtonBlank
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonBlank
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonBlank
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Blank\n"
+  example: []
+  syntax:
+    content: ActionButtonBlank = 8
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonDocument
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonDocument
+  id: ActionButtonDocument
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonDocument
+  nameWithType: eShapeStyle.ActionButtonDocument
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonDocument
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonDocument
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: with document icon\n"
+  example: []
+  syntax:
+    content: ActionButtonDocument = 9
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonEnd
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonEnd
+  id: ActionButtonEnd
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonEnd
+  nameWithType: eShapeStyle.ActionButtonEnd
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonEnd
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonEnd
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: End >|\n"
+  example: []
+  syntax:
+    content: ActionButtonEnd = 10
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonForwardNext
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonForwardNext
+  id: ActionButtonForwardNext
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonForwardNext
+  nameWithType: eShapeStyle.ActionButtonForwardNext
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonForwardNext
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonForwardNext
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Next >\n"
+  example: []
+  syntax:
+    content: ActionButtonForwardNext = 11
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHelp
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHelp
+  id: ActionButtonHelp
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonHelp
+  nameWithType: eShapeStyle.ActionButtonHelp
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHelp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonHelp
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Help ?\n"
+  example: []
+  syntax:
+    content: ActionButtonHelp = 12
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHome
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHome
+  id: ActionButtonHome
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonHome
+  nameWithType: eShapeStyle.ActionButtonHome
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonHome
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonHome
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Home icon\n"
+  example: []
+  syntax:
+    content: ActionButtonHome = 13
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonInformation
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonInformation
+  id: ActionButtonInformation
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonInformation
+  nameWithType: eShapeStyle.ActionButtonInformation
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonInformation
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonInformation
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Information \U0001F6C8\n"
+  example: []
+  syntax:
+    content: ActionButtonInformation = 14
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonMovie
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonMovie
+  id: ActionButtonMovie
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonMovie
+  nameWithType: eShapeStyle.ActionButtonMovie
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonMovie
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonMovie
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Camera icon\n"
+  example: []
+  syntax:
+    content: ActionButtonMovie = 15
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonReturn
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonReturn
+  id: ActionButtonReturn
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonReturn
+  nameWithType: eShapeStyle.ActionButtonReturn
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonReturn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonReturn
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: U-turn icon.\n"
+  example: []
+  syntax:
+    content: ActionButtonReturn = 16
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonSound
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ActionButtonSound
+  id: ActionButtonSound
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ActionButtonSound
+  nameWithType: eShapeStyle.ActionButtonSound
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ActionButtonSound
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActionButtonSound
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAction button: Speaker icon\n"
+  example: []
+  syntax:
+    content: ActionButtonSound = 17
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Arc
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Arc
+  id: Arc
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Arc
+  nameWithType: eShapeStyle.Arc
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Arc
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Arc
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nArc: Quater circle\n"
+  example: []
+  syntax:
+    content: Arc = 18
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BentArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BentArrow
+  id: BentArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BentArrow
+  nameWithType: eShapeStyle.BentArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BentArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BentArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA bent arrow\n"
+  example: []
+  syntax:
+    content: BentArrow = 19
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BentConnector2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BentConnector2
+  id: BentConnector2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BentConnector2
+  nameWithType: eShapeStyle.BentConnector2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BentConnector2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BentConnector2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBent connector 2\n"
+  example: []
+  syntax:
+    content: BentConnector2 = 20
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BentConnector3
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BentConnector3
+  id: BentConnector3
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BentConnector3
+  nameWithType: eShapeStyle.BentConnector3
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BentConnector3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BentConnector3
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBent connector 3\n"
+  example: []
+  syntax:
+    content: BentConnector3 = 21
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BentConnector4
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BentConnector4
+  id: BentConnector4
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BentConnector4
+  nameWithType: eShapeStyle.BentConnector4
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BentConnector4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BentConnector4
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBent connector 4\n"
+  example: []
+  syntax:
+    content: BentConnector4 = 22
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BentConnector5
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BentConnector5
+  id: BentConnector5
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BentConnector5
+  nameWithType: eShapeStyle.BentConnector5
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BentConnector5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BentConnector5
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBent connector 5\n"
+  example: []
+  syntax:
+    content: BentConnector5 = 23
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BentUpArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BentUpArrow
+  id: BentUpArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BentUpArrow
+  nameWithType: eShapeStyle.BentUpArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BentUpArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BentUpArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA bent up arrow\n"
+  example: []
+  syntax:
+    content: BentUpArrow = 24
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Bevel
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Bevel
+  id: Bevel
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Bevel
+  nameWithType: eShapeStyle.Bevel
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Bevel
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bevel
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBevel\n"
+  example: []
+  syntax:
+    content: Bevel = 25
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BlockArc
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BlockArc
+  id: BlockArc
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BlockArc
+  nameWithType: eShapeStyle.BlockArc
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BlockArc
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlockArc
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBlock arc: Half circle\n"
+  example: []
+  syntax:
+    content: BlockArc = 26
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BorderCallout1
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BorderCallout1
+  id: BorderCallout1
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BorderCallout1
+  nameWithType: eShapeStyle.BorderCallout1
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BorderCallout1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BorderCallout1
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Line\n"
+  example: []
+  syntax:
+    content: BorderCallout1 = 27
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BorderCallout2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BorderCallout2
+  id: BorderCallout2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BorderCallout2
+  nameWithType: eShapeStyle.BorderCallout2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BorderCallout2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BorderCallout2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Bent line with border\n"
+  example: []
+  syntax:
+    content: BorderCallout2 = 28
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BorderCallout3
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BorderCallout3
+  id: BorderCallout3
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BorderCallout3
+  nameWithType: eShapeStyle.BorderCallout3
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BorderCallout3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BorderCallout3
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Double bent line with border.\n"
+  example: []
+  syntax:
+    content: BorderCallout3 = 29
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BracePair
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BracePair
+  id: BracePair
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BracePair
+  nameWithType: eShapeStyle.BracePair
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BracePair
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BracePair
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBrace pair: { }\n"
+  example: []
+  syntax:
+    content: BracePair = 30
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.BracketPair
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.BracketPair
+  id: BracketPair
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: BracketPair
+  nameWithType: eShapeStyle.BracketPair
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.BracketPair
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BracketPair
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBracket pair: ( )\n"
+  example: []
+  syntax:
+    content: BracketPair = 31
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Callout1
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Callout1
+  id: Callout1
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Callout1
+  nameWithType: eShapeStyle.Callout1
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Callout1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Callout1
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Line\n"
+  example: []
+  syntax:
+    content: Callout1 = 32
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Callout2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Callout2
+  id: Callout2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Callout2
+  nameWithType: eShapeStyle.Callout2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Callout2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Callout2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Bent line\n"
+  example: []
+  syntax:
+    content: Callout2 = 33
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Callout3
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Callout3
+  id: Callout3
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Callout3
+  nameWithType: eShapeStyle.Callout3
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Callout3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Callout3
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Double bent line\n"
+  example: []
+  syntax:
+    content: Callout3 = 34
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Can
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Can
+  id: Can
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Can
+  nameWithType: eShapeStyle.Can
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Can
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Can
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCan: A cylinder shape\n"
+  example: []
+  syntax:
+    content: Can = 35
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ChartPlus
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ChartPlus
+  id: ChartPlus
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ChartPlus
+  nameWithType: eShapeStyle.ChartPlus
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ChartPlus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ChartPlus
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA plus within a rectangle\n"
+  example: []
+  syntax:
+    content: ChartPlus = 36
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ChartStar
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ChartStar
+  id: ChartStar
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ChartStar
+  nameWithType: eShapeStyle.ChartStar
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ChartStar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ChartStar
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA star within a rectangle\n"
+  example: []
+  syntax:
+    content: ChartStar = 37
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.ChartX
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.ChartX
+  id: ChartX
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: ChartX
+  nameWithType: eShapeStyle.ChartX
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.ChartX
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ChartX
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA x within a rectagle\n"
+  example: []
+  syntax:
+    content: ChartX = 38
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Chevron
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Chevron
+  id: Chevron
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Chevron
+  nameWithType: eShapeStyle.Chevron
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Chevron
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chevron
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCheveron: >\n"
+  example: []
+  syntax:
+    content: Chevron = 39
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Chord
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Chord
+  id: Chord
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Chord
+  nameWithType: eShapeStyle.Chord
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Chord
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chord
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nChord: The quarter of a circle.\n"
+  example: []
+  syntax:
+    content: Chord = 40
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CircularArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CircularArrow
+  id: CircularArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CircularArrow
+  nameWithType: eShapeStyle.CircularArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CircularArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CircularArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA cirular arrow.\n"
+  example: []
+  syntax:
+    content: CircularArrow = 41
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Cloud
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Cloud
+  id: Cloud
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Cloud
+  nameWithType: eShapeStyle.Cloud
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Cloud
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cloud
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA cloud\n"
+  example: []
+  syntax:
+    content: Cloud = 42
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CloudCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CloudCallout
+  id: CloudCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CloudCallout
+  nameWithType: eShapeStyle.CloudCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CloudCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CloudCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Cloud\n"
+  example: []
+  syntax:
+    content: CloudCallout = 43
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Corner
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Corner
+  id: Corner
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Corner
+  nameWithType: eShapeStyle.Corner
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Corner
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Corner
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCorner: L\n"
+  example: []
+  syntax:
+    content: Corner = 44
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CornerTabs
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CornerTabs
+  id: CornerTabs
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CornerTabs
+  nameWithType: eShapeStyle.CornerTabs
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CornerTabs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CornerTabs
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCornder Tabs: Triangle in the corners.\n"
+  example: []
+  syntax:
+    content: CornerTabs = 45
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Cube
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Cube
+  id: Cube
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Cube
+  nameWithType: eShapeStyle.Cube
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Cube
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cube
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA 3D cube shape.\n"
+  example: []
+  syntax:
+    content: Cube = 46
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector2
+  id: CurvedConnector2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedConnector2
+  nameWithType: eShapeStyle.CurvedConnector2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedConnector2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Connector 2\n"
+  example: []
+  syntax:
+    content: CurvedConnector2 = 47
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector3
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector3
+  id: CurvedConnector3
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedConnector3
+  nameWithType: eShapeStyle.CurvedConnector3
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedConnector3
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Connector 3\n"
+  example: []
+  syntax:
+    content: CurvedConnector3 = 48
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector4
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector4
+  id: CurvedConnector4
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedConnector4
+  nameWithType: eShapeStyle.CurvedConnector4
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedConnector4
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Connector 4\n"
+  example: []
+  syntax:
+    content: CurvedConnector4 = 49
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector5
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector5
+  id: CurvedConnector5
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedConnector5
+  nameWithType: eShapeStyle.CurvedConnector5
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedConnector5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedConnector5
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Connector 5\n"
+  example: []
+  syntax:
+    content: CurvedConnector5 = 50
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedDownArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedDownArrow
+  id: CurvedDownArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedDownArrow
+  nameWithType: eShapeStyle.CurvedDownArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedDownArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedDownArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Arrow: Down\n"
+  example: []
+  syntax:
+    content: CurvedDownArrow = 51
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedLeftArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedLeftArrow
+  id: CurvedLeftArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedLeftArrow
+  nameWithType: eShapeStyle.CurvedLeftArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedLeftArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedLeftArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Arrow: Left\n"
+  example: []
+  syntax:
+    content: CurvedLeftArrow = 52
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedRightArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedRightArrow
+  id: CurvedRightArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedRightArrow
+  nameWithType: eShapeStyle.CurvedRightArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedRightArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedRightArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Arrow: Right\n"
+  example: []
+  syntax:
+    content: CurvedRightArrow = 53
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.CurvedUpArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.CurvedUpArrow
+  id: CurvedUpArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: CurvedUpArrow
+  nameWithType: eShapeStyle.CurvedUpArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.CurvedUpArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurvedUpArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCurved Arrow: Up\n"
+  example: []
+  syntax:
+    content: CurvedUpArrow = 54
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Decagon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Decagon
+  id: Decagon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Decagon
+  nameWithType: eShapeStyle.Decagon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Decagon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Decagon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA decagon: 10 corners\n"
+  example: []
+  syntax:
+    content: Decagon = 55
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.DiagStripe
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.DiagStripe
+  id: DiagStripe
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: DiagStripe
+  nameWithType: eShapeStyle.DiagStripe
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.DiagStripe
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DiagStripe
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA diagonal stripe\n"
+  example: []
+  syntax:
+    content: DiagStripe = 56
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Diamond
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Diamond
+  id: Diamond
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Diamond
+  nameWithType: eShapeStyle.Diamond
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Diamond
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Diamond
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA diamond shape\n"
+  example: []
+  syntax:
+    content: Diamond = 57
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Dodecagon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Dodecagon
+  id: Dodecagon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Dodecagon
+  nameWithType: eShapeStyle.Dodecagon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Dodecagon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dodecagon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Dodecagon: 12 corners\n"
+  example: []
+  syntax:
+    content: Dodecagon = 58
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Donut
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Donut
+  id: Donut
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Donut
+  nameWithType: eShapeStyle.Donut
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Donut
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Donut
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA donut shape\n"
+  example: []
+  syntax:
+    content: Donut = 59
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.DoubleWave
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.DoubleWave
+  id: DoubleWave
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: DoubleWave
+  nameWithType: eShapeStyle.DoubleWave
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.DoubleWave
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DoubleWave
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDouble wave\n"
+  example: []
+  syntax:
+    content: DoubleWave = 60
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.DownArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.DownArrow
+  id: DownArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: DownArrow
+  nameWithType: eShapeStyle.DownArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.DownArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DownArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA down arrow\n"
+  example: []
+  syntax:
+    content: DownArrow = 61
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.DownArrowCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.DownArrowCallout
+  id: DownArrowCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: DownArrowCallout
+  nameWithType: eShapeStyle.DownArrowCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.DownArrowCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DownArrowCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Down arrow\n"
+  example: []
+  syntax:
+    content: DownArrowCallout = 62
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Ellipse
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Ellipse
+  id: Ellipse
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Ellipse
+  nameWithType: eShapeStyle.Ellipse
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Ellipse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ellipse
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAn ellipse\n"
+  example: []
+  syntax:
+    content: Ellipse = 63
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon
+  id: EllipseRibbon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: EllipseRibbon
+  nameWithType: eShapeStyle.EllipseRibbon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EllipseRibbon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 278
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nElipse ribbon: point up\n"
+  example: []
+  syntax:
+    content: EllipseRibbon = 64
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon2
+  id: EllipseRibbon2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: EllipseRibbon2
+  nameWithType: eShapeStyle.EllipseRibbon2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.EllipseRibbon2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EllipseRibbon2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nElipse ribbon: point down   \n"
+  example: []
+  syntax:
+    content: EllipseRibbon2 = 65
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartAlternateProcess
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartAlternateProcess
+  id: FlowChartAlternateProcess
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartAlternateProcess
+  nameWithType: eShapeStyle.FlowChartAlternateProcess
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartAlternateProcess
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartAlternateProcess
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 286
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart:\n"
+  example: []
+  syntax:
+    content: FlowChartAlternateProcess = 66
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartCollate
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartCollate
+  id: FlowChartCollate
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartCollate
+  nameWithType: eShapeStyle.FlowChartCollate
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartCollate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartCollate
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Collate\n"
+  example: []
+  syntax:
+    content: FlowChartCollate = 67
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartConnector
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartConnector
+  id: FlowChartConnector
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartConnector
+  nameWithType: eShapeStyle.FlowChartConnector
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartConnector
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartConnector
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 294
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Connector\n"
+  example: []
+  syntax:
+    content: FlowChartConnector = 68
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDecision
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartDecision
+  id: FlowChartDecision
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartDecision
+  nameWithType: eShapeStyle.FlowChartDecision
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDecision
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartDecision
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 298
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Decision\n"
+  example: []
+  syntax:
+    content: FlowChartDecision = 69
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDelay
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartDelay
+  id: FlowChartDelay
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartDelay
+  nameWithType: eShapeStyle.FlowChartDelay
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDelay
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartDelay
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 302
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Delay\n"
+  example: []
+  syntax:
+    content: FlowChartDelay = 70
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDisplay
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartDisplay
+  id: FlowChartDisplay
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartDisplay
+  nameWithType: eShapeStyle.FlowChartDisplay
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDisplay
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartDisplay
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 306
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Display\n"
+  example: []
+  syntax:
+    content: FlowChartDisplay = 71
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDocument
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartDocument
+  id: FlowChartDocument
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartDocument
+  nameWithType: eShapeStyle.FlowChartDocument
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartDocument
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartDocument
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 310
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Document\n"
+  example: []
+  syntax:
+    content: FlowChartDocument = 72
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartExtract
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartExtract
+  id: FlowChartExtract
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartExtract
+  nameWithType: eShapeStyle.FlowChartExtract
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartExtract
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartExtract
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 314
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Extract\n"
+  example: []
+  syntax:
+    content: FlowChartExtract = 73
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartInputOutput
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartInputOutput
+  id: FlowChartInputOutput
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartInputOutput
+  nameWithType: eShapeStyle.FlowChartInputOutput
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartInputOutput
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartInputOutput
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 318
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Input/Output Data\n"
+  example: []
+  syntax:
+    content: FlowChartInputOutput = 74
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartInternalStorage
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartInternalStorage
+  id: FlowChartInternalStorage
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartInternalStorage
+  nameWithType: eShapeStyle.FlowChartInternalStorage
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartInternalStorage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartInternalStorage
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 322
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Internal Storage\n"
+  example: []
+  syntax:
+    content: FlowChartInternalStorage = 75
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDisk
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDisk
+  id: FlowChartMagneticDisk
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartMagneticDisk
+  nameWithType: eShapeStyle.FlowChartMagneticDisk
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDisk
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartMagneticDisk
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 326
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Magnetic Disk\n"
+  example: []
+  syntax:
+    content: FlowChartMagneticDisk = 76
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDrum
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDrum
+  id: FlowChartMagneticDrum
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartMagneticDrum
+  nameWithType: eShapeStyle.FlowChartMagneticDrum
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticDrum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartMagneticDrum
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 330
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Magnetic Drum\n"
+  example: []
+  syntax:
+    content: FlowChartMagneticDrum = 77
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticTape
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticTape
+  id: FlowChartMagneticTape
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartMagneticTape
+  nameWithType: eShapeStyle.FlowChartMagneticTape
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMagneticTape
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartMagneticTape
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 334
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Magnetic Tape\n"
+  example: []
+  syntax:
+    content: FlowChartMagneticTape = 78
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualInput
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualInput
+  id: FlowChartManualInput
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartManualInput
+  nameWithType: eShapeStyle.FlowChartManualInput
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualInput
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartManualInput
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 338
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Manual Input\n"
+  example: []
+  syntax:
+    content: FlowChartManualInput = 79
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualOperation
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualOperation
+  id: FlowChartManualOperation
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartManualOperation
+  nameWithType: eShapeStyle.FlowChartManualOperation
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartManualOperation
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartManualOperation
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 342
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Manual Operation\n"
+  example: []
+  syntax:
+    content: FlowChartManualOperation = 80
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMerge
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartMerge
+  id: FlowChartMerge
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartMerge
+  nameWithType: eShapeStyle.FlowChartMerge
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMerge
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartMerge
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 346
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Chart Merge\n"
+  example: []
+  syntax:
+    content: FlowChartMerge = 81
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMultidocument
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartMultidocument
+  id: FlowChartMultidocument
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartMultidocument
+  nameWithType: eShapeStyle.FlowChartMultidocument
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartMultidocument
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartMultidocument
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 350
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Multidocument\n"
+  example: []
+  syntax:
+    content: FlowChartMultidocument = 82
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOfflineStorage
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartOfflineStorage
+  id: FlowChartOfflineStorage
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartOfflineStorage
+  nameWithType: eShapeStyle.FlowChartOfflineStorage
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOfflineStorage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartOfflineStorage
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 354
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Offline Storage\n"
+  example: []
+  syntax:
+    content: FlowChartOfflineStorage = 83
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOffpageConnector
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartOffpageConnector
+  id: FlowChartOffpageConnector
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartOffpageConnector
+  nameWithType: eShapeStyle.FlowChartOffpageConnector
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOffpageConnector
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartOffpageConnector
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 358
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Offpage Connector\n"
+  example: []
+  syntax:
+    content: FlowChartOffpageConnector = 84
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOnlineStorage
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartOnlineStorage
+  id: FlowChartOnlineStorage
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartOnlineStorage
+  nameWithType: eShapeStyle.FlowChartOnlineStorage
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOnlineStorage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartOnlineStorage
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 362
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Online Storage\n"
+  example: []
+  syntax:
+    content: FlowChartOnlineStorage = 85
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOr
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartOr
+  id: FlowChartOr
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartOr
+  nameWithType: eShapeStyle.FlowChartOr
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartOr
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartOr
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 366
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Or \n"
+  example: []
+  syntax:
+    content: FlowChartOr = 86
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPredefinedProcess
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartPredefinedProcess
+  id: FlowChartPredefinedProcess
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartPredefinedProcess
+  nameWithType: eShapeStyle.FlowChartPredefinedProcess
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPredefinedProcess
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartPredefinedProcess
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 370
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Predefined Process\n"
+  example: []
+  syntax:
+    content: FlowChartPredefinedProcess = 87
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPreparation
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartPreparation
+  id: FlowChartPreparation
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartPreparation
+  nameWithType: eShapeStyle.FlowChartPreparation
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPreparation
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartPreparation
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 374
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Preparation\n"
+  example: []
+  syntax:
+    content: FlowChartPreparation = 88
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartProcess
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartProcess
+  id: FlowChartProcess
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartProcess
+  nameWithType: eShapeStyle.FlowChartProcess
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartProcess
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartProcess
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 378
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Process\n"
+  example: []
+  syntax:
+    content: FlowChartProcess = 89
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedCard
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedCard
+  id: FlowChartPunchedCard
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartPunchedCard
+  nameWithType: eShapeStyle.FlowChartPunchedCard
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedCard
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartPunchedCard
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 382
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Punched Card\n"
+  example: []
+  syntax:
+    content: FlowChartPunchedCard = 90
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedTape
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedTape
+  id: FlowChartPunchedTape
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartPunchedTape
+  nameWithType: eShapeStyle.FlowChartPunchedTape
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartPunchedTape
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartPunchedTape
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 386
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Punched Tape\n"
+  example: []
+  syntax:
+    content: FlowChartPunchedTape = 91
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartSort
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartSort
+  id: FlowChartSort
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartSort
+  nameWithType: eShapeStyle.FlowChartSort
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartSort
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartSort
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 390
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Sort\n"
+  example: []
+  syntax:
+    content: FlowChartSort = 92
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartSummingJunction
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartSummingJunction
+  id: FlowChartSummingJunction
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartSummingJunction
+  nameWithType: eShapeStyle.FlowChartSummingJunction
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartSummingJunction
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartSummingJunction
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 394
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Summing Junction\n"
+  example: []
+  syntax:
+    content: FlowChartSummingJunction = 93
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FlowChartTerminator
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FlowChartTerminator
+  id: FlowChartTerminator
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FlowChartTerminator
+  nameWithType: eShapeStyle.FlowChartTerminator
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FlowChartTerminator
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlowChartTerminator
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 398
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlow chart: Terminator\n"
+  example: []
+  syntax:
+    content: FlowChartTerminator = 94
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.FoldedCorner
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.FoldedCorner
+  id: FoldedCorner
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: FoldedCorner
+  nameWithType: eShapeStyle.FoldedCorner
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.FoldedCorner
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FoldedCorner
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 402
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFolded corner, right bottom\n"
+  example: []
+  syntax:
+    content: FoldedCorner = 95
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Frame
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Frame
+  id: Frame
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Frame
+  nameWithType: eShapeStyle.Frame
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Frame
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Frame
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 406
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA frame\n"
+  example: []
+  syntax:
+    content: Frame = 96
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Funnel
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Funnel
+  id: Funnel
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Funnel
+  nameWithType: eShapeStyle.Funnel
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Funnel
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Funnel
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 410
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Funnel\n"
+  example: []
+  syntax:
+    content: Funnel = 97
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Gear6
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Gear6
+  id: Gear6
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Gear6
+  nameWithType: eShapeStyle.Gear6
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Gear6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gear6
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 414
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGear, six cogs\n"
+  example: []
+  syntax:
+    content: Gear6 = 98
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Gear9
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Gear9
+  id: Gear9
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Gear9
+  nameWithType: eShapeStyle.Gear9
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Gear9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gear9
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 418
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGear, nine cogs\n"
+  example: []
+  syntax:
+    content: Gear9 = 99
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.HalfFrame
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.HalfFrame
+  id: HalfFrame
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: HalfFrame
+  nameWithType: eShapeStyle.HalfFrame
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.HalfFrame
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HalfFrame
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 422
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHalf frame.\n"
+  example: []
+  syntax:
+    content: HalfFrame = 100
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Heart
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Heart
+  id: Heart
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Heart
+  nameWithType: eShapeStyle.Heart
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Heart
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Heart
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 426
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA heart\n"
+  example: []
+  syntax:
+    content: Heart = 101
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Heptagon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Heptagon
+  id: Heptagon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Heptagon
+  nameWithType: eShapeStyle.Heptagon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Heptagon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Heptagon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 430
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Heptagon, 7 corners\n"
+  example: []
+  syntax:
+    content: Heptagon = 102
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Hexagon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Hexagon
+  id: Hexagon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Hexagon
+  nameWithType: eShapeStyle.Hexagon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Hexagon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hexagon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 434
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Hexagon, 6 corners\n"
+  example: []
+  syntax:
+    content: Hexagon = 103
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.HomePlate
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.HomePlate
+  id: HomePlate
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: HomePlate
+  nameWithType: eShapeStyle.HomePlate
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.HomePlate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HomePlate
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 438
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHome plate\n"
+  example: []
+  syntax:
+    content: HomePlate = 104
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.HorizontalScroll
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.HorizontalScroll
+  id: HorizontalScroll
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: HorizontalScroll
+  nameWithType: eShapeStyle.HorizontalScroll
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.HorizontalScroll
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalScroll
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 442
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA horizontal scroll\n"
+  example: []
+  syntax:
+    content: HorizontalScroll = 105
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal1
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal1
+  id: IrregularSeal1
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: IrregularSeal1
+  nameWithType: eShapeStyle.IrregularSeal1
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IrregularSeal1
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 446
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExplosion 12\n"
+  example: []
+  syntax:
+    content: IrregularSeal1 = 106
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal2
+  id: IrregularSeal2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: IrregularSeal2
+  nameWithType: eShapeStyle.IrregularSeal2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.IrregularSeal2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IrregularSeal2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 450
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExplosion 14\n"
+  example: []
+  syntax:
+    content: IrregularSeal2 = 107
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftArrow
+  id: LeftArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftArrow
+  nameWithType: eShapeStyle.LeftArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 454
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft arrow\n"
+  example: []
+  syntax:
+    content: LeftArrow = 108
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftArrowCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftArrowCallout
+  id: LeftArrowCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftArrowCallout
+  nameWithType: eShapeStyle.LeftArrowCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftArrowCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftArrowCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 458
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Left arrow\n"
+  example: []
+  syntax:
+    content: LeftArrowCallout = 109
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftBrace
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftBrace
+  id: LeftBrace
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftBrace
+  nameWithType: eShapeStyle.LeftBrace
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftBrace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftBrace
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 462
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft brace: {\n"
+  example: []
+  syntax:
+    content: LeftBrace = 110
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftBracket
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftBracket
+  id: LeftBracket
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftBracket
+  nameWithType: eShapeStyle.LeftBracket
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftBracket
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftBracket
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 466
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft bracket: (\n"
+  example: []
+  syntax:
+    content: LeftBracket = 111
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftCircularArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftCircularArrow
+  id: LeftCircularArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftCircularArrow
+  nameWithType: eShapeStyle.LeftCircularArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftCircularArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftCircularArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 470
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft circular arrow\n"
+  example: []
+  syntax:
+    content: LeftCircularArrow = 112
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrow
+  id: LeftRightArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftRightArrow
+  nameWithType: eShapeStyle.LeftRightArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftRightArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 474
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft Right arrow\n"
+  example: []
+  syntax:
+    content: LeftRightArrow = 113
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrowCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrowCallout
+  id: LeftRightArrowCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftRightArrowCallout
+  nameWithType: eShapeStyle.LeftRightArrowCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftRightArrowCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftRightArrowCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 478
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Left rigth arrow\n"
+  example: []
+  syntax:
+    content: LeftRightArrowCallout = 114
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftRightCircularArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftRightCircularArrow
+  id: LeftRightCircularArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftRightCircularArrow
+  nameWithType: eShapeStyle.LeftRightCircularArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftRightCircularArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftRightCircularArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 482
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft right circular arrow\n"
+  example: []
+  syntax:
+    content: LeftRightCircularArrow = 115
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftRightRibbon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftRightRibbon
+  id: LeftRightRibbon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftRightRibbon
+  nameWithType: eShapeStyle.LeftRightRibbon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftRightRibbon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftRightRibbon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 486
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft right ribbon\n"
+  example: []
+  syntax:
+    content: LeftRightRibbon = 116
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftRightUpArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftRightUpArrow
+  id: LeftRightUpArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftRightUpArrow
+  nameWithType: eShapeStyle.LeftRightUpArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftRightUpArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftRightUpArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 490
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft right up arrow\n"
+  example: []
+  syntax:
+    content: LeftRightUpArrow = 117
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LeftUpArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LeftUpArrow
+  id: LeftUpArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LeftUpArrow
+  nameWithType: eShapeStyle.LeftUpArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LeftUpArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftUpArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 494
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft up arrow\n"
+  example: []
+  syntax:
+    content: LeftUpArrow = 118
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LightningBolt
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LightningBolt
+  id: LightningBolt
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LightningBolt
+  nameWithType: eShapeStyle.LightningBolt
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LightningBolt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightningBolt
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 498
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLightning bold\n"
+  example: []
+  syntax:
+    content: LightningBolt = 119
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Line
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Line
+  id: Line
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Line
+  nameWithType: eShapeStyle.Line
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Line
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Line
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 502
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA line, from top-left to bottom-right.\n"
+  example: []
+  syntax:
+    content: Line = 120
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.LineInv
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.LineInv
+  id: LineInv
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: LineInv
+  nameWithType: eShapeStyle.LineInv
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.LineInv
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineInv
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 506
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAn inverted line, from top-right to bottom-left.\n"
+  example: []
+  syntax:
+    content: LineInv = 121
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.MathDivide
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.MathDivide
+  id: MathDivide
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: MathDivide
+  nameWithType: eShapeStyle.MathDivide
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.MathDivide
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MathDivide
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 510
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMath: Divide ÷\n"
+  example: []
+  syntax:
+    content: MathDivide = 122
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.MathEqual
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.MathEqual
+  id: MathEqual
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: MathEqual
+  nameWithType: eShapeStyle.MathEqual
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.MathEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MathEqual
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 514
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMath: Equal = \n"
+  example: []
+  syntax:
+    content: MathEqual = 123
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.MathMinus
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.MathMinus
+  id: MathMinus
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: MathMinus
+  nameWithType: eShapeStyle.MathMinus
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.MathMinus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MathMinus
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 518
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMath: Minus -\n"
+  example: []
+  syntax:
+    content: MathMinus = 124
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.MathMultiply
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.MathMultiply
+  id: MathMultiply
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: MathMultiply
+  nameWithType: eShapeStyle.MathMultiply
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.MathMultiply
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MathMultiply
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 522
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMath: Multiply x\n"
+  example: []
+  syntax:
+    content: MathMultiply = 125
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.MathNotEqual
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.MathNotEqual
+  id: MathNotEqual
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: MathNotEqual
+  nameWithType: eShapeStyle.MathNotEqual
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.MathNotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MathNotEqual
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 526
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMath: Not equal ≠\n"
+  example: []
+  syntax:
+    content: MathNotEqual = 126
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.MathPlus
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.MathPlus
+  id: MathPlus
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: MathPlus
+  nameWithType: eShapeStyle.MathPlus
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.MathPlus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MathPlus
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 530
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMath: Plus +\n"
+  example: []
+  syntax:
+    content: MathPlus = 127
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Moon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Moon
+  id: Moon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Moon
+  nameWithType: eShapeStyle.Moon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Moon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Moon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 534
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHalf moon\n"
+  example: []
+  syntax:
+    content: Moon = 128
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.NonIsoscelesTrapezoid
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.NonIsoscelesTrapezoid
+  id: NonIsoscelesTrapezoid
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: NonIsoscelesTrapezoid
+  nameWithType: eShapeStyle.NonIsoscelesTrapezoid
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.NonIsoscelesTrapezoid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NonIsoscelesTrapezoid
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 538
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNon Isosceles Trapezoid\n"
+  example: []
+  syntax:
+    content: NonIsoscelesTrapezoid = 129
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.NoSmoking
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.NoSmoking
+  id: NoSmoking
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: NoSmoking
+  nameWithType: eShapeStyle.NoSmoking
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.NoSmoking
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoSmoking
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 542
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNo smoking, circle with line\n"
+  example: []
+  syntax:
+    content: NoSmoking = 130
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.NotchedRightArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.NotchedRightArrow
+  id: NotchedRightArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: NotchedRightArrow
+  nameWithType: eShapeStyle.NotchedRightArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.NotchedRightArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotchedRightArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 546
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNotched Right Arrow\n"
+  example: []
+  syntax:
+    content: NotchedRightArrow = 131
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Octagon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Octagon
+  id: Octagon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Octagon
+  nameWithType: eShapeStyle.Octagon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Octagon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Octagon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 550
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOctagon, 8 corners\n"
+  example: []
+  syntax:
+    content: Octagon = 132
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Parallelogram
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Parallelogram
+  id: Parallelogram
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Parallelogram
+  nameWithType: eShapeStyle.Parallelogram
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Parallelogram
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Parallelogram
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 554
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nParallelogram\n"
+  example: []
+  syntax:
+    content: Parallelogram = 133
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Pentagon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Pentagon
+  id: Pentagon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Pentagon
+  nameWithType: eShapeStyle.Pentagon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Pentagon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pentagon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 558
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPentagon, 5 corners\n"
+  example: []
+  syntax:
+    content: Pentagon = 134
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Pie
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Pie
+  id: Pie
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Pie
+  nameWithType: eShapeStyle.Pie
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Pie
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pie
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 562
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPie\n"
+  example: []
+  syntax:
+    content: Pie = 135
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.PieWedge
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.PieWedge
+  id: PieWedge
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: PieWedge
+  nameWithType: eShapeStyle.PieWedge
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.PieWedge
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PieWedge
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 566
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPie wedge\n"
+  example: []
+  syntax:
+    content: PieWedge = 136
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Plaque
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Plaque
+  id: Plaque
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Plaque
+  nameWithType: eShapeStyle.Plaque
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Plaque
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Plaque
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 570
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPlaque\n"
+  example: []
+  syntax:
+    content: Plaque = 137
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.PlaqueTabs
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.PlaqueTabs
+  id: PlaqueTabs
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: PlaqueTabs
+  nameWithType: eShapeStyle.PlaqueTabs
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.PlaqueTabs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PlaqueTabs
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 574
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPlaqueTabs, inverted Plaque\n"
+  example: []
+  syntax:
+    content: PlaqueTabs = 138
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Plus
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Plus
+  id: Plus
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Plus
+  nameWithType: eShapeStyle.Plus
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Plus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Plus
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 578
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA plus\n"
+  example: []
+  syntax:
+    content: Plus = 139
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.QuadArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.QuadArrow
+  id: QuadArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: QuadArrow
+  nameWithType: eShapeStyle.QuadArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.QuadArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: QuadArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 582
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nQuad Arrow\n"
+  example: []
+  syntax:
+    content: QuadArrow = 140
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.QuadArrowCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.QuadArrowCallout
+  id: QuadArrowCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: QuadArrowCallout
+  nameWithType: eShapeStyle.QuadArrowCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.QuadArrowCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: QuadArrowCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 586
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Quad Arrow\n"
+  example: []
+  syntax:
+    content: QuadArrowCallout = 141
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Rect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Rect
+  id: Rect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Rect
+  nameWithType: eShapeStyle.Rect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Rect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 590
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA rectangle\n"
+  example: []
+  syntax:
+    content: Rect = 142
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Ribbon
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Ribbon
+  id: Ribbon
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Ribbon
+  nameWithType: eShapeStyle.Ribbon
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Ribbon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ribbon
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 594
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA ribbon - up\n"
+  example: []
+  syntax:
+    content: Ribbon = 143
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Ribbon2
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Ribbon2
+  id: Ribbon2
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Ribbon2
+  nameWithType: eShapeStyle.Ribbon2
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Ribbon2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ribbon2
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 598
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRibbon - down\n"
+  example: []
+  syntax:
+    content: Ribbon2 = 144
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.RightArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.RightArrow
+  id: RightArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: RightArrow
+  nameWithType: eShapeStyle.RightArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.RightArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 602
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRight arrow\n"
+  example: []
+  syntax:
+    content: RightArrow = 145
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.RightArrowCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.RightArrowCallout
+  id: RightArrowCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: RightArrowCallout
+  nameWithType: eShapeStyle.RightArrowCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.RightArrowCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightArrowCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 606
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Right arrow\n"
+  example: []
+  syntax:
+    content: RightArrowCallout = 146
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.RightBrace
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.RightBrace
+  id: RightBrace
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: RightBrace
+  nameWithType: eShapeStyle.RightBrace
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.RightBrace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightBrace
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 610
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRight Brace }\n"
+  example: []
+  syntax:
+    content: RightBrace = 147
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.RightBracket
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.RightBracket
+  id: RightBracket
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: RightBracket
+  nameWithType: eShapeStyle.RightBracket
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.RightBracket
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightBracket
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 614
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRight bracket )\n"
+  example: []
+  syntax:
+    content: RightBracket = 148
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Round1Rect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Round1Rect
+  id: Round1Rect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Round1Rect
+  nameWithType: eShapeStyle.Round1Rect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Round1Rect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Round1Rect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 618
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle - rounded top-right\n"
+  example: []
+  syntax:
+    content: Round1Rect = 149
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Round2DiagRect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Round2DiagRect
+  id: Round2DiagRect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Round2DiagRect
+  nameWithType: eShapeStyle.Round2DiagRect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Round2DiagRect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Round2DiagRect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 622
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle - Round top-left and bottom-right\n"
+  example: []
+  syntax:
+    content: Round2DiagRect = 150
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Round2SameRect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Round2SameRect
+  id: Round2SameRect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Round2SameRect
+  nameWithType: eShapeStyle.Round2SameRect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Round2SameRect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Round2SameRect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 626
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle - Round top corners\n"
+  example: []
+  syntax:
+    content: Round2SameRect = 151
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.RoundRect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.RoundRect
+  id: RoundRect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: RoundRect
+  nameWithType: eShapeStyle.RoundRect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.RoundRect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RoundRect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 630
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle with rounded corners\n"
+  example: []
+  syntax:
+    content: RoundRect = 152
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.RtTriangle
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.RtTriangle
+  id: RtTriangle
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: RtTriangle
+  nameWithType: eShapeStyle.RtTriangle
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.RtTriangle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RtTriangle
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 634
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRight triangle\n"
+  example: []
+  syntax:
+    content: RtTriangle = 153
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.SmileyFace
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.SmileyFace
+  id: SmileyFace
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: SmileyFace
+  nameWithType: eShapeStyle.SmileyFace
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.SmileyFace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SmileyFace
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 638
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSmiley face\n"
+  example: []
+  syntax:
+    content: SmileyFace = 154
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Snip1Rect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Snip1Rect
+  id: Snip1Rect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Snip1Rect
+  nameWithType: eShapeStyle.Snip1Rect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Snip1Rect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Snip1Rect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 642
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle, snipped top-right \n"
+  example: []
+  syntax:
+    content: Snip1Rect = 155
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Snip2DiagRect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Snip2DiagRect
+  id: Snip2DiagRect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Snip2DiagRect
+  nameWithType: eShapeStyle.Snip2DiagRect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Snip2DiagRect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Snip2DiagRect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 646
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle, snipped top-right bottom-left\n"
+  example: []
+  syntax:
+    content: Snip2DiagRect = 156
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Snip2SameRect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Snip2SameRect
+  id: Snip2SameRect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Snip2SameRect
+  nameWithType: eShapeStyle.Snip2SameRect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Snip2SameRect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Snip2SameRect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 650
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle, snipped top\n"
+  example: []
+  syntax:
+    content: Snip2SameRect = 157
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.SnipRoundRect
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.SnipRoundRect
+  id: SnipRoundRect
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: SnipRoundRect
+  nameWithType: eShapeStyle.SnipRoundRect
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.SnipRoundRect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SnipRoundRect
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 654
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRectangle, snipped top-left, rounded top-right\n"
+  example: []
+  syntax:
+    content: SnipRoundRect = 158
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.SquareTabs
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.SquareTabs
+  id: SquareTabs
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: SquareTabs
+  nameWithType: eShapeStyle.SquareTabs
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.SquareTabs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SquareTabs
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 658
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSquare, tabs\n"
+  example: []
+  syntax:
+    content: SquareTabs = 159
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star10
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star10
+  id: Star10
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star10
+  nameWithType: eShapeStyle.Star10
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star10
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 662
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 10\n"
+  example: []
+  syntax:
+    content: Star10 = 160
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star12
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star12
+  id: Star12
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star12
+  nameWithType: eShapeStyle.Star12
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star12
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 666
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 12\n"
+  example: []
+  syntax:
+    content: Star12 = 161
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star16
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star16
+  id: Star16
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star16
+  nameWithType: eShapeStyle.Star16
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star16
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 670
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 16\n"
+  example: []
+  syntax:
+    content: Star16 = 162
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star24
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star24
+  id: Star24
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star24
+  nameWithType: eShapeStyle.Star24
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star24
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star24
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 674
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 24\n"
+  example: []
+  syntax:
+    content: Star24 = 163
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star32
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star32
+  id: Star32
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star32
+  nameWithType: eShapeStyle.Star32
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star32
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star32
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 678
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 32\n"
+  example: []
+  syntax:
+    content: Star32 = 164
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star4
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star4
+  id: Star4
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star4
+  nameWithType: eShapeStyle.Star4
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star4
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 682
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 4\n"
+  example: []
+  syntax:
+    content: Star4 = 165
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star5
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star5
+  id: Star5
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star5
+  nameWithType: eShapeStyle.Star5
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star5
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 686
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 5\n"
+  example: []
+  syntax:
+    content: Star5 = 166
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star6
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star6
+  id: Star6
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star6
+  nameWithType: eShapeStyle.Star6
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star6
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 690
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 6\n"
+  example: []
+  syntax:
+    content: Star6 = 167
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star7
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star7
+  id: Star7
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star7
+  nameWithType: eShapeStyle.Star7
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star7
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 694
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 7\n"
+  example: []
+  syntax:
+    content: Star7 = 168
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Star8
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Star8
+  id: Star8
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Star8
+  nameWithType: eShapeStyle.Star8
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Star8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star8
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 698
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStar, 8\n"
+  example: []
+  syntax:
+    content: Star8 = 169
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.StraightConnector1
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.StraightConnector1
+  id: StraightConnector1
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: StraightConnector1
+  nameWithType: eShapeStyle.StraightConnector1
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.StraightConnector1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StraightConnector1
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 702
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStreight  connector\n"
+  example: []
+  syntax:
+    content: StraightConnector1 = 170
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.StripedRightArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.StripedRightArrow
+  id: StripedRightArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: StripedRightArrow
+  nameWithType: eShapeStyle.StripedRightArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.StripedRightArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StripedRightArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 706
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nStriped right arrow\n"
+  example: []
+  syntax:
+    content: StripedRightArrow = 171
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Sun
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Sun
+  id: Sun
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Sun
+  nameWithType: eShapeStyle.Sun
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Sun
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sun
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 710
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSun\n"
+  example: []
+  syntax:
+    content: Sun = 172
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.SwooshArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.SwooshArrow
+  id: SwooshArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: SwooshArrow
+  nameWithType: eShapeStyle.SwooshArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.SwooshArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SwooshArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 714
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSwoosh arrow\n"
+  example: []
+  syntax:
+    content: SwooshArrow = 173
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Teardrop
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Teardrop
+  id: Teardrop
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Teardrop
+  nameWithType: eShapeStyle.Teardrop
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Teardrop
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Teardrop
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 718
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA tear drop\n"
+  example: []
+  syntax:
+    content: Teardrop = 174
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Trapezoid
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Trapezoid
+  id: Trapezoid
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Trapezoid
+  nameWithType: eShapeStyle.Trapezoid
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Trapezoid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Trapezoid
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 722
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTrapezoid\n"
+  example: []
+  syntax:
+    content: Trapezoid = 175
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Triangle
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Triangle
+  id: Triangle
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Triangle
+  nameWithType: eShapeStyle.Triangle
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Triangle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Triangle
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 726
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTriangle\n"
+  example: []
+  syntax:
+    content: Triangle = 176
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.UpArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.UpArrow
+  id: UpArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: UpArrow
+  nameWithType: eShapeStyle.UpArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.UpArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 730
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nUp Arrow\n"
+  example: []
+  syntax:
+    content: UpArrow = 177
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.UpArrowCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.UpArrowCallout
+  id: UpArrowCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: UpArrowCallout
+  nameWithType: eShapeStyle.UpArrowCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.UpArrowCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpArrowCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 734
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Up arrow\n"
+  example: []
+  syntax:
+    content: UpArrowCallout = 178
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.UpDownArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.UpDownArrow
+  id: UpDownArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: UpDownArrow
+  nameWithType: eShapeStyle.UpDownArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.UpDownArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpDownArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 738
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nUp-down arrow\n"
+  example: []
+  syntax:
+    content: UpDownArrow = 179
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.UpDownArrowCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.UpDownArrowCallout
+  id: UpDownArrowCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: UpDownArrowCallout
+  nameWithType: eShapeStyle.UpDownArrowCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.UpDownArrowCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpDownArrowCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 742
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout: Up-down arrow\n"
+  example: []
+  syntax:
+    content: UpDownArrowCallout = 180
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.UturnArrow
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.UturnArrow
+  id: UturnArrow
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: UturnArrow
+  nameWithType: eShapeStyle.UturnArrow
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.UturnArrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UturnArrow
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 746
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nU-turn arrow\n"
+  example: []
+  syntax:
+    content: UturnArrow = 181
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.Wave
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.Wave
+  id: Wave
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: Wave
+  nameWithType: eShapeStyle.Wave
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.Wave
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Wave
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 750
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA wave\n"
+  example: []
+  syntax:
+    content: Wave = 182
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.WedgeEllipseCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.WedgeEllipseCallout
+  id: WedgeEllipseCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: WedgeEllipseCallout
+  nameWithType: eShapeStyle.WedgeEllipseCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.WedgeEllipseCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WedgeEllipseCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 754
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout Wedge: Ellipse\n"
+  example: []
+  syntax:
+    content: WedgeEllipseCallout = 183
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.WedgeRectCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.WedgeRectCallout
+  id: WedgeRectCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: WedgeRectCallout
+  nameWithType: eShapeStyle.WedgeRectCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.WedgeRectCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WedgeRectCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 758
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout Wedge: Rectangle\n"
+  example: []
+  syntax:
+    content: WedgeRectCallout = 184
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.WedgeRoundRectCallout
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.WedgeRoundRectCallout
+  id: WedgeRoundRectCallout
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: WedgeRoundRectCallout
+  nameWithType: eShapeStyle.WedgeRoundRectCallout
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.WedgeRoundRectCallout
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WedgeRoundRectCallout
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 762
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCallout Wedge: Rounded rectangle\n"
+  example: []
+  syntax:
+    content: WedgeRoundRectCallout = 185
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eShapeStyle.VerticalScroll
+  commentId: F:OfficeOpenXml.Drawing.eShapeStyle.VerticalScroll
+  id: VerticalScroll
+  parent: OfficeOpenXml.Drawing.eShapeStyle
+  langs:
+  - csharp
+  - vb
+  name: VerticalScroll
+  nameWithType: eShapeStyle.VerticalScroll
+  fullName: OfficeOpenXml.Drawing.eShapeStyle.VerticalScroll
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalScroll
+    path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
+    startLine: 766
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nVertical scroll\n"
+  example: []
+  syntax:
+    content: VerticalScroll = 186
+    return:
+      type: OfficeOpenXml.Drawing.eShapeStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eShapeStyle
+  commentId: T:OfficeOpenXml.Drawing.eShapeStyle
+  parent: OfficeOpenXml.Drawing
+  name: eShapeStyle
+  nameWithType: eShapeStyle
+  fullName: OfficeOpenXml.Drawing.eShapeStyle

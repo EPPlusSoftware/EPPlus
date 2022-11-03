@@ -1,0 +1,545 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes
+  commentId: T:OfficeOpenXml.FormulaParsing.ParsingScopes
+  id: ParsingScopes
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.ParsingScopes.#ctor(OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler)
+  - OfficeOpenXml.FormulaParsing.ParsingScopes.Current
+  - OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope(OfficeOpenXml.FormulaParsing.ParsingScope)
+  - OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  langs:
+  - csharp
+  - vb
+  name: ParsingScopes
+  nameWithType: ParsingScopes
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingScopes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ParsingScopes
+    path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThis class implements a stack on which instances of <xref href=\"OfficeOpenXml.FormulaParsing.ParsingScope\" data-throw-if-not-resolved=\"false\"></xref>\nare put. Each ParsingScope represents the parsing of an address in the workbook.\n"
+  example: []
+  syntax:
+    content: public class ParsingScopes
+    content.vb: Public Class ParsingScopes
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.#ctor(OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler)
+  commentId: M:OfficeOpenXml.FormulaParsing.ParsingScopes.#ctor(OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler)'
+  parent: OfficeOpenXml.FormulaParsing.ParsingScopes
+  langs:
+  - csharp
+  - vb
+  name: ParsingScopes(IParsingLifetimeEventHandler)
+  nameWithType: ParsingScopes.ParsingScopes(IParsingLifetimeEventHandler)
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.ParsingScopes(OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingScopes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ParsingScopes(IParsingLifetimeEventHandler lifetimeEventHandler)
+    parameters:
+    - id: lifetimeEventHandler
+      type: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+      description: An instance of a <xref href="OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Sub New(lifetimeEventHandler As IParsingLifetimeEventHandler)
+  overload: OfficeOpenXml.FormulaParsing.ParsingScopes.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  id: NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  parent: OfficeOpenXml.FormulaParsing.ParsingScopes
+  langs:
+  - csharp
+  - vb
+  name: NewScope(RangeAddress)
+  nameWithType: ParsingScopes.NewScope(RangeAddress)
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingScopes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NewScope
+    path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nCreates a new <xref href=\"OfficeOpenXml.FormulaParsing.ParsingScope\" data-throw-if-not-resolved=\"false\"></xref> and puts it on top of the stack.\n"
+  example: []
+  syntax:
+    content: public virtual ParsingScope NewScope(RangeAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.FormulaParsing.ParsingScope
+      description: ''
+    content.vb: Public Overridable Function NewScope(address As RangeAddress) As ParsingScope
+  overload: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.Current
+  commentId: P:OfficeOpenXml.FormulaParsing.ParsingScopes.Current
+  id: Current
+  parent: OfficeOpenXml.FormulaParsing.ParsingScopes
+  langs:
+  - csharp
+  - vb
+  name: Current
+  nameWithType: ParsingScopes.Current
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.Current
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingScopes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Current
+    path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe current parsing scope.\n"
+  example: []
+  syntax:
+    content: public virtual ParsingScope Current { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.ParsingScope
+    content.vb: Public Overridable ReadOnly Property Current As ParsingScope
+  overload: OfficeOpenXml.FormulaParsing.ParsingScopes.Current*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope(OfficeOpenXml.FormulaParsing.ParsingScope)
+  commentId: M:OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope(OfficeOpenXml.FormulaParsing.ParsingScope)
+  id: KillScope(OfficeOpenXml.FormulaParsing.ParsingScope)
+  parent: OfficeOpenXml.FormulaParsing.ParsingScopes
+  langs:
+  - csharp
+  - vb
+  name: KillScope(ParsingScope)
+  nameWithType: ParsingScopes.KillScope(ParsingScope)
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope(OfficeOpenXml.FormulaParsing.ParsingScope)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingScopes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: KillScope
+    path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nRemoves the current scope, setting the calling scope to current.\n"
+  example: []
+  syntax:
+    content: public virtual void KillScope(ParsingScope parsingScope)
+    parameters:
+    - id: parsingScope
+      type: OfficeOpenXml.FormulaParsing.ParsingScope
+      description: ''
+    content.vb: Public Overridable Sub KillScope(parsingScope As ParsingScope)
+  overload: OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+references:
+- uid: OfficeOpenXml.FormulaParsing.ParsingScope
+  commentId: T:OfficeOpenXml.FormulaParsing.ParsingScope
+  parent: OfficeOpenXml.FormulaParsing
+  name: ParsingScope
+  nameWithType: ParsingScope
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScope
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+  commentId: T:OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+  parent: OfficeOpenXml.FormulaParsing
+  name: IParsingLifetimeEventHandler
+  nameWithType: IParsingLifetimeEventHandler
+  fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingScopes.#ctor
+  name: ParsingScopes
+  nameWithType: ParsingScopes.ParsingScopes
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.ParsingScopes
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope
+  name: NewScope
+  nameWithType: ParsingScopes.NewScope
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: RangeAddress
+  nameWithType: RangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  commentId: N:OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  nameWithType: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.Current*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingScopes.Current
+  name: Current
+  nameWithType: ParsingScopes.Current
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.Current
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope
+  name: KillScope
+  nameWithType: ParsingScopes.KillScope
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope

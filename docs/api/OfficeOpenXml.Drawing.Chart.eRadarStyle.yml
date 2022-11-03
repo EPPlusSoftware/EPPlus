@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eRadarStyle
+  id: eRadarStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eRadarStyle.Filled
+  - OfficeOpenXml.Drawing.Chart.eRadarStyle.Marker
+  - OfficeOpenXml.Drawing.Chart.eRadarStyle.Standard
+  langs:
+  - csharp
+  - vb
+  name: eRadarStyle
+  nameWithType: eRadarStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eRadarStyle
+    path: ../src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nRadar chart type\n"
+  example: []
+  syntax:
+    content: public enum eRadarStyle
+    content.vb: Public Enum eRadarStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eRadarStyle.Filled
+  commentId: F:OfficeOpenXml.Drawing.Chart.eRadarStyle.Filled
+  id: Filled
+  parent: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  langs:
+  - csharp
+  - vb
+  name: Filled
+  nameWithType: eRadarStyle.Filled
+  fullName: OfficeOpenXml.Drawing.Chart.eRadarStyle.Filled
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Filled
+    path: ../src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe radar chart will be filled and have lines, but will not have markers.\n"
+  example: []
+  syntax:
+    content: Filled = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eRadarStyle.Marker
+  commentId: F:OfficeOpenXml.Drawing.Chart.eRadarStyle.Marker
+  id: Marker
+  parent: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  langs:
+  - csharp
+  - vb
+  name: Marker
+  nameWithType: eRadarStyle.Marker
+  fullName: OfficeOpenXml.Drawing.Chart.eRadarStyle.Marker
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Marker
+    path: ../src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe radar chart will have lines and markers, but will not be filled.\n"
+  example: []
+  syntax:
+    content: Marker = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eRadarStyle.Standard
+  commentId: F:OfficeOpenXml.Drawing.Chart.eRadarStyle.Standard
+  id: Standard
+  parent: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  langs:
+  - csharp
+  - vb
+  name: Standard
+  nameWithType: eRadarStyle.Standard
+  fullName: OfficeOpenXml.Drawing.Chart.eRadarStyle.Standard
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard
+    path: ../src/EPPlus/Drawing/Chart/enums/eRadarStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe radar chart will have lines, but no markers and no filling.\n"
+  example: []
+  syntax:
+    content: Standard = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eRadarStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eRadarStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eRadarStyle
+  nameWithType: eRadarStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eRadarStyle

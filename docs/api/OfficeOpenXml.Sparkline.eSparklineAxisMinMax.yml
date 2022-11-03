@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  id: eSparklineAxisMinMax
+  parent: OfficeOpenXml.Sparkline
+  children:
+  - OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Custom
+  - OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Group
+  - OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Individual
+  langs:
+  - csharp
+  - vb
+  name: eSparklineAxisMinMax
+  nameWithType: eSparklineAxisMinMax
+  fullName: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSparklineAxisMinMax
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nAxis min/max settings\n"
+  example: []
+  syntax:
+    content: public enum eSparklineAxisMinMax
+    content.vb: Public Enum eSparklineAxisMinMax
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Individual
+  commentId: F:OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Individual
+  id: Individual
+  parent: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  langs:
+  - csharp
+  - vb
+  name: Individual
+  nameWithType: eSparklineAxisMinMax.Individual
+  fullName: OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Individual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Individual
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nIndividual per sparklines\n"
+  example: []
+  syntax:
+    content: Individual = 0
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Group
+  commentId: F:OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Group
+  id: Group
+  parent: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  langs:
+  - csharp
+  - vb
+  name: Group
+  nameWithType: eSparklineAxisMinMax.Group
+  fullName: OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Group
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Group
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nSame for all sparklines\n"
+  example: []
+  syntax:
+    content: Group = 1
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Custom
+  commentId: F:OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Custom
+  id: Custom
+  parent: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: eSparklineAxisMinMax.Custom
+  fullName: OfficeOpenXml.Sparkline.eSparklineAxisMinMax.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nA custom value\n"
+  example: []
+  syntax:
+    content: Custom = 2
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline
+- uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  parent: OfficeOpenXml.Sparkline
+  name: eSparklineAxisMinMax
+  nameWithType: eSparklineAxisMinMax
+  fullName: OfficeOpenXml.Sparkline.eSparklineAxisMinMax

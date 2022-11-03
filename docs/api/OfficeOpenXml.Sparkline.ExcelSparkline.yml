@@ -1,0 +1,506 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparkline
+  id: ExcelSparkline
+  parent: OfficeOpenXml.Sparkline
+  children:
+  - OfficeOpenXml.Sparkline.ExcelSparkline.Cell
+  - OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress
+  - OfficeOpenXml.Sparkline.ExcelSparkline.ToString
+  langs:
+  - csharp
+  - vb
+  name: ExcelSparkline
+  nameWithType: ExcelSparkline
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparkline.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSparkline
+    path: ../src/EPPlus/Sparkline/ExcelSparkline.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nRepresents a single sparkline within the sparkline group\n"
+  example: []
+  syntax:
+    content: 'public class ExcelSparkline : XmlHelper'
+    content.vb: >-
+      Public Class ExcelSparkline
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress
+  id: RangeAddress
+  parent: OfficeOpenXml.Sparkline.ExcelSparkline
+  langs:
+  - csharp
+  - vb
+  name: RangeAddress
+  nameWithType: ExcelSparkline.RangeAddress
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparkline.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RangeAddress
+    path: ../src/EPPlus/Sparkline/ExcelSparkline.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe datarange\n"
+  example: []
+  syntax:
+    content: public ExcelAddressBase RangeAddress { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public ReadOnly Property RangeAddress As ExcelAddressBase
+  overload: OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline.Cell
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparkline.Cell
+  id: Cell
+  parent: OfficeOpenXml.Sparkline.ExcelSparkline
+  langs:
+  - csharp
+  - vb
+  name: Cell
+  nameWithType: ExcelSparkline.Cell
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline.Cell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparkline.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cell
+    path: ../src/EPPlus/Sparkline/ExcelSparkline.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nLocation of the sparkline\n"
+  example: []
+  syntax:
+    content: public ExcelCellAddress Cell { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelCellAddress
+    content.vb: Public ReadOnly Property Cell As ExcelCellAddress
+  overload: OfficeOpenXml.Sparkline.ExcelSparkline.Cell*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline.ToString
+  commentId: M:OfficeOpenXml.Sparkline.ExcelSparkline.ToString
+  id: ToString
+  parent: OfficeOpenXml.Sparkline.ExcelSparkline
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelSparkline.ToString()
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparkline.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/Sparkline/ExcelSparkline.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nReturns a string representation of the object\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The cell address and the range
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.Sparkline.ExcelSparkline.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress
+  name: RangeAddress
+  nameWithType: ExcelSparkline.RangeAddress
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline.RangeAddress
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline.Cell*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparkline.Cell
+  name: Cell
+  nameWithType: ExcelSparkline.Cell
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline.Cell
+- uid: OfficeOpenXml.ExcelCellAddress
+  commentId: T:OfficeOpenXml.ExcelCellAddress
+  parent: OfficeOpenXml
+  name: ExcelCellAddress
+  nameWithType: ExcelCellAddress
+  fullName: OfficeOpenXml.ExcelCellAddress
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline.ToString*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparkline.ToString
+  name: ToString
+  nameWithType: ExcelSparkline.ToString
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

@@ -1,0 +1,817 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  id: ExcelPivotTableCacheField
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableCacheField
+  nameWithType: ExcelPivotTableCacheField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableCacheField
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA pivot tables cache field\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableCacheField : XmlHelper'
+    content.vb: >-
+      Public Class ExcelPivotTableCacheField
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index
+  id: Index
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: Index
+  nameWithType: ExcelPivotTableCacheField.Index
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Index
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe index in the collection of the pivot field\n"
+  example: []
+  syntax:
+    content: public int Index { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Index As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name
+  id: Name
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelPivotTableCacheField.Name
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe name for the field\n"
+  example: []
+  syntax:
+    content: public string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Name As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems
+  id: SharedItems
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: SharedItems
+  nameWithType: ExcelPivotTableCacheField.SharedItems
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SharedItems
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA list of unique items for the field \n"
+  example: []
+  syntax:
+    content: public EPPlusReadOnlyList<object> SharedItems { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Core.EPPlusReadOnlyList{System.Object}
+    content.vb: Public ReadOnly Property SharedItems As EPPlusReadOnlyList(Of Object)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems
+  id: GroupItems
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: GroupItems
+  nameWithType: ExcelPivotTableCacheField.GroupItems
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GroupItems
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA list of group items, if the field has grouping.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public EPPlusReadOnlyList<object> GroupItems { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Core.EPPlusReadOnlyList{System.Object}
+    content.vb: Public Property GroupItems As EPPlusReadOnlyList(Of Object)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping
+  id: DateGrouping
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: DateGrouping
+  nameWithType: ExcelPivotTableCacheField.DateGrouping
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateGrouping
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe type of date grouping\n"
+  example: []
+  syntax:
+    content: public eDateGroupBy DateGrouping { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+    content.vb: Public ReadOnly Property DateGrouping As eDateGroupBy
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+  id: Grouping
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: Grouping
+  nameWithType: ExcelPivotTableCacheField.Grouping
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Grouping
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGrouping proprerties, if the field has grouping\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableFieldGroup Grouping { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+    content.vb: Public Property Grouping As ExcelPivotTableFieldGroup
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format
+  id: Format
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: Format
+  nameWithType: ExcelPivotTableCacheField.Format
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Format
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe number format for the field\n"
+  example: []
+  syntax:
+    content: public string Format { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Format As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula
+  id: Formula
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: ExcelPivotTableCacheField.Formula
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
+    startLine: 195
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe formula for cache field.\nThe formula for the calculated field. \nNote: In formulas you create for calculated fields or calculated items, you can use operators and expressions as you do in other worksheet formulas. \nYou can use constants and refer to data from the pivot table, but you cannot use cell references or defined names.You cannot use worksheet functions that require cell references or defined names as arguments, and you cannot use array functions.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection.AddCalculatedField(System.String%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public string Formula { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Formula As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index
+  name: Index
+  nameWithType: ExcelPivotTableCacheField.Index
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Index
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name
+  name: Name
+  nameWithType: ExcelPivotTableCacheField.Name
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems
+  name: SharedItems
+  nameWithType: ExcelPivotTableCacheField.SharedItems
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.SharedItems
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{System.Object}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{System.Object}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<Object>
+  nameWithType: EPPlusReadOnlyList<Object>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<System.Object>
+  nameWithType.vb: EPPlusReadOnlyList(Of Object)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of System.Object)
+  name.vb: EPPlusReadOnlyList(Of Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems
+  name: GroupItems
+  nameWithType: ExcelPivotTableCacheField.GroupItems
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.GroupItems
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping
+  name: DateGrouping
+  nameWithType: ExcelPivotTableCacheField.DateGrouping
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.DateGrouping
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  commentId: T:OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eDateGroupBy
+  nameWithType: eDateGroupBy
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+  name: Grouping
+  nameWithType: ExcelPivotTableCacheField.Grouping
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Grouping
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableFieldGroup
+  nameWithType: ExcelPivotTableFieldGroup
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format
+  name: Format
+  nameWithType: ExcelPivotTableCacheField.Format
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Format
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection.AddCalculatedField(System.String,System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection.AddCalculatedField(System.String,System.String)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula
+  name: Formula
+  nameWithType: ExcelPivotTableCacheField.Formula
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField.Formula

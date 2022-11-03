@@ -1,0 +1,920 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelRichText
+  commentId: T:OfficeOpenXml.Style.ExcelRichText
+  id: ExcelRichText
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelRichText._collection
+  - OfficeOpenXml.Style.ExcelRichText.Bold
+  - OfficeOpenXml.Style.ExcelRichText.Color
+  - OfficeOpenXml.Style.ExcelRichText.FontName
+  - OfficeOpenXml.Style.ExcelRichText.HtmlText
+  - OfficeOpenXml.Style.ExcelRichText.Italic
+  - OfficeOpenXml.Style.ExcelRichText.PreserveSpace
+  - OfficeOpenXml.Style.ExcelRichText.Size
+  - OfficeOpenXml.Style.ExcelRichText.Strike
+  - OfficeOpenXml.Style.ExcelRichText.Text
+  - OfficeOpenXml.Style.ExcelRichText.UnderLine
+  - OfficeOpenXml.Style.ExcelRichText.VerticalAlign
+  langs:
+  - csharp
+  - vb
+  name: ExcelRichText
+  nameWithType: ExcelRichText
+  fullName: OfficeOpenXml.Style.ExcelRichText
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRichText
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA richtext part\n"
+  example: []
+  syntax:
+    content: 'public class ExcelRichText : XmlHelper'
+    content.vb: >-
+      Public Class ExcelRichText
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.ExcelRichText.Text
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Text
+  id: Text
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelRichText.Text
+  fullName: OfficeOpenXml.Style.ExcelRichText.Text
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe text\n"
+  example: []
+  syntax:
+    content: public string Text { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Text As String
+  overload: OfficeOpenXml.Style.ExcelRichText.Text*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.HtmlText
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.HtmlText
+  id: HtmlText
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: HtmlText
+  nameWithType: ExcelRichText.HtmlText
+  fullName: OfficeOpenXml.Style.ExcelRichText.HtmlText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HtmlText
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nReturns the rich text item as a html string.\n"
+  example: []
+  syntax:
+    content: public string HtmlText { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property HtmlText As String
+  overload: OfficeOpenXml.Style.ExcelRichText.HtmlText*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelRichText.PreserveSpace
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.PreserveSpace
+  id: PreserveSpace
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: PreserveSpace
+  nameWithType: ExcelRichText.PreserveSpace
+  fullName: OfficeOpenXml.Style.ExcelRichText.PreserveSpace
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PreserveSpace
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 88
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nPreserves whitespace. Default true\n"
+  example: []
+  syntax:
+    content: public bool PreserveSpace { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PreserveSpace As Boolean
+  overload: OfficeOpenXml.Style.ExcelRichText.PreserveSpace*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Bold
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Bold
+  id: Bold
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Bold
+  nameWithType: ExcelRichText.Bold
+  fullName: OfficeOpenXml.Style.ExcelRichText.Bold
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bold
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBold text\n"
+  example: []
+  syntax:
+    content: public bool Bold { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Bold As Boolean
+  overload: OfficeOpenXml.Style.ExcelRichText.Bold*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Italic
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Italic
+  id: Italic
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Italic
+  nameWithType: ExcelRichText.Italic
+  fullName: OfficeOpenXml.Style.ExcelRichText.Italic
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Italic
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 145
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nItalic text\n"
+  example: []
+  syntax:
+    content: public bool Italic { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Italic As Boolean
+  overload: OfficeOpenXml.Style.ExcelRichText.Italic*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Strike
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Strike
+  id: Strike
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Strike
+  nameWithType: ExcelRichText.Strike
+  fullName: OfficeOpenXml.Style.ExcelRichText.Strike
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Strike
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStrike-out text\n"
+  example: []
+  syntax:
+    content: public bool Strike { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Strike As Boolean
+  overload: OfficeOpenXml.Style.ExcelRichText.Strike*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.UnderLine
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.UnderLine
+  id: UnderLine
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: UnderLine
+  nameWithType: ExcelRichText.UnderLine
+  fullName: OfficeOpenXml.Style.ExcelRichText.UnderLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderLine
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nUnderlined text\n"
+  example: []
+  syntax:
+    content: public bool UnderLine { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UnderLine As Boolean
+  overload: OfficeOpenXml.Style.ExcelRichText.UnderLine*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.VerticalAlign
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.VerticalAlign
+  id: VerticalAlign
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: VerticalAlign
+  nameWithType: ExcelRichText.VerticalAlign
+  fullName: OfficeOpenXml.Style.ExcelRichText.VerticalAlign
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalAlign
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 219
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nVertical Alignment\n"
+  example: []
+  syntax:
+    content: public ExcelVerticalAlignmentFont VerticalAlign { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+    content.vb: Public Property VerticalAlign As ExcelVerticalAlignmentFont
+  overload: OfficeOpenXml.Style.ExcelRichText.VerticalAlign*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Size
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Size
+  id: Size
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: ExcelRichText.Size
+  fullName: OfficeOpenXml.Style.ExcelRichText.Size
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Size
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 259
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFont size\n"
+  example: []
+  syntax:
+    content: public float Size { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Size As Single
+  overload: OfficeOpenXml.Style.ExcelRichText.Size*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.FontName
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.FontName
+  id: FontName
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: FontName
+  nameWithType: ExcelRichText.FontName
+  fullName: OfficeOpenXml.Style.ExcelRichText.FontName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FontName
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 276
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nName of the font\n"
+  example: []
+  syntax:
+    content: public string FontName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property FontName As String
+  overload: OfficeOpenXml.Style.ExcelRichText.FontName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.Color
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Color
+  id: Color
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: ExcelRichText.Color
+  fullName: OfficeOpenXml.Style.ExcelRichText.Color
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 293
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nText color\n"
+  example: []
+  syntax:
+    content: public Color Color { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Public Property Color As Color
+  overload: OfficeOpenXml.Style.ExcelRichText.Color*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichText._collection
+  commentId: P:OfficeOpenXml.Style.ExcelRichText._collection
+  id: _collection
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: _collection
+  nameWithType: ExcelRichText._collection
+  fullName: OfficeOpenXml.Style.ExcelRichText._collection
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: _collection
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 317
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA referens to the richtext collection\n"
+  example: []
+  syntax:
+    content: public ExcelRichTextCollection _collection { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelRichTextCollection
+    content.vb: Public Property _collection As ExcelRichTextCollection
+  overload: OfficeOpenXml.Style.ExcelRichText._collection*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.ExcelRichText.Text*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Text
+  name: Text
+  nameWithType: ExcelRichText.Text
+  fullName: OfficeOpenXml.Style.ExcelRichText.Text
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Style.ExcelRichText.HtmlText*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.HtmlText
+  name: HtmlText
+  nameWithType: ExcelRichText.HtmlText
+  fullName: OfficeOpenXml.Style.ExcelRichText.HtmlText
+- uid: OfficeOpenXml.Style.ExcelRichText.PreserveSpace*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.PreserveSpace
+  name: PreserveSpace
+  nameWithType: ExcelRichText.PreserveSpace
+  fullName: OfficeOpenXml.Style.ExcelRichText.PreserveSpace
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.ExcelRichText.Bold*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Bold
+  name: Bold
+  nameWithType: ExcelRichText.Bold
+  fullName: OfficeOpenXml.Style.ExcelRichText.Bold
+- uid: OfficeOpenXml.Style.ExcelRichText.Italic*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Italic
+  name: Italic
+  nameWithType: ExcelRichText.Italic
+  fullName: OfficeOpenXml.Style.ExcelRichText.Italic
+- uid: OfficeOpenXml.Style.ExcelRichText.Strike*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Strike
+  name: Strike
+  nameWithType: ExcelRichText.Strike
+  fullName: OfficeOpenXml.Style.ExcelRichText.Strike
+- uid: OfficeOpenXml.Style.ExcelRichText.UnderLine*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.UnderLine
+  name: UnderLine
+  nameWithType: ExcelRichText.UnderLine
+  fullName: OfficeOpenXml.Style.ExcelRichText.UnderLine
+- uid: OfficeOpenXml.Style.ExcelRichText.VerticalAlign*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.VerticalAlign
+  name: VerticalAlign
+  nameWithType: ExcelRichText.VerticalAlign
+  fullName: OfficeOpenXml.Style.ExcelRichText.VerticalAlign
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  parent: OfficeOpenXml.Style
+  name: ExcelVerticalAlignmentFont
+  nameWithType: ExcelVerticalAlignmentFont
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+- uid: OfficeOpenXml.Style.ExcelRichText.Size*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Size
+  name: Size
+  nameWithType: ExcelRichText.Size
+  fullName: OfficeOpenXml.Style.ExcelRichText.Size
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: OfficeOpenXml.Style.ExcelRichText.FontName*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.FontName
+  name: FontName
+  nameWithType: ExcelRichText.FontName
+  fullName: OfficeOpenXml.Style.ExcelRichText.FontName
+- uid: OfficeOpenXml.Style.ExcelRichText.Color*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Color
+  name: Color
+  nameWithType: ExcelRichText.Color
+  fullName: OfficeOpenXml.Style.ExcelRichText.Color
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.Style.ExcelRichText._collection*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText._collection
+  name: _collection
+  nameWithType: ExcelRichText._collection
+  fullName: OfficeOpenXml.Style.ExcelRichText._collection
+- uid: OfficeOpenXml.Style.ExcelRichTextCollection
+  commentId: T:OfficeOpenXml.Style.ExcelRichTextCollection
+  parent: OfficeOpenXml.Style
+  name: ExcelRichTextCollection
+  nameWithType: ExcelRichTextCollection
+  fullName: OfficeOpenXml.Style.ExcelRichTextCollection

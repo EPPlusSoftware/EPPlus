@@ -1,0 +1,732 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  commentId: T:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  id: ExcelDrawingBlipFillTile
+  parent: OfficeOpenXml.Drawing.Style.Fill
+  children:
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingBlipFillTile
+  nameWithType: ExcelDrawingBlipFillTile
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingBlipFillTile
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nA BLIP will be tiled to fill the available space\n"
+  example: []
+  syntax:
+    content: public class ExcelDrawingBlipFillTile
+    content.vb: Public Class ExcelDrawingBlipFillTile
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode
+  id: FlipMode
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  langs:
+  - csharp
+  - vb
+  name: FlipMode
+  nameWithType: ExcelDrawingBlipFillTile.FlipMode
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlipMode
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nThe direction(s) in which to flip the image.\n"
+  example: []
+  syntax:
+    content: public eTileFlipMode? FlipMode { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Drawing.eTileFlipMode}
+    content.vb: Public Property FlipMode As eTileFlipMode?
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment
+  id: Alignment
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  langs:
+  - csharp
+  - vb
+  name: Alignment
+  nameWithType: ExcelDrawingBlipFillTile.Alignment
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Alignment
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nWhere to align the first tile with respect to the shape.\n"
+  example: []
+  syntax:
+    content: public eRectangleAlignment? Alignment { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Drawing.eRectangleAlignment}
+    content.vb: Public Property Alignment As eRectangleAlignment?
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio
+  id: HorizontalRatio
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  langs:
+  - csharp
+  - vb
+  name: HorizontalRatio
+  nameWithType: ExcelDrawingBlipFillTile.HorizontalRatio
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalRatio
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nThe ratio for horizontally scale\n"
+  example: []
+  syntax:
+    content: public double HorizontalRatio { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property HorizontalRatio As Double
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio
+  id: VerticalRatio
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  langs:
+  - csharp
+  - vb
+  name: VerticalRatio
+  nameWithType: ExcelDrawingBlipFillTile.VerticalRatio
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalRatio
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nThe ratio for vertically scale\n"
+  example: []
+  syntax:
+    content: public double VerticalRatio { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property VerticalRatio As Double
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset
+  id: HorizontalOffset
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  langs:
+  - csharp
+  - vb
+  name: HorizontalOffset
+  nameWithType: ExcelDrawingBlipFillTile.HorizontalOffset
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalOffset
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nThe horizontal offset after alignment\n"
+  example: []
+  syntax:
+    content: public double HorizontalOffset { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property HorizontalOffset As Double
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset
+  commentId: P:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset
+  id: VerticalOffset
+  parent: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+  langs:
+  - csharp
+  - vb
+  name: VerticalOffset
+  nameWithType: ExcelDrawingBlipFillTile.VerticalOffset
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalOffset
+    path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Fill
+  summary: "\nThe vertical offset after alignment\n"
+  example: []
+  syntax:
+    content: public double VerticalOffset { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property VerticalOffset As Double
+  overload: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Style.Fill
+  commentId: N:OfficeOpenXml.Drawing.Style.Fill
+  name: OfficeOpenXml.Drawing.Style.Fill
+  nameWithType: OfficeOpenXml.Drawing.Style.Fill
+  fullName: OfficeOpenXml.Drawing.Style.Fill
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode
+  name: FlipMode
+  nameWithType: ExcelDrawingBlipFillTile.FlipMode
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.FlipMode
+- uid: System.Nullable{OfficeOpenXml.Drawing.eTileFlipMode}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.eTileFlipMode}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eTileFlipMode>
+  nameWithType: Nullable<eTileFlipMode>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.eTileFlipMode>
+  nameWithType.vb: Nullable(Of eTileFlipMode)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.eTileFlipMode)
+  name.vb: Nullable(Of eTileFlipMode)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.eTileFlipMode
+    name: eTileFlipMode
+    nameWithType: eTileFlipMode
+    fullName: OfficeOpenXml.Drawing.eTileFlipMode
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.eTileFlipMode
+    name: eTileFlipMode
+    nameWithType: eTileFlipMode
+    fullName: OfficeOpenXml.Drawing.eTileFlipMode
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment
+  name: Alignment
+  nameWithType: ExcelDrawingBlipFillTile.Alignment
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.Alignment
+- uid: System.Nullable{OfficeOpenXml.Drawing.eRectangleAlignment}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.eRectangleAlignment}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eRectangleAlignment>
+  nameWithType: Nullable<eRectangleAlignment>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.eRectangleAlignment>
+  nameWithType.vb: Nullable(Of eRectangleAlignment)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.eRectangleAlignment)
+  name.vb: Nullable(Of eRectangleAlignment)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.eRectangleAlignment
+    name: eRectangleAlignment
+    nameWithType: eRectangleAlignment
+    fullName: OfficeOpenXml.Drawing.eRectangleAlignment
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.eRectangleAlignment
+    name: eRectangleAlignment
+    nameWithType: eRectangleAlignment
+    fullName: OfficeOpenXml.Drawing.eRectangleAlignment
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio
+  name: HorizontalRatio
+  nameWithType: ExcelDrawingBlipFillTile.HorizontalRatio
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalRatio
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio
+  name: VerticalRatio
+  nameWithType: ExcelDrawingBlipFillTile.VerticalRatio
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalRatio
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset
+  name: HorizontalOffset
+  nameWithType: ExcelDrawingBlipFillTile.HorizontalOffset
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.HorizontalOffset
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset
+  name: VerticalOffset
+  nameWithType: ExcelDrawingBlipFillTile.VerticalOffset
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile.VerticalOffset

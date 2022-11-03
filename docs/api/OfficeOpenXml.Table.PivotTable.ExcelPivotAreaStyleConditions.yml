@@ -1,0 +1,442 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+  id: ExcelPivotAreaStyleConditions
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotAreaStyleConditions
+  nameWithType: ExcelPivotAreaStyleConditions
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotAreaStyleConditions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotAreaStyleConditions
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotAreaStyleConditions.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nConditions for a pivot table area style.\n"
+  example: []
+  syntax:
+    content: public class ExcelPivotAreaStyleConditions
+    content.vb: Public Class ExcelPivotAreaStyleConditions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields
+  id: Fields
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+  langs:
+  - csharp
+  - vb
+  name: Fields
+  nameWithType: ExcelPivotAreaStyleConditions.Fields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotAreaStyleConditions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fields
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotAreaStyleConditions.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRow and column fields that the conditions will apply to. \n"
+  example: []
+  syntax:
+    content: public ExcelPivotAreaReferenceCollection Fields { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceCollection
+    content.vb: Public ReadOnly Property Fields As ExcelPivotAreaReferenceCollection
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields
+  id: DataFields
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+  langs:
+  - csharp
+  - vb
+  name: DataFields
+  nameWithType: ExcelPivotAreaStyleConditions.DataFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotAreaStyleConditions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataFields
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotAreaStyleConditions.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe data field that the conditions will apply to. \n"
+  example: []
+  syntax:
+    content: public ExcelPivotAreaDataFieldReference DataFields { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaDataFieldReference
+    content.vb: Public ReadOnly Property DataFields As ExcelPivotAreaDataFieldReference
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields
+  name: Fields
+  nameWithType: ExcelPivotAreaStyleConditions.Fields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.Fields
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotAreaReferenceCollection
+  nameWithType: ExcelPivotAreaReferenceCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceCollection
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields
+  name: DataFields
+  nameWithType: ExcelPivotAreaStyleConditions.DataFields
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions.DataFields
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaDataFieldReference
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaDataFieldReference
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotAreaDataFieldReference
+  nameWithType: ExcelPivotAreaDataFieldReference
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaDataFieldReference

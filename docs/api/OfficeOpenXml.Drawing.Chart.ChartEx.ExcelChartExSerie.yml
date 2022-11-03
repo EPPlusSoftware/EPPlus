@@ -1,0 +1,1003 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  id: ExcelChartExSerie
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExSerie
+  nameWithType: ExcelChartExSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExSerie
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA chart serie\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExSerie : ExcelChartSerie'
+    content.vb: >-
+      Public Class ExcelChartExSerie
+          Inherits ExcelChartSerie
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  derivedClasses:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChartSerie
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChartSerie
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChartSerie
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChartSerie
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  id: DataDimensions
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: DataDimensions
+  nameWithType: ExcelChartExSerie.DataDimensions
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataDimensions
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe dimensions of the serie\n"
+  example: []
+  syntax:
+    content: public ExcelChartExDataCollection DataDimensions { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
+    content.vb: Public ReadOnly Property DataDimensions As ExcelChartExDataCollection
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  id: HeaderAddress
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: HeaderAddress
+  nameWithType: ExcelChartExSerie.HeaderAddress
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderAddress
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nHeader address for the serie.\n"
+  example: []
+  syntax:
+    content: public override ExcelAddressBase HeaderAddress { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public Overrides Property HeaderAddress As ExcelAddressBase
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.HeaderAddress
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  id: Header
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: Header
+  nameWithType: ExcelChartExSerie.Header
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Header
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe header text for the serie.\n"
+  example: []
+  syntax:
+    content: public override string Header { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides Property Header As String
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Header
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  id: Series
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: Series
+  nameWithType: ExcelChartExSerie.Series
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Series
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSet this to a valid address or the drawing will be invalid.\n"
+  example: []
+  syntax:
+    content: public override string Series { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides Property Series As String
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Series
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  id: XSeries
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: XSeries
+  nameWithType: ExcelChartExSerie.XSeries
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XSeries
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 171
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSet an address for the horizontal labels\n"
+  example: []
+  syntax:
+    content: public override string XSeries { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides Property XSeries As String
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.XSeries
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  id: DataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: DataLabel
+  nameWithType: ExcelChartExSerie.DataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataLabel
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nData label properties\n"
+  example: []
+  syntax:
+    content: public ExcelChartExSerieDataLabel DataLabel { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieDataLabel
+    content.vb: Public ReadOnly Property DataLabel As ExcelChartExSerieDataLabel
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  id: DataPoints
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: DataPoints
+  nameWithType: ExcelChartExSerie.DataPoints
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPoints
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 251
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA collection of individual data points\n"
+  example: []
+  syntax:
+    content: public ExcelChartExDataPointCollection DataPoints { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+    content.vb: Public ReadOnly Property DataPoints As ExcelChartExDataPointCollection
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: ExcelChartExSerie.Hidden
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 265
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nIf the serie is hidden\n"
+  example: []
+  syntax:
+    content: public bool Hidden { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Hidden As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  id: HasDataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: HasDataLabel
+  nameWithType: ExcelChartExSerie.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasDataLabel
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 280
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nIf the chart has datalabel\n"
+  example: []
+  syntax:
+    content: public bool HasDataLabel { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasDataLabel As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  id: NumberOfItems
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: NumberOfItems
+  nameWithType: ExcelChartExSerie.NumberOfItems
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberOfItems
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 291
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nNumber of items. Will always return 0, as no item data is stored.\n"
+  example: []
+  syntax:
+    content: public override int NumberOfItems { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Overrides ReadOnly Property NumberOfItems As Integer
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberOfItems
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  id: TrendLines
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  langs:
+  - csharp
+  - vb
+  name: TrendLines
+  nameWithType: ExcelChartExSerie.TrendLines
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TrendLines
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerie.cs
+    startLine: 296
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nTrendline do not apply to extended charts.\n"
+  example: []
+  syntax:
+    content: public override ExcelChartTrendlineCollection TrendLines { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+    content.vb: Public Overrides ReadOnly Property TrendLines As ExcelChartTrendlineCollection
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.TrendLines
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerie
+  nameWithType: ExcelChartSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsY
+  nameWithType: ExcelChartSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsX
+  nameWithType: ExcelChartSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsX
+  nameWithType: ExcelChartSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Fill
+  nameWithType: ExcelChartSerie.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Border
+  nameWithType: ExcelChartSerie.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Effect
+  nameWithType: ExcelChartSerie.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: ThreeD
+  nameWithType: ExcelChartSerie.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  name: DataDimensions
+  nameWithType: ExcelChartExSerie.DataDimensions
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExDataCollection
+  nameWithType: ExcelChartExDataCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.HeaderAddress
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.HeaderAddress
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: HeaderAddress
+  nameWithType: ExcelChartSerie.HeaderAddress
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.HeaderAddress
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  name: HeaderAddress
+  nameWithType: ExcelChartExSerie.HeaderAddress
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Header
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Header
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Header
+  nameWithType: ExcelChartSerie.Header
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Header
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  name: Header
+  nameWithType: ExcelChartExSerie.Header
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Series
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Series
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Series
+  nameWithType: ExcelChartSerie.Series
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Series
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  name: Series
+  nameWithType: ExcelChartExSerie.Series
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.XSeries
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.XSeries
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: XSeries
+  nameWithType: ExcelChartSerie.XSeries
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.XSeries
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  name: XSeries
+  nameWithType: ExcelChartExSerie.XSeries
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  name: DataLabel
+  nameWithType: ExcelChartExSerie.DataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieDataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExSerieDataLabel
+  nameWithType: ExcelChartExSerieDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieDataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  name: DataPoints
+  nameWithType: ExcelChartExSerie.DataPoints
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExDataPointCollection
+  nameWithType: ExcelChartExDataPointCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  name: Hidden
+  nameWithType: ExcelChartExSerie.Hidden
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  name: HasDataLabel
+  nameWithType: ExcelChartExSerie.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberOfItems
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberOfItems
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberOfItems
+  nameWithType: ExcelChartSerie.NumberOfItems
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberOfItems
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  name: NumberOfItems
+  nameWithType: ExcelChartExSerie.NumberOfItems
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.TrendLines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.TrendLines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: TrendLines
+  nameWithType: ExcelChartSerie.TrendLines
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.TrendLines
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  name: TrendLines
+  nameWithType: ExcelChartExSerie.TrendLines
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartTrendlineCollection
+  nameWithType: ExcelChartTrendlineCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection

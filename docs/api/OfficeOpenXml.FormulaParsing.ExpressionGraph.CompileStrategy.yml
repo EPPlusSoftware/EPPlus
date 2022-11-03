@@ -1,0 +1,53 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  id: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  children:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategyFactory
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.DefaultCompileStrategy
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: CompileStrategy
+  nameWithType: CompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategyFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategyFactory
+  name: CompileStrategyFactory
+  nameWithType: CompileStrategyFactory
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategyFactory
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.DefaultCompileStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.DefaultCompileStrategy
+  name: DefaultCompileStrategy
+  nameWithType: DefaultCompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.DefaultCompileStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: ICompileStrategyFactory
+  nameWithType: ICompileStrategyFactory
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  name: StringConcatStrategy
+  nameWithType: StringConcatStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy

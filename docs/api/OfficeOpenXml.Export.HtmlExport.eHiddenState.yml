@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eHiddenState
+  id: eHiddenState
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.eHiddenState.Exclude
+  - OfficeOpenXml.Export.HtmlExport.eHiddenState.Include
+  - OfficeOpenXml.Export.HtmlExport.eHiddenState.IncludeButHide
+  langs:
+  - csharp
+  - vb
+  name: eHiddenState
+  nameWithType: eHiddenState
+  fullName: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eHiddenState
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nHow hidden rows are handled.\n"
+  example: []
+  syntax:
+    content: public enum eHiddenState
+    content.vb: Public Enum eHiddenState
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.HtmlExport.eHiddenState.Exclude
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eHiddenState.Exclude
+  id: Exclude
+  parent: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  langs:
+  - csharp
+  - vb
+  name: Exclude
+  nameWithType: eHiddenState.Exclude
+  fullName: OfficeOpenXml.Export.HtmlExport.eHiddenState.Exclude
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Exclude
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude hidden rows\n"
+  example: []
+  syntax:
+    content: Exclude = 0
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eHiddenState.IncludeButHide
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eHiddenState.IncludeButHide
+  id: IncludeButHide
+  parent: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  langs:
+  - csharp
+  - vb
+  name: IncludeButHide
+  nameWithType: eHiddenState.IncludeButHide
+  fullName: OfficeOpenXml.Export.HtmlExport.eHiddenState.IncludeButHide
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IncludeButHide
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nInclude hidden rows, but hide them.\n"
+  example: []
+  syntax:
+    content: IncludeButHide = 1
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eHiddenState.Include
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eHiddenState.Include
+  id: Include
+  parent: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  langs:
+  - csharp
+  - vb
+  name: Include
+  nameWithType: eHiddenState.Include
+  fullName: OfficeOpenXml.Export.HtmlExport.eHiddenState.Include
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Include
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHiddenState.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nInclude hidden rows.\n"
+  example: []
+  syntax:
+    content: Include = 2
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eHiddenState
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: eHiddenState
+  nameWithType: eHiddenState
+  fullName: OfficeOpenXml.Export.HtmlExport.eHiddenState

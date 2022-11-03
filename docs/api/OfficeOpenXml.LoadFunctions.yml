@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LoadFunctions
+  commentId: N:OfficeOpenXml.LoadFunctions
+  id: OfficeOpenXml.LoadFunctions
+  children:
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.LoadFunctions
+  nameWithType: OfficeOpenXml.LoadFunctions
+  fullName: OfficeOpenXml.LoadFunctions
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  commentId: T:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  parent: OfficeOpenXml.LoadFunctions
+  name: LoadFunctionFunctionParamsBase
+  nameWithType: LoadFunctionFunctionParamsBase
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+- uid: OfficeOpenXml.LoadFunctions
+  commentId: N:OfficeOpenXml.LoadFunctions
+  name: OfficeOpenXml.LoadFunctions
+  nameWithType: OfficeOpenXml.LoadFunctions
+  fullName: OfficeOpenXml.LoadFunctions

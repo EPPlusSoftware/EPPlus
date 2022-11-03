@@ -18,7 +18,17 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Data;
+using System.Collections.Generic;
 using OfficeOpenXml.Export.ToDataTable;
+using OfficeOpenXml.Export.ToCollection;
+using System.Linq;
+using OfficeOpenXml.Core.CellStore;
+using System.Reflection;
+using System.ComponentModel;
+using OfficeOpenXml.Attributes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Export.ToCollection.Exceptions;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -146,7 +156,7 @@ namespace OfficeOpenXml
 
             bool hasTextQ = Format.TextQualifier != '\0';
             string doubleTextQualifiers = new string(Format.TextQualifier, 2);
-            var skipLinesBegining = Format.SkipLinesBeginning+(Format.FirstRowIsHeader ? 1 : 0);
+            var skipLinesBegining = Format.SkipLinesBeginning + (Format.FirstRowIsHeader ? 1 : 0);
             CultureInfo ci = GetCultureInfo(Format);
             for (int row = _fromRow; row <= _toRow; row++)
             {
@@ -178,14 +188,14 @@ namespace OfficeOpenXml
                     }
                     if (col != _toCol) sw.Write(Format.Delimiter);
                 }
-                if (row != _toRow-Format.SkipLinesEnd) sw.Write(Format.EOL);
+                if (row != _toRow - Format.SkipLinesEnd) sw.Write(Format.EOL);
             }
             if (!string.IsNullOrEmpty(Format.Footer)) sw.Write(Format.EOL + Format.Footer);
             sw.Flush();
         }
         #endregion
         #region ToText / SaveToText async
-        #if !NET35 && !NET40
+#if !NET35 && !NET40
         /// <summary>
         /// Converts a range to text in CSV format.
         /// </summary>
@@ -235,7 +245,7 @@ namespace OfficeOpenXml
             int maxFormats = Format.Formats == null ? 0 : Format.Formats.Length;
 
             bool hasTextQ = Format.TextQualifier != '\0';
-            string encodedTextQualifier="";
+            string encodedTextQualifier = "";
             if (hasTextQ)
             {
                 if (Format.EncodedTextQualifiers == null)
@@ -274,11 +284,11 @@ namespace OfficeOpenXml
                     {
                         await sw.WriteAsync(t).ConfigureAwait(false);
                     }
-                    if (col != _toCol) await sw.WriteAsync(Format.Delimiter).ConfigureAwait(false); 
+                    if (col != _toCol) await sw.WriteAsync(Format.Delimiter).ConfigureAwait(false);
                 }
-                if (row != _toRow - Format.SkipLinesEnd) await sw.WriteAsync(Format.EOL).ConfigureAwait(false); 
+                if (row != _toRow - Format.SkipLinesEnd) await sw.WriteAsync(Format.EOL).ConfigureAwait(false);
             }
-            if (!string.IsNullOrEmpty(Format.Footer)) await sw.WriteAsync(Format.EOL + Format.Footer).ConfigureAwait(false); 
+            if (!string.IsNullOrEmpty(Format.Footer)) await sw.WriteAsync(Format.EOL + Format.Footer).ConfigureAwait(false);
             sw.Flush();
         }
 #endif
@@ -357,7 +367,7 @@ namespace OfficeOpenXml
             await re.ExportAsync(stream);
         }
 #endif
-#endregion
+        #endregion
         private static CultureInfo GetCultureInfo(ExcelOutputTextFormat Format)
         {
             var ci = (CultureInfo)(Format.Culture.Clone() ?? CultureInfo.InvariantCulture.Clone());
@@ -381,7 +391,7 @@ namespace OfficeOpenXml
 
         private string GetText(ExcelOutputTextFormat Format, int maxFormats, CultureInfo ci, int row, int col, out bool isText)
         {
-            var v=GetCellStoreValue(row, col);
+            var v = GetCellStoreValue(row, col);
 
             var ix = col - _fromCol;
             isText = false;
@@ -458,7 +468,7 @@ namespace OfficeOpenXml
             }
 
             //If a formatted numeric/date value contains the delimitter or a text qualifier treat it as text.
-            if (isText == false && string.IsNullOrEmpty(t)==false && t.IndexOfAny(new []{ Format.Delimiter, Format.TextQualifier}) >= 0)
+            if (isText == false && string.IsNullOrEmpty(t) == false && t.IndexOfAny(new[] { Format.Delimiter, Format.TextQualifier }) >= 0)
             {
                 isText = true;
             }
@@ -497,11 +507,93 @@ namespace OfficeOpenXml
                     sb.Append(s);
                 }
 
-                if(col < _toCol)
+                if (col < _toCol)
                     sb.Append(Format.Delimiter);
             }
             if (row != _toRow) sb.Append(Format.EOL);
             return sb.ToString();
+        }
+        /// <summary>
+        /// Returns a collection of T for the range. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The first row must containt the unique headers used as keys in the row dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow)
+        {
+            return ToCollectionWithMappings(setRow, new ToCollectionRangeOptions());
+        }
+        /// <summary>
+        /// Returns a collection of T for the range. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The first row must contain the unique headers used as keys in the row dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow, Action<ToCollectionRangeOptions> options)
+        {
+            var o = new ToCollectionRangeOptions();
+            options.Invoke(o);
+            return ToCollectionWithMappings(setRow, o);
+        }
+
+        /// <summary>
+        /// Returns a collection of T for the range. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The first row must containt the unique headers used as keys in the row dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <param name="options">Parameters to the function</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow, ToCollectionRangeOptions options)
+        {
+            return ToCollectionRange.ToCollection(this, setRow, options);
+        }
+        /// <summary>
+        /// Returns a collection of T for the range. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The first row must contain the unique headers used as keys in the row dictionary.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>()
+        {
+            return ToCollection<T>(new ToCollectionRangeOptions() { HeaderRow = 0 });
+        }
+        /// <summary>
+        /// Automatically maps the range to the properties <see cref="T"/> using the headers.
+        /// Using this method requires a headers.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to use</typeparam>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of <see cref="T"/></returns>
+        public List<T> ToCollection<T>(Action<ToCollectionRangeOptions> options)
+        {
+            var o = new ToCollectionRangeOptions();
+            options.Invoke(o);
+            return ToCollection<T>(o);
+        }
+        /// <summary>
+        /// Automatically maps the range to the properties <see cref="T"/> using the headers.
+        /// Using this method requires a headers.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to use</typeparam>
+        /// <param name="options">Settings for the method</param>
+        /// <returns>A list of <see cref="T"/></returns>
+        public List<T> ToCollection<T>(ToCollectionRangeOptions options)
+        {
+            return ToCollectionRange.ToCollection<T>(this, options);
         }
     }
 }

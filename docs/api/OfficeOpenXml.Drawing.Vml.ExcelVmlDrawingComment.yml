@@ -1,0 +1,1191 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  id: ExcelVmlDrawingComment
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlDrawingComment
+  nameWithType: ExcelVmlDrawingComment
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlDrawingComment
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nDrawing object used for comments\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVmlDrawingComment : ExcelVmlDrawingBase'
+    content.vb: >-
+      Public Class ExcelVmlDrawingComment
+          Inherits ExcelVmlDrawingBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  derivedClasses:
+  - OfficeOpenXml.ExcelComment
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address
+  id: Address
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExcelVmlDrawingComment.Address
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nAddress in the worksheet\n"
+  example: []
+  syntax:
+    content: public string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Address As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment
+  id: VerticalAlignment
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: VerticalAlignment
+  nameWithType: ExcelVmlDrawingComment.VerticalAlignment
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalAlignment
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nVertical alignment for text\n"
+  example: []
+  syntax:
+    content: public eTextAlignVerticalVml VerticalAlignment { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+    content.vb: Public Property VerticalAlignment As eTextAlignVerticalVml
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment
+  id: HorizontalAlignment
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: HorizontalAlignment
+  nameWithType: ExcelVmlDrawingComment.HorizontalAlignment
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalAlignment
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nHorizontal alignment for text\n"
+  example: []
+  syntax:
+    content: public eTextAlignHorizontalVml HorizontalAlignment { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+    content.vb: Public Property HorizontalAlignment As eTextAlignHorizontalVml
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible
+  id: Visible
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: Visible
+  nameWithType: ExcelVmlDrawingComment.Visible
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Visible
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nIf the drawing object is visible.\n"
+  example: []
+  syntax:
+    content: public bool Visible { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Visible As Boolean
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor
+  id: BackgroundColor
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: BackgroundColor
+  nameWithType: ExcelVmlDrawingComment.BackgroundColor
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackgroundColor
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 143
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nBackground color\n"
+  example: []
+  syntax:
+    content: public Color BackgroundColor { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Public Property BackgroundColor As Color
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle
+  id: LineStyle
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: LineStyle
+  nameWithType: ExcelVmlDrawingComment.LineStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineStyle
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLinestyle for border\n"
+  example: []
+  syntax:
+    content: public eLineStyleVml LineStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+    content.vb: Public Property LineStyle As eLineStyleVml
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor
+  id: LineColor
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: LineColor
+  nameWithType: ExcelVmlDrawingComment.LineColor
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineColor
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 225
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLine color \n"
+  example: []
+  syntax:
+    content: public Color LineColor { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Public Property LineColor As Color
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth
+  id: LineWidth
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: LineWidth
+  nameWithType: ExcelVmlDrawingComment.LineWidth
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineWidth
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nWidth of the border\n"
+  example: []
+  syntax:
+    content: public float LineWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property LineWidth As Single
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit
+  id: AutoFit
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: AutoFit
+  nameWithType: ExcelVmlDrawingComment.AutoFit
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoFit
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 285
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nAutofits the drawingobject \n"
+  example: []
+  syntax:
+    content: public bool AutoFit { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AutoFit As Boolean
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked
+  id: Locked
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: Locked
+  nameWithType: ExcelVmlDrawingComment.Locked
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Locked
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 302
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nIf the object is locked when the sheet is protected\n"
+  example: []
+  syntax:
+    content: public bool Locked { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Locked As Boolean
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText
+  id: LockText
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: LockText
+  nameWithType: ExcelVmlDrawingComment.LockText
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LockText
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 317
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSpecifies that the object&apos;s text is locked\n"
+  example: []
+  syntax:
+    content: public bool LockText { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property LockText As Boolean
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From
+  id: From
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: From
+  nameWithType: ExcelVmlDrawingComment.From
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: From
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 332
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nFrom position. For comments only when Visible=true.\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPosition From { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+    content.vb: Public ReadOnly Property From As ExcelVmlDrawingPosition
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To
+  id: To
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: To
+  nameWithType: ExcelVmlDrawingComment.To
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: To
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 347
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nTo position. For comments only when Visible=true.\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPosition To { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+    content.vb: Public ReadOnly Property To As ExcelVmlDrawingPosition
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill
+  id: Fill
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+  langs:
+  - csharp
+  - vb
+  name: Fill
+  nameWithType: ExcelVmlDrawingComment.Fill
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fill
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
+    startLine: 404
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nFill properties for the comment\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingFill Fill { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill
+    content.vb: Public ReadOnly Property Fill As ExcelVmlDrawingFill
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingBase
+  nameWithType: ExcelVmlDrawingBase
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: Id
+  nameWithType: ExcelVmlDrawingBase.Id
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: AlternativeText
+  nameWithType: ExcelVmlDrawingBase.AlternativeText
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: GetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.GetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: SetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.SetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address
+  name: Address
+  nameWithType: ExcelVmlDrawingComment.Address
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Address
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment
+  name: VerticalAlignment
+  nameWithType: ExcelVmlDrawingComment.VerticalAlignment
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.VerticalAlignment
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eTextAlignVerticalVml
+  nameWithType: eTextAlignVerticalVml
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment
+  name: HorizontalAlignment
+  nameWithType: ExcelVmlDrawingComment.HorizontalAlignment
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.HorizontalAlignment
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eTextAlignHorizontalVml
+  nameWithType: eTextAlignHorizontalVml
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible
+  name: Visible
+  nameWithType: ExcelVmlDrawingComment.Visible
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Visible
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor
+  name: BackgroundColor
+  nameWithType: ExcelVmlDrawingComment.BackgroundColor
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.BackgroundColor
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle
+  name: LineStyle
+  nameWithType: ExcelVmlDrawingComment.LineStyle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineStyle
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eLineStyleVml
+  nameWithType: eLineStyleVml
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor
+  name: LineColor
+  nameWithType: ExcelVmlDrawingComment.LineColor
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineColor
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth
+  name: LineWidth
+  nameWithType: ExcelVmlDrawingComment.LineWidth
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LineWidth
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit
+  name: AutoFit
+  nameWithType: ExcelVmlDrawingComment.AutoFit
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.AutoFit
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked
+  name: Locked
+  nameWithType: ExcelVmlDrawingComment.Locked
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Locked
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText
+  name: LockText
+  nameWithType: ExcelVmlDrawingComment.LockText
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.LockText
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From
+  name: From
+  nameWithType: ExcelVmlDrawingComment.From
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.From
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingPosition
+  nameWithType: ExcelVmlDrawingPosition
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To
+  name: To
+  nameWithType: ExcelVmlDrawingComment.To
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.To
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill
+  name: Fill
+  nameWithType: ExcelVmlDrawingComment.Fill
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment.Fill
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingFill
+  nameWithType: ExcelVmlDrawingFill
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill

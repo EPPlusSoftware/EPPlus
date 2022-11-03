@@ -1,0 +1,593 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelHeaderFooterText
+  commentId: T:OfficeOpenXml.ExcelHeaderFooterText
+  id: ExcelHeaderFooterText
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelHeaderFooterText.CenteredText
+  - OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.FileInfo,OfficeOpenXml.PictureAlignment)
+  - OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType,OfficeOpenXml.PictureAlignment)
+  - OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
+  - OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
+  langs:
+  - csharp
+  - vb
+  name: ExcelHeaderFooterText
+  nameWithType: ExcelHeaderFooterText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelHeaderFooterText
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint header and footer \n"
+  example: []
+  syntax:
+    content: public class ExcelHeaderFooterText
+    content.vb: Public Class ExcelHeaderFooterText
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
+  commentId: F:OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
+  id: LeftAlignedText
+  parent: OfficeOpenXml.ExcelHeaderFooterText
+  langs:
+  - csharp
+  - vb
+  name: LeftAlignedText
+  nameWithType: ExcelHeaderFooterText.LeftAlignedText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.LeftAlignedText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftAlignedText
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet/set the text to appear on the left hand side of the header (or footer) on the worksheet.\n"
+  example: []
+  syntax:
+    content: public string LeftAlignedText
+    return:
+      type: System.String
+    content.vb: Public LeftAlignedText As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooterText.CenteredText
+  commentId: F:OfficeOpenXml.ExcelHeaderFooterText.CenteredText
+  id: CenteredText
+  parent: OfficeOpenXml.ExcelHeaderFooterText
+  langs:
+  - csharp
+  - vb
+  name: CenteredText
+  nameWithType: ExcelHeaderFooterText.CenteredText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.CenteredText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CenteredText
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet/set the text to appear in the center of the header (or footer) on the worksheet.\n"
+  example: []
+  syntax:
+    content: public string CenteredText
+    return:
+      type: System.String
+    content.vb: Public CenteredText As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
+  commentId: F:OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
+  id: RightAlignedText
+  parent: OfficeOpenXml.ExcelHeaderFooterText
+  langs:
+  - csharp
+  - vb
+  name: RightAlignedText
+  nameWithType: ExcelHeaderFooterText.RightAlignedText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.RightAlignedText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightAlignedText
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet/set the text to appear on the right hand side of the header (or footer) on the worksheet.\n"
+  example: []
+  syntax:
+    content: public string RightAlignedText
+    return:
+      type: System.String
+    content.vb: Public RightAlignedText As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.FileInfo,OfficeOpenXml.PictureAlignment)
+  commentId: M:OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.FileInfo,OfficeOpenXml.PictureAlignment)
+  id: InsertPicture(System.IO.FileInfo,OfficeOpenXml.PictureAlignment)
+  parent: OfficeOpenXml.ExcelHeaderFooterText
+  langs:
+  - csharp
+  - vb
+  name: InsertPicture(FileInfo, PictureAlignment)
+  nameWithType: ExcelHeaderFooterText.InsertPicture(FileInfo, PictureAlignment)
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.FileInfo, OfficeOpenXml.PictureAlignment)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertPicture
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInserts a picture at the end of the text in the header or footer\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
+    parameters:
+    - id: PictureFile
+      type: System.IO.FileInfo
+      description: The image object containing the Picture
+    - id: Alignment
+      type: OfficeOpenXml.PictureAlignment
+      description: Alignment. The image object will be inserted at the end of the Text.
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+    content.vb: Public Function InsertPicture(PictureFile As FileInfo, Alignment As PictureAlignment) As ExcelVmlDrawingPicture
+  overload: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType,OfficeOpenXml.PictureAlignment)
+  commentId: M:OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType,OfficeOpenXml.PictureAlignment)
+  id: InsertPicture(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType,OfficeOpenXml.PictureAlignment)
+  parent: OfficeOpenXml.ExcelHeaderFooterText
+  langs:
+  - csharp
+  - vb
+  name: InsertPicture(Stream, ePictureType, PictureAlignment)
+  nameWithType: ExcelHeaderFooterText.InsertPicture(Stream, ePictureType, PictureAlignment)
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture(System.IO.Stream, OfficeOpenXml.Drawing.ePictureType, OfficeOpenXml.PictureAlignment)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertPicture
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInserts a picture at the end of the text in the header or footer\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPicture InsertPicture(Stream PictureStream, ePictureType pictureType, PictureAlignment Alignment)
+    parameters:
+    - id: PictureStream
+      type: System.IO.Stream
+      description: The stream containing the picture
+    - id: pictureType
+      type: OfficeOpenXml.Drawing.ePictureType
+      description: The image format of the picture stream
+    - id: Alignment
+      type: OfficeOpenXml.PictureAlignment
+      description: Alignment. The image object will be inserted at the end of the Text.
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+    content.vb: Public Function InsertPicture(PictureStream As Stream, pictureType As ePictureType, Alignment As PictureAlignment) As ExcelVmlDrawingPicture
+  overload: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooterText.InsertPicture
+  name: InsertPicture
+  nameWithType: ExcelHeaderFooterText.InsertPicture
+  fullName: OfficeOpenXml.ExcelHeaderFooterText.InsertPicture
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: OfficeOpenXml.PictureAlignment
+  commentId: T:OfficeOpenXml.PictureAlignment
+  parent: OfficeOpenXml
+  name: PictureAlignment
+  nameWithType: PictureAlignment
+  fullName: OfficeOpenXml.PictureAlignment
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingPicture
+  nameWithType: ExcelVmlDrawingPicture
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: OfficeOpenXml.Drawing.ePictureType
+  commentId: T:OfficeOpenXml.Drawing.ePictureType
+  parent: OfficeOpenXml.Drawing
+  name: ePictureType
+  nameWithType: ePictureType
+  fullName: OfficeOpenXml.Drawing.ePictureType
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing

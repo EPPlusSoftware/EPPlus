@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Font
+  commentId: N:OfficeOpenXml.Drawing.Style.Font
+  id: OfficeOpenXml.Drawing.Style.Font
+  children:
+  - OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFont
+  - OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontBase
+  - OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontSpecial
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Drawing.Style.Font
+  nameWithType: OfficeOpenXml.Drawing.Style.Font
+  fullName: OfficeOpenXml.Drawing.Style.Font
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFont
+  commentId: T:OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFont
+  parent: OfficeOpenXml.Drawing.Style.Font
+  name: ExcelDrawingFont
+  nameWithType: ExcelDrawingFont
+  fullName: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFont
+- uid: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontBase
+  commentId: T:OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontBase
+  parent: OfficeOpenXml.Drawing.Style.Font
+  name: ExcelDrawingFontBase
+  nameWithType: ExcelDrawingFontBase
+  fullName: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontBase
+- uid: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontSpecial
+  commentId: T:OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontSpecial
+  parent: OfficeOpenXml.Drawing.Style.Font
+  name: ExcelDrawingFontSpecial
+  nameWithType: ExcelDrawingFontSpecial
+  fullName: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontSpecial
+- uid: OfficeOpenXml.Drawing.Style.Font
+  commentId: N:OfficeOpenXml.Drawing.Style.Font
+  name: OfficeOpenXml.Drawing.Style.Font
+  nameWithType: OfficeOpenXml.Drawing.Style.Font
+  fullName: OfficeOpenXml.Drawing.Style.Font

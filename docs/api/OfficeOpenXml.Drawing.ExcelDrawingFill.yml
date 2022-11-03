@@ -1,0 +1,648 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawingFill
+  id: ExcelDrawingFill
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill
+  - OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose
+  - OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill
+  - OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingFill
+  nameWithType: ExcelDrawingFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingFill
+    path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFill properties for drawing objects\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawingFill : ExcelDrawingFillBasic, IDisposable'
+    content.vb: >-
+      Public Class ExcelDrawingFill
+          Inherits ExcelDrawingFillBasic
+          Implements IDisposable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillPath
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillNode
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic._drawing
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillTypeNode
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Style
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Color
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic.SolidFill
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic.GradientFill
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Transparancy
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill
+  id: LoadFill
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFill
+  langs:
+  - csharp
+  - vb
+  name: LoadFill()
+  nameWithType: ExcelDrawingFill.LoadFill()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFill
+    path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLoad the fill from the xml\n"
+  example: []
+  syntax:
+    content: protected override void LoadFill()
+    content.vb: Protected Overrides Sub LoadFill
+  overridden: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill
+  overload: OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill
+  id: PatternFill
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFill
+  langs:
+  - csharp
+  - vb
+  name: PatternFill
+  nameWithType: ExcelDrawingFill.PatternFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PatternFill
+    path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReference pattern fill properties\nThis property is only accessable when Type is set to PatternFill\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingPatternFill PatternFill { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingPatternFill
+    content.vb: Public ReadOnly Property PatternFill As ExcelDrawingPatternFill
+  overload: OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill
+  id: BlipFill
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFill
+  langs:
+  - csharp
+  - vb
+  name: BlipFill
+  nameWithType: ExcelDrawingFill.BlipFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlipFill
+    path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReference gradient fill properties\nThis property is only accessable when Type is set to BlipFill\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingBlipFill BlipFill { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFill
+    content.vb: Public ReadOnly Property BlipFill As ExcelDrawingBlipFill
+  overload: OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFill
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelDrawingFill.Dispose()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDisposes the object\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  parent: OfficeOpenXml.Drawing
+  name: ExcelDrawingFillBasic
+  nameWithType: ExcelDrawingFillBasic
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillPath
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillPath
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: _fillPath
+  nameWithType: ExcelDrawingFillBasic._fillPath
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillPath
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillNode
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillNode
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: _fillNode
+  nameWithType: ExcelDrawingFillBasic._fillNode
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillNode
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._drawing
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawingFillBasic._drawing
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: _drawing
+  nameWithType: ExcelDrawingFillBasic._drawing
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._drawing
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillTypeNode
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillTypeNode
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: _fillTypeNode
+  nameWithType: ExcelDrawingFillBasic._fillTypeNode
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic._fillTypeNode
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Style
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Style
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: Style
+  nameWithType: ExcelDrawingFillBasic.Style
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Style
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Color
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Color
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: Color
+  nameWithType: ExcelDrawingFillBasic.Color
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Color
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.SolidFill
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingFillBasic.SolidFill
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: SolidFill
+  nameWithType: ExcelDrawingFillBasic.SolidFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.SolidFill
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.GradientFill
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingFillBasic.GradientFill
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: GradientFill
+  nameWithType: ExcelDrawingFillBasic.GradientFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.GradientFill
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Transparancy
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Transparancy
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: Transparancy
+  nameWithType: ExcelDrawingFillBasic.Transparancy
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.Transparancy
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill
+  parent: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  name: LoadFill()
+  nameWithType: ExcelDrawingFillBasic.LoadFill()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill
+    name: LoadFill
+    nameWithType: ExcelDrawingFillBasic.LoadFill
+    fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill
+    name: LoadFill
+    nameWithType: ExcelDrawingFillBasic.LoadFill
+    fullName: OfficeOpenXml.Drawing.ExcelDrawingFillBasic.LoadFill
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill
+  name: LoadFill
+  nameWithType: ExcelDrawingFill.LoadFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.LoadFill
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill
+  name: PatternFill
+  nameWithType: ExcelDrawingFill.PatternFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.PatternFill
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingPatternFill
+  commentId: T:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingPatternFill
+  parent: OfficeOpenXml.Drawing.Style.Fill
+  name: ExcelDrawingPatternFill
+  nameWithType: ExcelDrawingPatternFill
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingPatternFill
+- uid: OfficeOpenXml.Drawing.Style.Fill
+  commentId: N:OfficeOpenXml.Drawing.Style.Fill
+  name: OfficeOpenXml.Drawing.Style.Fill
+  nameWithType: OfficeOpenXml.Drawing.Style.Fill
+  fullName: OfficeOpenXml.Drawing.Style.Fill
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill
+  name: BlipFill
+  nameWithType: ExcelDrawingFill.BlipFill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.BlipFill
+- uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFill
+  commentId: T:OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFill
+  parent: OfficeOpenXml.Drawing.Style.Fill
+  name: ExcelDrawingBlipFill
+  nameWithType: ExcelDrawingBlipFill
+  fullName: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFill
+- uid: OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose
+  name: Dispose
+  nameWithType: ExcelDrawingFill.Dispose
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingFill.Dispose

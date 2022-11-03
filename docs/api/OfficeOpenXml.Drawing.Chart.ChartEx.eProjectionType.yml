@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  id: eProjectionType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Albers
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Automatic
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Mercator
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Miller
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Robinson
+  langs:
+  - csharp
+  - vb
+  name: eProjectionType
+  nameWithType: eProjectionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eProjectionType
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe cartographic map projection for a region map chart series\n"
+  example: []
+  syntax:
+    content: public enum eProjectionType
+    content.vb: Public Enum eProjectionType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Automatic
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Automatic
+  id: Automatic
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  langs:
+  - csharp
+  - vb
+  name: Automatic
+  nameWithType: eProjectionType.Automatic
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Automatic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Automatic
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nAutomatic\n"
+  example: []
+  syntax:
+    content: Automatic = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Mercator
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Mercator
+  id: Mercator
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  langs:
+  - csharp
+  - vb
+  name: Mercator
+  nameWithType: eProjectionType.Mercator
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Mercator
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Mercator
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA Mercator projection.\n"
+  example: []
+  syntax:
+    content: Mercator = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Miller
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Miller
+  id: Miller
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  langs:
+  - csharp
+  - vb
+  name: Miller
+  nameWithType: eProjectionType.Miller
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Miller
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Miller
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\na Miller cylindrical projection.\n"
+  example: []
+  syntax:
+    content: Miller = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Robinson
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Robinson
+  id: Robinson
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  langs:
+  - csharp
+  - vb
+  name: Robinson
+  nameWithType: eProjectionType.Robinson
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Robinson
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Robinson
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA Robinson projection.\n"
+  example: []
+  syntax:
+    content: Robinson = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Albers
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Albers
+  id: Albers
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  langs:
+  - csharp
+  - vb
+  name: Albers
+  nameWithType: eProjectionType.Albers
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType.Albers
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Albers
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eProjectionType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nAn Albers equal-area conic projection.\n"
+  example: []
+  syntax:
+    content: Albers = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eProjectionType
+  nameWithType: eProjectionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType

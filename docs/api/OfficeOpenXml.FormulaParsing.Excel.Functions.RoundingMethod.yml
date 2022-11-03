@@ -1,0 +1,116 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  id: RoundingMethod
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Convert
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Floor
+  langs:
+  - csharp
+  - vb
+  name: RoundingMethod
+  nameWithType: RoundingMethod
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RoundingMethod
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public enum RoundingMethod
+    content.vb: Public Enum RoundingMethod
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Convert
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Convert
+  id: Convert
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  langs:
+  - csharp
+  - vb
+  name: Convert
+  nameWithType: RoundingMethod.Convert
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Convert
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Convert
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nRound decimal number to int using Convert.ToInt32\n"
+  example: []
+  syntax:
+    content: Convert = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Floor
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Floor
+  id: Floor
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  langs:
+  - csharp
+  - vb
+  name: Floor
+  nameWithType: RoundingMethod.Floor
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod.Floor
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Floor
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nRound decimal number to int using Math.Floor\n"
+  example: []
+  syntax:
+    content: Floor = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: RoundingMethod
+  nameWithType: RoundingMethod
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod

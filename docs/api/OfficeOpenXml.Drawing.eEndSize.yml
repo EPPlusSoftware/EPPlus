@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eEndSize
+  commentId: T:OfficeOpenXml.Drawing.eEndSize
+  id: eEndSize
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eEndSize.Large
+  - OfficeOpenXml.Drawing.eEndSize.Medium
+  - OfficeOpenXml.Drawing.eEndSize.Small
+  langs:
+  - csharp
+  - vb
+  name: eEndSize
+  nameWithType: eEndSize
+  fullName: OfficeOpenXml.Drawing.eEndSize
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEndSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eEndSize
+    path: ../src/EPPlus/Drawing/Enums/eEndSize.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLend end size\n"
+  example: []
+  syntax:
+    content: public enum eEndSize
+    content.vb: Public Enum eEndSize
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eEndSize.Small
+  commentId: F:OfficeOpenXml.Drawing.eEndSize.Small
+  id: Small
+  parent: OfficeOpenXml.Drawing.eEndSize
+  langs:
+  - csharp
+  - vb
+  name: Small
+  nameWithType: eEndSize.Small
+  fullName: OfficeOpenXml.Drawing.eEndSize.Small
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEndSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Small
+    path: ../src/EPPlus/Drawing/Enums/eEndSize.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSmall\n"
+  example: []
+  syntax:
+    content: Small = 0
+    return:
+      type: OfficeOpenXml.Drawing.eEndSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eEndSize.Medium
+  commentId: F:OfficeOpenXml.Drawing.eEndSize.Medium
+  id: Medium
+  parent: OfficeOpenXml.Drawing.eEndSize
+  langs:
+  - csharp
+  - vb
+  name: Medium
+  nameWithType: eEndSize.Medium
+  fullName: OfficeOpenXml.Drawing.eEndSize.Medium
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEndSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium
+    path: ../src/EPPlus/Drawing/Enums/eEndSize.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium\n"
+  example: []
+  syntax:
+    content: Medium = 1
+    return:
+      type: OfficeOpenXml.Drawing.eEndSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eEndSize.Large
+  commentId: F:OfficeOpenXml.Drawing.eEndSize.Large
+  id: Large
+  parent: OfficeOpenXml.Drawing.eEndSize
+  langs:
+  - csharp
+  - vb
+  name: Large
+  nameWithType: eEndSize.Large
+  fullName: OfficeOpenXml.Drawing.eEndSize.Large
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eEndSize.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Large
+    path: ../src/EPPlus/Drawing/Enums/eEndSize.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLarge\n"
+  example: []
+  syntax:
+    content: Large = 2
+    return:
+      type: OfficeOpenXml.Drawing.eEndSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eEndSize
+  commentId: T:OfficeOpenXml.Drawing.eEndSize
+  parent: OfficeOpenXml.Drawing
+  name: eEndSize
+  nameWithType: eEndSize
+  fullName: OfficeOpenXml.Drawing.eEndSize

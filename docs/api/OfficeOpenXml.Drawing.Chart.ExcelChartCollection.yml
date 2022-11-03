@@ -1,0 +1,1328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  id: ExcelChartCollection
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add(OfficeOpenXml.Drawing.Chart.eChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart(OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart(OfficeOpenXml.Drawing.Chart.eBarChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart(OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart(OfficeOpenXml.Drawing.Chart.eLineChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart(OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart(OfficeOpenXml.Drawing.Chart.ePieChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart(OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart(OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChart}#GetEnumerator
+  - OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartCollection
+  nameWithType: ExcelChartCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartCollection
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nEnumerates charttypes \n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartCollection : IEnumerable<ExcelChart>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelChartCollection
+          Implements IEnumerable(Of ExcelChart), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChart}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add(OfficeOpenXml.Drawing.Chart.eChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add(OfficeOpenXml.Drawing.Chart.eChartType)
+  id: Add(OfficeOpenXml.Drawing.Chart.eChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(eChartType)
+  nameWithType: ExcelChartCollection.Add(eChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add(OfficeOpenXml.Drawing.Chart.eChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdd a new charttype to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelChart Add(eChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: ''
+    content.vb: Public Function Add(chartType As eChartType) As ExcelChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart(OfficeOpenXml.Drawing.Chart.eLineChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart(OfficeOpenXml.Drawing.Chart.eLineChartType)
+  id: AddLineChart(OfficeOpenXml.Drawing.Chart.eLineChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLineChart(eLineChartType)
+  nameWithType: ExcelChartCollection.AddLineChart(eLineChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart(OfficeOpenXml.Drawing.Chart.eLineChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLineChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new line chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelLineChart AddLineChart(eLineChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+      description: The chart
+    content.vb: Public Function AddLineChart(chartType As eLineChartType) As ExcelLineChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart(OfficeOpenXml.Drawing.Chart.eBarChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart(OfficeOpenXml.Drawing.Chart.eBarChartType)
+  id: AddBarChart(OfficeOpenXml.Drawing.Chart.eBarChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBarChart(eBarChartType)
+  nameWithType: ExcelChartCollection.AddBarChart(eBarChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart(OfficeOpenXml.Drawing.Chart.eBarChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBarChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new bar chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelBarChart AddBarChart(eBarChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+      description: The chart
+    content.vb: Public Function AddBarChart(chartType As eBarChartType) As ExcelBarChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart(OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart(OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  id: AddAreaChart(OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAreaChart(eAreaChartType)
+  nameWithType: ExcelChartCollection.AddAreaChart(eAreaChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart(OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAreaChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new area chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelAreaChart AddAreaChart(eAreaChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+      description: The chart
+    content.vb: Public Function AddAreaChart(chartType As eAreaChartType) As ExcelAreaChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart(OfficeOpenXml.Drawing.Chart.ePieChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart(OfficeOpenXml.Drawing.Chart.ePieChartType)
+  id: AddPieChart(OfficeOpenXml.Drawing.Chart.ePieChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddPieChart(ePieChartType)
+  nameWithType: ExcelChartCollection.AddPieChart(ePieChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart(OfficeOpenXml.Drawing.Chart.ePieChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPieChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new pie chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelPieChart AddPieChart(ePieChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.ePieChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+      description: The chart
+    content.vb: Public Function AddPieChart(chartType As ePieChartType) As ExcelPieChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart(OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart(OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  id: AddOfPieChart(OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddOfPieChart(eOfPieChartType)
+  nameWithType: ExcelChartCollection.AddOfPieChart(eOfPieChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart(OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddOfPieChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new column of pie- or bar of pie chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelOfPieChart AddOfPieChart(eOfPieChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+      description: The chart
+    content.vb: Public Function AddOfPieChart(chartType As eOfPieChartType) As ExcelOfPieChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart(OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart(OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  id: AddDoughnutChart(OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddDoughnutChart(eDoughnutChartType)
+  nameWithType: ExcelChartCollection.AddDoughnutChart(eDoughnutChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart(OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDoughnutChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new doughnut chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelDoughnutChart AddDoughnutChart(eDoughnutChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+      description: The chart
+    content.vb: Public Function AddDoughnutChart(chartType As eDoughnutChartType) As ExcelDoughnutChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart(OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart(OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  id: AddRadarChart(OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddRadarChart(eRadarChartType)
+  nameWithType: ExcelChartCollection.AddRadarChart(eRadarChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart(OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRadarChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new radar chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelRadarChart AddRadarChart(eRadarChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eRadarChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+      description: The chart
+    content.vb: Public Function AddRadarChart(chartType As eRadarChartType) As ExcelRadarChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart(OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart(OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  id: AddScatterChart(OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: AddScatterChart(eScatterChartType)
+  nameWithType: ExcelChartCollection.AddScatterChart(eScatterChartType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart(OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddScatterChart
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds a new scatter chart to the chart\n"
+  example: []
+  syntax:
+    content: public ExcelScatterChart AddScatterChart(eScatterChartType chartType)
+    parameters:
+    - id: chartType
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+      description: The type of the new chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+      description: The chart
+    content.vb: Public Function AddScatterChart(chartType As eScatterChartType) As ExcelScatterChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelChartCollection.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 136
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChart}#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChart}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChart}#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<ExcelChart>.GetEnumerator()
+  nameWithType: ExcelChartCollection.IEnumerable<ExcelChart>.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 143
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  syntax:
+    content: IEnumerator<ExcelChart> IEnumerable<ExcelChart>.GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ExcelChart}
+    content.vb: Function System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator As IEnumerator(Of ExcelChart) Implements IEnumerable(Of ExcelChart).GetEnumerator
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChart}#GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChart}.GetEnumerator
+  nameWithType.vb: ExcelChartCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelChartCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelChartCollection.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nReturns a chart at the specific position.  \n"
+  example: []
+  syntax:
+    content: public ExcelChart this[int PositionID] { get; }
+    parameters:
+    - id: PositionID
+      type: System.Int32
+      description: The position of the chart. 0-base
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: ''
+    content.vb: Public ReadOnly Property Item(PositionID As Integer) As ExcelChart
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item*
+  nameWithType.vb: ExcelChartCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChart}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChart}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelChart>
+  nameWithType: IEnumerable<ExcelChart>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>
+  nameWithType.vb: IEnumerable(Of ExcelChart)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ExcelChart)
+  name.vb: IEnumerable(Of ExcelChart)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+    name: ExcelChart
+    nameWithType: ExcelChart
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+    name: ExcelChart
+    nameWithType: ExcelChart
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add
+  name: Add
+  nameWithType: ExcelChartCollection.Add
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Add
+- uid: OfficeOpenXml.Drawing.Chart.eChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eChartType
+  nameWithType: eChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChart
+  nameWithType: ExcelChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart
+  name: AddLineChart
+  nameWithType: ExcelChartCollection.AddLineChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddLineChart
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLineChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLineChartType
+  nameWithType: eLineChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelLineChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelLineChart
+  nameWithType: ExcelLineChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart
+  name: AddBarChart
+  nameWithType: ExcelChartCollection.AddBarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddBarChart
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBarChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eBarChartType
+  nameWithType: eBarChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelBarChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelBarChart
+  nameWithType: ExcelBarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart
+  name: AddAreaChart
+  nameWithType: ExcelChartCollection.AddAreaChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddAreaChart
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAreaChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAreaChartType
+  nameWithType: eAreaChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelAreaChart
+  nameWithType: ExcelAreaChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart
+  name: AddPieChart
+  nameWithType: ExcelChartCollection.AddPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddPieChart
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ePieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ePieChartType
+  nameWithType: ePieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelPieChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelPieChart
+  nameWithType: ExcelPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart
+  name: AddOfPieChart
+  nameWithType: ExcelChartCollection.AddOfPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddOfPieChart
+- uid: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eOfPieChartType
+  nameWithType: eOfPieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelOfPieChart
+  nameWithType: ExcelOfPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart
+  name: AddDoughnutChart
+  nameWithType: ExcelChartCollection.AddDoughnutChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddDoughnutChart
+- uid: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eDoughnutChartType
+  nameWithType: eDoughnutChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDoughnutChart
+  nameWithType: ExcelDoughnutChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart
+  name: AddRadarChart
+  nameWithType: ExcelChartCollection.AddRadarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddRadarChart
+- uid: OfficeOpenXml.Drawing.Chart.eRadarChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eRadarChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eRadarChartType
+  nameWithType: eRadarChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eRadarChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelRadarChart
+  nameWithType: ExcelRadarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart
+  name: AddScatterChart
+  nameWithType: ExcelChartCollection.AddScatterChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.AddScatterChart
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eScatterChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eScatterChartType
+  nameWithType: eScatterChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelScatterChart
+  nameWithType: ExcelScatterChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count
+  name: Count
+  nameWithType: ExcelChartCollection.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChart}#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#Chart#ExcelChart}#GetEnumerator
+  name: IEnumerable<ExcelChart>.GetEnumerator
+  nameWithType: ExcelChartCollection.IEnumerable<ExcelChart>.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator
+  nameWithType.vb: ExcelChartCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChart}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChart}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ExcelChart}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelChart>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelChart).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ExcelChart).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelChart>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelChart).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ExcelChart).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ExcelChart}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ExcelChart}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelChart>
+  nameWithType: IEnumerator<ExcelChart>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.Chart.ExcelChart>
+  nameWithType.vb: IEnumerator(Of ExcelChart)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.Chart.ExcelChart)
+  name.vb: IEnumerator(Of ExcelChart)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+    name: ExcelChart
+    nameWithType: ExcelChart
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+    name: ExcelChart
+    nameWithType: ExcelChart
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelChartCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item
+  name: Item
+  nameWithType: ExcelChartCollection.Item
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartCollection.Item

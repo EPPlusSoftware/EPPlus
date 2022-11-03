@@ -1,0 +1,2094 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  commentId: T:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  id: IRangeConditionalFormatting
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar(System.Drawing.Color)
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues
+  - OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday
+  langs:
+  - csharp
+  - vb
+  name: IRangeConditionalFormatting
+  nameWithType: IRangeConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IRangeConditionalFormatting
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nProvides functionality for adding Conditional Formatting to a range (<xref href=\"OfficeOpenXml.ExcelRangeBase\" data-throw-if-not-resolved=\"false\"></xref>).\nEach method will return a configurable condtional formatting type.\n"
+  example: []
+  syntax:
+    content: public interface IRangeConditionalFormatting
+    content.vb: Public Interface IRangeConditionalFormatting
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage
+  id: AddAboveAverage
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddAboveAverage()
+  nameWithType: IRangeConditionalFormatting.AddAboveAverage()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAboveAverage
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an Above Average rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingAverageGroup AddAboveAverage()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Function AddAboveAverage As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage
+  id: AddAboveOrEqualAverage
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddAboveOrEqualAverage()
+  nameWithType: IRangeConditionalFormatting.AddAboveOrEqualAverage()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAboveOrEqualAverage
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an Above Or Equal Average rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingAverageGroup AddAboveOrEqualAverage()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Function AddAboveOrEqualAverage As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage
+  id: AddBelowAverage
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddBelowAverage()
+  nameWithType: IRangeConditionalFormatting.AddBelowAverage()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBelowAverage
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Below Average rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingAverageGroup AddBelowAverage()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Function AddBelowAverage As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage
+  id: AddBelowOrEqualAverage
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddBelowOrEqualAverage()
+  nameWithType: IRangeConditionalFormatting.AddBelowOrEqualAverage()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBelowOrEqualAverage
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Below Or Equal Average rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingAverageGroup AddBelowOrEqualAverage()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Function AddBelowOrEqualAverage As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev
+  id: AddAboveStdDev
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddAboveStdDev()
+  nameWithType: IRangeConditionalFormatting.AddAboveStdDev()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAboveStdDev
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an Above StdDev rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingStdDevGroup AddAboveStdDev()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+      description: ''
+    content.vb: Function AddAboveStdDev As IExcelConditionalFormattingStdDevGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev
+  id: AddBelowStdDev
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddBelowStdDev()
+  nameWithType: IRangeConditionalFormatting.AddBelowStdDev()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBelowStdDev
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an Below StdDev rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingStdDevGroup AddBelowStdDev()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+      description: ''
+    content.vb: Function AddBelowStdDev As IExcelConditionalFormattingStdDevGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom
+  id: AddBottom
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddBottom()
+  nameWithType: IRangeConditionalFormatting.AddBottom()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBottom
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Bottom rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTopBottomGroup AddBottom()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Function AddBottom As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent
+  id: AddBottomPercent
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddBottomPercent()
+  nameWithType: IRangeConditionalFormatting.AddBottomPercent()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBottomPercent
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Bottom Percent rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTopBottomGroup AddBottomPercent()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Function AddBottomPercent As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop
+  id: AddTop
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddTop()
+  nameWithType: IRangeConditionalFormatting.AddTop()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTop
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Top rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTopBottomGroup AddTop()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Function AddTop As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent
+  id: AddTopPercent
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddTopPercent()
+  nameWithType: IRangeConditionalFormatting.AddTopPercent()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTopPercent
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Top Percent rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTopBottomGroup AddTopPercent()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Function AddTopPercent As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days
+  id: AddLast7Days
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddLast7Days()
+  nameWithType: IRangeConditionalFormatting.AddLast7Days()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLast7Days
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Last 7 Days rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddLast7Days()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddLast7Days As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth
+  id: AddLastMonth
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddLastMonth()
+  nameWithType: IRangeConditionalFormatting.AddLastMonth()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLastMonth
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Last Month rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddLastMonth()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddLastMonth As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek
+  id: AddLastWeek
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddLastWeek()
+  nameWithType: IRangeConditionalFormatting.AddLastWeek()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLastWeek
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Last Week rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddLastWeek()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddLastWeek As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth
+  id: AddNextMonth
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddNextMonth()
+  nameWithType: IRangeConditionalFormatting.AddNextMonth()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNextMonth
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Next Month rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddNextMonth()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddNextMonth As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek
+  id: AddNextWeek
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddNextWeek()
+  nameWithType: IRangeConditionalFormatting.AddNextWeek()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNextWeek
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Next Week rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddNextWeek()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddNextWeek As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth
+  id: AddThisMonth
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddThisMonth()
+  nameWithType: IRangeConditionalFormatting.AddThisMonth()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThisMonth
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a This Month rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddThisMonth()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddThisMonth As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek
+  id: AddThisWeek
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddThisWeek()
+  nameWithType: IRangeConditionalFormatting.AddThisWeek()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThisWeek
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a This Week rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddThisWeek()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddThisWeek As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday
+  id: AddToday
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddToday()
+  nameWithType: IRangeConditionalFormatting.AddToday()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddToday
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Today rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddToday()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddToday As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow
+  id: AddTomorrow
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddTomorrow()
+  nameWithType: IRangeConditionalFormatting.AddTomorrow()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTomorrow
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Tomorrow rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddTomorrow()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddTomorrow As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday
+  id: AddYesterday
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddYesterday()
+  nameWithType: IRangeConditionalFormatting.AddYesterday()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddYesterday
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 141
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an Yesterday rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTimePeriodGroup AddYesterday()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Function AddYesterday As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith
+  id: AddBeginsWith
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddBeginsWith()
+  nameWithType: IRangeConditionalFormatting.AddBeginsWith()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBeginsWith
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Begins With rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingBeginsWith AddBeginsWith()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+      description: ''
+    content.vb: Function AddBeginsWith As IExcelConditionalFormattingBeginsWith
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween
+  id: AddBetween
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddBetween()
+  nameWithType: IRangeConditionalFormatting.AddBetween()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBetween
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a Between rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingBetween AddBetween()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+      description: ''
+    content.vb: Function AddBetween As IExcelConditionalFormattingBetween
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks
+  id: AddContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddContainsBlanks()
+  nameWithType: IRangeConditionalFormatting.AddContainsBlanks()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddContainsBlanks
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 159
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a ContainsBlanks rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingContainsBlanks AddContainsBlanks()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+      description: ''
+    content.vb: Function AddContainsBlanks As IExcelConditionalFormattingContainsBlanks
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors
+  id: AddContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddContainsErrors()
+  nameWithType: IRangeConditionalFormatting.AddContainsErrors()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddContainsErrors
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 165
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a ContainsErrors rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingContainsErrors AddContainsErrors()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+      description: ''
+    content.vb: Function AddContainsErrors As IExcelConditionalFormattingContainsErrors
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText
+  id: AddContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddContainsText()
+  nameWithType: IRangeConditionalFormatting.AddContainsText()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddContainsText
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 171
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a ContainsText rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingContainsText AddContainsText()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+      description: ''
+    content.vb: Function AddContainsText As IExcelConditionalFormattingContainsText
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues
+  id: AddDuplicateValues
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddDuplicateValues()
+  nameWithType: IRangeConditionalFormatting.AddDuplicateValues()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDuplicateValues
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 177
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a DuplicateValues rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingDuplicateValues AddDuplicateValues()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+      description: ''
+    content.vb: Function AddDuplicateValues As IExcelConditionalFormattingDuplicateValues
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith
+  id: AddEndsWith
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddEndsWith()
+  nameWithType: IRangeConditionalFormatting.AddEndsWith()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddEndsWith
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an EndsWith rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingEndsWith AddEndsWith()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+      description: ''
+    content.vb: Function AddEndsWith As IExcelConditionalFormattingEndsWith
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual
+  id: AddEqual
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddEqual()
+  nameWithType: IRangeConditionalFormatting.AddEqual()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddEqual
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an Equal rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingEqual AddEqual()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+      description: ''
+    content.vb: Function AddEqual As IExcelConditionalFormattingEqual
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression
+  id: AddExpression
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddExpression()
+  nameWithType: IRangeConditionalFormatting.AddExpression()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddExpression
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 195
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an Expression rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingExpression AddExpression()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+      description: ''
+    content.vb: Function AddExpression As IExcelConditionalFormattingExpression
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan
+  id: AddGreaterThan
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddGreaterThan()
+  nameWithType: IRangeConditionalFormatting.AddGreaterThan()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGreaterThan
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 201
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a GreaterThan rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingGreaterThan AddGreaterThan()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+      description: ''
+    content.vb: Function AddGreaterThan As IExcelConditionalFormattingGreaterThan
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual
+  id: AddGreaterThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddGreaterThanOrEqual()
+  nameWithType: IRangeConditionalFormatting.AddGreaterThanOrEqual()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGreaterThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 207
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a GreaterThanOrEqual rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingGreaterThanOrEqual AddGreaterThanOrEqual()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+      description: ''
+    content.vb: Function AddGreaterThanOrEqual As IExcelConditionalFormattingGreaterThanOrEqual
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan
+  id: AddLessThan
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddLessThan()
+  nameWithType: IRangeConditionalFormatting.AddLessThan()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLessThan
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a LessThan rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingLessThan AddLessThan()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+      description: ''
+    content.vb: Function AddLessThan As IExcelConditionalFormattingLessThan
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual
+  id: AddLessThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddLessThanOrEqual()
+  nameWithType: IRangeConditionalFormatting.AddLessThanOrEqual()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLessThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 219
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a LessThanOrEqual rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingLessThanOrEqual AddLessThanOrEqual()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+      description: ''
+    content.vb: Function AddLessThanOrEqual As IExcelConditionalFormattingLessThanOrEqual
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween
+  id: AddNotBetween
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddNotBetween()
+  nameWithType: IRangeConditionalFormatting.AddNotBetween()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotBetween
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 225
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a NotBetween rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingNotBetween AddNotBetween()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+      description: ''
+    content.vb: Function AddNotBetween As IExcelConditionalFormattingNotBetween
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks
+  id: AddNotContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddNotContainsBlanks()
+  nameWithType: IRangeConditionalFormatting.AddNotContainsBlanks()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotContainsBlanks
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a NotContainsBlanks rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingNotContainsBlanks AddNotContainsBlanks()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+      description: ''
+    content.vb: Function AddNotContainsBlanks As IExcelConditionalFormattingNotContainsBlanks
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors
+  id: AddNotContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddNotContainsErrors()
+  nameWithType: IRangeConditionalFormatting.AddNotContainsErrors()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotContainsErrors
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 237
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a NotContainsErrors rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingNotContainsErrors AddNotContainsErrors()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+      description: ''
+    content.vb: Function AddNotContainsErrors As IExcelConditionalFormattingNotContainsErrors
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText
+  id: AddNotContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddNotContainsText()
+  nameWithType: IRangeConditionalFormatting.AddNotContainsText()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotContainsText
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 243
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a NotContainsText rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingNotContainsText AddNotContainsText()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+      description: ''
+    content.vb: Function AddNotContainsText As IExcelConditionalFormattingNotContainsText
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual
+  id: AddNotEqual
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddNotEqual()
+  nameWithType: IRangeConditionalFormatting.AddNotEqual()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotEqual
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 249
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a NotEqual rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingNotEqual AddNotEqual()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+      description: ''
+    content.vb: Function AddNotEqual As IExcelConditionalFormattingNotEqual
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues
+  id: AddUniqueValues
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddUniqueValues()
+  nameWithType: IRangeConditionalFormatting.AddUniqueValues()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddUniqueValues
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 255
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds an UniqueValues rule to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingUniqueValues AddUniqueValues()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+      description: ''
+    content.vb: Function AddUniqueValues As IExcelConditionalFormattingUniqueValues
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale
+  id: AddThreeColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddThreeColorScale()
+  nameWithType: IRangeConditionalFormatting.AddThreeColorScale()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThreeColorScale
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 261
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingThreeColorScale AddThreeColorScale()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+      description: ''
+    content.vb: Function AddThreeColorScale As IExcelConditionalFormattingThreeColorScale
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale
+  id: AddTwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddTwoColorScale()
+  nameWithType: IRangeConditionalFormatting.AddTwoColorScale()
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTwoColorScale
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingTwoColorScale AddTwoColorScale()
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+      description: ''
+    content.vb: Function AddTwoColorScale As IExcelConditionalFormattingTwoColorScale
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  id: AddThreeIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddThreeIconSet(eExcelconditionalFormatting3IconsSetType)
+  nameWithType: IRangeConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType)
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThreeIconSet
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet%601\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType> AddThreeIconSet(eExcelconditionalFormatting3IconsSetType IconSet)
+    parameters:
+    - id: IconSet
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType}
+      description: ''
+    content.vb: Function AddThreeIconSet(IconSet As eExcelconditionalFormatting3IconsSetType) As IExcelConditionalFormattingThreeIconSet(Of eExcelconditionalFormatting3IconsSetType)
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  id: AddFourIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddFourIconSet(eExcelconditionalFormatting4IconsSetType)
+  nameWithType: IRangeConditionalFormatting.AddFourIconSet(eExcelconditionalFormatting4IconsSetType)
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFourIconSet
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 280
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet%601\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType> AddFourIconSet(eExcelconditionalFormatting4IconsSetType IconSet)
+    parameters:
+    - id: IconSet
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType}
+      description: ''
+    content.vb: Function AddFourIconSet(IconSet As eExcelconditionalFormatting4IconsSetType) As IExcelConditionalFormattingFourIconSet(Of eExcelconditionalFormatting4IconsSetType)
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  id: AddFiveIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddFiveIconSet(eExcelconditionalFormatting5IconsSetType)
+  nameWithType: IRangeConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType)
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet(OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFiveIconSet
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 286
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingFiveIconSet AddFiveIconSet(eExcelconditionalFormatting5IconsSetType IconSet)
+    parameters:
+    - id: IconSet
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+      description: ''
+    content.vb: Function AddFiveIconSet(IconSet As eExcelconditionalFormatting5IconsSetType) As IExcelConditionalFormattingFiveIconSet
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet*
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar(System.Drawing.Color)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar(System.Drawing.Color)
+  id: AddDatabar(System.Drawing.Color)
+  parent: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+  langs:
+  - csharp
+  - vb
+  name: AddDatabar(Color)
+  nameWithType: IRangeConditionalFormatting.AddDatabar(Color)
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar(System.Drawing.Color)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDatabar
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IRangeConditionalFormatting.cs
+    startLine: 292
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  example: []
+  syntax:
+    content: IExcelConditionalFormattingDataBarGroup AddDatabar(Color color)
+    parameters:
+    - id: color
+      type: System.Drawing.Color
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+      description: ''
+    content.vb: Function AddDatabar(color As Color) As IExcelConditionalFormattingDataBarGroup
+  overload: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar*
+references:
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage
+  name: AddAboveAverage
+  nameWithType: IRangeConditionalFormatting.AddAboveAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveAverage
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingAverageGroup
+  nameWithType: IExcelConditionalFormattingAverageGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage
+  name: AddAboveOrEqualAverage
+  nameWithType: IRangeConditionalFormatting.AddAboveOrEqualAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveOrEqualAverage
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage
+  name: AddBelowAverage
+  nameWithType: IRangeConditionalFormatting.AddBelowAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowAverage
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage
+  name: AddBelowOrEqualAverage
+  nameWithType: IRangeConditionalFormatting.AddBelowOrEqualAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowOrEqualAverage
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev
+  name: AddAboveStdDev
+  nameWithType: IRangeConditionalFormatting.AddAboveStdDev
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddAboveStdDev
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingStdDevGroup
+  nameWithType: IExcelConditionalFormattingStdDevGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev
+  name: AddBelowStdDev
+  nameWithType: IRangeConditionalFormatting.AddBelowStdDev
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBelowStdDev
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom
+  name: AddBottom
+  nameWithType: IRangeConditionalFormatting.AddBottom
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottom
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTopBottomGroup
+  nameWithType: IExcelConditionalFormattingTopBottomGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent
+  name: AddBottomPercent
+  nameWithType: IRangeConditionalFormatting.AddBottomPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBottomPercent
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop
+  name: AddTop
+  nameWithType: IRangeConditionalFormatting.AddTop
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTop
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent
+  name: AddTopPercent
+  nameWithType: IRangeConditionalFormatting.AddTopPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTopPercent
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days
+  name: AddLast7Days
+  nameWithType: IRangeConditionalFormatting.AddLast7Days
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLast7Days
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTimePeriodGroup
+  nameWithType: IExcelConditionalFormattingTimePeriodGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth
+  name: AddLastMonth
+  nameWithType: IRangeConditionalFormatting.AddLastMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastMonth
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek
+  name: AddLastWeek
+  nameWithType: IRangeConditionalFormatting.AddLastWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLastWeek
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth
+  name: AddNextMonth
+  nameWithType: IRangeConditionalFormatting.AddNextMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextMonth
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek
+  name: AddNextWeek
+  nameWithType: IRangeConditionalFormatting.AddNextWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNextWeek
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth
+  name: AddThisMonth
+  nameWithType: IRangeConditionalFormatting.AddThisMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisMonth
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek
+  name: AddThisWeek
+  nameWithType: IRangeConditionalFormatting.AddThisWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThisWeek
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday
+  name: AddToday
+  nameWithType: IRangeConditionalFormatting.AddToday
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddToday
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow
+  name: AddTomorrow
+  nameWithType: IRangeConditionalFormatting.AddTomorrow
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTomorrow
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday
+  name: AddYesterday
+  nameWithType: IRangeConditionalFormatting.AddYesterday
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddYesterday
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith
+  name: AddBeginsWith
+  nameWithType: IRangeConditionalFormatting.AddBeginsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBeginsWith
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingBeginsWith
+  nameWithType: IExcelConditionalFormattingBeginsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween
+  name: AddBetween
+  nameWithType: IRangeConditionalFormatting.AddBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddBetween
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingBetween
+  nameWithType: IExcelConditionalFormattingBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks
+  name: AddContainsBlanks
+  nameWithType: IRangeConditionalFormatting.AddContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsBlanks
+  nameWithType: IExcelConditionalFormattingContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors
+  name: AddContainsErrors
+  nameWithType: IRangeConditionalFormatting.AddContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsErrors
+  nameWithType: IExcelConditionalFormattingContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText
+  name: AddContainsText
+  nameWithType: IRangeConditionalFormatting.AddContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsText
+  nameWithType: IExcelConditionalFormattingContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues
+  name: AddDuplicateValues
+  nameWithType: IRangeConditionalFormatting.AddDuplicateValues
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDuplicateValues
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingDuplicateValues
+  nameWithType: IExcelConditionalFormattingDuplicateValues
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith
+  name: AddEndsWith
+  nameWithType: IRangeConditionalFormatting.AddEndsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEndsWith
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingEndsWith
+  nameWithType: IExcelConditionalFormattingEndsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual
+  name: AddEqual
+  nameWithType: IRangeConditionalFormatting.AddEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingEqual
+  nameWithType: IExcelConditionalFormattingEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression
+  name: AddExpression
+  nameWithType: IRangeConditionalFormatting.AddExpression
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddExpression
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingExpression
+  nameWithType: IExcelConditionalFormattingExpression
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan
+  name: AddGreaterThan
+  nameWithType: IRangeConditionalFormatting.AddGreaterThan
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThan
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingGreaterThan
+  nameWithType: IExcelConditionalFormattingGreaterThan
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual
+  name: AddGreaterThanOrEqual
+  nameWithType: IRangeConditionalFormatting.AddGreaterThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddGreaterThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingGreaterThanOrEqual
+  nameWithType: IExcelConditionalFormattingGreaterThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan
+  name: AddLessThan
+  nameWithType: IRangeConditionalFormatting.AddLessThan
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThan
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingLessThan
+  nameWithType: IExcelConditionalFormattingLessThan
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual
+  name: AddLessThanOrEqual
+  nameWithType: IRangeConditionalFormatting.AddLessThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddLessThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingLessThanOrEqual
+  nameWithType: IExcelConditionalFormattingLessThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween
+  name: AddNotBetween
+  nameWithType: IRangeConditionalFormatting.AddNotBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotBetween
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotBetween
+  nameWithType: IExcelConditionalFormattingNotBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks
+  name: AddNotContainsBlanks
+  nameWithType: IRangeConditionalFormatting.AddNotContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsBlanks
+  nameWithType: IExcelConditionalFormattingNotContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors
+  name: AddNotContainsErrors
+  nameWithType: IRangeConditionalFormatting.AddNotContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsErrors
+  nameWithType: IExcelConditionalFormattingNotContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText
+  name: AddNotContainsText
+  nameWithType: IRangeConditionalFormatting.AddNotContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsText
+  nameWithType: IExcelConditionalFormattingNotContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual
+  name: AddNotEqual
+  nameWithType: IRangeConditionalFormatting.AddNotEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddNotEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotEqual
+  nameWithType: IExcelConditionalFormattingNotEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues
+  name: AddUniqueValues
+  nameWithType: IRangeConditionalFormatting.AddUniqueValues
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddUniqueValues
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingUniqueValues
+  nameWithType: IExcelConditionalFormattingUniqueValues
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
+  name: ExcelConditionalFormattingThreeColorScale
+  nameWithType: ExcelConditionalFormattingThreeColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale
+  name: AddThreeColorScale
+  nameWithType: IRangeConditionalFormatting.AddThreeColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingThreeColorScale
+  nameWithType: IExcelConditionalFormattingThreeColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
+  name: ExcelConditionalFormattingTwoColorScale
+  nameWithType: ExcelConditionalFormattingTwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale
+  name: AddTwoColorScale
+  nameWithType: IRangeConditionalFormatting.AddTwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddTwoColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTwoColorScale
+  nameWithType: IExcelConditionalFormattingTwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  name: IExcelConditionalFormattingThreeIconSet<T>
+  nameWithType: IExcelConditionalFormattingThreeIconSet<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet<T>
+  nameWithType.vb: IExcelConditionalFormattingThreeIconSet(Of T)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet(Of T)
+  name.vb: IExcelConditionalFormattingThreeIconSet(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet
+  name: AddThreeIconSet
+  nameWithType: IRangeConditionalFormatting.AddThreeIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddThreeIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormatting3IconsSetType
+  nameWithType: eExcelconditionalFormatting3IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType}
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType}
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  definition: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  name: IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>
+  nameWithType: IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet<OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType>
+  nameWithType.vb: IExcelConditionalFormattingThreeIconSet(Of eExcelconditionalFormatting3IconsSetType)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet(Of OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  name.vb: IExcelConditionalFormattingThreeIconSet(Of eExcelconditionalFormatting3IconsSetType)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+    name: eExcelconditionalFormatting3IconsSetType
+    nameWithType: eExcelconditionalFormatting3IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+    name: eExcelconditionalFormatting3IconsSetType
+    nameWithType: eExcelconditionalFormatting3IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  name: IExcelConditionalFormattingFourIconSet<T>
+  nameWithType: IExcelConditionalFormattingFourIconSet<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet<T>
+  nameWithType.vb: IExcelConditionalFormattingFourIconSet(Of T)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet(Of T)
+  name.vb: IExcelConditionalFormattingFourIconSet(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet
+  name: AddFourIconSet
+  nameWithType: IRangeConditionalFormatting.AddFourIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFourIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormatting4IconsSetType
+  nameWithType: eExcelconditionalFormatting4IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType}
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType}
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  definition: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  name: IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType>
+  nameWithType: IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet<OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType>
+  nameWithType.vb: IExcelConditionalFormattingFourIconSet(Of eExcelconditionalFormatting4IconsSetType)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet(Of OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  name.vb: IExcelConditionalFormattingFourIconSet(Of eExcelconditionalFormatting4IconsSetType)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+    name: eExcelconditionalFormatting4IconsSetType
+    nameWithType: eExcelconditionalFormatting4IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+    name: eExcelconditionalFormatting4IconsSetType
+    nameWithType: eExcelconditionalFormatting4IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingFiveIconSet
+  nameWithType: IExcelConditionalFormattingFiveIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet
+  name: AddFiveIconSet
+  nameWithType: IRangeConditionalFormatting.AddFiveIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddFiveIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormatting5IconsSetType
+  nameWithType: eExcelconditionalFormatting5IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingDataBarGroup
+  nameWithType: IExcelConditionalFormattingDataBarGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+- uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar
+  name: AddDatabar
+  nameWithType: IRangeConditionalFormatting.AddDatabar
+  fullName: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting.AddDatabar
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing

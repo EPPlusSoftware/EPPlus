@@ -1,0 +1,338 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eFontExclude
+  id: eFontExclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.All
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.Bold
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.Color
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.Italic
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.Name
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.Size
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.Strike
+  - OfficeOpenXml.Export.HtmlExport.eFontExclude.Underline
+  langs:
+  - csharp
+  - vb
+  name: eFontExclude
+  nameWithType: eFontExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eFontExclude
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude font properties in the css\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum eFontExclude
+    content.vb: >-
+      <Flags>
+
+      Public Enum eFontExclude
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.All
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.All
+  id: All
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: eFontExclude.All
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.All
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: All
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude all font properties.\n"
+  example: []
+  syntax:
+    content: All = 79
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.Name
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.Name
+  id: Name
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: eFontExclude.Name
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.Name
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude the font name property\n"
+  example: []
+  syntax:
+    content: Name = 1
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.Size
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.Size
+  id: Size
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: eFontExclude.Size
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.Size
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Size
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude the font size property\n"
+  example: []
+  syntax:
+    content: Size = 2
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.Color
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.Color
+  id: Color
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: eFontExclude.Color
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.Color
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude the font color property\n"
+  example: []
+  syntax:
+    content: Color = 4
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.Bold
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.Bold
+  id: Bold
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: Bold
+  nameWithType: eFontExclude.Bold
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.Bold
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bold
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude the font bold property\n"
+  example: []
+  syntax:
+    content: Bold = 8
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.Italic
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.Italic
+  id: Italic
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: Italic
+  nameWithType: eFontExclude.Italic
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.Italic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Italic
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude the font italic property\n"
+  example: []
+  syntax:
+    content: Italic = 16
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.Strike
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.Strike
+  id: Strike
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: Strike
+  nameWithType: eFontExclude.Strike
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.Strike
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Strike
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude the font strike property\n"
+  example: []
+  syntax:
+    content: Strike = 32
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude.Underline
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eFontExclude.Underline
+  id: Underline
+  parent: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  langs:
+  - csharp
+  - vb
+  name: Underline
+  nameWithType: eFontExclude.Underline
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude.Underline
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Underline
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude the font underline property\n"
+  example: []
+  syntax:
+    content: Underline = 64
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: OfficeOpenXml.Export.HtmlExport.eFontExclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eFontExclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: eFontExclude
+  nameWithType: eFontExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.eFontExclude

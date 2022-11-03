@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType
+  commentId: T:OfficeOpenXml.Drawing.eTextAnchoringType
+  id: eTextAnchoringType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTextAnchoringType.Bottom
+  - OfficeOpenXml.Drawing.eTextAnchoringType.Center
+  - OfficeOpenXml.Drawing.eTextAnchoringType.Distributed
+  - OfficeOpenXml.Drawing.eTextAnchoringType.Justify
+  - OfficeOpenXml.Drawing.eTextAnchoringType.Top
+  langs:
+  - csharp
+  - vb
+  name: eTextAnchoringType
+  nameWithType: eTextAnchoringType
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextAnchoringType
+    path: ../src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nText anchoring\n"
+  example: []
+  syntax:
+    content: public enum eTextAnchoringType
+    content.vb: Public Enum eTextAnchoringType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType.Bottom
+  commentId: F:OfficeOpenXml.Drawing.eTextAnchoringType.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.eTextAnchoringType
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eTextAnchoringType.Bottom
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAnchor the text to the bottom\n"
+  example: []
+  syntax:
+    content: Bottom = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTextAnchoringType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType.Center
+  commentId: F:OfficeOpenXml.Drawing.eTextAnchoringType.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.eTextAnchoringType
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: eTextAnchoringType.Center
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAnchor the text to the center\n"
+  example: []
+  syntax:
+    content: Center = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTextAnchoringType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType.Distributed
+  commentId: F:OfficeOpenXml.Drawing.eTextAnchoringType.Distributed
+  id: Distributed
+  parent: OfficeOpenXml.Drawing.eTextAnchoringType
+  langs:
+  - csharp
+  - vb
+  name: Distributed
+  nameWithType: eTextAnchoringType.Distributed
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType.Distributed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Distributed
+    path: ../src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAnchor the text so that it is distributed vertically.\n"
+  example: []
+  syntax:
+    content: Distributed = 2
+    return:
+      type: OfficeOpenXml.Drawing.eTextAnchoringType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType.Justify
+  commentId: F:OfficeOpenXml.Drawing.eTextAnchoringType.Justify
+  id: Justify
+  parent: OfficeOpenXml.Drawing.eTextAnchoringType
+  langs:
+  - csharp
+  - vb
+  name: Justify
+  nameWithType: eTextAnchoringType.Justify
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType.Justify
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Justify
+    path: ../src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAnchor the text so that it is justified vertically.\n"
+  example: []
+  syntax:
+    content: Justify = 3
+    return:
+      type: OfficeOpenXml.Drawing.eTextAnchoringType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType.Top
+  commentId: F:OfficeOpenXml.Drawing.eTextAnchoringType.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.eTextAnchoringType
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eTextAnchoringType.Top
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Enums/eTextAnchoringType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAnchor the text to the top\n"
+  example: []
+  syntax:
+    content: Top = 4
+    return:
+      type: OfficeOpenXml.Drawing.eTextAnchoringType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType
+  commentId: T:OfficeOpenXml.Drawing.eTextAnchoringType
+  parent: OfficeOpenXml.Drawing
+  name: eTextAnchoringType
+  nameWithType: eTextAnchoringType
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType

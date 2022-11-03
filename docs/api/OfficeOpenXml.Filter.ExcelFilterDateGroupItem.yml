@@ -1,0 +1,1022 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  id: ExcelFilterDateGroupItem
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second
+  - OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterDateGroupItem
+  nameWithType: ExcelFilterDateGroupItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFilterDateGroupItem
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nA date group for filters\n"
+  example: []
+  syntax:
+    content: 'public class ExcelFilterDateGroupItem : ExcelFilterItem'
+    content.vb: >-
+      Public Class ExcelFilterDateGroupItem
+          Inherits ExcelFilterItem
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Filter.ExcelFilterItem
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32)
+  id: '#ctor(System.Int32)'
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterDateGroupItem(Int32)
+  nameWithType: ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(Int32)
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nFilter out the specified year\n"
+  example: []
+  syntax:
+    content: public ExcelFilterDateGroupItem(int year)
+    parameters:
+    - id: year
+      type: System.Int32
+      description: The year
+    content.vb: Public Sub New(year As Integer)
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32)'
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterDateGroupItem(Int32, Int32)
+  nameWithType: ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(Int32, Int32)
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nFilter out the specified year and month\n"
+  example: []
+  syntax:
+    content: public ExcelFilterDateGroupItem(int year, int month)
+    parameters:
+    - id: year
+      type: System.Int32
+      description: The year
+    - id: month
+      type: System.Int32
+      description: The month
+    content.vb: Public Sub New(year As Integer, month As Integer)
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32,System.Int32)'
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterDateGroupItem(Int32, Int32, Int32)
+  nameWithType: ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(System.Int32, System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nFilter out the specified year, month and day\n"
+  example: []
+  syntax:
+    content: public ExcelFilterDateGroupItem(int year, int month, int day)
+    parameters:
+    - id: year
+      type: System.Int32
+      description: The year
+    - id: month
+      type: System.Int32
+      description: The month
+    - id: day
+      type: System.Int32
+      description: The day
+    content.vb: Public Sub New(year As Integer, month As Integer, day As Integer)
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32,System.Int32,System.Int32)'
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterDateGroupItem(Int32, Int32, Int32, Int32)
+  nameWithType: ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nFilter out the specified year, month, day and hour\n"
+  example: []
+  syntax:
+    content: public ExcelFilterDateGroupItem(int year, int month, int day, int hour)
+    parameters:
+    - id: year
+      type: System.Int32
+      description: The year
+    - id: month
+      type: System.Int32
+      description: The month
+    - id: day
+      type: System.Int32
+      description: The day
+    - id: hour
+      type: System.Int32
+      description: The hour
+    content.vb: Public Sub New(year As Integer, month As Integer, day As Integer, hour As Integer)
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)'
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterDateGroupItem(Int32, Int32, Int32, Int32, Int32)
+  nameWithType: ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(Int32, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(System.Int32, System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nFilter out the specified year, month, day, hour and and minute\n"
+  example: []
+  syntax:
+    content: public ExcelFilterDateGroupItem(int year, int month, int day, int hour, int minute)
+    parameters:
+    - id: year
+      type: System.Int32
+      description: The year
+    - id: month
+      type: System.Int32
+      description: The month
+    - id: day
+      type: System.Int32
+      description: The day
+    - id: hour
+      type: System.Int32
+      description: The hour
+    - id: minute
+      type: System.Int32
+      description: The minute
+    content.vb: Public Sub New(year As Integer, month As Integer, day As Integer, hour As Integer, minute As Integer)
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)'
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterDateGroupItem(Int32, Int32, Int32, Int32, Int32, Int32)
+  nameWithType: ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(Int32, Int32, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.ExcelFilterDateGroupItem(System.Int32, System.Int32, System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nFilter out the specified year, month, day, hour and and minute\n"
+  example: []
+  syntax:
+    content: public ExcelFilterDateGroupItem(int year, int month, int day, int hour, int minute, int second)
+    parameters:
+    - id: year
+      type: System.Int32
+      description: The year
+    - id: month
+      type: System.Int32
+      description: The month
+    - id: day
+      type: System.Int32
+      description: The day
+    - id: hour
+      type: System.Int32
+      description: The hour
+    - id: minute
+      type: System.Int32
+      description: The minute
+    - id: second
+      type: System.Int32
+      description: The second
+    content.vb: Public Sub New(year As Integer, month As Integer, day As Integer, hour As Integer, minute As Integer, second As Integer)
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping
+  id: Grouping
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: Grouping
+  nameWithType: ExcelFilterDateGroupItem.Grouping
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Grouping
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 211
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe grouping. Is set depending on the selected constructor\n"
+  example: []
+  syntax:
+    content: public eDateTimeGrouping Grouping { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Filter.eDateTimeGrouping
+    content.vb: Public ReadOnly Property Grouping As eDateTimeGrouping
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year
+  id: Year
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: Year
+  nameWithType: ExcelFilterDateGroupItem.Year
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Year
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 215
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nYear to filter on\n"
+  example: []
+  syntax:
+    content: public int Year { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Year As Integer
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month
+  id: Month
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: Month
+  nameWithType: ExcelFilterDateGroupItem.Month
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Month
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 219
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nMonth to filter on\n"
+  example: []
+  syntax:
+    content: public int? Month { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public ReadOnly Property Month As Integer?
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day
+  id: Day
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: Day
+  nameWithType: ExcelFilterDateGroupItem.Day
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Day
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 223
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nDay to filter on\n"
+  example: []
+  syntax:
+    content: public int? Day { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public ReadOnly Property Day As Integer?
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour
+  id: Hour
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: Hour
+  nameWithType: ExcelFilterDateGroupItem.Hour
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hour
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 227
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nHour to filter on\n"
+  example: []
+  syntax:
+    content: public int? Hour { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public ReadOnly Property Hour As Integer?
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute
+  id: Minute
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: Minute
+  nameWithType: ExcelFilterDateGroupItem.Minute
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minute
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nMinute to filter on\n"
+  example: []
+  syntax:
+    content: public int? Minute { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public ReadOnly Property Minute As Integer?
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second
+  id: Second
+  parent: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  langs:
+  - csharp
+  - vb
+  name: Second
+  nameWithType: ExcelFilterDateGroupItem.Second
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Second
+    path: ../src/EPPlus/Filter/ExcelDateGroupFilterItem.cs
+    startLine: 235
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nSecond to filter on\n"
+  example: []
+  syntax:
+    content: public int? Second { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public ReadOnly Property Second As Integer?
+  overload: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Filter.ExcelFilterItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterItem
+  nameWithType: ExcelFilterItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterItem
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.#ctor
+  name: ExcelFilterDateGroupItem
+  nameWithType: ExcelFilterDateGroupItem.ExcelFilterDateGroupItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.ExcelFilterDateGroupItem
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping
+  name: Grouping
+  nameWithType: ExcelFilterDateGroupItem.Grouping
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Grouping
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping
+  commentId: T:OfficeOpenXml.Filter.eDateTimeGrouping
+  parent: OfficeOpenXml.Filter
+  name: eDateTimeGrouping
+  nameWithType: eDateTimeGrouping
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year
+  name: Year
+  nameWithType: ExcelFilterDateGroupItem.Year
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Year
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month
+  name: Month
+  nameWithType: ExcelFilterDateGroupItem.Month
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Month
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day
+  name: Day
+  nameWithType: ExcelFilterDateGroupItem.Day
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Day
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour
+  name: Hour
+  nameWithType: ExcelFilterDateGroupItem.Hour
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Hour
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute
+  name: Minute
+  nameWithType: ExcelFilterDateGroupItem.Minute
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Minute
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second
+  name: Second
+  nameWithType: ExcelFilterDateGroupItem.Second
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem.Second

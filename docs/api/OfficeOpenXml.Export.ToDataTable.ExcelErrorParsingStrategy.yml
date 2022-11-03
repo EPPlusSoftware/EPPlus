@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  id: ExcelErrorParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  children:
+  - OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells
+  - OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.IgnoreRowWithErrors
+  - OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.ThrowException
+  langs:
+  - csharp
+  - vb
+  name: ExcelErrorParsingStrategy
+  nameWithType: ExcelErrorParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelErrorParsingStrategy
+    path: ../src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nDefines how cells with errors in the source range should be handled.\n"
+  example: []
+  syntax:
+    content: public enum ExcelErrorParsingStrategy
+    content.vb: Public Enum ExcelErrorParsingStrategy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells
+  commentId: F:OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells
+  id: HandleExcelErrorsAsBlankCells
+  parent: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  langs:
+  - csharp
+  - vb
+  name: HandleExcelErrorsAsBlankCells
+  nameWithType: ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells
+  fullName: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.HandleExcelErrorsAsBlankCells
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HandleExcelErrorsAsBlankCells
+    path: ../src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nExcel Errors in cells will be handles as blank cells\n"
+  example: []
+  syntax:
+    content: HandleExcelErrorsAsBlankCells = 0
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.ThrowException
+  commentId: F:OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.ThrowException
+  id: ThrowException
+  parent: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  langs:
+  - csharp
+  - vb
+  name: ThrowException
+  nameWithType: ExcelErrorParsingStrategy.ThrowException
+  fullName: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.ThrowException
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThrowException
+    path: ../src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nAn exception will be thrown when an error occurs in a cell\n"
+  example: []
+  syntax:
+    content: ThrowException = 1
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.IgnoreRowWithErrors
+  commentId: F:OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.IgnoreRowWithErrors
+  id: IgnoreRowWithErrors
+  parent: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  langs:
+  - csharp
+  - vb
+  name: IgnoreRowWithErrors
+  nameWithType: ExcelErrorParsingStrategy.IgnoreRowWithErrors
+  fullName: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy.IgnoreRowWithErrors
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreRowWithErrors
+    path: ../src/EPPlus/Export/ToDataTable/ExcelErrorParsingStrategy.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nIf an error is detected, the entire row will be ignored\n"
+  example: []
+  syntax:
+    content: IgnoreRowWithErrors = 2
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.ToDataTable
+  commentId: N:OfficeOpenXml.Export.ToDataTable
+  name: OfficeOpenXml.Export.ToDataTable
+  nameWithType: OfficeOpenXml.Export.ToDataTable
+  fullName: OfficeOpenXml.Export.ToDataTable
+- uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: ExcelErrorParsingStrategy
+  nameWithType: ExcelErrorParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy

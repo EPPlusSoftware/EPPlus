@@ -1,0 +1,1028 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.eTableStyleElement
+  commentId: T:OfficeOpenXml.Style.eTableStyleElement
+  id: eTableStyleElement
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.eTableStyleElement.BlankRow
+  - OfficeOpenXml.Style.eTableStyleElement.FirstColumn
+  - OfficeOpenXml.Style.eTableStyleElement.FirstColumnStripe
+  - OfficeOpenXml.Style.eTableStyleElement.FirstColumnSubheading
+  - OfficeOpenXml.Style.eTableStyleElement.FirstHeaderCell
+  - OfficeOpenXml.Style.eTableStyleElement.FirstRowStripe
+  - OfficeOpenXml.Style.eTableStyleElement.FirstRowSubheading
+  - OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalColumn
+  - OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalRow
+  - OfficeOpenXml.Style.eTableStyleElement.FirstTotalCell
+  - OfficeOpenXml.Style.eTableStyleElement.HeaderRow
+  - OfficeOpenXml.Style.eTableStyleElement.LastColumn
+  - OfficeOpenXml.Style.eTableStyleElement.LastHeaderCell
+  - OfficeOpenXml.Style.eTableStyleElement.LastTotalCell
+  - OfficeOpenXml.Style.eTableStyleElement.PageFieldLabels
+  - OfficeOpenXml.Style.eTableStyleElement.PageFieldValues
+  - OfficeOpenXml.Style.eTableStyleElement.SecondColumnStripe
+  - OfficeOpenXml.Style.eTableStyleElement.SecondColumnSubheading
+  - OfficeOpenXml.Style.eTableStyleElement.SecondRowStripe
+  - OfficeOpenXml.Style.eTableStyleElement.SecondRowSubheading
+  - OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalColumn
+  - OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalRow
+  - OfficeOpenXml.Style.eTableStyleElement.ThirdColumnSubheading
+  - OfficeOpenXml.Style.eTableStyleElement.ThirdRowSubheading
+  - OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalColumn
+  - OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalRow
+  - OfficeOpenXml.Style.eTableStyleElement.TotalRow
+  - OfficeOpenXml.Style.eTableStyleElement.WholeTable
+  langs:
+  - csharp
+  - vb
+  name: eTableStyleElement
+  nameWithType: eTableStyleElement
+  fullName: OfficeOpenXml.Style.eTableStyleElement
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTableStyleElement
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCustom style element for a table / pivot table \n"
+  example: []
+  syntax:
+    content: public enum eTableStyleElement
+    content.vb: Public Enum eTableStyleElement
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.eTableStyleElement.BlankRow
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.BlankRow
+  id: BlankRow
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: BlankRow
+  nameWithType: eTableStyleElement.BlankRow
+  fullName: OfficeOpenXml.Style.eTableStyleElement.BlankRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlankRow
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s blank rows.\n"
+  example: []
+  syntax:
+    content: BlankRow = 0
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstColumn
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstColumn
+  id: FirstColumn
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstColumn
+  nameWithType: eTableStyleElement.FirstColumn
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstColumn
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first column.\n"
+  example: []
+  syntax:
+    content: FirstColumn = 1
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstColumnStripe
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstColumnStripe
+  id: FirstColumnStripe
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstColumnStripe
+  nameWithType: eTableStyleElement.FirstColumnStripe
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstColumnStripe
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstColumnStripe
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first column stripes.\n"
+  example: []
+  syntax:
+    content: FirstColumnStripe = 2
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstColumnSubheading
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstColumnSubheading
+  id: FirstColumnSubheading
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstColumnSubheading
+  nameWithType: eTableStyleElement.FirstColumnSubheading
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstColumnSubheading
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstColumnSubheading
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first column subheading.\n"
+  example: []
+  syntax:
+    content: FirstColumnSubheading = 3
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstHeaderCell
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstHeaderCell
+  id: FirstHeaderCell
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstHeaderCell
+  nameWithType: eTableStyleElement.FirstHeaderCell
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstHeaderCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstHeaderCell
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first header row cell.\n"
+  example: []
+  syntax:
+    content: FirstHeaderCell = 4
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstRowStripe
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstRowStripe
+  id: FirstRowStripe
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstRowStripe
+  nameWithType: eTableStyleElement.FirstRowStripe
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstRowStripe
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstRowStripe
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first row stripes.\n"
+  example: []
+  syntax:
+    content: FirstRowStripe = 5
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstRowSubheading
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstRowSubheading
+  id: FirstRowSubheading
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstRowSubheading
+  nameWithType: eTableStyleElement.FirstRowSubheading
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstRowSubheading
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstRowSubheading
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first row subheading.\n"
+  example: []
+  syntax:
+    content: FirstRowSubheading = 6
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalColumn
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalColumn
+  id: FirstSubtotalColumn
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstSubtotalColumn
+  nameWithType: eTableStyleElement.FirstSubtotalColumn
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstSubtotalColumn
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first subtotal column.\n"
+  example: []
+  syntax:
+    content: FirstSubtotalColumn = 7
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalRow
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalRow
+  id: FirstSubtotalRow
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstSubtotalRow
+  nameWithType: eTableStyleElement.FirstSubtotalRow
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstSubtotalRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstSubtotalRow
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s first subtotal row.\n"
+  example: []
+  syntax:
+    content: FirstSubtotalRow = 8
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.HeaderRow
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.HeaderRow
+  id: HeaderRow
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: HeaderRow
+  nameWithType: eTableStyleElement.HeaderRow
+  fullName: OfficeOpenXml.Style.eTableStyleElement.HeaderRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderRow
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s header row.\n"
+  example: []
+  syntax:
+    content: HeaderRow = 9
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.LastColumn
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.LastColumn
+  id: LastColumn
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: LastColumn
+  nameWithType: eTableStyleElement.LastColumn
+  fullName: OfficeOpenXml.Style.eTableStyleElement.LastColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastColumn
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s last column.\n"
+  example: []
+  syntax:
+    content: LastColumn = 10
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.PageFieldLabels
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.PageFieldLabels
+  id: PageFieldLabels
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: PageFieldLabels
+  nameWithType: eTableStyleElement.PageFieldLabels
+  fullName: OfficeOpenXml.Style.eTableStyleElement.PageFieldLabels
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageFieldLabels
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s page field labels.\n"
+  example: []
+  syntax:
+    content: PageFieldLabels = 11
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.PageFieldValues
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.PageFieldValues
+  id: PageFieldValues
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: PageFieldValues
+  nameWithType: eTableStyleElement.PageFieldValues
+  fullName: OfficeOpenXml.Style.eTableStyleElement.PageFieldValues
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageFieldValues
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s page field values.\n"
+  example: []
+  syntax:
+    content: PageFieldValues = 12
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.SecondColumnStripe
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.SecondColumnStripe
+  id: SecondColumnStripe
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SecondColumnStripe
+  nameWithType: eTableStyleElement.SecondColumnStripe
+  fullName: OfficeOpenXml.Style.eTableStyleElement.SecondColumnStripe
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SecondColumnStripe
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s second column stripes.\n"
+  example: []
+  syntax:
+    content: SecondColumnStripe = 13
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.SecondColumnSubheading
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.SecondColumnSubheading
+  id: SecondColumnSubheading
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SecondColumnSubheading
+  nameWithType: eTableStyleElement.SecondColumnSubheading
+  fullName: OfficeOpenXml.Style.eTableStyleElement.SecondColumnSubheading
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SecondColumnSubheading
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s second column subheading.\n"
+  example: []
+  syntax:
+    content: SecondColumnSubheading = 14
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.SecondRowStripe
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.SecondRowStripe
+  id: SecondRowStripe
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SecondRowStripe
+  nameWithType: eTableStyleElement.SecondRowStripe
+  fullName: OfficeOpenXml.Style.eTableStyleElement.SecondRowStripe
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SecondRowStripe
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s second row stripes.\n"
+  example: []
+  syntax:
+    content: SecondRowStripe = 15
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.SecondRowSubheading
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.SecondRowSubheading
+  id: SecondRowSubheading
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SecondRowSubheading
+  nameWithType: eTableStyleElement.SecondRowSubheading
+  fullName: OfficeOpenXml.Style.eTableStyleElement.SecondRowSubheading
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SecondRowSubheading
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s second row subheading.\n"
+  example: []
+  syntax:
+    content: SecondRowSubheading = 16
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalColumn
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalColumn
+  id: SecondSubtotalColumn
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SecondSubtotalColumn
+  nameWithType: eTableStyleElement.SecondSubtotalColumn
+  fullName: OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SecondSubtotalColumn
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s second subtotal column.\n"
+  example: []
+  syntax:
+    content: SecondSubtotalColumn = 17
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalRow
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalRow
+  id: SecondSubtotalRow
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: SecondSubtotalRow
+  nameWithType: eTableStyleElement.SecondSubtotalRow
+  fullName: OfficeOpenXml.Style.eTableStyleElement.SecondSubtotalRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SecondSubtotalRow
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s second subtotal row.\n"
+  example: []
+  syntax:
+    content: SecondSubtotalRow = 18
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.ThirdColumnSubheading
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.ThirdColumnSubheading
+  id: ThirdColumnSubheading
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: ThirdColumnSubheading
+  nameWithType: eTableStyleElement.ThirdColumnSubheading
+  fullName: OfficeOpenXml.Style.eTableStyleElement.ThirdColumnSubheading
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThirdColumnSubheading
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s third column subheading.\n"
+  example: []
+  syntax:
+    content: ThirdColumnSubheading = 19
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.ThirdRowSubheading
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.ThirdRowSubheading
+  id: ThirdRowSubheading
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: ThirdRowSubheading
+  nameWithType: eTableStyleElement.ThirdRowSubheading
+  fullName: OfficeOpenXml.Style.eTableStyleElement.ThirdRowSubheading
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThirdRowSubheading
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s third row subheading.\n"
+  example: []
+  syntax:
+    content: ThirdRowSubheading = 20
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalColumn
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalColumn
+  id: ThirdSubtotalColumn
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: ThirdSubtotalColumn
+  nameWithType: eTableStyleElement.ThirdSubtotalColumn
+  fullName: OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThirdSubtotalColumn
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s third subtotal column.\n"
+  example: []
+  syntax:
+    content: ThirdSubtotalColumn = 21
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalRow
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalRow
+  id: ThirdSubtotalRow
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: ThirdSubtotalRow
+  nameWithType: eTableStyleElement.ThirdSubtotalRow
+  fullName: OfficeOpenXml.Style.eTableStyleElement.ThirdSubtotalRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThirdSubtotalRow
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s third subtotal row.\n"
+  example: []
+  syntax:
+    content: ThirdSubtotalRow = 22
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.TotalRow
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.TotalRow
+  id: TotalRow
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: TotalRow
+  nameWithType: eTableStyleElement.TotalRow
+  fullName: OfficeOpenXml.Style.eTableStyleElement.TotalRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalRow
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s total row.\n"
+  example: []
+  syntax:
+    content: TotalRow = 23
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.WholeTable
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.WholeTable
+  id: WholeTable
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: WholeTable
+  nameWithType: eTableStyleElement.WholeTable
+  fullName: OfficeOpenXml.Style.eTableStyleElement.WholeTable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WholeTable
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a pivot table&apos;s entire content.\n"
+  example: []
+  syntax:
+    content: WholeTable = 24
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.LastHeaderCell
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.LastHeaderCell
+  id: LastHeaderCell
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: LastHeaderCell
+  nameWithType: eTableStyleElement.LastHeaderCell
+  fullName: OfficeOpenXml.Style.eTableStyleElement.LastHeaderCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastHeaderCell
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a table&apos;s last header row cell.\n"
+  example: []
+  syntax:
+    content: LastHeaderCell = 25
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.FirstTotalCell
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.FirstTotalCell
+  id: FirstTotalCell
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: FirstTotalCell
+  nameWithType: eTableStyleElement.FirstTotalCell
+  fullName: OfficeOpenXml.Style.eTableStyleElement.FirstTotalCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstTotalCell
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a table&apos;s first total row cell.\n"
+  example: []
+  syntax:
+    content: FirstTotalCell = 26
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eTableStyleElement.LastTotalCell
+  commentId: F:OfficeOpenXml.Style.eTableStyleElement.LastTotalCell
+  id: LastTotalCell
+  parent: OfficeOpenXml.Style.eTableStyleElement
+  langs:
+  - csharp
+  - vb
+  name: LastTotalCell
+  nameWithType: eTableStyleElement.LastTotalCell
+  fullName: OfficeOpenXml.Style.eTableStyleElement.LastTotalCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableStyleElement.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastTotalCell
+    path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nStyle that applies to a table&apos;s last total row cell.\n"
+  example: []
+  syntax:
+    content: LastTotalCell = 27
+    return:
+      type: OfficeOpenXml.Style.eTableStyleElement
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.eTableStyleElement
+  commentId: T:OfficeOpenXml.Style.eTableStyleElement
+  parent: OfficeOpenXml.Style
+  name: eTableStyleElement
+  nameWithType: eTableStyleElement
+  fullName: OfficeOpenXml.Style.eTableStyleElement

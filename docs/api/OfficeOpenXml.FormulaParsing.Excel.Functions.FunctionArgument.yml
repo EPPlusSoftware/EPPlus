@@ -1,0 +1,1148 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  id: FunctionArgument
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+  langs:
+  - csharp
+  - vb
+  name: FunctionArgument
+  nameWithType: FunctionArgument
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FunctionArgument
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public class FunctionArgument
+    content.vb: Public Class FunctionArgument
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object)
+  id: '#ctor(System.Object)'
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: FunctionArgument(Object)
+  nameWithType: FunctionArgument.FunctionArgument(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.FunctionArgument(System.Object)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public FunctionArgument(object val)
+    parameters:
+    - id: val
+      type: System.Object
+    content.vb: Public Sub New(val As Object)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)'
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: FunctionArgument(Object, DataType)
+  nameWithType: FunctionArgument.FunctionArgument(Object, DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.FunctionArgument(System.Object, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public FunctionArgument(object val, DataType dataType)
+    parameters:
+    - id: val
+      type: System.Object
+    - id: dataType
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    content.vb: Public Sub New(val As Object, dataType As DataType)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  id: SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: SetExcelStateFlag(ExcelCellState)
+  nameWithType: FunctionArgument.SetExcelStateFlag(ExcelCellState)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetExcelStateFlag
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public void SetExcelStateFlag(ExcelCellState state)
+    parameters:
+    - id: state
+      type: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+    content.vb: Public Sub SetExcelStateFlag(state As ExcelCellState)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  id: ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ExcelStateFlagIsSet(ExcelCellState)
+  nameWithType: FunctionArgument.ExcelStateFlagIsSet(ExcelCellState)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet(OfficeOpenXml.FormulaParsing.Excel.ExcelCellState)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelStateFlagIsSet
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public bool ExcelStateFlagIsSet(ExcelCellState state)
+    parameters:
+    - id: state
+      type: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+    return:
+      type: System.Boolean
+    content.vb: Public Function ExcelStateFlagIsSet(state As ExcelCellState) As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+  id: Value
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: FunctionArgument.Value
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public object Value { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public ReadOnly Property Value As Object
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
+  id: DataType
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: DataType
+  nameWithType: FunctionArgument.DataType
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataType
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public DataType DataType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    content.vb: Public ReadOnly Property DataType As DataType
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type
+  id: Type
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: FunctionArgument.Type
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public Type Type { get; }
+    parameters: []
+    return:
+      type: System.Type
+    content.vb: Public ReadOnly Property Type As Type
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId
+  id: ExcelAddressReferenceId
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ExcelAddressReferenceId
+  nameWithType: FunctionArgument.ExcelAddressReferenceId
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelAddressReferenceId
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public int ExcelAddressReferenceId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ExcelAddressReferenceId As Integer
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange
+  id: IsExcelRange
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: IsExcelRange
+  nameWithType: FunctionArgument.IsExcelRange
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsExcelRange
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public bool IsExcelRange { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsExcelRange As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
+  id: IsEnumerableOfFuncArgs
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: IsEnumerableOfFuncArgs
+  nameWithType: FunctionArgument.IsEnumerableOfFuncArgs
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsEnumerableOfFuncArgs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public bool IsEnumerableOfFuncArgs { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsEnumerableOfFuncArgs As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
+  id: ValueAsEnumerableOfFuncArgs
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ValueAsEnumerableOfFuncArgs
+  nameWithType: FunctionArgument.ValueAsEnumerableOfFuncArgs
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueAsEnumerableOfFuncArgs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public IEnumerable<FunctionArgument> ValueAsEnumerableOfFuncArgs { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+    content.vb: Public ReadOnly Property ValueAsEnumerableOfFuncArgs As IEnumerable(Of FunctionArgument)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+  id: ValueIsExcelError
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ValueIsExcelError
+  nameWithType: FunctionArgument.ValueIsExcelError
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueIsExcelError
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public bool ValueIsExcelError { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property ValueIsExcelError As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+  id: ValueAsExcelErrorValue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ValueAsExcelErrorValue
+  nameWithType: FunctionArgument.ValueAsExcelErrorValue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueAsExcelErrorValue
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public ExcelErrorValue ValueAsExcelErrorValue { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelErrorValue
+    content.vb: Public ReadOnly Property ValueAsExcelErrorValue As ExcelErrorValue
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
+  id: ValueAsRangeInfo
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ValueAsRangeInfo
+  nameWithType: FunctionArgument.ValueAsRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueAsRangeInfo
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public IRangeInfo ValueAsRangeInfo { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.IRangeInfo
+    content.vb: Public ReadOnly Property ValueAsRangeInfo As IRangeInfo
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
+  id: ValueFirst
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ValueFirst
+  nameWithType: FunctionArgument.ValueFirst
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueFirst
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public object ValueFirst { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public ReadOnly Property ValueFirst As Object
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
+  id: ValueFirstString
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  langs:
+  - csharp
+  - vb
+  name: ValueFirstString
+  nameWithType: FunctionArgument.ValueFirstString
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueFirstString
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionArgument.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public string ValueFirstString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property ValueFirstString As String
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.#ctor
+  name: FunctionArgument
+  nameWithType: FunctionArgument.FunctionArgument
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.FunctionArgument
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: DataType
+  nameWithType: DataType
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag
+  name: SetExcelStateFlag
+  nameWithType: FunctionArgument.SetExcelStateFlag
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.SetExcelStateFlag
+- uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+  parent: OfficeOpenXml.FormulaParsing.Excel
+  name: ExcelCellState
+  nameWithType: ExcelCellState
+  fullName: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+- uid: OfficeOpenXml.FormulaParsing.Excel
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel
+  name: OfficeOpenXml.FormulaParsing.Excel
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel
+  fullName: OfficeOpenXml.FormulaParsing.Excel
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet
+  name: ExcelStateFlagIsSet
+  nameWithType: FunctionArgument.ExcelStateFlagIsSet
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelStateFlagIsSet
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+  name: Value
+  nameWithType: FunctionArgument.Value
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Value
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
+  name: DataType
+  nameWithType: FunctionArgument.DataType
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.DataType
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type
+  name: Type
+  nameWithType: FunctionArgument.Type
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.Type
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId
+  name: ExcelAddressReferenceId
+  nameWithType: FunctionArgument.ExcelAddressReferenceId
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ExcelAddressReferenceId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange
+  name: IsExcelRange
+  nameWithType: FunctionArgument.IsExcelRange
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsExcelRange
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
+  name: IsEnumerableOfFuncArgs
+  nameWithType: FunctionArgument.IsEnumerableOfFuncArgs
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.IsEnumerableOfFuncArgs
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
+  name: ValueAsEnumerableOfFuncArgs
+  nameWithType: FunctionArgument.ValueAsEnumerableOfFuncArgs
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsEnumerableOfFuncArgs
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<FunctionArgument>
+  nameWithType: IEnumerable<FunctionArgument>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>
+  nameWithType.vb: IEnumerable(Of FunctionArgument)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+  name.vb: IEnumerable(Of FunctionArgument)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+  name: ValueIsExcelError
+  nameWithType: FunctionArgument.ValueIsExcelError
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueIsExcelError
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+  name: ValueAsExcelErrorValue
+  nameWithType: FunctionArgument.ValueAsExcelErrorValue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsExcelErrorValue
+- uid: OfficeOpenXml.ExcelErrorValue
+  commentId: T:OfficeOpenXml.ExcelErrorValue
+  parent: OfficeOpenXml
+  name: ExcelErrorValue
+  nameWithType: ExcelErrorValue
+  fullName: OfficeOpenXml.ExcelErrorValue
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
+  name: ValueAsRangeInfo
+  nameWithType: FunctionArgument.ValueAsRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueAsRangeInfo
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IRangeInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IRangeInfo
+  nameWithType: IRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
+  name: ValueFirst
+  nameWithType: FunctionArgument.ValueFirst
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirst
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
+  name: ValueFirstString
+  nameWithType: FunctionArgument.ValueFirstString
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument.ValueFirstString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

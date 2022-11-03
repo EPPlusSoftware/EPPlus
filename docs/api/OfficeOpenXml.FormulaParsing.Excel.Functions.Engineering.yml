@@ -1,0 +1,34 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  id: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.ConvertFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.ConvertFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.ConvertFunction
+  name: ConvertFunction
+  nameWithType: ConvertFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.ConvertFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
+  name: Erf
+  nameWithType: Erf
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
+  name: Erfc
+  nameWithType: Erfc
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc

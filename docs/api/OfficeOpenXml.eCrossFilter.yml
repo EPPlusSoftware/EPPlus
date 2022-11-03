@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eCrossFilter
+  commentId: T:OfficeOpenXml.eCrossFilter
+  id: eCrossFilter
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eCrossFilter.None
+  - OfficeOpenXml.eCrossFilter.ShowItemsWithDataAtTop
+  - OfficeOpenXml.eCrossFilter.ShowItemsWithNoData
+  langs:
+  - csharp
+  - vb
+  name: eCrossFilter
+  nameWithType: eCrossFilter
+  fullName: OfficeOpenXml.eCrossFilter
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eCrossFilter
+    path: ../src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHow the items that are used in slicer cross filtering are displayed\n"
+  example: []
+  syntax:
+    content: public enum eCrossFilter
+    content.vb: Public Enum eCrossFilter
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eCrossFilter.None
+  commentId: F:OfficeOpenXml.eCrossFilter.None
+  id: None
+  parent: OfficeOpenXml.eCrossFilter
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eCrossFilter.None
+  fullName: OfficeOpenXml.eCrossFilter.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe slicer style for slicer items with no data is not applied to slicer items with no data, and slicer items with no data are not sorted separately in the list of slicer items in the slicer view.\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.eCrossFilter
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eCrossFilter.ShowItemsWithDataAtTop
+  commentId: F:OfficeOpenXml.eCrossFilter.ShowItemsWithDataAtTop
+  id: ShowItemsWithDataAtTop
+  parent: OfficeOpenXml.eCrossFilter
+  langs:
+  - csharp
+  - vb
+  name: ShowItemsWithDataAtTop
+  nameWithType: eCrossFilter.ShowItemsWithDataAtTop
+  fullName: OfficeOpenXml.eCrossFilter.ShowItemsWithDataAtTop
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowItemsWithDataAtTop
+    path: ../src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe slicer style for slicer items with no data is applied to slicer items with no data, and slicer items with no data are sorted at the bottom in the list of slicer items in the slicer view.\n"
+  example: []
+  syntax:
+    content: ShowItemsWithDataAtTop = 1
+    return:
+      type: OfficeOpenXml.eCrossFilter
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eCrossFilter.ShowItemsWithNoData
+  commentId: F:OfficeOpenXml.eCrossFilter.ShowItemsWithNoData
+  id: ShowItemsWithNoData
+  parent: OfficeOpenXml.eCrossFilter
+  langs:
+  - csharp
+  - vb
+  name: ShowItemsWithNoData
+  nameWithType: eCrossFilter.ShowItemsWithNoData
+  fullName: OfficeOpenXml.eCrossFilter.ShowItemsWithNoData
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowItemsWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/enums/eCrossFilter.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe slicer style for slicer items with no data is applied to slicer items with no data, and slicer items with no data are not sorted separately in the list of slicer items in the slicer view.\n"
+  example: []
+  syntax:
+    content: ShowItemsWithNoData = 2
+    return:
+      type: OfficeOpenXml.eCrossFilter
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eCrossFilter
+  commentId: T:OfficeOpenXml.eCrossFilter
+  parent: OfficeOpenXml
+  name: eCrossFilter
+  nameWithType: eCrossFilter
+  fullName: OfficeOpenXml.eCrossFilter

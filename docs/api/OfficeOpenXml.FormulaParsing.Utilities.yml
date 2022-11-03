@@ -1,0 +1,71 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Utilities
+  commentId: N:OfficeOpenXml.FormulaParsing.Utilities
+  id: OfficeOpenXml.FormulaParsing.Utilities
+  children:
+  - OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  - OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
+  - OfficeOpenXml.FormulaParsing.Utilities.Require
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Utilities
+  nameWithType: OfficeOpenXml.FormulaParsing.Utilities
+  fullName: OfficeOpenXml.FormulaParsing.Utilities
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  commentId: T:OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+  parent: OfficeOpenXml.FormulaParsing.Utilities
+  name: ArgumentInfo<T>
+  nameWithType: ArgumentInfo<T>
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo<T>
+  nameWithType.vb: ArgumentInfo(Of T)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo(Of T)
+  name.vb: ArgumentInfo(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+    name: ArgumentInfo
+    nameWithType: ArgumentInfo
+    fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+    name: ArgumentInfo
+    nameWithType: ArgumentInfo
+    fullName: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
+  commentId: T:OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
+  name: RegexConstants
+  nameWithType: RegexConstants
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
+- uid: OfficeOpenXml.FormulaParsing.Utilities.Require
+  commentId: T:OfficeOpenXml.FormulaParsing.Utilities.Require
+  name: Require
+  nameWithType: Require
+  fullName: OfficeOpenXml.FormulaParsing.Utilities.Require
+- uid: OfficeOpenXml.FormulaParsing.Utilities
+  commentId: N:OfficeOpenXml.FormulaParsing.Utilities
+  name: OfficeOpenXml.FormulaParsing.Utilities
+  nameWithType: OfficeOpenXml.FormulaParsing.Utilities
+  fullName: OfficeOpenXml.FormulaParsing.Utilities

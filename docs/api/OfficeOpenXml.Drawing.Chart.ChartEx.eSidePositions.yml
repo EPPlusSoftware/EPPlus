@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  id: eSidePositions
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Bottom
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Left
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Right
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Top
+  langs:
+  - csharp
+  - vb
+  name: eSidePositions
+  nameWithType: eSidePositions
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSidePositions
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSide positions for a chart element\n"
+  example: []
+  syntax:
+    content: public enum eSidePositions
+    content.vb: Public Enum eSidePositions
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Left
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eSidePositions.Left
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe title or legend is on the left side.\n"
+  example: []
+  syntax:
+    content: Left = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Top
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eSidePositions.Top
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe title or legend is on the top.\n"
+  example: []
+  syntax:
+    content: Top = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Right
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eSidePositions.Right
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe title or legend is on the right side.\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Bottom
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eSidePositions.Bottom
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eSidePositions.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe title or legend is on the bottom.\n"
+  example: []
+  syntax:
+    content: Bottom = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eSidePositions
+  nameWithType: eSidePositions
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions

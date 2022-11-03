@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.eStrikeType
+  commentId: T:OfficeOpenXml.Style.eStrikeType
+  id: eStrikeType
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.eStrikeType.Double
+  - OfficeOpenXml.Style.eStrikeType.No
+  - OfficeOpenXml.Style.eStrikeType.Single
+  langs:
+  - csharp
+  - vb
+  name: eStrikeType
+  nameWithType: eStrikeType
+  fullName: OfficeOpenXml.Style.eStrikeType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eStrikeType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eStrikeType
+    path: ../src/EPPlus/Style/enums/eStrikeType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nType of font strike\n"
+  example: []
+  syntax:
+    content: public enum eStrikeType
+    content.vb: Public Enum eStrikeType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.eStrikeType.Double
+  commentId: F:OfficeOpenXml.Style.eStrikeType.Double
+  id: Double
+  parent: OfficeOpenXml.Style.eStrikeType
+  langs:
+  - csharp
+  - vb
+  name: Double
+  nameWithType: eStrikeType.Double
+  fullName: OfficeOpenXml.Style.eStrikeType.Double
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eStrikeType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Double
+    path: ../src/EPPlus/Style/enums/eStrikeType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDouble-lined font strike\n"
+  example: []
+  syntax:
+    content: Double = 0
+    return:
+      type: OfficeOpenXml.Style.eStrikeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eStrikeType.No
+  commentId: F:OfficeOpenXml.Style.eStrikeType.No
+  id: No
+  parent: OfficeOpenXml.Style.eStrikeType
+  langs:
+  - csharp
+  - vb
+  name: No
+  nameWithType: eStrikeType.No
+  fullName: OfficeOpenXml.Style.eStrikeType.No
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eStrikeType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: No
+    path: ../src/EPPlus/Style/enums/eStrikeType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNo font strike\n"
+  example: []
+  syntax:
+    content: No = 1
+    return:
+      type: OfficeOpenXml.Style.eStrikeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eStrikeType.Single
+  commentId: F:OfficeOpenXml.Style.eStrikeType.Single
+  id: Single
+  parent: OfficeOpenXml.Style.eStrikeType
+  langs:
+  - csharp
+  - vb
+  name: Single
+  nameWithType: eStrikeType.Single
+  fullName: OfficeOpenXml.Style.eStrikeType.Single
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eStrikeType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Single
+    path: ../src/EPPlus/Style/enums/eStrikeType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSingle-lined font strike\n"
+  example: []
+  syntax:
+    content: Single = 2
+    return:
+      type: OfficeOpenXml.Style.eStrikeType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.eStrikeType
+  commentId: T:OfficeOpenXml.Style.eStrikeType
+  parent: OfficeOpenXml.Style
+  name: eStrikeType
+  nameWithType: eStrikeType
+  fullName: OfficeOpenXml.Style.eStrikeType

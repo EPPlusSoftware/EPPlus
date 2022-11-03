@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping
+  commentId: T:OfficeOpenXml.Filter.eDateTimeGrouping
+  id: eDateTimeGrouping
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.eDateTimeGrouping.Day
+  - OfficeOpenXml.Filter.eDateTimeGrouping.Hour
+  - OfficeOpenXml.Filter.eDateTimeGrouping.Minute
+  - OfficeOpenXml.Filter.eDateTimeGrouping.Month
+  - OfficeOpenXml.Filter.eDateTimeGrouping.Second
+  - OfficeOpenXml.Filter.eDateTimeGrouping.Year
+  langs:
+  - csharp
+  - vb
+  name: eDateTimeGrouping
+  nameWithType: eDateTimeGrouping
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDateTimeGrouping
+    path: ../src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nDate grouping for a filter\n"
+  example: []
+  syntax:
+    content: public enum eDateTimeGrouping
+    content.vb: Public Enum eDateTimeGrouping
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping.Day
+  commentId: F:OfficeOpenXml.Filter.eDateTimeGrouping.Day
+  id: Day
+  parent: OfficeOpenXml.Filter.eDateTimeGrouping
+  langs:
+  - csharp
+  - vb
+  name: Day
+  nameWithType: eDateTimeGrouping.Day
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping.Day
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Day
+    path: ../src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nGroup by day\n"
+  example: []
+  syntax:
+    content: Day = 0
+    return:
+      type: OfficeOpenXml.Filter.eDateTimeGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping.Hour
+  commentId: F:OfficeOpenXml.Filter.eDateTimeGrouping.Hour
+  id: Hour
+  parent: OfficeOpenXml.Filter.eDateTimeGrouping
+  langs:
+  - csharp
+  - vb
+  name: Hour
+  nameWithType: eDateTimeGrouping.Hour
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping.Hour
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hour
+    path: ../src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nGroup by hour\n"
+  example: []
+  syntax:
+    content: Hour = 1
+    return:
+      type: OfficeOpenXml.Filter.eDateTimeGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping.Minute
+  commentId: F:OfficeOpenXml.Filter.eDateTimeGrouping.Minute
+  id: Minute
+  parent: OfficeOpenXml.Filter.eDateTimeGrouping
+  langs:
+  - csharp
+  - vb
+  name: Minute
+  nameWithType: eDateTimeGrouping.Minute
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping.Minute
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minute
+    path: ../src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nGroup by minute\n"
+  example: []
+  syntax:
+    content: Minute = 2
+    return:
+      type: OfficeOpenXml.Filter.eDateTimeGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping.Month
+  commentId: F:OfficeOpenXml.Filter.eDateTimeGrouping.Month
+  id: Month
+  parent: OfficeOpenXml.Filter.eDateTimeGrouping
+  langs:
+  - csharp
+  - vb
+  name: Month
+  nameWithType: eDateTimeGrouping.Month
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping.Month
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Month
+    path: ../src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nGroup by month\n"
+  example: []
+  syntax:
+    content: Month = 3
+    return:
+      type: OfficeOpenXml.Filter.eDateTimeGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping.Second
+  commentId: F:OfficeOpenXml.Filter.eDateTimeGrouping.Second
+  id: Second
+  parent: OfficeOpenXml.Filter.eDateTimeGrouping
+  langs:
+  - csharp
+  - vb
+  name: Second
+  nameWithType: eDateTimeGrouping.Second
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping.Second
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Second
+    path: ../src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nGroup by second\n"
+  example: []
+  syntax:
+    content: Second = 4
+    return:
+      type: OfficeOpenXml.Filter.eDateTimeGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping.Year
+  commentId: F:OfficeOpenXml.Filter.eDateTimeGrouping.Year
+  id: Year
+  parent: OfficeOpenXml.Filter.eDateTimeGrouping
+  langs:
+  - csharp
+  - vb
+  name: Year
+  nameWithType: eDateTimeGrouping.Year
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping.Year
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Year
+    path: ../src/EPPlus/Filter/enums/eDateTimeGrouping.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nGroup by year\n"
+  example: []
+  syntax:
+    content: Year = 5
+    return:
+      type: OfficeOpenXml.Filter.eDateTimeGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: OfficeOpenXml.Filter.eDateTimeGrouping
+  commentId: T:OfficeOpenXml.Filter.eDateTimeGrouping
+  parent: OfficeOpenXml.Filter
+  name: eDateTimeGrouping
+  nameWithType: eDateTimeGrouping
+  fullName: OfficeOpenXml.Filter.eDateTimeGrouping

@@ -1,0 +1,1289 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  id: ExcelDrawingEffectStyle
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  children:
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow(OfficeOpenXml.Drawing.ePresetExcelGlowType)
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection(OfficeOpenXml.Drawing.ePresetExcelReflectionType)
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges(OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType)
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingEffectStyle
+  nameWithType: ExcelDrawingEffectStyle
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingEffectStyle
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nEffect styles of a drawing object\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawingEffectStyle : XmlHelper'
+    content.vb: >-
+      Public Class ExcelDrawingEffectStyle
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur
+  id: Blur
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: Blur
+  nameWithType: ExcelDrawingEffectStyle.Blur
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Blur
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe blur effect\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingBlurEffect Blur { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+    content.vb: Public ReadOnly Property Blur As ExcelDrawingBlurEffect
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay
+  id: FillOverlay
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: FillOverlay
+  nameWithType: ExcelDrawingEffectStyle.FillOverlay
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FillOverlay
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe fill overlay effect. A fill overlay can be used to specify an additional fill for a drawing and blend the two together.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingFillOverlayEffect FillOverlay { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingFillOverlayEffect
+    content.vb: Public ReadOnly Property FillOverlay As ExcelDrawingFillOverlayEffect
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow
+  id: Glow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: Glow
+  nameWithType: ExcelDrawingEffectStyle.Glow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Glow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe glow effect. A color blurred outline is added outside the edges of the drawing\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingGlowEffect Glow { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingGlowEffect
+    content.vb: Public ReadOnly Property Glow As ExcelDrawingGlowEffect
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow
+  id: InnerShadow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: InnerShadow
+  nameWithType: ExcelDrawingEffectStyle.InnerShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InnerShadow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe inner shadow effect. A shadow is applied within the edges of the drawing.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingInnerShadowEffect InnerShadow { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingInnerShadowEffect
+    content.vb: Public ReadOnly Property InnerShadow As ExcelDrawingInnerShadowEffect
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow
+  id: OuterShadow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: OuterShadow
+  nameWithType: ExcelDrawingEffectStyle.OuterShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OuterShadow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe outer shadow effect. A shadow is applied outside the edges of the drawing.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingOuterShadowEffect OuterShadow { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingOuterShadowEffect
+    content.vb: Public ReadOnly Property OuterShadow As ExcelDrawingOuterShadowEffect
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow
+  id: PresetShadow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: PresetShadow
+  nameWithType: ExcelDrawingEffectStyle.PresetShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PresetShadow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe preset shadow effect.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingPresetShadowEffect PresetShadow { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingPresetShadowEffect
+    content.vb: Public ReadOnly Property PresetShadow As ExcelDrawingPresetShadowEffect
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection
+  id: Reflection
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: Reflection
+  nameWithType: ExcelDrawingEffectStyle.Reflection
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Reflection
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe reflection effect.\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingReflectionEffect Reflection { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingReflectionEffect
+    content.vb: Public ReadOnly Property Reflection As ExcelDrawingReflectionEffect
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius
+  id: SoftEdgeRadius
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: SoftEdgeRadius
+  nameWithType: ExcelDrawingEffectStyle.SoftEdgeRadius
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SoftEdgeRadius
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 161
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nSoft edge radius. A null value indicates no radius\n"
+  example: []
+  syntax:
+    content: public double? SoftEdgeRadius { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property SoftEdgeRadius As Double?
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow
+  id: HasInnerShadow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: HasInnerShadow
+  nameWithType: ExcelDrawingEffectStyle.HasInnerShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasInnerShadow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 197
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nIf the drawing has any inner shadow properties set\n"
+  example: []
+  syntax:
+    content: public bool HasInnerShadow { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasInnerShadow As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow
+  id: HasOuterShadow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: HasOuterShadow
+  nameWithType: ExcelDrawingEffectStyle.HasOuterShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasOuterShadow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 207
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nIf the drawing has any outer shadow properties set\n"
+  example: []
+  syntax:
+    content: public bool HasOuterShadow { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasOuterShadow As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow
+  id: HasPresetShadow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: HasPresetShadow
+  nameWithType: ExcelDrawingEffectStyle.HasPresetShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasPresetShadow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 217
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nIf the drawing has any preset shadow properties set\n"
+  example: []
+  syntax:
+    content: public bool HasPresetShadow { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasPresetShadow As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur
+  id: HasBlur
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: HasBlur
+  nameWithType: ExcelDrawingEffectStyle.HasBlur
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasBlur
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 227
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nIf the drawing has any blur properties set\n"
+  example: []
+  syntax:
+    content: public bool HasBlur { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasBlur As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow
+  id: HasGlow
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: HasGlow
+  nameWithType: ExcelDrawingEffectStyle.HasGlow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasGlow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 237
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nIf the drawing has any glow properties set\n"
+  example: []
+  syntax:
+    content: public bool HasGlow { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasGlow As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay
+  id: HasFillOverlay
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: HasFillOverlay
+  nameWithType: ExcelDrawingEffectStyle.HasFillOverlay
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasFillOverlay
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 247
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nIf the drawing has any fill overlay properties set\n"
+  example: []
+  syntax:
+    content: public bool HasFillOverlay { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasFillOverlay As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges(OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType)
+  commentId: M:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges(OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType)
+  id: SetPresetSoftEdges(OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType)
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: SetPresetSoftEdges(ePresetExcelSoftEdgesType)
+  nameWithType: ExcelDrawingEffectStyle.SetPresetSoftEdges(ePresetExcelSoftEdgesType)
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges(OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPresetSoftEdges
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 419
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nSet a predefined glow matching the preset types in Excel\n"
+  example: []
+  syntax:
+    content: public void SetPresetSoftEdges(ePresetExcelSoftEdgesType softEdgesType)
+    parameters:
+    - id: softEdgesType
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+      description: The preset type
+    content.vb: Public Sub SetPresetSoftEdges(softEdgesType As ePresetExcelSoftEdgesType)
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow(OfficeOpenXml.Drawing.ePresetExcelGlowType)
+  commentId: M:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow(OfficeOpenXml.Drawing.ePresetExcelGlowType)
+  id: SetPresetGlow(OfficeOpenXml.Drawing.ePresetExcelGlowType)
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: SetPresetGlow(ePresetExcelGlowType)
+  nameWithType: ExcelDrawingEffectStyle.SetPresetGlow(ePresetExcelGlowType)
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow(OfficeOpenXml.Drawing.ePresetExcelGlowType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPresetGlow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 452
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nSet a predefined glow matching the preset types in Excel\n"
+  example: []
+  syntax:
+    content: public void SetPresetGlow(ePresetExcelGlowType glowType)
+    parameters:
+    - id: glowType
+      type: OfficeOpenXml.Drawing.ePresetExcelGlowType
+      description: The preset type
+    content.vb: Public Sub SetPresetGlow(glowType As ePresetExcelGlowType)
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)
+  commentId: M:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)
+  id: SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: SetPresetShadow(ePresetExcelShadowType)
+  nameWithType: ExcelDrawingEffectStyle.SetPresetShadow(ePresetExcelShadowType)
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPresetShadow
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 473
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nSet a predefined shadow matching the preset types in Excel\n"
+  example: []
+  syntax:
+    content: public void SetPresetShadow(ePresetExcelShadowType shadowType)
+    parameters:
+    - id: shadowType
+      type: OfficeOpenXml.Drawing.ePresetExcelShadowType
+      description: The preset type
+    content.vb: Public Sub SetPresetShadow(shadowType As ePresetExcelShadowType)
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection(OfficeOpenXml.Drawing.ePresetExcelReflectionType)
+  commentId: M:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection(OfficeOpenXml.Drawing.ePresetExcelReflectionType)
+  id: SetPresetReflection(OfficeOpenXml.Drawing.ePresetExcelReflectionType)
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  langs:
+  - csharp
+  - vb
+  name: SetPresetReflection(ePresetExcelReflectionType)
+  nameWithType: ExcelDrawingEffectStyle.SetPresetReflection(ePresetExcelReflectionType)
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection(OfficeOpenXml.Drawing.ePresetExcelReflectionType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPresetReflection
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
+    startLine: 497
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nSet a predefined glow matching the preset types in Excel\n"
+  example: []
+  syntax:
+    content: public void SetPresetReflection(ePresetExcelReflectionType reflectionType)
+    parameters:
+    - id: reflectionType
+      type: OfficeOpenXml.Drawing.ePresetExcelReflectionType
+      description: The preset type
+    content.vb: Public Sub SetPresetReflection(reflectionType As ePresetExcelReflectionType)
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Style.Effect
+  commentId: N:OfficeOpenXml.Drawing.Style.Effect
+  name: OfficeOpenXml.Drawing.Style.Effect
+  nameWithType: OfficeOpenXml.Drawing.Style.Effect
+  fullName: OfficeOpenXml.Drawing.Style.Effect
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur
+  name: Blur
+  nameWithType: ExcelDrawingEffectStyle.Blur
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Blur
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingBlurEffect
+  nameWithType: ExcelDrawingBlurEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay
+  name: FillOverlay
+  nameWithType: ExcelDrawingEffectStyle.FillOverlay
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.FillOverlay
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingFillOverlayEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingFillOverlayEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingFillOverlayEffect
+  nameWithType: ExcelDrawingFillOverlayEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingFillOverlayEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow
+  name: Glow
+  nameWithType: ExcelDrawingEffectStyle.Glow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Glow
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingGlowEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingGlowEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingGlowEffect
+  nameWithType: ExcelDrawingGlowEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingGlowEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow
+  name: InnerShadow
+  nameWithType: ExcelDrawingEffectStyle.InnerShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.InnerShadow
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingInnerShadowEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingInnerShadowEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingInnerShadowEffect
+  nameWithType: ExcelDrawingInnerShadowEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingInnerShadowEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow
+  name: OuterShadow
+  nameWithType: ExcelDrawingEffectStyle.OuterShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.OuterShadow
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingOuterShadowEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingOuterShadowEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingOuterShadowEffect
+  nameWithType: ExcelDrawingOuterShadowEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingOuterShadowEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow
+  name: PresetShadow
+  nameWithType: ExcelDrawingEffectStyle.PresetShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.PresetShadow
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingPresetShadowEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingPresetShadowEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingPresetShadowEffect
+  nameWithType: ExcelDrawingPresetShadowEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingPresetShadowEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection
+  name: Reflection
+  nameWithType: ExcelDrawingEffectStyle.Reflection
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.Reflection
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingReflectionEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingReflectionEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingReflectionEffect
+  nameWithType: ExcelDrawingReflectionEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingReflectionEffect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius
+  name: SoftEdgeRadius
+  nameWithType: ExcelDrawingEffectStyle.SoftEdgeRadius
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SoftEdgeRadius
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow
+  name: HasInnerShadow
+  nameWithType: ExcelDrawingEffectStyle.HasInnerShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasInnerShadow
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow
+  name: HasOuterShadow
+  nameWithType: ExcelDrawingEffectStyle.HasOuterShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasOuterShadow
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow
+  name: HasPresetShadow
+  nameWithType: ExcelDrawingEffectStyle.HasPresetShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasPresetShadow
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur
+  name: HasBlur
+  nameWithType: ExcelDrawingEffectStyle.HasBlur
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasBlur
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow
+  name: HasGlow
+  nameWithType: ExcelDrawingEffectStyle.HasGlow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasGlow
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay
+  name: HasFillOverlay
+  nameWithType: ExcelDrawingEffectStyle.HasFillOverlay
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.HasFillOverlay
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges
+  name: SetPresetSoftEdges
+  nameWithType: ExcelDrawingEffectStyle.SetPresetSoftEdges
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetSoftEdges
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  commentId: T:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetExcelSoftEdgesType
+  nameWithType: ePresetExcelSoftEdgesType
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow
+  name: SetPresetGlow
+  nameWithType: ExcelDrawingEffectStyle.SetPresetGlow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetGlow
+- uid: OfficeOpenXml.Drawing.ePresetExcelGlowType
+  commentId: T:OfficeOpenXml.Drawing.ePresetExcelGlowType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetExcelGlowType
+  nameWithType: ePresetExcelGlowType
+  fullName: OfficeOpenXml.Drawing.ePresetExcelGlowType
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow
+  name: SetPresetShadow
+  nameWithType: ExcelDrawingEffectStyle.SetPresetShadow
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow
+- uid: OfficeOpenXml.Drawing.ePresetExcelShadowType
+  commentId: T:OfficeOpenXml.Drawing.ePresetExcelShadowType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetExcelShadowType
+  nameWithType: ePresetExcelShadowType
+  fullName: OfficeOpenXml.Drawing.ePresetExcelShadowType
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection
+  name: SetPresetReflection
+  nameWithType: ExcelDrawingEffectStyle.SetPresetReflection
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetReflection
+- uid: OfficeOpenXml.Drawing.ePresetExcelReflectionType
+  commentId: T:OfficeOpenXml.Drawing.ePresetExcelReflectionType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetExcelReflectionType
+  nameWithType: ePresetExcelReflectionType
+  fullName: OfficeOpenXml.Drawing.ePresetExcelReflectionType

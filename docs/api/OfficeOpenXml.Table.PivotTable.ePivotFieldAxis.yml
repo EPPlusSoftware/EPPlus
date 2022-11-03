@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  id: ePivotFieldAxis
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Column
+  - OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.None
+  - OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Page
+  - OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Row
+  - OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Values
+  langs:
+  - csharp
+  - vb
+  name: ePivotFieldAxis
+  nameWithType: ePivotFieldAxis
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePivotFieldAxis
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines the axis for a PivotTable\n"
+  example: []
+  syntax:
+    content: public enum ePivotFieldAxis
+    content.vb: Public Enum ePivotFieldAxis
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.None
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.None
+  id: None
+  parent: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ePivotFieldAxis.None
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nNone\n"
+  example: []
+  syntax:
+    content: None = -1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Column
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Column
+  id: Column
+  parent: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: ePivotFieldAxis.Column
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Column
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nColumn axis\n"
+  example: []
+  syntax:
+    content: Column = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Page
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Page
+  id: Page
+  parent: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  langs:
+  - csharp
+  - vb
+  name: Page
+  nameWithType: ePivotFieldAxis.Page
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Page
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Page
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nPage axis (Include Count Filter) \n\n"
+  example: []
+  syntax:
+    content: Page = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Row
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Row
+  id: Row
+  parent: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: ePivotFieldAxis.Row
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Row
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRow axis\n"
+  example: []
+  syntax:
+    content: Row = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Values
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Values
+  id: Values
+  parent: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  langs:
+  - csharp
+  - vb
+  name: Values
+  nameWithType: ePivotFieldAxis.Values
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis.Values
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Values
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotFieldAxis.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nValues axis\n"
+  example: []
+  syntax:
+    content: Values = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotFieldAxis
+  nameWithType: ePivotFieldAxis
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis

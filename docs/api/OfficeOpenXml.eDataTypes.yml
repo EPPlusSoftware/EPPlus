@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eDataTypes
+  commentId: T:OfficeOpenXml.eDataTypes
+  id: eDataTypes
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eDataTypes.DateTime
+  - OfficeOpenXml.eDataTypes.Number
+  - OfficeOpenXml.eDataTypes.Percent
+  - OfficeOpenXml.eDataTypes.String
+  - OfficeOpenXml.eDataTypes.Unknown
+  langs:
+  - csharp
+  - vb
+  name: eDataTypes
+  nameWithType: eDataTypes
+  fullName: OfficeOpenXml.eDataTypes
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDataTypes
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDiscribes a column when reading a text using the ExcelRangeBase.LoadFromText method\n"
+  example: []
+  syntax:
+    content: public enum eDataTypes
+    content.vb: Public Enum eDataTypes
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eDataTypes.Unknown
+  commentId: F:OfficeOpenXml.eDataTypes.Unknown
+  id: Unknown
+  parent: OfficeOpenXml.eDataTypes
+  langs:
+  - csharp
+  - vb
+  name: Unknown
+  nameWithType: eDataTypes.Unknown
+  fullName: OfficeOpenXml.eDataTypes.Unknown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Unknown
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLet the the import decide.\n"
+  example: []
+  syntax:
+    content: Unknown = 0
+    return:
+      type: OfficeOpenXml.eDataTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDataTypes.String
+  commentId: F:OfficeOpenXml.eDataTypes.String
+  id: String
+  parent: OfficeOpenXml.eDataTypes
+  langs:
+  - csharp
+  - vb
+  name: String
+  nameWithType: eDataTypes.String
+  fullName: OfficeOpenXml.eDataTypes.String
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: String
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAlways a string.\n"
+  example: []
+  syntax:
+    content: String = 1
+    return:
+      type: OfficeOpenXml.eDataTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDataTypes.Number
+  commentId: F:OfficeOpenXml.eDataTypes.Number
+  id: Number
+  parent: OfficeOpenXml.eDataTypes
+  langs:
+  - csharp
+  - vb
+  name: Number
+  nameWithType: eDataTypes.Number
+  fullName: OfficeOpenXml.eDataTypes.Number
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Number
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTry to convert it to a number. If it fails then add it as a string.\n"
+  example: []
+  syntax:
+    content: Number = 2
+    return:
+      type: OfficeOpenXml.eDataTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDataTypes.DateTime
+  commentId: F:OfficeOpenXml.eDataTypes.DateTime
+  id: DateTime
+  parent: OfficeOpenXml.eDataTypes
+  langs:
+  - csharp
+  - vb
+  name: DateTime
+  nameWithType: eDataTypes.DateTime
+  fullName: OfficeOpenXml.eDataTypes.DateTime
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateTime
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTry to convert it to a date. If it fails then add it as a string.\n"
+  example: []
+  syntax:
+    content: DateTime = 3
+    return:
+      type: OfficeOpenXml.eDataTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDataTypes.Percent
+  commentId: F:OfficeOpenXml.eDataTypes.Percent
+  id: Percent
+  parent: OfficeOpenXml.eDataTypes
+  langs:
+  - csharp
+  - vb
+  name: Percent
+  nameWithType: eDataTypes.Percent
+  fullName: OfficeOpenXml.eDataTypes.Percent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormat.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percent
+    path: ../src/EPPlus/ExcelTextFormat.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTry to convert it to a number and divide with 100. \nRemoves any tailing percent sign (%). If it fails then add it as a string.\n"
+  example: []
+  syntax:
+    content: Percent = 4
+    return:
+      type: OfficeOpenXml.eDataTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eDataTypes
+  commentId: T:OfficeOpenXml.eDataTypes
+  parent: OfficeOpenXml
+  name: eDataTypes
+  nameWithType: eDataTypes
+  fullName: OfficeOpenXml.eDataTypes

@@ -1,0 +1,93 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+  id: IExcelDataValidationWithOperator
+  parent: OfficeOpenXml.DataValidation.Contracts
+  children:
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator
+  langs:
+  - csharp
+  - vb
+  name: IExcelDataValidationWithOperator
+  nameWithType: IExcelDataValidationWithOperator
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Contracts/IExcelDataValidationWithOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelDataValidationWithOperator
+    path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationWithOperator.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Contracts
+  summary: "\nRepresents a validation with an operator\n"
+  example: []
+  syntax:
+    content: public interface IExcelDataValidationWithOperator
+    content.vb: Public Interface IExcelDataValidationWithOperator
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator
+  id: Operator
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+  langs:
+  - csharp
+  - vb
+  name: Operator
+  nameWithType: IExcelDataValidationWithOperator.Operator
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Contracts/IExcelDataValidationWithOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Operator
+    path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationWithOperator.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Contracts
+  summary: "\nOperator type\n"
+  example: []
+  syntax:
+    content: ExcelDataValidationOperator Operator { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+    content.vb: Property Operator As ExcelDataValidationOperator
+  overload: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.DataValidation.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Contracts
+  name: OfficeOpenXml.DataValidation.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Contracts
+  fullName: OfficeOpenXml.DataValidation.Contracts
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator*
+  commentId: Overload:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator
+  name: Operator
+  nameWithType: IExcelDataValidationWithOperator.Operator
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator.Operator
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationOperator
+  nameWithType: ExcelDataValidationOperator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation

@@ -144,7 +144,7 @@ namespace OfficeOpenXml
                 {
                     using (var encrStream = RecyclableMemory.GetStream())
                     {
-                        await CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
+                        await StreamUtil.CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
                         var eph = new EncryptedPackageHandler();
                         Encryption.Password = Password;
                         ms = eph.DecryptPackage(encrStream, Encryption);
@@ -153,7 +153,7 @@ namespace OfficeOpenXml
                 else
                 {
                     ms = RecyclableMemory.GetStream();
-                    await CopyStreamAsync(input, ms, cancellationToken).ConfigureAwait(false);
+                    await StreamUtil.CopyStreamAsync(input, ms, cancellationToken).ConfigureAwait(false);
                 }
 
 				try
@@ -219,7 +219,7 @@ namespace OfficeOpenXml
                             var eph = new EncryptedPackageHandler();
                             using (var msEnc = eph.EncryptPackage(file, Encryption))
                             {
-                                await CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
+                                await StreamUtil.CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
                             }
                         }
                     }
@@ -376,7 +376,7 @@ namespace OfficeOpenXml
 
             if (OutputStream != _stream)
             {
-                await CopyStreamAsync(_stream, OutputStream, cancellationToken).ConfigureAwait(false);
+                await StreamUtil.CopyStreamAsync(_stream, OutputStream, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -396,38 +396,6 @@ namespace OfficeOpenXml
 
         #endregion
 
-        /// <summary>
-        /// Copies the input stream to the output stream.
-        /// </summary>
-        /// <param name="inputStream">The input stream.</param>
-        /// <param name="outputStream">The output stream.</param>
-        /// <param name="cancellationToken">The cancellation token</param>
-        internal static async Task CopyStreamAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken)
-        {
-            if (!inputStream.CanRead)
-            {
-                throw new Exception("Cannot read from the input stream");
-            }
-            if (!outputStream.CanWrite)
-            {
-                throw new Exception("Cannot write to the output stream");
-            }
-            if (inputStream.CanSeek)
-            {
-                inputStream.Seek(0, SeekOrigin.Begin);
-            }
-
-            const int bufferLength = 8096;
-            var buffer = new byte[bufferLength];
-            var bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength, cancellationToken).ConfigureAwait(false);
-            // write the required bytes
-            while (bytesRead > 0)
-            {
-                await outputStream.WriteAsync(buffer, 0, bytesRead, cancellationToken).ConfigureAwait(false);
-                bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength, cancellationToken).ConfigureAwait(false);
-            }
-            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        }
 
         internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {

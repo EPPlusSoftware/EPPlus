@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Utils;
 using System.IO;
 
 namespace OfficeOpenXml
@@ -81,10 +82,10 @@ namespace OfficeOpenXml
         {
             _stream.Write(buffer, offset, count);
         }
-        public BinaryWriter Buffer=new BinaryWriter(new MemoryStream());
+        public BinaryWriter Buffer=new BinaryWriter(RecyclableMemory.GetStream());
         public void SetWriteToBuffer()
         {
-            Buffer = new BinaryWriter(new MemoryStream());
+            Buffer = new BinaryWriter(RecyclableMemory.GetStream());
             if (WriteToBuffer==false)
             {
                 Buffer.Write(_buffer,0, _bufferEnd);

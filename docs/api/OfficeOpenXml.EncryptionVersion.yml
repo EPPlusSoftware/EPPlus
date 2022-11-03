@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.EncryptionVersion
+  commentId: T:OfficeOpenXml.EncryptionVersion
+  id: EncryptionVersion
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.EncryptionVersion.Agile
+  - OfficeOpenXml.EncryptionVersion.Standard
+  langs:
+  - csharp
+  - vb
+  name: EncryptionVersion
+  nameWithType: EncryptionVersion
+  fullName: OfficeOpenXml.EncryptionVersion
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EncryptionVersion
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe major version of the Encryption \n"
+  example: []
+  syntax:
+    content: public enum EncryptionVersion
+    content.vb: Public Enum EncryptionVersion
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.EncryptionVersion.Standard
+  commentId: F:OfficeOpenXml.EncryptionVersion.Standard
+  id: Standard
+  parent: OfficeOpenXml.EncryptionVersion
+  langs:
+  - csharp
+  - vb
+  name: Standard
+  nameWithType: EncryptionVersion.Standard
+  fullName: OfficeOpenXml.EncryptionVersion.Standard
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStandard Encryption.\nUsed in Excel 2007 and previous version with compatibility pack.\n<remarks>Default AES 128 with SHA-1 as the hash algorithm. Spincount is hardcoded to 50000</remarks>\n"
+  example: []
+  syntax:
+    content: Standard = 0
+    return:
+      type: OfficeOpenXml.EncryptionVersion
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EncryptionVersion.Agile
+  commentId: F:OfficeOpenXml.EncryptionVersion.Agile
+  id: Agile
+  parent: OfficeOpenXml.EncryptionVersion
+  langs:
+  - csharp
+  - vb
+  name: Agile
+  nameWithType: EncryptionVersion.Agile
+  fullName: OfficeOpenXml.EncryptionVersion.Agile
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Agile
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAgile Encryption.\nUsed in Excel 2010-\nDefault.\n"
+  example: []
+  syntax:
+    content: Agile = 1
+    return:
+      type: OfficeOpenXml.EncryptionVersion
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.EncryptionVersion
+  commentId: T:OfficeOpenXml.EncryptionVersion
+  parent: OfficeOpenXml
+  name: EncryptionVersion
+  nameWithType: EncryptionVersion
+  fullName: OfficeOpenXml.EncryptionVersion

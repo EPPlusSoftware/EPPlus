@@ -1,0 +1,160 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  id: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.eAttributeDataType
+  - OfficeOpenXml.VBA.eModuleType
+  - OfficeOpenXml.VBA.eSyskind
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+  - OfficeOpenXml.VBA.ExcelVBAModule
+  - OfficeOpenXml.VBA.ExcelVbaModuleAttribute
+  - OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+  - OfficeOpenXml.VBA.ExcelVbaModuleCollection
+  - OfficeOpenXml.VBA.ExcelVbaProject
+  - OfficeOpenXml.VBA.ExcelVbaProtection
+  - OfficeOpenXml.VBA.ExcelVbaReference
+  - OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  - OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  - OfficeOpenXml.VBA.ExcelVbaReferenceProject
+  - OfficeOpenXml.VBA.ExcelVbaSignature
+  - OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.VBA.eAttributeDataType
+  commentId: T:OfficeOpenXml.VBA.eAttributeDataType
+  parent: OfficeOpenXml.VBA
+  name: eAttributeDataType
+  nameWithType: eAttributeDataType
+  fullName: OfficeOpenXml.VBA.eAttributeDataType
+- uid: OfficeOpenXml.VBA.eModuleType
+  commentId: T:OfficeOpenXml.VBA.eModuleType
+  parent: OfficeOpenXml.VBA
+  name: eModuleType
+  nameWithType: eModuleType
+  fullName: OfficeOpenXml.VBA.eModuleType
+- uid: OfficeOpenXml.VBA.eSyskind
+  commentId: T:OfficeOpenXml.VBA.eSyskind
+  parent: OfficeOpenXml.VBA
+  name: eSyskind
+  nameWithType: eSyskind
+  fullName: OfficeOpenXml.VBA.eSyskind
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  commentId: T:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  parent: OfficeOpenXml.VBA
+  name: VbaSignatureHashAlgorithm
+  nameWithType: VbaSignatureHashAlgorithm
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+  commentId: T:OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+  name: ExcelVBACollectionBase<T>
+  nameWithType: ExcelVBACollectionBase<T>
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>
+  nameWithType.vb: ExcelVBACollectionBase(Of T)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T)
+  name.vb: ExcelVBACollectionBase(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+    name: ExcelVBACollectionBase
+    nameWithType: ExcelVBACollectionBase
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+    name: ExcelVBACollectionBase
+    nameWithType: ExcelVBACollectionBase
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBAModule
+  commentId: T:OfficeOpenXml.VBA.ExcelVBAModule
+  parent: OfficeOpenXml.VBA
+  name: ExcelVBAModule
+  nameWithType: ExcelVBAModule
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule
+- uid: OfficeOpenXml.VBA.ExcelVbaModuleAttribute
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaModuleAttribute
+  name: ExcelVbaModuleAttribute
+  nameWithType: ExcelVbaModuleAttribute
+  fullName: OfficeOpenXml.VBA.ExcelVbaModuleAttribute
+- uid: OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaModuleAttributesCollection
+  nameWithType: ExcelVbaModuleAttributesCollection
+  fullName: OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+- uid: OfficeOpenXml.VBA.ExcelVbaModuleCollection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaModuleCollection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaModuleCollection
+  nameWithType: ExcelVbaModuleCollection
+  fullName: OfficeOpenXml.VBA.ExcelVbaModuleCollection
+- uid: OfficeOpenXml.VBA.ExcelVbaProject
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaProject
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaProject
+  nameWithType: ExcelVbaProject
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaProtection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaProtection
+  nameWithType: ExcelVbaProtection
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection
+- uid: OfficeOpenXml.VBA.ExcelVbaReference
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReference
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaReference
+  nameWithType: ExcelVbaReference
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaReferenceCollection
+  nameWithType: ExcelVbaReferenceCollection
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  name: ExcelVbaReferenceControl
+  nameWithType: ExcelVbaReferenceControl
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceProject
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReferenceProject
+  name: ExcelVbaReferenceProject
+  nameWithType: ExcelVbaReferenceProject
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceProject
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaSignature
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaSignature
+  nameWithType: ExcelVbaSignature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA

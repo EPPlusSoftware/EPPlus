@@ -1,0 +1,614 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  id: ExcelVbaReferenceControl
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.ExcelVbaReferenceControl.#ctor
+  - OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
+  - OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
+  - OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
+  - OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib
+  langs:
+  - csharp
+  - vb
+  name: ExcelVbaReferenceControl
+  nameWithType: ExcelVbaReferenceControl
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVbaReferenceControl
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA reference to a twiddled type library\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVbaReferenceControl : ExcelVbaReference'
+    content.vb: >-
+      Public Class ExcelVbaReferenceControl
+          Inherits ExcelVbaReference
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.VBA.ExcelVbaReference
+  inheritedMembers:
+  - OfficeOpenXml.VBA.ExcelVbaReference.ReferenceRecordID
+  - OfficeOpenXml.VBA.ExcelVbaReference.SecondaryReferenceRecordID
+  - OfficeOpenXml.VBA.ExcelVbaReference.Name
+  - OfficeOpenXml.VBA.ExcelVbaReference.Libid
+  - OfficeOpenXml.VBA.ExcelVbaReference.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.#ctor
+  commentId: M:OfficeOpenXml.VBA.ExcelVbaReferenceControl.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  langs:
+  - csharp
+  - vb
+  name: ExcelVbaReferenceControl()
+  nameWithType: ExcelVbaReferenceControl.ExcelVbaReferenceControl()
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.ExcelVbaReferenceControl()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nConstructor.\nSets ReferenceRecordID to 0x2F\n"
+  example: []
+  syntax:
+    content: public ExcelVbaReferenceControl()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.VBA.ExcelVbaReferenceControl.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
+  id: LibIdExternal
+  parent: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  langs:
+  - csharp
+  - vb
+  name: LibIdExternal
+  nameWithType: ExcelVbaReferenceControl.LibIdExternal
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LibIdExternal
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nLibIdExternal \nFor more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES\nThis corresponds to LibIdExtended in the documentation.\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Use LibIdExtended instead of this.")]
+
+      public string LibIdExternal { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <Obsolete("Use LibIdExtended instead of this.")>
+
+      Public Property LibIdExternal As String
+  overload: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Use LibIdExtended instead of this.
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
+  id: LibIdExtended
+  parent: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  langs:
+  - csharp
+  - vb
+  name: LibIdExtended
+  nameWithType: ExcelVbaReferenceControl.LibIdExtended
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LibIdExtended
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nLibIdExtended \nFor more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES\n"
+  example: []
+  syntax:
+    content: public string LibIdExtended { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LibIdExtended As String
+  overload: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
+  id: LibIdTwiddled
+  parent: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  langs:
+  - csharp
+  - vb
+  name: LibIdTwiddled
+  nameWithType: ExcelVbaReferenceControl.LibIdTwiddled
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LibIdTwiddled
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nLibIdTwiddled\nFor more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES\n"
+  example: []
+  syntax:
+    content: public string LibIdTwiddled { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LibIdTwiddled As String
+  overload: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib
+  id: OriginalTypeLib
+  parent: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+  langs:
+  - csharp
+  - vb
+  name: OriginalTypeLib
+  nameWithType: ExcelVbaReferenceControl.OriginalTypeLib
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OriginalTypeLib
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA GUID that specifies the Automation type library the extended type library was generated from.\n"
+  example: []
+  syntax:
+    content: public Guid OriginalTypeLib { get; set; }
+    parameters: []
+    return:
+      type: System.Guid
+    content.vb: Public Property OriginalTypeLib As Guid
+  overload: OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.VBA.ExcelVbaReference
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReference
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaReference
+  nameWithType: ExcelVbaReference
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference
+- uid: OfficeOpenXml.VBA.ExcelVbaReference.ReferenceRecordID
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReference.ReferenceRecordID
+  parent: OfficeOpenXml.VBA.ExcelVbaReference
+  name: ReferenceRecordID
+  nameWithType: ExcelVbaReference.ReferenceRecordID
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference.ReferenceRecordID
+- uid: OfficeOpenXml.VBA.ExcelVbaReference.SecondaryReferenceRecordID
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReference.SecondaryReferenceRecordID
+  parent: OfficeOpenXml.VBA.ExcelVbaReference
+  name: SecondaryReferenceRecordID
+  nameWithType: ExcelVbaReference.SecondaryReferenceRecordID
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference.SecondaryReferenceRecordID
+- uid: OfficeOpenXml.VBA.ExcelVbaReference.Name
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReference.Name
+  parent: OfficeOpenXml.VBA.ExcelVbaReference
+  name: Name
+  nameWithType: ExcelVbaReference.Name
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference.Name
+- uid: OfficeOpenXml.VBA.ExcelVbaReference.Libid
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaReference.Libid
+  parent: OfficeOpenXml.VBA.ExcelVbaReference
+  name: Libid
+  nameWithType: ExcelVbaReference.Libid
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference.Libid
+- uid: OfficeOpenXml.VBA.ExcelVbaReference.ToString
+  commentId: M:OfficeOpenXml.VBA.ExcelVbaReference.ToString
+  parent: OfficeOpenXml.VBA.ExcelVbaReference
+  name: ToString()
+  nameWithType: ExcelVbaReference.ToString()
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference.ToString()
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference.ToString
+    name: ToString
+    nameWithType: ExcelVbaReference.ToString
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference.ToString
+    name: ToString
+    nameWithType: ExcelVbaReference.ToString
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.#ctor*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.#ctor
+  name: ExcelVbaReferenceControl
+  nameWithType: ExcelVbaReferenceControl.ExcelVbaReferenceControl
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.ExcelVbaReferenceControl
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
+  name: LibIdExternal
+  nameWithType: ExcelVbaReferenceControl.LibIdExternal
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExternal
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
+  name: LibIdExtended
+  nameWithType: ExcelVbaReferenceControl.LibIdExtended
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdExtended
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
+  name: LibIdTwiddled
+  nameWithType: ExcelVbaReferenceControl.LibIdTwiddled
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.LibIdTwiddled
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib
+  name: OriginalTypeLib
+  nameWithType: ExcelVbaReferenceControl.OriginalTypeLib
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceControl.OriginalTypeLib
+- uid: System.Guid
+  commentId: T:System.Guid
+  parent: System
+  isExternal: true
+  name: Guid
+  nameWithType: Guid
+  fullName: System.Guid

@@ -1,0 +1,4936 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelDrawings
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawings
+  id: ExcelDrawings
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable,OfficeOpenXml.Drawing.eEditAs)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream,System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddControl(System.String,OfficeOpenXml.Drawing.Controls.eControlType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart(System.String,System.Boolean)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Uri)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo,System.Uri)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Uri)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String,System.Uri)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.ExcelShape)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.Drawing.Chart.eStockChartType,OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,System.String,System.String,System.String,System.String,System.String,System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer(OfficeOpenXml.Table.ExcelTableColumn)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.Clear
+  - OfficeOpenXml.Drawing.ExcelDrawings.Count
+  - OfficeOpenXml.Drawing.ExcelDrawings.Dispose
+  - OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml
+  - OfficeOpenXml.Drawing.ExcelDrawings.Item(System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawings.Item(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  - OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#ExcelDrawing}#GetEnumerator
+  - OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawings
+  nameWithType: ExcelDrawings
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawings
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCollection for Drawing objects.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawings : IEnumerable<ExcelDrawing>, IEnumerable, IDisposable'
+    content.vb: >-
+      Public Class ExcelDrawings
+          Implements IEnumerable(Of ExcelDrawing), IEnumerable, IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  - System.Collections.IEnumerable
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml
+  id: DrawingXml
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: DrawingXml
+  nameWithType: ExcelDrawings.DrawingXml
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DrawingXml
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA reference to the drawing xml document\n"
+  example: []
+  syntax:
+    content: public XmlDocument DrawingXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property DrawingXml As XmlDocument
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelDrawings.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 173
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGet the enumerator\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+      description: The enumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDrawings.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#ExcelDrawing}#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#ExcelDrawing}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#ExcelDrawing}#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<ExcelDrawing>.GetEnumerator()
+  nameWithType: ExcelDrawings.IEnumerable<ExcelDrawing>.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  syntax:
+    content: IEnumerator<ExcelDrawing> IEnumerable<ExcelDrawing>.GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+    content.vb: Function System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator As IEnumerator(Of ExcelDrawing) Implements IEnumerable(Of ExcelDrawing).GetEnumerator
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#ExcelDrawing}#GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  nameWithType.vb: ExcelDrawings.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawings.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelDrawings.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 191
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing at the specified position.  \n"
+  example: []
+  syntax:
+    content: public ExcelDrawing this[int PositionID] { get; }
+    parameters:
+    - id: PositionID
+      type: System.Int32
+      description: The position of the drawing. 0-base
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: ''
+    content.vb: Public ReadOnly Property Item(PositionID As Integer) As ExcelDrawing
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Item*
+  nameWithType.vb: ExcelDrawings.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Item(System.String)
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawings.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelDrawings.Item[String]
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 204
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing matching the specified name\n"
+  example: []
+  syntax:
+    content: public ExcelDrawing this[string Name] { get; }
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the worksheet
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: ''
+    content.vb: Public ReadOnly Property Item(Name As String) As ExcelDrawing
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Item*
+  nameWithType.vb: ExcelDrawings.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Count
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawings.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelDrawings.Count
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 221
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable,OfficeOpenXml.Drawing.eEditAs)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable,OfficeOpenXml.Drawing.eEditAs)
+  id: AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable,OfficeOpenXml.Drawing.eEditAs)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddChart(String, eChartType, ExcelPivotTable, eEditAs)
+  nameWithType: ExcelDrawings.AddChart(String, eChartType, ExcelPivotTable, eEditAs)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String, OfficeOpenXml.Drawing.Chart.eChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable, OfficeOpenXml.Drawing.eEditAs)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 273
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new chart to the worksheet.\nStock charts cannot be added by this method. See <xref href=\"OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String%2cOfficeOpenXml.Drawing.Chart.eStockChartType%2cOfficeOpenXml.ExcelRangeBase)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelChart AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    - id: DrawingType
+      type: OfficeOpenXml.Drawing.eEditAs
+      description: The top element drawingtype. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: The chart
+    content.vb: Public Function AddChart(Name As String, ChartType As eChartType, PivotTableSource As ExcelPivotTable, DrawingType As eEditAs = eEditAs.TwoCell) As ExcelChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  id: AddChart(System.String,OfficeOpenXml.Drawing.Chart.eChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddChart(String, eChartType)
+  nameWithType: ExcelDrawings.AddChart(String, eChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChart(System.String, OfficeOpenXml.Drawing.Chart.eChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 311
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new chart to the worksheet.\nDo not support Stock charts . \n"
+  example: []
+  syntax:
+    content: public ExcelChart AddChart(string Name, eChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: The chart
+    content.vb: Public Function AddChart(Name As String, ChartType As eChartType) As ExcelChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType)
+  id: AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddExtendedChart(String, eChartExType)
+  nameWithType: ExcelDrawings.AddExtendedChart(String, eChartExType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String, OfficeOpenXml.Drawing.Chart.eChartExType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddExtendedChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 321
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+      description: The chart
+    content.vb: Public Function AddExtendedChart(Name As String, ChartType As eChartExType) As ExcelChartEx
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart(System.String)
+  id: AddSunburstChart(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddSunburstChart(String)
+  nameWithType: ExcelDrawings.AddSunburstChart(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSunburstChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 330
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new sunburst chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelSunburstChart AddSunburstChart(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+      description: The chart
+    content.vb: Public Function AddSunburstChart(Name As String) As ExcelSunburstChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart(System.String)
+  id: AddTreemapChart(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddTreemapChart(String)
+  nameWithType: ExcelDrawings.AddTreemapChart(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTreemapChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 339
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new treemap chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelTreemapChart AddTreemapChart(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+      description: The chart
+    content.vb: Public Function AddTreemapChart(Name As String) As ExcelTreemapChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart(System.String)
+  id: AddBoxWhiskerChart(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddBoxWhiskerChart(String)
+  nameWithType: ExcelDrawings.AddBoxWhiskerChart(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBoxWhiskerChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 348
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new box &amp; whisker chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelBoxWhiskerChart AddBoxWhiskerChart(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+      description: The chart
+    content.vb: Public Function AddBoxWhiskerChart(Name As String) As ExcelBoxWhiskerChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart(System.String,System.Boolean)
+  id: AddHistogramChart(System.String,System.Boolean)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddHistogramChart(String, Boolean)
+  nameWithType: ExcelDrawings.AddHistogramChart(String, Boolean)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart(System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddHistogramChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 358
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new Histogram or Pareto chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelHistogramChart AddHistogramChart(string Name, bool AddParetoLine = false)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: AddParetoLine
+      type: System.Boolean
+      description: If true a pareto line is added to the chart. The <xref href="OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType" data-throw-if-not-resolved="false"></xref> will also be Pareto.
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+      description: The chart
+    content.vb: Public Function AddHistogramChart(Name As String, AddParetoLine As Boolean = False) As ExcelHistogramChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart(System.String)
+  id: AddWaterfallChart(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddWaterfallChart(String)
+  nameWithType: ExcelDrawings.AddWaterfallChart(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddWaterfallChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 367
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a waterfall chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelWaterfallChart AddWaterfallChart(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+      description: The chart
+    content.vb: Public Function AddWaterfallChart(Name As String) As ExcelWaterfallChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart(System.String)
+  id: AddFunnelChart(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddFunnelChart(String)
+  nameWithType: ExcelDrawings.AddFunnelChart(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFunnelChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 376
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a funnel chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelFunnelChart AddFunnelChart(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+      description: The chart
+    content.vb: Public Function AddFunnelChart(Name As String) As ExcelFunnelChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart(System.String)
+  id: AddRegionMapChart(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddRegionMapChart(String)
+  nameWithType: ExcelDrawings.AddRegionMapChart(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRegionMapChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 386
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a region map chart to the worksheet.\nNote that EPPlus rely on the spreadsheet application to create the geocache data\n"
+  example: []
+  syntax:
+    content: public ExcelRegionMapChart AddRegionMapChart(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+      description: The chart
+    content.vb: Public Function AddRegionMapChart(Name As String) As ExcelRegionMapChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddExtendedChart(System.String,OfficeOpenXml.Drawing.Chart.eChartExType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddExtendedChart(String, eChartExType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddExtendedChart(String, eChartExType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart(System.String, OfficeOpenXml.Drawing.Chart.eChartExType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddExtendedChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 398
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new extended chart to the worksheet.\nExtended charts are \n"
+  example: []
+  syntax:
+    content: public ExcelChartEx AddExtendedChart(string Name, eChartExType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eChartExType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+      description: The chart
+    content.vb: Public Function AddExtendedChart(Name As String, ChartType As eChartExType, PivotTableSource As ExcelPivotTable) As ExcelChartEx
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.Drawing.Chart.eStockChartType,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.Drawing.Chart.eStockChartType,OfficeOpenXml.ExcelRangeBase)
+  id: AddStockChart(System.String,OfficeOpenXml.Drawing.Chart.eStockChartType,OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddStockChart(String, eStockChartType, ExcelRangeBase)
+  nameWithType: ExcelDrawings.AddStockChart(String, eStockChartType, ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String, OfficeOpenXml.Drawing.Chart.eStockChartType, OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddStockChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 412
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new stock chart to the worksheet.\nRequires a range with four, five or six columns depending on the stock chart type.\nThe first column is the category series. \nThe following columns in the range depend on the stock chart type (HLC, OHLC, VHLC, VOHLC).\n"
+  example: []
+  syntax:
+    content: public ExcelStockChart AddStockChart(string Name, eStockChartType ChartType, ExcelRangeBase Range)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eStockChartType
+      description: The Stock chart type
+    - id: Range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: 'The category serie. A serie containng dates '
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+      description: The chart
+    content.vb: Public Function AddStockChart(Name As String, ChartType As eStockChartType, Range As ExcelRangeBase) As ExcelStockChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  id: AddStockChart(System.String,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddStockChart(String, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase)
+  nameWithType: ExcelDrawings.AddStockChart(String, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase, ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddStockChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 481
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new stock chart to the worksheet.\nThe stock chart type will depend on if the parameters OpenSerie and/or VolumeSerie is supplied\n"
+  example: []
+  syntax:
+    content: public ExcelStockChart AddStockChart(string Name, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie = null)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: CategorySerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: 'The category serie. A serie containng dates '
+    - id: HighSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The high price serie
+    - id: LowSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The low price serie
+    - id: CloseSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The close price serie containing
+    - id: OpenSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart
+    - id: VolumeSerie
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+      description: The chart
+    content.vb: Public Function AddStockChart(Name As String, CategorySerie As ExcelRangeBase, HighSerie As ExcelRangeBase, LowSerie As ExcelRangeBase, CloseSerie As ExcelRangeBase, OpenSerie As ExcelRangeBase = Nothing, VolumeSerie As ExcelRangeBase = Nothing) As ExcelStockChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,System.String,System.String,System.String,System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,System.String,System.String,System.String,System.String,System.String,System.String)
+  id: AddStockChart(System.String,System.String,System.String,System.String,System.String,System.String,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddStockChart(String, String, String, String, String, String, String)
+  nameWithType: ExcelDrawings.AddStockChart(String, String, String, String, String, String, String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String, System.String, System.String, System.String, System.String, System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddStockChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 527
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new stock chart to the worksheet.\nThe stock chart type will depend on if the parameters OpenSerie and/or VolumeSerie is supplied\n"
+  example: []
+  syntax:
+    content: public ExcelStockChart AddStockChart(string Name, string CategorySerie, string HighSerie, string LowSerie, string CloseSerie, string OpenSerie = null, string VolumeSerie = null)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: CategorySerie
+      type: System.String
+      description: 'The category serie. A serie containing dates '
+    - id: HighSerie
+      type: System.String
+      description: The high price serie
+    - id: LowSerie
+      type: System.String
+      description: The low price serie
+    - id: CloseSerie
+      type: System.String
+      description: The close price serie containing
+    - id: OpenSerie
+      type: System.String
+      description: The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart
+    - id: VolumeSerie
+      type: System.String
+      description: The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+      description: The chart
+    content.vb: Public Function AddStockChart(Name As String, CategorySerie As String, HighSerie As String, LowSerie As String, CloseSerie As String, OpenSerie As String = Nothing, VolumeSerie As String = Nothing) As ExcelStockChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType)
+  id: AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddLineChart(String, eLineChartType)
+  nameWithType: ExcelDrawings.AddLineChart(String, eLineChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String, OfficeOpenXml.Drawing.Chart.eLineChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLineChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 562
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdd a new linechart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelLineChart AddLineChart(string Name, eLineChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+      description: Type of linechart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+      description: The chart
+    content.vb: Public Function AddLineChart(Name As String, ChartType As eLineChartType) As ExcelLineChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddLineChart(System.String,OfficeOpenXml.Drawing.Chart.eLineChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddLineChart(String, eLineChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddLineChart(String, eLineChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart(System.String, OfficeOpenXml.Drawing.Chart.eLineChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLineChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 573
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new linechart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelLineChart AddLineChart(string Name, eLineChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+      description: The chart
+    content.vb: Public Function AddLineChart(Name As String, ChartType As eLineChartType, PivotTableSource As ExcelPivotTable) As ExcelLineChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  id: AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddAreaChart(String, eAreaChartType)
+  nameWithType: ExcelDrawings.AddAreaChart(String, eAreaChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String, OfficeOpenXml.Drawing.Chart.eAreaChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAreaChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 583
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdd a new area chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelAreaChart AddAreaChart(string Name, eAreaChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+      description: Type of linechart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+      description: The chart
+    content.vb: Public Function AddAreaChart(Name As String, ChartType As eAreaChartType) As ExcelAreaChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddAreaChart(System.String,OfficeOpenXml.Drawing.Chart.eAreaChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddAreaChart(String, eAreaChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddAreaChart(String, eAreaChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart(System.String, OfficeOpenXml.Drawing.Chart.eAreaChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAreaChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 594
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new area chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelAreaChart AddAreaChart(string Name, eAreaChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+      description: The chart
+    content.vb: Public Function AddAreaChart(Name As String, ChartType As eAreaChartType, PivotTableSource As ExcelPivotTable) As ExcelAreaChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType)
+  id: AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddBarChart(String, eBarChartType)
+  nameWithType: ExcelDrawings.AddBarChart(String, eBarChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String, OfficeOpenXml.Drawing.Chart.eBarChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBarChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 604
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new barchart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelBarChart AddBarChart(string Name, eBarChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+      description: Type of linechart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+      description: The chart
+    content.vb: Public Function AddBarChart(Name As String, ChartType As eBarChartType) As ExcelBarChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddBarChart(System.String,OfficeOpenXml.Drawing.Chart.eBarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddBarChart(String, eBarChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddBarChart(String, eBarChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart(System.String, OfficeOpenXml.Drawing.Chart.eBarChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBarChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 615
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new column- or bar- chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelBarChart AddBarChart(string Name, eBarChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+      description: The chart
+    content.vb: Public Function AddBarChart(Name As String, ChartType As eBarChartType, PivotTableSource As ExcelPivotTable) As ExcelBarChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType)
+  id: AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPieChart(String, ePieChartType)
+  nameWithType: ExcelDrawings.AddPieChart(String, ePieChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String, OfficeOpenXml.Drawing.Chart.ePieChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPieChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 625
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new pie chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelPieChart AddPieChart(string Name, ePieChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.ePieChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+      description: The chart
+    content.vb: Public Function AddPieChart(Name As String, ChartType As ePieChartType) As ExcelPieChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddPieChart(System.String,OfficeOpenXml.Drawing.Chart.ePieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPieChart(String, ePieChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddPieChart(String, ePieChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart(System.String, OfficeOpenXml.Drawing.Chart.ePieChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPieChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 636
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new pie chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelPieChart AddPieChart(string Name, ePieChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.ePieChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+      description: The chart
+    content.vb: Public Function AddPieChart(Name As String, ChartType As ePieChartType, PivotTableSource As ExcelPivotTable) As ExcelPieChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddDoughnutChart(String, eDoughnutChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddDoughnutChart(String, eDoughnutChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String, OfficeOpenXml.Drawing.Chart.eDoughnutChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDoughnutChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 647
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new doughnut chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelDoughnutChart AddDoughnutChart(string Name, eDoughnutChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+      description: The chart
+    content.vb: Public Function AddDoughnutChart(Name As String, ChartType As eDoughnutChartType, PivotTableSource As ExcelPivotTable) As ExcelDoughnutChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  id: AddDoughnutChart(System.String,OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddDoughnutChart(String, eDoughnutChartType)
+  nameWithType: ExcelDrawings.AddDoughnutChart(String, eDoughnutChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart(System.String, OfficeOpenXml.Drawing.Chart.eDoughnutChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDoughnutChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 657
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new doughnut chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelDoughnutChart AddDoughnutChart(string Name, eDoughnutChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+      description: The chart
+    content.vb: Public Function AddDoughnutChart(Name As String, ChartType As eDoughnutChartType) As ExcelDoughnutChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  id: AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddOfPieChart(String, eOfPieChartType)
+  nameWithType: ExcelDrawings.AddOfPieChart(String, eOfPieChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String, OfficeOpenXml.Drawing.Chart.eOfPieChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddOfPieChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 667
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new line chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelOfPieChart AddOfPieChart(string Name, eOfPieChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+      description: The chart
+    content.vb: Public Function AddOfPieChart(Name As String, ChartType As eOfPieChartType) As ExcelOfPieChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddOfPieChart(System.String,OfficeOpenXml.Drawing.Chart.eOfPieChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddOfPieChart(String, eOfPieChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddOfPieChart(String, eOfPieChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart(System.String, OfficeOpenXml.Drawing.Chart.eOfPieChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddOfPieChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 678
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdd a new pie of pie or bar of pie chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelOfPieChart AddOfPieChart(string Name, eOfPieChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+      description: The chart
+    content.vb: Public Function AddOfPieChart(Name As String, ChartType As eOfPieChartType, PivotTableSource As ExcelPivotTable) As ExcelOfPieChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType)
+  id: AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddBubbleChart(String, eBubbleChartType)
+  nameWithType: ExcelDrawings.AddBubbleChart(String, eBubbleChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String, OfficeOpenXml.Drawing.Chart.eBubbleChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBubbleChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 688
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new bubble chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelBubbleChart AddBubbleChart(string Name, eBubbleChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+      description: The chart
+    content.vb: Public Function AddBubbleChart(Name As String, ChartType As eBubbleChartType) As ExcelBubbleChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddBubbleChart(System.String,OfficeOpenXml.Drawing.Chart.eBubbleChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddBubbleChart(String, eBubbleChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddBubbleChart(String, eBubbleChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart(System.String, OfficeOpenXml.Drawing.Chart.eBubbleChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBubbleChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 699
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new bubble chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelBubbleChart AddBubbleChart(string Name, eBubbleChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+      description: The chart
+    content.vb: Public Function AddBubbleChart(Name As String, ChartType As eBubbleChartType, PivotTableSource As ExcelPivotTable) As ExcelBubbleChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddScatterChart(String, eScatterChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddScatterChart(String, eScatterChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String, OfficeOpenXml.Drawing.Chart.eScatterChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddScatterChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 710
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new scatter chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelScatterChart AddScatterChart(string Name, eScatterChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+      description: The chart
+    content.vb: Public Function AddScatterChart(Name As String, ChartType As eScatterChartType, PivotTableSource As ExcelPivotTable) As ExcelScatterChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  id: AddScatterChart(System.String,OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddScatterChart(String, eScatterChartType)
+  nameWithType: ExcelDrawings.AddScatterChart(String, eScatterChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart(System.String, OfficeOpenXml.Drawing.Chart.eScatterChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddScatterChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 720
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new scatter chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelScatterChart AddScatterChart(string Name, eScatterChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eScatterChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+      description: The chart
+    content.vb: Public Function AddScatterChart(Name As String, ChartType As eScatterChartType) As ExcelScatterChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddRadarChart(String, eRadarChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddRadarChart(String, eRadarChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String, OfficeOpenXml.Drawing.Chart.eRadarChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRadarChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 731
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new radar chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelRadarChart AddRadarChart(string Name, eRadarChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eRadarChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+      description: The chart
+    content.vb: Public Function AddRadarChart(Name As String, ChartType As eRadarChartType, PivotTableSource As ExcelPivotTable) As ExcelRadarChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  id: AddRadarChart(System.String,OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddRadarChart(String, eRadarChartType)
+  nameWithType: ExcelDrawings.AddRadarChart(String, eRadarChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart(System.String, OfficeOpenXml.Drawing.Chart.eRadarChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRadarChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 741
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new radar chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelRadarChart AddRadarChart(string Name, eRadarChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eRadarChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+      description: The chart
+    content.vb: Public Function AddRadarChart(Name As String, ChartType As eRadarChartType) As ExcelRadarChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddSurfaceChart(String, eSurfaceChartType, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddSurfaceChart(String, eSurfaceChartType, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String, OfficeOpenXml.Drawing.Chart.eSurfaceChartType, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSurfaceChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 752
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new surface chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelSurfaceChart AddSurfaceChart(string Name, eSurfaceChartType ChartType, ExcelPivotTable PivotTableSource)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+      description: Type of chart
+    - id: PivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable source for a pivotchart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+      description: The chart
+    content.vb: Public Function AddSurfaceChart(Name As String, ChartType As eSurfaceChartType, PivotTableSource As ExcelPivotTable) As ExcelSurfaceChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType)
+  id: AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddSurfaceChart(String, eSurfaceChartType)
+  nameWithType: ExcelDrawings.AddSurfaceChart(String, eSurfaceChartType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String, OfficeOpenXml.Drawing.Chart.eSurfaceChartType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSurfaceChart
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 762
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new surface chart to the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelSurfaceChart AddSurfaceChart(string Name, eSurfaceChartType ChartType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ChartType
+      type: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+      description: Type of chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+      description: The chart
+    content.vb: Public Function AddSurfaceChart(Name As String, ChartType As eSurfaceChartType) As ExcelSurfaceChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo)
+  id: AddPicture(System.String,System.IO.FileInfo)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, FileInfo)
+  nameWithType: ExcelDrawings.AddPicture(String, FileInfo)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 772
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, FileInfo ImageFile)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ImageFile
+      type: System.IO.FileInfo
+      description: The image file
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: Public Function AddPicture(Name As String, ImageFile As FileInfo) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  id: AddPicture(System.String,System.IO.FileInfo,System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, FileInfo, Uri)
+  nameWithType: ExcelDrawings.AddPicture(String, FileInfo, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.FileInfo, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 783
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ImageFile
+      type: System.IO.FileInfo
+      description: The image file
+    - id: Hyperlink
+      type: System.Uri
+      description: Picture Hyperlink
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: Public Function AddPicture(Name As String, ImageFile As FileInfo, Hyperlink As Uri) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream)
+  id: AddPicture(System.String,System.IO.Stream)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, Stream)
+  nameWithType: ExcelDrawings.AddPicture(String, Stream)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 799
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet using a stream. EPPlus will identify the type of image automatically.\n"
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, Stream PictureStream)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: PictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: Public Function AddPicture(Name As String, PictureStream As Stream) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Uri)
+  id: AddPicture(System.String,System.IO.Stream,System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, Stream, Uri)
+  nameWithType: ExcelDrawings.AddPicture(String, Stream, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 810
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.\n"
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, Stream PictureStream, Uri Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: PictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    - id: Hyperlink
+      type: System.Uri
+      description: The Picture Hyperlink
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: Public Function AddPicture(Name As String, PictureStream As Stream, Hyperlink As Uri) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  id: AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, Stream, Nullable<ePictureType>)
+  nameWithType: ExcelDrawings.AddPicture(String, Stream, Nullable<ePictureType>)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 821
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("This overload is deprecated, please use AddPicture(string, Stream) instead.")]
+
+      public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType? PictureType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: PictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    - id: PictureType
+      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
+      description: The type of image.  A null value means that EPPlus will identify the type of image automatically.
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: >-
+      <Obsolete("This overload is deprecated, please use AddPicture(string, Stream) instead.")>
+
+      Public Function AddPicture(Name As String, PictureStream As Stream, PictureType As ePictureType?) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: This overload is deprecated, please use AddPicture(string, Stream) instead.
+  nameWithType.vb: ExcelDrawings.AddPicture(String, Stream, Nullable(Of ePictureType))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType))
+  name.vb: AddPicture(String, Stream, Nullable(Of ePictureType))
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  id: AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, Stream, Nullable<ePictureType>, Uri)
+  nameWithType: ExcelDrawings.AddPicture(String, Stream, Nullable<ePictureType>, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 834
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("This overload is deprecated, please use AddPicture(string, Stream, Uri) instead.")]
+
+      public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: pictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    - id: pictureType
+      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
+      description: The type of image. A null value means that EPPlus will identify the type of image automatically.
+    - id: Hyperlink
+      type: System.Uri
+      description: Picture Hyperlink
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: >-
+      <Obsolete("This overload is deprecated, please use AddPicture(string, Stream, Uri) instead.")>
+
+      Public Function AddPicture(Name As String, pictureStream As Stream, pictureType As ePictureType?, Hyperlink As Uri) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: This overload is deprecated, please use AddPicture(string, Stream, Uri) instead.
+  nameWithType.vb: ExcelDrawings.AddPicture(String, Stream, Nullable(Of ePictureType), Uri)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType), System.Uri)
+  name.vb: AddPicture(String, Stream, Nullable(Of ePictureType), Uri)
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo)
+  id: AddPictureAsync(System.String,System.IO.FileInfo)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, FileInfo)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, FileInfo)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 876
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ImageFile
+      type: System.IO.FileInfo
+      description: The image file
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: Public Function AddPictureAsync(Name As String, ImageFile As FileInfo) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo,System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo,System.Uri)
+  id: AddPictureAsync(System.String,System.IO.FileInfo,System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, FileInfo, Uri)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, FileInfo, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.FileInfo, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 887
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ImageFile
+      type: System.IO.FileInfo
+      description: The image file
+    - id: Hyperlink
+      type: System.Uri
+      description: Picture Hyperlink
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: Public Function AddPictureAsync(Name As String, ImageFile As FileInfo, Hyperlink As Uri) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String)
+  id: AddPictureAsync(System.String,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, String)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 903
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ImagePath
+      type: System.String
+      description: The path to the image file
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: Public Function AddPictureAsync(Name As String, ImagePath As String) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String,System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String,System.Uri)
+  id: AddPictureAsync(System.String,System.String,System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, String, Uri)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, String, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.String, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 914
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: ImagePath
+      type: System.String
+      description: The path to the image file
+    - id: Hyperlink
+      type: System.Uri
+      description: Picture Hyperlink
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: Public Function AddPictureAsync(Name As String, ImagePath As String, Hyperlink As Uri) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream)
+  id: AddPictureAsync(System.String,System.IO.Stream)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, Stream)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, Stream)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 924
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: PictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: Public Function AddPictureAsync(Name As String, PictureStream As Stream) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Uri)
+  id: AddPictureAsync(System.String,System.IO.Stream,System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, Stream, Uri)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, Stream, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 935
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.\n"
+  example: []
+  syntax:
+    content: public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, Uri Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: PictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    - id: Hyperlink
+      type: System.Uri
+      description: The Picture Hyperlink
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: Public Function AddPictureAsync(Name As String, PictureStream As Stream, Hyperlink As Uri) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  id: AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, Stream, Nullable<ePictureType>)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, Stream, Nullable<ePictureType>)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 946
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream) instead.")]
+
+      public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType? PictureType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: PictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    - id: PictureType
+      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
+      description: The type of image. A null value means that EPPlus will identify the type of image automatically.
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: >-
+      <Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream) instead.")>
+
+      Public Function AddPictureAsync(Name As String, PictureStream As Stream, PictureType As ePictureType?) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: This overload is deprecated, please use AddPictureAsync(string, Stream) instead.
+  nameWithType.vb: ExcelDrawings.AddPictureAsync(String, Stream, Nullable(Of ePictureType))
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType))
+  name.vb: AddPictureAsync(String, Stream, Nullable(Of ePictureType))
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  id: AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPictureAsync(String, Stream, Nullable<ePictureType>, Uri)
+  nameWithType: ExcelDrawings.AddPictureAsync(String, Stream, Nullable<ePictureType>, Uri)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPictureAsync
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 959
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream, Uri) instead.")]
+
+      public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: pictureStream
+      type: System.IO.Stream
+      description: An stream image.
+    - id: pictureType
+      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
+      description: The type of image. A null value means that EPPlus will identify the type of image automatically.
+    - id: Hyperlink
+      type: System.Uri
+      description: The Picture Hyperlink
+    return:
+      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+      description: A picture object
+    content.vb: >-
+      <Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream, Uri) instead.")>
+
+      Public Function AddPictureAsync(Name As String, pictureStream As Stream, pictureType As ePictureType?, Hyperlink As Uri) As Task(Of ExcelPicture)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: This overload is deprecated, please use AddPictureAsync(string, Stream, Uri) instead.
+  nameWithType.vb: ExcelDrawings.AddPictureAsync(String, Stream, Nullable(Of ePictureType), Uri)
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType), System.Uri)
+  name.vb: AddPictureAsync(String, Stream, Nullable(Of ePictureType), Uri)
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String)
+  id: AddPicture(System.String,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, String)
+  nameWithType: ExcelDrawings.AddPicture(String, String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 997
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, string ImagePath)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the drawing object
+    - id: ImagePath
+      type: System.String
+      description: The path to the image file
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: Public Function AddPicture(Name As String, ImagePath As String) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  id: AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddPicture(String, String, ExcelHyperLink)
+  nameWithType: ExcelDrawings.AddPicture(String, String, ExcelHyperLink)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.String, OfficeOpenXml.ExcelHyperLink)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddPicture
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1012
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a picture to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the drawing object
+    - id: ImagePath
+      type: System.String
+      description: The path to the image file
+    - id: Hyperlink
+      type: OfficeOpenXml.ExcelHyperLink
+      description: Picture Hyperlink
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: A picture object
+    content.vb: Public Function AddPicture(Name As String, ImagePath As String, Hyperlink As ExcelHyperLink) As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String)
+  id: AddChartFromTemplate(System.IO.FileInfo,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddChartFromTemplate(FileInfo, String)
+  nameWithType: ExcelDrawings.AddChartFromTemplate(FileInfo, String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChartFromTemplate
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1047
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new chart using an crtx template\n"
+  example: []
+  syntax:
+    content: public ExcelChart AddChartFromTemplate(FileInfo crtxFile, string name)
+    parameters:
+    - id: crtxFile
+      type: System.IO.FileInfo
+      description: The crtx file
+    - id: name
+      type: System.String
+      description: The name of the chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: The new chart
+    content.vb: Public Function AddChartFromTemplate(crtxFile As FileInfo, name As String) As ExcelChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddChartFromTemplate(System.IO.FileInfo,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddChartFromTemplate(FileInfo, String, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddChartFromTemplate(FileInfo, String, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo, System.String, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChartFromTemplate
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1058
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new chart using an crtx template\n"
+  example: []
+  syntax:
+    content: public ExcelChart AddChartFromTemplate(FileInfo crtxFile, string name, ExcelPivotTable pivotTableSource)
+    parameters:
+    - id: crtxFile
+      type: System.IO.FileInfo
+      description: The crtx file
+    - id: name
+      type: System.String
+      description: The name of the chart
+    - id: pivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: Pivot table source, if the chart is a pivottable
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: The new chart
+    content.vb: Public Function AddChartFromTemplate(crtxFile As FileInfo, name As String, pivotTableSource As ExcelPivotTable) As ExcelChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream,System.String)
+  id: AddChartFromTemplate(System.IO.Stream,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddChartFromTemplate(Stream, String)
+  nameWithType: ExcelDrawings.AddChartFromTemplate(Stream, String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChartFromTemplate
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1087
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new chart using an crtx template\n"
+  example: []
+  syntax:
+    content: public ExcelChart AddChartFromTemplate(Stream crtxStream, string name)
+    parameters:
+    - id: crtxStream
+      type: System.IO.Stream
+      description: The crtx file as a stream
+    - id: name
+      type: System.String
+      description: The name of the chart
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: The new chart
+    content.vb: Public Function AddChartFromTemplate(crtxStream As Stream, name As String) As ExcelChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: AddChartFromTemplate(System.IO.Stream,System.String,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddChartFromTemplate(Stream, String, ExcelPivotTable)
+  nameWithType: ExcelDrawings.AddChartFromTemplate(Stream, String, ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.Stream, System.String, OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddChartFromTemplate
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1098
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new chart using an crtx template\n"
+  example: []
+  syntax:
+    content: public ExcelChart AddChartFromTemplate(Stream crtxStream, string name, ExcelPivotTable pivotTableSource)
+    parameters:
+    - id: crtxStream
+      type: System.IO.Stream
+      description: The crtx file as a stream
+    - id: name
+      type: System.String
+      description: The name of the chart
+    - id: pivotTableSource
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: Pivot table source, if the chart is a pivottable
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+      description: The new chart
+    content.vb: Public Function AddChartFromTemplate(crtxStream As Stream, name As String, pivotTableSource As ExcelPivotTable) As ExcelChart
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  id: AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddShape(String, eShapeStyle)
+  nameWithType: ExcelDrawings.AddShape(String, eShapeStyle)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String, OfficeOpenXml.Drawing.eShapeStyle)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddShape
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new shape to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelShape AddShape(string Name, eShapeStyle Style)
+    parameters:
+    - id: Name
+      type: System.String
+      description: Name
+    - id: Style
+      type: OfficeOpenXml.Drawing.eShapeStyle
+      description: Shape style
+    return:
+      type: OfficeOpenXml.Drawing.ExcelShape
+      description: The shape object
+    content.vb: Public Function AddShape(Name As String, Style As eShapeStyle) As ExcelShape
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddShape*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer(OfficeOpenXml.Table.ExcelTableColumn)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer(OfficeOpenXml.Table.ExcelTableColumn)
+  id: AddTableSlicer(OfficeOpenXml.Table.ExcelTableColumn)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddTableSlicer(ExcelTableColumn)
+  nameWithType: ExcelDrawings.AddTableSlicer(ExcelTableColumn)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer(OfficeOpenXml.Table.ExcelTableColumn)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTableSlicer
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a slicer to a table column\n"
+  example: []
+  syntax:
+    content: public ExcelTableSlicer AddTableSlicer(ExcelTableColumn TableColumn)
+    parameters:
+    - id: TableColumn
+      type: OfficeOpenXml.Table.ExcelTableColumn
+      description: The table column
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+      description: The slicer drawing
+    content.vb: Public Function AddTableSlicer(TableColumn As ExcelTableColumn) As ExcelTableSlicer
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.ExcelShape)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.ExcelShape)
+  id: AddShape(System.String,OfficeOpenXml.Drawing.ExcelShape)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddShape(String, ExcelShape)
+  nameWithType: ExcelDrawings.AddShape(String, ExcelShape)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String, OfficeOpenXml.Drawing.ExcelShape)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddShape
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a new shape to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelShape AddShape(string Name, ExcelShape Source)
+    parameters:
+    - id: Name
+      type: System.String
+      description: Name
+    - id: Source
+      type: OfficeOpenXml.Drawing.ExcelShape
+      description: Source shape
+    return:
+      type: OfficeOpenXml.Drawing.ExcelShape
+      description: The shape object
+    content.vb: Public Function AddShape(Name As String, Source As ExcelShape) As ExcelShape
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddShape*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddControl(System.String,OfficeOpenXml.Drawing.Controls.eControlType)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddControl(System.String,OfficeOpenXml.Drawing.Controls.eControlType)
+  id: AddControl(System.String,OfficeOpenXml.Drawing.Controls.eControlType)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddControl(String, eControlType)
+  nameWithType: ExcelDrawings.AddControl(String, eControlType)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddControl(System.String, OfficeOpenXml.Drawing.Controls.eControlType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1296
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControl AddControl(string Name, eControlType ControlType)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name
+    - id: ControlType
+      type: OfficeOpenXml.Drawing.Controls.eControlType
+      description: The type of control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControl
+      description: ''
+    content.vb: Public Function AddControl(Name As String, ControlType As eControlType) As ExcelControl
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddControl*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: Chart sheets cannot have controls
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: Drawing names must be unique
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl(System.String)
+  id: AddButtonControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddButtonControl(String)
+  nameWithType: ExcelDrawings.AddButtonControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddButtonControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1320
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a button form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlButton AddButtonControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the button
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlButton
+      description: The button form control
+    content.vb: Public Function AddButtonControl(Name As String) As ExcelControlButton
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl(System.String)
+  id: AddCheckBoxControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddCheckBoxControl(String)
+  nameWithType: ExcelDrawings.AddCheckBoxControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddCheckBoxControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1329
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a checkbox form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlCheckBox AddCheckBoxControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the checkbox control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+      description: The checkbox form control
+    content.vb: Public Function AddCheckBoxControl(Name As String) As ExcelControlCheckBox
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl(System.String)
+  id: AddRadioButtonControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddRadioButtonControl(String)
+  nameWithType: ExcelDrawings.AddRadioButtonControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRadioButtonControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1338
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a radio button form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlRadioButton AddRadioButtonControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the radio button control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+      description: The radio button form control
+    content.vb: Public Function AddRadioButtonControl(Name As String) As ExcelControlRadioButton
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl(System.String)
+  id: AddListBoxControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddListBoxControl(String)
+  nameWithType: ExcelDrawings.AddListBoxControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddListBoxControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1347
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a list box form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlListBox AddListBoxControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the list box control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+      description: The list box form control
+    content.vb: Public Function AddListBoxControl(Name As String) As ExcelControlListBox
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl(System.String)
+  id: AddDropDownControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddDropDownControl(String)
+  nameWithType: ExcelDrawings.AddDropDownControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDropDownControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1356
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a drop-down form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlDropDown AddDropDownControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the drop-down control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+      description: The drop-down form control
+    content.vb: Public Function AddDropDownControl(Name As String) As ExcelControlDropDown
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl(System.String)
+  id: AddGroupBoxControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddGroupBoxControl(String)
+  nameWithType: ExcelDrawings.AddGroupBoxControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGroupBoxControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1365
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a group box form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlGroupBox AddGroupBoxControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the group box control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+      description: The group box form control
+    content.vb: Public Function AddGroupBoxControl(Name As String) As ExcelControlGroupBox
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl(System.String)
+  id: AddLabelControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddLabelControl(String)
+  nameWithType: ExcelDrawings.AddLabelControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLabelControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1374
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a label form control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlLabel AddLabelControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the label control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+      description: The label form control
+    content.vb: Public Function AddLabelControl(Name As String) As ExcelControlLabel
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl(System.String)
+  id: AddSpinButtonControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddSpinButtonControl(String)
+  nameWithType: ExcelDrawings.AddSpinButtonControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSpinButtonControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1383
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a spin button control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlSpinButton AddSpinButtonControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the spin button control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+      description: The spin button form control
+    content.vb: Public Function AddSpinButtonControl(Name As String) As ExcelControlSpinButton
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl(System.String)
+  id: AddScrollBarControl(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddScrollBarControl(String)
+  nameWithType: ExcelDrawings.AddScrollBarControl(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddScrollBarControl
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1392
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a scroll bar control to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelControlScrollBar AddScrollBarControl(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the scroll bar control
+    return:
+      type: OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+      description: The scroll bar form control
+    content.vb: Public Function AddScrollBarControl(Name As String) As ExcelControlScrollBar
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.Int32)
+  id: Remove(System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Remove(Int32)
+  nameWithType: ExcelDrawings.Remove(Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1482
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRemoves a drawing.\n"
+  example: []
+  syntax:
+    content: public void Remove(int Index)
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: The index of the drawing
+    content.vb: Public Sub Remove(Index As Integer)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  id: Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelDrawing)
+  nameWithType: ExcelDrawings.Remove(ExcelDrawing)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1518
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRemoves a drawing.\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelDrawing Drawing)
+    parameters:
+    - id: Drawing
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: The drawing
+    content.vb: Public Sub Remove(Drawing As ExcelDrawing)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.String)
+  id: Remove(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Remove(String)
+  nameWithType: ExcelDrawings.Remove(String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Remove(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1526
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRemoves a drawing.\n"
+  example: []
+  syntax:
+    content: public void Remove(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the drawing
+    content.vb: Public Sub Remove(Name As String)
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Clear
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.Clear
+  id: Clear
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelDrawings.Clear()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1533
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRemoves all drawings from the collection\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Dispose
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelDrawings.Dispose()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1664
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDisposes the object\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelDrawing>
+  nameWithType: IEnumerable<ExcelDrawing>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>
+  nameWithType.vb: IEnumerable(Of ExcelDrawing)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing)
+  name.vb: IEnumerable(Of ExcelDrawing)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml
+  name: DrawingXml
+  nameWithType: ExcelDrawings.DrawingXml
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.DrawingXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelDrawings.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDrawings.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#ExcelDrawing}#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.System#Collections#Generic#IEnumerable{OfficeOpenXml#Drawing#ExcelDrawing}#GetEnumerator
+  name: IEnumerable<ExcelDrawing>.GetEnumerator
+  nameWithType: ExcelDrawings.IEnumerable<ExcelDrawing>.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
+  nameWithType.vb: ExcelDrawings.System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelDrawing>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelDrawing).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelDrawing>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelDrawing).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelDrawing>
+  nameWithType: IEnumerator<ExcelDrawing>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.ExcelDrawing>
+  nameWithType.vb: IEnumerator(Of ExcelDrawing)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.ExcelDrawing)
+  name.vb: IEnumerator(Of ExcelDrawing)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.Item
+  name: Item
+  nameWithType: ExcelDrawings.Item
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.ExcelDrawing
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawing
+  parent: OfficeOpenXml.Drawing
+  name: ExcelDrawing
+  nameWithType: ExcelDrawing
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.Count
+  name: Count
+  nameWithType: ExcelDrawings.Count
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Count
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.Drawing.Chart.eStockChartType,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart(System.String,OfficeOpenXml.Drawing.Chart.eStockChartType,OfficeOpenXml.ExcelRangeBase)
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddChart
+  name: AddChart
+  nameWithType: ExcelDrawings.AddChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChart
+- uid: OfficeOpenXml.Drawing.Chart.eChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eChartType
+  nameWithType: eChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eChartType
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTable
+  nameWithType: ExcelPivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+- uid: OfficeOpenXml.Drawing.eEditAs
+  commentId: T:OfficeOpenXml.Drawing.eEditAs
+  parent: OfficeOpenXml.Drawing
+  name: eEditAs
+  nameWithType: eEditAs
+  fullName: OfficeOpenXml.Drawing.eEditAs
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChart
+  nameWithType: ExcelChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart
+  name: AddExtendedChart
+  nameWithType: ExcelDrawings.AddExtendedChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddExtendedChart
+- uid: OfficeOpenXml.Drawing.Chart.eChartExType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartExType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eChartExType
+  nameWithType: eChartExType
+  fullName: OfficeOpenXml.Drawing.Chart.eChartExType
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartEx
+  nameWithType: ExcelChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart
+  name: AddSunburstChart
+  nameWithType: ExcelDrawings.AddSunburstChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddSunburstChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelSunburstChart
+  nameWithType: ExcelSunburstChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart
+  name: AddTreemapChart
+  nameWithType: ExcelDrawings.AddTreemapChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelTreemapChart
+  nameWithType: ExcelTreemapChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart
+  name: AddBoxWhiskerChart
+  nameWithType: ExcelDrawings.AddBoxWhiskerChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBoxWhiskerChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelBoxWhiskerChart
+  nameWithType: ExcelBoxWhiskerChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
+  name: ChartType
+  nameWithType: ExcelChart.ChartType
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart
+  name: AddHistogramChart
+  nameWithType: ExcelDrawings.AddHistogramChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddHistogramChart
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelHistogramChart
+  nameWithType: ExcelHistogramChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart
+  name: AddWaterfallChart
+  nameWithType: ExcelDrawings.AddWaterfallChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelWaterfallChart
+  nameWithType: ExcelWaterfallChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart
+  name: AddFunnelChart
+  nameWithType: ExcelDrawings.AddFunnelChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddFunnelChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelFunnelChart
+  nameWithType: ExcelFunnelChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart
+  name: AddRegionMapChart
+  nameWithType: ExcelDrawings.AddRegionMapChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddRegionMapChart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelRegionMapChart
+  nameWithType: ExcelRegionMapChart
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart
+  name: AddStockChart
+  nameWithType: ExcelDrawings.AddStockChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddStockChart
+- uid: OfficeOpenXml.Drawing.Chart.eStockChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eStockChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eStockChartType
+  nameWithType: eStockChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eStockChartType
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelStockChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelStockChart
+  nameWithType: ExcelStockChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart
+  name: AddLineChart
+  nameWithType: ExcelDrawings.AddLineChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddLineChart
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLineChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLineChartType
+  nameWithType: eLineChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelLineChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelLineChart
+  nameWithType: ExcelLineChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart
+  name: AddAreaChart
+  nameWithType: ExcelDrawings.AddAreaChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddAreaChart
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAreaChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAreaChartType
+  nameWithType: eAreaChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelAreaChart
+  nameWithType: ExcelAreaChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart
+  name: AddBarChart
+  nameWithType: ExcelDrawings.AddBarChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBarChart
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBarChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eBarChartType
+  nameWithType: eBarChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelBarChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelBarChart
+  nameWithType: ExcelBarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart
+  name: AddPieChart
+  nameWithType: ExcelDrawings.AddPieChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPieChart
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ePieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ePieChartType
+  nameWithType: ePieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelPieChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelPieChart
+  nameWithType: ExcelPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart
+  name: AddDoughnutChart
+  nameWithType: ExcelDrawings.AddDoughnutChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddDoughnutChart
+- uid: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eDoughnutChartType
+  nameWithType: eDoughnutChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelDoughnutChart
+  nameWithType: ExcelDoughnutChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart
+  name: AddOfPieChart
+  nameWithType: ExcelDrawings.AddOfPieChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddOfPieChart
+- uid: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eOfPieChartType
+  nameWithType: eOfPieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelOfPieChart
+  nameWithType: ExcelOfPieChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart
+  name: AddBubbleChart
+  nameWithType: ExcelDrawings.AddBubbleChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddBubbleChart
+- uid: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBubbleChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eBubbleChartType
+  nameWithType: eBubbleChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelBubbleChart
+  nameWithType: ExcelBubbleChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart
+  name: AddScatterChart
+  nameWithType: ExcelDrawings.AddScatterChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddScatterChart
+- uid: OfficeOpenXml.Drawing.Chart.eScatterChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eScatterChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eScatterChartType
+  nameWithType: eScatterChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelScatterChart
+  nameWithType: ExcelScatterChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart
+  name: AddRadarChart
+  nameWithType: ExcelDrawings.AddRadarChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddRadarChart
+- uid: OfficeOpenXml.Drawing.Chart.eRadarChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eRadarChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eRadarChartType
+  nameWithType: eRadarChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eRadarChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelRadarChart
+  nameWithType: ExcelRadarChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart
+  name: AddSurfaceChart
+  nameWithType: ExcelDrawings.AddSurfaceChart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart
+- uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eSurfaceChartType
+  nameWithType: eSurfaceChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+- uid: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelSurfaceChart
+  nameWithType: ExcelSurfaceChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture
+  name: AddPicture
+  nameWithType: ExcelDrawings.AddPicture
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: OfficeOpenXml.Drawing.ExcelPicture
+  commentId: T:OfficeOpenXml.Drawing.ExcelPicture
+  parent: OfficeOpenXml.Drawing
+  name: ExcelPicture
+  nameWithType: ExcelPicture
+  fullName: OfficeOpenXml.Drawing.ExcelPicture
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.ePictureType}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<ePictureType>
+  nameWithType: Nullable<ePictureType>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.ePictureType>
+  nameWithType.vb: Nullable(Of ePictureType)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.ePictureType)
+  name.vb: Nullable(Of ePictureType)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.ePictureType
+    name: ePictureType
+    nameWithType: ePictureType
+    fullName: OfficeOpenXml.Drawing.ePictureType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.ePictureType
+    name: ePictureType
+    nameWithType: ePictureType
+    fullName: OfficeOpenXml.Drawing.ePictureType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync
+  name: AddPictureAsync
+  nameWithType: ExcelDrawings.AddPictureAsync
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync
+- uid: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+  commentId: T:System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  name: Task<ExcelPicture>
+  nameWithType: Task<ExcelPicture>
+  fullName: System.Threading.Tasks.Task<OfficeOpenXml.Drawing.ExcelPicture>
+  nameWithType.vb: Task(Of ExcelPicture)
+  fullName.vb: System.Threading.Tasks.Task(Of OfficeOpenXml.Drawing.ExcelPicture)
+  name.vb: Task(Of ExcelPicture)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.ExcelPicture
+    name: ExcelPicture
+    nameWithType: ExcelPicture
+    fullName: OfficeOpenXml.Drawing.ExcelPicture
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.ExcelPicture
+    name: ExcelPicture
+    nameWithType: ExcelPicture
+    fullName: OfficeOpenXml.Drawing.ExcelPicture
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+- uid: OfficeOpenXml.ExcelHyperLink
+  commentId: T:OfficeOpenXml.ExcelHyperLink
+  parent: OfficeOpenXml
+  name: ExcelHyperLink
+  nameWithType: ExcelHyperLink
+  fullName: OfficeOpenXml.ExcelHyperLink
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate
+  name: AddChartFromTemplate
+  nameWithType: ExcelDrawings.AddChartFromTemplate
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddShape*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddShape
+  name: AddShape
+  nameWithType: ExcelDrawings.AddShape
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddShape
+- uid: OfficeOpenXml.Drawing.eShapeStyle
+  commentId: T:OfficeOpenXml.Drawing.eShapeStyle
+  parent: OfficeOpenXml.Drawing
+  name: eShapeStyle
+  nameWithType: eShapeStyle
+  fullName: OfficeOpenXml.Drawing.eShapeStyle
+- uid: OfficeOpenXml.Drawing.ExcelShape
+  commentId: T:OfficeOpenXml.Drawing.ExcelShape
+  parent: OfficeOpenXml.Drawing
+  name: ExcelShape
+  nameWithType: ExcelShape
+  fullName: OfficeOpenXml.Drawing.ExcelShape
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer
+  name: AddTableSlicer
+  nameWithType: ExcelDrawings.AddTableSlicer
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer
+- uid: OfficeOpenXml.Table.ExcelTableColumn
+  commentId: T:OfficeOpenXml.Table.ExcelTableColumn
+  parent: OfficeOpenXml.Table
+  name: ExcelTableColumn
+  nameWithType: ExcelTableColumn
+  fullName: OfficeOpenXml.Table.ExcelTableColumn
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelTableSlicer
+  nameWithType: ExcelTableSlicer
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Drawing.Slicer
+  commentId: N:OfficeOpenXml.Drawing.Slicer
+  name: OfficeOpenXml.Drawing.Slicer
+  nameWithType: OfficeOpenXml.Drawing.Slicer
+  fullName: OfficeOpenXml.Drawing.Slicer
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddControl
+  name: AddControl
+  nameWithType: ExcelDrawings.AddControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddControl
+- uid: OfficeOpenXml.Drawing.Controls.eControlType
+  commentId: T:OfficeOpenXml.Drawing.Controls.eControlType
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eControlType
+  nameWithType: eControlType
+  fullName: OfficeOpenXml.Drawing.Controls.eControlType
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControl
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControl
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControl
+  nameWithType: ExcelControl
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControl
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl
+  name: AddButtonControl
+  nameWithType: ExcelDrawings.AddButtonControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddButtonControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlButton
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlButton
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlButton
+  nameWithType: ExcelControlButton
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlButton
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl
+  name: AddCheckBoxControl
+  nameWithType: ExcelDrawings.AddCheckBoxControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddCheckBoxControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlCheckBox
+  nameWithType: ExcelControlCheckBox
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl
+  name: AddRadioButtonControl
+  nameWithType: ExcelDrawings.AddRadioButtonControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddRadioButtonControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlRadioButton
+  nameWithType: ExcelControlRadioButton
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl
+  name: AddListBoxControl
+  nameWithType: ExcelDrawings.AddListBoxControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddListBoxControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlListBox
+  nameWithType: ExcelControlListBox
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl
+  name: AddDropDownControl
+  nameWithType: ExcelDrawings.AddDropDownControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddDropDownControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlDropDown
+  nameWithType: ExcelControlDropDown
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl
+  name: AddGroupBoxControl
+  nameWithType: ExcelDrawings.AddGroupBoxControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddGroupBoxControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlGroupBox
+  nameWithType: ExcelControlGroupBox
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl
+  name: AddLabelControl
+  nameWithType: ExcelDrawings.AddLabelControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddLabelControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlLabel
+  nameWithType: ExcelControlLabel
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl
+  name: AddSpinButtonControl
+  nameWithType: ExcelDrawings.AddSpinButtonControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddSpinButtonControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlSpinButton
+  nameWithType: ExcelControlSpinButton
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl
+  name: AddScrollBarControl
+  nameWithType: ExcelDrawings.AddScrollBarControl
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddScrollBarControl
+- uid: OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+  commentId: T:OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+  parent: OfficeOpenXml.Drawing.Controls
+  name: ExcelControlScrollBar
+  nameWithType: ExcelControlScrollBar
+  fullName: OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Remove*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.Remove
+  name: Remove
+  nameWithType: ExcelDrawings.Remove
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Remove
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Clear*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.Clear
+  name: Clear
+  nameWithType: ExcelDrawings.Clear
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Clear
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.Dispose*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.Dispose
+  name: Dispose
+  nameWithType: ExcelDrawings.Dispose
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )

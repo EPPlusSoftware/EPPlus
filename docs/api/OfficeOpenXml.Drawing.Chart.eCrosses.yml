@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eCrosses
+  commentId: T:OfficeOpenXml.Drawing.Chart.eCrosses
+  id: eCrosses
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eCrosses.AutoZero
+  - OfficeOpenXml.Drawing.Chart.eCrosses.Max
+  - OfficeOpenXml.Drawing.Chart.eCrosses.Min
+  langs:
+  - csharp
+  - vb
+  name: eCrosses
+  nameWithType: eCrosses
+  fullName: OfficeOpenXml.Drawing.Chart.eCrosses
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eCrosses
+    path: ../src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nWhere the axis cross. \n"
+  example: []
+  syntax:
+    content: public enum eCrosses
+    content.vb: Public Enum eCrosses
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eCrosses.AutoZero
+  commentId: F:OfficeOpenXml.Drawing.Chart.eCrosses.AutoZero
+  id: AutoZero
+  parent: OfficeOpenXml.Drawing.Chart.eCrosses
+  langs:
+  - csharp
+  - vb
+  name: AutoZero
+  nameWithType: eCrosses.AutoZero
+  fullName: OfficeOpenXml.Drawing.Chart.eCrosses.AutoZero
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoZero
+    path: ../src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe category axis crosses at the zero point of the valueaxis or the lowest or higest value if scale is over or below zero.\n"
+  example: []
+  syntax:
+    content: AutoZero = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eCrosses
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eCrosses.Max
+  commentId: F:OfficeOpenXml.Drawing.Chart.eCrosses.Max
+  id: Max
+  parent: OfficeOpenXml.Drawing.Chart.eCrosses
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: eCrosses.Max
+  fullName: OfficeOpenXml.Drawing.Chart.eCrosses.Max
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Max
+    path: ../src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe axis crosses at the maximum value\n"
+  example: []
+  syntax:
+    content: Max = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eCrosses
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eCrosses.Min
+  commentId: F:OfficeOpenXml.Drawing.Chart.eCrosses.Min
+  id: Min
+  parent: OfficeOpenXml.Drawing.Chart.eCrosses
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: eCrosses.Min
+  fullName: OfficeOpenXml.Drawing.Chart.eCrosses.Min
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Min
+    path: ../src/EPPlus/Drawing/Chart/enums/eCrosses.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAxis crosses at the minimum value\n"
+  example: []
+  syntax:
+    content: Min = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eCrosses
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eCrosses
+  commentId: T:OfficeOpenXml.Drawing.Chart.eCrosses
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eCrosses
+  nameWithType: eCrosses
+  fullName: OfficeOpenXml.Drawing.Chart.eCrosses

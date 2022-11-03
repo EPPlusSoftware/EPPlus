@@ -1,0 +1,4491 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  id: ExcelWorksheet
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelWorksheet.#ctor(System.Xml.XmlNamespaceManager,OfficeOpenXml.ExcelPackage,System.String,System.Uri,System.String,System.Int32,System.Int32,System.Nullable{OfficeOpenXml.eWorkSheetHidden})
+  - OfficeOpenXml.ExcelWorksheet.AutoFilter
+  - OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  - OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  - OfficeOpenXml.ExcelWorksheet.Cells
+  - OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  - OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  - OfficeOpenXml.ExcelWorksheet.CodeModule
+  - OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.Columns
+  - OfficeOpenXml.ExcelWorksheet.Comments
+  - OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  - OfficeOpenXml.ExcelWorksheet.CustomHeight
+  - OfficeOpenXml.ExcelWorksheet.DataValidations
+  - OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  - OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  - OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelWorksheet.Dimension
+  - OfficeOpenXml.ExcelWorksheet.Dispose
+  - OfficeOpenXml.ExcelWorksheet.Drawings
+  - OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  - OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  - OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  - OfficeOpenXml.ExcelWorksheet.Hidden
+  - OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  - OfficeOpenXml.ExcelWorksheet.Index
+  - OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.MergedCells
+  - OfficeOpenXml.ExcelWorksheet.Name
+  - OfficeOpenXml.ExcelWorksheet.Names
+  - OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  - OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  - OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  - OfficeOpenXml.ExcelWorksheet.PivotTables
+  - OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  - OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  - OfficeOpenXml.ExcelWorksheet.Protection
+  - OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.Rows
+  - OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  - OfficeOpenXml.ExcelWorksheet.Select
+  - OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+  - OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  - OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+  - OfficeOpenXml.ExcelWorksheet.SelectedRange
+  - OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+  - OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+  - OfficeOpenXml.ExcelWorksheet.SortState
+  - OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  - OfficeOpenXml.ExcelWorksheet.TabColor
+  - OfficeOpenXml.ExcelWorksheet.Tables
+  - OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  - OfficeOpenXml.ExcelWorksheet.ToString
+  - OfficeOpenXml.ExcelWorksheet.View
+  - OfficeOpenXml.ExcelWorksheet.Workbook
+  - OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  langs:
+  - csharp
+  - vb
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelWorksheet
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents an Excel worksheet and provides access to its properties and methods\n"
+  example: []
+  syntax:
+    content: 'public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable'
+    content.vb: >-
+      Public Class ExcelWorksheet
+          Inherits XmlHelper
+          Implements IEqualityComparer(Of ExcelWorksheet), IDisposable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  derivedClasses:
+  - OfficeOpenXml.ExcelChartsheet
+  implements:
+  - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  extensionMethods:
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String)
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  commentId: M:OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  id: ClearFormulas
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: ClearFormulas()
+  nameWithType: ExcelWorksheet.ClearFormulas()
+  fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulas()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClearFormulas
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemoves all formulas within the entire worksheet, but keeps the calculated values.\n"
+  example: []
+  syntax:
+    content: public void ClearFormulas()
+    content.vb: Public Sub ClearFormulas
+  overload: OfficeOpenXml.ExcelWorksheet.ClearFormulas*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  commentId: M:OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  id: ClearFormulaValues
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: ClearFormulaValues()
+  nameWithType: ExcelWorksheet.ClearFormulaValues()
+  fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClearFormulaValues
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 216
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemoves all values of cells with formulas in the entire worksheet, but keeps the formulas.\n"
+  example: []
+  syntax:
+    content: public void ClearFormulaValues()
+    content.vb: Public Sub ClearFormulaValues
+  overload: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.#ctor(System.Xml.XmlNamespaceManager,OfficeOpenXml.ExcelPackage,System.String,System.Uri,System.String,System.Int32,System.Int32,System.Nullable{OfficeOpenXml.eWorkSheetHidden})
+  commentId: M:OfficeOpenXml.ExcelWorksheet.#ctor(System.Xml.XmlNamespaceManager,OfficeOpenXml.ExcelPackage,System.String,System.Uri,System.String,System.Int32,System.Int32,System.Nullable{OfficeOpenXml.eWorkSheetHidden})
+  id: '#ctor(System.Xml.XmlNamespaceManager,OfficeOpenXml.ExcelPackage,System.String,System.Uri,System.String,System.Int32,System.Int32,System.Nullable{OfficeOpenXml.eWorkSheetHidden})'
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: ExcelWorksheet(XmlNamespaceManager, ExcelPackage, String, Uri, String, Int32, Int32, Nullable<eWorkSheetHidden>)
+  nameWithType: ExcelWorksheet.ExcelWorksheet(XmlNamespaceManager, ExcelPackage, String, Uri, String, Int32, Int32, Nullable<eWorkSheetHidden>)
+  fullName: OfficeOpenXml.ExcelWorksheet.ExcelWorksheet(System.Xml.XmlNamespaceManager, OfficeOpenXml.ExcelPackage, System.String, System.Uri, System.String, System.Int32, System.Int32, System.Nullable<OfficeOpenXml.eWorkSheetHidden>)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 451
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet(XmlNamespaceManager ns, ExcelPackage excelPackage, string relID, Uri uriWorksheet, string sheetName, int sheetID, int positionID, eWorkSheetHidden? hide)
+    parameters:
+    - id: ns
+      type: System.Xml.XmlNamespaceManager
+      description: Namespacemanager
+    - id: excelPackage
+      type: OfficeOpenXml.ExcelPackage
+      description: Package
+    - id: relID
+      type: System.String
+      description: Relationship ID
+    - id: uriWorksheet
+      type: System.Uri
+      description: URI
+    - id: sheetName
+      type: System.String
+      description: Name of the sheet
+    - id: sheetID
+      type: System.Int32
+      description: Sheet id
+    - id: positionID
+      type: System.Int32
+      description: Position
+    - id: hide
+      type: System.Nullable{OfficeOpenXml.eWorkSheetHidden}
+      description: hide
+    content.vb: Public Sub New(ns As XmlNamespaceManager, excelPackage As ExcelPackage, relID As String, uriWorksheet As Uri, sheetName As String, sheetID As Integer, positionID As Integer, hide As eWorkSheetHidden?)
+  overload: OfficeOpenXml.ExcelWorksheet.#ctor*
+  nameWithType.vb: ExcelWorksheet.ExcelWorksheet(XmlNamespaceManager, ExcelPackage, String, Uri, String, Int32, Int32, Nullable(Of eWorkSheetHidden))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelWorksheet.ExcelWorksheet(System.Xml.XmlNamespaceManager, OfficeOpenXml.ExcelPackage, System.String, System.Uri, System.String, System.Int32, System.Int32, System.Nullable(Of OfficeOpenXml.eWorkSheetHidden))
+  name.vb: ExcelWorksheet(XmlNamespaceManager, ExcelPackage, String, Uri, String, Int32, Int32, Nullable(Of eWorkSheetHidden))
+- uid: OfficeOpenXml.ExcelWorksheet.Index
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Index
+  id: Index
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Index
+  nameWithType: ExcelWorksheet.Index
+  fullName: OfficeOpenXml.ExcelWorksheet.Index
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Index
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 578
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe index in the worksheets collection\n"
+  example: []
+  syntax:
+    content: public int Index { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Index As Integer
+  overload: OfficeOpenXml.ExcelWorksheet.Index*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  commentId: P:OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  id: AutoFilterAddress
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: AutoFilterAddress
+  nameWithType: ExcelWorksheet.AutoFilterAddress
+  fullName: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoFilterAddress
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 590
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe auto filter address. \nnull means no auto filter.\n"
+  example: []
+  syntax:
+    content: public ExcelAddressBase AutoFilterAddress { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public ReadOnly Property AutoFilterAddress As ExcelAddressBase
+  overload: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.AutoFilter
+  commentId: P:OfficeOpenXml.ExcelWorksheet.AutoFilter
+  id: AutoFilter
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: AutoFilter
+  nameWithType: ExcelWorksheet.AutoFilter
+  fullName: OfficeOpenXml.ExcelWorksheet.AutoFilter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoFilter
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 622
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAutofilter settings\n"
+  example: []
+  syntax:
+    content: public ExcelAutoFilter AutoFilter { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Filter.ExcelAutoFilter
+    content.vb: Public ReadOnly Property AutoFilter As ExcelAutoFilter
+  overload: OfficeOpenXml.ExcelWorksheet.AutoFilter*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.SortState
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SortState
+  id: SortState
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: SortState
+  nameWithType: ExcelWorksheet.SortState
+  fullName: OfficeOpenXml.ExcelWorksheet.SortState
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortState
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 642
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the sort state\n"
+  example: []
+  syntax:
+    content: public SortState SortState { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sorting.SortState
+    content.vb: Public ReadOnly Property SortState As SortState
+  overload: OfficeOpenXml.ExcelWorksheet.SortState*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.View
+  commentId: P:OfficeOpenXml.ExcelWorksheet.View
+  id: View
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: View
+  nameWithType: ExcelWorksheet.View
+  fullName: OfficeOpenXml.ExcelWorksheet.View
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: View
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 672
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns a ExcelWorksheetView object that allows you to set the view state properties of the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetView View { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheetView
+    content.vb: Public ReadOnly Property View As ExcelWorksheetView
+  overload: OfficeOpenXml.ExcelWorksheet.View*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Name
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Name
+  id: Name
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelWorksheet.Name
+  fullName: OfficeOpenXml.ExcelWorksheet.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 693
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe worksheet&apos;s display name as it appears on the tab\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.ExcelWorksheet.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Names
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Names
+  id: Names
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Names
+  nameWithType: ExcelWorksheet.Names
+  fullName: OfficeOpenXml.ExcelWorksheet.Names
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Names
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 760
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to named ranges\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRangeCollection Names { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelNamedRangeCollection
+    content.vb: Public ReadOnly Property Names As ExcelNamedRangeCollection
+  overload: OfficeOpenXml.ExcelWorksheet.Names*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Hidden
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: ExcelWorksheet.Hidden
+  fullName: OfficeOpenXml.ExcelWorksheet.Hidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 771
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIndicates if the worksheet is hidden in the workbook\n"
+  example: []
+  syntax:
+    content: public eWorkSheetHidden Hidden { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eWorkSheetHidden
+    content.vb: Public Property Hidden As eWorkSheetHidden
+  overload: OfficeOpenXml.ExcelWorksheet.Hidden*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  id: DefaultRowHeight
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DefaultRowHeight
+  nameWithType: ExcelWorksheet.DefaultRowHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DefaultRowHeight
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 903
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet/set the default height of all rows in the worksheet\n"
+  example: []
+  syntax:
+    content: public double DefaultRowHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property DefaultRowHeight As Double
+  overload: OfficeOpenXml.ExcelWorksheet.DefaultRowHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  id: RowZeroHeight
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: RowZeroHeight
+  nameWithType: ExcelWorksheet.RowZeroHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowZeroHeight
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 942
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf true, empty rows are hidden by default.\nThis reduces the size of the package and increases performance if most of the rows in a worksheet are hidden.\n"
+  example: []
+  syntax:
+    content: public bool RowZeroHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RowZeroHeight As Boolean
+  overload: OfficeOpenXml.ExcelWorksheet.RowZeroHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.CustomHeight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.CustomHeight
+  id: CustomHeight
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: CustomHeight
+  nameWithType: ExcelWorksheet.CustomHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.CustomHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CustomHeight
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 979
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n&apos;True&apos; if defaultRowHeight value has been manually set, or is different from the default value.\nIs automaticlly set to &apos;True&apos; when assigning the DefaultRowHeight property\n"
+  example: []
+  syntax:
+    content: public bool CustomHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CustomHeight As Boolean
+  overload: OfficeOpenXml.ExcelWorksheet.CustomHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  id: DefaultColWidth
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DefaultColWidth
+  nameWithType: ExcelWorksheet.DefaultColWidth
+  fullName: OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DefaultColWidth
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 993
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet/set the default width of all columns in the worksheet\n"
+  example: []
+  syntax:
+    content: public double DefaultColWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property DefaultColWidth As Double
+  overload: OfficeOpenXml.ExcelWorksheet.DefaultColWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  commentId: P:OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  id: OutLineSummaryBelow
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: OutLineSummaryBelow
+  nameWithType: ExcelWorksheet.OutLineSummaryBelow
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutLineSummaryBelow
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1029
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf true, summary rows are showen below the details, otherwise above.\n"
+  example: []
+  syntax:
+    content: public bool OutLineSummaryBelow { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property OutLineSummaryBelow As Boolean
+  overload: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  id: OutLineSummaryRight
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: OutLineSummaryRight
+  nameWithType: ExcelWorksheet.OutLineSummaryRight
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutLineSummaryRight
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1046
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf true, summary columns are to right of details otherwise to the left.\n"
+  example: []
+  syntax:
+    content: public bool OutLineSummaryRight { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property OutLineSummaryRight As Boolean
+  overload: OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  commentId: P:OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  id: OutLineApplyStyle
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: OutLineApplyStyle
+  nameWithType: ExcelWorksheet.OutLineApplyStyle
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutLineApplyStyle
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1063
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAutomatic styles\n"
+  example: []
+  syntax:
+    content: public bool OutLineApplyStyle { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property OutLineApplyStyle As Boolean
+  overload: OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.TabColor
+  commentId: P:OfficeOpenXml.ExcelWorksheet.TabColor
+  id: TabColor
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: TabColor
+  nameWithType: ExcelWorksheet.TabColor
+  fullName: OfficeOpenXml.ExcelWorksheet.TabColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TabColor
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1080
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nColor of the sheet tab\n"
+  example: []
+  syntax:
+    content: public Color TabColor { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Public Property TabColor As Color
+  overload: OfficeOpenXml.ExcelWorksheet.TabColor*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.CodeModule
+  commentId: P:OfficeOpenXml.ExcelWorksheet.CodeModule
+  id: CodeModule
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: CodeModule
+  nameWithType: ExcelWorksheet.CodeModule
+  fullName: OfficeOpenXml.ExcelWorksheet.CodeModule
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CodeModule
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe VBA code modul for the worksheet, if the package contains a VBA project.\n<xref href=\"OfficeOpenXml.ExcelWorkbook.CreateVBAProject\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelVBAModule CodeModule { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVBAModule
+    content.vb: Public ReadOnly Property CodeModule As ExcelVBAModule
+  overload: OfficeOpenXml.ExcelWorksheet.CodeModule*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  commentId: P:OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  id: WorksheetXml
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: WorksheetXml
+  nameWithType: ExcelWorksheet.WorksheetXml
+  fullName: OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorksheetXml
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe XML document holding the worksheet data.\nAll column, row, cell, pagebreak, merged cell and hyperlink-data are loaded into memory and removed from the document when loading the document.        \n"
+  example: []
+  syntax:
+    content: public XmlDocument WorksheetXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property WorksheetXml As XmlDocument
+  overload: OfficeOpenXml.ExcelWorksheet.WorksheetXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Comments
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Comments
+  id: Comments
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Comments
+  nameWithType: ExcelWorksheet.Comments
+  fullName: OfficeOpenXml.ExcelWorksheet.Comments
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Comments
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCollection of comments\n"
+  example: []
+  syntax:
+    content: public ExcelCommentCollection Comments { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelCommentCollection
+    content.vb: Public ReadOnly Property Comments As ExcelCommentCollection
+  overload: OfficeOpenXml.ExcelWorksheet.Comments*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  commentId: P:OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  id: ThreadedComments
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: ThreadedComments
+  nameWithType: ExcelWorksheet.ThreadedComments
+  fullName: OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreadedComments
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 1178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA collection of threaded comments referenced in the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheetThreadedComments ThreadedComments { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ThreadedComments.ExcelWorksheetThreadedComments
+    content.vb: Public ReadOnly Property ThreadedComments As ExcelWorksheetThreadedComments
+  overload: OfficeOpenXml.ExcelWorksheet.ThreadedComments*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  commentId: P:OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  id: HeaderFooter
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: HeaderFooter
+  nameWithType: ExcelWorksheet.HeaderFooter
+  fullName: OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderFooter
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2099
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA reference to the header and footer class which allows you to \nset the header and footer for all odd, even and first pages of the worksheet\n"
+  remarks: "\nTo format the text you can use the following format\n<table><thead><tr><th>Prefix</th><th>Description</th></tr></thead><tbody><tr><td>&amp;U</td><td>Underlined</td></tr><tr><td>&amp;E</td><td>Double Underline</td></tr><tr><td>&amp;K:xxxxxx</td><td>Color. ex &amp;K:FF0000 for red</td></tr><tr><td>&amp;&quot;Font,Regular Bold Italic&quot;</td><td>Changes the font. Regular or Bold or Italic or Bold Italic can be used. ex &amp;&quot;Arial,Bold Italic&quot;</td></tr><tr><td>&amp;nn</td><td>Change font size. nn is an integer. ex &amp;24</td></tr><tr><td>&amp;G</td><td>Placeholder for images. Images cannot be added by the library, but its possible to use in a template.</td></tr></tbody></table>\n"
+  example: []
+  syntax:
+    content: public ExcelHeaderFooter HeaderFooter { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelHeaderFooter
+    content.vb: Public ReadOnly Property HeaderFooter As ExcelHeaderFooter
+  overload: OfficeOpenXml.ExcelWorksheet.HeaderFooter*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  commentId: P:OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  id: PrinterSettings
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: PrinterSettings
+  nameWithType: ExcelWorksheet.PrinterSettings
+  fullName: OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrinterSettings
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrinter settings\n"
+  example: []
+  syntax:
+    content: public ExcelPrinterSettings PrinterSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelPrinterSettings
+    content.vb: Public ReadOnly Property PrinterSettings As ExcelPrinterSettings
+  overload: OfficeOpenXml.ExcelWorksheet.PrinterSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Cells
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Cells
+  id: Cells
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Cells
+  nameWithType: ExcelWorksheet.Cells
+  fullName: OfficeOpenXml.ExcelWorksheet.Cells
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cells
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2159
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to a range of cells\n"
+  example: []
+  syntax:
+    content: public ExcelRange Cells { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRange
+    content.vb: Public ReadOnly Property Cells As ExcelRange
+  overload: OfficeOpenXml.ExcelWorksheet.Cells*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.SelectedRange
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SelectedRange
+  id: SelectedRange
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: SelectedRange
+  nameWithType: ExcelWorksheet.SelectedRange
+  fullName: OfficeOpenXml.ExcelWorksheet.SelectedRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedRange
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the selected range of cells\n"
+  example: []
+  syntax:
+    content: public ExcelRange SelectedRange { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRange
+    content.vb: Public ReadOnly Property SelectedRange As ExcelRange
+  overload: OfficeOpenXml.ExcelWorksheet.SelectedRange*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.MergedCells
+  commentId: P:OfficeOpenXml.ExcelWorksheet.MergedCells
+  id: MergedCells
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: MergedCells
+  nameWithType: ExcelWorksheet.MergedCells
+  fullName: OfficeOpenXml.ExcelWorksheet.MergedCells
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MergedCells
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAddresses to merged ranges\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet.MergeCellsCollection MergedCells { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheet.MergeCellsCollection
+    content.vb: Public ReadOnly Property MergedCells As ExcelWorksheet.MergeCellsCollection
+  overload: OfficeOpenXml.ExcelWorksheet.MergedCells*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  id: Row(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Row(Int32)
+  nameWithType: ExcelWorksheet.Row(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2195
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to an individual row within the worksheet so you can set its properties.\n"
+  example: []
+  syntax:
+    content: public ExcelRow Row(int row)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: The row number in the worksheet
+    return:
+      type: OfficeOpenXml.ExcelRow
+      description: ''
+    content.vb: Public Function Row(row As Integer) As ExcelRow
+  overload: OfficeOpenXml.ExcelWorksheet.Row*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  id: Column(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Column(Int32)
+  nameWithType: ExcelWorksheet.Column(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to an individual column within the worksheet so you can set its properties.\n"
+  example: []
+  syntax:
+    content: public ExcelColumn Column(int col)
+    parameters:
+    - id: col
+      type: System.Int32
+      description: The column number in the worksheet
+    return:
+      type: OfficeOpenXml.ExcelColumn
+      description: ''
+    content.vb: Public Function Column(col As Integer) As ExcelColumn
+  overload: OfficeOpenXml.ExcelWorksheet.Column*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.ToString
+  commentId: M:OfficeOpenXml.ExcelWorksheet.ToString
+  id: ToString
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelWorksheet.ToString()
+  fullName: OfficeOpenXml.ExcelWorksheet.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2256
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the name of the worksheet\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The name of the worksheet
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.ExcelWorksheet.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.ExcelWorksheet.Select
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select
+  id: Select
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Select()
+  nameWithType: ExcelWorksheet.Select()
+  fullName: OfficeOpenXml.ExcelWorksheet.Select()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Select
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2280
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMake the current worksheet active.\n"
+  example: []
+  syntax:
+    content: public void Select()
+    content.vb: Public Sub Select
+  overload: OfficeOpenXml.ExcelWorksheet.Select*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  id: Select(System.String)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Select(String)
+  nameWithType: ExcelWorksheet.Select(String)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Select
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2289
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSelects a range in the worksheet. The active cell is the topmost cell.\nMake the current worksheet active.\n"
+  example: []
+  syntax:
+    content: public void Select(string Address)
+    parameters:
+    - id: Address
+      type: System.String
+      description: An address range
+    content.vb: Public Sub Select(Address As String)
+  overload: OfficeOpenXml.ExcelWorksheet.Select*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+  id: Select(System.String,System.Boolean)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Select(String, Boolean)
+  nameWithType: ExcelWorksheet.Select(String, Boolean)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Select
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2298
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSelects a range in the worksheet. The actice cell is the topmost cell.\n"
+  example: []
+  syntax:
+    content: public void Select(string Address, bool SelectSheet)
+    parameters:
+    - id: Address
+      type: System.String
+      description: A range of cells
+    - id: SelectSheet
+      type: System.Boolean
+      description: Make the sheet active
+    content.vb: Public Sub Select(Address As String, SelectSheet As Boolean)
+  overload: OfficeOpenXml.ExcelWorksheet.Select*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  id: Select(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Select(ExcelAddress)
+  nameWithType: ExcelWorksheet.Select(ExcelAddress)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Select
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2317
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSelects a range in the worksheet. The active cell is the topmost cell of the first address.\nMake the current worksheet active.\n"
+  example: []
+  syntax:
+    content: public void Select(ExcelAddress Address)
+    parameters:
+    - id: Address
+      type: OfficeOpenXml.ExcelAddress
+      description: An address range
+    content.vb: Public Sub Select(Address As ExcelAddress)
+  overload: OfficeOpenXml.ExcelWorksheet.Select*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+  id: Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Select(ExcelAddress, Boolean)
+  nameWithType: ExcelWorksheet.Select(ExcelAddress, Boolean)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Select
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2327
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSelects a range in the worksheet. The active cell is the topmost cell of the first address.\n"
+  example: []
+  syntax:
+    content: public void Select(ExcelAddress Address, bool SelectSheet)
+    parameters:
+    - id: Address
+      type: OfficeOpenXml.ExcelAddress
+      description: A range of cells
+    - id: SelectSheet
+      type: System.Boolean
+      description: Make the sheet active
+    content.vb: Public Sub Select(Address As ExcelAddress, SelectSheet As Boolean)
+  overload: OfficeOpenXml.ExcelWorksheet.Select*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+  id: InsertRow(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: InsertRow(Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertRow(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertRow
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2354
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInserts new rows into the spreadsheet.  Existing rows below the position are \nshifted down.  All formula are updated to take account of the new row(s).\n"
+  example: []
+  syntax:
+    content: public void InsertRow(int rowFrom, int rows)
+    parameters:
+    - id: rowFrom
+      type: System.Int32
+      description: The position of the new row(s)
+    - id: rows
+      type: System.Int32
+      description: Number of rows to insert
+    content.vb: Public Sub InsertRow(rowFrom As Integer, rows As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.InsertRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+  id: InsertRow(System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: InsertRow(Int32, Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertRow(Int32, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertRow
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2365
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInserts new rows into the spreadsheet.  Existing rows below the position are \nshifted down.  All formula are updated to take account of the new row(s).\n"
+  example: []
+  syntax:
+    content: public void InsertRow(int rowFrom, int rows, int copyStylesFromRow)
+    parameters:
+    - id: rowFrom
+      type: System.Int32
+      description: The position of the new row(s)
+    - id: rows
+      type: System.Int32
+      description: Number of rows to insert.
+    - id: copyStylesFromRow
+      type: System.Int32
+      description: Copy Styles from this row. Applied to all inserted rows
+    content.vb: Public Sub InsertRow(rowFrom As Integer, rows As Integer, copyStylesFromRow As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.InsertRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+  id: InsertColumn(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: InsertColumn(Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertColumn(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertColumn
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2375
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInserts new columns into the spreadsheet.  Existing columns below the position are \nshifted down.  All formula are updated to take account of the new column(s).\n"
+  example: []
+  syntax:
+    content: public void InsertColumn(int columnFrom, int columns)
+    parameters:
+    - id: columnFrom
+      type: System.Int32
+      description: The position of the new column(s)
+    - id: columns
+      type: System.Int32
+      description: Number of columns to insert
+    content.vb: Public Sub InsertColumn(columnFrom As Integer, columns As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.InsertColumn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+  id: InsertColumn(System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: InsertColumn(Int32, Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertColumn(Int32, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertColumn
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2386
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInserts new columns into the spreadsheet.  Existing column to the left are \nshifted.  All formula are updated to take account of the new column(s).\n"
+  example: []
+  syntax:
+    content: public void InsertColumn(int columnFrom, int columns, int copyStylesFromColumn)
+    parameters:
+    - id: columnFrom
+      type: System.Int32
+      description: The position of the new column(s)
+    - id: columns
+      type: System.Int32
+      description: Number of columns to insert.
+    - id: copyStylesFromColumn
+      type: System.Int32
+      description: Copy Styles from this column. Applied to all inserted columns
+    content.vb: Public Sub InsertColumn(columnFrom As Integer, columns As Integer, copyStylesFromColumn As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.InsertColumn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  id: DeleteRow(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DeleteRow(Int32)
+  nameWithType: ExcelWorksheet.DeleteRow(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteRow
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2396
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDelete the specified row from the worksheet.\n"
+  example: []
+  syntax:
+    content: public void DeleteRow(int row)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: A row to be deleted
+    content.vb: Public Sub DeleteRow(row As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.DeleteRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+  id: DeleteRow(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DeleteRow(Int32, Int32)
+  nameWithType: ExcelWorksheet.DeleteRow(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteRow
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2405
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDelete the specified rows from the worksheet.\n"
+  example: []
+  syntax:
+    content: public void DeleteRow(int rowFrom, int rows)
+    parameters:
+    - id: rowFrom
+      type: System.Int32
+      description: The start row
+    - id: rows
+      type: System.Int32
+      description: Number of rows to delete
+    content.vb: Public Sub DeleteRow(rowFrom As Integer, rows As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.DeleteRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+  id: DeleteRow(System.Int32,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DeleteRow(Int32, Int32, Boolean)
+  nameWithType: ExcelWorksheet.DeleteRow(Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32, System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteRow
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2416
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDeletes the specified rows from the worksheet.\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Use the two-parameter method instead")]
+
+      public void DeleteRow(int rowFrom, int rows, bool shiftOtherRowsUp)
+    parameters:
+    - id: rowFrom
+      type: System.Int32
+      description: The number of the start row to be deleted
+    - id: rows
+      type: System.Int32
+      description: Number of rows to delete
+    - id: shiftOtherRowsUp
+      type: System.Boolean
+      description: Not used. Rows are always shifted
+    content.vb: >-
+      <Obsolete("Use the two-parameter method instead")>
+
+      Public Sub DeleteRow(rowFrom As Integer, rows As Integer, shiftOtherRowsUp As Boolean)
+  overload: OfficeOpenXml.ExcelWorksheet.DeleteRow*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Use the two-parameter method instead
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  id: DeleteColumn(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DeleteColumn(Int32)
+  nameWithType: ExcelWorksheet.DeleteColumn(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteColumn
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2427
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDelete the specified column from the worksheet.\n"
+  example: []
+  syntax:
+    content: public void DeleteColumn(int column)
+    parameters:
+    - id: column
+      type: System.Int32
+      description: The column to be deleted
+    content.vb: Public Sub DeleteColumn(column As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.DeleteColumn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+  id: DeleteColumn(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DeleteColumn(Int32, Int32)
+  nameWithType: ExcelWorksheet.DeleteColumn(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteColumn
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2436
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDelete the specified columns from the worksheet.\n"
+  example: []
+  syntax:
+    content: public void DeleteColumn(int columnFrom, int columns)
+    parameters:
+    - id: columnFrom
+      type: System.Int32
+      description: The start column
+    - id: columns
+      type: System.Int32
+      description: Number of columns to delete
+    content.vb: Public Sub DeleteColumn(columnFrom As Integer, columns As Integer)
+  overload: OfficeOpenXml.ExcelWorksheet.DeleteColumn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+  id: GetValue(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: GetValue(Int32, Int32)
+  nameWithType: ExcelWorksheet.GetValue(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2447
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet the cell value from thw worksheet\n"
+  example: []
+  syntax:
+    content: public object GetValue(int Row, int Column)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: The row number
+    - id: Column
+      type: System.Int32
+      description: The row number
+    return:
+      type: System.Object
+      description: The value
+    content.vb: Public Function GetValue(Row As Integer, Column As Integer) As Object
+  overload: OfficeOpenXml.ExcelWorksheet.GetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+  id: GetValue``1(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: GetValue<T>(Int32, Int32)
+  nameWithType: ExcelWorksheet.GetValue<T>(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetValue<T>(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2476
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet a strongly typed cell value from the worksheet\n"
+  example: []
+  syntax:
+    content: public T GetValue<T>(int Row, int Column)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: The row number
+    - id: Column
+      type: System.Int32
+      description: The row number
+    typeParameters:
+    - id: T
+      description: The type
+    return:
+      type: '{T}'
+      description: The value. If the value can&apos;t be converted to the specified type, the default value will be returned
+    content.vb: Public Function GetValue(Of T)(Row As Integer, Column As Integer) As T
+  overload: OfficeOpenXml.ExcelWorksheet.GetValue*
+  nameWithType.vb: ExcelWorksheet.GetValue(Of T)(Int32, Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelWorksheet.GetValue(Of T)(System.Int32, System.Int32)
+  name.vb: GetValue(Of T)(Int32, Int32)
+- uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+  id: SetValue(System.Int32,System.Int32,System.Object)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: SetValue(Int32, Int32, Object)
+  nameWithType: ExcelWorksheet.SetValue(Int32, Int32, Object)
+  fullName: OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32, System.Int32, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetValue
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2501
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the value of a cell\n"
+  example: []
+  syntax:
+    content: public void SetValue(int Row, int Column, object Value)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: The row number
+    - id: Column
+      type: System.Int32
+      description: The column number
+    - id: Value
+      type: System.Object
+      description: The value
+    content.vb: Public Sub SetValue(Row As Integer, Column As Integer, Value As Object)
+  overload: OfficeOpenXml.ExcelWorksheet.SetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+  id: SetValue(System.String,System.Object)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: SetValue(String, Object)
+  nameWithType: ExcelWorksheet.SetValue(String, Object)
+  fullName: OfficeOpenXml.ExcelWorksheet.SetValue(System.String, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetValue
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2515
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the value of a cell\n"
+  example: []
+  syntax:
+    content: public void SetValue(string Address, object Value)
+    parameters:
+    - id: Address
+      type: System.String
+      description: The Excel address
+    - id: Value
+      type: System.Object
+      description: The value
+    content.vb: Public Sub SetValue(Address As String, Value As Object)
+  overload: OfficeOpenXml.ExcelWorksheet.SetValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+  id: GetMergeCellId(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: GetMergeCellId(Int32, Int32)
+  nameWithType: ExcelWorksheet.GetMergeCellId(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetMergeCellId
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 2535
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet MergeCell Index No\n"
+  example: []
+  syntax:
+    content: public int GetMergeCellId(int row, int column)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: ''
+    - id: column
+      type: System.Int32
+      description: ''
+    return:
+      type: System.Int32
+      description: ''
+    content.vb: Public Function GetMergeCellId(row As Integer, column As Integer) As Integer
+  overload: OfficeOpenXml.ExcelWorksheet.GetMergeCellId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Dimension
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Dimension
+  id: Dimension
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Dimension
+  nameWithType: ExcelWorksheet.Dimension
+  fullName: OfficeOpenXml.ExcelWorksheet.Dimension
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dimension
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3710
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDimension address for the worksheet. \nTop left cell to Bottom right.\nIf the worksheet has no cells, null is returned\n"
+  example: []
+  syntax:
+    content: public ExcelAddressBase Dimension { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public ReadOnly Property Dimension As ExcelAddressBase
+  overload: OfficeOpenXml.ExcelWorksheet.Dimension*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Protection
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Protection
+  id: Protection
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Protection
+  nameWithType: ExcelWorksheet.Protection
+  fullName: OfficeOpenXml.ExcelWorksheet.Protection
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Protection
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3732
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAccess to sheet protection properties\n"
+  example: []
+  syntax:
+    content: public ExcelSheetProtection Protection { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelSheetProtection
+    content.vb: Public ReadOnly Property Protection As ExcelSheetProtection
+  overload: OfficeOpenXml.ExcelWorksheet.Protection*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  commentId: P:OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  id: ProtectedRanges
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: ProtectedRanges
+  nameWithType: ExcelWorksheet.ProtectedRanges
+  fullName: OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProtectedRanges
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3748
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAccess to protected ranges in the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelProtectedRangeCollection ProtectedRanges { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelProtectedRangeCollection
+    content.vb: Public ReadOnly Property ProtectedRanges As ExcelProtectedRangeCollection
+  overload: OfficeOpenXml.ExcelWorksheet.ProtectedRanges*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Drawings
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Drawings
+  id: Drawings
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Drawings
+  nameWithType: ExcelWorksheet.Drawings
+  fullName: OfficeOpenXml.ExcelWorksheet.Drawings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Drawings
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3774
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCollection of drawing-objects like shapes, images and charts\n"
+  example: []
+  syntax:
+    content: public ExcelDrawings Drawings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawings
+    content.vb: Public ReadOnly Property Drawings As ExcelDrawings
+  overload: OfficeOpenXml.ExcelWorksheet.Drawings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  id: SparklineGroups
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: SparklineGroups
+  nameWithType: ExcelWorksheet.SparklineGroups
+  fullName: OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SparklineGroups
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3797
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCollection of Sparkline-objects. \nSparklines are small in-cell charts.\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineGroupCollection SparklineGroups { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+    content.vb: Public ReadOnly Property SparklineGroups As ExcelSparklineGroupCollection
+  overload: OfficeOpenXml.ExcelWorksheet.SparklineGroups*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Tables
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Tables
+  id: Tables
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Tables
+  nameWithType: ExcelWorksheet.Tables
+  fullName: OfficeOpenXml.ExcelWorksheet.Tables
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tables
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3813
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTables defined in the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelTableCollection Tables { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.ExcelTableCollection
+    content.vb: Public ReadOnly Property Tables As ExcelTableCollection
+  overload: OfficeOpenXml.ExcelWorksheet.Tables*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.PivotTables
+  commentId: P:OfficeOpenXml.ExcelWorksheet.PivotTables
+  id: PivotTables
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: PivotTables
+  nameWithType: ExcelWorksheet.PivotTables
+  fullName: OfficeOpenXml.ExcelWorksheet.PivotTables
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTables
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3830
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPivottables defined in the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableCollection PivotTables { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+    content.vb: Public ReadOnly Property PivotTables As ExcelPivotTableCollection
+  overload: OfficeOpenXml.ExcelWorksheet.PivotTables*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  commentId: P:OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  id: ConditionalFormatting
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: ConditionalFormatting
+  nameWithType: ExcelWorksheet.ConditionalFormatting
+  fullName: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConditionalFormatting
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3856
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConditionalFormatting defined in the worksheet. Use the Add methods to create ConditionalFormatting and add them to the worksheet. Then\nset the properties on the instance returned.\n"
+  example: []
+  syntax:
+    content: public ExcelConditionalFormattingCollection ConditionalFormatting { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+    content.vb: Public ReadOnly Property ConditionalFormatting As ExcelConditionalFormattingCollection
+  overload: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting*
+  seealso:
+  - linkId: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+    commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.DataValidations
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DataValidations
+  id: DataValidations
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: DataValidations
+  nameWithType: ExcelWorksheet.DataValidations
+  fullName: OfficeOpenXml.ExcelWorksheet.DataValidations
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataValidations
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3874
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDataValidation defined in the worksheet. Use the Add methods to create DataValidations and add them to the worksheet. Then\nset the properties on the instance returned.\n"
+  example: []
+  syntax:
+    content: public ExcelDataValidationCollection DataValidations { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+    content.vb: Public ReadOnly Property DataValidations As ExcelDataValidationCollection
+  overload: OfficeOpenXml.ExcelWorksheet.DataValidations*
+  seealso:
+  - linkId: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+    commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  commentId: P:OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  id: IgnoredErrors
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: IgnoredErrors
+  nameWithType: ExcelWorksheet.IgnoredErrors
+  fullName: OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoredErrors
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3890
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIgnore Errors for the specified ranges and error types.\n"
+  example: []
+  syntax:
+    content: public ExcelIgnoredErrorCollection IgnoredErrors { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelIgnoredErrorCollection
+    content.vb: Public ReadOnly Property IgnoredErrors As ExcelIgnoredErrorCollection
+  overload: OfficeOpenXml.ExcelWorksheet.IgnoredErrors*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  commentId: P:OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  id: BackgroundImage
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: BackgroundImage
+  nameWithType: ExcelWorksheet.BackgroundImage
+  fullName: OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackgroundImage
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3911
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAn image displayed as the background of the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelBackgroundImage BackgroundImage { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelBackgroundImage
+    content.vb: Public ReadOnly Property BackgroundImage As ExcelBackgroundImage
+  overload: OfficeOpenXml.ExcelWorksheet.BackgroundImage*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Workbook
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Workbook
+  id: Workbook
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Workbook
+  nameWithType: ExcelWorksheet.Workbook
+  fullName: OfficeOpenXml.ExcelWorksheet.Workbook
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Workbook
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 3925
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe workbook object\n"
+  example: []
+  syntax:
+    content: public ExcelWorkbook Workbook { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorkbook
+    content.vb: Public ReadOnly Property Workbook As ExcelWorkbook
+  overload: OfficeOpenXml.ExcelWorksheet.Workbook*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Dispose
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelWorksheet.Dispose()
+  fullName: OfficeOpenXml.ExcelWorksheet.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 4034
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDisposes the worksheet\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.ExcelWorksheet.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  id: Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Equals(ExcelWorksheet, ExcelWorksheet)
+  nameWithType: ExcelWorksheet.Equals(ExcelWorksheet, ExcelWorksheet)
+  fullName: OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet, OfficeOpenXml.ExcelWorksheet)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equals
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 4098
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCheck if a worksheet is equal to another\n"
+  example: []
+  syntax:
+    content: public bool Equals(ExcelWorksheet x, ExcelWorksheet y)
+    parameters:
+    - id: x
+      type: OfficeOpenXml.ExcelWorksheet
+      description: 'First worksheet '
+    - id: y
+      type: OfficeOpenXml.ExcelWorksheet
+      description: Second worksheet
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Function Equals(x As ExcelWorksheet, y As ExcelWorksheet) As Boolean
+  overload: OfficeOpenXml.ExcelWorksheet.Equals*
+  implements:
+  - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  id: GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode(ExcelWorksheet)
+  nameWithType: ExcelWorksheet.GetHashCode(ExcelWorksheet)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHashCode
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 4107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns a hashcode generated from the WorksheetXml\n"
+  example: []
+  syntax:
+    content: public int GetHashCode(ExcelWorksheet obj)
+    parameters:
+    - id: obj
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
+    return:
+      type: System.Int32
+      description: The hashcode
+    content.vb: Public Function GetHashCode(obj As ExcelWorksheet) As Integer
+  overload: OfficeOpenXml.ExcelWorksheet.GetHashCode*
+  implements:
+  - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheet.Rows
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Rows
+  id: Rows
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Rows
+  nameWithType: ExcelWorksheet.Rows
+  fullName: OfficeOpenXml.ExcelWorksheet.Rows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rows
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 4126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA collection of row specific properties in the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelRowsCollection Rows { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRowsCollection
+    content.vb: Public ReadOnly Property Rows As ExcelRowsCollection
+  overload: OfficeOpenXml.ExcelWorksheet.Rows*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheet.Columns
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Columns
+  id: Columns
+  parent: OfficeOpenXml.ExcelWorksheet
+  langs:
+  - csharp
+  - vb
+  name: Columns
+  nameWithType: ExcelWorksheet.Columns
+  fullName: OfficeOpenXml.ExcelWorksheet.Columns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Columns
+    path: ../src/EPPlus/ExcelWorksheet.cs
+    startLine: 4136
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA collection of column specific properties in the worksheet.\n"
+  example: []
+  syntax:
+    content: public ExcelColumnCollection Columns { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelColumnCollection
+    content.vb: Public ReadOnly Property Columns As ExcelColumnCollection
+  overload: OfficeOpenXml.ExcelWorksheet.Columns*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  commentId: T:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEqualityComparer`1
+  name: IEqualityComparer<ExcelWorksheet>
+  nameWithType: IEqualityComparer<ExcelWorksheet>
+  fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.ExcelWorksheet>
+  nameWithType.vb: IEqualityComparer(Of ExcelWorksheet)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.ExcelWorksheet)
+  name.vb: IEqualityComparer(Of ExcelWorksheet)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  name: Calculate()
+  nameWithType: CalculationExtension.Calculate()
+  fullName: OfficeOpenXml.CalculationExtension.Calculate()
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  name: Calculate(Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  nameWithType.vb: CalculationExtension.Calculate(Action(Of ExcelCalculationOption))
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(Action(Of ExcelCalculationOption))
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  name: Calculate(String)
+  nameWithType: CalculationExtension.Calculate(String)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(String, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(String, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(System.String, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEqualityComparer`1
+  commentId: T:System.Collections.Generic.IEqualityComparer`1
+  isExternal: true
+  name: IEqualityComparer<T>
+  nameWithType: IEqualityComparer<T>
+  fullName: System.Collections.Generic.IEqualityComparer<T>
+  nameWithType.vb: IEqualityComparer(Of T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T)
+  name.vb: IEqualityComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  name: Calculate(ExcelWorksheet)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension
+  commentId: T:OfficeOpenXml.CalculationExtension
+  parent: OfficeOpenXml
+  name: CalculationExtension
+  nameWithType: CalculationExtension
+  fullName: OfficeOpenXml.CalculationExtension
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  isExternal: true
+  name: Calculate(ExcelWorksheet, Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  nameWithType.vb: CalculationExtension.Calculate(ExcelWorksheet, Action(Of ExcelCalculationOption))
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(ExcelWorksheet, Action(Of ExcelCalculationOption))
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(ExcelWorksheet, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  isExternal: true
+  name: Calculate(ExcelWorksheet, String)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, String)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  isExternal: true
+  name: Calculate(ExcelWorksheet, String, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, String, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.String, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.ClearFormulas*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  name: ClearFormulas
+  nameWithType: ExcelWorksheet.ClearFormulas
+  fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulas
+- uid: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  name: ClearFormulaValues
+  nameWithType: ExcelWorksheet.ClearFormulaValues
+  fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+- uid: OfficeOpenXml.ExcelWorksheet.#ctor*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.#ctor
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet.ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet.ExcelWorksheet
+- uid: System.Xml.XmlNamespaceManager
+  commentId: T:System.Xml.XmlNamespaceManager
+  parent: System.Xml
+  isExternal: true
+  name: XmlNamespaceManager
+  nameWithType: XmlNamespaceManager
+  fullName: System.Xml.XmlNamespaceManager
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  parent: OfficeOpenXml
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Nullable{OfficeOpenXml.eWorkSheetHidden}
+  commentId: T:System.Nullable{OfficeOpenXml.eWorkSheetHidden}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eWorkSheetHidden>
+  nameWithType: Nullable<eWorkSheetHidden>
+  fullName: System.Nullable<OfficeOpenXml.eWorkSheetHidden>
+  nameWithType.vb: Nullable(Of eWorkSheetHidden)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.eWorkSheetHidden)
+  name.vb: Nullable(Of eWorkSheetHidden)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.eWorkSheetHidden
+    name: eWorkSheetHidden
+    nameWithType: eWorkSheetHidden
+    fullName: OfficeOpenXml.eWorkSheetHidden
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.eWorkSheetHidden
+    name: eWorkSheetHidden
+    nameWithType: eWorkSheetHidden
+    fullName: OfficeOpenXml.eWorkSheetHidden
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Index*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Index
+  name: Index
+  nameWithType: ExcelWorksheet.Index
+  fullName: OfficeOpenXml.ExcelWorksheet.Index
+- uid: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  name: AutoFilterAddress
+  nameWithType: ExcelWorksheet.AutoFilterAddress
+  fullName: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.ExcelWorksheet.AutoFilter*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.AutoFilter
+  name: AutoFilter
+  nameWithType: ExcelWorksheet.AutoFilter
+  fullName: OfficeOpenXml.ExcelWorksheet.AutoFilter
+- uid: OfficeOpenXml.Filter.ExcelAutoFilter
+  commentId: T:OfficeOpenXml.Filter.ExcelAutoFilter
+  parent: OfficeOpenXml.Filter
+  name: ExcelAutoFilter
+  nameWithType: ExcelAutoFilter
+  fullName: OfficeOpenXml.Filter.ExcelAutoFilter
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: OfficeOpenXml.ExcelWorksheet.SortState*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.SortState
+  name: SortState
+  nameWithType: ExcelWorksheet.SortState
+  fullName: OfficeOpenXml.ExcelWorksheet.SortState
+- uid: OfficeOpenXml.Sorting.SortState
+  commentId: T:OfficeOpenXml.Sorting.SortState
+  parent: OfficeOpenXml.Sorting
+  name: SortState
+  nameWithType: SortState
+  fullName: OfficeOpenXml.Sorting.SortState
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: OfficeOpenXml.ExcelWorksheet.View*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.View
+  name: View
+  nameWithType: ExcelWorksheet.View
+  fullName: OfficeOpenXml.ExcelWorksheet.View
+- uid: OfficeOpenXml.ExcelWorksheetView
+  commentId: T:OfficeOpenXml.ExcelWorksheetView
+  parent: OfficeOpenXml
+  name: ExcelWorksheetView
+  nameWithType: ExcelWorksheetView
+  fullName: OfficeOpenXml.ExcelWorksheetView
+- uid: OfficeOpenXml.ExcelWorksheet.Name*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Name
+  name: Name
+  nameWithType: ExcelWorksheet.Name
+  fullName: OfficeOpenXml.ExcelWorksheet.Name
+- uid: OfficeOpenXml.ExcelWorksheet.Names*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Names
+  name: Names
+  nameWithType: ExcelWorksheet.Names
+  fullName: OfficeOpenXml.ExcelWorksheet.Names
+- uid: OfficeOpenXml.ExcelNamedRangeCollection
+  commentId: T:OfficeOpenXml.ExcelNamedRangeCollection
+  parent: OfficeOpenXml
+  name: ExcelNamedRangeCollection
+  nameWithType: ExcelNamedRangeCollection
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection
+- uid: OfficeOpenXml.ExcelWorksheet.Hidden*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Hidden
+  name: Hidden
+  nameWithType: ExcelWorksheet.Hidden
+  fullName: OfficeOpenXml.ExcelWorksheet.Hidden
+- uid: OfficeOpenXml.eWorkSheetHidden
+  commentId: T:OfficeOpenXml.eWorkSheetHidden
+  parent: OfficeOpenXml
+  name: eWorkSheetHidden
+  nameWithType: eWorkSheetHidden
+  fullName: OfficeOpenXml.eWorkSheetHidden
+- uid: OfficeOpenXml.ExcelWorksheet.DefaultRowHeight*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  name: DefaultRowHeight
+  nameWithType: ExcelWorksheet.DefaultRowHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.ExcelWorksheet.RowZeroHeight*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  name: RowZeroHeight
+  nameWithType: ExcelWorksheet.RowZeroHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelWorksheet.CustomHeight*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.CustomHeight
+  name: CustomHeight
+  nameWithType: ExcelWorksheet.CustomHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.CustomHeight
+- uid: OfficeOpenXml.ExcelWorksheet.DefaultColWidth*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  name: DefaultColWidth
+  nameWithType: ExcelWorksheet.DefaultColWidth
+  fullName: OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  name: OutLineSummaryBelow
+  nameWithType: ExcelWorksheet.OutLineSummaryBelow
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  name: OutLineSummaryRight
+  nameWithType: ExcelWorksheet.OutLineSummaryRight
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  name: OutLineApplyStyle
+  nameWithType: ExcelWorksheet.OutLineApplyStyle
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+- uid: OfficeOpenXml.ExcelWorksheet.TabColor*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.TabColor
+  name: TabColor
+  nameWithType: ExcelWorksheet.TabColor
+  fullName: OfficeOpenXml.ExcelWorksheet.TabColor
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  commentId: M:OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorksheet.CodeModule*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.CodeModule
+  name: CodeModule
+  nameWithType: ExcelWorksheet.CodeModule
+  fullName: OfficeOpenXml.ExcelWorksheet.CodeModule
+- uid: OfficeOpenXml.VBA.ExcelVBAModule
+  commentId: T:OfficeOpenXml.VBA.ExcelVBAModule
+  parent: OfficeOpenXml.VBA
+  name: ExcelVBAModule
+  nameWithType: ExcelVBAModule
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: OfficeOpenXml.ExcelWorksheet.WorksheetXml*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  name: WorksheetXml
+  nameWithType: ExcelWorksheet.WorksheetXml
+  fullName: OfficeOpenXml.ExcelWorksheet.WorksheetXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: OfficeOpenXml.ExcelWorksheet.Comments*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Comments
+  name: Comments
+  nameWithType: ExcelWorksheet.Comments
+  fullName: OfficeOpenXml.ExcelWorksheet.Comments
+- uid: OfficeOpenXml.ExcelCommentCollection
+  commentId: T:OfficeOpenXml.ExcelCommentCollection
+  parent: OfficeOpenXml
+  name: ExcelCommentCollection
+  nameWithType: ExcelCommentCollection
+  fullName: OfficeOpenXml.ExcelCommentCollection
+- uid: OfficeOpenXml.ExcelWorksheet.ThreadedComments*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  name: ThreadedComments
+  nameWithType: ExcelWorksheet.ThreadedComments
+  fullName: OfficeOpenXml.ExcelWorksheet.ThreadedComments
+- uid: OfficeOpenXml.ThreadedComments.ExcelWorksheetThreadedComments
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelWorksheetThreadedComments
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelWorksheetThreadedComments
+  nameWithType: ExcelWorksheetThreadedComments
+  fullName: OfficeOpenXml.ThreadedComments.ExcelWorksheetThreadedComments
+- uid: OfficeOpenXml.ThreadedComments
+  commentId: N:OfficeOpenXml.ThreadedComments
+  name: OfficeOpenXml.ThreadedComments
+  nameWithType: OfficeOpenXml.ThreadedComments
+  fullName: OfficeOpenXml.ThreadedComments
+- uid: OfficeOpenXml.ExcelWorksheet.HeaderFooter*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  name: HeaderFooter
+  nameWithType: ExcelWorksheet.HeaderFooter
+  fullName: OfficeOpenXml.ExcelWorksheet.HeaderFooter
+- uid: OfficeOpenXml.ExcelHeaderFooter
+  commentId: T:OfficeOpenXml.ExcelHeaderFooter
+  parent: OfficeOpenXml
+  name: ExcelHeaderFooter
+  nameWithType: ExcelHeaderFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter
+- uid: OfficeOpenXml.ExcelWorksheet.PrinterSettings*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  name: PrinterSettings
+  nameWithType: ExcelWorksheet.PrinterSettings
+  fullName: OfficeOpenXml.ExcelWorksheet.PrinterSettings
+- uid: OfficeOpenXml.ExcelPrinterSettings
+  commentId: T:OfficeOpenXml.ExcelPrinterSettings
+  parent: OfficeOpenXml
+  name: ExcelPrinterSettings
+  nameWithType: ExcelPrinterSettings
+  fullName: OfficeOpenXml.ExcelPrinterSettings
+- uid: OfficeOpenXml.ExcelWorksheet.Cells*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Cells
+  name: Cells
+  nameWithType: ExcelWorksheet.Cells
+  fullName: OfficeOpenXml.ExcelWorksheet.Cells
+- uid: OfficeOpenXml.ExcelRange
+  commentId: T:OfficeOpenXml.ExcelRange
+  parent: OfficeOpenXml
+  name: ExcelRange
+  nameWithType: ExcelRange
+  fullName: OfficeOpenXml.ExcelRange
+- uid: OfficeOpenXml.ExcelWorksheet.SelectedRange*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.SelectedRange
+  name: SelectedRange
+  nameWithType: ExcelWorksheet.SelectedRange
+  fullName: OfficeOpenXml.ExcelWorksheet.SelectedRange
+- uid: OfficeOpenXml.ExcelWorksheet.MergedCells*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.MergedCells
+  name: MergedCells
+  nameWithType: ExcelWorksheet.MergedCells
+  fullName: OfficeOpenXml.ExcelWorksheet.MergedCells
+- uid: OfficeOpenXml.ExcelWorksheet.MergeCellsCollection
+  commentId: T:OfficeOpenXml.ExcelWorksheet.MergeCellsCollection
+  parent: OfficeOpenXml
+  name: ExcelWorksheet.MergeCellsCollection
+  nameWithType: ExcelWorksheet.MergeCellsCollection
+  fullName: OfficeOpenXml.ExcelWorksheet.MergeCellsCollection
+- uid: OfficeOpenXml.ExcelWorksheet.Row*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Row
+  name: Row
+  nameWithType: ExcelWorksheet.Row
+  fullName: OfficeOpenXml.ExcelWorksheet.Row
+- uid: OfficeOpenXml.ExcelRow
+  commentId: T:OfficeOpenXml.ExcelRow
+  parent: OfficeOpenXml
+  name: ExcelRow
+  nameWithType: ExcelRow
+  fullName: OfficeOpenXml.ExcelRow
+- uid: OfficeOpenXml.ExcelWorksheet.Column*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Column
+  name: Column
+  nameWithType: ExcelWorksheet.Column
+  fullName: OfficeOpenXml.ExcelWorksheet.Column
+- uid: OfficeOpenXml.ExcelColumn
+  commentId: T:OfficeOpenXml.ExcelColumn
+  parent: OfficeOpenXml
+  name: ExcelColumn
+  nameWithType: ExcelColumn
+  fullName: OfficeOpenXml.ExcelColumn
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.ToString*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.ToString
+  name: ToString
+  nameWithType: ExcelWorksheet.ToString
+  fullName: OfficeOpenXml.ExcelWorksheet.ToString
+- uid: OfficeOpenXml.ExcelWorksheet.Select*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Select
+  name: Select
+  nameWithType: ExcelWorksheet.Select
+  fullName: OfficeOpenXml.ExcelWorksheet.Select
+- uid: OfficeOpenXml.ExcelAddress
+  commentId: T:OfficeOpenXml.ExcelAddress
+  parent: OfficeOpenXml
+  name: ExcelAddress
+  nameWithType: ExcelAddress
+  fullName: OfficeOpenXml.ExcelAddress
+- uid: OfficeOpenXml.ExcelWorksheet.InsertRow*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.InsertRow
+  name: InsertRow
+  nameWithType: ExcelWorksheet.InsertRow
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertRow
+- uid: OfficeOpenXml.ExcelWorksheet.InsertColumn*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.InsertColumn
+  name: InsertColumn
+  nameWithType: ExcelWorksheet.InsertColumn
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.DeleteRow
+  name: DeleteRow
+  nameWithType: ExcelWorksheet.DeleteRow
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.DeleteColumn
+  name: DeleteColumn
+  nameWithType: ExcelWorksheet.DeleteColumn
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn
+- uid: OfficeOpenXml.ExcelWorksheet.GetValue*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.GetValue
+  name: GetValue
+  nameWithType: ExcelWorksheet.GetValue
+  fullName: OfficeOpenXml.ExcelWorksheet.GetValue
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.ExcelWorksheet.SetValue*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.SetValue
+  name: SetValue
+  nameWithType: ExcelWorksheet.SetValue
+  fullName: OfficeOpenXml.ExcelWorksheet.SetValue
+- uid: OfficeOpenXml.ExcelWorksheet.GetMergeCellId*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.GetMergeCellId
+  name: GetMergeCellId
+  nameWithType: ExcelWorksheet.GetMergeCellId
+  fullName: OfficeOpenXml.ExcelWorksheet.GetMergeCellId
+- uid: OfficeOpenXml.ExcelWorksheet.Dimension*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Dimension
+  name: Dimension
+  nameWithType: ExcelWorksheet.Dimension
+  fullName: OfficeOpenXml.ExcelWorksheet.Dimension
+- uid: OfficeOpenXml.ExcelWorksheet.Protection*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Protection
+  name: Protection
+  nameWithType: ExcelWorksheet.Protection
+  fullName: OfficeOpenXml.ExcelWorksheet.Protection
+- uid: OfficeOpenXml.ExcelSheetProtection
+  commentId: T:OfficeOpenXml.ExcelSheetProtection
+  parent: OfficeOpenXml
+  name: ExcelSheetProtection
+  nameWithType: ExcelSheetProtection
+  fullName: OfficeOpenXml.ExcelSheetProtection
+- uid: OfficeOpenXml.ExcelWorksheet.ProtectedRanges*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  name: ProtectedRanges
+  nameWithType: ExcelWorksheet.ProtectedRanges
+  fullName: OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+- uid: OfficeOpenXml.ExcelProtectedRangeCollection
+  commentId: T:OfficeOpenXml.ExcelProtectedRangeCollection
+  parent: OfficeOpenXml
+  name: ExcelProtectedRangeCollection
+  nameWithType: ExcelProtectedRangeCollection
+  fullName: OfficeOpenXml.ExcelProtectedRangeCollection
+- uid: OfficeOpenXml.ExcelWorksheet.Drawings*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Drawings
+  name: Drawings
+  nameWithType: ExcelWorksheet.Drawings
+  fullName: OfficeOpenXml.ExcelWorksheet.Drawings
+- uid: OfficeOpenXml.Drawing.ExcelDrawings
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawings
+  parent: OfficeOpenXml.Drawing
+  name: ExcelDrawings
+  nameWithType: ExcelDrawings
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.ExcelWorksheet.SparklineGroups*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  name: SparklineGroups
+  nameWithType: ExcelWorksheet.SparklineGroups
+  fullName: OfficeOpenXml.ExcelWorksheet.SparklineGroups
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparklineGroupCollection
+  nameWithType: ExcelSparklineGroupCollection
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline
+- uid: OfficeOpenXml.ExcelWorksheet.Tables*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Tables
+  name: Tables
+  nameWithType: ExcelWorksheet.Tables
+  fullName: OfficeOpenXml.ExcelWorksheet.Tables
+- uid: OfficeOpenXml.Table.ExcelTableCollection
+  commentId: T:OfficeOpenXml.Table.ExcelTableCollection
+  parent: OfficeOpenXml.Table
+  name: ExcelTableCollection
+  nameWithType: ExcelTableCollection
+  fullName: OfficeOpenXml.Table.ExcelTableCollection
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.ExcelWorksheet.PivotTables*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.PivotTables
+  name: PivotTables
+  nameWithType: ExcelWorksheet.PivotTables
+  fullName: OfficeOpenXml.ExcelWorksheet.PivotTables
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableCollection
+  nameWithType: ExcelPivotTableCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: ExcelConditionalFormattingCollection
+  nameWithType: ExcelConditionalFormattingCollection
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+- uid: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  name: ConditionalFormatting
+  nameWithType: ExcelWorksheet.ConditionalFormatting
+  fullName: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationCollection
+  nameWithType: ExcelDataValidationCollection
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+- uid: OfficeOpenXml.ExcelWorksheet.DataValidations*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.DataValidations
+  name: DataValidations
+  nameWithType: ExcelWorksheet.DataValidations
+  fullName: OfficeOpenXml.ExcelWorksheet.DataValidations
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: OfficeOpenXml.ExcelWorksheet.IgnoredErrors*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  name: IgnoredErrors
+  nameWithType: ExcelWorksheet.IgnoredErrors
+  fullName: OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+- uid: OfficeOpenXml.ExcelIgnoredErrorCollection
+  commentId: T:OfficeOpenXml.ExcelIgnoredErrorCollection
+  parent: OfficeOpenXml
+  name: ExcelIgnoredErrorCollection
+  nameWithType: ExcelIgnoredErrorCollection
+  fullName: OfficeOpenXml.ExcelIgnoredErrorCollection
+- uid: OfficeOpenXml.ExcelWorksheet.BackgroundImage*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  name: BackgroundImage
+  nameWithType: ExcelWorksheet.BackgroundImage
+  fullName: OfficeOpenXml.ExcelWorksheet.BackgroundImage
+- uid: OfficeOpenXml.ExcelBackgroundImage
+  commentId: T:OfficeOpenXml.ExcelBackgroundImage
+  parent: OfficeOpenXml
+  name: ExcelBackgroundImage
+  nameWithType: ExcelBackgroundImage
+  fullName: OfficeOpenXml.ExcelBackgroundImage
+- uid: OfficeOpenXml.ExcelWorksheet.Workbook*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Workbook
+  name: Workbook
+  nameWithType: ExcelWorksheet.Workbook
+  fullName: OfficeOpenXml.ExcelWorksheet.Workbook
+- uid: OfficeOpenXml.ExcelWorkbook
+  commentId: T:OfficeOpenXml.ExcelWorkbook
+  parent: OfficeOpenXml
+  name: ExcelWorkbook
+  nameWithType: ExcelWorkbook
+  fullName: OfficeOpenXml.ExcelWorkbook
+- uid: OfficeOpenXml.ExcelWorksheet.Dispose*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Dispose
+  name: Dispose
+  nameWithType: ExcelWorksheet.Dispose
+  fullName: OfficeOpenXml.ExcelWorksheet.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Equals*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Equals
+  name: Equals
+  nameWithType: ExcelWorksheet.Equals
+  fullName: OfficeOpenXml.ExcelWorksheet.Equals
+- uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  commentId: M:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  parent: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  definition: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  name: Equals(ExcelWorksheet, ExcelWorksheet)
+  nameWithType: IEqualityComparer<ExcelWorksheet>.Equals(ExcelWorksheet, ExcelWorksheet)
+  fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.ExcelWorksheet>.Equals(OfficeOpenXml.ExcelWorksheet, OfficeOpenXml.ExcelWorksheet)
+  nameWithType.vb: IEqualityComparer(Of ExcelWorksheet).Equals(ExcelWorksheet, ExcelWorksheet)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.ExcelWorksheet).Equals(OfficeOpenXml.ExcelWorksheet, OfficeOpenXml.ExcelWorksheet)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer<ExcelWorksheet>.Equals
+    fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.ExcelWorksheet>.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer(Of ExcelWorksheet).Equals
+    fullName: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.ExcelWorksheet).Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  commentId: M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  isExternal: true
+  name: Equals(T, T)
+  nameWithType: IEqualityComparer<T>.Equals(T, T)
+  fullName: System.Collections.Generic.IEqualityComparer<T>.Equals(T, T)
+  nameWithType.vb: IEqualityComparer(Of T).Equals(T, T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T).Equals(T, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer<T>.Equals
+    fullName: System.Collections.Generic.IEqualityComparer<T>.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer(Of T).Equals
+    fullName: System.Collections.Generic.IEqualityComparer(Of T).Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.GetHashCode*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.GetHashCode
+  name: GetHashCode
+  nameWithType: ExcelWorksheet.GetHashCode
+  fullName: OfficeOpenXml.ExcelWorksheet.GetHashCode
+- uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  parent: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  definition: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  name: GetHashCode(ExcelWorksheet)
+  nameWithType: IEqualityComparer<ExcelWorksheet>.GetHashCode(ExcelWorksheet)
+  fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.ExcelWorksheet>.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  nameWithType.vb: IEqualityComparer(Of ExcelWorksheet).GetHashCode(ExcelWorksheet)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.ExcelWorksheet).GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer<ExcelWorksheet>.GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.ExcelWorksheet>.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer(Of ExcelWorksheet).GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.ExcelWorksheet).GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  commentId: M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  isExternal: true
+  name: GetHashCode(T)
+  nameWithType: IEqualityComparer<T>.GetHashCode(T)
+  fullName: System.Collections.Generic.IEqualityComparer<T>.GetHashCode(T)
+  nameWithType.vb: IEqualityComparer(Of T).GetHashCode(T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T).GetHashCode(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer<T>.GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer<T>.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer(Of T).GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer(Of T).GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Rows*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Rows
+  name: Rows
+  nameWithType: ExcelWorksheet.Rows
+  fullName: OfficeOpenXml.ExcelWorksheet.Rows
+- uid: OfficeOpenXml.ExcelRowsCollection
+  commentId: T:OfficeOpenXml.ExcelRowsCollection
+  parent: OfficeOpenXml
+  name: ExcelRowsCollection
+  nameWithType: ExcelRowsCollection
+  fullName: OfficeOpenXml.ExcelRowsCollection
+- uid: OfficeOpenXml.ExcelWorksheet.Columns*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheet.Columns
+  name: Columns
+  nameWithType: ExcelWorksheet.Columns
+  fullName: OfficeOpenXml.ExcelWorksheet.Columns
+- uid: OfficeOpenXml.ExcelColumnCollection
+  commentId: T:OfficeOpenXml.ExcelColumnCollection
+  parent: OfficeOpenXml
+  name: ExcelColumnCollection
+  nameWithType: ExcelColumnCollection
+  fullName: OfficeOpenXml.ExcelColumnCollection

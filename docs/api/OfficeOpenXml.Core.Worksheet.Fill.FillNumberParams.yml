@@ -1,0 +1,718 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  id: FillNumberParams
+  parent: OfficeOpenXml.Core.Worksheet.Fill
+  children:
+  - OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+  - OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue
+  - OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue
+  - OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue
+  langs:
+  - csharp
+  - vb
+  name: FillNumberParams
+  nameWithType: FillNumberParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FillNumberParams
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nParameters for the <xref href=\"OfficeOpenXml.ExcelRangeBase.FillNumber(System.Action%7bOfficeOpenXml.Core.Worksheet.Fill.FillNumberParams%7d)\" data-throw-if-not-resolved=\"false\"></xref> method \n"
+  example: []
+  syntax:
+    content: 'public class FillNumberParams : FillParams'
+    content.vb: >-
+      Public Class FillNumberParams
+          Inherits FillParams
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  inheritedMembers:
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+  - OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue
+  id: StartValue
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  langs:
+  - csharp
+  - vb
+  name: StartValue
+  nameWithType: FillNumberParams.StartValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StartValue
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nThe start value. If null, the first value in the row/column is used. \n<xref href=\"OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public double? StartValue { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property StartValue As Double?
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue
+  id: EndValue
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  langs:
+  - csharp
+  - vb
+  name: EndValue
+  nameWithType: FillNumberParams.EndValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndValue
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nWhen this value is exceeded the fill stops\n"
+  example: []
+  syntax:
+    content: public double? EndValue { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property EndValue As Double?
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue
+  id: StepValue
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  langs:
+  - csharp
+  - vb
+  name: StepValue
+  nameWithType: FillNumberParams.StepValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StepValue
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nThe value to use in the calculation for each step. \n<xref href=\"OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public double StepValue { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property StepValue As Double
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+  id: CalculationMethod
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  langs:
+  - csharp
+  - vb
+  name: CalculationMethod
+  nameWithType: FillNumberParams.CalculationMethod
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CalculationMethod
+    path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Core.Worksheet.Fill
+  summary: "\nThe calculation method to use \n"
+  example: []
+  syntax:
+    content: public eCalculationMethod CalculationMethod { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eCalculationMethod
+    content.vb: Public Property CalculationMethod As eCalculationMethod
+  overload: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ExcelRangeBase.FillNumber(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.FillNumber(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams})
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: FillNumber(Action<FillNumberParams>)
+  nameWithType: ExcelRangeBase.FillNumber(Action<FillNumberParams>)
+  fullName: OfficeOpenXml.ExcelRangeBase.FillNumber(System.Action<OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams>)
+  nameWithType.vb: ExcelRangeBase.FillNumber(Action(Of FillNumberParams))
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.FillNumber(System.Action(Of OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams))
+  name.vb: FillNumber(Action(Of FillNumberParams))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.FillNumber(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams})
+    name: FillNumber
+    nameWithType: ExcelRangeBase.FillNumber
+    fullName: OfficeOpenXml.ExcelRangeBase.FillNumber
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+    name: FillNumberParams
+    nameWithType: FillNumberParams
+    fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.FillNumber(System.Action{OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams})
+    name: FillNumber
+    nameWithType: ExcelRangeBase.FillNumber
+    fullName: OfficeOpenXml.ExcelRangeBase.FillNumber
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+    name: FillNumberParams
+    nameWithType: FillNumberParams
+    fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.Worksheet.Fill
+  commentId: N:OfficeOpenXml.Core.Worksheet.Fill
+  name: OfficeOpenXml.Core.Worksheet.Fill
+  nameWithType: OfficeOpenXml.Core.Worksheet.Fill
+  fullName: OfficeOpenXml.Core.Worksheet.Fill
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  commentId: T:OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  parent: OfficeOpenXml.Core.Worksheet.Fill
+  name: FillParams
+  nameWithType: FillParams
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  name: StartPosition
+  nameWithType: FillParams.StartPosition
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams.StartPosition
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  name: Direction
+  nameWithType: FillParams.Direction
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams.Direction
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+  parent: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+  name: NumberFormat
+  nameWithType: FillParams.NumberFormat
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillParams.NumberFormat
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue
+  name: StartValue
+  nameWithType: FillNumberParams.StartValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StartValue
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue
+  name: EndValue
+  nameWithType: FillNumberParams.EndValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.EndValue
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+  commentId: P:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+  isExternal: true
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue
+  name: StepValue
+  nameWithType: FillNumberParams.StepValue
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.StepValue
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod*
+  commentId: Overload:OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+  name: CalculationMethod
+  nameWithType: FillNumberParams.CalculationMethod
+  fullName: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams.CalculationMethod
+- uid: OfficeOpenXml.eCalculationMethod
+  commentId: T:OfficeOpenXml.eCalculationMethod
+  parent: OfficeOpenXml
+  name: eCalculationMethod
+  nameWithType: eCalculationMethod
+  fullName: OfficeOpenXml.eCalculationMethod

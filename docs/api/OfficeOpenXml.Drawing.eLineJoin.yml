@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eLineJoin
+  commentId: T:OfficeOpenXml.Drawing.eLineJoin
+  id: eLineJoin
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eLineJoin.Bevel
+  - OfficeOpenXml.Drawing.eLineJoin.Miter
+  - OfficeOpenXml.Drawing.eLineJoin.Round
+  langs:
+  - csharp
+  - vb
+  name: eLineJoin
+  nameWithType: eLineJoin
+  fullName: OfficeOpenXml.Drawing.eLineJoin
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineJoin.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLineJoin
+    path: ../src/EPPlus/Drawing/Enums/eLineJoin.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe shape that lines joined together have\n"
+  example: []
+  syntax:
+    content: public enum eLineJoin
+    content.vb: Public Enum eLineJoin
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eLineJoin.Bevel
+  commentId: F:OfficeOpenXml.Drawing.eLineJoin.Bevel
+  id: Bevel
+  parent: OfficeOpenXml.Drawing.eLineJoin
+  langs:
+  - csharp
+  - vb
+  name: Bevel
+  nameWithType: eLineJoin.Bevel
+  fullName: OfficeOpenXml.Drawing.eLineJoin.Bevel
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineJoin.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bevel
+    path: ../src/EPPlus/Drawing/Enums/eLineJoin.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA bevel join\n"
+  example: []
+  syntax:
+    content: Bevel = 0
+    return:
+      type: OfficeOpenXml.Drawing.eLineJoin
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineJoin.Round
+  commentId: F:OfficeOpenXml.Drawing.eLineJoin.Round
+  id: Round
+  parent: OfficeOpenXml.Drawing.eLineJoin
+  langs:
+  - csharp
+  - vb
+  name: Round
+  nameWithType: eLineJoin.Round
+  fullName: OfficeOpenXml.Drawing.eLineJoin.Round
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineJoin.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Round
+    path: ../src/EPPlus/Drawing/Enums/eLineJoin.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA round join\n"
+  example: []
+  syntax:
+    content: Round = 1
+    return:
+      type: OfficeOpenXml.Drawing.eLineJoin
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineJoin.Miter
+  commentId: F:OfficeOpenXml.Drawing.eLineJoin.Miter
+  id: Miter
+  parent: OfficeOpenXml.Drawing.eLineJoin
+  langs:
+  - csharp
+  - vb
+  name: Miter
+  nameWithType: eLineJoin.Miter
+  fullName: OfficeOpenXml.Drawing.eLineJoin.Miter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineJoin.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Miter
+    path: ../src/EPPlus/Drawing/Enums/eLineJoin.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Mitered join\n"
+  example: []
+  syntax:
+    content: Miter = 2
+    return:
+      type: OfficeOpenXml.Drawing.eLineJoin
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eLineJoin
+  commentId: T:OfficeOpenXml.Drawing.eLineJoin
+  parent: OfficeOpenXml.Drawing
+  name: eLineJoin
+  nameWithType: eLineJoin
+  fullName: OfficeOpenXml.Drawing.eLineJoin

@@ -1,0 +1,80 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zip.SetCompressionCallback
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zip.SetCompressionCallback
+  id: SetCompressionCallback
+  parent: OfficeOpenXml.Packaging.Ionic.Zip
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: SetCompressionCallback
+  nameWithType: SetCompressionCallback
+  fullName: OfficeOpenXml.Packaging.Ionic.Zip.SetCompressionCallback
+  type: Delegate
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Events.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetCompressionCallback
+    path: ../src/EPPlus/Packaging/DotNetZip/Events.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zip
+  summary: "\nDelegate for the callback by which the application tells the\nlibrary the CompressionLevel to use for a file.\n"
+  remarks: "\n<p>\n  Using this callback, the application can, for example, specify that\n  previously-compressed files (.mp3, .png, .docx, etc) should use a\n<code>CompressionLevel</code> of <code>None</code>, or can set the compression level based\non any other factor.\n</p>\n"
+  example: []
+  syntax:
+    content: public delegate CompressionLevel SetCompressionCallback(string localFileName, string fileNameInArchive);
+    parameters:
+    - id: localFileName
+      type: System.String
+    - id: fileNameInArchive
+      type: System.String
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+    content.vb: Public Delegate Function SetCompressionCallback(localFileName As String, fileNameInArchive As String) As CompressionLevel
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.SetCompression
+    commentId: P:OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.SetCompression
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.SetCompression
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.SetCompression
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zip
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zip
+  name: OfficeOpenXml.Packaging.Ionic.Zip
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zip
+  fullName: OfficeOpenXml.Packaging.Ionic.Zip
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib

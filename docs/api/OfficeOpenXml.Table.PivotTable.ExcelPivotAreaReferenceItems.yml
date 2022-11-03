@@ -1,0 +1,935 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  id: ExcelPivotAreaReferenceItems
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add(System.Int32)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue(System.Object)
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotAreaReferenceItems
+  nameWithType: ExcelPivotAreaReferenceItems
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceItems.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotAreaReferenceItems
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceItems.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA list of pivot item refernces\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotAreaReferenceItems : EPPlusReadOnlyList<PivotItemReference>, IEnumerable<PivotItemReference>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelPivotAreaReferenceItems
+          Inherits EPPlusReadOnlyList(Of PivotItemReference)
+          Implements IEnumerable(Of PivotItemReference), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.Item(System.Int32)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.PivotItemReference)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.Count
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add(System.Int32)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add(System.Int32)
+  id: Add(System.Int32)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  langs:
+  - csharp
+  - vb
+  name: Add(Int32)
+  nameWithType: ExcelPivotAreaReferenceItems.Add(Int32)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceItems.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceItems.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds the item at the index to the condition. The index referes to the pivot cache.\n"
+  example: []
+  syntax:
+    content: public void Add(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: Index into the pivot cache items. Either the shared items or the group items
+    content.vb: Public Sub Add(index As Integer)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue(System.Object)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue(System.Object)
+  id: AddByValue(System.Object)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  langs:
+  - csharp
+  - vb
+  name: AddByValue(Object)
+  nameWithType: ExcelPivotAreaReferenceItems.AddByValue(Object)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue(System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceItems.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddByValue
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceItems.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a specific cache item to the condition. The value is matched against the values in the pivot cache, either the shared items or the group items.\n"
+  example: []
+  syntax:
+    content: public bool AddByValue(object value)
+    parameters:
+    - id: value
+      type: System.Object
+      description: The value to match against. Is matched agaist the cache values and must be matched with the same data type.
+    return:
+      type: System.Boolean
+      description: true if the value has been added, otherwise false
+    content.vb: Public Function AddByValue(value As Object) As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<PivotItemReference>
+  nameWithType: EPPlusReadOnlyList<PivotItemReference>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>
+  nameWithType.vb: EPPlusReadOnlyList(Of PivotItemReference)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference)
+  name.vb: EPPlusReadOnlyList(Of PivotItemReference)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.PivotItemReference
+    name: PivotItemReference
+    nameWithType: PivotItemReference
+    fullName: OfficeOpenXml.Table.PivotTable.PivotItemReference
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.PivotItemReference
+    name: PivotItemReference
+    nameWithType: PivotItemReference
+    fullName: OfficeOpenXml.Table.PivotTable.PivotItemReference
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<PivotItemReference>
+  nameWithType: IEnumerable<PivotItemReference>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.PivotItemReference>
+  nameWithType.vb: IEnumerable(Of PivotItemReference)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.PivotItemReference)
+  name.vb: IEnumerable(Of PivotItemReference)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.PivotItemReference
+    name: PivotItemReference
+    nameWithType: PivotItemReference
+    fullName: OfficeOpenXml.Table.PivotTable.PivotItemReference
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.PivotItemReference
+    name: PivotItemReference
+    nameWithType: PivotItemReference
+    fullName: OfficeOpenXml.Table.PivotTable.PivotItemReference
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<PivotItemReference>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<PivotItemReference>.IEnumerable<PivotItemReference>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.PivotItemReference>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of PivotItemReference).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<PivotItemReference>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<PivotItemReference>.IEnumerable<PivotItemReference>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.PivotItemReference>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of PivotItemReference).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<PivotItemReference>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of PivotItemReference).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<PivotItemReference>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of PivotItemReference).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.Item(System.Int32)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<PivotItemReference>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of PivotItemReference).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<PivotItemReference>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of PivotItemReference).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.PivotItemReference)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.PivotItemReference)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(PivotItemReference)
+  nameWithType: EPPlusReadOnlyList<PivotItemReference>.GetIndexByValue(PivotItemReference)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.GetIndexByValue(OfficeOpenXml.Table.PivotTable.PivotItemReference)
+  nameWithType.vb: EPPlusReadOnlyList(Of PivotItemReference).GetIndexByValue(PivotItemReference)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).GetIndexByValue(OfficeOpenXml.Table.PivotTable.PivotItemReference)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<PivotItemReference>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.PivotTable.PivotItemReference
+    name: PivotItemReference
+    nameWithType: PivotItemReference
+    fullName: OfficeOpenXml.Table.PivotTable.PivotItemReference
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of PivotItemReference).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.PivotTable.PivotItemReference
+    name: PivotItemReference
+    nameWithType: PivotItemReference
+    fullName: OfficeOpenXml.Table.PivotTable.PivotItemReference
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}.Count
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.PivotItemReference}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<PivotItemReference>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.PivotItemReference>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of PivotItemReference).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.PivotItemReference).Count
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<T>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<T>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<T>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of T).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(T)
+  nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  nameWithType.vb: EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of T).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<T>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Count
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add
+  name: Add
+  nameWithType: ExcelPivotAreaReferenceItems.Add
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.Add
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue
+  name: AddByValue
+  nameWithType: ExcelPivotAreaReferenceItems.AddByValue
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems.AddByValue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

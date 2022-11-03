@@ -1,0 +1,1028 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eRigPresetType
+  commentId: T:OfficeOpenXml.Drawing.eRigPresetType
+  id: eRigPresetType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eRigPresetType.Balanced
+  - OfficeOpenXml.Drawing.eRigPresetType.BrightRoom
+  - OfficeOpenXml.Drawing.eRigPresetType.Chilly
+  - OfficeOpenXml.Drawing.eRigPresetType.Contrasting
+  - OfficeOpenXml.Drawing.eRigPresetType.Flat
+  - OfficeOpenXml.Drawing.eRigPresetType.Flood
+  - OfficeOpenXml.Drawing.eRigPresetType.Freezing
+  - OfficeOpenXml.Drawing.eRigPresetType.Glow
+  - OfficeOpenXml.Drawing.eRigPresetType.Harsh
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat1
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat2
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat3
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat4
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh1
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh2
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh3
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh4
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal1
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal2
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal3
+  - OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal4
+  - OfficeOpenXml.Drawing.eRigPresetType.Morning
+  - OfficeOpenXml.Drawing.eRigPresetType.None
+  - OfficeOpenXml.Drawing.eRigPresetType.Soft
+  - OfficeOpenXml.Drawing.eRigPresetType.Sunrise
+  - OfficeOpenXml.Drawing.eRigPresetType.Sunset
+  - OfficeOpenXml.Drawing.eRigPresetType.ThreePt
+  - OfficeOpenXml.Drawing.eRigPresetType.TwoPt
+  langs:
+  - csharp
+  - vb
+  name: eRigPresetType
+  nameWithType: eRigPresetType
+  fullName: OfficeOpenXml.Drawing.eRigPresetType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eRigPresetType
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe preset type of light rig which is to be applied to the 3D scene\n"
+  example: []
+  syntax:
+    content: public enum eRigPresetType
+    content.vb: Public Enum eRigPresetType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eRigPresetType.None
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.None
+  id: None
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eRigPresetType.None
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNo rig\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Balanced
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Balanced
+  id: Balanced
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Balanced
+  nameWithType: eRigPresetType.Balanced
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Balanced
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Balanced
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBalanced\n"
+  example: []
+  syntax:
+    content: Balanced = 1
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.BrightRoom
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.BrightRoom
+  id: BrightRoom
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: BrightRoom
+  nameWithType: eRigPresetType.BrightRoom
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.BrightRoom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BrightRoom
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBright Room\n"
+  example: []
+  syntax:
+    content: BrightRoom = 2
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Chilly
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Chilly
+  id: Chilly
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Chilly
+  nameWithType: eRigPresetType.Chilly
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Chilly
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chilly
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nChilly\n"
+  example: []
+  syntax:
+    content: Chilly = 3
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Contrasting
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Contrasting
+  id: Contrasting
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Contrasting
+  nameWithType: eRigPresetType.Contrasting
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Contrasting
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Contrasting
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nContrasting\n"
+  example: []
+  syntax:
+    content: Contrasting = 4
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Flat
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Flat
+  id: Flat
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Flat
+  nameWithType: eRigPresetType.Flat
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Flat
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Flat
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlat\n"
+  example: []
+  syntax:
+    content: Flat = 5
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Flood
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Flood
+  id: Flood
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Flood
+  nameWithType: eRigPresetType.Flood
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Flood
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Flood
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFlood\n"
+  example: []
+  syntax:
+    content: Flood = 6
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Freezing
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Freezing
+  id: Freezing
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Freezing
+  nameWithType: eRigPresetType.Freezing
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Freezing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Freezing
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFreezing\n"
+  example: []
+  syntax:
+    content: Freezing = 7
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Glow
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Glow
+  id: Glow
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Glow
+  nameWithType: eRigPresetType.Glow
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Glow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Glow
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGlow\n"
+  example: []
+  syntax:
+    content: Glow = 8
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Harsh
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Harsh
+  id: Harsh
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Harsh
+  nameWithType: eRigPresetType.Harsh
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Harsh
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Harsh
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHarsh\n"
+  example: []
+  syntax:
+    content: Harsh = 9
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat1
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat1
+  id: LegacyFlat1
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyFlat1
+  nameWithType: eRigPresetType.LegacyFlat1
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyFlat1
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Flat 1\n"
+  example: []
+  syntax:
+    content: LegacyFlat1 = 10
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat2
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat2
+  id: LegacyFlat2
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyFlat2
+  nameWithType: eRigPresetType.LegacyFlat2
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyFlat2
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Flat 2\n"
+  example: []
+  syntax:
+    content: LegacyFlat2 = 11
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat3
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat3
+  id: LegacyFlat3
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyFlat3
+  nameWithType: eRigPresetType.LegacyFlat3
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyFlat3
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Flat 3\n"
+  example: []
+  syntax:
+    content: LegacyFlat3 = 12
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat4
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat4
+  id: LegacyFlat4
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyFlat4
+  nameWithType: eRigPresetType.LegacyFlat4
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyFlat4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyFlat4
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Flat 4\n"
+  example: []
+  syntax:
+    content: LegacyFlat4 = 13
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh1
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh1
+  id: LegacyHarsh1
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyHarsh1
+  nameWithType: eRigPresetType.LegacyHarsh1
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyHarsh1
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Harsh 1\n"
+  example: []
+  syntax:
+    content: LegacyHarsh1 = 14
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh2
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh2
+  id: LegacyHarsh2
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyHarsh2
+  nameWithType: eRigPresetType.LegacyHarsh2
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyHarsh2
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Harsh 2\n"
+  example: []
+  syntax:
+    content: LegacyHarsh2 = 15
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh3
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh3
+  id: LegacyHarsh3
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyHarsh3
+  nameWithType: eRigPresetType.LegacyHarsh3
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyHarsh3
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Harsh 3\n"
+  example: []
+  syntax:
+    content: LegacyHarsh3 = 16
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh4
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh4
+  id: LegacyHarsh4
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyHarsh4
+  nameWithType: eRigPresetType.LegacyHarsh4
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyHarsh4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyHarsh4
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Harsh 4\n"
+  example: []
+  syntax:
+    content: LegacyHarsh4 = 17
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal1
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal1
+  id: LegacyNormal1
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyNormal1
+  nameWithType: eRigPresetType.LegacyNormal1
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyNormal1
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Normal 1\n"
+  example: []
+  syntax:
+    content: LegacyNormal1 = 18
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal2
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal2
+  id: LegacyNormal2
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyNormal2
+  nameWithType: eRigPresetType.LegacyNormal2
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyNormal2
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Normal 2\n"
+  example: []
+  syntax:
+    content: LegacyNormal2 = 19
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal3
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal3
+  id: LegacyNormal3
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyNormal3
+  nameWithType: eRigPresetType.LegacyNormal3
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyNormal3
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Normal 3\n"
+  example: []
+  syntax:
+    content: LegacyNormal3 = 20
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal4
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal4
+  id: LegacyNormal4
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: LegacyNormal4
+  nameWithType: eRigPresetType.LegacyNormal4
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.LegacyNormal4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyNormal4
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Normal 4\n"
+  example: []
+  syntax:
+    content: LegacyNormal4 = 21
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Morning
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Morning
+  id: Morning
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Morning
+  nameWithType: eRigPresetType.Morning
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Morning
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Morning
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMorning\n"
+  example: []
+  syntax:
+    content: Morning = 22
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Soft
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Soft
+  id: Soft
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Soft
+  nameWithType: eRigPresetType.Soft
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Soft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Soft
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSoft\n"
+  example: []
+  syntax:
+    content: Soft = 23
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Sunrise
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Sunrise
+  id: Sunrise
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Sunrise
+  nameWithType: eRigPresetType.Sunrise
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Sunrise
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sunrise
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSunrise\n"
+  example: []
+  syntax:
+    content: Sunrise = 24
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.Sunset
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.Sunset
+  id: Sunset
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: Sunset
+  nameWithType: eRigPresetType.Sunset
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.Sunset
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sunset
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSunset\n"
+  example: []
+  syntax:
+    content: Sunset = 25
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.ThreePt
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.ThreePt
+  id: ThreePt
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: ThreePt
+  nameWithType: eRigPresetType.ThreePt
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.ThreePt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreePt
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThree Point\n"
+  example: []
+  syntax:
+    content: ThreePt = 26
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eRigPresetType.TwoPt
+  commentId: F:OfficeOpenXml.Drawing.eRigPresetType.TwoPt
+  id: TwoPt
+  parent: OfficeOpenXml.Drawing.eRigPresetType
+  langs:
+  - csharp
+  - vb
+  name: TwoPt
+  nameWithType: eRigPresetType.TwoPt
+  fullName: OfficeOpenXml.Drawing.eRigPresetType.TwoPt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TwoPt
+    path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTwo Point\n"
+  example: []
+  syntax:
+    content: TwoPt = 27
+    return:
+      type: OfficeOpenXml.Drawing.eRigPresetType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eRigPresetType
+  commentId: T:OfficeOpenXml.Drawing.eRigPresetType
+  parent: OfficeOpenXml.Drawing
+  name: eRigPresetType
+  nameWithType: eRigPresetType
+  fullName: OfficeOpenXml.Drawing.eRigPresetType

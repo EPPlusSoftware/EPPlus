@@ -1,0 +1,751 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ePresetShadowType
+  commentId: T:OfficeOpenXml.Drawing.ePresetShadowType
+  id: ePresetShadowType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ePresetShadowType.BackCenterPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.BackLeftLongPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.BackLeftPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.BackRightLongPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.BackRightPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.BottomLeftDropShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.BottomRightDropShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.BottomRightSmallDropShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.FrontBottomShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftLongPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.FrontRightLongPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.FrontRightPerspectiveShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.InnerBoxShadow3D
+  - OfficeOpenXml.Drawing.ePresetShadowType.OuterBoxShadow3D
+  - OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDoubleDropShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDropShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.TopLeftLargeDropShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.TopLeftSmallDropShadow
+  - OfficeOpenXml.Drawing.ePresetShadowType.TopRightDropShadow
+  langs:
+  - csharp
+  - vb
+  name: ePresetShadowType
+  nameWithType: ePresetShadowType
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePresetShadowType
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThis enum indicates one of 20 preset OOXML shadow types.\nThis values does NOT correspond to the the preset types in Excel. \nPlease use the SetPresetShadow method for Excel preset types.\n<xref href=\"OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public enum ePresetShadowType
+    content.vb: Public Enum ePresetShadowType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDropShadow
+  id: TopLeftDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: TopLeftDropShadow
+  nameWithType: ePresetShadowType.TopLeftDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeftDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n1. Top Left Drop Shadow, Default\n"
+  example: []
+  syntax:
+    content: TopLeftDropShadow = 0
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.TopRightDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.TopRightDropShadow
+  id: TopRightDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: TopRightDropShadow
+  nameWithType: ePresetShadowType.TopRightDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.TopRightDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopRightDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n2. Top Right Drop Shadow\n"
+  example: []
+  syntax:
+    content: TopRightDropShadow = 1
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BackLeftPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BackLeftPerspectiveShadow
+  id: BackLeftPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BackLeftPerspectiveShadow
+  nameWithType: ePresetShadowType.BackLeftPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BackLeftPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackLeftPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n3.\n"
+  example: []
+  syntax:
+    content: BackLeftPerspectiveShadow = 2
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BackRightPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BackRightPerspectiveShadow
+  id: BackRightPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BackRightPerspectiveShadow
+  nameWithType: ePresetShadowType.BackRightPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BackRightPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackRightPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n4. Back Right Perspective Shadow\n"
+  example: []
+  syntax:
+    content: BackRightPerspectiveShadow = 3
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BottomLeftDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BottomLeftDropShadow
+  id: BottomLeftDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BottomLeftDropShadow
+  nameWithType: ePresetShadowType.BottomLeftDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BottomLeftDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomLeftDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n5. Bottom Left Drop Shadow\n"
+  example: []
+  syntax:
+    content: BottomLeftDropShadow = 4
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BottomRightDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BottomRightDropShadow
+  id: BottomRightDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BottomRightDropShadow
+  nameWithType: ePresetShadowType.BottomRightDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BottomRightDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomRightDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n6. Bottom Right Drop Shadow\n"
+  example: []
+  syntax:
+    content: BottomRightDropShadow = 5
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftPerspectiveShadow
+  id: FrontLeftPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: FrontLeftPerspectiveShadow
+  nameWithType: ePresetShadowType.FrontLeftPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FrontLeftPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n7. FrontLeftPerspectiveShadow\n"
+  example: []
+  syntax:
+    content: FrontLeftPerspectiveShadow = 6
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.FrontRightPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.FrontRightPerspectiveShadow
+  id: FrontRightPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: FrontRightPerspectiveShadow
+  nameWithType: ePresetShadowType.FrontRightPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.FrontRightPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FrontRightPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n8. Front Right Perspective Shadow\n"
+  example: []
+  syntax:
+    content: FrontRightPerspectiveShadow = 7
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftSmallDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.TopLeftSmallDropShadow
+  id: TopLeftSmallDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: TopLeftSmallDropShadow
+  nameWithType: ePresetShadowType.TopLeftSmallDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftSmallDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeftSmallDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n9. Top Left Small DropShadow\n"
+  example: []
+  syntax:
+    content: TopLeftSmallDropShadow = 8
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftLargeDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.TopLeftLargeDropShadow
+  id: TopLeftLargeDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: TopLeftLargeDropShadow
+  nameWithType: ePresetShadowType.TopLeftLargeDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftLargeDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeftLargeDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n10. Top Left Large Drop Shadow\n"
+  example: []
+  syntax:
+    content: TopLeftLargeDropShadow = 9
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BackLeftLongPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BackLeftLongPerspectiveShadow
+  id: BackLeftLongPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BackLeftLongPerspectiveShadow
+  nameWithType: ePresetShadowType.BackLeftLongPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BackLeftLongPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackLeftLongPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n11. Back Left Long Perspective Shadow\n"
+  example: []
+  syntax:
+    content: BackLeftLongPerspectiveShadow = 10
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BackRightLongPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BackRightLongPerspectiveShadow
+  id: BackRightLongPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BackRightLongPerspectiveShadow
+  nameWithType: ePresetShadowType.BackRightLongPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BackRightLongPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackRightLongPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBack Right Long Perspective Shadow\n"
+  example: []
+  syntax:
+    content: BackRightLongPerspectiveShadow = 11
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDoubleDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDoubleDropShadow
+  id: TopLeftDoubleDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: TopLeftDoubleDropShadow
+  nameWithType: ePresetShadowType.TopLeftDoubleDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.TopLeftDoubleDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeftDoubleDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n13. Top Left Double Drop Shadow\n"
+  example: []
+  syntax:
+    content: TopLeftDoubleDropShadow = 12
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BottomRightSmallDropShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BottomRightSmallDropShadow
+  id: BottomRightSmallDropShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BottomRightSmallDropShadow
+  nameWithType: ePresetShadowType.BottomRightSmallDropShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BottomRightSmallDropShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomRightSmallDropShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 77
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n14. Bottom Right Small Drop Shadow\n"
+  example: []
+  syntax:
+    content: BottomRightSmallDropShadow = 13
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftLongPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftLongPerspectiveShadow
+  id: FrontLeftLongPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: FrontLeftLongPerspectiveShadow
+  nameWithType: ePresetShadowType.FrontLeftLongPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.FrontLeftLongPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FrontLeftLongPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n15. Front Left Long Perspective Shadow\n"
+  example: []
+  syntax:
+    content: FrontLeftLongPerspectiveShadow = 14
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.FrontRightLongPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.FrontRightLongPerspectiveShadow
+  id: FrontRightLongPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: FrontRightLongPerspectiveShadow
+  nameWithType: ePresetShadowType.FrontRightLongPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.FrontRightLongPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FrontRightLongPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 85
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n16. Front Right LongPerspective Shadow\n"
+  example: []
+  syntax:
+    content: FrontRightLongPerspectiveShadow = 15
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.OuterBoxShadow3D
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.OuterBoxShadow3D
+  id: OuterBoxShadow3D
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: OuterBoxShadow3D
+  nameWithType: ePresetShadowType.OuterBoxShadow3D
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.OuterBoxShadow3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OuterBoxShadow3D
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n17.  3D Outer Box Shadow\n"
+  example: []
+  syntax:
+    content: OuterBoxShadow3D = 16
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.InnerBoxShadow3D
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.InnerBoxShadow3D
+  id: InnerBoxShadow3D
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: InnerBoxShadow3D
+  nameWithType: ePresetShadowType.InnerBoxShadow3D
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.InnerBoxShadow3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InnerBoxShadow3D
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n18. 3D Inner Box Shadow\n"
+  example: []
+  syntax:
+    content: InnerBoxShadow3D = 17
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.BackCenterPerspectiveShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.BackCenterPerspectiveShadow
+  id: BackCenterPerspectiveShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: BackCenterPerspectiveShadow
+  nameWithType: ePresetShadowType.BackCenterPerspectiveShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.BackCenterPerspectiveShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackCenterPerspectiveShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n19. Back Center Perspective Shadow\n"
+  example: []
+  syntax:
+    content: BackCenterPerspectiveShadow = 18
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetShadowType.FrontBottomShadow
+  commentId: F:OfficeOpenXml.Drawing.ePresetShadowType.FrontBottomShadow
+  id: FrontBottomShadow
+  parent: OfficeOpenXml.Drawing.ePresetShadowType
+  langs:
+  - csharp
+  - vb
+  name: FrontBottomShadow
+  nameWithType: ePresetShadowType.FrontBottomShadow
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType.FrontBottomShadow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FrontBottomShadow
+    path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n20. Front Bottom Shadow\n"
+  example: []
+  syntax:
+    content: FrontBottomShadow = 19
+    return:
+      type: OfficeOpenXml.Drawing.ePresetShadowType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)
+  commentId: M:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle.SetPresetShadow(OfficeOpenXml.Drawing.ePresetExcelShadowType)
+  isExternal: true
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.ePresetShadowType
+  commentId: T:OfficeOpenXml.Drawing.ePresetShadowType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetShadowType
+  nameWithType: ePresetShadowType
+  fullName: OfficeOpenXml.Drawing.ePresetShadowType

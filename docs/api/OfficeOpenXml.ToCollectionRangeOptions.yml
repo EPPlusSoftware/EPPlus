@@ -1,0 +1,707 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ToCollectionRangeOptions
+  commentId: T:OfficeOpenXml.ToCollectionRangeOptions
+  id: ToCollectionRangeOptions
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ToCollectionRangeOptions.#ctor
+  - OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+  - OfficeOpenXml.ToCollectionRangeOptions.Default
+  - OfficeOpenXml.ToCollectionRangeOptions.HeaderRow
+  langs:
+  - csharp
+  - vb
+  name: ToCollectionRangeOptions
+  nameWithType: ToCollectionRangeOptions
+  fullName: OfficeOpenXml.ToCollectionRangeOptions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollectionRangeOptions
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSettings for the ToCollection method.\n<xref href=\"OfficeOpenXml.ExcelRangeBase.ToCollection%60%601\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: 'public class ToCollectionRangeOptions : ToCollectionOptions'
+    content.vb: >-
+      Public Class ToCollectionRangeOptions
+          Inherits ToCollectionOptions
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.ToCollectionOptions
+  inheritedMembers:
+  - OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String[])
+  - OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ToCollectionRangeOptions.#ctor
+  commentId: M:OfficeOpenXml.ToCollectionRangeOptions.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.ToCollectionRangeOptions
+  langs:
+  - csharp
+  - vb
+  name: ToCollectionRangeOptions()
+  nameWithType: ToCollectionRangeOptions.ToCollectionRangeOptions()
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.ToCollectionRangeOptions()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ToCollectionRangeOptions()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.ToCollectionRangeOptions.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ToCollectionRangeOptions.HeaderRow
+  commentId: P:OfficeOpenXml.ToCollectionRangeOptions.HeaderRow
+  id: HeaderRow
+  parent: OfficeOpenXml.ToCollectionRangeOptions
+  langs:
+  - csharp
+  - vb
+  name: HeaderRow
+  nameWithType: ToCollectionRangeOptions.HeaderRow
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.HeaderRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderRow
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n0-based index of the Header row in the range, if applicable. \nA null value means there is no header row.\nSee also: <xref href=\"OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.ToCollectionRangeOptions.DataStartRow\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public int? HeaderRow { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property HeaderRow As Integer?
+  overload: OfficeOpenXml.ToCollectionRangeOptions.HeaderRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+  commentId: P:OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+  id: DataStartRow
+  parent: OfficeOpenXml.ToCollectionRangeOptions
+  langs:
+  - csharp
+  - vb
+  name: DataStartRow
+  nameWithType: ToCollectionRangeOptions.DataStartRow
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataStartRow
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe data start row in the range.\nA null value means the data rows starts direcly after the header row.\n"
+  example: []
+  syntax:
+    content: public int? DataStartRow { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property DataStartRow As Integer?
+  overload: OfficeOpenXml.ToCollectionRangeOptions.DataStartRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ToCollectionRangeOptions.Default
+  commentId: P:OfficeOpenXml.ToCollectionRangeOptions.Default
+  id: Default
+  parent: OfficeOpenXml.ToCollectionRangeOptions
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: ToCollectionRangeOptions.Default
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.Default
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA <xref href=\"OfficeOpenXml.ToCollectionRangeOptions\" data-throw-if-not-resolved=\"false\"></xref> with default values.\n"
+  example: []
+  syntax:
+    content: public static ToCollectionRangeOptions Default { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ToCollectionRangeOptions
+    content.vb: Public Shared ReadOnly Property Default As ToCollectionRangeOptions
+  overload: OfficeOpenXml.ToCollectionRangeOptions.Default*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.ExcelRangeBase.ToCollection``1
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToCollection``1
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToCollection<T>()
+  nameWithType: ExcelRangeBase.ToCollection<T>()
+  fullName: OfficeOpenXml.ExcelRangeBase.ToCollection<T>()
+  nameWithType.vb: ExcelRangeBase.ToCollection(Of T)()
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.ToCollection(Of T)()
+  name.vb: ToCollection(Of T)()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToCollection``1
+    name: ToCollection<T>
+    nameWithType: ExcelRangeBase.ToCollection<T>
+    fullName: OfficeOpenXml.ExcelRangeBase.ToCollection<T>
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToCollection``1
+    name: ToCollection(Of T)
+    nameWithType: ExcelRangeBase.ToCollection(Of T)
+    fullName: OfficeOpenXml.ExcelRangeBase.ToCollection(Of T)
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.ToCollectionOptions
+  commentId: T:OfficeOpenXml.ToCollectionOptions
+  parent: OfficeOpenXml
+  name: ToCollectionOptions
+  nameWithType: ToCollectionOptions
+  fullName: OfficeOpenXml.ToCollectionOptions
+- uid: OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String[])
+  commentId: M:OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String[])
+  parent: OfficeOpenXml.ToCollectionOptions
+  isExternal: true
+  name: SetCustomHeaders(String[])
+  nameWithType: ToCollectionOptions.SetCustomHeaders(String[])
+  fullName: OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String[])
+  nameWithType.vb: ToCollectionOptions.SetCustomHeaders(String())
+  fullName.vb: OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String())
+  name.vb: SetCustomHeaders(String())
+  spec.csharp:
+  - uid: OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String[])
+    name: SetCustomHeaders
+    nameWithType: ToCollectionOptions.SetCustomHeaders
+    fullName: OfficeOpenXml.ToCollectionOptions.SetCustomHeaders
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ToCollectionOptions.SetCustomHeaders(System.String[])
+    name: SetCustomHeaders
+    nameWithType: ToCollectionOptions.SetCustomHeaders
+    fullName: OfficeOpenXml.ToCollectionOptions.SetCustomHeaders
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy
+  commentId: P:OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy
+  parent: OfficeOpenXml.ToCollectionOptions
+  name: ConversionFailureStrategy
+  nameWithType: ToCollectionOptions.ConversionFailureStrategy
+  fullName: OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ToCollectionRangeOptions.#ctor*
+  commentId: Overload:OfficeOpenXml.ToCollectionRangeOptions.#ctor
+  name: ToCollectionRangeOptions
+  nameWithType: ToCollectionRangeOptions.ToCollectionRangeOptions
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.ToCollectionRangeOptions
+- uid: OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+  commentId: P:OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+  isExternal: true
+- uid: OfficeOpenXml.ToCollectionRangeOptions.HeaderRow*
+  commentId: Overload:OfficeOpenXml.ToCollectionRangeOptions.HeaderRow
+  name: HeaderRow
+  nameWithType: ToCollectionRangeOptions.HeaderRow
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.HeaderRow
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ToCollectionRangeOptions.DataStartRow*
+  commentId: Overload:OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+  name: DataStartRow
+  nameWithType: ToCollectionRangeOptions.DataStartRow
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.DataStartRow
+- uid: OfficeOpenXml.ToCollectionRangeOptions
+  commentId: T:OfficeOpenXml.ToCollectionRangeOptions
+  parent: OfficeOpenXml
+  name: ToCollectionRangeOptions
+  nameWithType: ToCollectionRangeOptions
+  fullName: OfficeOpenXml.ToCollectionRangeOptions
+- uid: OfficeOpenXml.ToCollectionRangeOptions.Default*
+  commentId: Overload:OfficeOpenXml.ToCollectionRangeOptions.Default
+  name: Default
+  nameWithType: ToCollectionRangeOptions.Default
+  fullName: OfficeOpenXml.ToCollectionRangeOptions.Default

@@ -1,0 +1,64 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Attributes
+  commentId: N:OfficeOpenXml.Attributes
+  id: OfficeOpenXml.Attributes
+  children:
+  - OfficeOpenXml.Attributes.EpplusFormulaTableColumnAttribute
+  - OfficeOpenXml.Attributes.EpplusIgnore
+  - OfficeOpenXml.Attributes.EpplusNestedTableColumnAttribute
+  - OfficeOpenXml.Attributes.EpplusTableAttribute
+  - OfficeOpenXml.Attributes.EpplusTableColumnAttribute
+  - OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  - OfficeOpenXml.Attributes.EPPlusTableColumnSortOrderAttribute
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Attributes
+  nameWithType: OfficeOpenXml.Attributes
+  fullName: OfficeOpenXml.Attributes
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Attributes.EpplusFormulaTableColumnAttribute
+  commentId: T:OfficeOpenXml.Attributes.EpplusFormulaTableColumnAttribute
+  name: EpplusFormulaTableColumnAttribute
+  nameWithType: EpplusFormulaTableColumnAttribute
+  fullName: OfficeOpenXml.Attributes.EpplusFormulaTableColumnAttribute
+- uid: OfficeOpenXml.Attributes.EpplusIgnore
+  commentId: T:OfficeOpenXml.Attributes.EpplusIgnore
+  name: EpplusIgnore
+  nameWithType: EpplusIgnore
+  fullName: OfficeOpenXml.Attributes.EpplusIgnore
+- uid: OfficeOpenXml.Attributes.EpplusNestedTableColumnAttribute
+  commentId: T:OfficeOpenXml.Attributes.EpplusNestedTableColumnAttribute
+  name: EpplusNestedTableColumnAttribute
+  nameWithType: EpplusNestedTableColumnAttribute
+  fullName: OfficeOpenXml.Attributes.EpplusNestedTableColumnAttribute
+- uid: OfficeOpenXml.Attributes.EpplusTableAttribute
+  commentId: T:OfficeOpenXml.Attributes.EpplusTableAttribute
+  name: EpplusTableAttribute
+  nameWithType: EpplusTableAttribute
+  fullName: OfficeOpenXml.Attributes.EpplusTableAttribute
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttribute
+  commentId: T:OfficeOpenXml.Attributes.EpplusTableColumnAttribute
+  name: EpplusTableColumnAttribute
+  nameWithType: EpplusTableColumnAttribute
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttribute
+- uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  commentId: T:OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+  parent: OfficeOpenXml.Attributes
+  name: EpplusTableColumnAttributeBase
+  nameWithType: EpplusTableColumnAttributeBase
+  fullName: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+- uid: OfficeOpenXml.Attributes.EPPlusTableColumnSortOrderAttribute
+  commentId: T:OfficeOpenXml.Attributes.EPPlusTableColumnSortOrderAttribute
+  name: EPPlusTableColumnSortOrderAttribute
+  nameWithType: EPPlusTableColumnSortOrderAttribute
+  fullName: OfficeOpenXml.Attributes.EPPlusTableColumnSortOrderAttribute
+- uid: OfficeOpenXml.Attributes
+  commentId: N:OfficeOpenXml.Attributes
+  name: OfficeOpenXml.Attributes
+  nameWithType: OfficeOpenXml.Attributes
+  fullName: OfficeOpenXml.Attributes

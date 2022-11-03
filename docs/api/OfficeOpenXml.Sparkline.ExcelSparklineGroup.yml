@@ -1,0 +1,1618 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  id: ExcelSparklineGroup
+  parent: OfficeOpenXml.Sparkline
+  children:
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.First
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.High
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type
+  langs:
+  - csharp
+  - vb
+  name: ExcelSparklineGroup
+  nameWithType: ExcelSparklineGroup
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSparklineGroup
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nRepresents a group of sparklines\n"
+  example: []
+  syntax:
+    content: 'public class ExcelSparklineGroup : XmlHelper'
+    content.vb: >-
+      Public Class ExcelSparklineGroup
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange
+  id: DateAxisRange
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: DateAxisRange
+  nameWithType: ExcelSparklineGroup.DateAxisRange
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateAxisRange
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe range containing the dateaxis from the sparklines.\nSet to Null to remove the dateaxis.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase DateAxisRange { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public Property DateAxisRange As ExcelRangeBase
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange
+  id: DataRange
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: DataRange
+  nameWithType: ExcelSparklineGroup.DataRange
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataRange
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe range containing the data from the sparklines\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase DataRange { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public ReadOnly Property DataRange As ExcelRangeBase
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange
+  id: LocationRange
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: LocationRange
+  nameWithType: ExcelSparklineGroup.LocationRange
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LocationRange
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe range containing the sparklines\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase LocationRange { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public ReadOnly Property LocationRange As ExcelRangeBase
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines
+  id: Sparklines
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: Sparklines
+  nameWithType: ExcelSparklineGroup.Sparklines
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sparklines
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe Sparklines for the sparklinegroup\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineCollection Sparklines { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineCollection
+    content.vb: Public ReadOnly Property Sparklines As ExcelSparklineCollection
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers
+  id: Markers
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: Markers
+  nameWithType: ExcelSparklineGroup.Markers
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Markers
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nHighlight each point in each sparkline in the sparkline group.\nApplies to line sparklines only\n"
+  example: []
+  syntax:
+    content: public bool Markers { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Markers As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.High
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.High
+  id: High
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: High
+  nameWithType: ExcelSparklineGroup.High
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.High
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: High
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nHighlight the highest point of data in the sparkline group\n"
+  example: []
+  syntax:
+    content: public bool High { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property High As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.High*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low
+  id: Low
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: Low
+  nameWithType: ExcelSparklineGroup.Low
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Low
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nHighlight the lowest point of data in the sparkline group\n"
+  example: []
+  syntax:
+    content: public bool Low { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Low As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.First
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.First
+  id: First
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: First
+  nameWithType: ExcelSparklineGroup.First
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.First
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: First
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nHighlight the first point of data in the sparkline group\n"
+  example: []
+  syntax:
+    content: public bool First { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property First As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.First*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last
+  id: Last
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: Last
+  nameWithType: ExcelSparklineGroup.Last
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Last
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nHighlight the last point of data in the sparkline group\n"
+  example: []
+  syntax:
+    content: public bool Last { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Last As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative
+  id: Negative
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: Negative
+  nameWithType: ExcelSparklineGroup.Negative
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Negative
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nHighlight negative points of data in the sparkline group with a different color or marker\n"
+  example: []
+  syntax:
+    content: public bool Negative { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Negative As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis
+  id: DisplayXAxis
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: DisplayXAxis
+  nameWithType: ExcelSparklineGroup.DisplayXAxis
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DisplayXAxis
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nDisplays the X axis\n"
+  example: []
+  syntax:
+    content: public bool DisplayXAxis { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DisplayXAxis As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden
+  id: DisplayHidden
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: DisplayHidden
+  nameWithType: ExcelSparklineGroup.DisplayHidden
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DisplayHidden
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nDisplay hidden cells\n"
+  example: []
+  syntax:
+    content: public bool DisplayHidden { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DisplayHidden As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth
+  id: LineWidth
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: LineWidth
+  nameWithType: ExcelSparklineGroup.LineWidth
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineWidth
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe weight of the line. Applies to line sparklines only.\n"
+  example: []
+  syntax:
+    content: public double LineWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property LineWidth As Double
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs
+  id: DisplayEmptyCellsAs
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: DisplayEmptyCellsAs
+  nameWithType: ExcelSparklineGroup.DisplayEmptyCellsAs
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DisplayEmptyCellsAs
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 277
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nHow to display empty cells in the series\n"
+  example: []
+  syntax:
+    content: public eDispBlanksAs DisplayEmptyCellsAs { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.eDispBlanksAs
+    content.vb: Public Property DisplayEmptyCellsAs As eDispBlanksAs
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type
+  id: Type
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelSparklineGroup.Type
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 300
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nType of sparkline\n"
+  example: []
+  syntax:
+    content: public eSparklineType Type { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineType
+    content.vb: Public Property Type As eSparklineType
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries
+  id: ColorSeries
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorSeries
+  nameWithType: ExcelSparklineGroup.ColorSeries
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorSeries
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 324
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nSparkline color\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorSeries { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorSeries As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative
+  id: ColorNegative
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorNegative
+  nameWithType: ExcelSparklineGroup.ColorNegative
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorNegative
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 336
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nMarkercolor for the lowest negative point\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorNegative { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorNegative As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis
+  id: ColorAxis
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorAxis
+  nameWithType: ExcelSparklineGroup.ColorAxis
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorAxis
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 348
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nMarkercolor for the lowest negative point\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorAxis As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers
+  id: ColorMarkers
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorMarkers
+  nameWithType: ExcelSparklineGroup.ColorMarkers
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorMarkers
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 360
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nDefault marker color \n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorMarkers { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorMarkers As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst
+  id: ColorFirst
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorFirst
+  nameWithType: ExcelSparklineGroup.ColorFirst
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorFirst
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 372
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe color of the first point\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorFirst { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorFirst As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast
+  id: ColorLast
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorLast
+  nameWithType: ExcelSparklineGroup.ColorLast
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorLast
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 384
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe color of the last point\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorLast { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorLast As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh
+  id: ColorHigh
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorHigh
+  nameWithType: ExcelSparklineGroup.ColorHigh
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorHigh
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 396
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe color of the point with the highest value\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorHigh { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorHigh As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow
+  id: ColorLow
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ColorLow
+  nameWithType: ExcelSparklineGroup.ColorLow
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorLow
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 408
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nThe color of the point with the lowest value\n"
+  example: []
+  syntax:
+    content: public ExcelSparklineColor ColorLow { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    content.vb: Public ReadOnly Property ColorLow As ExcelSparklineColor
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin
+  id: ManualMin
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ManualMin
+  nameWithType: ExcelSparklineGroup.ManualMin
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ManualMin
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 421
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nWhen <code>MinAxisType</code> type is set to <code>Custom</code>, this value sets the minimum value\n<xref href=\"OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public double ManualMin { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property ManualMin As Double
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax
+  id: ManualMax
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: ManualMax
+  nameWithType: ExcelSparklineGroup.ManualMax
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ManualMax
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 439
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nWhen <code>MaxAxisType</code> type is set to <code>Custom</code>, this value sets the maximum value\n<xref href=\"OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public double ManualMax { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property ManualMax As Double
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+  id: MinAxisType
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: MinAxisType
+  nameWithType: ExcelSparklineGroup.MinAxisType
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MinAxisType
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 456
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nVertical axis minimum value options\n"
+  example: []
+  syntax:
+    content: public eSparklineAxisMinMax MinAxisType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+    content.vb: Public Property MinAxisType As eSparklineAxisMinMax
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+  id: MaxAxisType
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: MaxAxisType
+  nameWithType: ExcelSparklineGroup.MaxAxisType
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxAxisType
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 488
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nVertical axis maximum value options\n"
+  example: []
+  syntax:
+    content: public eSparklineAxisMinMax MaxAxisType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+    content.vb: Public Property MaxAxisType As eSparklineAxisMinMax
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft
+  id: RightToLeft
+  parent: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  langs:
+  - csharp
+  - vb
+  name: RightToLeft
+  nameWithType: ExcelSparklineGroup.RightToLeft
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightToLeft
+    path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
+    startLine: 519
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nPlot horizontal axis data right to left if true\n"
+  example: []
+  syntax:
+    content: public bool RightToLeft { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RightToLeft As Boolean
+  overload: OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange
+  name: DateAxisRange
+  nameWithType: ExcelSparklineGroup.DateAxisRange
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DateAxisRange
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange
+  name: DataRange
+  nameWithType: ExcelSparklineGroup.DataRange
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DataRange
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange
+  name: LocationRange
+  nameWithType: ExcelSparklineGroup.LocationRange
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LocationRange
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines
+  name: Sparklines
+  nameWithType: ExcelSparklineGroup.Sparklines
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Sparklines
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineCollection
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineCollection
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparklineCollection
+  nameWithType: ExcelSparklineCollection
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineCollection
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers
+  name: Markers
+  nameWithType: ExcelSparklineGroup.Markers
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Markers
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.High*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.High
+  name: High
+  nameWithType: ExcelSparklineGroup.High
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.High
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low
+  name: Low
+  nameWithType: ExcelSparklineGroup.Low
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Low
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.First*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.First
+  name: First
+  nameWithType: ExcelSparklineGroup.First
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.First
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last
+  name: Last
+  nameWithType: ExcelSparklineGroup.Last
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Last
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative
+  name: Negative
+  nameWithType: ExcelSparklineGroup.Negative
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Negative
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis
+  name: DisplayXAxis
+  nameWithType: ExcelSparklineGroup.DisplayXAxis
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayXAxis
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden
+  name: DisplayHidden
+  nameWithType: ExcelSparklineGroup.DisplayHidden
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayHidden
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth
+  name: LineWidth
+  nameWithType: ExcelSparklineGroup.LineWidth
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.LineWidth
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs
+  name: DisplayEmptyCellsAs
+  nameWithType: ExcelSparklineGroup.DisplayEmptyCellsAs
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.DisplayEmptyCellsAs
+- uid: OfficeOpenXml.Sparkline.eDispBlanksAs
+  commentId: T:OfficeOpenXml.Sparkline.eDispBlanksAs
+  parent: OfficeOpenXml.Sparkline
+  name: eDispBlanksAs
+  nameWithType: eDispBlanksAs
+  fullName: OfficeOpenXml.Sparkline.eDispBlanksAs
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type
+  name: Type
+  nameWithType: ExcelSparklineGroup.Type
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.Type
+- uid: OfficeOpenXml.Sparkline.eSparklineType
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineType
+  parent: OfficeOpenXml.Sparkline
+  name: eSparklineType
+  nameWithType: eSparklineType
+  fullName: OfficeOpenXml.Sparkline.eSparklineType
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries
+  name: ColorSeries
+  nameWithType: ExcelSparklineGroup.ColorSeries
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorSeries
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineColor
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineColor
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparklineColor
+  nameWithType: ExcelSparklineColor
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineColor
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative
+  name: ColorNegative
+  nameWithType: ExcelSparklineGroup.ColorNegative
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorNegative
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis
+  name: ColorAxis
+  nameWithType: ExcelSparklineGroup.ColorAxis
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorAxis
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers
+  name: ColorMarkers
+  nameWithType: ExcelSparklineGroup.ColorMarkers
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorMarkers
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst
+  name: ColorFirst
+  nameWithType: ExcelSparklineGroup.ColorFirst
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorFirst
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast
+  name: ColorLast
+  nameWithType: ExcelSparklineGroup.ColorLast
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLast
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh
+  name: ColorHigh
+  nameWithType: ExcelSparklineGroup.ColorHigh
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorHigh
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow
+  name: ColorLow
+  nameWithType: ExcelSparklineGroup.ColorLow
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ColorLow
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+  isExternal: true
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin
+  name: ManualMin
+  nameWithType: ExcelSparklineGroup.ManualMin
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMin
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+  commentId: P:OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+  isExternal: true
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax
+  name: ManualMax
+  nameWithType: ExcelSparklineGroup.ManualMax
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.ManualMax
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+  name: MinAxisType
+  nameWithType: ExcelSparklineGroup.MinAxisType
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MinAxisType
+- uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  parent: OfficeOpenXml.Sparkline
+  name: eSparklineAxisMinMax
+  nameWithType: eSparklineAxisMinMax
+  fullName: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+  name: MaxAxisType
+  nameWithType: ExcelSparklineGroup.MaxAxisType
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.MaxAxisType
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft*
+  commentId: Overload:OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft
+  name: RightToLeft
+  nameWithType: ExcelSparklineGroup.RightToLeft
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup.RightToLeft

@@ -1,0 +1,651 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  commentId: T:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  id: ReturnTypeWrapper`1
+  parent: OfficeOpenXml.Utils.TypeConversion
+  children:
+  - OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.#ctor
+  - OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsDateTime
+  - OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNullable
+  - OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNumeric
+  - OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsTimeSpan
+  - OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.Type
+  langs:
+  - csharp
+  - vb
+  name: ReturnTypeWrapper<T>
+  nameWithType: ReturnTypeWrapper<T>
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ReturnTypeWrapper
+    path: ../src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils.TypeConversion
+  summary: "\nProvides functionality for analyzing the properties of a type.\n"
+  example: []
+  syntax:
+    content: public class ReturnTypeWrapper<T>
+    typeParameters:
+    - id: T
+      description: The type to analyze
+    content.vb: Public Class ReturnTypeWrapper(Of T)
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: ReturnTypeWrapper(Of T)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T)
+  name.vb: ReturnTypeWrapper(Of T)
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.#ctor
+  commentId: M:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  langs:
+  - csharp
+  - vb
+  name: ReturnTypeWrapper()
+  nameWithType: ReturnTypeWrapper<T>.ReturnTypeWrapper()
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.ReturnTypeWrapper()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils.TypeConversion
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ReturnTypeWrapper()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.#ctor*
+  nameWithType.vb: ReturnTypeWrapper(Of T).ReturnTypeWrapper()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).ReturnTypeWrapper()
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.Type
+  commentId: P:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.Type
+  id: Type
+  parent: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ReturnTypeWrapper<T>.Type
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils.TypeConversion
+  summary: "\nThe type to analyze\n"
+  example: []
+  syntax:
+    content: public Type Type { get; }
+    parameters: []
+    return:
+      type: System.Type
+    content.vb: Public ReadOnly Property Type As Type
+  overload: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.Type*
+  nameWithType.vb: ReturnTypeWrapper(Of T).Type
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).Type
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNumeric
+  commentId: P:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNumeric
+  id: IsNumeric
+  parent: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  langs:
+  - csharp
+  - vb
+  name: IsNumeric
+  nameWithType: ReturnTypeWrapper<T>.IsNumeric
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsNumeric
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsNumeric
+    path: ../src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils.TypeConversion
+  summary: "\nReturns true if the type to analyze is numeric.\n"
+  example: []
+  syntax:
+    content: public bool IsNumeric { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsNumeric As Boolean
+  overload: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNumeric*
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsNumeric
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsNumeric
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNullable
+  commentId: P:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNullable
+  id: IsNullable
+  parent: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  langs:
+  - csharp
+  - vb
+  name: IsNullable
+  nameWithType: ReturnTypeWrapper<T>.IsNullable
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsNullable
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsNullable
+    path: ../src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils.TypeConversion
+  summary: "\nReturns true if the type to analyze is nullable.\n"
+  example: []
+  syntax:
+    content: public bool IsNullable { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsNullable As Boolean
+  overload: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNullable*
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsNullable
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsNullable
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsDateTime
+  commentId: P:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsDateTime
+  id: IsDateTime
+  parent: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  langs:
+  - csharp
+  - vb
+  name: IsDateTime
+  nameWithType: ReturnTypeWrapper<T>.IsDateTime
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsDateTime
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsDateTime
+    path: ../src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils.TypeConversion
+  summary: "\nReturns true if the type to analyze equalse the <xref href=\"System.DateTime\" data-throw-if-not-resolved=\"false\"></xref> type.\n"
+  example: []
+  syntax:
+    content: public bool IsDateTime { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsDateTime As Boolean
+  overload: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsDateTime*
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsDateTime
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsDateTime
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsTimeSpan
+  commentId: P:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsTimeSpan
+  id: IsTimeSpan
+  parent: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  langs:
+  - csharp
+  - vb
+  name: IsTimeSpan
+  nameWithType: ReturnTypeWrapper<T>.IsTimeSpan
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsTimeSpan
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsTimeSpan
+    path: ../src/EPPlus/Utils/TypeConversion/ReturnTypeWrapper.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils.TypeConversion
+  summary: "\nReturns true if the type to analyze equalse the <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref> type.\n"
+  example: []
+  syntax:
+    content: public bool IsTimeSpan { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsTimeSpan As Boolean
+  overload: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsTimeSpan*
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsTimeSpan
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsTimeSpan
+references:
+- uid: OfficeOpenXml.Utils.TypeConversion
+  commentId: N:OfficeOpenXml.Utils.TypeConversion
+  name: OfficeOpenXml.Utils.TypeConversion
+  nameWithType: OfficeOpenXml.Utils.TypeConversion
+  fullName: OfficeOpenXml.Utils.TypeConversion
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.#ctor*
+  commentId: Overload:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.#ctor
+  name: ReturnTypeWrapper
+  nameWithType: ReturnTypeWrapper<T>.ReturnTypeWrapper
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.ReturnTypeWrapper
+  nameWithType.vb: ReturnTypeWrapper(Of T).ReturnTypeWrapper
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).ReturnTypeWrapper
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.Type*
+  commentId: Overload:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.Type
+  name: Type
+  nameWithType: ReturnTypeWrapper<T>.Type
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.Type
+  nameWithType.vb: ReturnTypeWrapper(Of T).Type
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).Type
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNumeric*
+  commentId: Overload:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNumeric
+  name: IsNumeric
+  nameWithType: ReturnTypeWrapper<T>.IsNumeric
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsNumeric
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsNumeric
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsNumeric
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNullable*
+  commentId: Overload:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsNullable
+  name: IsNullable
+  nameWithType: ReturnTypeWrapper<T>.IsNullable
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsNullable
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsNullable
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsNullable
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsDateTime*
+  commentId: Overload:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsDateTime
+  name: IsDateTime
+  nameWithType: ReturnTypeWrapper<T>.IsDateTime
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsDateTime
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsDateTime
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsDateTime
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  isExternal: true
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsTimeSpan*
+  commentId: Overload:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1.IsTimeSpan
+  name: IsTimeSpan
+  nameWithType: ReturnTypeWrapper<T>.IsTimeSpan
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>.IsTimeSpan
+  nameWithType.vb: ReturnTypeWrapper(Of T).IsTimeSpan
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T).IsTimeSpan

@@ -1,0 +1,444 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  id: ExcelFunctionCategory
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Cube
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Database
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.DateAndTime
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Engineering
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Financial
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Information
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Logical
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.LookupAndReference
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.MathAndTrig
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Statistical
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Text
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Web
+  langs:
+  - csharp
+  - vb
+  name: ExcelFunctionCategory
+  nameWithType: ExcelFunctionCategory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFunctionCategory
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 9
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nCategories for functions\n"
+  example: []
+  syntax:
+    content: public enum ExcelFunctionCategory
+    content.vb: Public Enum ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Text
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Text
+  id: Text
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelFunctionCategory.Text
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Text
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 11
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Text = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Information
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Information
+  id: Information
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Information
+  nameWithType: ExcelFunctionCategory.Information
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Information
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Information
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Information = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.LookupAndReference
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.LookupAndReference
+  id: LookupAndReference
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: LookupAndReference
+  nameWithType: ExcelFunctionCategory.LookupAndReference
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.LookupAndReference
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LookupAndReference
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 13
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: LookupAndReference = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Statistical
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Statistical
+  id: Statistical
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Statistical
+  nameWithType: ExcelFunctionCategory.Statistical
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Statistical
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Statistical
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Statistical = 3
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Financial
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Financial
+  id: Financial
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Financial
+  nameWithType: ExcelFunctionCategory.Financial
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Financial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Financial
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Financial = 4
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Cube
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Cube
+  id: Cube
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Cube
+  nameWithType: ExcelFunctionCategory.Cube
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Cube
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cube
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 16
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Cube = 5
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Logical
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Logical
+  id: Logical
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Logical
+  nameWithType: ExcelFunctionCategory.Logical
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Logical
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Logical
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Logical = 6
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.DateAndTime
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.DateAndTime
+  id: DateAndTime
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: DateAndTime
+  nameWithType: ExcelFunctionCategory.DateAndTime
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.DateAndTime
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateAndTime
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: DateAndTime = 7
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.MathAndTrig
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.MathAndTrig
+  id: MathAndTrig
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: MathAndTrig
+  nameWithType: ExcelFunctionCategory.MathAndTrig
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.MathAndTrig
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MathAndTrig
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: MathAndTrig = 8
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Database
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Database
+  id: Database
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Database
+  nameWithType: ExcelFunctionCategory.Database
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Database
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Database
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Database = 9
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Engineering
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Engineering
+  id: Engineering
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Engineering
+  nameWithType: ExcelFunctionCategory.Engineering
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Engineering
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Engineering
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Engineering = 10
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Web
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Web
+  id: Web
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  langs:
+  - csharp
+  - vb
+  name: Web
+  nameWithType: ExcelFunctionCategory.Web
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory.Web
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Web
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  syntax:
+    content: Web = 11
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  name: ExcelFunctionCategory
+  nameWithType: ExcelFunctionCategory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory

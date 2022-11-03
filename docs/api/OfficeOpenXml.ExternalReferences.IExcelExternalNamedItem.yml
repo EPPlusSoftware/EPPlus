@@ -1,0 +1,96 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+  commentId: T:OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+  id: IExcelExternalNamedItem
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name
+  langs:
+  - csharp
+  - vb
+  name: IExcelExternalNamedItem
+  nameWithType: IExcelExternalNamedItem
+  fullName: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/IExcelExternalNamedItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelExternalNamedItem
+    path: ../src/EPPlus/ExternalReferences/IExcelExternalNamedItem.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nAn interface for an external object that contains a name\n"
+  example: []
+  syntax:
+    content: public interface IExcelExternalNamedItem
+    content.vb: Public Interface IExcelExternalNamedItem
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name
+  commentId: P:OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name
+  id: Name
+  parent: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: IExcelExternalNamedItem.Name
+  fullName: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/IExcelExternalNamedItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/ExternalReferences/IExcelExternalNamedItem.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe name\n"
+  example: []
+  syntax:
+    content: string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Name As String
+  overload: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name
+  name: Name
+  nameWithType: IExcelExternalNamedItem.Name
+  fullName: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

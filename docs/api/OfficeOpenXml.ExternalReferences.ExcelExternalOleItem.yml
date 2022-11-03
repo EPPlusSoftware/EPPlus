@@ -1,0 +1,530 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  id: ExcelExternalOleItem
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture
+  langs:
+  - csharp
+  - vb
+  name: ExcelExternalOleItem
+  nameWithType: ExcelExternalOleItem
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelExternalOleItem
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nAn OLE item in an external OLE link. Readonly.\n"
+  example: []
+  syntax:
+    content: public class ExcelExternalOleItem
+    content.vb: Public Class ExcelExternalOleItem
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise
+  id: Advise
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  langs:
+  - csharp
+  - vb
+  name: Advise
+  nameWithType: ExcelExternalOleItem.Advise
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Advise
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nIf the linked object should notify the application when the external data changes.\n"
+  example: []
+  syntax:
+    content: public bool Advise { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property Advise As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture
+  id: PreferPicture
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  langs:
+  - csharp
+  - vb
+  name: PreferPicture
+  nameWithType: ExcelExternalOleItem.PreferPicture
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PreferPicture
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nIf the linked object is represented by an image.\n"
+  example: []
+  syntax:
+    content: public bool PreferPicture { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property PreferPicture As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon
+  id: Icon
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  langs:
+  - csharp
+  - vb
+  name: Icon
+  nameWithType: ExcelExternalOleItem.Icon
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Icon
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nIf the linked object is represented by an icon\n"
+  example: []
+  syntax:
+    content: public bool Icon { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property Icon As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name
+  id: Name
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelExternalOleItem.Name
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe name of the OLE link item\n"
+  example: []
+  syntax:
+    content: public string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Name As String
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise
+  name: Advise
+  nameWithType: ExcelExternalOleItem.Advise
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Advise
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture
+  name: PreferPicture
+  nameWithType: ExcelExternalOleItem.PreferPicture
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.PreferPicture
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon
+  name: Icon
+  nameWithType: ExcelExternalOleItem.Icon
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Icon
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name
+  name: Name
+  nameWithType: ExcelExternalOleItem.Name
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

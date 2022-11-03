@@ -907,7 +907,7 @@ namespace OfficeOpenXml
                         EncryptedPackageHandler eph = new EncryptedPackageHandler();
                         using (var msEnc = eph.EncryptPackage(file, Encryption))
                         {
-                            CopyStream(msEnc, ref _stream);
+                            StreamUtil.CopyStream(msEnc, ref _stream);
                         }
                     }   
                     else
@@ -1040,7 +1040,7 @@ namespace OfficeOpenXml
 
             if (OutputStream != _stream)
             {
-                CopyStream(_stream, ref OutputStream);
+                StreamUtil.CopyStream(_stream, ref OutputStream);
             }
         }
         /// <summary>
@@ -1263,7 +1263,7 @@ namespace OfficeOpenXml
                 if (Password != null)
                 {
                     Stream encrStream = RecyclableMemory.GetStream();
-                    CopyStream(input, ref encrStream);
+                    StreamUtil.CopyStream(input, ref encrStream);
                     EncryptedPackageHandler eph = new EncryptedPackageHandler();
                     Encryption.Password = Password;
                     ms = eph.DecryptPackage((MemoryStream)encrStream, Encryption);
@@ -1272,7 +1272,7 @@ namespace OfficeOpenXml
                 else
                 {
                     ms = RecyclableMemory.GetStream();
-                    CopyStream(input, ref ms);
+                    StreamUtil.CopyStream(input, ref ms);
                 }
 
                 try
@@ -1319,41 +1319,6 @@ namespace OfficeOpenXml
             _isDisposed = false;
         }
 
-        static object _lock=new object();
         internal int _worksheetAdd=0;
-        /// <summary>
-        /// Copies the input stream to the output stream.
-        /// </summary>
-        /// <param name="inputStream">The input stream.</param>
-        /// <param name="outputStream">The output stream.</param>
-        internal static void CopyStream(Stream inputStream, ref Stream outputStream)
-        {
-            if (!inputStream.CanRead)
-            {
-                throw (new Exception("Cannot read from the input stream"));
-            }
-            if (!outputStream.CanWrite)
-            {
-                throw (new Exception("Cannot write to the output stream"));
-            }
-            if (inputStream.CanSeek)
-            {
-                inputStream.Seek(0, SeekOrigin.Begin);
-            }
-
-                const int bufferLength = 8096;
-                var buffer = new Byte[bufferLength];
-                lock (_lock)
-                {
-                    int bytesRead = inputStream.Read(buffer, 0, bufferLength);
-                    // write the required bytes
-                    while (bytesRead > 0)
-                    {
-                        outputStream.Write(buffer, 0, bytesRead);
-                        bytesRead = inputStream.Read(buffer, 0, bufferLength);
-                    }
-                    outputStream.Flush();
-            }
-        }
     }
 }

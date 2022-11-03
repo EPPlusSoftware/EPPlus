@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  id: ePrevNextPivotItem
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Next
+  - OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Previous
+  langs:
+  - csharp
+  - vb
+  name: ePrevNextPivotItem
+  nameWithType: ePrevNextPivotItem
+  fullName: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePrevNextPivotItem
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCompares the item to the previous or next item.\n"
+  example: []
+  syntax:
+    content: public enum ePrevNextPivotItem
+    content.vb: Public Enum ePrevNextPivotItem
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Previous
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Previous
+  id: Previous
+  parent: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  langs:
+  - csharp
+  - vb
+  name: Previous
+  nameWithType: ePrevNextPivotItem.Previous
+  fullName: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Previous
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Previous
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe Previous item\n"
+  example: []
+  syntax:
+    content: Previous = 1048828
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Next
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Next
+  id: Next
+  parent: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  langs:
+  - csharp
+  - vb
+  name: Next
+  nameWithType: ePrevNextPivotItem.Next
+  fullName: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem.Next
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Next
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe Next item\n"
+  example: []
+  syntax:
+    content: Next = 1048829
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePrevNextPivotItem
+  nameWithType: ePrevNextPivotItem
+  fullName: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem

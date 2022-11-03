@@ -1,0 +1,77 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  id: OfficeOpenXml.Sparkline
+  children:
+  - OfficeOpenXml.Sparkline.eDispBlanksAs
+  - OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  - OfficeOpenXml.Sparkline.eSparklineType
+  - OfficeOpenXml.Sparkline.ExcelSparkline
+  - OfficeOpenXml.Sparkline.ExcelSparklineCollection
+  - OfficeOpenXml.Sparkline.ExcelSparklineColor
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Sparkline.eDispBlanksAs
+  commentId: T:OfficeOpenXml.Sparkline.eDispBlanksAs
+  parent: OfficeOpenXml.Sparkline
+  name: eDispBlanksAs
+  nameWithType: eDispBlanksAs
+  fullName: OfficeOpenXml.Sparkline.eDispBlanksAs
+- uid: OfficeOpenXml.Sparkline.eSparklineType
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineType
+  parent: OfficeOpenXml.Sparkline
+  name: eSparklineType
+  nameWithType: eSparklineType
+  fullName: OfficeOpenXml.Sparkline.eSparklineType
+- uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+  parent: OfficeOpenXml.Sparkline
+  name: eSparklineAxisMinMax
+  nameWithType: eSparklineAxisMinMax
+  fullName: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+- uid: OfficeOpenXml.Sparkline.ExcelSparkline
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparkline
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparkline
+  nameWithType: ExcelSparkline
+  fullName: OfficeOpenXml.Sparkline.ExcelSparkline
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineCollection
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineCollection
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparklineCollection
+  nameWithType: ExcelSparklineCollection
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineCollection
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineColor
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineColor
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparklineColor
+  nameWithType: ExcelSparklineColor
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineColor
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparklineGroup
+  nameWithType: ExcelSparklineGroup
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+- uid: OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+  commentId: T:OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+  parent: OfficeOpenXml.Sparkline
+  name: ExcelSparklineGroupCollection
+  nameWithType: ExcelSparklineGroupCollection
+  fullName: OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline

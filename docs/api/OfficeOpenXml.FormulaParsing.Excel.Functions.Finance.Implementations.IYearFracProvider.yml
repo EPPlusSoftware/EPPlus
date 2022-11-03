@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+  id: IYearFracProvider
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac(System.DateTime,System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  langs:
+  - csharp
+  - vb
+  name: IYearFracProvider
+  nameWithType: IYearFracProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IYearFracProvider
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
+    startLine: 16
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public interface IYearFracProvider
+    content.vb: Public Interface IYearFracProvider
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac(System.DateTime,System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac(System.DateTime,System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetYearFrac(System.DateTime,System.DateTime,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+  langs:
+  - csharp
+  - vb
+  name: GetYearFrac(DateTime, DateTime, DayCountBasis)
+  nameWithType: IYearFracProvider.GetYearFrac(DateTime, DateTime, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac(System.DateTime, System.DateTime, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetYearFrac
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: double GetYearFrac(DateTime date1, DateTime date2, DayCountBasis basis)
+    parameters:
+    - id: date1
+      type: System.DateTime
+    - id: date2
+      type: System.DateTime
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.Double
+    content.vb: Function GetYearFrac(date1 As Date, date2 As Date, basis As DayCountBasis) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac*
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac
+  name: GetYearFrac
+  nameWithType: IYearFracProvider.GetYearFrac
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider.GetYearFrac
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: DayCountBasis
+  nameWithType: DayCountBasis
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount

@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.eSortType
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSortType
+  id: eSortType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.eSortType.Ascending
+  - OfficeOpenXml.Table.PivotTable.eSortType.Descending
+  - OfficeOpenXml.Table.PivotTable.eSortType.None
+  langs:
+  - csharp
+  - vb
+  name: eSortType
+  nameWithType: eSortType
+  fullName: OfficeOpenXml.Table.PivotTable.eSortType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSortType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSortType
+    path: ../src/EPPlus/Table/PivotTable/enums/eSortType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSorting\n"
+  example: []
+  syntax:
+    content: public enum eSortType
+    content.vb: Public Enum eSortType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.eSortType.None
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSortType.None
+  id: None
+  parent: OfficeOpenXml.Table.PivotTable.eSortType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eSortType.None
+  fullName: OfficeOpenXml.Table.PivotTable.eSortType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSortType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/PivotTable/enums/eSortType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nNo sorting\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSortType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSortType.Ascending
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSortType.Ascending
+  id: Ascending
+  parent: OfficeOpenXml.Table.PivotTable.eSortType
+  langs:
+  - csharp
+  - vb
+  name: Ascending
+  nameWithType: eSortType.Ascending
+  fullName: OfficeOpenXml.Table.PivotTable.eSortType.Ascending
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSortType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ascending
+    path: ../src/EPPlus/Table/PivotTable/enums/eSortType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSort ascending\n"
+  example: []
+  syntax:
+    content: Ascending = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSortType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSortType.Descending
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSortType.Descending
+  id: Descending
+  parent: OfficeOpenXml.Table.PivotTable.eSortType
+  langs:
+  - csharp
+  - vb
+  name: Descending
+  nameWithType: eSortType.Descending
+  fullName: OfficeOpenXml.Table.PivotTable.eSortType.Descending
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSortType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Descending
+    path: ../src/EPPlus/Table/PivotTable/enums/eSortType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSort descending\n"
+  example: []
+  syntax:
+    content: Descending = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSortType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.eSortType
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSortType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eSortType
+  nameWithType: eSortType
+  fullName: OfficeOpenXml.Table.PivotTable.eSortType

@@ -1,0 +1,1851 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  id: ExcelChartAxisStandard
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartAxisStandard
+  nameWithType: ExcelChartAxisStandard
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartAxisStandard
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAn axis for a standard chart. \n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelChartAxisStandard : ExcelChartAxis'
+    content.vb: >-
+      Public NotInheritable Class ExcelChartAxisStandard
+          Inherits ExcelChartAxis
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Format
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.SourceLinked
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.ThreeD
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Font
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis._title
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlineEffects
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlineEffects
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMajorGridlines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMinorGridlines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines(System.Boolean,System.Boolean)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines(System.Boolean,System.Boolean)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle(System.String)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark
+  id: MajorTickMark
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MajorTickMark
+  nameWithType: ExcelChartAxisStandard.MajorTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MajorTickMark
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nGet or Sets the major tick marks for the axis. \n"
+  example: []
+  syntax:
+    content: public override eAxisTickMark MajorTickMark { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+    content.vb: Public Overrides Property MajorTickMark As eAxisTickMark
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTickMark
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark
+  id: MinorTickMark
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MinorTickMark
+  nameWithType: ExcelChartAxisStandard.MinorTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MinorTickMark
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nGet or Sets the minor tick marks for the axis. \n"
+  example: []
+  syntax:
+    content: public override eAxisTickMark MinorTickMark { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+    content.vb: Public Overrides Property MinorTickMark As eAxisTickMark
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTickMark
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition
+  id: AxisPosition
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: AxisPosition
+  nameWithType: ExcelChartAxisStandard.AxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AxisPosition
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nWhere the axis is located\n"
+  example: []
+  syntax:
+    content: public override eAxisPosition AxisPosition { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisPosition
+    content.vb: Public Overrides ReadOnly Property AxisPosition As eAxisPosition
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AxisPosition
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
+  id: Title
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: ExcelChartAxisStandard.Title
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Title
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 148
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nChart axis title\n"
+  example: []
+  syntax:
+    content: public override ExcelChartTitle Title { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+    content.vb: Public Overrides ReadOnly Property Title As ExcelChartTitle
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
+  id: MinValue
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MinValue
+  nameWithType: ExcelChartAxisStandard.MinValue
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MinValue
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 171
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMinimum value for the axis.\nNull is automatic\n"
+  example: []
+  syntax:
+    content: public override double? MinValue { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Overrides Property MinValue As Double?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinValue
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue
+  id: MaxValue
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MaxValue
+  nameWithType: ExcelChartAxisStandard.MaxValue
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxValue
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMax value for the axis.\nNull is automatic\n"
+  example: []
+  syntax:
+    content: public override double? MaxValue { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Overrides Property MaxValue As Double?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MaxValue
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition
+  id: LabelPosition
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: LabelPosition
+  nameWithType: ExcelChartAxisStandard.LabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LabelPosition
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 216
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe Position of the labels\n"
+  example: []
+  syntax:
+    content: public override eTickLabelPosition LabelPosition { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+    content.vb: Public Overrides Property LabelPosition As eTickLabelPosition
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LabelPosition
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses
+  id: Crosses
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: Crosses
+  nameWithType: ExcelChartAxisStandard.Crosses
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Crosses
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 247
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nWhere the axis crosses\n"
+  example: []
+  syntax:
+    content: public override eCrosses Crosses { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eCrosses
+    content.vb: Public Overrides Property Crosses As eCrosses
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Crosses
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween
+  id: CrossBetween
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: CrossBetween
+  nameWithType: ExcelChartAxisStandard.CrossBetween
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CrossBetween
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 280
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nHow the axis are crossed\n"
+  example: []
+  syntax:
+    content: public override eCrossBetween CrossBetween { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eCrossBetween
+    content.vb: Public Overrides Property CrossBetween As eCrossBetween
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossBetween
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt
+  id: CrossesAt
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: CrossesAt
+  nameWithType: ExcelChartAxisStandard.CrossesAt
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CrossesAt
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 313
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe value where the axis cross. \nNull is automatic\n"
+  example: []
+  syntax:
+    content: public override double? CrossesAt { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Overrides Property CrossesAt As Double?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossesAt
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted
+  id: Deleted
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: Deleted
+  nameWithType: ExcelChartAxisStandard.Deleted
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Deleted
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 334
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nIf the axis is deleted\n"
+  example: []
+  syntax:
+    content: public override bool Deleted { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides Property Deleted As Boolean
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition
+  id: TickLabelPosition
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: TickLabelPosition
+  nameWithType: ExcelChartAxisStandard.TickLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TickLabelPosition
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 349
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPosition of the Lables\n"
+  example: []
+  syntax:
+    content: public override eTickLabelPosition TickLabelPosition { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+    content.vb: Public Overrides Property TickLabelPosition As eTickLabelPosition
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TickLabelPosition
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit
+  id: DisplayUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: DisplayUnit
+  nameWithType: ExcelChartAxisStandard.DisplayUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DisplayUnit
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 375
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe scaling value of the display units for the value axis\n"
+  example: []
+  syntax:
+    content: public override double DisplayUnit { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Overrides Property DisplayUnit As Double
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.DisplayUnit
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit
+  id: MajorUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MajorUnit
+  nameWithType: ExcelChartAxisStandard.MajorUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MajorUnit
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 431
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMajor unit for the axis.\nNull is automatic\n"
+  example: []
+  syntax:
+    content: public override double? MajorUnit { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Overrides Property MajorUnit As Double?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorUnit
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit
+  id: MajorTimeUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MajorTimeUnit
+  nameWithType: ExcelChartAxisStandard.MajorTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MajorTimeUnit
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 469
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMajor time unit for the axis.\nNull is automatic\n"
+  example: []
+  syntax:
+    content: public override eTimeUnit? MajorTimeUnit { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Drawing.Chart.eTimeUnit}
+    content.vb: Public Overrides Property MajorTimeUnit As eTimeUnit?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTimeUnit
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit
+  id: MinorUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MinorUnit
+  nameWithType: ExcelChartAxisStandard.MinorUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MinorUnit
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 501
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMinor unit for the axis.\nNull is automatic\n"
+  example: []
+  syntax:
+    content: public override double? MinorUnit { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Overrides Property MinorUnit As Double?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorUnit
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit
+  id: MinorTimeUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: MinorTimeUnit
+  nameWithType: ExcelChartAxisStandard.MinorTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MinorTimeUnit
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 539
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMinor time unit for the axis.\nNull is automatic\n"
+  example: []
+  syntax:
+    content: public override eTimeUnit? MinorTimeUnit { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Drawing.Chart.eTimeUnit}
+    content.vb: Public Overrides Property MinorTimeUnit As eTimeUnit?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTimeUnit
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase
+  id: LogBase
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: LogBase
+  nameWithType: ExcelChartAxisStandard.LogBase
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LogBase
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 570
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe base for a logaritmic scale\nNull for a normal scale\n"
+  example: []
+  syntax:
+    content: public override double? LogBase { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Overrides Property LogBase As Double?
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LogBase
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation
+  id: Orientation
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: Orientation
+  nameWithType: ExcelChartAxisStandard.Orientation
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Orientation
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 597
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAxis orientation\n"
+  example: []
+  syntax:
+    content: public override eAxisOrientation Orientation { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+    content.vb: Public Overrides Property Orientation As eAxisOrientation
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Orientation
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartAxis
+  nameWithType: ExcelChartAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Format
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Format
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Format
+  nameWithType: ExcelChartAxis.Format
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Format
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.SourceLinked
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.SourceLinked
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: SourceLinked
+  nameWithType: ExcelChartAxis.SourceLinked
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.SourceLinked
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Fill
+  nameWithType: ExcelChartAxis.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Border
+  nameWithType: ExcelChartAxis.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Effect
+  nameWithType: ExcelChartAxis.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: ThreeD
+  nameWithType: ExcelChartAxis.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.ThreeD
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Font
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Font
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Font
+  nameWithType: ExcelChartAxis.Font
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Font
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextBody
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextBody
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: TextBody
+  nameWithType: ExcelChartAxis.TextBody
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis._title
+  commentId: F:OfficeOpenXml.Drawing.Chart.ExcelChartAxis._title
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: _title
+  nameWithType: ExcelChartAxis._title
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis._title
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MajorGridlines
+  nameWithType: ExcelChartAxis.MajorGridlines
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlineEffects
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlineEffects
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MajorGridlineEffects
+  nameWithType: ExcelChartAxis.MajorGridlineEffects
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorGridlineEffects
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MinorGridlines
+  nameWithType: ExcelChartAxis.MinorGridlines
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlineEffects
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlineEffects
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MinorGridlineEffects
+  nameWithType: ExcelChartAxis.MinorGridlineEffects
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorGridlineEffects
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMajorGridlines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMajorGridlines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: HasMajorGridlines
+  nameWithType: ExcelChartAxis.HasMajorGridlines
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMajorGridlines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMinorGridlines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMinorGridlines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: HasMinorGridlines
+  nameWithType: ExcelChartAxis.HasMinorGridlines
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.HasMinorGridlines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: RemoveGridlines()
+  nameWithType: ExcelChartAxis.RemoveGridlines()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+    name: RemoveGridlines
+    nameWithType: ExcelChartAxis.RemoveGridlines
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+    name: RemoveGridlines
+    nameWithType: ExcelChartAxis.RemoveGridlines
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines(System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines(System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  isExternal: true
+  name: RemoveGridlines(Boolean, Boolean)
+  nameWithType: ExcelChartAxis.RemoveGridlines(Boolean, Boolean)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines(System.Boolean, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines(System.Boolean,System.Boolean)
+    name: RemoveGridlines
+    nameWithType: ExcelChartAxis.RemoveGridlines
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines(System.Boolean,System.Boolean)
+    name: RemoveGridlines
+    nameWithType: ExcelChartAxis.RemoveGridlines
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveGridlines
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines(System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines(System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  isExternal: true
+  name: AddGridlines(Boolean, Boolean)
+  nameWithType: ExcelChartAxis.AddGridlines(Boolean, Boolean)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines(System.Boolean, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines(System.Boolean,System.Boolean)
+    name: AddGridlines
+    nameWithType: ExcelChartAxis.AddGridlines
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines(System.Boolean,System.Boolean)
+    name: AddGridlines
+    nameWithType: ExcelChartAxis.AddGridlines
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddGridlines
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle(System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle(System.String)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  isExternal: true
+  name: AddTitle(String)
+  nameWithType: ExcelChartAxis.AddTitle(String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle(System.String)
+    name: AddTitle
+    nameWithType: ExcelChartAxis.AddTitle
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle(System.String)
+    name: AddTitle
+    nameWithType: ExcelChartAxis.AddTitle
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AddTitle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: RemoveTitle()
+  nameWithType: ExcelChartAxis.RemoveTitle()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
+    name: RemoveTitle
+    nameWithType: ExcelChartAxis.RemoveTitle
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
+    name: RemoveTitle
+    nameWithType: ExcelChartAxis.RemoveTitle
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.RemoveTitle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTickMark
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTickMark
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MajorTickMark
+  nameWithType: ExcelChartAxis.MajorTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTickMark
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark
+  name: MajorTickMark
+  nameWithType: ExcelChartAxisStandard.MajorTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTickMark
+- uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAxisTickMark
+  nameWithType: eAxisTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTickMark
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTickMark
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MinorTickMark
+  nameWithType: ExcelChartAxis.MinorTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTickMark
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark
+  name: MinorTickMark
+  nameWithType: ExcelChartAxisStandard.MinorTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTickMark
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AxisPosition
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AxisPosition
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: AxisPosition
+  nameWithType: ExcelChartAxis.AxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.AxisPosition
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition
+  name: AxisPosition
+  nameWithType: ExcelChartAxisStandard.AxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition
+- uid: OfficeOpenXml.Drawing.Chart.eAxisPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAxisPosition
+  nameWithType: eAxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisPosition
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Title
+  nameWithType: ExcelChartAxis.Title
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
+  name: Title
+  nameWithType: ExcelChartAxisStandard.Title
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartTitle
+  nameWithType: ExcelChartTitle
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinValue
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinValue
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MinValue
+  nameWithType: ExcelChartAxis.MinValue
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinValue
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
+  name: MinValue
+  nameWithType: ExcelChartAxisStandard.MinValue
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MaxValue
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MaxValue
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MaxValue
+  nameWithType: ExcelChartAxis.MaxValue
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MaxValue
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue
+  name: MaxValue
+  nameWithType: ExcelChartAxisStandard.MaxValue
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MaxValue
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LabelPosition
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LabelPosition
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: LabelPosition
+  nameWithType: ExcelChartAxis.LabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LabelPosition
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition
+  name: LabelPosition
+  nameWithType: ExcelChartAxisStandard.LabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LabelPosition
+- uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eTickLabelPosition
+  nameWithType: eTickLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Crosses
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Crosses
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Crosses
+  nameWithType: ExcelChartAxis.Crosses
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Crosses
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses
+  name: Crosses
+  nameWithType: ExcelChartAxisStandard.Crosses
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses
+- uid: OfficeOpenXml.Drawing.Chart.eCrosses
+  commentId: T:OfficeOpenXml.Drawing.Chart.eCrosses
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eCrosses
+  nameWithType: eCrosses
+  fullName: OfficeOpenXml.Drawing.Chart.eCrosses
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossBetween
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossBetween
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: CrossBetween
+  nameWithType: ExcelChartAxis.CrossBetween
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossBetween
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween
+  name: CrossBetween
+  nameWithType: ExcelChartAxisStandard.CrossBetween
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween
+- uid: OfficeOpenXml.Drawing.Chart.eCrossBetween
+  commentId: T:OfficeOpenXml.Drawing.Chart.eCrossBetween
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eCrossBetween
+  nameWithType: eCrossBetween
+  fullName: OfficeOpenXml.Drawing.Chart.eCrossBetween
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossesAt
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossesAt
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: CrossesAt
+  nameWithType: ExcelChartAxis.CrossesAt
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.CrossesAt
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt
+  name: CrossesAt
+  nameWithType: ExcelChartAxisStandard.CrossesAt
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossesAt
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Deleted
+  nameWithType: ExcelChartAxis.Deleted
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Deleted
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted
+  name: Deleted
+  nameWithType: ExcelChartAxisStandard.Deleted
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Deleted
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TickLabelPosition
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TickLabelPosition
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: TickLabelPosition
+  nameWithType: ExcelChartAxis.TickLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.TickLabelPosition
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition
+  name: TickLabelPosition
+  nameWithType: ExcelChartAxisStandard.TickLabelPosition
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.TickLabelPosition
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.DisplayUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.DisplayUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: DisplayUnit
+  nameWithType: ExcelChartAxis.DisplayUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.DisplayUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit
+  name: DisplayUnit
+  nameWithType: ExcelChartAxisStandard.DisplayUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.DisplayUnit
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MajorUnit
+  nameWithType: ExcelChartAxis.MajorUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit
+  name: MajorUnit
+  nameWithType: ExcelChartAxisStandard.MajorUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTimeUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTimeUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MajorTimeUnit
+  nameWithType: ExcelChartAxis.MajorTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MajorTimeUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit
+  name: MajorTimeUnit
+  nameWithType: ExcelChartAxisStandard.MajorTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MajorTimeUnit
+- uid: System.Nullable{OfficeOpenXml.Drawing.Chart.eTimeUnit}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.Chart.eTimeUnit}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eTimeUnit>
+  nameWithType: Nullable<eTimeUnit>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.Chart.eTimeUnit>
+  nameWithType.vb: Nullable(Of eTimeUnit)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.Chart.eTimeUnit)
+  name.vb: Nullable(Of eTimeUnit)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.eTimeUnit
+    name: eTimeUnit
+    nameWithType: eTimeUnit
+    fullName: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.eTimeUnit
+    name: eTimeUnit
+    nameWithType: eTimeUnit
+    fullName: OfficeOpenXml.Drawing.Chart.eTimeUnit
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MinorUnit
+  nameWithType: ExcelChartAxis.MinorUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit
+  name: MinorUnit
+  nameWithType: ExcelChartAxisStandard.MinorUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTimeUnit
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTimeUnit
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: MinorTimeUnit
+  nameWithType: ExcelChartAxis.MinorTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinorTimeUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit
+  name: MinorTimeUnit
+  nameWithType: ExcelChartAxisStandard.MinorTimeUnit
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinorTimeUnit
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LogBase
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LogBase
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: LogBase
+  nameWithType: ExcelChartAxis.LogBase
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.LogBase
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase
+  name: LogBase
+  nameWithType: ExcelChartAxisStandard.LogBase
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.LogBase
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Orientation
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Orientation
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  name: Orientation
+  nameWithType: ExcelChartAxis.Orientation
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Orientation
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation
+  name: Orientation
+  nameWithType: ExcelChartAxisStandard.Orientation
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Orientation
+- uid: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAxisOrientation
+  nameWithType: eAxisOrientation
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisOrientation

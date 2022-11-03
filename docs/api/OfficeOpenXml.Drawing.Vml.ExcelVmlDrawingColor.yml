@@ -1,0 +1,504 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+  id: ExcelVmlDrawingColor
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor(System.Drawing.Color)
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlDrawingColor
+  nameWithType: ExcelVmlDrawingColor
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlDrawingColor
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+    startLine: 11
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nRepresents a color in a vml.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVmlDrawingColor : XmlHelper'
+    content.vb: >-
+      Public Class ExcelVmlDrawingColor
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString
+  id: ColorString
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+  langs:
+  - csharp
+  - vb
+  name: ColorString
+  nameWithType: ExcelVmlDrawingColor.ColorString
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorString
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nA color string representing a color. Uses the HTML 4.0 color names, rgb decimal triplets or rgb hex triplets\nExample: \nColorString = &quot;rgb(200,100, 0)&quot;\nColorString = &quot;#FF0000&quot;\nColorString = &quot;Red&quot;\nColorString = &quot;#345&quot; //This is the same as #334455\n"
+  example: []
+  syntax:
+    content: public string ColorString { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ColorString As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor(System.Drawing.Color)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor(System.Drawing.Color)
+  id: SetColor(System.Drawing.Color)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+  langs:
+  - csharp
+  - vb
+  name: SetColor(Color)
+  nameWithType: ExcelVmlDrawingColor.SetColor(Color)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor(System.Drawing.Color)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColor
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSets the Color string with the color supplied.\n"
+  example: []
+  syntax:
+    content: public void SetColor(Color color)
+    parameters:
+    - id: color
+      type: System.Drawing.Color
+      description: ''
+    content.vb: Public Sub SetColor(color As Color)
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor
+  id: GetColor
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+  langs:
+  - csharp
+  - vb
+  name: GetColor()
+  nameWithType: ExcelVmlDrawingColor.GetColor()
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetColor
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingColor.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nGets the color for the color string\n"
+  example: []
+  syntax:
+    content: public Color GetColor()
+    return:
+      type: System.Drawing.Color
+      description: ''
+    content.vb: Public Function GetColor As Color
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString
+  name: ColorString
+  nameWithType: ExcelVmlDrawingColor.ColorString
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.ColorString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor
+  name: SetColor
+  nameWithType: ExcelVmlDrawingColor.SetColor
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.SetColor
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor
+  name: GetColor
+  nameWithType: ExcelVmlDrawingColor.GetColor
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor.GetColor

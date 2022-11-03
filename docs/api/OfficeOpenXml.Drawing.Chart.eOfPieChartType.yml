@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  id: eOfPieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eOfPieChartType.BarOfPie
+  - OfficeOpenXml.Drawing.Chart.eOfPieChartType.PieOfPie
+  langs:
+  - csharp
+  - vb
+  name: eOfPieChartType
+  nameWithType: eOfPieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eOfPieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eOfPieChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eOfPieChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nOfPie chart types\n"
+  example: []
+  syntax:
+    content: public enum eOfPieChartType
+    content.vb: Public Enum eOfPieChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eOfPieChartType.PieOfPie
+  commentId: F:OfficeOpenXml.Drawing.Chart.eOfPieChartType.PieOfPie
+  id: PieOfPie
+  parent: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  langs:
+  - csharp
+  - vb
+  name: PieOfPie
+  nameWithType: eOfPieChartType.PieOfPie
+  fullName: OfficeOpenXml.Drawing.Chart.eOfPieChartType.PieOfPie
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eOfPieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PieOfPie
+    path: ../src/EPPlus/Drawing/Chart/enums/eOfPieChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA pie of pie chart\n"
+  example: []
+  syntax:
+    content: PieOfPie = 68
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eOfPieChartType.BarOfPie
+  commentId: F:OfficeOpenXml.Drawing.Chart.eOfPieChartType.BarOfPie
+  id: BarOfPie
+  parent: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  langs:
+  - csharp
+  - vb
+  name: BarOfPie
+  nameWithType: eOfPieChartType.BarOfPie
+  fullName: OfficeOpenXml.Drawing.Chart.eOfPieChartType.BarOfPie
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eOfPieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarOfPie
+    path: ../src/EPPlus/Drawing/Chart/enums/eOfPieChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA bar of pie chart\n"
+  example: []
+  syntax:
+    content: BarOfPie = 71
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eOfPieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eOfPieChartType
+  nameWithType: eOfPieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eOfPieChartType

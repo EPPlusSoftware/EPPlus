@@ -1,0 +1,1209 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  id: ExcelDxfFont
+  parent: OfficeOpenXml.Style.Dxf
+  children:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign
+  langs:
+  - csharp
+  - vb
+  name: ExcelDxfFont
+  nameWithType: ExcelDxfFont
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDxfFont
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nA font in a differential formatting record\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDxfFont : ExcelDxfFontBase'
+    content.vb: >-
+      Public Class ExcelDxfFont
+          Inherits ExcelDxfFontBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  inheritedMembers:
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Bold
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Italic
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Strike
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Color
+  - OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Underline
+  - OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size
+  id: Size
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: ExcelDxfFont.Size
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Size
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nThe font size \n"
+  example: []
+  syntax:
+    content: public float? Size { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Single}
+    content.vb: Public Property Size As Single?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name
+  id: Name
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelDxfFont.Name
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nThe name of the font\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family
+  id: Family
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Family
+  nameWithType: ExcelDxfFont.Family
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Family
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nFont family \n"
+  example: []
+  syntax:
+    content: public int? Family { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property Family As Integer?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign
+  id: VerticalAlign
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: VerticalAlign
+  nameWithType: ExcelDxfFont.VerticalAlign
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalAlign
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nFont-Vertical Align\n"
+  example: []
+  syntax:
+    content: public ExcelVerticalAlignmentFont VerticalAlign { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+    content.vb: Public Property VerticalAlign As ExcelVerticalAlignmentFont
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline
+  id: Outline
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Outline
+  nameWithType: ExcelDxfFont.Outline
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Outline
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nDisplays only the inner and outer borders of each character. Similar to bold\n"
+  example: []
+  syntax:
+    content: public bool? Outline { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property Outline As Boolean?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow
+  id: Shadow
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Shadow
+  nameWithType: ExcelDxfFont.Shadow
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Shadow
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nShadow for the font. Used on Macintosh only.\n"
+  example: []
+  syntax:
+    content: public bool? Shadow { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property Shadow As Boolean?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense
+  id: Condense
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Condense
+  nameWithType: ExcelDxfFont.Condense
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Condense
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nCondence (squeeze it together). Used on Macintosh only.\n"
+  example: []
+  syntax:
+    content: public bool? Condense { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property Condense As Boolean?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend
+  id: Extend
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Extend
+  nameWithType: ExcelDxfFont.Extend
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Extend
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nExtends or stretches the text. Legacy property used in older speadsheet applications.\n"
+  example: []
+  syntax:
+    content: public bool? Extend { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property Extend As Boolean?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme
+  id: Scheme
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Scheme
+  nameWithType: ExcelDxfFont.Scheme
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Scheme
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nWhich font scheme to use from the theme\n"
+  example: []
+  syntax:
+    content: public eThemeFontCollectionType? Scheme { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType}
+    content.vb: Public Property Scheme As eThemeFontCollectionType?
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue
+  id: HasValue
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: HasValue
+  nameWithType: ExcelDxfFont.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasValue
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 211
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nIf the object has any properties set\n"
+  example: []
+  syntax:
+    content: public override bool HasValue { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property HasValue As Boolean
+  overridden: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.HasValue
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear
+  id: Clear
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelDxfFont.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Dxf
+  summary: "\nClears all properties\n"
+  example: []
+  syntax:
+    content: public override void Clear()
+    content.vb: Public Overrides Sub Clear
+  overridden: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear
+  overload: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  commentId: T:OfficeOpenXml.Style.Dxf.DxfStyleBase
+  parent: OfficeOpenXml.Style.Dxf
+  name: DxfStyleBase
+  nameWithType: DxfStyleBase
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfFontBase
+  nameWithType: ExcelDxfFontBase
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Bold
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Bold
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  name: Bold
+  nameWithType: ExcelDxfFontBase.Bold
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Bold
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Italic
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Italic
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  name: Italic
+  nameWithType: ExcelDxfFontBase.Italic
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Italic
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Strike
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Strike
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  name: Strike
+  nameWithType: ExcelDxfFontBase.Strike
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Strike
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Color
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Color
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  name: Color
+  nameWithType: ExcelDxfFontBase.Color
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Color
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Underline
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Underline
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  name: Underline
+  nameWithType: ExcelDxfFontBase.Underline
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Underline
+- uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  commentId: M:OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  parent: OfficeOpenXml.Style.Dxf.DxfStyleBase
+  isExternal: true
+  name: SetValueColor(XmlHelper, String, ExcelDxfColor)
+  nameWithType: DxfStyleBase.SetValueColor(XmlHelper, String, ExcelDxfColor)
+  fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper, System.String, OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor(OfficeOpenXml.XmlHelper,System.String,OfficeOpenXml.Style.Dxf.ExcelDxfColor)
+    name: SetValueColor
+    nameWithType: DxfStyleBase.SetValueColor
+    fullName: OfficeOpenXml.Style.Dxf.DxfStyleBase.SetValueColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+    nameWithType: XmlHelper
+    fullName: OfficeOpenXml.XmlHelper
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+    nameWithType: ExcelDxfColor
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size
+  name: Size
+  nameWithType: ExcelDxfFont.Size
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Size
+- uid: System.Nullable{System.Single}
+  commentId: T:System.Nullable{System.Single}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Single>
+  nameWithType: Nullable<Single>
+  fullName: System.Nullable<System.Single>
+  nameWithType.vb: Nullable(Of Single)
+  fullName.vb: System.Nullable(Of System.Single)
+  name.vb: Nullable(Of Single)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name
+  name: Name
+  nameWithType: ExcelDxfFont.Name
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family
+  name: Family
+  nameWithType: ExcelDxfFont.Family
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Family
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign
+  name: VerticalAlign
+  nameWithType: ExcelDxfFont.VerticalAlign
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.VerticalAlign
+- uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  commentId: T:OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+  parent: OfficeOpenXml.Style
+  name: ExcelVerticalAlignmentFont
+  nameWithType: ExcelVerticalAlignmentFont
+  fullName: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline
+  name: Outline
+  nameWithType: ExcelDxfFont.Outline
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Outline
+- uid: System.Nullable{System.Boolean}
+  commentId: T:System.Nullable{System.Boolean}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Boolean>
+  nameWithType: Nullable<Boolean>
+  fullName: System.Nullable<System.Boolean>
+  nameWithType.vb: Nullable(Of Boolean)
+  fullName.vb: System.Nullable(Of System.Boolean)
+  name.vb: Nullable(Of Boolean)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow
+  name: Shadow
+  nameWithType: ExcelDxfFont.Shadow
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Shadow
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense
+  name: Condense
+  nameWithType: ExcelDxfFont.Condense
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Condense
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend
+  name: Extend
+  nameWithType: ExcelDxfFont.Extend
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Extend
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme
+  name: Scheme
+  nameWithType: ExcelDxfFont.Scheme
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Scheme
+- uid: System.Nullable{OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eThemeFontCollectionType>
+  nameWithType: Nullable<eThemeFontCollectionType>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType>
+  nameWithType.vb: Nullable(Of eThemeFontCollectionType)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType)
+  name.vb: Nullable(Of eThemeFontCollectionType)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+    name: eThemeFontCollectionType
+    nameWithType: eThemeFontCollectionType
+    fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+    name: eThemeFontCollectionType
+    nameWithType: eThemeFontCollectionType
+    fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.HasValue
+  commentId: P:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.HasValue
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  name: HasValue
+  nameWithType: ExcelDxfFontBase.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.HasValue
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue
+  name: HasValue
+  nameWithType: ExcelDxfFont.HasValue
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.HasValue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear
+  commentId: M:OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear
+  parent: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+  name: Clear()
+  nameWithType: ExcelDxfFontBase.Clear()
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear()
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear
+    name: Clear
+    nameWithType: ExcelDxfFontBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear
+    name: Clear
+    nameWithType: ExcelDxfFontBase.Clear
+    fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase.Clear
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear*
+  commentId: Overload:OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear
+  name: Clear
+  nameWithType: ExcelDxfFont.Clear
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfFont.Clear

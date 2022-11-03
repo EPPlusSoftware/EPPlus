@@ -1,0 +1,894 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  id: ExcelPivotTableRowColumnFieldCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableRowColumnFieldCollection
+  nameWithType: ExcelPivotTableRowColumnFieldCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableRowColumnFieldCollection
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCollection class for row and column fields in a Pivottable \n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableRowColumnFieldCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>, IEnumerable<ExcelPivotTableField>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelPivotTableRowColumnFieldCollection
+          Inherits ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField)
+          Implements IEnumerable(Of ExcelPivotTableField), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.GetEnumerator
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.Count
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.Item(System.Int32)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  id: Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelPivotTableField)
+  nameWithType: ExcelPivotTableRowColumnFieldCollection.Add(ExcelPivotTableField)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdd a new row/column field\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableField Add(ExcelPivotTableField Field)
+    parameters:
+    - id: Field
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+      description: The field
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+      description: The new field
+    content.vb: Public Function Add(Field As ExcelPivotTableField) As ExcelPivotTableField
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  id: Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelPivotTableField)
+  nameWithType: ExcelPivotTableRowColumnFieldCollection.Remove(ExcelPivotTableField)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRemove a field\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelPivotTableField Field)
+    parameters:
+    - id: Field
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+      description: ''
+    content.vb: Public Sub Remove(Field As ExcelPivotTableField)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Int32)
+  nameWithType: ExcelPivotTableRowColumnFieldCollection.RemoveAt(Int32)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableRowColumnFieldCollection.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRemove a field at a specific position\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(int Index)
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub RemoveAt(Index As Integer)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  parent: OfficeOpenXml.Table.PivotTable
+  definition: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+  name: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>
+  nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField)
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  name.vb: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField)
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+    name: ExcelPivotTableFieldCollectionBase
+    nameWithType: ExcelPivotTableFieldCollectionBase
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    name: ExcelPivotTableField
+    nameWithType: ExcelPivotTableField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+    name: ExcelPivotTableFieldCollectionBase
+    nameWithType: ExcelPivotTableFieldCollectionBase
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    name: ExcelPivotTableField
+    nameWithType: ExcelPivotTableField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelPivotTableField>
+  nameWithType: IEnumerable<ExcelPivotTableField>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>
+  nameWithType.vb: IEnumerable(Of ExcelPivotTableField)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  name.vb: IEnumerable(Of ExcelPivotTableField)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    name: ExcelPivotTableField
+    nameWithType: ExcelPivotTableField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    name: ExcelPivotTableField
+    nameWithType: ExcelPivotTableField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.GetEnumerator
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.GetEnumerator
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  definition: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>.GetEnumerator()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>.GetEnumerator()
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField).GetEnumerator()
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>.GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField).GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  definition: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.Count
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.Count
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  definition: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Count
+  name: Count
+  nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>.Count
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>.Count
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField).Count
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField).Count
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}.Item(System.Int32)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase{OfficeOpenXml.Table.PivotTable.ExcelPivotTableField}
+  definition: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>.Item[Int32]
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>.Item[System.Int32]
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField).Item(Int32)
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelPivotTableFieldCollectionBase<ExcelPivotTableField>.Item
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<OfficeOpenXml.Table.PivotTable.ExcelPivotTableField>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelPivotTableFieldCollectionBase(Of ExcelPivotTableField).Item
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableField).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+  name: ExcelPivotTableFieldCollectionBase<T>
+  nameWithType: ExcelPivotTableFieldCollectionBase<T>
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of T)
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T)
+  name.vb: ExcelPivotTableFieldCollectionBase(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+    name: ExcelPivotTableFieldCollectionBase
+    nameWithType: ExcelPivotTableFieldCollectionBase
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+    name: ExcelPivotTableFieldCollectionBase
+    nameWithType: ExcelPivotTableFieldCollectionBase
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.GetEnumerator
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelPivotTableFieldCollectionBase<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>.GetEnumerator()
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of T).GetEnumerator()
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase<T>.GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase(Of T).GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelPivotTableFieldCollectionBase<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelPivotTableFieldCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Count
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Count
+  name: Count
+  nameWithType: ExcelPivotTableFieldCollectionBase<T>.Count
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>.Count
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of T).Count
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T).Count
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: ExcelPivotTableFieldCollectionBase<T>.Item[Int32]
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>.Item[System.Int32]
+  nameWithType.vb: ExcelPivotTableFieldCollectionBase(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelPivotTableFieldCollectionBase<T>.Item
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelPivotTableFieldCollectionBase(Of T).Item
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add
+  name: Add
+  nameWithType: ExcelPivotTableRowColumnFieldCollection.Add
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Add
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableField
+  nameWithType: ExcelPivotTableField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove
+  name: Remove
+  nameWithType: ExcelPivotTableRowColumnFieldCollection.Remove
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.Remove
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt
+  name: RemoveAt
+  nameWithType: ExcelPivotTableRowColumnFieldCollection.RemoveAt
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection.RemoveAt
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

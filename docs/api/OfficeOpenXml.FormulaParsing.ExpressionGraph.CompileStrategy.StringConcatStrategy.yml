@@ -1,0 +1,477 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  id: StringConcatStrategy
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  children:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.#ctor(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile
+  langs:
+  - csharp
+  - vb
+  name: StringConcatStrategy
+  nameWithType: StringConcatStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/StringConcatStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StringConcatStrategy
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/StringConcatStrategy.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  syntax:
+    content: 'public class StringConcatStrategy : CompileStrategy'
+    content.vb: >-
+      Public Class StringConcatStrategy
+          Inherits CompileStrategy
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy._expression
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.#ctor(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.#ctor(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)'
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  langs:
+  - csharp
+  - vb
+  name: StringConcatStrategy(Expression)
+  nameWithType: StringConcatStrategy.StringConcatStrategy(Expression)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.StringConcatStrategy(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/StringConcatStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/StringConcatStrategy.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  syntax:
+    content: public StringConcatStrategy(Expression expression)
+    parameters:
+    - id: expression
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    content.vb: Public Sub New(expression As Expression)
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile
+  id: Compile
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+  langs:
+  - csharp
+  - vb
+  name: Compile()
+  nameWithType: StringConcatStrategy.Compile()
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/StringConcatStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Compile
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/StringConcatStrategy.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  syntax:
+    content: public override Expression Compile()
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    content.vb: Public Overrides Function Compile As Expression
+  overridden: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: CompileStrategy
+  nameWithType: CompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy._expression
+  commentId: F:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy._expression
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  name: _expression
+  nameWithType: CompileStrategy._expression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy._expression
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.#ctor
+  name: StringConcatStrategy
+  nameWithType: StringConcatStrategy.StringConcatStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.StringConcatStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: Expression
+  nameWithType: Expression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  name: Compile()
+  nameWithType: CompileStrategy.Compile()
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile
+    name: Compile
+    nameWithType: CompileStrategy.Compile
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile
+    name: Compile
+    nameWithType: CompileStrategy.Compile
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy.Compile
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile
+  name: Compile
+  nameWithType: StringConcatStrategy.Compile
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy.Compile

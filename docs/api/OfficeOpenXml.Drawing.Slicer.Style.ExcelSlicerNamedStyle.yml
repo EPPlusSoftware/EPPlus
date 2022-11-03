@@ -1,0 +1,855 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  id: ExcelSlicerNamedStyle
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  children:
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable
+  langs:
+  - csharp
+  - vb
+  name: ExcelSlicerNamedStyle
+  nameWithType: ExcelSlicerNamedStyle
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSlicerNamedStyle
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nA named table style that applies to tables only\n"
+  example: []
+  syntax:
+    content: 'public class ExcelSlicerNamedStyle : XmlHelper'
+    content.vb: >-
+      Public Class ExcelSlicerNamedStyle
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name
+  id: Name
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelSlicerNamedStyle.Name
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nThe name of the table named style\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable
+  id: WholeTable
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: WholeTable
+  nameWithType: ExcelSlicerNamedStyle.WholeTable
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WholeTable
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to the entire content of a table or pivot table\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerTableStyleElement WholeTable { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelSlicerTableStyleElement
+    content.vb: Public ReadOnly Property WholeTable As ExcelSlicerTableStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow
+  id: HeaderRow
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: HeaderRow
+  nameWithType: ExcelSlicerNamedStyle.HeaderRow
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderRow
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to the header row of a table or pivot table\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerTableStyleElement HeaderRow { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelSlicerTableStyleElement
+    content.vb: Public ReadOnly Property HeaderRow As ExcelSlicerTableStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData
+  id: SelectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: SelectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.SelectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to slicer item that is selected\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement SelectedItemWithData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property SelectedItemWithData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData
+  id: SelectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: SelectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.SelectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to a select slicer item with no data.\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement SelectedItemWithNoData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property SelectedItemWithNoData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData
+  id: UnselectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: UnselectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.UnselectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnselectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 149
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to a slicer item with data that is not selected\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement UnselectedItemWithData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property UnselectedItemWithData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData
+  id: UnselectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: UnselectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.UnselectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnselectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 159
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to a slicer item with no data that is not selected\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement UnselectedItemWithNoData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property UnselectedItemWithNoData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+  id: HoveredSelectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: HoveredSelectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredSelectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to a selected slicer item with data and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement HoveredSelectedItemWithData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property HoveredSelectedItemWithData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+  id: HoveredSelectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: HoveredSelectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredSelectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to a selected slicer item with no data and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement HoveredSelectedItemWithNoData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property HoveredSelectedItemWithNoData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+  id: HoveredUnselectedItemWithData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: HoveredUnselectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredUnselectedItemWithData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to a slicer item with data that is not selected and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement HoveredUnselectedItemWithData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property HoveredUnselectedItemWithData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData
+  commentId: P:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData
+  id: HoveredUnselectedItemWithNoData
+  parent: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  langs:
+  - csharp
+  - vb
+  name: HoveredUnselectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HoveredUnselectedItemWithNoData
+    path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
+    startLine: 200
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer.Style
+  summary: "\nApplies to a selected slicer item with no data and over which the mouse is paused on\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerStyleElement HoveredUnselectedItemWithNoData { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    content.vb: Public ReadOnly Property HoveredUnselectedItemWithNoData As ExcelSlicerStyleElement
+  overload: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Slicer.Style
+  commentId: N:OfficeOpenXml.Drawing.Slicer.Style
+  name: OfficeOpenXml.Drawing.Slicer.Style
+  nameWithType: OfficeOpenXml.Drawing.Slicer.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name
+  name: Name
+  nameWithType: ExcelSlicerNamedStyle.Name
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable
+  name: WholeTable
+  nameWithType: ExcelSlicerNamedStyle.WholeTable
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.WholeTable
+- uid: OfficeOpenXml.Style.ExcelSlicerTableStyleElement
+  commentId: T:OfficeOpenXml.Style.ExcelSlicerTableStyleElement
+  parent: OfficeOpenXml.Style
+  name: ExcelSlicerTableStyleElement
+  nameWithType: ExcelSlicerTableStyleElement
+  fullName: OfficeOpenXml.Style.ExcelSlicerTableStyleElement
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow
+  name: HeaderRow
+  nameWithType: ExcelSlicerNamedStyle.HeaderRow
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HeaderRow
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData
+  name: SelectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.SelectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithData
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  name: ExcelSlicerStyleElement
+  nameWithType: ExcelSlicerStyleElement
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData
+  name: SelectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.SelectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.SelectedItemWithNoData
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData
+  name: UnselectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.UnselectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithData
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData
+  name: UnselectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.UnselectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.UnselectedItemWithNoData
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+  name: HoveredSelectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithData
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+  name: HoveredSelectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredSelectedItemWithNoData
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+  name: HoveredUnselectedItemWithData
+  nameWithType: ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithData
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData
+  name: HoveredUnselectedItemWithNoData
+  nameWithType: ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle.HoveredUnselectedItemWithNoData

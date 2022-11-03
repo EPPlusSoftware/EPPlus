@@ -1,0 +1,53 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Utils.TypeConversion
+  commentId: N:OfficeOpenXml.Utils.TypeConversion
+  id: OfficeOpenXml.Utils.TypeConversion
+  children:
+  - OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Utils.TypeConversion
+  nameWithType: OfficeOpenXml.Utils.TypeConversion
+  fullName: OfficeOpenXml.Utils.TypeConversion
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  commentId: T:OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+  name: ReturnTypeWrapper<T>
+  nameWithType: ReturnTypeWrapper<T>
+  fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper<T>
+  nameWithType.vb: ReturnTypeWrapper(Of T)
+  fullName.vb: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper(Of T)
+  name.vb: ReturnTypeWrapper(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+    name: ReturnTypeWrapper
+    nameWithType: ReturnTypeWrapper
+    fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+    name: ReturnTypeWrapper
+    nameWithType: ReturnTypeWrapper
+    fullName: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

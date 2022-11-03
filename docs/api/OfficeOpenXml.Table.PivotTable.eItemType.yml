@@ -1,0 +1,573 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.eItemType
+  commentId: T:OfficeOpenXml.Table.PivotTable.eItemType
+  id: eItemType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.eItemType.Avg
+  - OfficeOpenXml.Table.PivotTable.eItemType.Blank
+  - OfficeOpenXml.Table.PivotTable.eItemType.Count
+  - OfficeOpenXml.Table.PivotTable.eItemType.CountA
+  - OfficeOpenXml.Table.PivotTable.eItemType.Data
+  - OfficeOpenXml.Table.PivotTable.eItemType.Default
+  - OfficeOpenXml.Table.PivotTable.eItemType.Grand
+  - OfficeOpenXml.Table.PivotTable.eItemType.Max
+  - OfficeOpenXml.Table.PivotTable.eItemType.Min
+  - OfficeOpenXml.Table.PivotTable.eItemType.Product
+  - OfficeOpenXml.Table.PivotTable.eItemType.StdDev
+  - OfficeOpenXml.Table.PivotTable.eItemType.StdDevP
+  - OfficeOpenXml.Table.PivotTable.eItemType.Sum
+  - OfficeOpenXml.Table.PivotTable.eItemType.Var
+  - OfficeOpenXml.Table.PivotTable.eItemType.VarP
+  langs:
+  - csharp
+  - vb
+  name: eItemType
+  nameWithType: eItemType
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eItemType
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe item type for a pivot table field\n"
+  example: []
+  syntax:
+    content: public enum eItemType
+    content.vb: Public Enum eItemType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Data
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Data
+  id: Data
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Data
+  nameWithType: eItemType.Data
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Data
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Data
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents data.\n"
+  example: []
+  syntax:
+    content: Data = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Avg
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Avg
+  id: Avg
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Avg
+  nameWithType: eItemType.Avg
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Avg
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Avg
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents an &quot;average&quot; aggregate function.\n"
+  example: []
+  syntax:
+    content: Avg = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Blank
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Blank
+  id: Blank
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Blank
+  nameWithType: eItemType.Blank
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Blank
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Blank
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents a blank line.\n"
+  example: []
+  syntax:
+    content: Blank = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Count
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Count
+  id: Count
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: eItemType.Count
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Count
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents custom the &quot;count&quot; aggregate function.\n"
+  example: []
+  syntax:
+    content: Count = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.CountA
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.CountA
+  id: CountA
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: CountA
+  nameWithType: eItemType.CountA
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.CountA
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountA
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents custom the &quot;count numbers&quot; aggregate.\n"
+  example: []
+  syntax:
+    content: CountA = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Default
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Default
+  id: Default
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: eItemType.Default
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Default
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the default type for this PivotTable. \nThe default pivot item type is the &quot;total&quot; aggregate function.\n"
+  example: []
+  syntax:
+    content: Default = 5
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Grand
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Grand
+  id: Grand
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Grand
+  nameWithType: eItemType.Grand
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Grand
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Grand
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot items represents the grand total line.\n"
+  example: []
+  syntax:
+    content: Grand = 6
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Max
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Max
+  id: Max
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: eItemType.Max
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Max
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Max
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;maximum&quot; aggregate function.\n"
+  example: []
+  syntax:
+    content: Max = 7
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Min
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Min
+  id: Min
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: eItemType.Min
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Min
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Min
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;minimum&quot; aggregate function.\n"
+  example: []
+  syntax:
+    content: Min = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Product
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Product
+  id: Product
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Product
+  nameWithType: eItemType.Product
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Product
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Product
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;product&quot; function.\n"
+  example: []
+  syntax:
+    content: Product = 9
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.StdDev
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.StdDev
+  id: StdDev
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: StdDev
+  nameWithType: eItemType.StdDev
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.StdDev
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDev
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;standard deviation&quot; aggregate function.\n"
+  example: []
+  syntax:
+    content: StdDev = 10
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.StdDevP
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.StdDevP
+  id: StdDevP
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: StdDevP
+  nameWithType: eItemType.StdDevP
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.StdDevP
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDevP
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;standard deviation population&quot; aggregate function.\n"
+  example: []
+  syntax:
+    content: StdDevP = 11
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Sum
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Sum
+  id: Sum
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Sum
+  nameWithType: eItemType.Sum
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Sum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sum
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;sum&quot; aggregate value.\n"
+  example: []
+  syntax:
+    content: Sum = 12
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.Var
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.Var
+  id: Var
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: Var
+  nameWithType: eItemType.Var
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.Var
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Var
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;variance&quot; aggregate value.\n"
+  example: []
+  syntax:
+    content: Var = 13
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eItemType.VarP
+  commentId: F:OfficeOpenXml.Table.PivotTable.eItemType.VarP
+  id: VarP
+  parent: OfficeOpenXml.Table.PivotTable.eItemType
+  langs:
+  - csharp
+  - vb
+  name: VarP
+  nameWithType: eItemType.VarP
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType.VarP
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eItemType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VarP
+    path: ../src/EPPlus/Table/PivotTable/enums/eItemType.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot item represents the &quot;variance population&quot; aggregate value.\n"
+  example: []
+  syntax:
+    content: VarP = 14
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eItemType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.eItemType
+  commentId: T:OfficeOpenXml.Table.PivotTable.eItemType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eItemType
+  nameWithType: eItemType
+  fullName: OfficeOpenXml.Table.PivotTable.eItemType

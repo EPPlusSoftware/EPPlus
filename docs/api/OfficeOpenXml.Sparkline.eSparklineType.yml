@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sparkline.eSparklineType
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineType
+  id: eSparklineType
+  parent: OfficeOpenXml.Sparkline
+  children:
+  - OfficeOpenXml.Sparkline.eSparklineType.Column
+  - OfficeOpenXml.Sparkline.eSparklineType.Line
+  - OfficeOpenXml.Sparkline.eSparklineType.Stacked
+  langs:
+  - csharp
+  - vb
+  name: eSparklineType
+  nameWithType: eSparklineType
+  fullName: OfficeOpenXml.Sparkline.eSparklineType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSparklineType
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nType of sparkline\n"
+  example: []
+  syntax:
+    content: public enum eSparklineType
+    content.vb: Public Enum eSparklineType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Sparkline.eSparklineType.Line
+  commentId: F:OfficeOpenXml.Sparkline.eSparklineType.Line
+  id: Line
+  parent: OfficeOpenXml.Sparkline.eSparklineType
+  langs:
+  - csharp
+  - vb
+  name: Line
+  nameWithType: eSparklineType.Line
+  fullName: OfficeOpenXml.Sparkline.eSparklineType.Line
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Line
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nLine Sparkline\n"
+  example: []
+  syntax:
+    content: Line = 0
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Sparkline.eSparklineType.Column
+  commentId: F:OfficeOpenXml.Sparkline.eSparklineType.Column
+  id: Column
+  parent: OfficeOpenXml.Sparkline.eSparklineType
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: eSparklineType.Column
+  fullName: OfficeOpenXml.Sparkline.eSparklineType.Column
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nColumn Sparkline\n"
+  example: []
+  syntax:
+    content: Column = 1
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Sparkline.eSparklineType.Stacked
+  commentId: F:OfficeOpenXml.Sparkline.eSparklineType.Stacked
+  id: Stacked
+  parent: OfficeOpenXml.Sparkline.eSparklineType
+  langs:
+  - csharp
+  - vb
+  name: Stacked
+  nameWithType: eSparklineType.Stacked
+  fullName: OfficeOpenXml.Sparkline.eSparklineType.Stacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Stacked
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nWin/Loss Sparkline\n"
+  example: []
+  syntax:
+    content: Stacked = 2
+    return:
+      type: OfficeOpenXml.Sparkline.eSparklineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline
+- uid: OfficeOpenXml.Sparkline.eSparklineType
+  commentId: T:OfficeOpenXml.Sparkline.eSparklineType
+  parent: OfficeOpenXml.Sparkline
+  name: eSparklineType
+  nameWithType: eSparklineType
+  fullName: OfficeOpenXml.Sparkline.eSparklineType

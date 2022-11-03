@@ -1,0 +1,573 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  commentId: T:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  id: LoadFunctionFunctionParamsBase
+  parent: OfficeOpenXml.LoadFunctions
+  children:
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  langs:
+  - csharp
+  - vb
+  name: LoadFunctionFunctionParamsBase
+  nameWithType: LoadFunctionFunctionParamsBase
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFunctionFunctionParamsBase
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nBase class for parameter classes for Load functions\n"
+  example: []
+  syntax:
+    content: public abstract class LoadFunctionFunctionParamsBase
+    content.vb: Public MustInherit Class LoadFunctionFunctionParamsBase
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  id: PrintHeaders
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  langs:
+  - csharp
+  - vb
+  name: PrintHeaders
+  nameWithType: LoadFunctionFunctionParamsBase.PrintHeaders
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrintHeaders
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nIf true a row with headers will be added above the data\n"
+  example: []
+  syntax:
+    content: public bool PrintHeaders { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PrintHeaders As Boolean
+  overload: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  id: TableName
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  langs:
+  - csharp
+  - vb
+  name: TableName
+  nameWithType: LoadFunctionFunctionParamsBase.TableName
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableName
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nA custom name for the table, if created. \nThe TableName must be unique within the workbook and be a valid table name.\n"
+  example: []
+  syntax:
+    content: public string TableName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TableName As String
+  overload: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  id: TableStyle
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  langs:
+  - csharp
+  - vb
+  name: TableStyle
+  nameWithType: LoadFunctionFunctionParamsBase.TableStyle
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyle
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFunctionFunctionParamsBase.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions
+  summary: "\nIf set to another value than TableStyles.None the data will be added to a\ntable with the specified style\n"
+  example: []
+  syntax:
+    content: public TableStyles? TableStyle { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Table.TableStyles}
+    content.vb: Public Property TableStyle As TableStyles?
+  overload: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.LoadFunctions
+  commentId: N:OfficeOpenXml.LoadFunctions
+  name: OfficeOpenXml.LoadFunctions
+  nameWithType: OfficeOpenXml.LoadFunctions
+  fullName: OfficeOpenXml.LoadFunctions
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  name: PrintHeaders
+  nameWithType: LoadFunctionFunctionParamsBase.PrintHeaders
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  name: TableName
+  nameWithType: LoadFunctionFunctionParamsBase.TableName
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  name: TableStyle
+  nameWithType: LoadFunctionFunctionParamsBase.TableStyle
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+- uid: System.Nullable{OfficeOpenXml.Table.TableStyles}
+  commentId: T:System.Nullable{OfficeOpenXml.Table.TableStyles}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<TableStyles>
+  nameWithType: Nullable<TableStyles>
+  fullName: System.Nullable<OfficeOpenXml.Table.TableStyles>
+  nameWithType.vb: Nullable(Of TableStyles)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Table.TableStyles)
+  name.vb: Nullable(Of TableStyles)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

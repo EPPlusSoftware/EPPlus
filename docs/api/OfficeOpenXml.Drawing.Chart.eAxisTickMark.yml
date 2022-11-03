@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  id: eAxisTickMark
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eAxisTickMark.Cross
+  - OfficeOpenXml.Drawing.Chart.eAxisTickMark.In
+  - OfficeOpenXml.Drawing.Chart.eAxisTickMark.None
+  - OfficeOpenXml.Drawing.Chart.eAxisTickMark.Out
+  langs:
+  - csharp
+  - vb
+  name: eAxisTickMark
+  nameWithType: eAxisTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eAxisTickMark
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nTickmarks\n"
+  example: []
+  syntax:
+    content: public enum eAxisTickMark
+    content.vb: Public Enum eAxisTickMark
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark.Cross
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisTickMark.Cross
+  id: Cross
+  parent: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  langs:
+  - csharp
+  - vb
+  name: Cross
+  nameWithType: eAxisTickMark.Cross
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisTickMark.Cross
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cross
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe tick marks will cross the axis. \n"
+  example: []
+  syntax:
+    content: Cross = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark.In
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisTickMark.In
+  id: In
+  parent: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  langs:
+  - csharp
+  - vb
+  name: In
+  nameWithType: eAxisTickMark.In
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisTickMark.In
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: In
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe tick marks will be inside the plot area. \n"
+  example: []
+  syntax:
+    content: In = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark.None
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisTickMark.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eAxisTickMark.None
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisTickMark.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThere will be no tick marks.\n"
+  example: []
+  syntax:
+    content: None = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark.Out
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisTickMark.Out
+  id: Out
+  parent: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  langs:
+  - csharp
+  - vb
+  name: Out
+  nameWithType: eAxisTickMark.Out
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisTickMark.Out
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Out
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisTickMark.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe tick marks will be outside the plot area.\n"
+  example: []
+  syntax:
+    content: Out = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisTickMark
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAxisTickMark
+  nameWithType: eAxisTickMark
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisTickMark

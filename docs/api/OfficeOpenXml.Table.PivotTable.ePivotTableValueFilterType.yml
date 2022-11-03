@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  id: ePivotTableValueFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotEqual
+  langs:
+  - csharp
+  - vb
+  name: ePivotTableValueFilterType
+  nameWithType: ePivotTableValueFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePivotTableValueFilterType
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines a pivot table value filter type for numbers and strings\n"
+  example: []
+  syntax:
+    content: public enum ePivotTableValueFilterType
+    content.vb: Public Enum ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueBetween
+  id: ValueBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueBetween
+  nameWithType: ePivotTableValueFilterType.ValueBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Value Between\n"
+  example: []
+  syntax:
+    content: ValueBetween = 300
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueEqual
+  id: ValueEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueEqual
+  nameWithType: ePivotTableValueFilterType.ValueEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Equal\n"
+  example: []
+  syntax:
+    content: ValueEqual = 301
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThan
+  id: ValueGreaterThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueGreaterThan
+  nameWithType: ePivotTableValueFilterType.ValueGreaterThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueGreaterThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - GreaterThan\n"
+  example: []
+  syntax:
+    content: ValueGreaterThan = 302
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThanOrEqual
+  id: ValueGreaterThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueGreaterThanOrEqual
+  nameWithType: ePivotTableValueFilterType.ValueGreaterThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueGreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueGreaterThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Greater Than Or Equal\n"
+  example: []
+  syntax:
+    content: ValueGreaterThanOrEqual = 303
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThan
+  id: ValueLessThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueLessThan
+  nameWithType: ePivotTableValueFilterType.ValueLessThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueLessThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Less Than \n"
+  example: []
+  syntax:
+    content: ValueLessThan = 304
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThanOrEqual
+  id: ValueLessThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueLessThanOrEqual
+  nameWithType: ePivotTableValueFilterType.ValueLessThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueLessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueLessThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Less Than Or Equal\n"
+  example: []
+  syntax:
+    content: ValueLessThanOrEqual = 305
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotBetween
+  id: ValueNotBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueNotBetween
+  nameWithType: ePivotTableValueFilterType.ValueNotBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueNotBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Not Between\n"
+  example: []
+  syntax:
+    content: ValueNotBetween = 306
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotEqual
+  id: ValueNotEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueNotEqual
+  nameWithType: ePivotTableValueFilterType.ValueNotEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType.ValueNotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueNotEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Not Equal\n"
+  example: []
+  syntax:
+    content: ValueNotEqual = 307
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableValueFilterType
+  nameWithType: ePivotTableValueFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType

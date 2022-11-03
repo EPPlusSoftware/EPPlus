@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml
@@ -1486,16 +1487,49 @@ namespace OfficeOpenXml
         public string LocalAddress 
         { 
             get
-            {
-                var localAddress = FirstAddress;
-                var ix = localAddress.TrimEnd().LastIndexOf('!', localAddress.Length - 2);  //Last index can be ! if address is #REF!, so check from 
-                if (ix>=0)
+            {                
+                if (Addresses == null)
                 {
-                    return localAddress.Substring(ix + 1);
+                    if (_table == null)
+                    {
+                        return GetAddress(_fromRow, _fromCol, _toRow, _toCol, _fromRowFixed, _fromColFixed, _toRowFixed, _toColFixed);
+                    }
+                    else
+                    {
+                        return RemoveSheetName(FirstAddress);
+                    }
                 }
-                return localAddress;
+                else
+                {
+                    var sb = new StringBuilder();
+                    foreach (var a in Addresses)
+                    {
+                        if (a._table == null)
+                        {
+                            sb.Append(GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol, a._fromRowFixed, a._fromColFixed, a._toRowFixed, a._toColFixed));
+                        }
+                        else
+                        {
+                            sb.Append(RemoveSheetName(a.Address));
+                        }
+                        sb.Append(",");
+                    }
+                    return sb.ToString(0, sb.Length - 1);
+                }
             }
         }
+
+        private static string RemoveSheetName(string address)
+        {
+            var ix = address.TrimEnd().LastIndexOf('!', address.Length - 2);  //Last index can be ! if address is #REF!, so check from 
+            if (ix >= 0)
+            {
+                address = address.Substring(ix + 1);
+            }
+
+            return address;
+        }
+
         /// <summary>
         /// The address without the workbook reference
         /// </summary>
@@ -1547,7 +1581,7 @@ namespace OfficeOpenXml
             {
                 if (address[ix] == '\'')
                 {
-                    var ret=GetString(address, ix, out endIx);
+                    var ret=GetString(address, ix+1, out endIx);
                     endIx++;
                     return ret; 
                 }

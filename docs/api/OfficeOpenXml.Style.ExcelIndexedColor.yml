@@ -1,0 +1,2358 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelIndexedColor
+  commentId: T:OfficeOpenXml.Style.ExcelIndexedColor
+  id: ExcelIndexedColor
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed0
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed1
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed10
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed11
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed12
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed13
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed14
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed15
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed16
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed17
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed18
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed19
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed2
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed20
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed21
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed22
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed23
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed24
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed25
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed26
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed27
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed28
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed29
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed3
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed30
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed31
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed32
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed33
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed34
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed35
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed36
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed37
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed38
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed39
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed4
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed40
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed41
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed42
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed43
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed44
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed45
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed46
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed47
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed48
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed49
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed5
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed50
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed51
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed52
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed53
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed54
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed55
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed56
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed57
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed58
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed59
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed6
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed60
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed61
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed62
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed63
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed64SystemForeground
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed65SystemBackground
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed7
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed8
+  - OfficeOpenXml.Style.ExcelIndexedColor.Indexed9
+  langs:
+  - csharp
+  - vb
+  name: ExcelIndexedColor
+  nameWithType: ExcelIndexedColor
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelIndexedColor
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nAn indexed color\n"
+  example: []
+  syntax:
+    content: public enum ExcelIndexedColor
+    content.vb: Public Enum ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed0
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed0
+  id: Indexed0
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed0
+  nameWithType: ExcelIndexedColor.Indexed0
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed0
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed0
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBlack\n"
+  example: []
+  syntax:
+    content: Indexed0 = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed1
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed1
+  id: Indexed1
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed1
+  nameWithType: ExcelIndexedColor.Indexed1
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed1
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nWhite\n"
+  example: []
+  syntax:
+    content: Indexed1 = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed2
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed2
+  id: Indexed2
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed2
+  nameWithType: ExcelIndexedColor.Indexed2
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed2
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nRed\n"
+  example: []
+  syntax:
+    content: Indexed2 = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed3
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed3
+  id: Indexed3
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed3
+  nameWithType: ExcelIndexedColor.Indexed3
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed3
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLime\n"
+  example: []
+  syntax:
+    content: Indexed3 = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed4
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed4
+  id: Indexed4
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed4
+  nameWithType: ExcelIndexedColor.Indexed4
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed4
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBlue\n"
+  example: []
+  syntax:
+    content: Indexed4 = 4
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed5
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed5
+  id: Indexed5
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed5
+  nameWithType: ExcelIndexedColor.Indexed5
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed5
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nYellow\n"
+  example: []
+  syntax:
+    content: Indexed5 = 5
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed6
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed6
+  id: Indexed6
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed6
+  nameWithType: ExcelIndexedColor.Indexed6
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed6
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nMagenta\n"
+  example: []
+  syntax:
+    content: Indexed6 = 6
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed7
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed7
+  id: Indexed7
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed7
+  nameWithType: ExcelIndexedColor.Indexed7
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed7
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nAqua \n"
+  example: []
+  syntax:
+    content: Indexed7 = 7
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed8
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed8
+  id: Indexed8
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed8
+  nameWithType: ExcelIndexedColor.Indexed8
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed8
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBlack\n"
+  example: []
+  syntax:
+    content: Indexed8 = 8
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed9
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed9
+  id: Indexed9
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed9
+  nameWithType: ExcelIndexedColor.Indexed9
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed9
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nWhite\n"
+  example: []
+  syntax:
+    content: Indexed9 = 9
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed10
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed10
+  id: Indexed10
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed10
+  nameWithType: ExcelIndexedColor.Indexed10
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed10
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nRed\n"
+  example: []
+  syntax:
+    content: Indexed10 = 10
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed11
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed11
+  id: Indexed11
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed11
+  nameWithType: ExcelIndexedColor.Indexed11
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed11
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLime\n"
+  example: []
+  syntax:
+    content: Indexed11 = 11
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed12
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed12
+  id: Indexed12
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed12
+  nameWithType: ExcelIndexedColor.Indexed12
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed12
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nBlue\n"
+  example: []
+  syntax:
+    content: Indexed12 = 12
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed13
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed13
+  id: Indexed13
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed13
+  nameWithType: ExcelIndexedColor.Indexed13
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed13
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nYellow\n"
+  example: []
+  syntax:
+    content: Indexed13 = 13
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed14
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed14
+  id: Indexed14
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed14
+  nameWithType: ExcelIndexedColor.Indexed14
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed14
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nMagenta\n"
+  example: []
+  syntax:
+    content: Indexed14 = 14
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed15
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed15
+  id: Indexed15
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed15
+  nameWithType: ExcelIndexedColor.Indexed15
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed15
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nAqua \n"
+  example: []
+  syntax:
+    content: Indexed15 = 15
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed16
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed16
+  id: Indexed16
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed16
+  nameWithType: ExcelIndexedColor.Indexed16
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed16
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nMaroon (#00800000)\n"
+  example: []
+  syntax:
+    content: Indexed16 = 16
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed17
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed17
+  id: Indexed17
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed17
+  nameWithType: ExcelIndexedColor.Indexed17
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed17
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGreen (#00008000)\n"
+  example: []
+  syntax:
+    content: Indexed17 = 17
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed18
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed18
+  id: Indexed18
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed18
+  nameWithType: ExcelIndexedColor.Indexed18
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed18
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed18
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNavy (#00000080)\n"
+  example: []
+  syntax:
+    content: Indexed18 = 18
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed19
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed19
+  id: Indexed19
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed19
+  nameWithType: ExcelIndexedColor.Indexed19
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed19
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed19
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00808000\n"
+  example: []
+  syntax:
+    content: Indexed19 = 19
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed20
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed20
+  id: Indexed20
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed20
+  nameWithType: ExcelIndexedColor.Indexed20
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed20
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00800080\n"
+  example: []
+  syntax:
+    content: Indexed20 = 20
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed21
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed21
+  id: Indexed21
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed21
+  nameWithType: ExcelIndexedColor.Indexed21
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed21
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed21
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00008080\n"
+  example: []
+  syntax:
+    content: Indexed21 = 21
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed22
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed22
+  id: Indexed22
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed22
+  nameWithType: ExcelIndexedColor.Indexed22
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed22
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed22
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00C0C0C0\n"
+  example: []
+  syntax:
+    content: Indexed22 = 22
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed23
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed23
+  id: Indexed23
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed23
+  nameWithType: ExcelIndexedColor.Indexed23
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed23
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed23
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00808080\n"
+  example: []
+  syntax:
+    content: Indexed23 = 23
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed24
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed24
+  id: Indexed24
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed24
+  nameWithType: ExcelIndexedColor.Indexed24
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed24
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed24
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #009999FF\n"
+  example: []
+  syntax:
+    content: Indexed24 = 24
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed25
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed25
+  id: Indexed25
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed25
+  nameWithType: ExcelIndexedColor.Indexed25
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed25
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed25
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00993366\n"
+  example: []
+  syntax:
+    content: Indexed25 = 25
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed26
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed26
+  id: Indexed26
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed26
+  nameWithType: ExcelIndexedColor.Indexed26
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed26
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed26
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FFFFCC\n"
+  example: []
+  syntax:
+    content: Indexed26 = 26
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed27
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed27
+  id: Indexed27
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed27
+  nameWithType: ExcelIndexedColor.Indexed27
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed27
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed27
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00CCFFFF\n"
+  example: []
+  syntax:
+    content: Indexed27 = 27
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed28
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed28
+  id: Indexed28
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed28
+  nameWithType: ExcelIndexedColor.Indexed28
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed28
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed28
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00660066\n"
+  example: []
+  syntax:
+    content: Indexed28 = 28
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed29
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed29
+  id: Indexed29
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed29
+  nameWithType: ExcelIndexedColor.Indexed29
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed29
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed29
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FF8080\n"
+  example: []
+  syntax:
+    content: Indexed29 = 29
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed30
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed30
+  id: Indexed30
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed30
+  nameWithType: ExcelIndexedColor.Indexed30
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed30
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed30
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #000066CC\n"
+  example: []
+  syntax:
+    content: Indexed30 = 30
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed31
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed31
+  id: Indexed31
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed31
+  nameWithType: ExcelIndexedColor.Indexed31
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed31
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed31
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00CCCCFF\n"
+  example: []
+  syntax:
+    content: Indexed31 = 31
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed32
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed32
+  id: Indexed32
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed32
+  nameWithType: ExcelIndexedColor.Indexed32
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed32
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed32
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00000080\n"
+  example: []
+  syntax:
+    content: Indexed32 = 32
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed33
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed33
+  id: Indexed33
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed33
+  nameWithType: ExcelIndexedColor.Indexed33
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed33
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed33
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FF00FF\n"
+  example: []
+  syntax:
+    content: Indexed33 = 33
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed34
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed34
+  id: Indexed34
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed34
+  nameWithType: ExcelIndexedColor.Indexed34
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed34
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed34
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FFFF00\n"
+  example: []
+  syntax:
+    content: Indexed34 = 34
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed35
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed35
+  id: Indexed35
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed35
+  nameWithType: ExcelIndexedColor.Indexed35
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed35
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed35
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #0000FFFF\n"
+  example: []
+  syntax:
+    content: Indexed35 = 35
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed36
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed36
+  id: Indexed36
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed36
+  nameWithType: ExcelIndexedColor.Indexed36
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed36
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed36
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00800080\n"
+  example: []
+  syntax:
+    content: Indexed36 = 36
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed37
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed37
+  id: Indexed37
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed37
+  nameWithType: ExcelIndexedColor.Indexed37
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed37
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed37
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00800000\n"
+  example: []
+  syntax:
+    content: Indexed37 = 37
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed38
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed38
+  id: Indexed38
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed38
+  nameWithType: ExcelIndexedColor.Indexed38
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed38
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed38
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00008080\n"
+  example: []
+  syntax:
+    content: Indexed38 = 38
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed39
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed39
+  id: Indexed39
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed39
+  nameWithType: ExcelIndexedColor.Indexed39
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed39
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed39
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #000000FF\n"
+  example: []
+  syntax:
+    content: Indexed39 = 39
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed40
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed40
+  id: Indexed40
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed40
+  nameWithType: ExcelIndexedColor.Indexed40
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed40
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed40
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #0000CCFF\n"
+  example: []
+  syntax:
+    content: Indexed40 = 40
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed41
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed41
+  id: Indexed41
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed41
+  nameWithType: ExcelIndexedColor.Indexed41
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed41
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed41
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00CCFFFF\n"
+  example: []
+  syntax:
+    content: Indexed41 = 41
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed42
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed42
+  id: Indexed42
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed42
+  nameWithType: ExcelIndexedColor.Indexed42
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed42
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed42
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00CCFFCC\n"
+  example: []
+  syntax:
+    content: Indexed42 = 42
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed43
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed43
+  id: Indexed43
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed43
+  nameWithType: ExcelIndexedColor.Indexed43
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed43
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed43
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FFFF99\n"
+  example: []
+  syntax:
+    content: Indexed43 = 43
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed44
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed44
+  id: Indexed44
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed44
+  nameWithType: ExcelIndexedColor.Indexed44
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed44
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed44
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #0099CCFF\n"
+  example: []
+  syntax:
+    content: Indexed44 = 44
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed45
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed45
+  id: Indexed45
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed45
+  nameWithType: ExcelIndexedColor.Indexed45
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed45
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed45
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FF99CC\n"
+  example: []
+  syntax:
+    content: Indexed45 = 45
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed46
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed46
+  id: Indexed46
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed46
+  nameWithType: ExcelIndexedColor.Indexed46
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed46
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed46
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00CC99FF\n"
+  example: []
+  syntax:
+    content: Indexed46 = 46
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed47
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed47
+  id: Indexed47
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed47
+  nameWithType: ExcelIndexedColor.Indexed47
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed47
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed47
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FFCC99\n"
+  example: []
+  syntax:
+    content: Indexed47 = 47
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed48
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed48
+  id: Indexed48
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed48
+  nameWithType: ExcelIndexedColor.Indexed48
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed48
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed48
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #003366FF\n"
+  example: []
+  syntax:
+    content: Indexed48 = 48
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed49
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed49
+  id: Indexed49
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed49
+  nameWithType: ExcelIndexedColor.Indexed49
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed49
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed49
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #0033CCCC\n"
+  example: []
+  syntax:
+    content: Indexed49 = 49
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed50
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed50
+  id: Indexed50
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed50
+  nameWithType: ExcelIndexedColor.Indexed50
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed50
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed50
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #0099CC00\n"
+  example: []
+  syntax:
+    content: Indexed50 = 50
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed51
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed51
+  id: Indexed51
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed51
+  nameWithType: ExcelIndexedColor.Indexed51
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed51
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed51
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FFCC00\n"
+  example: []
+  syntax:
+    content: Indexed51 = 51
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed52
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed52
+  id: Indexed52
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed52
+  nameWithType: ExcelIndexedColor.Indexed52
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed52
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed52
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FF9900\n"
+  example: []
+  syntax:
+    content: Indexed52 = 52
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed53
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed53
+  id: Indexed53
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed53
+  nameWithType: ExcelIndexedColor.Indexed53
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed53
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed53
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00FF6600\n"
+  example: []
+  syntax:
+    content: Indexed53 = 53
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed54
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed54
+  id: Indexed54
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed54
+  nameWithType: ExcelIndexedColor.Indexed54
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed54
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed54
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00666699\n"
+  example: []
+  syntax:
+    content: Indexed54 = 54
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed55
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed55
+  id: Indexed55
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed55
+  nameWithType: ExcelIndexedColor.Indexed55
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed55
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed55
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00969696\n"
+  example: []
+  syntax:
+    content: Indexed55 = 55
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed56
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed56
+  id: Indexed56
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed56
+  nameWithType: ExcelIndexedColor.Indexed56
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed56
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed56
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00003366\n"
+  example: []
+  syntax:
+    content: Indexed56 = 56
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed57
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed57
+  id: Indexed57
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed57
+  nameWithType: ExcelIndexedColor.Indexed57
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed57
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed57
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00339966\n"
+  example: []
+  syntax:
+    content: Indexed57 = 57
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed58
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed58
+  id: Indexed58
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed58
+  nameWithType: ExcelIndexedColor.Indexed58
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed58
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed58
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00003300\n"
+  example: []
+  syntax:
+    content: Indexed58 = 58
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed59
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed59
+  id: Indexed59
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed59
+  nameWithType: ExcelIndexedColor.Indexed59
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed59
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed59
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00333300\n"
+  example: []
+  syntax:
+    content: Indexed59 = 59
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed60
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed60
+  id: Indexed60
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed60
+  nameWithType: ExcelIndexedColor.Indexed60
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed60
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed60
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00993300\n"
+  example: []
+  syntax:
+    content: Indexed60 = 60
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed61
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed61
+  id: Indexed61
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed61
+  nameWithType: ExcelIndexedColor.Indexed61
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed61
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed61
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00993366\n"
+  example: []
+  syntax:
+    content: Indexed61 = 61
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed62
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed62
+  id: Indexed62
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed62
+  nameWithType: ExcelIndexedColor.Indexed62
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed62
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed62
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00333399\n"
+  example: []
+  syntax:
+    content: Indexed62 = 62
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed63
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed63
+  id: Indexed63
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed63
+  nameWithType: ExcelIndexedColor.Indexed63
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed63
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed63
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nARGB #00333333\n"
+  example: []
+  syntax:
+    content: Indexed63 = 63
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed64SystemForeground
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed64SystemForeground
+  id: Indexed64SystemForeground
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed64SystemForeground
+  nameWithType: ExcelIndexedColor.Indexed64SystemForeground
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed64SystemForeground
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed64SystemForeground
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 278
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSystem foreground color\n"
+  example: []
+  syntax:
+    content: Indexed64SystemForeground = 64
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelIndexedColor.Indexed65SystemBackground
+  commentId: F:OfficeOpenXml.Style.ExcelIndexedColor.Indexed65SystemBackground
+  id: Indexed65SystemBackground
+  parent: OfficeOpenXml.Style.ExcelIndexedColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed65SystemBackground
+  nameWithType: ExcelIndexedColor.Indexed65SystemBackground
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor.Indexed65SystemBackground
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed65SystemBackground
+    path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSystem background color\n"
+  example: []
+  syntax:
+    content: Indexed65SystemBackground = 65
+    return:
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelIndexedColor
+  commentId: T:OfficeOpenXml.Style.ExcelIndexedColor
+  parent: OfficeOpenXml.Style
+  name: ExcelIndexedColor
+  nameWithType: ExcelIndexedColor
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor

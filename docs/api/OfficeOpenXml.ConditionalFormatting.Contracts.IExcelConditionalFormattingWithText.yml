@@ -1,0 +1,95 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  id: IExcelConditionalFormattingWithText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingWithText
+  nameWithType: IExcelConditionalFormattingWithText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingWithText
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithText.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingWithText\n"
+  example: []
+  syntax:
+    content: public interface IExcelConditionalFormattingWithText
+    content.vb: Public Interface IExcelConditionalFormattingWithText
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+  id: Text
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: IExcelConditionalFormattingWithText.Text
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithText.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithText.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nText Attribute\n"
+  example: []
+  syntax:
+    content: string Text { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Text As String
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+  name: Text
+  nameWithType: IExcelConditionalFormattingWithText.Text
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText.Text
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

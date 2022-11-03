@@ -1,0 +1,156 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  id: eColorValuePositionType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Extreme
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Number
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Percent
+  langs:
+  - csharp
+  - vb
+  name: eColorValuePositionType
+  nameWithType: eColorValuePositionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eColorValuePositionType
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe color type for a region map charts color variation\n"
+  example: []
+  syntax:
+    content: public enum eColorValuePositionType
+    content.vb: Public Enum eColorValuePositionType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Number
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Number
+  id: Number
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  langs:
+  - csharp
+  - vb
+  name: Number
+  nameWithType: eColorValuePositionType.Number
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Number
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Number
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe position’s location on the gradient is determined the numerical value in the <xref href=\"OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColor.PositionValue\" data-throw-if-not-resolved=\"false\"></xref> property.\n"
+  example: []
+  syntax:
+    content: Number = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Percent
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Percent
+  id: Percent
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  langs:
+  - csharp
+  - vb
+  name: Percent
+  nameWithType: eColorValuePositionType.Percent
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Percent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percent
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe position’s location on the gradient is determined by a fixed percent value in the <xref href=\"OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColor.PositionValue\" data-throw-if-not-resolved=\"false\"></xref> property, represented by the gradient. Ranges from 1 to 100 percent.\n"
+  example: []
+  syntax:
+    content: Percent = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Extreme
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Extreme
+  id: Extreme
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  langs:
+  - csharp
+  - vb
+  name: Extreme
+  nameWithType: eColorValuePositionType.Extreme
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType.Extreme
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Extreme
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorValuePositionType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe position is the minimum or maximum stop of the gradient.\n"
+  example: []
+  syntax:
+    content: Extreme = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColor.PositionValue
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColor.PositionValue
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eColorValuePositionType
+  nameWithType: eColorValuePositionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType

@@ -1,0 +1,1798 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartStyle
+  id: eChartStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.None
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style1
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style10
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style102
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style11
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style12
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style13
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style14
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style15
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style16
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style17
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style18
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style19
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style2
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style20
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style21
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style22
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style23
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style24
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style25
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style26
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style27
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style28
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style29
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style3
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style30
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style31
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style32
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style33
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style34
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style35
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style36
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style37
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style38
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style39
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style4
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style40
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style41
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style42
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style43
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style44
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style45
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style46
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style47
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style48
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style5
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style6
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style7
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style8
+  - OfficeOpenXml.Drawing.Chart.eChartStyle.Style9
+  langs:
+  - csharp
+  - vb
+  name: eChartStyle
+  nameWithType: eChartStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eChartStyle
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe build in style of the chart.\n"
+  example: []
+  syntax:
+    content: public enum eChartStyle
+    content.vb: Public Enum eChartStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.None
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eChartStyle.None
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nNo style\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style1
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style1
+  id: Style1
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style1
+  nameWithType: eChartStyle.Style1
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style1
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 1\n"
+  example: []
+  syntax:
+    content: Style1 = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style2
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style2
+  id: Style2
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style2
+  nameWithType: eChartStyle.Style2
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style2
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 2\n"
+  example: []
+  syntax:
+    content: Style2 = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style3
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style3
+  id: Style3
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style3
+  nameWithType: eChartStyle.Style3
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style3
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 3\n"
+  example: []
+  syntax:
+    content: Style3 = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style4
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style4
+  id: Style4
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style4
+  nameWithType: eChartStyle.Style4
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style4
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 4\n"
+  example: []
+  syntax:
+    content: Style4 = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style5
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style5
+  id: Style5
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style5
+  nameWithType: eChartStyle.Style5
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style5
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 5\n"
+  example: []
+  syntax:
+    content: Style5 = 5
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style6
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style6
+  id: Style6
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style6
+  nameWithType: eChartStyle.Style6
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style6
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 6\n"
+  example: []
+  syntax:
+    content: Style6 = 6
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style7
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style7
+  id: Style7
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style7
+  nameWithType: eChartStyle.Style7
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style7
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 7\n"
+  example: []
+  syntax:
+    content: Style7 = 7
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style8
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style8
+  id: Style8
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style8
+  nameWithType: eChartStyle.Style8
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style8
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 8\n"
+  example: []
+  syntax:
+    content: Style8 = 8
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style9
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style9
+  id: Style9
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style9
+  nameWithType: eChartStyle.Style9
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style9
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 9\n"
+  example: []
+  syntax:
+    content: Style9 = 9
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style10
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style10
+  id: Style10
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style10
+  nameWithType: eChartStyle.Style10
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style10
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 10\n"
+  example: []
+  syntax:
+    content: Style10 = 10
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style11
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style11
+  id: Style11
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style11
+  nameWithType: eChartStyle.Style11
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style11
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 11\n"
+  example: []
+  syntax:
+    content: Style11 = 11
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style12
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style12
+  id: Style12
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style12
+  nameWithType: eChartStyle.Style12
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style12
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 12\n"
+  example: []
+  syntax:
+    content: Style12 = 12
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style13
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style13
+  id: Style13
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style13
+  nameWithType: eChartStyle.Style13
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style13
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 13\n"
+  example: []
+  syntax:
+    content: Style13 = 13
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style14
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style14
+  id: Style14
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style14
+  nameWithType: eChartStyle.Style14
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style14
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 14\n"
+  example: []
+  syntax:
+    content: Style14 = 14
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style15
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style15
+  id: Style15
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style15
+  nameWithType: eChartStyle.Style15
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style15
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 15\n"
+  example: []
+  syntax:
+    content: Style15 = 15
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style16
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style16
+  id: Style16
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style16
+  nameWithType: eChartStyle.Style16
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style16
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 16\n"
+  example: []
+  syntax:
+    content: Style16 = 16
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style17
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style17
+  id: Style17
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style17
+  nameWithType: eChartStyle.Style17
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style17
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 17\n"
+  example: []
+  syntax:
+    content: Style17 = 17
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style18
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style18
+  id: Style18
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style18
+  nameWithType: eChartStyle.Style18
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style18
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style18
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 18\n"
+  example: []
+  syntax:
+    content: Style18 = 18
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style19
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style19
+  id: Style19
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style19
+  nameWithType: eChartStyle.Style19
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style19
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style19
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 19\n"
+  example: []
+  syntax:
+    content: Style19 = 19
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style20
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style20
+  id: Style20
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style20
+  nameWithType: eChartStyle.Style20
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style20
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 20\n"
+  example: []
+  syntax:
+    content: Style20 = 20
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style21
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style21
+  id: Style21
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style21
+  nameWithType: eChartStyle.Style21
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style21
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style21
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 21\n"
+  example: []
+  syntax:
+    content: Style21 = 21
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style22
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style22
+  id: Style22
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style22
+  nameWithType: eChartStyle.Style22
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style22
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style22
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 22\n"
+  example: []
+  syntax:
+    content: Style22 = 22
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style23
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style23
+  id: Style23
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style23
+  nameWithType: eChartStyle.Style23
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style23
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style23
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 23\n"
+  example: []
+  syntax:
+    content: Style23 = 23
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style24
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style24
+  id: Style24
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style24
+  nameWithType: eChartStyle.Style24
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style24
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style24
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 24\n"
+  example: []
+  syntax:
+    content: Style24 = 24
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style25
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style25
+  id: Style25
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style25
+  nameWithType: eChartStyle.Style25
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style25
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style25
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 25\n"
+  example: []
+  syntax:
+    content: Style25 = 25
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style26
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style26
+  id: Style26
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style26
+  nameWithType: eChartStyle.Style26
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style26
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style26
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 26\n"
+  example: []
+  syntax:
+    content: Style26 = 26
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style27
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style27
+  id: Style27
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style27
+  nameWithType: eChartStyle.Style27
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style27
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style27
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 27\n"
+  example: []
+  syntax:
+    content: Style27 = 27
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style28
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style28
+  id: Style28
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style28
+  nameWithType: eChartStyle.Style28
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style28
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style28
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 28\n"
+  example: []
+  syntax:
+    content: Style28 = 28
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style29
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style29
+  id: Style29
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style29
+  nameWithType: eChartStyle.Style29
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style29
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style29
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 29\n"
+  example: []
+  syntax:
+    content: Style29 = 29
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style30
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style30
+  id: Style30
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style30
+  nameWithType: eChartStyle.Style30
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style30
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style30
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 30\n"
+  example: []
+  syntax:
+    content: Style30 = 30
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style31
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style31
+  id: Style31
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style31
+  nameWithType: eChartStyle.Style31
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style31
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style31
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 31\n"
+  example: []
+  syntax:
+    content: Style31 = 31
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style32
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style32
+  id: Style32
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style32
+  nameWithType: eChartStyle.Style32
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style32
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style32
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 32\n"
+  example: []
+  syntax:
+    content: Style32 = 32
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style33
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style33
+  id: Style33
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style33
+  nameWithType: eChartStyle.Style33
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style33
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style33
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 33\n"
+  example: []
+  syntax:
+    content: Style33 = 33
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style34
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style34
+  id: Style34
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style34
+  nameWithType: eChartStyle.Style34
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style34
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style34
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 34\n"
+  example: []
+  syntax:
+    content: Style34 = 34
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style35
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style35
+  id: Style35
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style35
+  nameWithType: eChartStyle.Style35
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style35
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style35
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 35\n"
+  example: []
+  syntax:
+    content: Style35 = 35
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style36
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style36
+  id: Style36
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style36
+  nameWithType: eChartStyle.Style36
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style36
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style36
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 36\n"
+  example: []
+  syntax:
+    content: Style36 = 36
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style37
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style37
+  id: Style37
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style37
+  nameWithType: eChartStyle.Style37
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style37
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style37
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 37\n"
+  example: []
+  syntax:
+    content: Style37 = 37
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style38
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style38
+  id: Style38
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style38
+  nameWithType: eChartStyle.Style38
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style38
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style38
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 38\n"
+  example: []
+  syntax:
+    content: Style38 = 38
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style39
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style39
+  id: Style39
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style39
+  nameWithType: eChartStyle.Style39
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style39
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style39
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 39\n"
+  example: []
+  syntax:
+    content: Style39 = 39
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style40
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style40
+  id: Style40
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style40
+  nameWithType: eChartStyle.Style40
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style40
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style40
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 40\n"
+  example: []
+  syntax:
+    content: Style40 = 40
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style41
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style41
+  id: Style41
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style41
+  nameWithType: eChartStyle.Style41
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style41
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style41
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 41\n"
+  example: []
+  syntax:
+    content: Style41 = 41
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style42
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style42
+  id: Style42
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style42
+  nameWithType: eChartStyle.Style42
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style42
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style42
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 42\n"
+  example: []
+  syntax:
+    content: Style42 = 42
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style43
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style43
+  id: Style43
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style43
+  nameWithType: eChartStyle.Style43
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style43
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style43
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 43\n"
+  example: []
+  syntax:
+    content: Style43 = 43
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style44
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style44
+  id: Style44
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style44
+  nameWithType: eChartStyle.Style44
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style44
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style44
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 44\n"
+  example: []
+  syntax:
+    content: Style44 = 44
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style45
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style45
+  id: Style45
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style45
+  nameWithType: eChartStyle.Style45
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style45
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style45
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 45\n"
+  example: []
+  syntax:
+    content: Style45 = 45
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style46
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style46
+  id: Style46
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style46
+  nameWithType: eChartStyle.Style46
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style46
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style46
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 46\n"
+  example: []
+  syntax:
+    content: Style46 = 46
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style47
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style47
+  id: Style47
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style47
+  nameWithType: eChartStyle.Style47
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style47
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style47
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 47\n"
+  example: []
+  syntax:
+    content: Style47 = 47
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style48
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style48
+  id: Style48
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style48
+  nameWithType: eChartStyle.Style48
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style48
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style48
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 48\n"
+  example: []
+  syntax:
+    content: Style48 = 48
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle.Style102
+  commentId: F:OfficeOpenXml.Drawing.Chart.eChartStyle.Style102
+  id: Style102
+  parent: OfficeOpenXml.Drawing.Chart.eChartStyle
+  langs:
+  - csharp
+  - vb
+  name: Style102
+  nameWithType: eChartStyle.Style102
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle.Style102
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style102
+    path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStyle 102\n"
+  example: []
+  syntax:
+    content: Style102 = 209
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eChartStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eChartStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eChartStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eChartStyle
+  nameWithType: eChartStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eChartStyle

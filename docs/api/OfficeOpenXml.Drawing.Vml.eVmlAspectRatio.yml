@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  commentId: T:OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  id: eVmlAspectRatio
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtLeast
+  - OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtMost
+  - OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.Ignore
+  langs:
+  - csharp
+  - vb
+  name: eVmlAspectRatio
+  nameWithType: eVmlAspectRatio
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eVmlAspectRatio
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+    startLine: 5
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nAspect ratio handling for a picture in a fill\n"
+  example: []
+  syntax:
+    content: public enum eVmlAspectRatio
+    content.vb: Public Enum eVmlAspectRatio
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.Ignore
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.Ignore
+  id: Ignore
+  parent: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  langs:
+  - csharp
+  - vb
+  name: Ignore
+  nameWithType: eVmlAspectRatio.Ignore
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.Ignore
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ignore
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nIgnore aspect issues. Default.\n"
+  example: []
+  syntax:
+    content: Ignore = 0
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtLeast
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtLeast
+  id: AtLeast
+  parent: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  langs:
+  - csharp
+  - vb
+  name: AtLeast
+  nameWithType: eVmlAspectRatio.AtLeast
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtLeast
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AtLeast
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nImage is at least as big as Size.\n"
+  example: []
+  syntax:
+    content: AtLeast = 1
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtMost
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtMost
+  id: AtMost
+  parent: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  langs:
+  - csharp
+  - vb
+  name: AtMost
+  nameWithType: eVmlAspectRatio.AtMost
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio.AtMost
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AtMost
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlAspectRatio.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nImage is no bigger than Size.\n"
+  example: []
+  syntax:
+    content: AtMost = 2
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  commentId: T:OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eVmlAspectRatio
+  nameWithType: eVmlAspectRatio
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio

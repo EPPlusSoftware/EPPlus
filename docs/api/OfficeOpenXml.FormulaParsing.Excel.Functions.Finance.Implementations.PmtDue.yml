@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  id: PmtDue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.BeginningOfPeriod
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.EndOfPeriod
+  langs:
+  - csharp
+  - vb
+  name: PmtDue
+  nameWithType: PmtDue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PmtDue
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public enum PmtDue
+    content.vb: Public Enum PmtDue
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.EndOfPeriod
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.EndOfPeriod
+  id: EndOfPeriod
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  langs:
+  - csharp
+  - vb
+  name: EndOfPeriod
+  nameWithType: PmtDue.EndOfPeriod
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.EndOfPeriod
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndOfPeriod
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: EndOfPeriod = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.BeginningOfPeriod
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.BeginningOfPeriod
+  id: BeginningOfPeriod
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  langs:
+  - csharp
+  - vb
+  name: BeginningOfPeriod
+  nameWithType: PmtDue.BeginningOfPeriod
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue.BeginningOfPeriod
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BeginningOfPeriod
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: BeginningOfPeriod = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: PmtDue
+  nameWithType: PmtDue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue

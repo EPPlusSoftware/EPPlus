@@ -1,0 +1,1053 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+  id: ExcelChartExDataLabelCollection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExDataLabelCollection
+  nameWithType: ExcelChartExDataLabelCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExDataLabelCollection
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA collection of individual data labels\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExDataLabelCollection : ExcelChartExDataLabel, IEnumerable<ExcelChartExDataLabelItem>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelChartExDataLabelCollection
+          Inherits ExcelChartExDataLabel
+          Implements IEnumerable(Of ExcelChartExDataLabelItem), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Position
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowValue
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowCategory
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowSeriesName
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowPercent
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLeaderLines
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowBubbleSize
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLegendKey
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Separator
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Format
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.SourceLinked
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.ThreeD
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Font
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText(OfficeOpenXml.Drawing.Chart.eLabelPosition)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum(System.String)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add(System.Int32)
+  id: Add(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(Int32)
+  nameWithType: ExcelChartExDataLabelCollection.Add(Int32)
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nAdds an individual data label for customization.\n"
+  example: []
+  syntax:
+    content: public ExcelChartExDataLabelItem Add(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero based index
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+      description: ''
+    content.vb: Public Function Add(index As Integer) As ExcelChartExDataLabelItem
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelChartExDataLabelCollection.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nReturns tje data label at the specific position.  \n"
+  example: []
+  syntax:
+    content: public ExcelChartExDataLabel this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the datalabel. 0-base.
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+      description: Returns null if the data label does not exist in the collection
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelChartExDataLabel
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item*
+  nameWithType.vb: ExcelChartExDataLabelCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelChartExDataLabelCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nGet the enumerator\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelChartExDataLabelItem> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}
+      description: ''
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelChartExDataLabelItem)
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelChartExDataLabelCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabelCollection.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartExDataLabelCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartDataLabel
+  nameWithType: ExcelChartDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExDataLabel
+  nameWithType: ExcelChartExDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelChartExDataLabelItem>
+  nameWithType: IEnumerable<ExcelChartExDataLabelItem>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem>
+  nameWithType.vb: IEnumerable(Of ExcelChartExDataLabelItem)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem)
+  name.vb: IEnumerable(Of ExcelChartExDataLabelItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+    name: ExcelChartExDataLabelItem
+    nameWithType: ExcelChartExDataLabelItem
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+    name: ExcelChartExDataLabelItem
+    nameWithType: ExcelChartExDataLabelItem
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Position
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Position
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: Position
+  nameWithType: ExcelChartExDataLabel.Position
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Position
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowValue
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowValue
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: ShowValue
+  nameWithType: ExcelChartExDataLabel.ShowValue
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowValue
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowCategory
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowCategory
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: ShowCategory
+  nameWithType: ExcelChartExDataLabel.ShowCategory
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowCategory
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowSeriesName
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowSeriesName
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: ShowSeriesName
+  nameWithType: ExcelChartExDataLabel.ShowSeriesName
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowSeriesName
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowPercent
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowPercent
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: ShowPercent
+  nameWithType: ExcelChartExDataLabel.ShowPercent
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowPercent
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLeaderLines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLeaderLines
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: ShowLeaderLines
+  nameWithType: ExcelChartExDataLabel.ShowLeaderLines
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLeaderLines
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowBubbleSize
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowBubbleSize
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: ShowBubbleSize
+  nameWithType: ExcelChartExDataLabel.ShowBubbleSize
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowBubbleSize
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLegendKey
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLegendKey
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: ShowLegendKey
+  nameWithType: ExcelChartExDataLabel.ShowLegendKey
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.ShowLegendKey
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Separator
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Separator
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+  name: Separator
+  nameWithType: ExcelChartExDataLabel.Separator
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel.Separator
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Format
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Format
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: Format
+  nameWithType: ExcelChartDataLabel.Format
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Format
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.SourceLinked
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.SourceLinked
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: SourceLinked
+  nameWithType: ExcelChartDataLabel.SourceLinked
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.SourceLinked
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: Fill
+  nameWithType: ExcelChartDataLabel.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: Border
+  nameWithType: ExcelChartDataLabel.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: Effect
+  nameWithType: ExcelChartDataLabel.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: ThreeD
+  nameWithType: ExcelChartDataLabel.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.ThreeD
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Font
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Font
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: Font
+  nameWithType: ExcelChartDataLabel.Font
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.Font
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: TextBody
+  nameWithType: ExcelChartDataLabel.TextBody
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.TextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText(OfficeOpenXml.Drawing.Chart.eLabelPosition)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText(OfficeOpenXml.Drawing.Chart.eLabelPosition)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  name: GetPosText(eLabelPosition)
+  nameWithType: ExcelChartDataLabel.GetPosText(eLabelPosition)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText(OfficeOpenXml.Drawing.Chart.eLabelPosition)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText(OfficeOpenXml.Drawing.Chart.eLabelPosition)
+    name: GetPosText
+    nameWithType: ExcelChartDataLabel.GetPosText
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.Chart.eLabelPosition
+    name: eLabelPosition
+    nameWithType: eLabelPosition
+    fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText(OfficeOpenXml.Drawing.Chart.eLabelPosition)
+    name: GetPosText
+    nameWithType: ExcelChartDataLabel.GetPosText
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.Chart.eLabelPosition
+    name: eLabelPosition
+    nameWithType: eLabelPosition
+    fullName: OfficeOpenXml.Drawing.Chart.eLabelPosition
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum(System.String)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum(System.String)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  isExternal: true
+  name: GetPosEnum(String)
+  nameWithType: ExcelChartDataLabel.GetPosEnum(String)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum(System.String)
+    name: GetPosEnum
+    nameWithType: ExcelChartDataLabel.GetPosEnum
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum(System.String)
+    name: GetPosEnum
+    nameWithType: ExcelChartDataLabel.GetPosEnum
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel.GetPosEnum
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add
+  name: Add
+  nameWithType: ExcelChartExDataLabelCollection.Add
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Add
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExDataLabelItem
+  nameWithType: ExcelChartExDataLabelItem
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item
+  name: Item
+  nameWithType: ExcelChartExDataLabelCollection.Item
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.Item
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelChartExDataLabelCollection.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelChartExDataLabelItem>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelChartExDataLabelItem).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelChartExDataLabelItem>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelChartExDataLabelItem).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelChartExDataLabelItem>
+  nameWithType: IEnumerator<ExcelChartExDataLabelItem>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem>
+  nameWithType.vb: IEnumerator(Of ExcelChartExDataLabelItem)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem)
+  name.vb: IEnumerator(Of ExcelChartExDataLabelItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+    name: ExcelChartExDataLabelItem
+    nameWithType: ExcelChartExDataLabelItem
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+    name: ExcelChartExDataLabelItem
+    nameWithType: ExcelChartExDataLabelItem
+    fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelChartExDataLabelCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelChartExDataLabelCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator

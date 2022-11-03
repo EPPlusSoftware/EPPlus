@@ -1,0 +1,1364 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  id: HtmlExportSettings
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle
+  langs:
+  - csharp
+  - vb
+  name: HtmlExportSettings
+  nameWithType: HtmlExportSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HtmlExportSettings
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nBase class for HTML export for ranges and tables.\n"
+  example: []
+  syntax:
+    content: public abstract class HtmlExportSettings
+    content.vb: Public MustInherit Class HtmlExportSettings
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.Export.HtmlExport.HtmlRangeExportSettings
+  - OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId
+  id: TableId
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: TableId
+  nameWithType: HtmlExportSettings.TableId
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableId
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nThe html id attribute for the exported table. The id attribute is only added to the table if this property is not null or empty.\n"
+  example: []
+  syntax:
+    content: public string TableId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TableId As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify
+  id: Minify
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Minify
+  nameWithType: HtmlExportSettings.Minify
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minify
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf set to true the rendered html will be formatted with indents and linebreaks.\n"
+  example: []
+  syntax:
+    content: public bool Minify { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Minify As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows
+  id: HiddenRows
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: HiddenRows
+  nameWithType: HtmlExportSettings.HiddenRows
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HiddenRows
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nHow hidden rows will be handled. Default is <xref href=\"OfficeOpenXml.Export.HtmlExport.eHiddenState.Exclude\" data-throw-if-not-resolved=\"false\"></xref> \n"
+  example: []
+  syntax:
+    content: public eHiddenState HiddenRows { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHiddenState
+    content.vb: Public Property HiddenRows As eHiddenState
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral
+  id: HorizontalAlignmentWhenGeneral
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: HorizontalAlignmentWhenGeneral
+  nameWithType: HtmlExportSettings.HorizontalAlignmentWhenGeneral
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalAlignmentWhenGeneral
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nHow to set the alignment for a cell if it&apos;s alignment is set to General.\n"
+  example: []
+  syntax:
+    content: public eHtmlGeneralAlignmentHandling HorizontalAlignmentWhenGeneral { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+    content.vb: Public Property HorizontalAlignmentWhenGeneral As eHtmlGeneralAlignmentHandling
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
+  id: Accessibility
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Accessibility
+  nameWithType: HtmlExportSettings.Accessibility
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accessibility
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nSettings for usage of accessibility (aria, role) attributes of the table\n"
+  example: []
+  syntax:
+    content: public AccessibilitySettings Accessibility { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+    content.vb: Public ReadOnly Property Accessibility As AccessibilitySettings
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
+  id: AdditionalTableClassNames
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: AdditionalTableClassNames
+  nameWithType: HtmlExportSettings.AdditionalTableClassNames
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AdditionalTableClassNames
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nUse this property to set additional class names that will be set on the exported html-table.\n"
+  example: []
+  syntax:
+    content: public List<string> AdditionalTableClassNames { get; protected set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public Property AdditionalTableClassNames As List(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames*
+  modifiers.csharp:
+  - public
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Get
+  - Protected Set
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName
+  id: DataValueAttributeName
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: DataValueAttributeName
+  nameWithType: HtmlExportSettings.DataValueAttributeName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataValueAttributeName
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nUse this property to set the name of the html data-* attribute that contains the raw value.\nDefault value is &quot;value&quot; which means that the name of the attribute is &quot;data-value&quot;.\nTo change the name to &quot;data-x&quot;, set this property to &quot;x&quot;\n"
+  example: []
+  syntax:
+    content: public string DataValueAttributeName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataValueAttributeName As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
+  id: Culture
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Culture
+  nameWithType: HtmlExportSettings.Culture
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Culture
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nThe culture used when formatting the cell output.\n"
+  example: []
+  syntax:
+    content: public CultureInfo Culture { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Property Culture As CultureInfo
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding
+  id: Encoding
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Encoding
+  nameWithType: HtmlExportSettings.Encoding
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Encoding
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nEncoding for the output\n"
+  example: []
+  syntax:
+    content: public Encoding Encoding { get; set; }
+    parameters: []
+    return:
+      type: System.Text.Encoding
+    content.vb: Public Property Encoding As Encoding
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth
+  id: SetColumnWidth
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: SetColumnWidth
+  nameWithType: HtmlExportSettings.SetColumnWidth
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumnWidth
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 77
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nSet the column width for columns in the table via the columngroup/col element.\nColumns with the default width will have the default column width class set, ({Settings.StyleClassPrefix}dcw). \nColumns with custom column width will have the width set directly via the style attribute.\n"
+  example: []
+  syntax:
+    content: public bool SetColumnWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SetColumnWidth As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight
+  id: SetRowHeight
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: SetRowHeight
+  nameWithType: HtmlExportSettings.SetRowHeight
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetRowHeight
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nSet the row height for rows in the table.\nRows with the default height will have the default row height class set, ({Settings.StyleClassPrefix}drh). \nRows with custom row height will have the height set directly via the style attribute.\n"
+  example: []
+  syntax:
+    content: public bool SetRowHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SetRowHeight As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+  id: StyleClassPrefix
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: StyleClassPrefix
+  nameWithType: HtmlExportSettings.StyleClassPrefix
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StyleClassPrefix
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nPrefix for style classes added by EPPlus. \n<table><thead><tr><th>type</th><th>Class name</th></tr></thead><tbody><tr><td>Cell styles</td><td>{StyleClassPrefix}{CellStyleClassName}{index}</td></tr><tr><td>Hidden Row{StyleClassPrefix}hidden</td></tr><tr><td>Alignment Left </td><td>{StyleClassPrefix}al</td></tr><tr><td>Alignment Right</td><td>{StyleClassPrefix}ar</td></tr><tr><td>Default column width</td><td>{StyleClassPrefix}dcw</td></tr><tr><td>Default row height</td><td>{StyleClassPrefix}drh</td></tr><tr><td>Image content and position</td><td>{StyleClassPrefix}image-{imageName}</td></tr><tr><td>Properties for an image, for example position or border settings</td><td>{StyleClassPrefix}image-prop-{imageName}</td></tr><tr><td>Alignment for cells containing an image</td><td>{StyleClassPrefix}image-cell}</td></tr></tbody></table>\n<xref href=\"OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public string StyleClassPrefix { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property StyleClassPrefix As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  id: CellStyleClassName
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: CellStyleClassName
+  nameWithType: HtmlExportSettings.CellStyleClassName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellStyleClassName
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nThe name of the classes used for cell styles. \nThe name will be prefixed with the <xref href=\"OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix\" data-throw-if-not-resolved=\"false\"></xref> and suffixed with the cell style index.\n"
+  example: []
+  syntax:
+    content: public string CellStyleClassName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CellStyleClassName As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+  id: Pictures
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Pictures
+  nameWithType: HtmlExportSettings.Pictures
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pictures
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf picture drawings will be included. Default is true.\n"
+  example: []
+  syntax:
+    content: public HtmlPictureSettings Pictures { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+    content.vb: Public ReadOnly Property Pictures As HtmlPictureSettings
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
+  id: IncludeCssClassNames
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: IncludeCssClassNames
+  nameWithType: HtmlExportSettings.IncludeCssClassNames
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IncludeCssClassNames
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf set to true classes that identifies Excel table styling will be included in the html. Default value is true.\n"
+  example: []
+  syntax:
+    content: public bool IncludeCssClassNames { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IncludeCssClassNames As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
+  id: HyperlinkTarget
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: HyperlinkTarget
+  nameWithType: HtmlExportSettings.HyperlinkTarget
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HyperlinkTarget
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nSet the target attribute for hyperlinks (a elements) in the exported html.\nCan be null/empty (no target attribute), _blank, _top, _self, _parent or a frame-name.\n"
+  example: []
+  syntax:
+    content: public string HyperlinkTarget { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property HyperlinkTarget As String
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle
+  id: TableStyle
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: TableStyle
+  nameWithType: HtmlExportSettings.TableStyle
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyle
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf and how table styles should export, if the range is a table.\nThe range must be the same as the table range.\n"
+  example: []
+  syntax:
+    content: public eHtmlRangeTableInclude TableStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eHtmlRangeTableInclude
+    content.vb: Public Property TableStyle As eHtmlRangeTableInclude
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
+  id: RenderDataAttributes
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: RenderDataAttributes
+  nameWithType: HtmlExportSettings.RenderDataAttributes
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderDataAttributes
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf true data-* attributes will be rendered\n"
+  example: []
+  syntax:
+    content: public bool RenderDataAttributes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RenderDataAttributes As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
+  id: RenderDataTypes
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: RenderDataTypes
+  nameWithType: HtmlExportSettings.RenderDataTypes
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderDataTypes
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf true, data types are renedered on the header objects.\n"
+  example: []
+  syntax:
+    content: public bool RenderDataTypes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RenderDataTypes As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId
+  name: TableId
+  nameWithType: HtmlExportSettings.TableId
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify
+  name: Minify
+  nameWithType: HtmlExportSettings.Minify
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Minify
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Export.HtmlExport.eHiddenState.Exclude
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eHiddenState.Exclude
+  isExternal: true
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows
+  name: HiddenRows
+  nameWithType: HtmlExportSettings.HiddenRows
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HiddenRows
+- uid: OfficeOpenXml.Export.HtmlExport.eHiddenState
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eHiddenState
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: eHiddenState
+  nameWithType: eHiddenState
+  fullName: OfficeOpenXml.Export.HtmlExport.eHiddenState
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral
+  name: HorizontalAlignmentWhenGeneral
+  nameWithType: HtmlExportSettings.HorizontalAlignmentWhenGeneral
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HorizontalAlignmentWhenGeneral
+- uid: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: eHtmlGeneralAlignmentHandling
+  nameWithType: eHtmlGeneralAlignmentHandling
+  fullName: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
+  name: Accessibility
+  nameWithType: HtmlExportSettings.Accessibility
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: AccessibilitySettings
+  nameWithType: AccessibilitySettings
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: OfficeOpenXml.Export.HtmlExport.Accessibility
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Accessibility
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
+  name: AdditionalTableClassNames
+  nameWithType: HtmlExportSettings.AdditionalTableClassNames
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName
+  name: DataValueAttributeName
+  nameWithType: HtmlExportSettings.DataValueAttributeName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DataValueAttributeName
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
+  name: Culture
+  nameWithType: HtmlExportSettings.Culture
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
+- uid: System.Globalization.CultureInfo
+  commentId: T:System.Globalization.CultureInfo
+  parent: System.Globalization
+  isExternal: true
+  name: CultureInfo
+  nameWithType: CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: System.Globalization
+  commentId: N:System.Globalization
+  isExternal: true
+  name: System.Globalization
+  nameWithType: System.Globalization
+  fullName: System.Globalization
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding
+  name: Encoding
+  nameWithType: HtmlExportSettings.Encoding
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Encoding
+- uid: System.Text.Encoding
+  commentId: T:System.Text.Encoding
+  parent: System.Text
+  isExternal: true
+  name: Encoding
+  nameWithType: Encoding
+  fullName: System.Text.Encoding
+- uid: System.Text
+  commentId: N:System.Text
+  isExternal: true
+  name: System.Text
+  nameWithType: System.Text
+  fullName: System.Text
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth
+  name: SetColumnWidth
+  nameWithType: HtmlExportSettings.SetColumnWidth
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetColumnWidth
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight
+  name: SetRowHeight
+  nameWithType: HtmlExportSettings.SetRowHeight
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.SetRowHeight
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  name: CellStyleClassName
+  nameWithType: HtmlExportSettings.CellStyleClassName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  name: Pictures
+  nameWithType: HtmlExportSettings.Pictures
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+  name: StyleClassPrefix
+  nameWithType: HtmlExportSettings.StyleClassPrefix
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: HtmlExportSettings
+  nameWithType: HtmlExportSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  name: StyleClassPrefix
+  nameWithType: HtmlExportSettings.StyleClassPrefix
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.StyleClassPrefix
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  name: CellStyleClassName
+  nameWithType: HtmlExportSettings.CellStyleClassName
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+  name: Pictures
+  nameWithType: HtmlExportSettings.Pictures
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Pictures
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: HtmlPictureSettings
+  nameWithType: HtmlPictureSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
+  name: IncludeCssClassNames
+  nameWithType: HtmlExportSettings.IncludeCssClassNames
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.IncludeCssClassNames
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
+  name: HyperlinkTarget
+  nameWithType: HtmlExportSettings.HyperlinkTarget
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.HyperlinkTarget
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle
+  name: TableStyle
+  nameWithType: HtmlExportSettings.TableStyle
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.TableStyle
+- uid: OfficeOpenXml.eHtmlRangeTableInclude
+  commentId: T:OfficeOpenXml.eHtmlRangeTableInclude
+  parent: OfficeOpenXml
+  name: eHtmlRangeTableInclude
+  nameWithType: eHtmlRangeTableInclude
+  fullName: OfficeOpenXml.eHtmlRangeTableInclude
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
+  name: RenderDataAttributes
+  nameWithType: HtmlExportSettings.RenderDataAttributes
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataAttributes
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes
+  name: RenderDataTypes
+  nameWithType: HtmlExportSettings.RenderDataTypes
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderDataTypes

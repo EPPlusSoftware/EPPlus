@@ -1,0 +1,1238 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBarChartType
+  id: eBarChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered3D
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked100
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked1003D
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked3D
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.Column3D
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered3D
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked100
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked1003D
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked3D
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked100
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ConeCol
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked100
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked100
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderCol
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked100
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked100
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidCol
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColClustered
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked
+  - OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked100
+  langs:
+  - csharp
+  - vb
+  name: eBarChartType
+  nameWithType: eBarChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eBarChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBar chart type\n"
+  example: []
+  syntax:
+    content: public enum eBarChartType
+    content.vb: Public Enum eBarChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered3D
+  id: BarClustered3D
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: BarClustered3D
+  nameWithType: eBarChartType.BarClustered3D
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarClustered3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered 3D bar chart\n"
+  example: []
+  syntax:
+    content: BarClustered3D = 60
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked3D
+  id: BarStacked3D
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: BarStacked3D
+  nameWithType: eBarChartType.BarStacked3D
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarStacked3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 3D bar chart\n"
+  example: []
+  syntax:
+    content: BarStacked3D = 61
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked1003D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked1003D
+  id: BarStacked1003D
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: BarStacked1003D
+  nameWithType: eBarChartType.BarStacked1003D
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked1003D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarStacked1003D
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA Stacked 100 percent 3D bar chart\n"
+  example: []
+  syntax:
+    content: BarStacked1003D = 62
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.Column3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.Column3D
+  id: Column3D
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: Column3D
+  nameWithType: eBarChartType.Column3D
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.Column3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA 3D column chart\n"
+  example: []
+  syntax:
+    content: Column3D = -4100
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered3D
+  id: ColumnClustered3D
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ColumnClustered3D
+  nameWithType: eBarChartType.ColumnClustered3D
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnClustered3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered 3D column chart\n"
+  example: []
+  syntax:
+    content: ColumnClustered3D = 54
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked3D
+  id: ColumnStacked3D
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ColumnStacked3D
+  nameWithType: eBarChartType.ColumnStacked3D
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnStacked3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 3D column chart\n"
+  example: []
+  syntax:
+    content: ColumnStacked3D = 55
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked1003D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked1003D
+  id: ColumnStacked1003D
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ColumnStacked1003D
+  nameWithType: eBarChartType.ColumnStacked1003D
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked1003D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnStacked1003D
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent 3D column chart\n"
+  example: []
+  syntax:
+    content: ColumnStacked1003D = 56
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered
+  id: BarClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: BarClustered
+  nameWithType: eBarChartType.BarClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.BarClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered bar chart\n"
+  example: []
+  syntax:
+    content: BarClustered = 57
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked
+  id: BarStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: BarStacked
+  nameWithType: eBarChartType.BarStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked bar chart\n"
+  example: []
+  syntax:
+    content: BarStacked = 58
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked100
+  id: BarStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: BarStacked100
+  nameWithType: eBarChartType.BarStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.BarStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BarStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent bar chart\n"
+  example: []
+  syntax:
+    content: BarStacked100 = 59
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered
+  id: ColumnClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ColumnClustered
+  nameWithType: eBarChartType.ColumnClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered column chart \n"
+  example: []
+  syntax:
+    content: ColumnClustered = 51
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked
+  id: ColumnStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ColumnStacked
+  nameWithType: eBarChartType.ColumnStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked column chart\n"
+  example: []
+  syntax:
+    content: ColumnStacked = 52
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked100
+  id: ColumnStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ColumnStacked100
+  nameWithType: eBarChartType.ColumnStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ColumnStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked column 100 percent chart\n"
+  example: []
+  syntax:
+    content: ColumnStacked100 = 53
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarClustered
+  id: ConeBarClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ConeBarClustered
+  nameWithType: eBarChartType.ConeBarClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeBarClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered cone bar chart\n"
+  example: []
+  syntax:
+    content: ConeBarClustered = 102
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked
+  id: ConeBarStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ConeBarStacked
+  nameWithType: eBarChartType.ConeBarStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeBarStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked cone bar chart\n"
+  example: []
+  syntax:
+    content: ConeBarStacked = 103
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked100
+  id: ConeBarStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ConeBarStacked100
+  nameWithType: eBarChartType.ConeBarStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeBarStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeBarStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent cone bar chart\n"
+  example: []
+  syntax:
+    content: ConeBarStacked100 = 104
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeCol
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ConeCol
+  id: ConeCol
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ConeCol
+  nameWithType: eBarChartType.ConeCol
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeCol
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeCol
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA cone column chart \n"
+  example: []
+  syntax:
+    content: ConeCol = 105
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColClustered
+  id: ConeColClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ConeColClustered
+  nameWithType: eBarChartType.ConeColClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeColClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered cone column chart \n"
+  example: []
+  syntax:
+    content: ConeColClustered = 99
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked
+  id: ConeColStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ConeColStacked
+  nameWithType: eBarChartType.ConeColStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeColStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked cone column chart \n"
+  example: []
+  syntax:
+    content: ConeColStacked = 100
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked100
+  id: ConeColStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: ConeColStacked100
+  nameWithType: eBarChartType.ConeColStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.ConeColStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConeColStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent cone column chart \n"
+  example: []
+  syntax:
+    content: ConeColStacked100 = 101
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarClustered
+  id: CylinderBarClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: CylinderBarClustered
+  nameWithType: eBarChartType.CylinderBarClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CylinderBarClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered cylinder bar chart\n"
+  example: []
+  syntax:
+    content: CylinderBarClustered = 95
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked
+  id: CylinderBarStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: CylinderBarStacked
+  nameWithType: eBarChartType.CylinderBarStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CylinderBarStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked cylinder bar chart\n"
+  example: []
+  syntax:
+    content: CylinderBarStacked = 96
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked100
+  id: CylinderBarStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: CylinderBarStacked100
+  nameWithType: eBarChartType.CylinderBarStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderBarStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CylinderBarStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent cylinder bar chart\n"
+  example: []
+  syntax:
+    content: CylinderBarStacked100 = 97
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderCol
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderCol
+  id: CylinderCol
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: CylinderCol
+  nameWithType: eBarChartType.CylinderCol
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderCol
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CylinderCol
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA cylinder column chart\n"
+  example: []
+  syntax:
+    content: CylinderCol = 98
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColClustered
+  id: CylinderColClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: CylinderColClustered
+  nameWithType: eBarChartType.CylinderColClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CylinderColClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered cylinder column chart\n"
+  example: []
+  syntax:
+    content: CylinderColClustered = 92
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked
+  id: CylinderColStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: CylinderColStacked
+  nameWithType: eBarChartType.CylinderColStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CylinderColStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked cylinder column chart\n"
+  example: []
+  syntax:
+    content: CylinderColStacked = 93
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked100
+  id: CylinderColStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: CylinderColStacked100
+  nameWithType: eBarChartType.CylinderColStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.CylinderColStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CylinderColStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent cylinder column chart\n"
+  example: []
+  syntax:
+    content: CylinderColStacked100 = 94
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarClustered
+  id: PyramidBarClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: PyramidBarClustered
+  nameWithType: eBarChartType.PyramidBarClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidBarClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered pyramid bar chart\n"
+  example: []
+  syntax:
+    content: PyramidBarClustered = 109
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked
+  id: PyramidBarStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: PyramidBarStacked
+  nameWithType: eBarChartType.PyramidBarStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidBarStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked pyramid bar chart\n"
+  example: []
+  syntax:
+    content: PyramidBarStacked = 110
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked100
+  id: PyramidBarStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: PyramidBarStacked100
+  nameWithType: eBarChartType.PyramidBarStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidBarStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidBarStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent pyramid bar chart\n"
+  example: []
+  syntax:
+    content: PyramidBarStacked100 = 111
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidCol
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidCol
+  id: PyramidCol
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: PyramidCol
+  nameWithType: eBarChartType.PyramidCol
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidCol
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidCol
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked pyramid column chart\n"
+  example: []
+  syntax:
+    content: PyramidCol = 112
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColClustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColClustered
+  id: PyramidColClustered
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: PyramidColClustered
+  nameWithType: eBarChartType.PyramidColClustered
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColClustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidColClustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA clustered pyramid column chart\n"
+  example: []
+  syntax:
+    content: PyramidColClustered = 106
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked
+  id: PyramidColStacked
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: PyramidColStacked
+  nameWithType: eBarChartType.PyramidColStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidColStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked pyramid column chart\n"
+  example: []
+  syntax:
+    content: PyramidColStacked = 107
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked100
+  id: PyramidColStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eBarChartType
+  langs:
+  - csharp
+  - vb
+  name: PyramidColStacked100
+  nameWithType: eBarChartType.PyramidColStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType.PyramidColStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PyramidColStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent pyramid column chart\n"
+  example: []
+  syntax:
+    content: PyramidColStacked100 = 108
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBarChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eBarChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBarChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eBarChartType
+  nameWithType: eBarChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eBarChartType

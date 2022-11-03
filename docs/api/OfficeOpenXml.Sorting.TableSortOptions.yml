@@ -1,0 +1,469 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sorting.TableSortOptions
+  commentId: T:OfficeOpenXml.Sorting.TableSortOptions
+  id: TableSortOptions
+  parent: OfficeOpenXml.Sorting
+  children:
+  - OfficeOpenXml.Sorting.TableSortOptions.#ctor(OfficeOpenXml.Table.ExcelTable)
+  - OfficeOpenXml.Sorting.TableSortOptions.SortBy
+  langs:
+  - csharp
+  - vb
+  name: TableSortOptions
+  nameWithType: TableSortOptions
+  fullName: OfficeOpenXml.Sorting.TableSortOptions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sorting/TableSortOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableSortOptions
+    path: ../src/EPPlus/Sorting/TableSortOptions.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSort options for sorting an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: 'public class TableSortOptions : SortOptionsBase'
+    content.vb: >-
+      Public Class TableSortOptions
+          Inherits SortOptionsBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Sorting.SortOptionsBase
+  inheritedMembers:
+  - OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  - OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Sorting.TableSortOptions.#ctor(OfficeOpenXml.Table.ExcelTable)
+  commentId: M:OfficeOpenXml.Sorting.TableSortOptions.#ctor(OfficeOpenXml.Table.ExcelTable)
+  id: '#ctor(OfficeOpenXml.Table.ExcelTable)'
+  parent: OfficeOpenXml.Sorting.TableSortOptions
+  langs:
+  - csharp
+  - vb
+  name: TableSortOptions(ExcelTable)
+  nameWithType: TableSortOptions.TableSortOptions(ExcelTable)
+  fullName: OfficeOpenXml.Sorting.TableSortOptions.TableSortOptions(OfficeOpenXml.Table.ExcelTable)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Sorting/TableSortOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Sorting/TableSortOptions.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public TableSortOptions(ExcelTable table)
+    parameters:
+    - id: table
+      type: OfficeOpenXml.Table.ExcelTable
+      description: The table sort
+    content.vb: Public Sub New(table As ExcelTable)
+  overload: OfficeOpenXml.Sorting.TableSortOptions.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sorting.TableSortOptions.SortBy
+  commentId: P:OfficeOpenXml.Sorting.TableSortOptions.SortBy
+  id: SortBy
+  parent: OfficeOpenXml.Sorting.TableSortOptions
+  langs:
+  - csharp
+  - vb
+  name: SortBy
+  nameWithType: TableSortOptions.SortBy
+  fullName: OfficeOpenXml.Sorting.TableSortOptions.SortBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/TableSortOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortBy
+    path: ../src/EPPlus/Sorting/TableSortOptions.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nDefines the first <xref href=\"OfficeOpenXml.Sorting.TableSortLayer\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public TableSortLayer SortBy { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sorting.TableSortLayer
+    content.vb: Public ReadOnly Property SortBy As TableSortLayer
+  overload: OfficeOpenXml.Sorting.TableSortOptions.SortBy*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Sorting.SortOptionsBase
+  commentId: T:OfficeOpenXml.Sorting.SortOptionsBase
+  parent: OfficeOpenXml.Sorting
+  name: SortOptionsBase
+  nameWithType: SortOptionsBase
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  commentId: P:OfficeOpenXml.Sorting.SortOptionsBase.Culture
+  parent: OfficeOpenXml.Sorting.SortOptionsBase
+  name: Culture
+  nameWithType: SortOptionsBase.Culture
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.Culture
+- uid: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  commentId: P:OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+  parent: OfficeOpenXml.Sorting.SortOptionsBase
+  name: CompareOptions
+  nameWithType: SortOptionsBase.CompareOptions
+  fullName: OfficeOpenXml.Sorting.SortOptionsBase.CompareOptions
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Sorting.TableSortOptions.#ctor*
+  commentId: Overload:OfficeOpenXml.Sorting.TableSortOptions.#ctor
+  name: TableSortOptions
+  nameWithType: TableSortOptions.TableSortOptions
+  fullName: OfficeOpenXml.Sorting.TableSortOptions.TableSortOptions
+- uid: OfficeOpenXml.Sorting.TableSortLayer
+  commentId: T:OfficeOpenXml.Sorting.TableSortLayer
+  parent: OfficeOpenXml.Sorting
+  name: TableSortLayer
+  nameWithType: TableSortLayer
+  fullName: OfficeOpenXml.Sorting.TableSortLayer
+- uid: OfficeOpenXml.Sorting.TableSortOptions.SortBy*
+  commentId: Overload:OfficeOpenXml.Sorting.TableSortOptions.SortBy
+  name: SortBy
+  nameWithType: TableSortOptions.SortBy
+  fullName: OfficeOpenXml.Sorting.TableSortOptions.SortBy

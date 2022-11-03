@@ -17,6 +17,9 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing
 {
+    /// <summary>
+    /// Information about a specific range used by the formula parser.
+    /// </summary>
     public interface IRangeInfo : IEnumerator<ICellInfo>, IEnumerable<ICellInfo>
     {
         /// <summary>

@@ -1,0 +1,124 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eFillDirection
+  commentId: T:OfficeOpenXml.eFillDirection
+  id: eFillDirection
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eFillDirection.Column
+  - OfficeOpenXml.eFillDirection.Row
+  langs:
+  - csharp
+  - vb
+  name: eFillDirection
+  nameWithType: eFillDirection
+  fullName: OfficeOpenXml.eFillDirection
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eFillDirection
+    path: ../src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the fill is performed Down/Up (Column) or Left/Right (Row).\nAlso see <xref href=\"OfficeOpenXml.eFillStartPosition\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public enum eFillDirection
+    content.vb: Public Enum eFillDirection
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eFillDirection.Row
+  commentId: F:OfficeOpenXml.eFillDirection.Row
+  id: Row
+  parent: OfficeOpenXml.eFillDirection
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: eFillDirection.Row
+  fullName: OfficeOpenXml.eFillDirection.Row
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe fill is performed row-wise\n"
+  example: []
+  syntax:
+    content: Row = 0
+    return:
+      type: OfficeOpenXml.eFillDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eFillDirection.Column
+  commentId: F:OfficeOpenXml.eFillDirection.Column
+  id: Column
+  parent: OfficeOpenXml.eFillDirection
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: eFillDirection.Column
+  fullName: OfficeOpenXml.eFillDirection.Column
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe fill is performed column-wise\n"
+  example: []
+  syntax:
+    content: Column = 1
+    return:
+      type: OfficeOpenXml.eFillDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.eFillStartPosition
+  commentId: T:OfficeOpenXml.eFillStartPosition
+  parent: OfficeOpenXml
+  name: eFillStartPosition
+  nameWithType: eFillStartPosition
+  fullName: OfficeOpenXml.eFillStartPosition
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eFillDirection
+  commentId: T:OfficeOpenXml.eFillDirection
+  parent: OfficeOpenXml
+  name: eFillDirection
+  nameWithType: eFillDirection
+  fullName: OfficeOpenXml.eFillDirection

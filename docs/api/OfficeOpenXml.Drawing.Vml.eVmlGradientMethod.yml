@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  commentId: T:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  id: eVmlGradientMethod
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Any
+  - OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Linear
+  - OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.LinearSigma
+  - OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.None
+  - OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Sigma
+  langs:
+  - csharp
+  - vb
+  name: eVmlGradientMethod
+  nameWithType: eVmlGradientMethod
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eVmlGradientMethod
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+    startLine: 5
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe fill method used in a gradient fill\n"
+  example: []
+  syntax:
+    content: public enum eVmlGradientMethod
+    content.vb: Public Enum eVmlGradientMethod
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.None
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eVmlGradientMethod.None
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nNo sigma fill.\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Linear
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Linear
+  id: Linear
+  parent: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  langs:
+  - csharp
+  - vb
+  name: Linear
+  nameWithType: eVmlGradientMethod.Linear
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Linear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Linear
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLinear fill.\n"
+  example: []
+  syntax:
+    content: Linear = 1
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.LinearSigma
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.LinearSigma
+  id: LinearSigma
+  parent: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  langs:
+  - csharp
+  - vb
+  name: LinearSigma
+  nameWithType: eVmlGradientMethod.LinearSigma
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.LinearSigma
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LinearSigma
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLinear sigma fill.\n"
+  example: []
+  syntax:
+    content: LinearSigma = 2
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Sigma
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Sigma
+  id: Sigma
+  parent: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  langs:
+  - csharp
+  - vb
+  name: Sigma
+  nameWithType: eVmlGradientMethod.Sigma
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Sigma
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sigma
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSigma fill. Default.\n"
+  example: []
+  syntax:
+    content: Sigma = 3
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Any
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Any
+  id: Any
+  parent: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  langs:
+  - csharp
+  - vb
+  name: Any
+  nameWithType: eVmlGradientMethod.Any
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod.Any
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Any
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nAny sigma fill.\n"
+  example: []
+  syntax:
+    content: Any = 4
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  commentId: T:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eVmlGradientMethod
+  nameWithType: eVmlGradientMethod
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod

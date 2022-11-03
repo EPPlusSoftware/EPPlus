@@ -1,0 +1,107 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  id: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.NperImpl
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.XirrImpl
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  name: FinanceCalcResult<T>
+  nameWithType: FinanceCalcResult<T>
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>
+  nameWithType.vb: FinanceCalcResult(Of T)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T)
+  name.vb: FinanceCalcResult(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+    name: FinanceCalcResult
+    nameWithType: FinanceCalcResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+    name: FinanceCalcResult
+    nameWithType: FinanceCalcResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  name: ICouponProvider
+  nameWithType: ICouponProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+  name: IPmtProvider
+  nameWithType: IPmtProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+  name: IPriceProvider
+  nameWithType: IPriceProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+  name: IYearFracProvider
+  nameWithType: IYearFracProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.NperImpl
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.NperImpl
+  name: NperImpl
+  nameWithType: NperImpl
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.NperImpl
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: PmtDue
+  nameWithType: PmtDue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  name: RateImpl
+  nameWithType: RateImpl
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.XirrImpl
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.XirrImpl
+  name: XirrImpl
+  nameWithType: XirrImpl
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.XirrImpl
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations

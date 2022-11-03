@@ -1,0 +1,4034 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  id: DeflateStream
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  children:
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,System.Boolean)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose(System.Boolean)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read(System.Byte[],System.Int32,System.Int32)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek(System.Int64,System.IO.SeekOrigin)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength(System.Int64)
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+  - OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write(System.Byte[],System.Int32,System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: DeflateStream
+  nameWithType: DeflateStream
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeflateStream
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA class for compressing and decompressing streams using the Deflate algorithm.\n"
+  remarks: "\n\n<p>\n  The DeflateStream is a <a href=\"http://en.wikipedia.org/wiki/Decorator_pattern\">Decorator</a> on a <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>.  It adds DEFLATE compression or decompression to any\n  stream.\n</p>\n\n<p>\n  Using this stream, applications can compress or decompress data via stream\n<code>Read</code> and <code>Write</code> operations.  Either compresssion or decompression\ncan occur through either reading or writing. The compression format used is\nDEFLATE, which is documented in <a href=\"http://www.ietf.org/rfc/rfc1951.txt\">IETF RFC 1951</a>, &quot;DEFLATE\nCompressed Data Format Specification version 1.3.&quot;.\n</p>\n\n<p>\n  This class is similar to <xref href=\"OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream\" data-throw-if-not-resolved=\"false\"></xref>, except that\n<code>ZlibStream</code> adds the <a href=\"http://www.ietf.org/rfc/rfc1950.txt\">RFC\n1950 - ZLIB</a> framing bytes to a compressed stream when compressing, or\nexpects the RFC1950 framing bytes when decompressing. The <code>DeflateStream</code>\ndoes not.\n</p>\n\n"
+  example: []
+  syntax:
+    content: 'public class DeflateStream : Stream, IAsyncDisposable, IDisposable'
+    content.vb: >-
+      Public Class DeflateStream
+          Inherits Stream
+          Implements IAsyncDisposable, IDisposable
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream
+    commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream
+    commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream
+  inheritance:
+  - System.Object
+  - System.MarshalByRefObject
+  - System.IO.Stream
+  implements:
+  - System.IAsyncDisposable
+  - System.IDisposable
+  inheritedMembers:
+  - System.IO.Stream.Null
+  - System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  - System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  - System.IO.Stream.Close
+  - System.IO.Stream.CopyTo(System.IO.Stream)
+  - System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream,System.Threading.CancellationToken)
+  - System.IO.Stream.CreateWaitHandle
+  - System.IO.Stream.Dispose
+  - System.IO.Stream.DisposeAsync
+  - System.IO.Stream.EndRead(System.IAsyncResult)
+  - System.IO.Stream.EndWrite(System.IAsyncResult)
+  - System.IO.Stream.FlushAsync
+  - System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  - System.IO.Stream.ObjectInvariant
+  - System.IO.Stream.Read(System.Span{System.Byte})
+  - System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.ReadAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+  - System.IO.Stream.ReadByte
+  - System.IO.Stream.Synchronized(System.IO.Stream)
+  - System.IO.Stream.ValidateBufferArguments(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.ValidateCopyToArguments(System.IO.Stream,System.Int32)
+  - System.IO.Stream.Write(System.ReadOnlySpan{System.Byte})
+  - System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.WriteAsync(System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)
+  - System.IO.Stream.WriteByte(System.Byte)
+  - System.IO.Stream.CanTimeout
+  - System.IO.Stream.ReadTimeout
+  - System.IO.Stream.WriteTimeout
+  - System.MarshalByRefObject.GetLifetimeService
+  - System.MarshalByRefObject.InitializeLifetimeService
+  - System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  id: '#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)'
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: DeflateStream(Stream, CompressionMode)
+  nameWithType: DeflateStream.DeflateStream(Stream, CompressionMode)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.DeflateStream(System.IO.Stream, OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCreate a DeflateStream using the specified CompressionMode.\n"
+  remarks: "\nWhen mode is <code>CompressionMode.Compress</code>, the DeflateStream will use\nthe default compression level. The &quot;captive&quot; stream will be closed when\nthe DeflateStream is closed.\n"
+  example:
+  - "\nThis example uses a DeflateStream to compress data from a file, and writes\nthe compressed data to another file.\n<pre><code>using (System.IO.Stream input = System.IO.File.OpenRead(fileToCompress))\n{\n    using (var raw = System.IO.File.Create(fileToCompress + &quot;.deflated&quot;))\n    {\n        using (Stream compressor = new DeflateStream(raw, CompressionMode.Compress))\n        {\n            byte[] buffer = new byte[WORKING_BUFFER_SIZE];\n            int n;\n            while ((n= input.Read(buffer, 0, buffer.Length)) != 0)\n            {\n                compressor.Write(buffer, 0, n);\n            }\n        }\n    }\n}</code></pre>\n\n<pre><code>Using input As Stream = File.OpenRead(fileToCompress)\n    Using raw As FileStream = File.Create(fileToCompress &amp; &quot;.deflated&quot;)\n        Using compressor As Stream = New DeflateStream(raw, CompressionMode.Compress)\n            Dim buffer As Byte() = New Byte(4096) {}\n            Dim n As Integer = -1\n            Do While (n &lt;> 0)\n                If (n > 0) Then\n                    compressor.Write(buffer, 0, n)\n                End If\n                n = input.Read(buffer, 0, buffer.Length)\n            Loop\n        End Using\n    End Using\nEnd Using</code></pre>\n"
+  syntax:
+    content: public DeflateStream(Stream stream, CompressionMode mode)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream which will be read or written.
+    - id: mode
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+      description: Indicates whether the DeflateStream will compress or decompress.
+    content.vb: Public Sub New(stream As Stream, mode As CompressionMode)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  id: '#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)'
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: DeflateStream(Stream, CompressionMode, CompressionLevel)
+  nameWithType: DeflateStream.DeflateStream(Stream, CompressionMode, CompressionLevel)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.DeflateStream(System.IO.Stream, OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode, OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCreate a DeflateStream using the specified CompressionMode and the specified CompressionLevel.\n"
+  remarks: "\n\n<p>\n  When mode is <code>CompressionMode.Decompress</code>, the level parameter is\n  ignored.  The &quot;captive&quot; stream will be closed when the DeflateStream is\n  closed.\n</p>\n\n"
+  example:
+  - "\n\nThis example uses a DeflateStream to compress data from a file, and writes\nthe compressed data to another file.\n\n<pre><code>using (System.IO.Stream input = System.IO.File.OpenRead(fileToCompress))\n{\n    using (var raw = System.IO.File.Create(fileToCompress + &quot;.deflated&quot;))\n    {\n        using (Stream compressor = new DeflateStream(raw,\n                                                     CompressionMode.Compress,\n                                                     CompressionLevel.BestCompression))\n        {\n            byte[] buffer = new byte[WORKING_BUFFER_SIZE];\n            int n= -1;\n            while (n != 0)\n            {\n                if (n > 0)\n                    compressor.Write(buffer, 0, n);\n                n= input.Read(buffer, 0, buffer.Length);\n            }\n        }\n    }\n}</code></pre>\n\n<pre><code>Using input As Stream = File.OpenRead(fileToCompress)\n    Using raw As FileStream = File.Create(fileToCompress &amp; &quot;.deflated&quot;)\n        Using compressor As Stream = New DeflateStream(raw, CompressionMode.Compress, CompressionLevel.BestCompression)\n            Dim buffer As Byte() = New Byte(4096) {}\n            Dim n As Integer = -1\n            Do While (n &lt;> 0)\n                If (n > 0) Then\n                    compressor.Write(buffer, 0, n)\n                End If\n                n = input.Read(buffer, 0, buffer.Length)\n            Loop\n        End Using\n    End Using\nEnd Using</code></pre>\n"
+  syntax:
+    content: public DeflateStream(Stream stream, CompressionMode mode, CompressionLevel level)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to be read or written while deflating or inflating.
+    - id: mode
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+      description: Indicates whether the <code>DeflateStream</code> will compress or decompress.
+    - id: level
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+      description: A tuning knob to trade speed for effectiveness.
+    content.vb: Public Sub New(stream As Stream, mode As CompressionMode, level As CompressionLevel)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,System.Boolean)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,System.Boolean)
+  id: '#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,System.Boolean)'
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: DeflateStream(Stream, CompressionMode, Boolean)
+  nameWithType: DeflateStream.DeflateStream(Stream, CompressionMode, Boolean)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.DeflateStream(System.IO.Stream, OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode, System.Boolean)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCreate a <code>DeflateStream</code> using the specified\n<code>CompressionMode</code>, and explicitly specify whether the\nstream should be left open after Deflation or Inflation.\n"
+  remarks: "\n\n<p>\n  This constructor allows the application to request that the captive stream\n  remain open after the deflation or inflation occurs.  By default, after\n<code>Close()</code> is called on the stream, the captive stream is also\nclosed. In some cases this is not desired, for example if the stream is a\nmemory stream that will be re-read after compression.  Specify true for\nthe <code data-dev-comment-type=\"paramref\" class=\"paramref\">leaveOpen</code> parameter to leave the stream open.\n</p>\n\n<p>\n  The <code>DeflateStream</code> will use the default compression level.\n</p>\n\n<p>\n  See the other overloads of this constructor for example code.\n</p>\n"
+  example: []
+  syntax:
+    content: public DeflateStream(Stream stream, CompressionMode mode, bool leaveOpen)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: "\nThe stream which will be read or written. This is called the\n&quot;captive&quot; stream in other places in this documentation.\n"
+    - id: mode
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+      description: "\nIndicates whether the <code>DeflateStream</code> will compress or decompress.\n"
+    - id: leaveOpen
+      type: System.Boolean
+      description: >-
+        true if the application would like the stream to
+
+        remain open after inflation/deflation.
+    content.vb: Public Sub New(stream As Stream, mode As CompressionMode, leaveOpen As Boolean)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)
+  id: '#ctor(System.IO.Stream,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode,OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel,System.Boolean)'
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: DeflateStream(Stream, CompressionMode, CompressionLevel, Boolean)
+  nameWithType: DeflateStream.DeflateStream(Stream, CompressionMode, CompressionLevel, Boolean)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.DeflateStream(System.IO.Stream, OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode, OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel, System.Boolean)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 308
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCreate a <code>DeflateStream</code> using the specified <code>CompressionMode</code>\nand the specified <code>CompressionLevel</code>, and explicitly specify whether\nthe stream should be left open after Deflation or Inflation.\n"
+  remarks: "\n\n<p>\n  When mode is <code>CompressionMode.Decompress</code>, the level parameter is ignored.\n</p>\n\n<p>\n  This constructor allows the application to request that the captive stream\n  remain open after the deflation or inflation occurs.  By default, after\n<code>Close()</code> is called on the stream, the captive stream is also\nclosed. In some cases this is not desired, for example if the stream is a\n<xref href=\"System.IO.MemoryStream\" data-throw-if-not-resolved=\"false\"></xref> that will be re-read after\ncompression.  Specify true for the <code data-dev-comment-type=\"paramref\" class=\"paramref\">leaveOpen</code> parameter\nto leave the stream open.\n</p>\n\n"
+  example:
+  - "\n\nThis example shows how to use a <code>DeflateStream</code> to compress data from\na file, and store the compressed data into another file.\n\n<pre><code>using (var output = System.IO.File.Create(fileToCompress + &quot;.deflated&quot;))\n{\n    using (System.IO.Stream input = System.IO.File.OpenRead(fileToCompress))\n    {\n        using (Stream compressor = new DeflateStream(output, CompressionMode.Compress, CompressionLevel.BestCompression, true))\n        {\n            byte[] buffer = new byte[WORKING_BUFFER_SIZE];\n            int n= -1;\n            while (n != 0)\n            {\n                if (n > 0)\n                    compressor.Write(buffer, 0, n);\n                n= input.Read(buffer, 0, buffer.Length);\n            }\n        }\n    }\n    // can write additional data to the output stream here\n}</code></pre>\n\n<pre><code>Using output As FileStream = File.Create(fileToCompress &amp; &quot;.deflated&quot;)\n    Using input As Stream = File.OpenRead(fileToCompress)\n        Using compressor As Stream = New DeflateStream(output, CompressionMode.Compress, CompressionLevel.BestCompression, True)\n            Dim buffer As Byte() = New Byte(4096) {}\n            Dim n As Integer = -1\n            Do While (n &lt;> 0)\n                If (n > 0) Then\n                    compressor.Write(buffer, 0, n)\n                End If\n                n = input.Read(buffer, 0, buffer.Length)\n            Loop\n        End Using\n    End Using\n    &apos; can write additional data to the output stream here.\nEnd Using</code></pre>\n"
+  syntax:
+    content: public DeflateStream(Stream stream, CompressionMode mode, CompressionLevel level, bool leaveOpen)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream which will be read or written.
+    - id: mode
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+      description: Indicates whether the DeflateStream will compress or decompress.
+    - id: level
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+      description: A tuning knob to trade speed for effectiveness.
+    - id: leaveOpen
+      type: System.Boolean
+      description: true if the application would like the stream to remain open after inflation/deflation.
+    content.vb: Public Sub New(stream As Stream, mode As CompressionMode, level As CompressionLevel, leaveOpen As Boolean)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode
+  id: FlushMode
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: FlushMode
+  nameWithType: DeflateStream.FlushMode
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlushMode
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 321
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThis property sets the flush behavior on the stream.\n"
+  remarks: >
+    See the ZLIB documentation for the meaning of the flush behavior.
+  example: []
+  syntax:
+    content: public virtual FlushType FlushMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+    content.vb: Public Overridable Property FlushMode As FlushType
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize
+  id: BufferSize
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: BufferSize
+  nameWithType: DeflateStream.BufferSize
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BufferSize
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 348
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe size of the working buffer for the compression codec.\n"
+  remarks: "\n<p>\n  The working buffer is used for all stream operations.  The default size is\n  1024 bytes.  The minimum size is 128 bytes. You may get better performance\n  with a larger buffer.  Then again, you might not.  You would have to test\n  it.\n</p>\n\n<p>\n  Set this before the first call to <code>Read()</code> or <code>Write()</code> on the\n  stream. If you try to set it afterwards, it will throw.\n</p>\n"
+  example: []
+  syntax:
+    content: public int BufferSize { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property BufferSize As Integer
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy
+  id: Strategy
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Strategy
+  nameWithType: DeflateStream.Strategy
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Strategy
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 373
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe ZLIB strategy to be used during compression.\n"
+  remarks: "\nBy tweaking this parameter, you may be able to optimize the compression for\ndata with particular characteristics.\n"
+  example: []
+  syntax:
+    content: public CompressionStrategy Strategy { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+    content.vb: Public Property Strategy As CompressionStrategy
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn
+  id: TotalIn
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: TotalIn
+  nameWithType: DeflateStream.TotalIn
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalIn
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 387
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: Returns the total number of bytes input so far.
+  example: []
+  syntax:
+    content: public virtual long TotalIn { get; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Overridable ReadOnly Property TotalIn As Long
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut
+  id: TotalOut
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: TotalOut
+  nameWithType: DeflateStream.TotalOut
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalOut
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 396
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: Returns the total number of bytes output so far.
+  example: []
+  syntax:
+    content: public virtual long TotalOut { get; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Overridable ReadOnly Property TotalOut As Long
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose(System.Boolean)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose(System.Boolean)
+  id: Dispose(System.Boolean)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Dispose(Boolean)
+  nameWithType: DeflateStream.Dispose(Boolean)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 431
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nDispose the stream.\n"
+  remarks: "\n<p>\n  This may or may not result in a <code>Close()</code> call on the captive\n  stream.  See the constructors that have a <code>leaveOpen</code> parameter\n  for more information.\n</p>\n<p>\n  Application code won&apos;t call this code directly.  This method may be\n  invoked in two distinct scenarios.  If disposing == true, the method\n  has been called directly or indirectly by a user&apos;s code, for example\n  via the public Dispose() method. In this case, both managed and\n  unmanaged resources can be referenced and disposed.  If disposing ==\n  false, the method has been called by the runtime from inside the\n  object finalizer and this method should not reference other objects;\n  in that case only unmanaged resources must be referenced or\n  disposed.\n</p>\n"
+  example: []
+  syntax:
+    content: protected override void Dispose(bool disposing)
+    parameters:
+    - id: disposing
+      type: System.Boolean
+      description: "\ntrue if the Dispose method was invoked by user code.\n"
+    content.vb: Protected Overrides Sub Dispose(disposing As Boolean)
+  overridden: System.IO.Stream.Dispose(System.Boolean)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead
+  id: CanRead
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: CanRead
+  nameWithType: DeflateStream.CanRead
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CanRead
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 456
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nIndicates whether the stream can be read.\n"
+  remarks: "\nThe return value depends on whether the captive stream supports reading.\n"
+  example: []
+  syntax:
+    content: public override bool CanRead { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property CanRead As Boolean
+  overridden: System.IO.Stream.CanRead
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek
+  id: CanSeek
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: CanSeek
+  nameWithType: DeflateStream.CanSeek
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CanSeek
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 471
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nIndicates whether the stream supports Seek operations.\n"
+  remarks: "\nAlways returns false.\n"
+  example: []
+  syntax:
+    content: public override bool CanSeek { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property CanSeek As Boolean
+  overridden: System.IO.Stream.CanSeek
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite
+  id: CanWrite
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: CanWrite
+  nameWithType: DeflateStream.CanWrite
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CanWrite
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 483
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nIndicates whether the stream can be written.\n"
+  remarks: "\nThe return value depends on whether the captive stream supports writing.\n"
+  example: []
+  syntax:
+    content: public override bool CanWrite { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property CanWrite As Boolean
+  overridden: System.IO.Stream.CanWrite
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush
+  id: Flush
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Flush()
+  nameWithType: DeflateStream.Flush()
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Flush
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 495
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nFlush the stream.\n"
+  example: []
+  syntax:
+    content: public override void Flush()
+    content.vb: Public Overrides Sub Flush
+  overridden: System.IO.Stream.Flush
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length
+  id: Length
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: DeflateStream.Length
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Length
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 504
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nReading this property always throws a <xref href=\"System.NotImplementedException\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public override long Length { get; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Overrides ReadOnly Property Length As Long
+  overridden: System.IO.Stream.Length
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position
+  commentId: P:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position
+  id: Position
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: DeflateStream.Position
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Position
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 520
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe position of the stream pointer.\n"
+  remarks: "\nSetting this property always throws a <xref href=\"System.NotImplementedException\" data-throw-if-not-resolved=\"false\"></xref>. Reading will return the total bytes\nwritten out, if used in writing, or the total bytes read in, if used in\nreading.  The count may refer to compressed bytes or uncompressed bytes,\ndepending on how you&apos;ve used the stream.\n"
+  example: []
+  syntax:
+    content: public override long Position { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Overrides Property Position As Long
+  overridden: System.IO.Stream.Position
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read(System.Byte[],System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read(System.Byte[],System.Int32,System.Int32)
+  id: Read(System.Byte[],System.Int32,System.Int32)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Read(Byte[], Int32, Int32)
+  nameWithType: DeflateStream.Read(Byte[], Int32, Int32)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read(System.Byte[], System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Read
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 559
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nRead data from the stream.\n"
+  remarks: "\n\n<p>\n  If you wish to use the <code>DeflateStream</code> to compress data while\n  reading, you can create a <code>DeflateStream</code> with\n<code>CompressionMode.Compress</code>, providing an uncompressed data stream.\nThen call Read() on that <code>DeflateStream</code>, and the data read will be\ncompressed as you read.  If you wish to use the <code>DeflateStream</code> to\ndecompress data while reading, you can create a <code>DeflateStream</code> with\n<code>CompressionMode.Decompress</code>, providing a readable compressed data\nstream.  Then call Read() on that <code>DeflateStream</code>, and the data read\nwill be decompressed as you read.\n</p>\n\n<p>\n  A <code>DeflateStream</code> can be used for <code>Read()</code> or <code>Write()</code>, but not both.\n</p>\n\n"
+  example: []
+  syntax:
+    content: public override int Read(byte[] buffer, int offset, int count)
+    parameters:
+    - id: buffer
+      type: System.Byte[]
+      description: The buffer into which the read data should be placed.
+    - id: offset
+      type: System.Int32
+      description: the offset within that data array to put the first byte read.
+    - id: count
+      type: System.Int32
+      description: the number of bytes to read.
+    return:
+      type: System.Int32
+      description: the number of bytes actually read
+    content.vb: Public Overrides Function Read(buffer As Byte(), offset As Integer, count As Integer) As Integer
+  overridden: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read*
+  nameWithType.vb: DeflateStream.Read(Byte(), Int32, Int32)
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+  fullName.vb: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read(System.Byte(), System.Int32, System.Int32)
+  name.vb: Read(Byte(), Int32, Int32)
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek(System.Int64,System.IO.SeekOrigin)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek(System.Int64,System.IO.SeekOrigin)
+  id: Seek(System.Int64,System.IO.SeekOrigin)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Seek(Int64, SeekOrigin)
+  nameWithType: DeflateStream.Seek(Int64, SeekOrigin)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek(System.Int64, System.IO.SeekOrigin)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Seek
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 572
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCalling this method always throws a <xref href=\"System.NotImplementedException\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public override long Seek(long offset, SeekOrigin origin)
+    parameters:
+    - id: offset
+      type: System.Int64
+      description: this is irrelevant, since it will always throw!
+    - id: origin
+      type: System.IO.SeekOrigin
+      description: this is irrelevant, since it will always throw!
+    return:
+      type: System.Int64
+      description: irrelevant!
+    content.vb: Public Overrides Function Seek(offset As Long, origin As SeekOrigin) As Long
+  overridden: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength(System.Int64)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength(System.Int64)
+  id: SetLength(System.Int64)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: SetLength(Int64)
+  nameWithType: DeflateStream.SetLength(Int64)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength(System.Int64)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetLength
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 581
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCalling this method always throws a <xref href=\"System.NotImplementedException\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public override void SetLength(long value)
+    parameters:
+    - id: value
+      type: System.Int64
+      description: this is irrelevant, since it will always throw!
+    content.vb: Public Overrides Sub SetLength(value As Long)
+  overridden: System.IO.Stream.SetLength(System.Int64)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write(System.Byte[],System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write(System.Byte[],System.Int32,System.Int32)
+  id: Write(System.Byte[],System.Int32,System.Int32)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: Write(Byte[], Int32, Int32)
+  nameWithType: DeflateStream.Write(Byte[], Int32, Int32)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write(System.Byte[], System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Write
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 615
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nWrite data to the stream.\n"
+  remarks: "\n\n<p>\n  If you wish to use the <code>DeflateStream</code> to compress data while\n  writing, you can create a <code>DeflateStream</code> with\n<code>CompressionMode.Compress</code>, and a writable output stream.  Then call\n<code>Write()</code> on that <code>DeflateStream</code>, providing uncompressed data\nas input.  The data sent to the output stream will be the compressed form\nof the data written.  If you wish to use the <code>DeflateStream</code> to\ndecompress data while writing, you can create a <code>DeflateStream</code> with\n<code>CompressionMode.Decompress</code>, and a writable output stream.  Then\ncall <code>Write()</code> on that stream, providing previously compressed\ndata. The data sent to the output stream will be the decompressed form of\nthe data written.\n</p>\n\n<p>\n  A <code>DeflateStream</code> can be used for <code>Read()</code> or <code>Write()</code>,\n  but not both.\n</p>\n\n"
+  example: []
+  syntax:
+    content: public override void Write(byte[] buffer, int offset, int count)
+    parameters:
+    - id: buffer
+      type: System.Byte[]
+      description: The buffer holding data to write to the stream.
+    - id: offset
+      type: System.Int32
+      description: the offset within that data array to find the first byte to write.
+    - id: count
+      type: System.Int32
+      description: the number of bytes to write.
+    content.vb: Public Overrides Sub Write(buffer As Byte(), offset As Integer, count As Integer)
+  overridden: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write*
+  nameWithType.vb: DeflateStream.Write(Byte(), Int32, Int32)
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+  fullName.vb: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write(System.Byte(), System.Int32, System.Int32)
+  name.vb: Write(Byte(), Int32, Int32)
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+  id: CompressString(System.String)
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: CompressString(String)
+  nameWithType: DeflateStream.CompressString(String)
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompressString
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 644
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCompress a string into a byte array using DEFLATE (RFC 1951).\n"
+  remarks: "\nUncompress it with <xref href=\"OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public static byte[] CompressString(string s)
+    parameters:
+    - id: s
+      type: System.String
+      description: "\nA string to compress. The string will first be encoded\nusing UTF8, then compressed.\n"
+    return:
+      type: System.Byte[]
+      description: The string in compressed form
+    content.vb: Public Shared Function CompressString(s As String) As Byte()
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString*
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+    altText: DeflateStream.UncompressString(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+    altText: DeflateStream.CompressBuffer(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressString(System.String)
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressString(System.String)
+    altText: GZipStream.CompressString(string)
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressString(System.String)
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressString(System.String)
+    altText: ZlibStream.CompressString(string)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+  id: CompressBuffer(System.Byte[])
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: CompressBuffer(Byte[])
+  nameWithType: DeflateStream.CompressBuffer(Byte[])
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompressBuffer
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 674
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nCompress a byte array into a new byte array using DEFLATE.\n"
+  remarks: "\nUncompress it with <xref href=\"OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public static byte[] CompressBuffer(byte[] b)
+    parameters:
+    - id: b
+      type: System.Byte[]
+      description: "\nA buffer to compress.\n"
+    return:
+      type: System.Byte[]
+      description: The data in compressed form
+    content.vb: Public Shared Function CompressBuffer(b As Byte()) As Byte()
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer*
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+    altText: DeflateStream.CompressString(string)
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+    altText: DeflateStream.UncompressBuffer(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressBuffer(System.Byte[])
+    altText: GZipStream.CompressBuffer(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressBuffer(System.Byte[])
+    altText: ZlibStream.CompressBuffer(byte[])
+  nameWithType.vb: DeflateStream.CompressBuffer(Byte())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte())
+  name.vb: CompressBuffer(Byte())
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+  id: UncompressString(System.Byte[])
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: UncompressString(Byte[])
+  nameWithType: DeflateStream.UncompressString(Byte[])
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UncompressString
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 701
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nUncompress a DEFLATE&apos;d byte array into a single string.\n"
+  example: []
+  syntax:
+    content: public static string UncompressString(byte[] compressed)
+    parameters:
+    - id: compressed
+      type: System.Byte[]
+      description: "\nA buffer containing DEFLATE-compressed data.\n"
+    return:
+      type: System.String
+      description: The uncompressed string
+    content.vb: Public Shared Function UncompressString(compressed As Byte()) As String
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString*
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+    altText: DeflateStream.CompressString(String)
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+    altText: DeflateStream.UncompressBuffer(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressString(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressString(System.Byte[])
+    altText: GZipStream.UncompressString(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressString(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressString(System.Byte[])
+    altText: ZlibStream.UncompressString(byte[])
+  nameWithType.vb: DeflateStream.UncompressString(Byte())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte())
+  name.vb: UncompressString(Byte())
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+  id: UncompressBuffer(System.Byte[])
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+  langs:
+  - csharp
+  - vb
+  name: UncompressBuffer(Byte[])
+  nameWithType: DeflateStream.UncompressBuffer(Byte[])
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UncompressBuffer
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/DeflateStream.cs
+    startLine: 727
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nUncompress a DEFLATE&apos;d byte array into a byte array.\n"
+  example: []
+  syntax:
+    content: public static byte[] UncompressBuffer(byte[] compressed)
+    parameters:
+    - id: compressed
+      type: System.Byte[]
+      description: "\nA buffer containing data that has been compressed with DEFLATE.\n"
+    return:
+      type: System.Byte[]
+      description: The data in uncompressed form
+    content.vb: Public Shared Function UncompressBuffer(compressed As Byte()) As Byte()
+  overload: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer*
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+    altText: DeflateStream.CompressBuffer(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+    altText: DeflateStream.UncompressString(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressBuffer(System.Byte[])
+    altText: GZipStream.UncompressBuffer(byte[])
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressBuffer(System.Byte[])
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressBuffer(System.Byte[])
+    altText: ZlibStream.UncompressBuffer(byte[])
+  nameWithType.vb: DeflateStream.UncompressBuffer(Byte())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte())
+  name.vb: UncompressBuffer(Byte())
+references:
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream
+  name: ZlibStream
+  nameWithType: ZlibStream
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream
+  name: GZipStream
+  nameWithType: GZipStream
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.MarshalByRefObject
+  commentId: T:System.MarshalByRefObject
+  parent: System
+  isExternal: true
+  name: MarshalByRefObject
+  nameWithType: MarshalByRefObject
+  fullName: System.MarshalByRefObject
+- uid: System.IAsyncDisposable
+  commentId: T:System.IAsyncDisposable
+  parent: System
+  isExternal: true
+  name: IAsyncDisposable
+  nameWithType: IAsyncDisposable
+  fullName: System.IAsyncDisposable
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.IO.Stream.Null
+  commentId: F:System.IO.Stream.Null
+  parent: System.IO.Stream
+  isExternal: true
+  name: "Null"
+  nameWithType: Stream.Null
+  fullName: System.IO.Stream.Null
+- uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  commentId: M:System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  parent: System.IO.Stream
+  isExternal: true
+  name: BeginRead(Byte[], Int32, Int32, AsyncCallback, Object)
+  nameWithType: Stream.BeginRead(Byte[], Int32, Int32, AsyncCallback, Object)
+  fullName: System.IO.Stream.BeginRead(System.Byte[], System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  nameWithType.vb: Stream.BeginRead(Byte(), Int32, Int32, AsyncCallback, Object)
+  fullName.vb: System.IO.Stream.BeginRead(System.Byte(), System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  name.vb: BeginRead(Byte(), Int32, Int32, AsyncCallback, Object)
+  spec.csharp:
+  - uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginRead
+    nameWithType: Stream.BeginRead
+    fullName: System.IO.Stream.BeginRead
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    nameWithType: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginRead
+    nameWithType: Stream.BeginRead
+    fullName: System.IO.Stream.BeginRead
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    nameWithType: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  commentId: M:System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  parent: System.IO.Stream
+  isExternal: true
+  name: BeginWrite(Byte[], Int32, Int32, AsyncCallback, Object)
+  nameWithType: Stream.BeginWrite(Byte[], Int32, Int32, AsyncCallback, Object)
+  fullName: System.IO.Stream.BeginWrite(System.Byte[], System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  nameWithType.vb: Stream.BeginWrite(Byte(), Int32, Int32, AsyncCallback, Object)
+  fullName.vb: System.IO.Stream.BeginWrite(System.Byte(), System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  name.vb: BeginWrite(Byte(), Int32, Int32, AsyncCallback, Object)
+  spec.csharp:
+  - uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginWrite
+    nameWithType: Stream.BeginWrite
+    fullName: System.IO.Stream.BeginWrite
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    nameWithType: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginWrite
+    nameWithType: Stream.BeginWrite
+    fullName: System.IO.Stream.BeginWrite
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    nameWithType: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.Close
+  commentId: M:System.IO.Stream.Close
+  parent: System.IO.Stream
+  isExternal: true
+  name: Close()
+  nameWithType: Stream.Close()
+  fullName: System.IO.Stream.Close()
+  spec.csharp:
+  - uid: System.IO.Stream.Close
+    name: Close
+    nameWithType: Stream.Close
+    fullName: System.IO.Stream.Close
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Close
+    name: Close
+    nameWithType: Stream.Close
+    fullName: System.IO.Stream.Close
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CopyTo(System.IO.Stream)
+  commentId: M:System.IO.Stream.CopyTo(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyTo(Stream)
+  nameWithType: Stream.CopyTo(Stream)
+  fullName: System.IO.Stream.CopyTo(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream)
+    name: CopyTo
+    nameWithType: Stream.CopyTo
+    fullName: System.IO.Stream.CopyTo
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream)
+    name: CopyTo
+    nameWithType: Stream.CopyTo
+    fullName: System.IO.Stream.CopyTo
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+  commentId: M:System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyTo(Stream, Int32)
+  nameWithType: Stream.CopyTo(Stream, Int32)
+  fullName: System.IO.Stream.CopyTo(System.IO.Stream, System.Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+    name: CopyTo
+    nameWithType: Stream.CopyTo
+    fullName: System.IO.Stream.CopyTo
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+    name: CopyTo
+    nameWithType: Stream.CopyTo
+    fullName: System.IO.Stream.CopyTo
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+  commentId: M:System.IO.Stream.CopyToAsync(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream)
+  nameWithType: Stream.CopyToAsync(Stream)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+  commentId: M:System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream, Int32)
+  nameWithType: Stream.CopyToAsync(Stream, Int32)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream, Int32, CancellationToken)
+  nameWithType: Stream.CopyToAsync(Stream, Int32, CancellationToken)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.CopyToAsync(System.IO.Stream,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream, CancellationToken)
+  nameWithType: Stream.CopyToAsync(Stream, CancellationToken)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Threading.CancellationToken)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Threading.CancellationToken)
+    name: CopyToAsync
+    nameWithType: Stream.CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CreateWaitHandle
+  commentId: M:System.IO.Stream.CreateWaitHandle
+  parent: System.IO.Stream
+  isExternal: true
+  name: CreateWaitHandle()
+  nameWithType: Stream.CreateWaitHandle()
+  fullName: System.IO.Stream.CreateWaitHandle()
+  spec.csharp:
+  - uid: System.IO.Stream.CreateWaitHandle
+    name: CreateWaitHandle
+    nameWithType: Stream.CreateWaitHandle
+    fullName: System.IO.Stream.CreateWaitHandle
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CreateWaitHandle
+    name: CreateWaitHandle
+    nameWithType: Stream.CreateWaitHandle
+    fullName: System.IO.Stream.CreateWaitHandle
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.Dispose
+  commentId: M:System.IO.Stream.Dispose
+  parent: System.IO.Stream
+  isExternal: true
+  name: Dispose()
+  nameWithType: Stream.Dispose()
+  fullName: System.IO.Stream.Dispose()
+  spec.csharp:
+  - uid: System.IO.Stream.Dispose
+    name: Dispose
+    nameWithType: Stream.Dispose
+    fullName: System.IO.Stream.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Dispose
+    name: Dispose
+    nameWithType: Stream.Dispose
+    fullName: System.IO.Stream.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.DisposeAsync
+  commentId: M:System.IO.Stream.DisposeAsync
+  parent: System.IO.Stream
+  isExternal: true
+  name: DisposeAsync()
+  nameWithType: Stream.DisposeAsync()
+  fullName: System.IO.Stream.DisposeAsync()
+  spec.csharp:
+  - uid: System.IO.Stream.DisposeAsync
+    name: DisposeAsync
+    nameWithType: Stream.DisposeAsync
+    fullName: System.IO.Stream.DisposeAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.DisposeAsync
+    name: DisposeAsync
+    nameWithType: Stream.DisposeAsync
+    fullName: System.IO.Stream.DisposeAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.EndRead(System.IAsyncResult)
+  commentId: M:System.IO.Stream.EndRead(System.IAsyncResult)
+  parent: System.IO.Stream
+  isExternal: true
+  name: EndRead(IAsyncResult)
+  nameWithType: Stream.EndRead(IAsyncResult)
+  fullName: System.IO.Stream.EndRead(System.IAsyncResult)
+  spec.csharp:
+  - uid: System.IO.Stream.EndRead(System.IAsyncResult)
+    name: EndRead
+    nameWithType: Stream.EndRead
+    fullName: System.IO.Stream.EndRead
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    nameWithType: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.EndRead(System.IAsyncResult)
+    name: EndRead
+    nameWithType: Stream.EndRead
+    fullName: System.IO.Stream.EndRead
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    nameWithType: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+  commentId: M:System.IO.Stream.EndWrite(System.IAsyncResult)
+  parent: System.IO.Stream
+  isExternal: true
+  name: EndWrite(IAsyncResult)
+  nameWithType: Stream.EndWrite(IAsyncResult)
+  fullName: System.IO.Stream.EndWrite(System.IAsyncResult)
+  spec.csharp:
+  - uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+    name: EndWrite
+    nameWithType: Stream.EndWrite
+    fullName: System.IO.Stream.EndWrite
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    nameWithType: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+    name: EndWrite
+    nameWithType: Stream.EndWrite
+    fullName: System.IO.Stream.EndWrite
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    nameWithType: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.FlushAsync
+  commentId: M:System.IO.Stream.FlushAsync
+  parent: System.IO.Stream
+  isExternal: true
+  name: FlushAsync()
+  nameWithType: Stream.FlushAsync()
+  fullName: System.IO.Stream.FlushAsync()
+  spec.csharp:
+  - uid: System.IO.Stream.FlushAsync
+    name: FlushAsync
+    nameWithType: Stream.FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.FlushAsync
+    name: FlushAsync
+    nameWithType: Stream.FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: FlushAsync(CancellationToken)
+  nameWithType: Stream.FlushAsync(CancellationToken)
+  fullName: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+    name: FlushAsync
+    nameWithType: Stream.FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+    name: FlushAsync
+    nameWithType: Stream.FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ObjectInvariant
+  commentId: M:System.IO.Stream.ObjectInvariant
+  parent: System.IO.Stream
+  isExternal: true
+  name: ObjectInvariant()
+  nameWithType: Stream.ObjectInvariant()
+  fullName: System.IO.Stream.ObjectInvariant()
+  spec.csharp:
+  - uid: System.IO.Stream.ObjectInvariant
+    name: ObjectInvariant
+    nameWithType: Stream.ObjectInvariant
+    fullName: System.IO.Stream.ObjectInvariant
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ObjectInvariant
+    name: ObjectInvariant
+    nameWithType: Stream.ObjectInvariant
+    fullName: System.IO.Stream.ObjectInvariant
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.Read(System.Span{System.Byte})
+  commentId: M:System.IO.Stream.Read(System.Span{System.Byte})
+  parent: System.IO.Stream
+  isExternal: true
+  name: Read(Span<Byte>)
+  nameWithType: Stream.Read(Span<Byte>)
+  fullName: System.IO.Stream.Read(System.Span<System.Byte>)
+  nameWithType.vb: Stream.Read(Span(Of Byte))
+  fullName.vb: System.IO.Stream.Read(System.Span(Of System.Byte))
+  name.vb: Read(Span(Of Byte))
+  spec.csharp:
+  - uid: System.IO.Stream.Read(System.Span{System.Byte})
+    name: Read
+    nameWithType: Stream.Read
+    fullName: System.IO.Stream.Read
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Read(System.Span{System.Byte})
+    name: Read
+    nameWithType: Stream.Read
+    fullName: System.IO.Stream.Read
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+  commentId: M:System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAsync(Byte[], Int32, Int32)
+  nameWithType: Stream.ReadAsync(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32)
+  nameWithType.vb: Stream.ReadAsync(Byte(), Int32, Int32)
+  fullName.vb: System.IO.Stream.ReadAsync(System.Byte(), System.Int32, System.Int32)
+  name.vb: ReadAsync(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+    name: ReadAsync
+    nameWithType: Stream.ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+    name: ReadAsync
+    nameWithType: Stream.ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAsync(Byte[], Int32, Int32, CancellationToken)
+  nameWithType: Stream.ReadAsync(Byte[], Int32, Int32, CancellationToken)
+  fullName: System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType.vb: Stream.ReadAsync(Byte(), Int32, Int32, CancellationToken)
+  fullName.vb: System.IO.Stream.ReadAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  name.vb: ReadAsync(Byte(), Int32, Int32, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadAsync
+    nameWithType: Stream.ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadAsync
+    nameWithType: Stream.ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.ReadAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAsync(Memory<Byte>, CancellationToken)
+  nameWithType: Stream.ReadAsync(Memory<Byte>, CancellationToken)
+  fullName: System.IO.Stream.ReadAsync(System.Memory<System.Byte>, System.Threading.CancellationToken)
+  nameWithType.vb: Stream.ReadAsync(Memory(Of Byte), CancellationToken)
+  fullName.vb: System.IO.Stream.ReadAsync(System.Memory(Of System.Byte), System.Threading.CancellationToken)
+  name.vb: ReadAsync(Memory(Of Byte), CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+    name: ReadAsync
+    nameWithType: Stream.ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Memory`1
+    name: Memory
+    nameWithType: Memory
+    fullName: System.Memory
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+    name: ReadAsync
+    nameWithType: Stream.ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Memory`1
+    name: Memory
+    nameWithType: Memory
+    fullName: System.Memory
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadByte
+  commentId: M:System.IO.Stream.ReadByte
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadByte()
+  nameWithType: Stream.ReadByte()
+  fullName: System.IO.Stream.ReadByte()
+  spec.csharp:
+  - uid: System.IO.Stream.ReadByte
+    name: ReadByte
+    nameWithType: Stream.ReadByte
+    fullName: System.IO.Stream.ReadByte
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadByte
+    name: ReadByte
+    nameWithType: Stream.ReadByte
+    fullName: System.IO.Stream.ReadByte
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.Synchronized(System.IO.Stream)
+  commentId: M:System.IO.Stream.Synchronized(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Synchronized(Stream)
+  nameWithType: Stream.Synchronized(Stream)
+  fullName: System.IO.Stream.Synchronized(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.Synchronized(System.IO.Stream)
+    name: Synchronized
+    nameWithType: Stream.Synchronized
+    fullName: System.IO.Stream.Synchronized
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Synchronized(System.IO.Stream)
+    name: Synchronized
+    nameWithType: Stream.Synchronized
+    fullName: System.IO.Stream.Synchronized
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ValidateBufferArguments(System.Byte[],System.Int32,System.Int32)
+  commentId: M:System.IO.Stream.ValidateBufferArguments(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ValidateBufferArguments(Byte[], Int32, Int32)
+  nameWithType: Stream.ValidateBufferArguments(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.ValidateBufferArguments(System.Byte[], System.Int32, System.Int32)
+  nameWithType.vb: Stream.ValidateBufferArguments(Byte(), Int32, Int32)
+  fullName.vb: System.IO.Stream.ValidateBufferArguments(System.Byte(), System.Int32, System.Int32)
+  name.vb: ValidateBufferArguments(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.ValidateBufferArguments(System.Byte[],System.Int32,System.Int32)
+    name: ValidateBufferArguments
+    nameWithType: Stream.ValidateBufferArguments
+    fullName: System.IO.Stream.ValidateBufferArguments
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ValidateBufferArguments(System.Byte[],System.Int32,System.Int32)
+    name: ValidateBufferArguments
+    nameWithType: Stream.ValidateBufferArguments
+    fullName: System.IO.Stream.ValidateBufferArguments
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ValidateCopyToArguments(System.IO.Stream,System.Int32)
+  commentId: M:System.IO.Stream.ValidateCopyToArguments(System.IO.Stream,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ValidateCopyToArguments(Stream, Int32)
+  nameWithType: Stream.ValidateCopyToArguments(Stream, Int32)
+  fullName: System.IO.Stream.ValidateCopyToArguments(System.IO.Stream, System.Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.ValidateCopyToArguments(System.IO.Stream,System.Int32)
+    name: ValidateCopyToArguments
+    nameWithType: Stream.ValidateCopyToArguments
+    fullName: System.IO.Stream.ValidateCopyToArguments
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ValidateCopyToArguments(System.IO.Stream,System.Int32)
+    name: ValidateCopyToArguments
+    nameWithType: Stream.ValidateCopyToArguments
+    fullName: System.IO.Stream.ValidateCopyToArguments
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.Write(System.ReadOnlySpan{System.Byte})
+  commentId: M:System.IO.Stream.Write(System.ReadOnlySpan{System.Byte})
+  parent: System.IO.Stream
+  isExternal: true
+  name: Write(ReadOnlySpan<Byte>)
+  nameWithType: Stream.Write(ReadOnlySpan<Byte>)
+  fullName: System.IO.Stream.Write(System.ReadOnlySpan<System.Byte>)
+  nameWithType.vb: Stream.Write(ReadOnlySpan(Of Byte))
+  fullName.vb: System.IO.Stream.Write(System.ReadOnlySpan(Of System.Byte))
+  name.vb: Write(ReadOnlySpan(Of Byte))
+  spec.csharp:
+  - uid: System.IO.Stream.Write(System.ReadOnlySpan{System.Byte})
+    name: Write
+    nameWithType: Stream.Write
+    fullName: System.IO.Stream.Write
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Write(System.ReadOnlySpan{System.Byte})
+    name: Write
+    nameWithType: Stream.Write
+    fullName: System.IO.Stream.Write
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+  commentId: M:System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteAsync(Byte[], Int32, Int32)
+  nameWithType: Stream.WriteAsync(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32)
+  nameWithType.vb: Stream.WriteAsync(Byte(), Int32, Int32)
+  fullName.vb: System.IO.Stream.WriteAsync(System.Byte(), System.Int32, System.Int32)
+  name.vb: WriteAsync(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+    name: WriteAsync
+    nameWithType: Stream.WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+    name: WriteAsync
+    nameWithType: Stream.WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteAsync(Byte[], Int32, Int32, CancellationToken)
+  nameWithType: Stream.WriteAsync(Byte[], Int32, Int32, CancellationToken)
+  fullName: System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType.vb: Stream.WriteAsync(Byte(), Int32, Int32, CancellationToken)
+  fullName.vb: System.IO.Stream.WriteAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  name.vb: WriteAsync(Byte(), Int32, Int32, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: WriteAsync
+    nameWithType: Stream.WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: WriteAsync
+    nameWithType: Stream.WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.WriteAsync(System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.WriteAsync(System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteAsync(ReadOnlyMemory<Byte>, CancellationToken)
+  nameWithType: Stream.WriteAsync(ReadOnlyMemory<Byte>, CancellationToken)
+  fullName: System.IO.Stream.WriteAsync(System.ReadOnlyMemory<System.Byte>, System.Threading.CancellationToken)
+  nameWithType.vb: Stream.WriteAsync(ReadOnlyMemory(Of Byte), CancellationToken)
+  fullName.vb: System.IO.Stream.WriteAsync(System.ReadOnlyMemory(Of System.Byte), System.Threading.CancellationToken)
+  name.vb: WriteAsync(ReadOnlyMemory(Of Byte), CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteAsync(System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)
+    name: WriteAsync
+    nameWithType: Stream.WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlyMemory`1
+    name: ReadOnlyMemory
+    nameWithType: ReadOnlyMemory
+    fullName: System.ReadOnlyMemory
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteAsync(System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)
+    name: WriteAsync
+    nameWithType: Stream.WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlyMemory`1
+    name: ReadOnlyMemory
+    nameWithType: ReadOnlyMemory
+    fullName: System.ReadOnlyMemory
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.WriteByte(System.Byte)
+  commentId: M:System.IO.Stream.WriteByte(System.Byte)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteByte(Byte)
+  nameWithType: Stream.WriteByte(Byte)
+  fullName: System.IO.Stream.WriteByte(System.Byte)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteByte(System.Byte)
+    name: WriteByte
+    nameWithType: Stream.WriteByte
+    fullName: System.IO.Stream.WriteByte
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteByte(System.Byte)
+    name: WriteByte
+    nameWithType: Stream.WriteByte
+    fullName: System.IO.Stream.WriteByte
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.CanTimeout
+  commentId: P:System.IO.Stream.CanTimeout
+  parent: System.IO.Stream
+  isExternal: true
+  name: CanTimeout
+  nameWithType: Stream.CanTimeout
+  fullName: System.IO.Stream.CanTimeout
+- uid: System.IO.Stream.ReadTimeout
+  commentId: P:System.IO.Stream.ReadTimeout
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadTimeout
+  nameWithType: Stream.ReadTimeout
+  fullName: System.IO.Stream.ReadTimeout
+- uid: System.IO.Stream.WriteTimeout
+  commentId: P:System.IO.Stream.WriteTimeout
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteTimeout
+  nameWithType: Stream.WriteTimeout
+  fullName: System.IO.Stream.WriteTimeout
+- uid: System.MarshalByRefObject.GetLifetimeService
+  commentId: M:System.MarshalByRefObject.GetLifetimeService
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: GetLifetimeService()
+  nameWithType: MarshalByRefObject.GetLifetimeService()
+  fullName: System.MarshalByRefObject.GetLifetimeService()
+  spec.csharp:
+  - uid: System.MarshalByRefObject.GetLifetimeService
+    name: GetLifetimeService
+    nameWithType: MarshalByRefObject.GetLifetimeService
+    fullName: System.MarshalByRefObject.GetLifetimeService
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.GetLifetimeService
+    name: GetLifetimeService
+    nameWithType: MarshalByRefObject.GetLifetimeService
+    fullName: System.MarshalByRefObject.GetLifetimeService
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.MarshalByRefObject.InitializeLifetimeService
+  commentId: M:System.MarshalByRefObject.InitializeLifetimeService
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: InitializeLifetimeService()
+  nameWithType: MarshalByRefObject.InitializeLifetimeService()
+  fullName: System.MarshalByRefObject.InitializeLifetimeService()
+  spec.csharp:
+  - uid: System.MarshalByRefObject.InitializeLifetimeService
+    name: InitializeLifetimeService
+    nameWithType: MarshalByRefObject.InitializeLifetimeService
+    fullName: System.MarshalByRefObject.InitializeLifetimeService
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.InitializeLifetimeService
+    name: InitializeLifetimeService
+    nameWithType: MarshalByRefObject.InitializeLifetimeService
+    fullName: System.MarshalByRefObject.InitializeLifetimeService
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  commentId: M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: MemberwiseClone(Boolean)
+  nameWithType: MarshalByRefObject.MemberwiseClone(Boolean)
+  fullName: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  spec.csharp:
+  - uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+    name: MemberwiseClone
+    nameWithType: MarshalByRefObject.MemberwiseClone
+    fullName: System.MarshalByRefObject.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+    name: MemberwiseClone
+    nameWithType: MarshalByRefObject.MemberwiseClone
+    fullName: System.MarshalByRefObject.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.#ctor
+  name: DeflateStream
+  nameWithType: DeflateStream.DeflateStream
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.DeflateStream
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionMode
+  nameWithType: CompressionMode
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.IO.MemoryStream
+  commentId: T:System.IO.MemoryStream
+  parent: System.IO
+  isExternal: true
+  name: MemoryStream
+  nameWithType: MemoryStream
+  fullName: System.IO.MemoryStream
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode
+  name: FlushMode
+  nameWithType: DeflateStream.FlushMode
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.FlushMode
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: FlushType
+  nameWithType: FlushType
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize
+  name: BufferSize
+  nameWithType: DeflateStream.BufferSize
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.BufferSize
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy
+  name: Strategy
+  nameWithType: DeflateStream.Strategy
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Strategy
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionStrategy
+  nameWithType: CompressionStrategy
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn
+  name: TotalIn
+  nameWithType: DeflateStream.TotalIn
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalIn
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  name: Int64
+  nameWithType: Int64
+  fullName: System.Int64
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut
+  name: TotalOut
+  nameWithType: DeflateStream.TotalOut
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.TotalOut
+- uid: System.IO.Stream.Dispose(System.Boolean)
+  commentId: M:System.IO.Stream.Dispose(System.Boolean)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Dispose(Boolean)
+  nameWithType: Stream.Dispose(Boolean)
+  fullName: System.IO.Stream.Dispose(System.Boolean)
+  spec.csharp:
+  - uid: System.IO.Stream.Dispose(System.Boolean)
+    name: Dispose
+    nameWithType: Stream.Dispose
+    fullName: System.IO.Stream.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Dispose(System.Boolean)
+    name: Dispose
+    nameWithType: Stream.Dispose
+    fullName: System.IO.Stream.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose
+  name: Dispose
+  nameWithType: DeflateStream.Dispose
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Dispose
+- uid: System.IO.Stream.CanRead
+  commentId: P:System.IO.Stream.CanRead
+  parent: System.IO.Stream
+  isExternal: true
+  name: CanRead
+  nameWithType: Stream.CanRead
+  fullName: System.IO.Stream.CanRead
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead
+  name: CanRead
+  nameWithType: DeflateStream.CanRead
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanRead
+- uid: System.IO.Stream.CanSeek
+  commentId: P:System.IO.Stream.CanSeek
+  parent: System.IO.Stream
+  isExternal: true
+  name: CanSeek
+  nameWithType: Stream.CanSeek
+  fullName: System.IO.Stream.CanSeek
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek
+  name: CanSeek
+  nameWithType: DeflateStream.CanSeek
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanSeek
+- uid: System.IO.Stream.CanWrite
+  commentId: P:System.IO.Stream.CanWrite
+  parent: System.IO.Stream
+  isExternal: true
+  name: CanWrite
+  nameWithType: Stream.CanWrite
+  fullName: System.IO.Stream.CanWrite
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite
+  name: CanWrite
+  nameWithType: DeflateStream.CanWrite
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CanWrite
+- uid: System.IO.Stream.Flush
+  commentId: M:System.IO.Stream.Flush
+  parent: System.IO.Stream
+  isExternal: true
+  name: Flush()
+  nameWithType: Stream.Flush()
+  fullName: System.IO.Stream.Flush()
+  spec.csharp:
+  - uid: System.IO.Stream.Flush
+    name: Flush
+    nameWithType: Stream.Flush
+    fullName: System.IO.Stream.Flush
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Flush
+    name: Flush
+    nameWithType: Stream.Flush
+    fullName: System.IO.Stream.Flush
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush
+  name: Flush
+  nameWithType: DeflateStream.Flush
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Flush
+- uid: System.NotImplementedException
+  commentId: T:System.NotImplementedException
+  isExternal: true
+- uid: System.IO.Stream.Length
+  commentId: P:System.IO.Stream.Length
+  parent: System.IO.Stream
+  isExternal: true
+  name: Length
+  nameWithType: Stream.Length
+  fullName: System.IO.Stream.Length
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length
+  name: Length
+  nameWithType: DeflateStream.Length
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Length
+- uid: System.IO.Stream.Position
+  commentId: P:System.IO.Stream.Position
+  parent: System.IO.Stream
+  isExternal: true
+  name: Position
+  nameWithType: Stream.Position
+  fullName: System.IO.Stream.Position
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position
+  name: Position
+  nameWithType: DeflateStream.Position
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Position
+- uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+  commentId: M:System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Read(Byte[], Int32, Int32)
+  nameWithType: Stream.Read(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.Read(System.Byte[], System.Int32, System.Int32)
+  nameWithType.vb: Stream.Read(Byte(), Int32, Int32)
+  fullName.vb: System.IO.Stream.Read(System.Byte(), System.Int32, System.Int32)
+  name.vb: Read(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+    name: Read
+    nameWithType: Stream.Read
+    fullName: System.IO.Stream.Read
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+    name: Read
+    nameWithType: Stream.Read
+    fullName: System.IO.Stream.Read
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read
+  name: Read
+  nameWithType: DeflateStream.Read
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Read
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+  commentId: M:System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Seek(Int64, SeekOrigin)
+  nameWithType: Stream.Seek(Int64, SeekOrigin)
+  fullName: System.IO.Stream.Seek(System.Int64, System.IO.SeekOrigin)
+  spec.csharp:
+  - uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+    name: Seek
+    nameWithType: Stream.Seek
+    fullName: System.IO.Stream.Seek
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.IO.SeekOrigin
+    name: SeekOrigin
+    nameWithType: SeekOrigin
+    fullName: System.IO.SeekOrigin
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+    name: Seek
+    nameWithType: Stream.Seek
+    fullName: System.IO.Stream.Seek
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.IO.SeekOrigin
+    name: SeekOrigin
+    nameWithType: SeekOrigin
+    fullName: System.IO.SeekOrigin
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek
+  name: Seek
+  nameWithType: DeflateStream.Seek
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Seek
+- uid: System.IO.SeekOrigin
+  commentId: T:System.IO.SeekOrigin
+  parent: System.IO
+  isExternal: true
+  name: SeekOrigin
+  nameWithType: SeekOrigin
+  fullName: System.IO.SeekOrigin
+- uid: System.IO.Stream.SetLength(System.Int64)
+  commentId: M:System.IO.Stream.SetLength(System.Int64)
+  parent: System.IO.Stream
+  isExternal: true
+  name: SetLength(Int64)
+  nameWithType: Stream.SetLength(Int64)
+  fullName: System.IO.Stream.SetLength(System.Int64)
+  spec.csharp:
+  - uid: System.IO.Stream.SetLength(System.Int64)
+    name: SetLength
+    nameWithType: Stream.SetLength
+    fullName: System.IO.Stream.SetLength
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.SetLength(System.Int64)
+    name: SetLength
+    nameWithType: Stream.SetLength
+    fullName: System.IO.Stream.SetLength
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength
+  name: SetLength
+  nameWithType: DeflateStream.SetLength
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.SetLength
+- uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+  commentId: M:System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Write(Byte[], Int32, Int32)
+  nameWithType: Stream.Write(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.Write(System.Byte[], System.Int32, System.Int32)
+  nameWithType.vb: Stream.Write(Byte(), Int32, Int32)
+  fullName.vb: System.IO.Stream.Write(System.Byte(), System.Int32, System.Int32)
+  name.vb: Write(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+    name: Write
+    nameWithType: Stream.Write
+    fullName: System.IO.Stream.Write
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+    name: Write
+    nameWithType: Stream.Write
+    fullName: System.IO.Stream.Write
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write
+  name: Write
+  nameWithType: DeflateStream.Write
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.Write
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressString(System.String)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressString(System.String)
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressString(System.String)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressString(System.String)
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString
+  name: CompressString
+  nameWithType: DeflateStream.CompressString
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressString(System.String)
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.CompressBuffer(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.CompressBuffer(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer
+  name: CompressBuffer
+  nameWithType: DeflateStream.CompressBuffer
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.CompressBuffer
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressString(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressString(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressString(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressString(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString
+  name: UncompressString
+  nameWithType: DeflateStream.UncompressString
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressString
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream.UncompressBuffer(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressBuffer(System.Byte[])
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream.UncompressBuffer(System.Byte[])
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer*
+  commentId: Overload:OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer
+  name: UncompressBuffer
+  nameWithType: DeflateStream.UncompressBuffer
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream.UncompressBuffer

@@ -1,0 +1,897 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.ExcelTableColumn
+  commentId: T:OfficeOpenXml.Table.ExcelTableColumn
+  id: ExcelTableColumn
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.ExcelTableColumn.AddSlicer
+  - OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+  - OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName
+  - OfficeOpenXml.Table.ExcelTableColumn.Id
+  - OfficeOpenXml.Table.ExcelTableColumn.Name
+  - OfficeOpenXml.Table.ExcelTableColumn.Position
+  - OfficeOpenXml.Table.ExcelTableColumn.Slicer
+  - OfficeOpenXml.Table.ExcelTableColumn.Table
+  - OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+  - OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction
+  - OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableColumn
+  nameWithType: ExcelTableColumn
+  fullName: OfficeOpenXml.Table.ExcelTableColumn
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableColumn
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nA table column\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTableColumn : ExcelTableDxfBase'
+    content.vb: >-
+      Public Class ExcelTableColumn
+          Inherits ExcelTableDxfBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Table.ExcelTableDxfBase
+  inheritedMembers:
+  - OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  - OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  - OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Id
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.Id
+  id: Id
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ExcelTableColumn.Id
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Id
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Id
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe column id\n"
+  example: []
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: OfficeOpenXml.Table.ExcelTableColumn.Id*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Position
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.Position
+  id: Position
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: ExcelTableColumn.Position
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Position
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Position
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe position of the column\n"
+  example: []
+  syntax:
+    content: public int Position { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Position As Integer
+  overload: OfficeOpenXml.Table.ExcelTableColumn.Position*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Name
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.Name
+  id: Name
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelTableColumn.Name
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe name of the column\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Table.ExcelTableColumn.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel
+  id: TotalsRowLabel
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: TotalsRowLabel
+  nameWithType: ExcelTableColumn.TotalsRowLabel
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalsRowLabel
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nA string text in the total row\n"
+  example: []
+  syntax:
+    content: public string TotalsRowLabel { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TotalsRowLabel As String
+  overload: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction
+  id: TotalsRowFunction
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: TotalsRowFunction
+  nameWithType: ExcelTableColumn.TotalsRowFunction
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalsRowFunction
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 113
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nBuild-in total row functions.\nTo set a custom Total row formula use the TotalsRowFormula property\n<xref href=\"OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public RowFunctions TotalsRowFunction { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+    content.vb: Public Property TotalsRowFunction As RowFunctions
+  overload: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+  id: TotalsRowFormula
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: TotalsRowFormula
+  nameWithType: ExcelTableColumn.TotalsRowFormula
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalsRowFormula
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSets a custom Totals row Formula.\nBe carefull with this property since it is not validated. \n<example>\ntbl.Columns[9].TotalsRowFormula = string.Format(&quot;SUM([{0}])&quot;,tbl.Columns[9].Name);\n</example>\n"
+  example: []
+  syntax:
+    content: public string TotalsRowFormula { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TotalsRowFormula As String
+  overload: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName
+  id: DataCellStyleName
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: DataCellStyleName
+  nameWithType: ExcelTableColumn.DataCellStyleName
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataCellStyleName
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 167
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe named style for datacells in the column\n"
+  example: []
+  syntax:
+    content: public string DataCellStyleName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataCellStyleName As String
+  overload: OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Slicer
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.Slicer
+  id: Slicer
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: Slicer
+  nameWithType: ExcelTableColumn.Slicer
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Slicer
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Slicer
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns the slicer attached to a column.\nIf the column has multiple slicers, the first is returned.\n"
+  example: []
+  syntax:
+    content: public ExcelTableSlicer Slicer { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+    content.vb: Public ReadOnly Property Slicer As ExcelTableSlicer
+  overload: OfficeOpenXml.Table.ExcelTableColumn.Slicer*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableColumn.AddSlicer
+  commentId: M:OfficeOpenXml.Table.ExcelTableColumn.AddSlicer
+  id: AddSlicer
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: AddSlicer()
+  nameWithType: ExcelTableColumn.AddSlicer()
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.AddSlicer()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSlicer
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAdds a slicer drawing connected to the column\n"
+  example: []
+  syntax:
+    content: public ExcelTableSlicer AddSlicer()
+    return:
+      type: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+      description: The table slicer drawing object
+    content.vb: Public Function AddSlicer As ExcelTableSlicer
+  overload: OfficeOpenXml.Table.ExcelTableColumn.AddSlicer*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+  id: CalculatedColumnFormula
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: CalculatedColumnFormula
+  nameWithType: ExcelTableColumn.CalculatedColumnFormula
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CalculatedColumnFormula
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 244
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSets a calculated column Formula.\nBe carefull with this property since it is not validated. \n<example>\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;SUM(MyDataTable[[#This Row],[{0}]])&quot;,tbl.Columns[9].Name);  //Reference within the current row\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;MyDataTable[[#Headers],[{0}]]&quot;,tbl.Columns[9].Name);  //Reference to a column header\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;MyDataTable[[#Totals],[{0}]]&quot;,tbl.Columns[9].Name);  //Reference to a column total        \n</example>\n"
+  example: []
+  syntax:
+    content: public string CalculatedColumnFormula { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CalculatedColumnFormula As String
+  overload: OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Table
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.Table
+  id: Table
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: Table
+  nameWithType: ExcelTableColumn.Table
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Table
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Table
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 277
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> containing the table column\n"
+  example: []
+  syntax:
+    content: public ExcelTable Table { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.ExcelTable
+    content.vb: Public ReadOnly Property Table As ExcelTable
+  overload: OfficeOpenXml.Table.ExcelTableColumn.Table*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase
+  commentId: T:OfficeOpenXml.Table.ExcelTableDxfBase
+  parent: OfficeOpenXml.Table
+  name: ExcelTableDxfBase
+  nameWithType: ExcelTableDxfBase
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  name: HeaderRowStyle
+  nameWithType: ExcelTableDxfBase.HeaderRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  name: DataStyle
+  nameWithType: ExcelTableDxfBase.DataStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  name: TotalsRowStyle
+  nameWithType: ExcelTableDxfBase.TotalsRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Id*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.Id
+  name: Id
+  nameWithType: ExcelTableColumn.Id
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Position*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.Position
+  name: Position
+  nameWithType: ExcelTableColumn.Position
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Position
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Name*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.Name
+  name: Name
+  nameWithType: ExcelTableColumn.Name
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel
+  name: TotalsRowLabel
+  nameWithType: ExcelTableColumn.TotalsRowLabel
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowLabel
+- uid: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+  isExternal: true
+- uid: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction
+  name: TotalsRowFunction
+  nameWithType: ExcelTableColumn.TotalsRowFunction
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFunction
+- uid: OfficeOpenXml.Table.RowFunctions
+  commentId: T:OfficeOpenXml.Table.RowFunctions
+  parent: OfficeOpenXml.Table
+  name: RowFunctions
+  nameWithType: RowFunctions
+  fullName: OfficeOpenXml.Table.RowFunctions
+- uid: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+  name: TotalsRowFormula
+  nameWithType: ExcelTableColumn.TotalsRowFormula
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.TotalsRowFormula
+- uid: OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName
+  name: DataCellStyleName
+  nameWithType: ExcelTableColumn.DataCellStyleName
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Slicer*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.Slicer
+  name: Slicer
+  nameWithType: ExcelTableColumn.Slicer
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Slicer
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  parent: OfficeOpenXml.Drawing.Slicer
+  name: ExcelTableSlicer
+  nameWithType: ExcelTableSlicer
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+- uid: OfficeOpenXml.Drawing.Slicer
+  commentId: N:OfficeOpenXml.Drawing.Slicer
+  name: OfficeOpenXml.Drawing.Slicer
+  nameWithType: OfficeOpenXml.Drawing.Slicer
+  fullName: OfficeOpenXml.Drawing.Slicer
+- uid: OfficeOpenXml.Table.ExcelTableColumn.AddSlicer*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.AddSlicer
+  name: AddSlicer
+  nameWithType: ExcelTableColumn.AddSlicer
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.AddSlicer
+- uid: OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+  name: CalculatedColumnFormula
+  nameWithType: ExcelTableColumn.CalculatedColumnFormula
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: OfficeOpenXml.Table.ExcelTableColumn.Table*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.Table
+  name: Table
+  nameWithType: ExcelTableColumn.Table
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.Table

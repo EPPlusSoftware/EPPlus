@@ -1,0 +1,538 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.CompressionLevel
+  commentId: T:OfficeOpenXml.CompressionLevel
+  id: CompressionLevel
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.CompressionLevel.BestCompression
+  - OfficeOpenXml.CompressionLevel.BestSpeed
+  - OfficeOpenXml.CompressionLevel.Default
+  - OfficeOpenXml.CompressionLevel.Level0
+  - OfficeOpenXml.CompressionLevel.Level1
+  - OfficeOpenXml.CompressionLevel.Level2
+  - OfficeOpenXml.CompressionLevel.Level3
+  - OfficeOpenXml.CompressionLevel.Level4
+  - OfficeOpenXml.CompressionLevel.Level5
+  - OfficeOpenXml.CompressionLevel.Level6
+  - OfficeOpenXml.CompressionLevel.Level7
+  - OfficeOpenXml.CompressionLevel.Level8
+  - OfficeOpenXml.CompressionLevel.Level9
+  - OfficeOpenXml.CompressionLevel.None
+  langs:
+  - csharp
+  - vb
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.CompressionLevel
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompressionLevel
+    path: ../src/EPPlus/Enums.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMaps to DotNetZips CompressionLevel enum\n"
+  example: []
+  syntax:
+    content: public enum CompressionLevel
+    content.vb: Public Enum CompressionLevel
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.CompressionLevel.Level0
+  commentId: F:OfficeOpenXml.CompressionLevel.Level0
+  id: Level0
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level0
+  nameWithType: CompressionLevel.Level0
+  fullName: OfficeOpenXml.CompressionLevel.Level0
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level0
+    path: ../src/EPPlus/Enums.cs
+    startLine: 116
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 0, no compression\n"
+  example: []
+  syntax:
+    content: Level0 = 0
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.None
+  commentId: F:OfficeOpenXml.CompressionLevel.None
+  id: None
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: CompressionLevel.None
+  fullName: OfficeOpenXml.CompressionLevel.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Enums.cs
+    startLine: 120
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNo compression\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level1
+  commentId: F:OfficeOpenXml.CompressionLevel.Level1
+  id: Level1
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level1
+  nameWithType: CompressionLevel.Level1
+  fullName: OfficeOpenXml.CompressionLevel.Level1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level1
+    path: ../src/EPPlus/Enums.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 1, Best speen\n"
+  example: []
+  syntax:
+    content: Level1 = 1
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.BestSpeed
+  commentId: F:OfficeOpenXml.CompressionLevel.BestSpeed
+  id: BestSpeed
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: BestSpeed
+  nameWithType: CompressionLevel.BestSpeed
+  fullName: OfficeOpenXml.CompressionLevel.BestSpeed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BestSpeed
+    path: ../src/EPPlus/Enums.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: BestSpeed = 1
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level2
+  commentId: F:OfficeOpenXml.CompressionLevel.Level2
+  id: Level2
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level2
+  nameWithType: CompressionLevel.Level2
+  fullName: OfficeOpenXml.CompressionLevel.Level2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level2
+    path: ../src/EPPlus/Enums.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 2\n"
+  example: []
+  syntax:
+    content: Level2 = 2
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level3
+  commentId: F:OfficeOpenXml.CompressionLevel.Level3
+  id: Level3
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level3
+  nameWithType: CompressionLevel.Level3
+  fullName: OfficeOpenXml.CompressionLevel.Level3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level3
+    path: ../src/EPPlus/Enums.cs
+    startLine: 136
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 3\n"
+  example: []
+  syntax:
+    content: Level3 = 3
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level4
+  commentId: F:OfficeOpenXml.CompressionLevel.Level4
+  id: Level4
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level4
+  nameWithType: CompressionLevel.Level4
+  fullName: OfficeOpenXml.CompressionLevel.Level4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level4
+    path: ../src/EPPlus/Enums.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 4\n"
+  example: []
+  syntax:
+    content: Level4 = 4
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level5
+  commentId: F:OfficeOpenXml.CompressionLevel.Level5
+  id: Level5
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level5
+  nameWithType: CompressionLevel.Level5
+  fullName: OfficeOpenXml.CompressionLevel.Level5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level5
+    path: ../src/EPPlus/Enums.cs
+    startLine: 144
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 5\n"
+  example: []
+  syntax:
+    content: Level5 = 5
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level6
+  commentId: F:OfficeOpenXml.CompressionLevel.Level6
+  id: Level6
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level6
+  nameWithType: CompressionLevel.Level6
+  fullName: OfficeOpenXml.CompressionLevel.Level6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level6
+    path: ../src/EPPlus/Enums.cs
+    startLine: 148
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 6\n"
+  example: []
+  syntax:
+    content: Level6 = 6
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Default
+  commentId: F:OfficeOpenXml.CompressionLevel.Default
+  id: Default
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: CompressionLevel.Default
+  fullName: OfficeOpenXml.CompressionLevel.Default
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default
+    path: ../src/EPPlus/Enums.cs
+    startLine: 152
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDefault, Level 6\n"
+  example: []
+  syntax:
+    content: Default = 6
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level7
+  commentId: F:OfficeOpenXml.CompressionLevel.Level7
+  id: Level7
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level7
+  nameWithType: CompressionLevel.Level7
+  fullName: OfficeOpenXml.CompressionLevel.Level7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level7
+    path: ../src/EPPlus/Enums.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 7\n"
+  example: []
+  syntax:
+    content: Level7 = 7
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level8
+  commentId: F:OfficeOpenXml.CompressionLevel.Level8
+  id: Level8
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level8
+  nameWithType: CompressionLevel.Level8
+  fullName: OfficeOpenXml.CompressionLevel.Level8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level8
+    path: ../src/EPPlus/Enums.cs
+    startLine: 160
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 8\n"
+  example: []
+  syntax:
+    content: Level8 = 8
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.BestCompression
+  commentId: F:OfficeOpenXml.CompressionLevel.BestCompression
+  id: BestCompression
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: BestCompression
+  nameWithType: CompressionLevel.BestCompression
+  fullName: OfficeOpenXml.CompressionLevel.BestCompression
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BestCompression
+    path: ../src/EPPlus/Enums.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLevel 9\n"
+  example: []
+  syntax:
+    content: BestCompression = 9
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.CompressionLevel.Level9
+  commentId: F:OfficeOpenXml.CompressionLevel.Level9
+  id: Level9
+  parent: OfficeOpenXml.CompressionLevel
+  langs:
+  - csharp
+  - vb
+  name: Level9
+  nameWithType: CompressionLevel.Level9
+  fullName: OfficeOpenXml.CompressionLevel.Level9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Level9
+    path: ../src/EPPlus/Enums.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBest compression, Level 9\n"
+  example: []
+  syntax:
+    content: Level9 = 9
+    return:
+      type: OfficeOpenXml.CompressionLevel
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.CompressionLevel
+  commentId: T:OfficeOpenXml.CompressionLevel
+  parent: OfficeOpenXml
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.CompressionLevel

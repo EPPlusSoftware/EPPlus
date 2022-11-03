@@ -1,0 +1,2330 @@
+### YamlMime:TableOfContent
+- uid: OfficeOpenXml
+  name: OfficeOpenXml
+  items:
+  - uid: OfficeOpenXml.CalculationExtension
+    name: CalculationExtension
+  - uid: OfficeOpenXml.CompressionLevel
+    name: CompressionLevel
+  - uid: OfficeOpenXml.eCalculationMethod
+    name: eCalculationMethod
+  - uid: OfficeOpenXml.eCrossFilter
+    name: eCrossFilter
+  - uid: OfficeOpenXml.eDataTypeOn
+    name: eDataTypeOn
+  - uid: OfficeOpenXml.eDataTypes
+    name: eDataTypes
+  - uid: OfficeOpenXml.eDateTimeUnit
+    name: eDateTimeUnit
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+  - uid: OfficeOpenXml.eFillDirection
+    name: eFillDirection
+  - uid: OfficeOpenXml.eFillStartPosition
+    name: eFillStartPosition
+  - uid: OfficeOpenXml.eHtmlRangeTableInclude
+    name: eHtmlRangeTableInclude
+  - uid: OfficeOpenXml.EncryptionAlgorithm
+    name: EncryptionAlgorithm
+  - uid: OfficeOpenXml.EncryptionVersion
+    name: EncryptionVersion
+  - uid: OfficeOpenXml.eOrientation
+    name: eOrientation
+  - uid: OfficeOpenXml.ePageOrder
+    name: ePageOrder
+  - uid: OfficeOpenXml.ePanePosition
+    name: ePanePosition
+  - uid: OfficeOpenXml.ePaneState
+    name: ePaneState
+  - uid: OfficeOpenXml.ePaperSize
+    name: ePaperSize
+  - uid: OfficeOpenXml.eShiftTypeDelete
+    name: eShiftTypeDelete
+  - uid: OfficeOpenXml.eShiftTypeInsert
+    name: eShiftTypeInsert
+  - uid: OfficeOpenXml.eSlicerSourceType
+    name: eSlicerSourceType
+  - uid: OfficeOpenXml.eSlicerStyle
+    name: eSlicerStyle
+  - uid: OfficeOpenXml.eSortOrder
+    name: eSortOrder
+  - uid: OfficeOpenXml.eTableNamedStyleAppliesTo
+    name: eTableNamedStyleAppliesTo
+  - uid: OfficeOpenXml.eVmlDashStyle
+    name: eVmlDashStyle
+  - uid: OfficeOpenXml.eVmlLineStyle
+    name: eVmlLineStyle
+  - uid: OfficeOpenXml.eWorkSheetHidden
+    name: eWorkSheetHidden
+  - uid: OfficeOpenXml.ExcelAddress
+    name: ExcelAddress
+  - uid: OfficeOpenXml.ExcelAddressBase
+    name: ExcelAddressBase
+  - uid: OfficeOpenXml.ExcelBackgroundImage
+    name: ExcelBackgroundImage
+  - uid: OfficeOpenXml.ExcelCalcMode
+    name: ExcelCalcMode
+  - uid: OfficeOpenXml.ExcelCellAddress
+    name: ExcelCellAddress
+  - uid: OfficeOpenXml.ExcelCellBase
+    name: ExcelCellBase
+  - uid: OfficeOpenXml.ExcelChartsheet
+    name: ExcelChartsheet
+  - uid: OfficeOpenXml.ExcelColumn
+    name: ExcelColumn
+  - uid: OfficeOpenXml.ExcelColumnCollection
+    name: ExcelColumnCollection
+  - uid: OfficeOpenXml.ExcelComment
+    name: ExcelComment
+  - uid: OfficeOpenXml.ExcelCommentCollection
+    name: ExcelCommentCollection
+  - uid: OfficeOpenXml.ExcelEncryption
+    name: ExcelEncryption
+  - uid: OfficeOpenXml.ExcelErrorValue
+    name: ExcelErrorValue
+  - uid: OfficeOpenXml.ExcelErrorValue.Values
+    name: ExcelErrorValue.Values
+  - uid: OfficeOpenXml.ExcelFormulaAddress
+    name: ExcelFormulaAddress
+  - uid: OfficeOpenXml.ExcelHeaderFooter
+    name: ExcelHeaderFooter
+  - uid: OfficeOpenXml.ExcelHeaderFooterText
+    name: ExcelHeaderFooterText
+  - uid: OfficeOpenXml.ExcelHyperLink
+    name: ExcelHyperLink
+  - uid: OfficeOpenXml.ExcelIgnoredError
+    name: ExcelIgnoredError
+  - uid: OfficeOpenXml.ExcelIgnoredErrorCollection
+    name: ExcelIgnoredErrorCollection
+  - uid: OfficeOpenXml.ExcelImageSettings
+    name: ExcelImageSettings
+  - uid: OfficeOpenXml.ExcelInitializationError
+    name: ExcelInitializationError
+  - uid: OfficeOpenXml.ExcelNamedRange
+    name: ExcelNamedRange
+  - uid: OfficeOpenXml.ExcelNamedRangeCollection
+    name: ExcelNamedRangeCollection
+  - uid: OfficeOpenXml.ExcelNamedStyleCollection`1
+    name: ExcelNamedStyleCollection<T>
+    name.vb: ExcelNamedStyleCollection(Of T)
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+  - uid: OfficeOpenXml.ExcelPackage
+    name: ExcelPackage
+  - uid: OfficeOpenXml.ExcelPackageSettings
+    name: ExcelPackageSettings
+  - uid: OfficeOpenXml.ExcelPrinterSettings
+    name: ExcelPrinterSettings
+  - uid: OfficeOpenXml.ExcelProtectedRange
+    name: ExcelProtectedRange
+  - uid: OfficeOpenXml.ExcelProtectedRangeCollection
+    name: ExcelProtectedRangeCollection
+  - uid: OfficeOpenXml.ExcelProtection
+    name: ExcelProtection
+  - uid: OfficeOpenXml.ExcelRange
+    name: ExcelRange
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+  - uid: OfficeOpenXml.ExcelRangeColumn
+    name: ExcelRangeColumn
+  - uid: OfficeOpenXml.ExcelRangeCopyOptionFlags
+    name: ExcelRangeCopyOptionFlags
+  - uid: OfficeOpenXml.ExcelRangeRow
+    name: ExcelRangeRow
+  - uid: OfficeOpenXml.ExcelRow
+    name: ExcelRow
+  - uid: OfficeOpenXml.ExcelRowsCollection
+    name: ExcelRowsCollection
+  - uid: OfficeOpenXml.ExcelSheetProtection
+    name: ExcelSheetProtection
+  - uid: OfficeOpenXml.ExcelStyleCollection`1
+    name: ExcelStyleCollection<T>
+    name.vb: ExcelStyleCollection(Of T)
+  - uid: OfficeOpenXml.ExcelStyles
+    name: ExcelStyles
+  - uid: OfficeOpenXml.ExcelTableAddress
+    name: ExcelTableAddress
+  - uid: OfficeOpenXml.ExcelTextFormat
+    name: ExcelTextFormat
+  - uid: OfficeOpenXml.ExcelTextFormatBase
+    name: ExcelTextFormatBase
+  - uid: OfficeOpenXml.ExcelTextSettings
+    name: ExcelTextSettings
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+  - uid: OfficeOpenXml.ExcelWorkbookView
+    name: ExcelWorkbookView
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+  - uid: OfficeOpenXml.ExcelWorksheet.MergeCellsCollection
+    name: ExcelWorksheet.MergeCellsCollection
+  - uid: OfficeOpenXml.ExcelWorksheets
+    name: ExcelWorksheets
+  - uid: OfficeOpenXml.ExcelWorksheetView
+    name: ExcelWorksheetView
+  - uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+    name: ExcelWorksheetView.ExcelWorksheetPanes
+  - uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+    name: ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+  - uid: OfficeOpenXml.ExcelWriteProtection
+    name: ExcelWriteProtection
+  - uid: OfficeOpenXml.FontSize
+    name: FontSize
+  - uid: OfficeOpenXml.JsonExportSettings
+    name: JsonExportSettings
+  - uid: OfficeOpenXml.JsonRangeExportSettings
+    name: JsonRangeExportSettings
+  - uid: OfficeOpenXml.JsonTableExportSettings
+    name: JsonTableExportSettings
+  - uid: OfficeOpenXml.LicenseContext
+    name: LicenseContext
+  - uid: OfficeOpenXml.LicenseException
+    name: LicenseException
+  - uid: OfficeOpenXml.OfficeProperties
+    name: OfficeProperties
+  - uid: OfficeOpenXml.PictureAlignment
+    name: PictureAlignment
+  - uid: OfficeOpenXml.ToCollectionOptions
+    name: ToCollectionOptions
+  - uid: OfficeOpenXml.ToCollectionRangeOptions
+    name: ToCollectionRangeOptions
+  - uid: OfficeOpenXml.ToCollectionTableOptions
+    name: ToCollectionTableOptions
+  - uid: OfficeOpenXml.XmlHelper
+    name: XmlHelper
+- uid: OfficeOpenXml.Attributes
+  name: OfficeOpenXml.Attributes
+  items:
+  - uid: OfficeOpenXml.Attributes.EpplusFormulaTableColumnAttribute
+    name: EpplusFormulaTableColumnAttribute
+  - uid: OfficeOpenXml.Attributes.EpplusIgnore
+    name: EpplusIgnore
+  - uid: OfficeOpenXml.Attributes.EpplusNestedTableColumnAttribute
+    name: EpplusNestedTableColumnAttribute
+  - uid: OfficeOpenXml.Attributes.EpplusTableAttribute
+    name: EpplusTableAttribute
+  - uid: OfficeOpenXml.Attributes.EpplusTableColumnAttribute
+    name: EpplusTableColumnAttribute
+  - uid: OfficeOpenXml.Attributes.EpplusTableColumnAttributeBase
+    name: EpplusTableColumnAttributeBase
+  - uid: OfficeOpenXml.Attributes.EPPlusTableColumnSortOrderAttribute
+    name: EPPlusTableColumnSortOrderAttribute
+- uid: OfficeOpenXml.Compatibility
+  name: OfficeOpenXml.Compatibility
+  items:
+  - uid: OfficeOpenXml.Compatibility.CompatibilitySettings
+    name: CompatibilitySettings
+- uid: OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  items:
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+    name: eExcelconditionalFormatting3IconsSetType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+    name: eExcelconditionalFormatting4IconsSetType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+    name: eExcelconditionalFormatting5IconsSetType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormattingIconsSetType
+    name: eExcelconditionalFormattingIconsSetType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+    name: eExcelConditionalFormattingOperatorType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingRuleType
+    name: eExcelConditionalFormattingRuleType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingTimePeriodType
+    name: eExcelConditionalFormattingTimePeriodType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectNodeType
+    name: eExcelConditionalFormattingValueObjectNodeType
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+    name: eExcelConditionalFormattingValueObjectPosition
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+    name: eExcelConditionalFormattingValueObjectType
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveAverage
+    name: ExcelConditionalFormattingAboveAverage
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveOrEqualAverage
+    name: ExcelConditionalFormattingAboveOrEqualAverage
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAboveStdDev
+    name: ExcelConditionalFormattingAboveStdDev
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAsType
+    name: ExcelConditionalFormattingAsType
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAverageGroup
+    name: ExcelConditionalFormattingAverageGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBeginsWith
+    name: ExcelConditionalFormattingBeginsWith
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowAverage
+    name: ExcelConditionalFormattingBelowAverage
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowOrEqualAverage
+    name: ExcelConditionalFormattingBelowOrEqualAverage
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBelowStdDev
+    name: ExcelConditionalFormattingBelowStdDev
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBetween
+    name: ExcelConditionalFormattingBetween
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottom
+    name: ExcelConditionalFormattingBottom
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingBottomPercent
+    name: ExcelConditionalFormattingBottomPercent
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+    name: ExcelConditionalFormattingCollection
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+    name: ExcelConditionalFormattingColorScaleValue
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsBlanks
+    name: ExcelConditionalFormattingContainsBlanks
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsErrors
+    name: ExcelConditionalFormattingContainsErrors
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingContainsText
+    name: ExcelConditionalFormattingContainsText
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDataBar
+    name: ExcelConditionalFormattingDataBar
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingDuplicateValues
+    name: ExcelConditionalFormattingDuplicateValues
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEndsWith
+    name: ExcelConditionalFormattingEndsWith
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingEqual
+    name: ExcelConditionalFormattingEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingExpression
+    name: ExcelConditionalFormattingExpression
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFiveIconSet
+    name: ExcelConditionalFormattingFiveIconSet
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingFourIconSet
+    name: ExcelConditionalFormattingFourIconSet
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThan
+    name: ExcelConditionalFormattingGreaterThan
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingGreaterThanOrEqual
+    name: ExcelConditionalFormattingGreaterThanOrEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+    name: ExcelConditionalFormattingIconDataBarValue
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconSetBase`1
+    name: ExcelConditionalFormattingIconSetBase<T>
+    name.vb: ExcelConditionalFormattingIconSetBase(Of T)
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLast7Days
+    name: ExcelConditionalFormattingLast7Days
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastMonth
+    name: ExcelConditionalFormattingLastMonth
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLastWeek
+    name: ExcelConditionalFormattingLastWeek
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThan
+    name: ExcelConditionalFormattingLessThan
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingLessThanOrEqual
+    name: ExcelConditionalFormattingLessThanOrEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextMonth
+    name: ExcelConditionalFormattingNextMonth
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNextWeek
+    name: ExcelConditionalFormattingNextWeek
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotBetween
+    name: ExcelConditionalFormattingNotBetween
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsBlanks
+    name: ExcelConditionalFormattingNotContainsBlanks
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsErrors
+    name: ExcelConditionalFormattingNotContainsErrors
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotContainsText
+    name: ExcelConditionalFormattingNotContainsText
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingNotEqual
+    name: ExcelConditionalFormattingNotEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+    name: ExcelConditionalFormattingRule
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisMonth
+    name: ExcelConditionalFormattingThisMonth
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThisWeek
+    name: ExcelConditionalFormattingThisWeek
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeColorScale
+    name: ExcelConditionalFormattingThreeColorScale
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingThreeIconSet
+    name: ExcelConditionalFormattingThreeIconSet
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTimePeriodGroup
+    name: ExcelConditionalFormattingTimePeriodGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingToday
+    name: ExcelConditionalFormattingToday
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTomorrow
+    name: ExcelConditionalFormattingTomorrow
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTop
+    name: ExcelConditionalFormattingTop
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTopPercent
+    name: ExcelConditionalFormattingTopPercent
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingTwoColorScale
+    name: ExcelConditionalFormattingTwoColorScale
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingUniqueValues
+    name: ExcelConditionalFormattingUniqueValues
+  - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingYesterday
+    name: ExcelConditionalFormattingYesterday
+  - uid: OfficeOpenXml.ConditionalFormatting.IRangeConditionalFormatting
+    name: IRangeConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  items:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+    name: IExcelConditionalFormattingAverageGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+    name: IExcelConditionalFormattingBeginsWith
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+    name: IExcelConditionalFormattingBetween
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
+    name: IExcelConditionalFormattingColorScaleGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+    name: IExcelConditionalFormattingContainsBlanks
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+    name: IExcelConditionalFormattingContainsErrors
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+    name: IExcelConditionalFormattingContainsText
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+    name: IExcelConditionalFormattingDataBarGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+    name: IExcelConditionalFormattingDuplicateValues
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+    name: IExcelConditionalFormattingEndsWith
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+    name: IExcelConditionalFormattingEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+    name: IExcelConditionalFormattingExpression
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+    name: IExcelConditionalFormattingFiveIconSet
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet<T>
+    name.vb: IExcelConditionalFormattingFourIconSet(Of T)
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+    name: IExcelConditionalFormattingGreaterThan
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+    name: IExcelConditionalFormattingGreaterThanOrEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+    name: IExcelConditionalFormattingIconSetGroup<T>
+    name.vb: IExcelConditionalFormattingIconSetGroup(Of T)
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+    name: IExcelConditionalFormattingLessThan
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+    name: IExcelConditionalFormattingLessThanOrEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+    name: IExcelConditionalFormattingNotBetween
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+    name: IExcelConditionalFormattingNotContainsBlanks
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+    name: IExcelConditionalFormattingNotContainsErrors
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+    name: IExcelConditionalFormattingNotContainsText
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+    name: IExcelConditionalFormattingNotEqual
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+    name: IExcelConditionalFormattingRule
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+    name: IExcelConditionalFormattingStdDevGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+    name: IExcelConditionalFormattingThreeColorScale
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet<T>
+    name.vb: IExcelConditionalFormattingThreeIconSet(Of T)
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+    name: IExcelConditionalFormattingTimePeriodGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+    name: IExcelConditionalFormattingTopBottomGroup
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+    name: IExcelConditionalFormattingTwoColorScale
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+    name: IExcelConditionalFormattingUniqueValues
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+    name: IExcelConditionalFormattingWithFormula
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+    name: IExcelConditionalFormattingWithFormula2
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+    name: IExcelConditionalFormattingWithRank
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+    name: IExcelConditionalFormattingWithReverse
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithShowValue
+    name: IExcelConditionalFormattingWithShowValue
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithStdDev
+    name: IExcelConditionalFormattingWithStdDev
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+    name: IExcelConditionalFormattingWithText
+- uid: OfficeOpenXml.Configuration
+  name: OfficeOpenXml.Configuration
+  items:
+  - uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+    name: ExcelPackageConfiguration
+- uid: OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  items:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList<T>
+    name.vb: EPPlusReadOnlyList(Of T)
+  - uid: OfficeOpenXml.Core.R1C1Translator
+    name: R1C1Translator
+- uid: OfficeOpenXml.Core.Worksheet.Fill
+  name: OfficeOpenXml.Core.Worksheet.Fill
+  items:
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillDateParams
+    name: FillDateParams
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillListParams
+    name: FillListParams
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillNumberParams
+    name: FillNumberParams
+  - uid: OfficeOpenXml.Core.Worksheet.Fill.FillParams
+    name: FillParams
+- uid: OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  items:
+  - uid: OfficeOpenXml.DataValidation.eDataValidationType
+    name: eDataValidationType
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidation
+    name: ExcelDataValidation
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationAny
+    name: ExcelDataValidationAny
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationAsType
+    name: ExcelDataValidationAsType
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+    name: ExcelDataValidationCollection
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+    name: ExcelDataValidationCustom
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+    name: ExcelDataValidationDateTime
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+    name: ExcelDataValidationDecimal
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
+    name: ExcelDataValidationExtCustom
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtList
+    name: ExcelDataValidationExtList
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
+    name: ExcelDataValidationInt
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationList
+    name: ExcelDataValidationList
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+    name: ExcelDataValidationOperator
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationTime
+    name: ExcelDataValidationTime
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    name: ExcelDataValidationType
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+    name: ExcelDataValidationWarningStyle
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
+    name: ExcelDataValidationWithFormula<T>
+    name.vb: ExcelDataValidationWithFormula(Of T)
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
+    name: ExcelDataValidationWithFormula2<T>
+    name.vb: ExcelDataValidationWithFormula2(Of T)
+  - uid: OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
+    name: ExcelExLstDataValidationCollection
+  - uid: OfficeOpenXml.DataValidation.ExcelTime
+    name: ExcelTime
+  - uid: OfficeOpenXml.DataValidation.IRangeDataValidation
+    name: IRangeDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts
+  name: OfficeOpenXml.DataValidation.Contracts
+  items:
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+    name: IExcelDataValidation
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+    name: IExcelDataValidationAny
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+    name: IExcelDataValidationCustom
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+    name: IExcelDataValidationDateTime
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+    name: IExcelDataValidationDecimal
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+    name: IExcelDataValidationInt
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+    name: IExcelDataValidationList
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+    name: IExcelDataValidationTime
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1
+    name: IExcelDataValidationWithFormula<T>
+    name.vb: IExcelDataValidationWithFormula(Of T)
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2`1
+    name: IExcelDataValidationWithFormula2<T>
+    name.vb: IExcelDataValidationWithFormula2(Of T)
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+    name: IExcelDataValidationWithOperator
+- uid: OfficeOpenXml.DataValidation.Exceptions
+  name: OfficeOpenXml.DataValidation.Exceptions
+  items:
+  - uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationFormulaTooLongException
+    name: DataValidationFormulaTooLongException
+  - uid: OfficeOpenXml.DataValidation.Exceptions.DataValidationStaleException
+    name: DataValidationStaleException
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: OfficeOpenXml.DataValidation.Formulas.Contracts
+  items:
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+    name: IExcelDataValidationFormula
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaDateTime
+    name: IExcelDataValidationFormulaDateTime
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaDecimal
+    name: IExcelDataValidationFormulaDecimal
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaInt
+    name: IExcelDataValidationFormulaInt
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList
+    name: IExcelDataValidationFormulaList
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaTime
+    name: IExcelDataValidationFormulaTime
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+    name: IExcelDataValidationFormulaWithValue<T>
+    name.vb: IExcelDataValidationFormulaWithValue(Of T)
+- uid: OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  items:
+  - uid: OfficeOpenXml.Drawing.eBevelPresetType
+    name: eBevelPresetType
+  - uid: OfficeOpenXml.Drawing.eBlendMode
+    name: eBlendMode
+  - uid: OfficeOpenXml.Drawing.eCompundLineStyle
+    name: eCompundLineStyle
+  - uid: OfficeOpenXml.Drawing.eDrawingColorType
+    name: eDrawingColorType
+  - uid: OfficeOpenXml.Drawing.eDrawingType
+    name: eDrawingType
+  - uid: OfficeOpenXml.Drawing.eEditAs
+    name: eEditAs
+  - uid: OfficeOpenXml.Drawing.eEndSize
+    name: eEndSize
+  - uid: OfficeOpenXml.Drawing.eEndStyle
+    name: eEndStyle
+  - uid: OfficeOpenXml.Drawing.eErrorBarDirection
+    name: eErrorBarDirection
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+  - uid: OfficeOpenXml.Drawing.eFillPatternStyle
+    name: eFillPatternStyle
+  - uid: OfficeOpenXml.Drawing.eFillStyle
+    name: eFillStyle
+  - uid: OfficeOpenXml.Drawing.eFontType
+    name: eFontType
+  - uid: OfficeOpenXml.Drawing.eLightRigDirection
+    name: eLightRigDirection
+  - uid: OfficeOpenXml.Drawing.eLineCap
+    name: eLineCap
+  - uid: OfficeOpenXml.Drawing.eLineJoin
+    name: eLineJoin
+  - uid: OfficeOpenXml.Drawing.eLineStyle
+    name: eLineStyle
+  - uid: OfficeOpenXml.Drawing.ePenAlignment
+    name: ePenAlignment
+  - uid: OfficeOpenXml.Drawing.ePitchFamily
+    name: ePitchFamily
+  - uid: OfficeOpenXml.Drawing.ePresetCameraType
+    name: ePresetCameraType
+  - uid: OfficeOpenXml.Drawing.ePresetColor
+    name: ePresetColor
+  - uid: OfficeOpenXml.Drawing.ePresetExcelGlowType
+    name: ePresetExcelGlowType
+  - uid: OfficeOpenXml.Drawing.ePresetExcelReflectionType
+    name: ePresetExcelReflectionType
+  - uid: OfficeOpenXml.Drawing.ePresetExcelShadowType
+    name: ePresetExcelShadowType
+  - uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+    name: ePresetExcelSoftEdgesType
+  - uid: OfficeOpenXml.Drawing.ePresetMaterialType
+    name: ePresetMaterialType
+  - uid: OfficeOpenXml.Drawing.ePresetShadowType
+    name: ePresetShadowType
+  - uid: OfficeOpenXml.Drawing.eRectangleAlignment
+    name: eRectangleAlignment
+  - uid: OfficeOpenXml.Drawing.eRigPresetType
+    name: eRigPresetType
+  - uid: OfficeOpenXml.Drawing.eSchemeColor
+    name: eSchemeColor
+  - uid: OfficeOpenXml.Drawing.eShadePath
+    name: eShadePath
+  - uid: OfficeOpenXml.Drawing.eShapeConnectorStyle
+    name: eShapeConnectorStyle
+  - uid: OfficeOpenXml.Drawing.eShapeStyle
+    name: eShapeStyle
+  - uid: OfficeOpenXml.Drawing.eStyleEntryModifier
+    name: eStyleEntryModifier
+  - uid: OfficeOpenXml.Drawing.eSystemColor
+    name: eSystemColor
+  - uid: OfficeOpenXml.Drawing.eTextAlignment
+    name: eTextAlignment
+  - uid: OfficeOpenXml.Drawing.eTextAnchoringType
+    name: eTextAnchoringType
+  - uid: OfficeOpenXml.Drawing.eTextAutofit
+    name: eTextAutofit
+  - uid: OfficeOpenXml.Drawing.eTextCapsType
+    name: eTextCapsType
+  - uid: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+    name: eTextHorizontalOverflow
+  - uid: OfficeOpenXml.Drawing.eTextVerticalOverflow
+    name: eTextVerticalOverflow
+  - uid: OfficeOpenXml.Drawing.eTextVerticalType
+    name: eTextVerticalType
+  - uid: OfficeOpenXml.Drawing.eTextWrappingType
+    name: eTextWrappingType
+  - uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+    name: eThemeSchemeColor
+  - uid: OfficeOpenXml.Drawing.eTileFlipMode
+    name: eTileFlipMode
+  - uid: OfficeOpenXml.Drawing.ExcelChartAsType
+    name: ExcelChartAsType
+  - uid: OfficeOpenXml.Drawing.ExcelConnectionShape
+    name: ExcelConnectionShape
+  - uid: OfficeOpenXml.Drawing.ExcelControlAsType
+    name: ExcelControlAsType
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingAsType
+    name: ExcelDrawingAsType
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingBorder
+    name: ExcelDrawingBorder
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingConnectionPoint
+    name: ExcelDrawingConnectionPoint
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingCoordinate
+    name: ExcelDrawingCoordinate
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingFill
+    name: ExcelDrawingFill
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+    name: ExcelDrawingFillBasic
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingLineEnd
+    name: ExcelDrawingLineEnd
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingPoint3D
+    name: ExcelDrawingPoint3D
+  - uid: OfficeOpenXml.Drawing.ExcelDrawings
+    name: ExcelDrawings
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+    name: ExcelDrawingsGroup
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingSize
+    name: ExcelDrawingSize
+  - uid: OfficeOpenXml.Drawing.ExcelDrawingSphereCoordinate
+    name: ExcelDrawingSphereCoordinate
+  - uid: OfficeOpenXml.Drawing.ExcelGroupShape
+    name: ExcelGroupShape
+  - uid: OfficeOpenXml.Drawing.ExcelImage
+    name: ExcelImage
+  - uid: OfficeOpenXml.Drawing.ExcelImageInfo
+    name: ExcelImageInfo
+  - uid: OfficeOpenXml.Drawing.ExcelPicture
+    name: ExcelPicture
+  - uid: OfficeOpenXml.Drawing.ExcelPosition
+    name: ExcelPosition
+  - uid: OfficeOpenXml.Drawing.ExcelShape
+    name: ExcelShape
+  - uid: OfficeOpenXml.Drawing.ExcelShapeBase
+    name: ExcelShapeBase
+  - uid: OfficeOpenXml.Drawing.ExcelSlicerAsType
+    name: ExcelSlicerAsType
+  - uid: OfficeOpenXml.Drawing.ExcelTextBody
+    name: ExcelTextBody
+  - uid: OfficeOpenXml.Drawing.ExcelTextRun
+    name: ExcelTextRun
+  - uid: OfficeOpenXml.Drawing.ExcelView3D
+    name: ExcelView3D
+  - uid: OfficeOpenXml.Drawing.GenericImageHandler
+    name: GenericImageHandler
+- uid: OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  items:
+  - uid: OfficeOpenXml.Drawing.Chart.eAreaChartType
+    name: eAreaChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+    name: eAxisOrientation
+  - uid: OfficeOpenXml.Drawing.Chart.eAxisPosition
+    name: eAxisPosition
+  - uid: OfficeOpenXml.Drawing.Chart.eAxisTickMark
+    name: eAxisTickMark
+  - uid: OfficeOpenXml.Drawing.Chart.eBarChartType
+    name: eBarChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eBubbleChartType
+    name: eBubbleChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+    name: eBuildInUnits
+  - uid: OfficeOpenXml.Drawing.Chart.eChartExType
+    name: eChartExType
+  - uid: OfficeOpenXml.Drawing.Chart.eChartStyle
+    name: eChartStyle
+  - uid: OfficeOpenXml.Drawing.Chart.eChartType
+    name: eChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eCrossBetween
+    name: eCrossBetween
+  - uid: OfficeOpenXml.Drawing.Chart.eCrosses
+    name: eCrosses
+  - uid: OfficeOpenXml.Drawing.Chart.eDirection
+    name: eDirection
+  - uid: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+    name: eDisplayBlanksAs
+  - uid: OfficeOpenXml.Drawing.Chart.eDoughnutChartType
+    name: eDoughnutChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eGrouping
+    name: eGrouping
+  - uid: OfficeOpenXml.Drawing.Chart.eLabelPosition
+    name: eLabelPosition
+  - uid: OfficeOpenXml.Drawing.Chart.eLegendPosition
+    name: eLegendPosition
+  - uid: OfficeOpenXml.Drawing.Chart.eLineChartType
+    name: eLineChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+    name: eMarkerStyle
+  - uid: OfficeOpenXml.Drawing.Chart.eOfPieChartType
+    name: eOfPieChartType
+  - uid: OfficeOpenXml.Drawing.Chart.ePieChartType
+    name: ePieChartType
+  - uid: OfficeOpenXml.Drawing.Chart.ePieType
+    name: ePieType
+  - uid: OfficeOpenXml.Drawing.Chart.eRadarChartType
+    name: eRadarChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eRadarStyle
+    name: eRadarStyle
+  - uid: OfficeOpenXml.Drawing.Chart.eScatterChartType
+    name: eScatterChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eScatterStyle
+    name: eScatterStyle
+  - uid: OfficeOpenXml.Drawing.Chart.eShape
+    name: eShape
+  - uid: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+    name: eSizeRepresents
+  - uid: OfficeOpenXml.Drawing.Chart.eStockChartType
+    name: eStockChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eSurfaceChartType
+    name: eSurfaceChartType
+  - uid: OfficeOpenXml.Drawing.Chart.eTickLabelPosition
+    name: eTickLabelPosition
+  - uid: OfficeOpenXml.Drawing.Chart.eTimeUnit
+    name: eTimeUnit
+  - uid: OfficeOpenXml.Drawing.Chart.eTrendLine
+    name: eTrendLine
+  - uid: OfficeOpenXml.Drawing.Chart.eXAxisPosition
+    name: eXAxisPosition
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelAreaChart
+    name: ExcelAreaChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelAreaChartSerie
+    name: ExcelAreaChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBarChart
+    name: ExcelBarChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBarChartSerie
+    name: ExcelBarChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChart
+    name: ExcelBubbleChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSerie
+    name: ExcelBubbleChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelBubbleChartSeries
+    name: ExcelBubbleChartSeries
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+    name: ExcelChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+    name: ExcelChartAxis
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+    name: ExcelChartAxisStandard
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartCollection
+    name: ExcelChartCollection
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+    name: ExcelChartDataLabel
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelCollection
+    name: ExcelChartDataLabelCollection
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelItem
+    name: ExcelChartDataLabelItem
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelStandard
+    name: ExcelChartDataLabelStandard
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataPoint
+    name: ExcelChartDataPoint
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataPointCollection
+    name: ExcelChartDataPointCollection
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataTable
+    name: ExcelChartDataTable
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartErrorBars
+    name: ExcelChartErrorBars
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+    name: ExcelChartLegend
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartLegendEntry
+    name: ExcelChartLegendEntry
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartMarker
+    name: ExcelChartMarker
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartNumericSource
+    name: ExcelChartNumericSource
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+    name: ExcelChartPlotArea
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+    name: ExcelChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+    name: ExcelChartSerieDataLabel
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSeries`1
+    name: ExcelChartSeries<T>
+    name.vb: ExcelChartSeries(Of T)
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+    name: ExcelChartSerieWithErrorBars
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+    name: ExcelChartSerieWithHorizontalErrorBars
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard
+    name: ExcelChartStandard
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+    name: ExcelChartStandardSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStyleItem
+    name: ExcelChartStyleItem
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSurface
+    name: ExcelChartSurface
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+    name: ExcelChartTitle
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+    name: ExcelChartTrendline
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
+    name: ExcelChartTrendlineCollection
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineLabel
+    name: ExcelChartTrendlineLabel
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelDoughnutChart
+    name: ExcelDoughnutChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
+    name: ExcelHistogramChartSeries
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelLineChart
+    name: ExcelLineChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelLineChartSerie
+    name: ExcelLineChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
+    name: ExcelOfPieChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelPieChart
+    name: ExcelPieChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelPieChartSerie
+    name: ExcelPieChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelRadarChart
+    name: ExcelRadarChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelRadarChartSerie
+    name: ExcelRadarChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChart
+    name: ExcelScatterChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+    name: ExcelScatterChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelStandardChartWithLines
+    name: ExcelStandardChartWithLines
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelStockChart
+    name: ExcelStockChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelStockChartSerie
+    name: ExcelStockChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChart
+    name: ExcelSurfaceChart
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelSurfaceChartSerie
+    name: ExcelSurfaceChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+    name: eYAxisPosition
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  items:
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+    name: eColorBy
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorValuePositionType
+    name: eColorValuePositionType
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eFormulaDirection
+    name: eFormulaDirection
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+    name: eGeoMappingLevel
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+    name: eIntervalClosed
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+    name: eNumberOfColors
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+    name: eNumericDataType
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eParentLabelLayout
+    name: eParentLabelLayout
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+    name: ePositionAlign
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+    name: eProjectionType
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+    name: eQuartileMethod
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+    name: eRegionLabelLayout
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+    name: eSidePositions
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+    name: eStringDataType
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChart
+    name: ExcelBoxWhiskerChart
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelBoxWhiskerChartSerie
+    name: ExcelBoxWhiskerChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+    name: ExcelChartEx
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
+    name: ExcelChartExAxis
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+    name: ExcelChartExData
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
+    name: ExcelChartExDataCollection
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabel
+    name: ExcelChartExDataLabel
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelCollection
+    name: ExcelChartExDataLabelCollection
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataLabelItem
+    name: ExcelChartExDataLabelItem
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+    name: ExcelChartExDataPoint
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+    name: ExcelChartExDataPointCollection
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExLegend
+    name: ExcelChartExLegend
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData
+    name: ExcelChartExNumericData
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine
+    name: ExcelChartExParetoLine
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExPlotarea
+    name: ExcelChartExPlotarea
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+    name: ExcelChartExSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+    name: ExcelChartExSerieBinning
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieDataLabel
+    name: ExcelChartExSerieDataLabel
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExStringData
+    name: ExcelChartExStringData
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+    name: ExcelChartExTitle
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColor
+    name: ExcelChartExValueColor
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColors
+    name: ExcelChartExValueColors
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelFunnelChart
+    name: ExcelFunnelChart
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChart
+    name: ExcelHistogramChart
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelHistogramChartSerie
+    name: ExcelHistogramChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChart
+    name: ExcelRegionMapChart
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+    name: ExcelRegionMapChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelSunburstChart
+    name: ExcelSunburstChart
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChart
+    name: ExcelTreemapChart
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelTreemapChartSerie
+    name: ExcelTreemapChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChart
+    name: ExcelWaterfallChart
+  - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelWaterfallChartSerie
+    name: ExcelWaterfallChartSerie
+- uid: OfficeOpenXml.Drawing.Chart.Style
+  name: OfficeOpenXml.Drawing.Chart.Style
+  items:
+  - uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+    name: eChartColorStyleMethod
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+    name: ePresetChartColors
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyle
+    name: ePresetChartStyle
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartStyleMultiSeries
+    name: ePresetChartStyleMultiSeries
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+    name: ExcelChartColorsManager
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+    name: ExcelChartStyle
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColor
+    name: ExcelChartStyleColor
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColorManager
+    name: ExcelChartStyleColorManager
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+    name: ExcelChartStyleEntry
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+    name: ExcelChartStyleFontReference
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem
+    name: ExcelChartStyleLibraryItem
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleManager
+    name: ExcelChartStyleManager
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleMarkerLayout
+    name: ExcelChartStyleMarkerLayout
+  - uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleReference
+    name: ExcelChartStyleReference
+- uid: OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  items:
+  - uid: OfficeOpenXml.Drawing.Controls.eCheckState
+    name: eCheckState
+  - uid: OfficeOpenXml.Drawing.Controls.eControlType
+    name: eControlType
+  - uid: OfficeOpenXml.Drawing.Controls.eDropStyle
+    name: eDropStyle
+  - uid: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+    name: eLayoutFlow
+  - uid: OfficeOpenXml.Drawing.Controls.eMeasurementUnits
+    name: eMeasurementUnits
+  - uid: OfficeOpenXml.Drawing.Controls.eReadingOrder
+    name: eReadingOrder
+  - uid: OfficeOpenXml.Drawing.Controls.eSelectionType
+    name: eSelectionType
+  - uid: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+    name: eShapeOrientation
+  - uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+    name: eVerticalAlignmentControl
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControl
+    name: ExcelControl
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlButton
+    name: ExcelControlButton
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlCheckBox
+    name: ExcelControlCheckBox
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlDialog
+    name: ExcelControlDialog
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlDropDown
+    name: ExcelControlDropDown
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlEditBox
+    name: ExcelControlEditBox
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlGroupBox
+    name: ExcelControlGroupBox
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlLabel
+    name: ExcelControlLabel
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlList
+    name: ExcelControlList
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlListBox
+    name: ExcelControlListBox
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlMargin
+    name: ExcelControlMargin
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlRadioButton
+    name: ExcelControlRadioButton
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlScrollBar
+    name: ExcelControlScrollBar
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlSpinButton
+    name: ExcelControlSpinButton
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlWithColorsAndLines
+    name: ExcelControlWithColorsAndLines
+  - uid: OfficeOpenXml.Drawing.Controls.ExcelControlWithText
+    name: ExcelControlWithText
+- uid: OfficeOpenXml.Drawing.Interfaces
+  name: OfficeOpenXml.Drawing.Interfaces
+  items:
+  - uid: OfficeOpenXml.Drawing.Interfaces.IDrawingDataLabel
+    name: IDrawingDataLabel
+  - uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+    name: IDrawingSerieDataLabel
+- uid: OfficeOpenXml.Drawing.Slicer
+  name: OfficeOpenXml.Drawing.Slicer
+  items:
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicer
+    name: ExcelPivotTableSlicer
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache
+    name: ExcelPivotTableSlicerCache
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData
+    name: ExcelPivotTableSlicerCacheTabularData
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItem
+    name: ExcelPivotTableSlicerItem
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerItemCollection
+    name: ExcelPivotTableSlicerItemCollection
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+    name: ExcelSlicer<T>
+    name.vb: ExcelSlicer(Of T)
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+    name: ExcelSlicerCache
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+    name: ExcelSlicerPivotTableCollection
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+    name: ExcelTableSlicer
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+    name: ExcelTableSlicerCache
+- uid: OfficeOpenXml.Drawing.Slicer.Style
+  name: OfficeOpenXml.Drawing.Slicer.Style
+  items:
+  - uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+    name: eSlicerStyleElement
+  - uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+    name: ExcelSlicerNamedStyle
+  - uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+    name: ExcelSlicerStyleElement
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  items:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+    name: eColorTransformDataType
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+    name: eColorTransformType
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+    name: ExcelColorTransformCollection
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+    name: ExcelColorTransformItem
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+    name: ExcelDrawingColorManager
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingHslColor
+    name: ExcelDrawingHslColor
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingPresetColor
+    name: ExcelDrawingPresetColor
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingRgbColor
+    name: ExcelDrawingRgbColor
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingRgbPercentageColor
+    name: ExcelDrawingRgbPercentageColor
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSchemeColor
+    name: ExcelDrawingSchemeColor
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSystemColor
+    name: ExcelDrawingSystemColor
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    name: ExcelDrawingThemeColorManager
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+    name: IColorTransformItem
+- uid: OfficeOpenXml.Drawing.Style.Effect
+  name: OfficeOpenXml.Drawing.Style.Effect
+  items:
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+    name: ExcelDrawingBlurEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorChangeEffect
+    name: ExcelDrawingColorChangeEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorReplaceEffect
+    name: ExcelDrawingColorReplaceEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingDuotoneEffect
+    name: ExcelDrawingDuotoneEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase
+    name: ExcelDrawingEffectBase
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+    name: ExcelDrawingEffectStyle
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingFillOverlayEffect
+    name: ExcelDrawingFillOverlayEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingGlowEffect
+    name: ExcelDrawingGlowEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingInnerShadowEffect
+    name: ExcelDrawingInnerShadowEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingOuterShadowEffect
+    name: ExcelDrawingOuterShadowEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingPresetShadowEffect
+    name: ExcelDrawingPresetShadowEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingReflectionEffect
+    name: ExcelDrawingReflectionEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingShadowEffect
+    name: ExcelDrawingShadowEffect
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingShadowEffectBase
+    name: ExcelDrawingShadowEffectBase
+- uid: OfficeOpenXml.Drawing.Style.Fill
+  name: OfficeOpenXml.Drawing.Style.Fill
+  items:
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+    name: ExcelDrawingBlipEffects
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFill
+    name: ExcelDrawingBlipFill
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipFillTile
+    name: ExcelDrawingBlipFillTile
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingFillBase
+    name: ExcelDrawingFillBase
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFill
+    name: ExcelDrawingGradientFill
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillColor
+    name: ExcelDrawingGradientFillColor
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillColorList
+    name: ExcelDrawingGradientFillColorList
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingGradientFillLinearSettings
+    name: ExcelDrawingGradientFillLinearSettings
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingNoFill
+    name: ExcelDrawingNoFill
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingPatternFill
+    name: ExcelDrawingPatternFill
+  - uid: OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingSolidFill
+    name: ExcelDrawingSolidFill
+- uid: OfficeOpenXml.Drawing.Style.Font
+  name: OfficeOpenXml.Drawing.Style.Font
+  items:
+  - uid: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFont
+    name: ExcelDrawingFont
+  - uid: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontBase
+    name: ExcelDrawingFontBase
+  - uid: OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontSpecial
+    name: ExcelDrawingFontSpecial
+- uid: OfficeOpenXml.Drawing.Style.ThreeD
+  name: OfficeOpenXml.Drawing.Style.ThreeD
+  items:
+  - uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+    name: ExcelDrawing3D
+  - uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+    name: ExcelDrawing3DBevel
+  - uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DText
+    name: ExcelDrawing3DText
+  - uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+    name: ExcelDrawingScene3D
+  - uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DBackDrop
+    name: ExcelDrawingScene3DBackDrop
+  - uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DCamera
+    name: ExcelDrawingScene3DCamera
+  - uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DLightRig
+    name: ExcelDrawingScene3DLightRig
+- uid: OfficeOpenXml.Drawing.Theme
+  name: OfficeOpenXml.Drawing.Theme
+  items:
+  - uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+    name: eThemeFontCollectionType
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+    name: ExcelColorScheme
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelDrawingRectangle
+    name: ExcelDrawingRectangle
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelFontScheme
+    name: ExcelFontScheme
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelFormatScheme
+    name: ExcelFormatScheme
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelTheme
+    name: ExcelTheme
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeBase
+    name: ExcelThemeBase
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+    name: ExcelThemeEffectStyle
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+    name: ExcelThemeEffectStyles
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeFillStyles
+    name: ExcelThemeFillStyles
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeFontCollection
+    name: ExcelThemeFontCollection
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeLine
+    name: ExcelThemeLine
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeLineStyles
+    name: ExcelThemeLineStyles
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeManager
+    name: ExcelThemeManager
+  - uid: OfficeOpenXml.Drawing.Theme.ExcelThemeOverride
+    name: ExcelThemeOverride
+- uid: OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  items:
+  - uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+    name: eLineStyleVml
+  - uid: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+    name: eTextAlignHorizontalVml
+  - uid: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+    name: eTextAlignVerticalVml
+  - uid: OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
+    name: eVmlAspectRatio
+  - uid: OfficeOpenXml.Drawing.Vml.eVmlFillType
+    name: eVmlFillType
+  - uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+    name: eVmlGradientMethod
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+    name: ExcelVmlDrawingBase
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBaseCollection
+    name: ExcelVmlDrawingBaseCollection
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+    name: ExcelVmlDrawingBorder
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+    name: ExcelVmlDrawingColor
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingComment
+    name: ExcelVmlDrawingComment
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl
+    name: ExcelVmlDrawingControl
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill
+    name: ExcelVmlDrawingFill
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+    name: ExcelVmlDrawingGradientFill
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPicture
+    name: ExcelVmlDrawingPicture
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureCollection
+    name: ExcelVmlDrawingPictureCollection
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureFill
+    name: ExcelVmlDrawingPictureFill
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+    name: ExcelVmlDrawingPosition
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
+    name: ExcelVmlMeasurementUnit
+  - uid: OfficeOpenXml.Drawing.Vml.VmlGradiantColor
+    name: VmlGradiantColor
+- uid: OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  items:
+  - uid: OfficeOpenXml.Export.HtmlExport.CssExclude
+    name: CssExclude
+  - uid: OfficeOpenXml.Export.HtmlExport.CssExcludeStyle
+    name: CssExcludeStyle
+  - uid: OfficeOpenXml.Export.HtmlExport.CssExportSettings
+    name: CssExportSettings
+  - uid: OfficeOpenXml.Export.HtmlExport.CssRangeExportSettings
+    name: CssRangeExportSettings
+  - uid: OfficeOpenXml.Export.HtmlExport.CssTableExportSettings
+    name: CssTableExportSettings
+  - uid: OfficeOpenXml.Export.HtmlExport.eBorderExclude
+    name: eBorderExclude
+  - uid: OfficeOpenXml.Export.HtmlExport.eFontExclude
+    name: eFontExclude
+  - uid: OfficeOpenXml.Export.HtmlExport.eHiddenState
+    name: eHiddenState
+  - uid: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+    name: eHtmlGeneralAlignmentHandling
+  - uid: OfficeOpenXml.Export.HtmlExport.ePictureInclude
+    name: ePictureInclude
+  - uid: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+    name: ePicturePosition
+  - uid: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+    name: ExcelHtmlOverrideExportSettings
+  - uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+    name: HtmlExportSettings
+  - uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+    name: HtmlPictureSettings
+  - uid: OfficeOpenXml.Export.HtmlExport.HtmlRangeExportSettings
+    name: HtmlRangeExportSettings
+  - uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+    name: PictureCssExclude
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: OfficeOpenXml.Export.HtmlExport.Accessibility
+  items:
+  - uid: OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+    name: AccessibilitySettings
+  - uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+    name: TableAccessibilitySettings
+- uid: OfficeOpenXml.Export.HtmlExport.Exporters
+  name: OfficeOpenXml.Export.HtmlExport.Exporters
+  items:
+  - uid: OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlExporterBase
+    name: ExcelHtmlExporterBase
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: OfficeOpenXml.Export.HtmlExport.Interfaces
+  items:
+  - uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+    name: IExcelHtmlRangeExporter
+  - uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+    name: IExcelHtmlTableExporter
+- uid: OfficeOpenXml.Export.HtmlExport.Settings
+  name: OfficeOpenXml.Export.HtmlExport.Settings
+  items:
+  - uid: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+    name: HtmlTableExportSettings
+- uid: OfficeOpenXml.Export.ToCollection
+  name: OfficeOpenXml.Export.ToCollection
+  items:
+  - uid: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+    name: ToCollectionConversionFailureStrategy
+  - uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+    name: ToCollectionRow
+- uid: OfficeOpenXml.Export.ToCollection.Exceptions
+  name: OfficeOpenXml.Export.ToCollection.Exceptions
+  items:
+  - uid: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+    name: EPPlusDataTypeConvertionException
+- uid: OfficeOpenXml.Export.ToDataTable
+  name: OfficeOpenXml.Export.ToDataTable
+  items:
+  - uid: OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+    name: DataColumnMapping
+  - uid: OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+    name: DataColumnMappingCollection
+  - uid: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+    name: EmptyRowsStrategy
+  - uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+    name: ExcelErrorParsingStrategy
+  - uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+    name: NameParsingStrategy
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+- uid: OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  items:
+  - uid: OfficeOpenXml.ExternalReferences.eDdeValueType
+    name: eDdeValueType
+  - uid: OfficeOpenXml.ExternalReferences.eExternalLinkType
+    name: eExternalLinkType
+  - uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+    name: eExternalWorkbookCacheStatus
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellCollection
+    name: ExcelExternalCellCollection
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+    name: ExcelExternalCellValue
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+    name: ExcelExternalDdeItem
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+    name: ExcelExternalDdeItemCollection
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+    name: ExcelExternalDdeLink
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeValue
+    name: ExcelExternalDdeValue
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeValueCollection
+    name: ExcelExternalDdeValueCollection
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+    name: ExcelExternalDefinedName
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+    name: ExcelExternalLink
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+    name: ExcelExternalLinkAsType
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+    name: ExcelExternalLinksCollection
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection<T>
+    name.vb: ExcelExternalNamedItemCollection(Of T)
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+    name: ExcelExternalOleItem
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItemsCollection
+    name: ExcelExternalOleItemsCollection
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+    name: ExcelExternalOleLink
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+    name: ExcelExternalWorkbook
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+    name: ExcelExternalWorksheet
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheetCollection
+    name: ExcelExternalWorksheetCollection
+  - uid: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+    name: IExcelExternalNamedItem
+- uid: OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  items:
+  - uid: OfficeOpenXml.Filter.eCalendarType
+    name: eCalendarType
+  - uid: OfficeOpenXml.Filter.eDateTimeGrouping
+    name: eDateTimeGrouping
+  - uid: OfficeOpenXml.Filter.eDynamicFilterType
+    name: eDynamicFilterType
+  - uid: OfficeOpenXml.Filter.eFilterOperator
+    name: eFilterOperator
+  - uid: OfficeOpenXml.Filter.ExcelAutoFilter
+    name: ExcelAutoFilter
+  - uid: OfficeOpenXml.Filter.ExcelColorFilterColumn
+    name: ExcelColorFilterColumn
+  - uid: OfficeOpenXml.Filter.ExcelCustomFilterColumn
+    name: ExcelCustomFilterColumn
+  - uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+    name: ExcelDynamicFilterColumn
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollection`1
+    name: ExcelFilterCollection<T>
+    name.vb: ExcelFilterCollection(Of T)
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+    name: ExcelFilterCollectionBase<T>
+    name.vb: ExcelFilterCollectionBase(Of T)
+  - uid: OfficeOpenXml.Filter.ExcelFilterColumn
+    name: ExcelFilterColumn
+  - uid: OfficeOpenXml.Filter.ExcelFilterColumnCollection
+    name: ExcelFilterColumnCollection
+  - uid: OfficeOpenXml.Filter.ExcelFilterCustomItem
+    name: ExcelFilterCustomItem
+  - uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+    name: ExcelFilterDateGroupItem
+  - uid: OfficeOpenXml.Filter.ExcelFilterItem
+    name: ExcelFilterItem
+  - uid: OfficeOpenXml.Filter.ExcelFilterValueItem
+    name: ExcelFilterValueItem
+  - uid: OfficeOpenXml.Filter.ExcelIconFilterColumn
+    name: ExcelIconFilterColumn
+  - uid: OfficeOpenXml.Filter.ExcelTop10FilterColumn
+    name: ExcelTop10FilterColumn
+  - uid: OfficeOpenXml.Filter.ExcelValueFilterCollection
+    name: ExcelValueFilterCollection
+  - uid: OfficeOpenXml.Filter.ExcelValueFilterColumn
+    name: ExcelValueFilterColumn
+- uid: OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo
+    name: EpplusExcelExternalRangeInfo
+  - uid: OfficeOpenXml.FormulaParsing.ExcelAddressCache
+    name: ExcelAddressCache
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCell
+    name: ExcelCell
+  - uid: OfficeOpenXml.FormulaParsing.ExternalCellInfo
+    name: ExternalCellInfo
+  - uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo
+    name: FormulaCellInfo
+  - uid: OfficeOpenXml.FormulaParsing.FormulaParser
+    name: FormulaParser
+  - uid: OfficeOpenXml.FormulaParsing.FormulaParserManager
+    name: FormulaParserManager
+  - uid: OfficeOpenXml.FormulaParsing.ICellInfo
+    name: ICellInfo
+  - uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+    name: IFormulaCellInfo
+  - uid: OfficeOpenXml.FormulaParsing.INameInfo
+    name: INameInfo
+  - uid: OfficeOpenXml.FormulaParsing.INameValueProvider
+    name: INameValueProvider
+  - uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
+    name: IParsingLifetimeEventHandler
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+    name: IRangeInfo
+  - uid: OfficeOpenXml.FormulaParsing.NameValueProvider
+    name: NameValueProvider
+  - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration
+    name: ParsingConfiguration
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+  - uid: OfficeOpenXml.FormulaParsing.ParsingScope
+    name: ParsingScope
+  - uid: OfficeOpenXml.FormulaParsing.ParsingScopes
+    name: ParsingScopes
+  - uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+    name: PrecisionAndRoundingStrategy
+- uid: OfficeOpenXml.FormulaParsing.Excel
+  name: OfficeOpenXml.FormulaParsing.Excel
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.ExcelCellState
+    name: ExcelCellState
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
+    name: ArgumentCollectionUtil
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
+    name: ArgumentParser
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
+    name: ArgumentParserFactory
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
+    name: ArgumentParsers
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
+    name: BoolArgumentParser
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
+    name: BuiltInFunctions
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
+    name: CollectionFlattener<T>
+    name.vb: CollectionFlattener(Of T)
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
+    name: CompileResultValidator
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
+    name: CompileResultValidators
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DecimalCompileResultValidator
+    name: DecimalCompileResultValidator
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+    name: DoubleArgumentParser
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
+    name: DoubleEnumerableArgConverter
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
+    name: ErrorHandlingFunction
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
+    name: ExcelDoubleCellValue
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+    name: ExcelFunction
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
+    name: FunctionNameProvider
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
+    name: FunctionRepository
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule
+    name: FunctionsModule
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction
+    name: HiddenValuesHandlingFunction
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+    name: IFunctionModule
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
+    name: IFunctionNameProvider
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IntArgumentParser
+    name: IntArgumentParser
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
+    name: ObjectEnumerableArgConverter
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+    name: RoundingMethod
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Database
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database.ExcelDatabaseCriteriaField
+    name: ExcelDatabaseCriteriaField
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database.ExcelDatabaseField
+    name: ExcelDatabaseField
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database.ExcelDatabaseRow
+    name: ExcelDatabaseRow
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Days
+    name: Days
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.AdditionalHolidayDays
+    name: AdditionalHolidayDays
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdays
+    name: HolidayWeekdays
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.HolidayWeekdaysFactory
+    name: HolidayWeekdaysFactory
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculationDirection
+    name: WorkdayCalculationDirection
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Workdays.WorkdayCalculatorResult
+    name: WorkdayCalculatorResult
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.ConvertFunction
+    name: ConvertFunction
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
+    name: Erf
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erfc
+    name: Erfc
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselBase
+    name: BesselBase
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselIimpl
+    name: BesselIimpl
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselJImpl
+    name: BesselJImpl
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselKImpl
+    name: BesselKImpl
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselYImpl
+    name: BesselYImpl
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+    name: IFvProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    name: DayCountBasis
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+    name: FinanceCalcResult<T>
+    name.vb: FinanceCalcResult(Of T)
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+    name: ICouponProvider
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+    name: IPmtProvider
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+    name: IPriceProvider
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IYearFracProvider
+    name: IYearFracProvider
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.NperImpl
+    name: NperImpl
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+    name: PmtDue
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+    name: RateImpl
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.XirrImpl
+    name: XirrImpl
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase
+    name: IfsWithMultipleMatchesBase
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RangeOrValue
+    name: RangeOrValue
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+    name: ExcelFunctionCategory
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute
+    name: FunctionMetadataAttribute
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Text
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Text
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Text.Text
+    name: Text
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: OfficeOpenXml.FormulaParsing.Excel.Operators
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+    name: IOperator
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
+    name: Operator
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+    name: Operators
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
+    name: OperatorsDict
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.CellReferenceProvider
+    name: CellReferenceProvider
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+    name: ExcelAddressInfo
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
+    name: ExcelAddressUtil
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+    name: ExcelReferenceType
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencies
+    name: FormulaDependencies
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
+    name: FormulaDependency
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencyFactory
+    name: FormulaDependencyFactory
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.LookupValueMatcher
+    name: LookupValueMatcher
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
+    name: RangeAddress
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+    name: ValueMatcher
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.WildCardValueMatcher
+    name: WildCardValueMatcher
+- uid: OfficeOpenXml.FormulaParsing.Exceptions
+  name: OfficeOpenXml.FormulaParsing.Exceptions
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Exceptions.CircularReferenceException
+    name: CircularReferenceException
+  - uid: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorCodes
+    name: ExcelErrorCodes
+  - uid: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
+    name: ExcelErrorValueException
+  - uid: OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
+    name: UnrecognizedTokenException
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression
+    name: AtomicExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.BooleanExpression
+    name: BooleanExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    name: CompileResult
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResultFactory
+    name: CompileResultFactory
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ConstantExpression
+    name: ConstantExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ConstantExpressions
+    name: ConstantExpressions
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    name: DataType
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DateExpression
+    name: DateExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DecimalExpression
+    name: DecimalExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.EnumerableExpression
+    name: EnumerableExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExcelErrorExpression
+    name: ExcelErrorExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExcelRangeExpression
+    name: ExcelRangeExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    name: Expression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionCompiler
+    name: ExpressionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionConverter
+    name: ExpressionConverter
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionGraph
+    name: ExpressionGraph
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler
+    name: IExpressionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionConverter
+    name: IExpressionConverter
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
+    name: IntegerExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.NamedValueExpression
+    name: NamedValueExpression
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.StringExpression
+    name: StringExpression
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+    name: CompileStrategy
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategyFactory
+    name: CompileStrategyFactory
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.DefaultCompileStrategy
+    name: DefaultCompileStrategy
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+    name: ICompileStrategyFactory
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
+    name: StringConcatStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.DefaultCompiler
+    name: DefaultCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.ErrorHandlingFunctionCompiler
+    name: ErrorHandlingFunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+    name: FunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompilerFactory
+    name: FunctionCompilerFactory
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler
+    name: IfErrorFunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfFunctionCompiler
+    name: IfFunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfNaFunctionCompiler
+    name: IfNaFunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IgnoreCircularRefLookupCompiler
+    name: IgnoreCircularRefLookupCompiler
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.LookupFunctionCompiler
+    name: LookupFunctionCompiler
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
+    name: ILexer
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+    name: ISourceCodeTokenizer
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISyntacticAnalyzer
+    name: ISyntacticAnalyzer
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory
+    name: ITokenFactory
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenIndexProvider
+    name: ITokenIndexProvider
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenSeparatorProvider
+    name: ITokenSeparatorProvider
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Lexer
+    name: Lexer
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer
+    name: SourceCodeTokenizer
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SyntacticAnalyzer
+    name: SyntacticAnalyzer
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorProvider
+    name: TokenSeparatorProvider
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+    name: TokenType
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
+    name: TokenNavigator
+- uid: OfficeOpenXml.FormulaParsing.Logging
+  name: OfficeOpenXml.FormulaParsing.Logging
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+    name: IFormulaParserLogger
+  - uid: OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+    name: LoggerFactory
+- uid: OfficeOpenXml.FormulaParsing.Utilities
+  name: OfficeOpenXml.FormulaParsing.Utilities
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
+    name: ArgumentInfo<T>
+    name.vb: ArgumentInfo(Of T)
+  - uid: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
+    name: RegexConstants
+  - uid: OfficeOpenXml.FormulaParsing.Utilities.Require
+    name: Require
+- uid: OfficeOpenXml.LoadFunctions
+  name: OfficeOpenXml.LoadFunctions
+  items:
+  - uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+    name: LoadFunctionFunctionParamsBase
+- uid: OfficeOpenXml.LoadFunctions.Params
+  name: OfficeOpenXml.LoadFunctions.Params
+  items:
+  - uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+    name: HeaderParsingTypes
+  - uid: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+    name: LoadFromCollectionParams
+  - uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+    name: LoadFromDataTableParams
+  - uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+    name: LoadFromDictionariesParams
+  - uid: OfficeOpenXml.LoadFunctions.Params.LoadFromTextParams
+    name: LoadFromTextParams
+- uid: OfficeOpenXml.Packaging
+  name: OfficeOpenXml.Packaging
+  items:
+  - uid: OfficeOpenXml.Packaging.TargetMode
+    name: TargetMode
+  - uid: OfficeOpenXml.Packaging.ZipPackagePartBase
+    name: ZipPackagePartBase
+  - uid: OfficeOpenXml.Packaging.ZipPackageRelationship
+    name: ZipPackageRelationship
+  - uid: OfficeOpenXml.Packaging.ZipPackageRelationshipCollection
+    name: ZipPackageRelationshipCollection
+- uid: OfficeOpenXml.Packaging.Ionic.Zip
+  name: OfficeOpenXml.Packaging.Ionic.Zip
+  items:
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.BadCrcException
+    name: BadCrcException
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.BadPasswordException
+    name: BadPasswordException
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.BadReadException
+    name: BadReadException
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.BadStateException
+    name: BadStateException
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate
+    name: CloseDelegate
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.OpenDelegate
+    name: OpenDelegate
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.SetCompressionCallback
+    name: SetCompressionCallback
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.SfxGenerationException
+    name: SfxGenerationException
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate
+    name: WriteDelegate
+  - uid: OfficeOpenXml.Packaging.Ionic.Zip.ZipException
+    name: ZipException
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  items:
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.Adler
+    name: Adler
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel
+    name: CompressionLevel
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+    name: CompressionMode
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+    name: CompressionStrategy
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.DeflateStream
+    name: DeflateStream
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+    name: FlushType
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream
+    name: GZipStream
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.ParallelDeflateOutputStream
+    name: ParallelDeflateOutputStream
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibCodec
+    name: ZlibCodec
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+    name: ZlibConstants
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibException
+    name: ZlibException
+  - uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream
+    name: ZlibStream
+- uid: OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  items:
+  - uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+    name: RangeLeftToRightSortLayer
+  - uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder
+    name: RangeLeftToRightSortLayerBuilder
+  - uid: OfficeOpenXml.Sorting.RangeSortLayer
+    name: RangeSortLayer
+  - uid: OfficeOpenXml.Sorting.RangeSortLayerBuilder
+    name: RangeSortLayerBuilder
+  - uid: OfficeOpenXml.Sorting.RangeSortOptions
+    name: RangeSortOptions
+  - uid: OfficeOpenXml.Sorting.SortCondition
+    name: SortCondition
+  - uid: OfficeOpenXml.Sorting.SortConditionCollection
+    name: SortConditionCollection
+  - uid: OfficeOpenXml.Sorting.SortLayerBase
+    name: SortLayerBase
+  - uid: OfficeOpenXml.Sorting.SortOptionsBase
+    name: SortOptionsBase
+  - uid: OfficeOpenXml.Sorting.SortState
+    name: SortState
+  - uid: OfficeOpenXml.Sorting.TableSortLayer
+    name: TableSortLayer
+  - uid: OfficeOpenXml.Sorting.TableSortLayerBuilder
+    name: TableSortLayerBuilder
+  - uid: OfficeOpenXml.Sorting.TableSortOptions
+    name: TableSortOptions
+- uid: OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  items:
+  - uid: OfficeOpenXml.Sparkline.eDispBlanksAs
+    name: eDispBlanksAs
+  - uid: OfficeOpenXml.Sparkline.eSparklineAxisMinMax
+    name: eSparklineAxisMinMax
+  - uid: OfficeOpenXml.Sparkline.eSparklineType
+    name: eSparklineType
+  - uid: OfficeOpenXml.Sparkline.ExcelSparkline
+    name: ExcelSparkline
+  - uid: OfficeOpenXml.Sparkline.ExcelSparklineCollection
+    name: ExcelSparklineCollection
+  - uid: OfficeOpenXml.Sparkline.ExcelSparklineColor
+    name: ExcelSparklineColor
+  - uid: OfficeOpenXml.Sparkline.ExcelSparklineGroup
+    name: ExcelSparklineGroup
+  - uid: OfficeOpenXml.Sparkline.ExcelSparklineGroupCollection
+    name: ExcelSparklineGroupCollection
+- uid: OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  items:
+  - uid: OfficeOpenXml.Style.Border
+    name: Border
+  - uid: OfficeOpenXml.Style.eDxfFillStyle
+    name: eDxfFillStyle
+  - uid: OfficeOpenXml.Style.eDxfGradientFillType
+    name: eDxfGradientFillType
+  - uid: OfficeOpenXml.Style.eStrikeType
+    name: eStrikeType
+  - uid: OfficeOpenXml.Style.eTableStyleElement
+    name: eTableStyleElement
+  - uid: OfficeOpenXml.Style.eUnderLineType
+    name: eUnderLineType
+  - uid: OfficeOpenXml.Style.ExcelBandedTableStyleElement
+    name: ExcelBandedTableStyleElement
+  - uid: OfficeOpenXml.Style.ExcelBorderItem
+    name: ExcelBorderItem
+  - uid: OfficeOpenXml.Style.ExcelBorderStyle
+    name: ExcelBorderStyle
+  - uid: OfficeOpenXml.Style.ExcelColor
+    name: ExcelColor
+  - uid: OfficeOpenXml.Style.ExcelFill
+    name: ExcelFill
+  - uid: OfficeOpenXml.Style.ExcelFillGradientType
+    name: ExcelFillGradientType
+  - uid: OfficeOpenXml.Style.ExcelFillStyle
+    name: ExcelFillStyle
+  - uid: OfficeOpenXml.Style.ExcelFont
+    name: ExcelFont
+  - uid: OfficeOpenXml.Style.ExcelGradientFill
+    name: ExcelGradientFill
+  - uid: OfficeOpenXml.Style.ExcelHorizontalAlignment
+    name: ExcelHorizontalAlignment
+  - uid: OfficeOpenXml.Style.ExcelIndexedColor
+    name: ExcelIndexedColor
+  - uid: OfficeOpenXml.Style.ExcelNumberFormat
+    name: ExcelNumberFormat
+  - uid: OfficeOpenXml.Style.ExcelParagraph
+    name: ExcelParagraph
+  - uid: OfficeOpenXml.Style.ExcelParagraphCollection
+    name: ExcelParagraphCollection
+  - uid: OfficeOpenXml.Style.ExcelReadingOrder
+    name: ExcelReadingOrder
+  - uid: OfficeOpenXml.Style.ExcelRichText
+    name: ExcelRichText
+  - uid: OfficeOpenXml.Style.ExcelRichTextCollection
+    name: ExcelRichTextCollection
+  - uid: OfficeOpenXml.Style.ExcelSlicerTableStyleElement
+    name: ExcelSlicerTableStyleElement
+  - uid: OfficeOpenXml.Style.ExcelStyle
+    name: ExcelStyle
+  - uid: OfficeOpenXml.Style.ExcelTableStyleElement
+    name: ExcelTableStyleElement
+  - uid: OfficeOpenXml.Style.ExcelTextFont
+    name: ExcelTextFont
+  - uid: OfficeOpenXml.Style.ExcelUnderLineType
+    name: ExcelUnderLineType
+  - uid: OfficeOpenXml.Style.ExcelVerticalAlignment
+    name: ExcelVerticalAlignment
+  - uid: OfficeOpenXml.Style.ExcelVerticalAlignmentFont
+    name: ExcelVerticalAlignmentFont
+  - uid: OfficeOpenXml.Style.StyleBase
+    name: StyleBase
+- uid: OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  items:
+  - uid: OfficeOpenXml.Style.Dxf.DxfStyleBase
+    name: DxfStyleBase
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+    name: ExcelDxfBorderBase
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderItem
+    name: ExcelDxfBorderItem
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfColor
+    name: ExcelDxfColor
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfFill
+    name: ExcelDxfFill
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfFont
+    name: ExcelDxfFont
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfFontBase
+    name: ExcelDxfFontBase
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFill
+    name: ExcelDxfGradientFill
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColor
+    name: ExcelDxfGradientFillColor
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfGradientFillColorCollection
+    name: ExcelDxfGradientFillColorCollection
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfNumberFormat
+    name: ExcelDxfNumberFormat
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfSlicerStyle
+    name: ExcelDxfSlicerStyle
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+    name: ExcelDxfStyle
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleBase
+    name: ExcelDxfStyleBase
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleConditionalFormatting
+    name: ExcelDxfStyleConditionalFormatting
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleFont
+    name: ExcelDxfStyleFont
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyleLimitedFont
+    name: ExcelDxfStyleLimitedFont
+  - uid: OfficeOpenXml.Style.Dxf.ExcelDxfTableStyle
+    name: ExcelDxfTableStyle
+- uid: OfficeOpenXml.Style.Table
+  name: OfficeOpenXml.Style.Table
+  items:
+  - uid: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+    name: ExcelPivotTableNamedStyle
+  - uid: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+    name: ExcelTableAndPivotTableNamedStyle
+  - uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+    name: ExcelTableNamedStyle
+  - uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+    name: ExcelTableNamedStyleAsType
+  - uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+    name: ExcelTableNamedStyleBase
+- uid: OfficeOpenXml.Style.XmlAccess
+  name: OfficeOpenXml.Style.XmlAccess
+  items:
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelBorderItemXml
+    name: ExcelBorderItemXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelBorderXml
+    name: ExcelBorderXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+    name: ExcelColorXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+    name: ExcelFillXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelFontXml
+    name: ExcelFontXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+    name: ExcelGradientFillXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelNamedStyleXml
+    name: ExcelNamedStyleXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml
+    name: ExcelNumberFormatXml
+  - uid: OfficeOpenXml.Style.XmlAccess.ExcelXfs
+    name: ExcelXfs
+  - uid: OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+    name: StyleXmlHelper
+- uid: OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  items:
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+  - uid: OfficeOpenXml.Table.ExcelTableCollection
+    name: ExcelTableCollection
+  - uid: OfficeOpenXml.Table.ExcelTableColumn
+    name: ExcelTableColumn
+  - uid: OfficeOpenXml.Table.ExcelTableColumnCollection
+    name: ExcelTableColumnCollection
+  - uid: OfficeOpenXml.Table.ExcelTableDxfBase
+    name: ExcelTableDxfBase
+  - uid: OfficeOpenXml.Table.PivotTableStyles
+    name: PivotTableStyles
+  - uid: OfficeOpenXml.Table.RowFunctions
+    name: RowFunctions
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+- uid: OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  items:
+  - uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+    name: DataFieldFunctions
+  - uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+    name: eDateGroupBy
+  - uid: OfficeOpenXml.Table.PivotTable.eItemType
+    name: eItemType
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+    name: ePivotAreaType
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotFieldAxis
+    name: ePivotFieldAxis
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+    name: ePivotTableAxis
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotTableCaptionFilterType
+    name: ePivotTableCaptionFilterType
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotTableDatePeriodFilterType
+    name: ePivotTableDatePeriodFilterType
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+    name: ePivotTableDateValueFilterType
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+    name: ePivotTableFilterType
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotTableTop10FilterType
+    name: ePivotTableTop10FilterType
+  - uid: OfficeOpenXml.Table.PivotTable.ePivotTableValueFilterType
+    name: ePivotTableValueFilterType
+  - uid: OfficeOpenXml.Table.PivotTable.ePrevNextPivotItem
+    name: ePrevNextPivotItem
+  - uid: OfficeOpenXml.Table.PivotTable.eShowDataAs
+    name: eShowDataAs
+  - uid: OfficeOpenXml.Table.PivotTable.eSortType
+    name: eSortType
+  - uid: OfficeOpenXml.Table.PivotTable.eSourceType
+    name: eSourceType
+  - uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+    name: eSubTotalFunctions
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+    name: ExcelPivotArea
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort
+    name: ExcelPivotAreaAutoSort
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaDataFieldReference
+    name: ExcelPivotAreaDataFieldReference
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReference
+    name: ExcelPivotAreaReference
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+    name: ExcelPivotAreaReferenceBase
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceCollection
+    name: ExcelPivotAreaReferenceCollection
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+    name: ExcelPivotAreaReferenceItems
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+    name: ExcelPivotAreaStyleConditions
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+    name: ExcelPivotCacheDefinition
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+    name: ExcelPivotTableAreaStyle
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+    name: ExcelPivotTableAreaStyleCollection
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+    name: ExcelPivotTableCacheField
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+    name: ExcelPivotTableCollection
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+    name: ExcelPivotTableDataField
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
+    name: ExcelPivotTableDataFieldCollection
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldShowDataAs
+    name: ExcelPivotTableDataFieldShowDataAs
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    name: ExcelPivotTableField
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection
+    name: ExcelPivotTableFieldCollection
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
+    name: ExcelPivotTableFieldCollectionBase<T>
+    name.vb: ExcelPivotTableFieldCollectionBase(Of T)
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldDateGroup
+    name: ExcelPivotTableFieldDateGroup
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+    name: ExcelPivotTableFieldGroup
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItem
+    name: ExcelPivotTableFieldItem
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection
+    name: ExcelPivotTableFieldItemsCollection
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldNumericGroup
+    name: ExcelPivotTableFieldNumericGroup
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings
+    name: ExcelPivotTablePageFieldSettings
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableRowColumnFieldCollection
+    name: ExcelPivotTableRowColumnFieldCollection
+  - uid: OfficeOpenXml.Table.PivotTable.PivotItemReference
+    name: PivotItemReference
+  - uid: OfficeOpenXml.Table.PivotTable.PivotNull
+    name: PivotNull
+- uid: OfficeOpenXml.Table.PivotTable.Filter
+  name: OfficeOpenXml.Table.PivotTable.Filter
+  items:
+  - uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFieldFilterCollection
+    name: ExcelPivotTableFieldFilterCollection
+  - uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+    name: ExcelPivotTableFilter
+  - uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterBaseCollection
+    name: ExcelPivotTableFilterBaseCollection
+  - uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+    name: ExcelPivotTableFilterCollection
+- uid: OfficeOpenXml.ThreadedComments
+  name: OfficeOpenXml.ThreadedComments
+  items:
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+    name: ExcelThreadedComment
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+    name: ExcelThreadedCommentCollection
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+    name: ExcelThreadedCommentMention
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMentionCollection
+    name: ExcelThreadedCommentMentionCollection
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+    name: ExcelThreadedCommentPerson
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPersonCollection
+    name: ExcelThreadedCommentPersonCollection
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentThread
+    name: ExcelThreadedCommentThread
+  - uid: OfficeOpenXml.ThreadedComments.ExcelWorksheetThreadedComments
+    name: ExcelWorksheetThreadedComments
+  - uid: OfficeOpenXml.ThreadedComments.IdentityProvider
+    name: IdentityProvider
+- uid: OfficeOpenXml.Utils
+  name: OfficeOpenXml.Utils
+  items:
+  - uid: OfficeOpenXml.Utils.AddressUtility
+    name: AddressUtility
+  - uid: OfficeOpenXml.Utils.ArgumentExtensions
+    name: ArgumentExtensions
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument<T>
+    name.vb: IArgument(Of T)
+  - uid: OfficeOpenXml.Utils.RecyclableMemory
+    name: RecyclableMemory
+  - uid: OfficeOpenXml.Utils.Require
+    name: Require
+  - uid: OfficeOpenXml.Utils.SqRefUtility
+    name: SqRefUtility
+- uid: OfficeOpenXml.Utils.TypeConversion
+  name: OfficeOpenXml.Utils.TypeConversion
+  items:
+  - uid: OfficeOpenXml.Utils.TypeConversion.ReturnTypeWrapper`1
+    name: ReturnTypeWrapper<T>
+    name.vb: ReturnTypeWrapper(Of T)
+- uid: OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  items:
+  - uid: OfficeOpenXml.VBA.eAttributeDataType
+    name: eAttributeDataType
+  - uid: OfficeOpenXml.VBA.eModuleType
+    name: eModuleType
+  - uid: OfficeOpenXml.VBA.eSyskind
+    name: eSyskind
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+    name: ExcelVBACollectionBase<T>
+    name.vb: ExcelVBACollectionBase(Of T)
+  - uid: OfficeOpenXml.VBA.ExcelVBAModule
+    name: ExcelVBAModule
+  - uid: OfficeOpenXml.VBA.ExcelVbaModuleAttribute
+    name: ExcelVbaModuleAttribute
+  - uid: OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+    name: ExcelVbaModuleAttributesCollection
+  - uid: OfficeOpenXml.VBA.ExcelVbaModuleCollection
+    name: ExcelVbaModuleCollection
+  - uid: OfficeOpenXml.VBA.ExcelVbaProject
+    name: ExcelVbaProject
+  - uid: OfficeOpenXml.VBA.ExcelVbaProtection
+    name: ExcelVbaProtection
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference
+    name: ExcelVbaReference
+  - uid: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+    name: ExcelVbaReferenceCollection
+  - uid: OfficeOpenXml.VBA.ExcelVbaReferenceControl
+    name: ExcelVbaReferenceControl
+  - uid: OfficeOpenXml.VBA.ExcelVbaReferenceProject
+    name: ExcelVbaReferenceProject
+  - uid: OfficeOpenXml.VBA.ExcelVbaSignature
+    name: ExcelVbaSignature
+  - uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+    name: VbaSignatureHashAlgorithm
+- uid: OfficeOpenXml.Vba.Signatures
+  name: OfficeOpenXml.Vba.Signatures
+  items:
+  - uid: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+    name: ExcelSignatureVersion

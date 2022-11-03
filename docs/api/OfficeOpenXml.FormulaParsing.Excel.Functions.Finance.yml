@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  id: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+  name: IFvProvider
+  nameWithType: IFvProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider

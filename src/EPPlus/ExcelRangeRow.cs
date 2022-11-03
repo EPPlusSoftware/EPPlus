@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
@@ -57,7 +58,33 @@ namespace OfficeOpenXml
         {
             get;
             set;
-        }        
+        }
+        /// <summary>
+        /// Groups the rows using an outline. 
+        /// Adds one to <see cref="OutlineLevel" /> for each row if the outline level is less than 8.
+        /// </summary>
+        void Group();
+        /// <summary>
+        /// Ungroups the rows from the outline. 
+        /// Subtracts one from <see cref="OutlineLevel" /> for each row if the outline level is larger that zero. 
+        /// </summary>
+        void Ungroup();
+        /// <summary>
+        /// Collapses and hides the rows's children. Children are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced rows are collapsed.</paramref>
+        /// </summary>
+        void CollapseChildren(bool allLevels = true);
+        /// <summary>
+        /// Expands and shows the rows's children. Children are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
+        /// </summary>
+        void ExpandChildren(bool allLevels = true);
+        /// <summary>
+        /// Expands the rows to the <see cref="OutlineLevel"/> supplied. 
+        /// </summary>
+        /// <param name="level">Expands all rows with a <see cref="OutlineLevel"/> Equal or Greater than this number.</param>
+        /// <param name="collapseChildren">Collapses all children with a greater <see cref="OutlineLevel"/> than <paramref name="level"/></param>
+        void SetVisibleOutlineLevel(int level, bool collapseChildren = true);
     }
     /// <summary>
     /// Represents a range of rows
@@ -362,5 +389,109 @@ namespace OfficeOpenXml
         public void Dispose()
         {
         }
+        /// <summary>
+        /// Groups the rows using an outline. 
+        /// Adds one to <see cref="OutlineLevel" /> for each row if the outline level is less than 8.
+        /// </summary>
+        public void Group()
+        {
+            SetValue(new Action<RowInternal, int>((x, v) => { if (x.OutlineLevel < 8) x.OutlineLevel += (short)v; }), 1);
+        }
+        /// <summary>
+        /// Ungroups the rows from the outline. 
+        /// Subtracts one from <see cref="OutlineLevel" /> for each row if the outline level is larger that zero. 
+        /// </summary>
+        public void Ungroup()
+        {
+            SetValue(new Action<RowInternal, int>((x, v) => { if (x.OutlineLevel >= 0) x.OutlineLevel += (short)v; }), -1);
+        }
+        /// <summary>
+        /// Collapses and hides the rows's children. Children are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced rows are collapsed.</paramref>
+        /// </summary>
+        public void CollapseChildren(bool allLevels = true)
+        {
+            var helper = new WorksheetOutlineHelper(_worksheet);
+            if (_worksheet.OutLineSummaryBelow)
+            {
+                for (int c = GetToRow(); c >= _fromRow; c--)
+                {
+                    c = helper.CollapseRow(c, allLevels ? -1 : -2, true, true, -1);
+                }
+            }
+            else
+            {
+                for (int c = _fromRow; c <= GetToRow(); c++)
+                {
+                    c = helper.CollapseRow(c, allLevels ? -1 : -2, true, true, 1);
+                }
+            }
+        }
+        /// <summary>
+        /// Expands and shows the rows's children. Children are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
+        /// </summary>
+        public void ExpandChildren(bool allLevels = true)
+        {
+            var helper = new WorksheetOutlineHelper(_worksheet);
+            if (_worksheet.OutLineSummaryBelow)
+            {
+                for (int row = GetToRow(); row >= _fromRow; row--)
+                {
+                    row = helper.CollapseRow(row, allLevels ? -1 : -2, false, true, -1);
+                }
+            }
+            else
+            {
+                for (int c = _fromRow; c <= GetToRow(); c++)
+                {
+                    c = helper.CollapseRow(c, allLevels ? -1 : -2, false, true, 1);
+                }
+            }
+        }
+        /// <summary>
+        /// Expands the rows to the <see cref="OutlineLevel"/> supplied. 
+        /// </summary>
+        /// <param name="level">Expand all rows with a <see cref="OutlineLevel"/> Equal or Greater than this number.</param>
+        /// <param name="collapseChildren">Collapse all children with a greater <see cref="OutlineLevel"/> than <paramref name="level"/></param>
+        public void SetVisibleOutlineLevel(int level, bool collapseChildren=true)
+        {
+            var helper = new WorksheetOutlineHelper(_worksheet);
+            if (_worksheet.OutLineSummaryBelow)
+            {
+                for (int r = GetToRow(); r >= _fromRow; r--)
+                {
+                    r = helper.CollapseRow(r, level, true, collapseChildren, -1);
+                }
+            }
+            else
+            {
+                for (int r = _fromRow; r <= GetToRow(); r++)
+                {
+                    r = helper.CollapseRow(r, level, true, collapseChildren, 1);
+                }
+            }
+        }
+        private int GetToRow()
+        {
+            int maxRow;
+            if 
+                (_worksheet.Dimension == null)
+            {
+                maxRow=_worksheet._values.GetLastRow(0);
+            }
+            else
+            {
+                maxRow = Math.Max(_worksheet.Dimension.End.Row, _worksheet._values.GetLastRow(0));
+            }
+            return _toRow > maxRow + 1 ? maxRow + 1 : _toRow; // +1 if the last row has outline level 1 then +1 is outline level 0.
+        }
+
+        private RowInternal GetRow(int row)
+        {
+            if (row < 1 || row > ExcelPackage.MaxRows) return null;
+            return _worksheet.GetValueInner(row, 0) as RowInternal;
+        }
+
     }
 }

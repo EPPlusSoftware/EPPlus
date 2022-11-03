@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  id: eStringDataType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.Category
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.ColorString
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.EntityId
+  langs:
+  - csharp
+  - vb
+  name: eStringDataType
+  nameWithType: eStringDataType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eStringDataType
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSide positions for a chart element\n"
+  example: []
+  syntax:
+    content: public enum eStringDataType
+    content.vb: Public Enum eStringDataType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.Category
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.Category
+  id: Category
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  langs:
+  - csharp
+  - vb
+  name: Category
+  nameWithType: eStringDataType.Category
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.Category
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Category
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe category string dimension data type.\n"
+  example: []
+  syntax:
+    content: Category = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.ColorString
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.ColorString
+  id: ColorString
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  langs:
+  - csharp
+  - vb
+  name: ColorString
+  nameWithType: eStringDataType.ColorString
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.ColorString
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorString
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe string dimension associated with a color.\n"
+  example: []
+  syntax:
+    content: ColorString = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.EntityId
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.EntityId
+  id: EntityId
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  langs:
+  - csharp
+  - vb
+  name: EntityId
+  nameWithType: eStringDataType.EntityId
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType.EntityId
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EntityId
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eStringDataType.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe geographical entity identifier string dimension data type. \nThis dimension can be used to provide locations to a geospatial series in a Geographic chart. \nRefer to the usage of entityId in Geo Cache and Data.\n"
+  example: []
+  syntax:
+    content: EntityId = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eStringDataType
+  nameWithType: eStringDataType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eStringDataType

@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="arguments">Arguments to the function, each argument can contain primitive types, lists or <see cref="ExcelDataProvider.IRangeInfo">Excel ranges</see></param>
+        /// <param name="arguments">Arguments to the function, each argument can contain primitive types, lists or <see cref="IRangeInfo">Excel ranges</see></param>
         /// <param name="context">The <see cref="ParsingContext"/> contains various data that can be useful in functions.</param>
         /// <returns>A <see cref="CompileResult"/> containing the calculated value</returns>
         public abstract CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context);
@@ -139,7 +139,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// This functions validates that the supplied <paramref name="arguments"/> contains at least
         /// (the value of) <paramref name="minLength"/> elements. If one of the arguments is an
-        /// <see cref="ExcelDataProvider.IRangeInfo">Excel range</see> the number of cells in
+        /// <see cref="IRangeInfo">Excel range</see> the number of cells in
         /// that range will be counted as well.
         /// </summary>
         /// <param name="arguments"></param>

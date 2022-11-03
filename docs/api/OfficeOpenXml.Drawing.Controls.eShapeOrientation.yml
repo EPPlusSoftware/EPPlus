@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  commentId: T:OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  id: eShapeOrientation
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eShapeOrientation.Auto
+  - OfficeOpenXml.Drawing.Controls.eShapeOrientation.BottomToTop
+  - OfficeOpenXml.Drawing.Controls.eShapeOrientation.TopToBottom
+  langs:
+  - csharp
+  - vb
+  name: eShapeOrientation
+  nameWithType: eShapeOrientation
+  fullName: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eShapeOrientation
+    path: ../src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nText orientation in a shape\n"
+  example: []
+  syntax:
+    content: public enum eShapeOrientation
+    content.vb: Public Enum eShapeOrientation
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eShapeOrientation.Auto
+  commentId: F:OfficeOpenXml.Drawing.Controls.eShapeOrientation.Auto
+  id: Auto
+  parent: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  langs:
+  - csharp
+  - vb
+  name: Auto
+  nameWithType: eShapeOrientation.Auto
+  fullName: OfficeOpenXml.Drawing.Controls.eShapeOrientation.Auto
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Auto
+    path: ../src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nAuto orientation\n"
+  example: []
+  syntax:
+    content: Auto = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eShapeOrientation.TopToBottom
+  commentId: F:OfficeOpenXml.Drawing.Controls.eShapeOrientation.TopToBottom
+  id: TopToBottom
+  parent: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  langs:
+  - csharp
+  - vb
+  name: TopToBottom
+  nameWithType: eShapeOrientation.TopToBottom
+  fullName: OfficeOpenXml.Drawing.Controls.eShapeOrientation.TopToBottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopToBottom
+    path: ../src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nTop To Bottom \n"
+  example: []
+  syntax:
+    content: TopToBottom = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eShapeOrientation.BottomToTop
+  commentId: F:OfficeOpenXml.Drawing.Controls.eShapeOrientation.BottomToTop
+  id: BottomToTop
+  parent: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  langs:
+  - csharp
+  - vb
+  name: BottomToTop
+  nameWithType: eShapeOrientation.BottomToTop
+  fullName: OfficeOpenXml.Drawing.Controls.eShapeOrientation.BottomToTop
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomToTop
+    path: ../src/EPPlus/Drawing/Controls/enums/eShapeOrienation.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nBottom To Top\n"
+  example: []
+  syntax:
+    content: BottomToTop = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  commentId: T:OfficeOpenXml.Drawing.Controls.eShapeOrientation
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eShapeOrientation
+  nameWithType: eShapeOrientation
+  fullName: OfficeOpenXml.Drawing.Controls.eShapeOrientation

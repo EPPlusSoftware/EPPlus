@@ -1,0 +1,2156 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  id: ExcelColorTransformCollection
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  children:
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint(System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove(OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt(System.Int32)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType(OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelColorTransformCollection
+  nameWithType: ExcelColorTransformCollection
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelColorTransformCollection
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nColor transformation \n"
+  example: []
+  syntax:
+    content: 'public class ExcelColorTransformCollection : IEnumerable<IColorTransformItem>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelColorTransformCollection
+          Implements IEnumerable(Of IColorTransformItem), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelColorTransformCollection.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nIndexer for the colletion\n"
+  example: []
+  syntax:
+    content: public IColorTransformItem this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The position in the list
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+      description: ''
+    content.vb: Public ReadOnly Property Item(index As Integer) As IColorTransformItem
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item*
+  nameWithType.vb: ExcelColorTransformCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelColorTransformCollection.Clear()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nClear all items\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Int32)
+  nameWithType: ExcelColorTransformCollection.RemoveAt(Int32)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nRemote item at a specific position\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The postion in the list
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove(OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove(OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem)
+  id: Remove(OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(IColorTransformItem)
+  nameWithType: ExcelColorTransformCollection.Remove(IColorTransformItem)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove(OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nRemoves the specific item\n"
+  example: []
+  syntax:
+    content: public void Remove(IColorTransformItem item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+      description: The item to remove
+    content.vb: Public Sub Remove(item As IColorTransformItem)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType(OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType(OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType)
+  id: RemoveOfType(OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveOfType(eColorTransformType)
+  nameWithType: ExcelColorTransformCollection.RemoveOfType(eColorTransformType)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType(OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveOfType
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nRemove all items of a specific type\n"
+  example: []
+  syntax:
+    content: public void RemoveOfType(eColorTransformType type)
+    parameters:
+    - id: type
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+      description: The transformation type
+    content.vb: Public Sub RemoveOfType(type As eColorTransformType)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha(System.Double)
+  id: AddAlpha(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAlpha(Double)
+  nameWithType: ExcelColorTransformCollection.AddAlpha(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAlpha
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nThe opacity as expressed by a percentage value\nAlpha equals 100-Transparancy\n"
+  example: []
+  syntax:
+    content: public void AddAlpha(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The alpha value in percentage 0-100
+    content.vb: Public Sub AddAlpha(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation(System.Double)
+  id: AddAlphaModulation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAlphaModulation(Double)
+  nameWithType: ExcelColorTransformCollection.AddAlphaModulation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAlphaModulation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies a more or less opaque version of its input color\nAlpha equals 100-Transparancy\n"
+  example: []
+  syntax:
+    content: public void AddAlphaModulation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The alpha modulation in a positive percentage
+    content.vb: Public Sub AddAlphaModulation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset(System.Double)
+  id: AddAlphaOffset(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAlphaOffset(Double)
+  nameWithType: ExcelColorTransformCollection.AddAlphaOffset(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAlphaOffset
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nAdds an alpha offset value. \n"
+  example: []
+  syntax:
+    content: public void AddAlphaOffset(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The tint percentage. From 0-100
+    content.vb: Public Sub AddAlphaOffset(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue(System.Double)
+  id: AddHue(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddHue(Double)
+  nameWithType: ExcelColorTransformCollection.AddHue(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddHue
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the input color with the specified hue, but with its saturation and luminance unchanged\n"
+  example: []
+  syntax:
+    content: public void AddHue(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The hue angle from 0-360
+    content.vb: Public Sub AddHue(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation(System.Double)
+  id: AddHueModulation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddHueModulation(Double)
+  nameWithType: ExcelColorTransformCollection.AddHueModulation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddHueModulation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the hue as expressed by a percentage relative to the input color\n"
+  example: []
+  syntax:
+    content: public void AddHueModulation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The hue modulation in a positive percentage
+    content.vb: Public Sub AddHueModulation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset(System.Double)
+  id: AddHueOffset(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddHueOffset(Double)
+  nameWithType: ExcelColorTransformCollection.AddHueOffset(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddHueOffset
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the actual angular value of the shift. The result of the shift shall be between 0 and 360 degrees.Shifts resulting in angular values less than 0 are treated as 0. \nShifts resulting in angular values greater than 360 are treated as 360.\n"
+  example: []
+  syntax:
+    content: public void AddHueOffset(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The hue offset value.
+    content.vb: Public Sub AddHueOffset(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation(System.Double)
+  id: AddSaturation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddSaturation(Double)
+  nameWithType: ExcelColorTransformCollection.AddSaturation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSaturation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the input color with the specified saturation, but with its hue and luminance unchanged\n"
+  example: []
+  syntax:
+    content: public void AddSaturation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The saturation percentage from 0-100
+    content.vb: Public Sub AddSaturation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation(System.Double)
+  id: AddSaturationModulation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddSaturationModulation(Double)
+  nameWithType: ExcelColorTransformCollection.AddSaturationModulation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSaturationModulation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the saturation as expressed by a percentage relative to the input color\n"
+  example: []
+  syntax:
+    content: public void AddSaturationModulation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The saturation modulation in a positive percentage
+    content.vb: Public Sub AddSaturationModulation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset(System.Double)
+  id: AddSaturationOffset(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddSaturationOffset(Double)
+  nameWithType: ExcelColorTransformCollection.AddSaturationOffset(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddSaturationOffset
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the saturation as expressed by a percentage offset increase or decrease to the input color.\nIncreases never increase the saturation beyond 100%, decreases never decrease the saturation below 0%.\n"
+  example: []
+  syntax:
+    content: public void AddSaturationOffset(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The saturation offset value
+    content.vb: Public Sub AddSaturationOffset(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance(System.Double)
+  id: AddLuminance(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLuminance(Double)
+  nameWithType: ExcelColorTransformCollection.AddLuminance(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLuminance
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 193
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the input color with the specified luminance, but with its hue and saturation unchanged\n"
+  example: []
+  syntax:
+    content: public void AddLuminance(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The luminance percentage from 0-100
+    content.vb: Public Sub AddLuminance(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation(System.Double)
+  id: AddLuminanceModulation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLuminanceModulation(Double)
+  nameWithType: ExcelColorTransformCollection.AddLuminanceModulation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLuminanceModulation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 201
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the luminance as expressed by a percentage relative to the input color\n"
+  example: []
+  syntax:
+    content: public void AddLuminanceModulation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The luminance modulation in a positive percentage
+    content.vb: Public Sub AddLuminanceModulation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset(System.Double)
+  id: AddLuminanceOffset(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLuminanceOffset(Double)
+  nameWithType: ExcelColorTransformCollection.AddLuminanceOffset(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLuminanceOffset
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the luminance as expressed by a percentage offset increase or decrease to the input color.\nIncreases never increase the luminance beyond 100%, decreases never decrease the saturation below 0%.\n"
+  example: []
+  syntax:
+    content: public void AddLuminanceOffset(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The luminance offset value
+    content.vb: Public Sub AddLuminanceOffset(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed(System.Double)
+  id: AddRed(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddRed(Double)
+  nameWithType: ExcelColorTransformCollection.AddRed(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRed
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 220
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the input color with the specific red component\n"
+  example: []
+  syntax:
+    content: public void AddRed(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The red value
+    content.vb: Public Sub AddRed(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation(System.Double)
+  id: AddRedModulation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddRedModulation(Double)
+  nameWithType: ExcelColorTransformCollection.AddRedModulation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRedModulation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 228
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the red component as expressed by a percentage relative to the input color component\n"
+  example: []
+  syntax:
+    content: public void AddRedModulation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The red modulation value
+    content.vb: Public Sub AddRedModulation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset(System.Double)
+  id: AddRedOffset(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddRedOffset(Double)
+  nameWithType: ExcelColorTransformCollection.AddRedOffset(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRedOffset
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the red component as expressed by a percentage offset increase or decrease to the input color component\n"
+  example: []
+  syntax:
+    content: public void AddRedOffset(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The red offset value.
+    content.vb: Public Sub AddRedOffset(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen(System.Double)
+  id: AddGreen(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddGreen(Double)
+  nameWithType: ExcelColorTransformCollection.AddGreen(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGreen
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the input color with the specific green component\n"
+  example: []
+  syntax:
+    content: public void AddGreen(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The green value
+    content.vb: Public Sub AddGreen(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation(System.Double)
+  id: AddGreenModulation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddGreenModulation(Double)
+  nameWithType: ExcelColorTransformCollection.AddGreenModulation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGreenModulation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the green component as expressed by a percentage relative to the input color component\n"
+  example: []
+  syntax:
+    content: public void AddGreenModulation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The green modulation value
+    content.vb: Public Sub AddGreenModulation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset(System.Double)
+  id: AddGreenOffset(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddGreenOffset(Double)
+  nameWithType: ExcelColorTransformCollection.AddGreenOffset(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGreenOffset
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the green component as expressed by a percentage offset increase or decrease to the input color component\n"
+  example: []
+  syntax:
+    content: public void AddGreenOffset(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The green offset value.
+    content.vb: Public Sub AddGreenOffset(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue(System.Double)
+  id: AddBlue(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBlue(Double)
+  nameWithType: ExcelColorTransformCollection.AddBlue(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBlue
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 272
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the input color with the specific blue component\n"
+  example: []
+  syntax:
+    content: public void AddBlue(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The blue value
+    content.vb: Public Sub AddBlue(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation(System.Double)
+  id: AddBlueModulation(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBlueModulation(Double)
+  nameWithType: ExcelColorTransformCollection.AddBlueModulation(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBlueModulation
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the blue component as expressed by a percentage relative to the input color component\n"
+  example: []
+  syntax:
+    content: public void AddBlueModulation(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The blue modulation value
+    content.vb: Public Sub AddBlueModulation(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset(System.Double)
+  id: AddBlueOffset(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBlueOffset(Double)
+  nameWithType: ExcelColorTransformCollection.AddBlueOffset(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBlueOffset
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 298
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the blue component as expressed by a percentage offset increase or decrease to the input color component\n"
+  example: []
+  syntax:
+    content: public void AddBlueOffset(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The blue offset value.
+    content.vb: Public Sub AddBlueOffset(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint(System.Double)
+  id: AddTint(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTint(Double)
+  nameWithType: ExcelColorTransformCollection.AddTint(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTint
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 307
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies a lighter version of its input color\n"
+  example: []
+  syntax:
+    content: public void AddTint(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The tint value in percentage 0-100
+    content.vb: Public Sub AddTint(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade(System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade(System.Double)
+  id: AddShade(System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddShade(Double)
+  nameWithType: ExcelColorTransformCollection.AddShade(Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddShade
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 315
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies a lighter version of its input color\n"
+  example: []
+  syntax:
+    content: public void AddShade(double value)
+    parameters:
+    - id: value
+      type: System.Double
+      description: The tint value in percentage 0-100
+    content.vb: Public Sub AddShade(value As Double)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement
+  id: AddComplement
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddComplement()
+  nameWithType: ExcelColorTransformCollection.AddComplement()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddComplement
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 324
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies that the color rendered should be the complement of its input color with the complement being defined as such.\nTwo colors are called complementary if, when mixed they produce a shade of grey.For instance, the complement of red which is RGB (255, 0, 0) is cyan which is RGB(0, 255, 255)\n"
+  example: []
+  syntax:
+    content: public void AddComplement()
+    content.vb: Public Sub AddComplement
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma
+  id: AddGamma
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddGamma()
+  nameWithType: ExcelColorTransformCollection.AddGamma()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGamma
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 331
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies that the output color rendered by the generating application should be the sRGB gamma shift of the input color.\n"
+  example: []
+  syntax:
+    content: public void AddGamma()
+    content.vb: Public Sub AddGamma
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray
+  id: AddGray
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddGray()
+  nameWithType: ExcelColorTransformCollection.AddGray()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGray
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 338
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies a grayscale of its input color, taking into relative intensities of the red, green, and blue primaries.\n"
+  example: []
+  syntax:
+    content: public void AddGray()
+    content.vb: Public Sub AddGray
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse
+  id: AddInverse
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddInverse()
+  nameWithType: ExcelColorTransformCollection.AddInverse()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddInverse
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 345
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies the inverse of its input color\n"
+  example: []
+  syntax:
+    content: public void AddInverse()
+    content.vb: Public Sub AddInverse
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma
+  id: AddInverseGamma
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: AddInverseGamma()
+  nameWithType: ExcelColorTransformCollection.AddInverseGamma()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddInverseGamma
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 352
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSpecifies that the output color rendered by the generating application should be the inverse sRGB gamma shift of the input color\n"
+  example: []
+  syntax:
+    content: public void AddInverseGamma()
+    content.vb: Public Sub AddInverseGamma
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelColorTransformCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 385
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nGets the enumerator for the collection\n"
+  example: []
+  syntax:
+    content: public IEnumerator<IColorTransformItem> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}
+      description: The enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of IColorTransformItem)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelColorTransformCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 390
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelColorTransformCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelColorTransformCollection.Count
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformCollection.cs
+    startLine: 397
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  commentId: N:OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  nameWithType: OfficeOpenXml.Drawing.Style.Coloring
+  fullName: OfficeOpenXml.Drawing.Style.Coloring
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<IColorTransformItem>
+  nameWithType: IEnumerable<IColorTransformItem>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem>
+  nameWithType.vb: IEnumerable(Of IColorTransformItem)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem)
+  name.vb: IEnumerable(Of IColorTransformItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+    name: IColorTransformItem
+    nameWithType: IColorTransformItem
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+    name: IColorTransformItem
+    nameWithType: IColorTransformItem
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item
+  name: Item
+  nameWithType: ExcelColorTransformCollection.Item
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: IColorTransformItem
+  nameWithType: IColorTransformItem
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear
+  name: Clear
+  nameWithType: ExcelColorTransformCollection.Clear
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Clear
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt
+  name: RemoveAt
+  nameWithType: ExcelColorTransformCollection.RemoveAt
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveAt
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove
+  name: Remove
+  nameWithType: ExcelColorTransformCollection.Remove
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Remove
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType
+  name: RemoveOfType
+  nameWithType: ExcelColorTransformCollection.RemoveOfType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.RemoveOfType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: eColorTransformType
+  nameWithType: eColorTransformType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha
+  name: AddAlpha
+  nameWithType: ExcelColorTransformCollection.AddAlpha
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlpha
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation
+  name: AddAlphaModulation
+  nameWithType: ExcelColorTransformCollection.AddAlphaModulation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaModulation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset
+  name: AddAlphaOffset
+  nameWithType: ExcelColorTransformCollection.AddAlphaOffset
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddAlphaOffset
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue
+  name: AddHue
+  nameWithType: ExcelColorTransformCollection.AddHue
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHue
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation
+  name: AddHueModulation
+  nameWithType: ExcelColorTransformCollection.AddHueModulation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueModulation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset
+  name: AddHueOffset
+  nameWithType: ExcelColorTransformCollection.AddHueOffset
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddHueOffset
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation
+  name: AddSaturation
+  nameWithType: ExcelColorTransformCollection.AddSaturation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation
+  name: AddSaturationModulation
+  nameWithType: ExcelColorTransformCollection.AddSaturationModulation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationModulation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset
+  name: AddSaturationOffset
+  nameWithType: ExcelColorTransformCollection.AddSaturationOffset
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddSaturationOffset
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance
+  name: AddLuminance
+  nameWithType: ExcelColorTransformCollection.AddLuminance
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminance
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation
+  name: AddLuminanceModulation
+  nameWithType: ExcelColorTransformCollection.AddLuminanceModulation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceModulation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset
+  name: AddLuminanceOffset
+  nameWithType: ExcelColorTransformCollection.AddLuminanceOffset
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddLuminanceOffset
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed
+  name: AddRed
+  nameWithType: ExcelColorTransformCollection.AddRed
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRed
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation
+  name: AddRedModulation
+  nameWithType: ExcelColorTransformCollection.AddRedModulation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedModulation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset
+  name: AddRedOffset
+  nameWithType: ExcelColorTransformCollection.AddRedOffset
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddRedOffset
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen
+  name: AddGreen
+  nameWithType: ExcelColorTransformCollection.AddGreen
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreen
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation
+  name: AddGreenModulation
+  nameWithType: ExcelColorTransformCollection.AddGreenModulation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenModulation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset
+  name: AddGreenOffset
+  nameWithType: ExcelColorTransformCollection.AddGreenOffset
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGreenOffset
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue
+  name: AddBlue
+  nameWithType: ExcelColorTransformCollection.AddBlue
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlue
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation
+  name: AddBlueModulation
+  nameWithType: ExcelColorTransformCollection.AddBlueModulation
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueModulation
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset
+  name: AddBlueOffset
+  nameWithType: ExcelColorTransformCollection.AddBlueOffset
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddBlueOffset
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint
+  name: AddTint
+  nameWithType: ExcelColorTransformCollection.AddTint
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddTint
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade
+  name: AddShade
+  nameWithType: ExcelColorTransformCollection.AddShade
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddShade
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement
+  name: AddComplement
+  nameWithType: ExcelColorTransformCollection.AddComplement
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddComplement
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma
+  name: AddGamma
+  nameWithType: ExcelColorTransformCollection.AddGamma
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGamma
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray
+  name: AddGray
+  nameWithType: ExcelColorTransformCollection.AddGray
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddGray
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse
+  name: AddInverse
+  nameWithType: ExcelColorTransformCollection.AddInverse
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverse
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma
+  name: AddInverseGamma
+  nameWithType: ExcelColorTransformCollection.AddInverseGamma
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.AddInverseGamma
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelColorTransformCollection.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<IColorTransformItem>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of IColorTransformItem).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<IColorTransformItem>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of IColorTransformItem).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<IColorTransformItem>
+  nameWithType: IEnumerator<IColorTransformItem>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem>
+  nameWithType.vb: IEnumerator(Of IColorTransformItem)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem)
+  name.vb: IEnumerator(Of IColorTransformItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+    name: IColorTransformItem
+    nameWithType: IColorTransformItem
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+    name: IColorTransformItem
+    nameWithType: IColorTransformItem
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.IColorTransformItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelColorTransformCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelColorTransformCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count
+  name: Count
+  nameWithType: ExcelColorTransformCollection.Count
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformCollection.Count

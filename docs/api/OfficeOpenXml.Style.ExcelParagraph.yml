@@ -1,0 +1,743 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelParagraph
+  commentId: T:OfficeOpenXml.Style.ExcelParagraph
+  id: ExcelParagraph
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph
+  - OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph
+  - OfficeOpenXml.Style.ExcelParagraph.Text
+  langs:
+  - csharp
+  - vb
+  name: ExcelParagraph
+  nameWithType: ExcelParagraph
+  fullName: OfficeOpenXml.Style.ExcelParagraph
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelParagraph.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelParagraph
+    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nHandels paragraph text\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelParagraph : ExcelTextFont'
+    content.vb: >-
+      Public NotInheritable Class ExcelParagraph
+          Inherits ExcelTextFont
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Style.ExcelTextFont
+  inheritedMembers:
+  - OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  - OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  - OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  - OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  - OfficeOpenXml.Style.ExcelTextFont.Bold
+  - OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  - OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  - OfficeOpenXml.Style.ExcelTextFont.Italic
+  - OfficeOpenXml.Style.ExcelTextFont.Strike
+  - OfficeOpenXml.Style.ExcelTextFont.Size
+  - OfficeOpenXml.Style.ExcelTextFont.Fill
+  - OfficeOpenXml.Style.ExcelTextFont.Color
+  - OfficeOpenXml.Style.ExcelTextFont.Kerning
+  - OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Style.ExcelParagraph.Text
+  commentId: P:OfficeOpenXml.Style.ExcelParagraph.Text
+  id: Text
+  parent: OfficeOpenXml.Style.ExcelParagraph
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelParagraph.Text
+  fullName: OfficeOpenXml.Style.ExcelParagraph.Text
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelParagraph.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nText\n"
+  example: []
+  syntax:
+    content: public string Text { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Text As String
+  overload: OfficeOpenXml.Style.ExcelParagraph.Text*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph
+  commentId: P:OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph
+  id: IsFirstInParagraph
+  parent: OfficeOpenXml.Style.ExcelParagraph
+  langs:
+  - csharp
+  - vb
+  name: IsFirstInParagraph
+  nameWithType: ExcelParagraph.IsFirstInParagraph
+  fullName: OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelParagraph.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsFirstInParagraph
+    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nIf the paragraph is the first in the collection\n"
+  example: []
+  syntax:
+    content: public bool IsFirstInParagraph { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsFirstInParagraph As Boolean
+  overload: OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph
+  commentId: P:OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph
+  id: IsLastInParagraph
+  parent: OfficeOpenXml.Style.ExcelParagraph
+  langs:
+  - csharp
+  - vb
+  name: IsLastInParagraph
+  nameWithType: ExcelParagraph.IsLastInParagraph
+  fullName: OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelParagraph.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsLastInParagraph
+    path: ../src/EPPlus/Style/ExcelParagraph.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nIf the paragraph is the last in the collection\n"
+  example: []
+  syntax:
+    content: public bool IsLastInParagraph { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsLastInParagraph As Boolean
+  overload: OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Style.ExcelTextFont
+  commentId: T:OfficeOpenXml.Style.ExcelTextFont
+  parent: OfficeOpenXml.Style
+  name: ExcelTextFont
+  nameWithType: ExcelTextFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont
+- uid: OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.LatinFont
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: LatinFont
+  nameWithType: ExcelTextFont.LatinFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.LatinFont
+- uid: OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: EastAsianFont
+  nameWithType: ExcelTextFont.EastAsianFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.EastAsianFont
+- uid: OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: ComplexFont
+  nameWithType: ExcelTextFont.ComplexFont
+  fullName: OfficeOpenXml.Style.ExcelTextFont.ComplexFont
+- uid: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  commentId: M:OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: CreateTopNode()
+  nameWithType: ExcelTextFont.CreateTopNode()
+  fullName: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode()
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+    name: CreateTopNode
+    nameWithType: ExcelTextFont.CreateTopNode
+    fullName: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+    name: CreateTopNode
+    nameWithType: ExcelTextFont.CreateTopNode
+    fullName: OfficeOpenXml.Style.ExcelTextFont.CreateTopNode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.ExcelTextFont.Bold
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Bold
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: Bold
+  nameWithType: ExcelTextFont.Bold
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Bold
+- uid: OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.UnderLine
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: UnderLine
+  nameWithType: ExcelTextFont.UnderLine
+  fullName: OfficeOpenXml.Style.ExcelTextFont.UnderLine
+- uid: OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: UnderLineColor
+  nameWithType: ExcelTextFont.UnderLineColor
+  fullName: OfficeOpenXml.Style.ExcelTextFont.UnderLineColor
+- uid: OfficeOpenXml.Style.ExcelTextFont.Italic
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Italic
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: Italic
+  nameWithType: ExcelTextFont.Italic
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Italic
+- uid: OfficeOpenXml.Style.ExcelTextFont.Strike
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Strike
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: Strike
+  nameWithType: ExcelTextFont.Strike
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Strike
+- uid: OfficeOpenXml.Style.ExcelTextFont.Size
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Size
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: Size
+  nameWithType: ExcelTextFont.Size
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Size
+- uid: OfficeOpenXml.Style.ExcelTextFont.Fill
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Fill
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: Fill
+  nameWithType: ExcelTextFont.Fill
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Fill
+- uid: OfficeOpenXml.Style.ExcelTextFont.Color
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Color
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: Color
+  nameWithType: ExcelTextFont.Color
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Color
+- uid: OfficeOpenXml.Style.ExcelTextFont.Kerning
+  commentId: P:OfficeOpenXml.Style.ExcelTextFont.Kerning
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  name: Kerning
+  nameWithType: ExcelTextFont.Kerning
+  fullName: OfficeOpenXml.Style.ExcelTextFont.Kerning
+- uid: OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.Style.ExcelTextFont
+  isExternal: true
+  name: SetFromFont(String, Single, Boolean, Boolean, Boolean, Boolean)
+  nameWithType: ExcelTextFont.SetFromFont(String, Single, Boolean, Boolean, Boolean, Boolean)
+  fullName: OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String, System.Single, System.Boolean, System.Boolean, System.Boolean, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+    name: SetFromFont
+    nameWithType: ExcelTextFont.SetFromFont
+    fullName: OfficeOpenXml.Style.ExcelTextFont.SetFromFont
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Style.ExcelTextFont.SetFromFont(System.String,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+    name: SetFromFont
+    nameWithType: ExcelTextFont.SetFromFont
+    fullName: OfficeOpenXml.Style.ExcelTextFont.SetFromFont
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.ExcelParagraph.Text*
+  commentId: Overload:OfficeOpenXml.Style.ExcelParagraph.Text
+  name: Text
+  nameWithType: ExcelParagraph.Text
+  fullName: OfficeOpenXml.Style.ExcelParagraph.Text
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph*
+  commentId: Overload:OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph
+  name: IsFirstInParagraph
+  nameWithType: ExcelParagraph.IsFirstInParagraph
+  fullName: OfficeOpenXml.Style.ExcelParagraph.IsFirstInParagraph
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph*
+  commentId: Overload:OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph
+  name: IsLastInParagraph
+  nameWithType: ExcelParagraph.IsLastInParagraph
+  fullName: OfficeOpenXml.Style.ExcelParagraph.IsLastInParagraph

@@ -1,0 +1,500 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem
+  id: ExcelChartStyleLibraryItem
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  children:
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartStyleLibraryItem
+  nameWithType: ExcelChartStyleLibraryItem
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartStyleLibraryItem
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nRepresents a chart style xml document in the style library\n"
+  example: []
+  syntax:
+    content: public class ExcelChartStyleLibraryItem
+    content.vb: Public Class ExcelChartStyleLibraryItem
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id
+  id: Id
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ExcelChartStyleLibraryItem.Id
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Id
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe id of the style\n"
+  example: []
+  syntax:
+    content: public int Id { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Id As Integer
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString
+  id: XmlString
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem
+  langs:
+  - csharp
+  - vb
+  name: XmlString
+  nameWithType: ExcelChartStyleLibraryItem.XmlString
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XmlString
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe Xml as string\n"
+  example: []
+  syntax:
+    content: public string XmlString { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property XmlString As String
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument
+  id: XmlDocument
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem
+  langs:
+  - csharp
+  - vb
+  name: XmlDocument
+  nameWithType: ExcelChartStyleLibraryItem.XmlDocument
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XmlDocument
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe style xml document\n"
+  example: []
+  syntax:
+    content: public XmlDocument XmlDocument { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property XmlDocument As XmlDocument
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Chart.Style
+  commentId: N:OfficeOpenXml.Drawing.Chart.Style
+  name: OfficeOpenXml.Drawing.Chart.Style
+  nameWithType: OfficeOpenXml.Drawing.Chart.Style
+  fullName: OfficeOpenXml.Drawing.Chart.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id
+  name: Id
+  nameWithType: ExcelChartStyleLibraryItem.Id
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString
+  name: XmlString
+  nameWithType: ExcelChartStyleLibraryItem.XmlString
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument
+  name: XmlDocument
+  nameWithType: ExcelChartStyleLibraryItem.XmlDocument
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleLibraryItem.XmlDocument
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml

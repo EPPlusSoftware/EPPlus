@@ -1,0 +1,1312 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  id: ExcelScatterChartSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
+  - OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth
+  langs:
+  - csharp
+  - vb
+  name: ExcelScatterChartSerie
+  nameWithType: ExcelScatterChartSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelScatterChartSerie
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA serie for a scatter chart\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelScatterChartSerie : ExcelChartSerieWithHorizontalErrorBars, IDrawingSerieDataLabel'
+    content.vb: >-
+      Public NotInheritable Class ExcelScatterChartSerie
+          Inherits ExcelChartSerieWithHorizontalErrorBars
+          Implements IDrawingSerieDataLabel
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  implements:
+  - OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel
+  id: DataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: DataLabel
+  nameWithType: ExcelScatterChartSerie.DataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataLabel
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nData label properties\n"
+  example: []
+  syntax:
+    content: public ExcelChartSerieDataLabel DataLabel { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+    content.vb: Public ReadOnly Property DataLabel As ExcelChartSerieDataLabel
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel*
+  implements:
+  - OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel
+  id: HasDataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: HasDataLabel
+  nameWithType: ExcelScatterChartSerie.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasDataLabel
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nIf the chart has datalabel\n"
+  example: []
+  syntax:
+    content: public bool HasDataLabel { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasDataLabel As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel*
+  implements:
+  - OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth
+  id: Smooth
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: Smooth
+  nameWithType: ExcelScatterChartSerie.Smooth
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Smooth
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 85
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nSmooth for scattercharts\n"
+  example: []
+  syntax:
+    content: public int Smooth { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Smooth As Integer
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker
+  id: Marker
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: Marker
+  nameWithType: ExcelScatterChartSerie.Marker
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Marker
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA reference to marker properties\n"
+  example: []
+  syntax:
+    content: public ExcelChartMarker Marker { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartMarker
+    content.vb: Public ReadOnly Property Marker As ExcelChartMarker
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker
+  id: HasMarker
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: HasMarker()
+  nameWithType: ExcelScatterChartSerie.HasMarker()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasMarker
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nIf the serie has markers\n"
+  example: []
+  syntax:
+    content: public bool HasMarker()
+    return:
+      type: System.Boolean
+      description: True if serie has markers
+    content.vb: Public Function HasMarker As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints
+  id: DataPoints
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: DataPoints
+  nameWithType: ExcelScatterChartSerie.DataPoints
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataPoints
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA collection of the individual datapoints\n"
+  example: []
+  syntax:
+    content: public ExcelChartDataPointCollection DataPoints { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartDataPointCollection
+    content.vb: Public ReadOnly Property DataPoints As ExcelChartDataPointCollection
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
+  id: LineColor
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: LineColor
+  nameWithType: ExcelScatterChartSerie.LineColor
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineColor
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 161
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLine color.\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Please use Border.Fill.Color property")]
+
+      public Color LineColor { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+      description: "\nThe color of the line.\n"
+    content.vb: >-
+      <Obsolete("Please use Border.Fill.Color property")>
+
+      Public Property LineColor As Color
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Please use Border.Fill.Color property
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
+  id: MarkerSize
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: MarkerSize
+  nameWithType: ExcelScatterChartSerie.MarkerSize
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MarkerSize
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 191
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nGets or sets the size of the marker.\n"
+  remarks: "\nvalue between 2 and 72.\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Please use Marker.Size")]
+
+      public int MarkerSize { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+      description: "\nThe size of the marker.\n"
+    content.vb: >-
+      <Obsolete("Please use Marker.Size")>
+
+      Public Property MarkerSize As Integer
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Please use Marker.Size
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
+  id: MarkerColor
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: MarkerColor
+  nameWithType: ExcelScatterChartSerie.MarkerColor
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MarkerColor
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMarker color.\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Please use Marker.Fill")]
+
+      public Color MarkerColor { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+      description: "\nThe color of the Marker.\n"
+    content.vb: >-
+      <Obsolete("Please use Marker.Fill")>
+
+      Public Property MarkerColor As Color
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Please use Marker.Fill
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
+  id: LineWidth
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: LineWidth
+  nameWithType: ExcelScatterChartSerie.LineWidth
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineWidth
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 245
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nGets or sets the width of the line in pt.\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Please use Border.Width")]
+
+      public double LineWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+      description: "\nThe width of the line.\n"
+    content.vb: >-
+      <Obsolete("Please use Border.Width")>
+
+      Public Property LineWidth As Double
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Please use Border.Width
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
+  id: MarkerLineColor
+  parent: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie
+  langs:
+  - csharp
+  - vb
+  name: MarkerLineColor
+  nameWithType: ExcelScatterChartSerie.MarkerLineColor
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MarkerLineColor
+    path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
+    startLine: 273
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMarker Line color.\n(not to be confused with LineColor)\n"
+  example: []
+  syntax:
+    content: >-
+      [Obsolete("Please use Marker.Border.Fill.Color")]
+
+      public Color MarkerLineColor { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+      description: "\nThe color of the Marker line.\n"
+    content.vb: >-
+      <Obsolete("Please use Marker.Border.Fill.Color")>
+
+      Public Property MarkerLineColor As Color
+  overload: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Please use Marker.Border.Fill.Color
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerie
+  nameWithType: ExcelChartSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartStandardSerie
+  nameWithType: ExcelChartStandardSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerieWithErrorBars
+  nameWithType: ExcelChartSerieWithErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerieWithHorizontalErrorBars
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces
+  name: IDrawingSerieDataLabel
+  nameWithType: IDrawingSerieDataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  name: ErrorBarsX
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.ErrorBarsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  name: AddErrorBars(eErrorBarType, eErrorValueType)
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(eErrorBarType, eErrorValueType)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType)
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars
+  isExternal: true
+  name: AddErrorBars(eErrorBarType, eErrorValueType, Nullable<eErrorBarDirection>)
+  nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(eErrorBarType, eErrorValueType, Nullable<eErrorBarDirection>)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType, System.Nullable<OfficeOpenXml.Drawing.eErrorBarDirection>)
+  nameWithType.vb: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(eErrorBarType, eErrorValueType, Nullable(Of eErrorBarDirection))
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType, OfficeOpenXml.Drawing.eErrorValueType, System.Nullable(Of OfficeOpenXml.Drawing.eErrorBarDirection))
+  name.vb: AddErrorBars(eErrorBarType, eErrorValueType, Nullable(Of eErrorBarDirection))
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.eErrorBarDirection
+    name: eErrorBarDirection
+    nameWithType: eErrorBarDirection
+    fullName: OfficeOpenXml.Drawing.eErrorBarDirection
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars(OfficeOpenXml.Drawing.eErrorBarType,OfficeOpenXml.Drawing.eErrorValueType,System.Nullable{OfficeOpenXml.Drawing.eErrorBarDirection})
+    name: AddErrorBars
+    nameWithType: ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithHorizontalErrorBars.AddErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eErrorBarType
+    name: eErrorBarType
+    nameWithType: eErrorBarType
+    fullName: OfficeOpenXml.Drawing.eErrorBarType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Drawing.eErrorValueType
+    name: eErrorValueType
+    nameWithType: eErrorValueType
+    fullName: OfficeOpenXml.Drawing.eErrorValueType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.eErrorBarDirection
+    name: eErrorBarDirection
+    nameWithType: eErrorBarDirection
+    fullName: OfficeOpenXml.Drawing.eErrorBarDirection
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  name: ErrorBars
+  nameWithType: ExcelChartSerieWithErrorBars.ErrorBars
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.ErrorBars
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars
+  name: HasErrorBars()
+  nameWithType: ExcelChartSerieWithErrorBars.HasErrorBars()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+    name: HasErrorBars
+    nameWithType: ExcelChartSerieWithErrorBars.HasErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+    name: HasErrorBars
+    nameWithType: ExcelChartSerieWithErrorBars.HasErrorBars
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieWithErrorBars.HasErrorBars
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: Header
+  nameWithType: ExcelChartStandardSerie.Header
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: HeaderAddress
+  nameWithType: ExcelChartStandardSerie.HeaderAddress
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: Series
+  nameWithType: ExcelChartStandardSerie.Series
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: XSeries
+  nameWithType: ExcelChartStandardSerie.XSeries
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: TrendLines
+  nameWithType: ExcelChartStandardSerie.TrendLines
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: NumberOfItems
+  nameWithType: ExcelChartStandardSerie.NumberOfItems
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  name: CreateCache()
+  nameWithType: ExcelChartStandardSerie.CreateCache()
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+    name: CreateCache
+    nameWithType: ExcelChartStandardSerie.CreateCache
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+    name: CreateCache
+    nameWithType: ExcelChartStandardSerie.CreateCache
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsY
+  nameWithType: ExcelChartSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsX
+  nameWithType: ExcelChartSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsX
+  nameWithType: ExcelChartSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Fill
+  nameWithType: ExcelChartSerie.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Border
+  nameWithType: ExcelChartSerie.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Effect
+  nameWithType: ExcelChartSerie.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: ThreeD
+  nameWithType: ExcelChartSerie.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Interfaces
+  commentId: N:OfficeOpenXml.Drawing.Interfaces
+  name: OfficeOpenXml.Drawing.Interfaces
+  nameWithType: OfficeOpenXml.Drawing.Interfaces
+  fullName: OfficeOpenXml.Drawing.Interfaces
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel
+  name: DataLabel
+  nameWithType: ExcelScatterChartSerie.DataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataLabel
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  commentId: P:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  name: DataLabel
+  nameWithType: IDrawingSerieDataLabel.DataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.DataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerieDataLabel
+  nameWithType: ExcelChartSerieDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerieDataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel
+  name: HasDataLabel
+  nameWithType: ExcelScatterChartSerie.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasDataLabel
+- uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  commentId: P:OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+  parent: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
+  name: HasDataLabel
+  nameWithType: IDrawingSerieDataLabel.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel.HasDataLabel
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth
+  name: Smooth
+  nameWithType: ExcelScatterChartSerie.Smooth
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Smooth
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker
+  name: Marker
+  nameWithType: ExcelScatterChartSerie.Marker
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.Marker
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartMarker
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartMarker
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartMarker
+  nameWithType: ExcelChartMarker
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartMarker
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker
+  name: HasMarker
+  nameWithType: ExcelScatterChartSerie.HasMarker
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.HasMarker
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints
+  name: DataPoints
+  nameWithType: ExcelScatterChartSerie.DataPoints
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.DataPoints
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartDataPointCollection
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartDataPointCollection
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartDataPointCollection
+  nameWithType: ExcelChartDataPointCollection
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartDataPointCollection
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
+  name: LineColor
+  nameWithType: ExcelScatterChartSerie.LineColor
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineColor
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
+  name: MarkerSize
+  nameWithType: ExcelScatterChartSerie.MarkerSize
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerSize
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
+  name: MarkerColor
+  nameWithType: ExcelScatterChartSerie.MarkerColor
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerColor
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
+  name: LineWidth
+  nameWithType: ExcelScatterChartSerie.LineWidth
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.LineWidth
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor
+  name: MarkerLineColor
+  nameWithType: ExcelScatterChartSerie.MarkerLineColor
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelScatterChartSerie.MarkerLineColor

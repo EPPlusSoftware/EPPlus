@@ -1,0 +1,2358 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ePaperSize
+  commentId: T:OfficeOpenXml.ePaperSize
+  id: ePaperSize
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ePaperSize.A2
+  - OfficeOpenXml.ePaperSize.A3
+  - OfficeOpenXml.ePaperSize.A3Extra
+  - OfficeOpenXml.ePaperSize.A3ExtraTransverse
+  - OfficeOpenXml.ePaperSize.A3Transverse
+  - OfficeOpenXml.ePaperSize.A4
+  - OfficeOpenXml.ePaperSize.A4Extra
+  - OfficeOpenXml.ePaperSize.A4Plus
+  - OfficeOpenXml.ePaperSize.A4Small
+  - OfficeOpenXml.ePaperSize.A4Transverse
+  - OfficeOpenXml.ePaperSize.A5
+  - OfficeOpenXml.ePaperSize.A5Extra
+  - OfficeOpenXml.ePaperSize.A5Transverse
+  - OfficeOpenXml.ePaperSize.B4
+  - OfficeOpenXml.ePaperSize.B4Envelope
+  - OfficeOpenXml.ePaperSize.B5
+  - OfficeOpenXml.ePaperSize.B5Envelope
+  - OfficeOpenXml.ePaperSize.B6Envelope
+  - OfficeOpenXml.ePaperSize.C
+  - OfficeOpenXml.ePaperSize.C3Envelope
+  - OfficeOpenXml.ePaperSize.C4Envelope
+  - OfficeOpenXml.ePaperSize.C5Envelope
+  - OfficeOpenXml.ePaperSize.C65Envelope
+  - OfficeOpenXml.ePaperSize.C6Envelope
+  - OfficeOpenXml.ePaperSize.D
+  - OfficeOpenXml.ePaperSize.DLEnvelope
+  - OfficeOpenXml.ePaperSize.E
+  - OfficeOpenXml.ePaperSize.Envelope10
+  - OfficeOpenXml.ePaperSize.Envelope11
+  - OfficeOpenXml.ePaperSize.Envelope12
+  - OfficeOpenXml.ePaperSize.Envelope14
+  - OfficeOpenXml.ePaperSize.Envelope9
+  - OfficeOpenXml.ePaperSize.Executive
+  - OfficeOpenXml.ePaperSize.Folio
+  - OfficeOpenXml.ePaperSize.GermanLegal
+  - OfficeOpenXml.ePaperSize.GermanStandard
+  - OfficeOpenXml.ePaperSize.InviteEnvelope
+  - OfficeOpenXml.ePaperSize.ISOB4
+  - OfficeOpenXml.ePaperSize.ISOB5
+  - OfficeOpenXml.ePaperSize.ItalyEnvelope
+  - OfficeOpenXml.ePaperSize.JapaneseDoublePostcard
+  - OfficeOpenXml.ePaperSize.JISB5Transverse
+  - OfficeOpenXml.ePaperSize.Ledger
+  - OfficeOpenXml.ePaperSize.Legal
+  - OfficeOpenXml.ePaperSize.LegalExtra
+  - OfficeOpenXml.ePaperSize.Letter
+  - OfficeOpenXml.ePaperSize.LetterExtra
+  - OfficeOpenXml.ePaperSize.LetterExtraTransverse
+  - OfficeOpenXml.ePaperSize.LetterPlus
+  - OfficeOpenXml.ePaperSize.LetterSmall
+  - OfficeOpenXml.ePaperSize.LetterTransverse
+  - OfficeOpenXml.ePaperSize.MonarchEnvelope
+  - OfficeOpenXml.ePaperSize.Note
+  - OfficeOpenXml.ePaperSize.Quarto
+  - OfficeOpenXml.ePaperSize.Six3_4Envelope
+  - OfficeOpenXml.ePaperSize.Standard10
+  - OfficeOpenXml.ePaperSize.Standard10_14
+  - OfficeOpenXml.ePaperSize.Standard11_17
+  - OfficeOpenXml.ePaperSize.Standard15
+  - OfficeOpenXml.ePaperSize.Standard9
+  - OfficeOpenXml.ePaperSize.Statement
+  - OfficeOpenXml.ePaperSize.SuperA
+  - OfficeOpenXml.ePaperSize.SuperB
+  - OfficeOpenXml.ePaperSize.Tabloid
+  - OfficeOpenXml.ePaperSize.TabloidExtra
+  - OfficeOpenXml.ePaperSize.USStandard
+  langs:
+  - csharp
+  - vb
+  name: ePaperSize
+  nameWithType: ePaperSize
+  fullName: OfficeOpenXml.ePaperSize
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePaperSize
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPapersize\n"
+  example: []
+  syntax:
+    content: public enum ePaperSize
+    content.vb: Public Enum ePaperSize
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ePaperSize.Letter
+  commentId: F:OfficeOpenXml.ePaperSize.Letter
+  id: Letter
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Letter
+  nameWithType: ePaperSize.Letter
+  fullName: OfficeOpenXml.ePaperSize.Letter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Letter
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLetter paper (8.5 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: Letter = 1
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.LetterSmall
+  commentId: F:OfficeOpenXml.ePaperSize.LetterSmall
+  id: LetterSmall
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: LetterSmall
+  nameWithType: ePaperSize.LetterSmall
+  fullName: OfficeOpenXml.ePaperSize.LetterSmall
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LetterSmall
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLetter small paper (8.5 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: LetterSmall = 2
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Tabloid
+  commentId: F:OfficeOpenXml.ePaperSize.Tabloid
+  id: Tabloid
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Tabloid
+  nameWithType: ePaperSize.Tabloid
+  fullName: OfficeOpenXml.ePaperSize.Tabloid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tabloid
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n// Tabloid paper (11 in. by 17 in.)\n"
+  example: []
+  syntax:
+    content: Tabloid = 3
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Ledger
+  commentId: F:OfficeOpenXml.ePaperSize.Ledger
+  id: Ledger
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Ledger
+  nameWithType: ePaperSize.Ledger
+  fullName: OfficeOpenXml.ePaperSize.Ledger
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ledger
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLedger paper (17 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: Ledger = 4
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Legal
+  commentId: F:OfficeOpenXml.ePaperSize.Legal
+  id: Legal
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Legal
+  nameWithType: ePaperSize.Legal
+  fullName: OfficeOpenXml.ePaperSize.Legal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Legal
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLegal paper (8.5 in. by 14 in.)\n"
+  example: []
+  syntax:
+    content: Legal = 5
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Statement
+  commentId: F:OfficeOpenXml.ePaperSize.Statement
+  id: Statement
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Statement
+  nameWithType: ePaperSize.Statement
+  fullName: OfficeOpenXml.ePaperSize.Statement
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Statement
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStatement paper (5.5 in. by 8.5 in.)\n"
+  example: []
+  syntax:
+    content: Statement = 6
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Executive
+  commentId: F:OfficeOpenXml.ePaperSize.Executive
+  id: Executive
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Executive
+  nameWithType: ePaperSize.Executive
+  fullName: OfficeOpenXml.ePaperSize.Executive
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Executive
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nExecutive paper (7.25 in. by 10.5 in.)\n"
+  example: []
+  syntax:
+    content: Executive = 7
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A3
+  commentId: F:OfficeOpenXml.ePaperSize.A3
+  id: A3
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A3
+  nameWithType: ePaperSize.A3
+  fullName: OfficeOpenXml.ePaperSize.A3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A3
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA3 paper (297 mm by 420 mm)\n"
+  example: []
+  syntax:
+    content: A3 = 8
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A4
+  commentId: F:OfficeOpenXml.ePaperSize.A4
+  id: A4
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A4
+  nameWithType: ePaperSize.A4
+  fullName: OfficeOpenXml.ePaperSize.A4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A4
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA4 paper (210 mm by 297 mm)\n"
+  example: []
+  syntax:
+    content: A4 = 9
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A4Small
+  commentId: F:OfficeOpenXml.ePaperSize.A4Small
+  id: A4Small
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A4Small
+  nameWithType: ePaperSize.A4Small
+  fullName: OfficeOpenXml.ePaperSize.A4Small
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A4Small
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA4 small paper (210 mm by 297 mm)\n"
+  example: []
+  syntax:
+    content: A4Small = 10
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A5
+  commentId: F:OfficeOpenXml.ePaperSize.A5
+  id: A5
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A5
+  nameWithType: ePaperSize.A5
+  fullName: OfficeOpenXml.ePaperSize.A5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A5
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA5 paper (148 mm by 210 mm)\n"
+  example: []
+  syntax:
+    content: A5 = 11
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.B4
+  commentId: F:OfficeOpenXml.ePaperSize.B4
+  id: B4
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: B4
+  nameWithType: ePaperSize.B4
+  fullName: OfficeOpenXml.ePaperSize.B4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: B4
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 88
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nB4 paper (250 mm by 353 mm)\n"
+  example: []
+  syntax:
+    content: B4 = 12
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.B5
+  commentId: F:OfficeOpenXml.ePaperSize.B5
+  id: B5
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: B5
+  nameWithType: ePaperSize.B5
+  fullName: OfficeOpenXml.ePaperSize.B5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: B5
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nB5 paper (176 mm by 250 mm)\n"
+  example: []
+  syntax:
+    content: B5 = 13
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Folio
+  commentId: F:OfficeOpenXml.ePaperSize.Folio
+  id: Folio
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Folio
+  nameWithType: ePaperSize.Folio
+  fullName: OfficeOpenXml.ePaperSize.Folio
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Folio
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFolio paper (8.5 in. by 13 in.)\n"
+  example: []
+  syntax:
+    content: Folio = 14
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Quarto
+  commentId: F:OfficeOpenXml.ePaperSize.Quarto
+  id: Quarto
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Quarto
+  nameWithType: ePaperSize.Quarto
+  fullName: OfficeOpenXml.ePaperSize.Quarto
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Quarto
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 100
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nQuarto paper (215 mm by 275 mm)\n"
+  example: []
+  syntax:
+    content: Quarto = 15
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Standard10_14
+  commentId: F:OfficeOpenXml.ePaperSize.Standard10_14
+  id: Standard10_14
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Standard10_14
+  nameWithType: ePaperSize.Standard10_14
+  fullName: OfficeOpenXml.ePaperSize.Standard10_14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard10_14
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStandard paper (10 in. by 14 in.)\n"
+  example: []
+  syntax:
+    content: Standard10_14 = 16
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Standard11_17
+  commentId: F:OfficeOpenXml.ePaperSize.Standard11_17
+  id: Standard11_17
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Standard11_17
+  nameWithType: ePaperSize.Standard11_17
+  fullName: OfficeOpenXml.ePaperSize.Standard11_17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard11_17
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStandard paper (11 in. by 17 in.)\n"
+  example: []
+  syntax:
+    content: Standard11_17 = 17
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Note
+  commentId: F:OfficeOpenXml.ePaperSize.Note
+  id: Note
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Note
+  nameWithType: ePaperSize.Note
+  fullName: OfficeOpenXml.ePaperSize.Note
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Note
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNote paper (8.5 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: Note = 18
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Envelope9
+  commentId: F:OfficeOpenXml.ePaperSize.Envelope9
+  id: Envelope9
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Envelope9
+  nameWithType: ePaperSize.Envelope9
+  fullName: OfficeOpenXml.ePaperSize.Envelope9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Envelope9
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 116
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n#9 envelope (3.875 in. by 8.875 in.)\n"
+  example: []
+  syntax:
+    content: Envelope9 = 19
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Envelope10
+  commentId: F:OfficeOpenXml.ePaperSize.Envelope10
+  id: Envelope10
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Envelope10
+  nameWithType: ePaperSize.Envelope10
+  fullName: OfficeOpenXml.ePaperSize.Envelope10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Envelope10
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 120
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n#10 envelope (4.125 in. by 9.5 in.)\n"
+  example: []
+  syntax:
+    content: Envelope10 = 20
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Envelope11
+  commentId: F:OfficeOpenXml.ePaperSize.Envelope11
+  id: Envelope11
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Envelope11
+  nameWithType: ePaperSize.Envelope11
+  fullName: OfficeOpenXml.ePaperSize.Envelope11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Envelope11
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n#11 envelope (4.5 in. by 10.375 in.)\n"
+  example: []
+  syntax:
+    content: Envelope11 = 21
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Envelope12
+  commentId: F:OfficeOpenXml.ePaperSize.Envelope12
+  id: Envelope12
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Envelope12
+  nameWithType: ePaperSize.Envelope12
+  fullName: OfficeOpenXml.ePaperSize.Envelope12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Envelope12
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n#12 envelope (4.75 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: Envelope12 = 22
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Envelope14
+  commentId: F:OfficeOpenXml.ePaperSize.Envelope14
+  id: Envelope14
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Envelope14
+  nameWithType: ePaperSize.Envelope14
+  fullName: OfficeOpenXml.ePaperSize.Envelope14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Envelope14
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n#14 envelope (5 in. by 11.5 in.)\n"
+  example: []
+  syntax:
+    content: Envelope14 = 23
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.C
+  commentId: F:OfficeOpenXml.ePaperSize.C
+  id: C
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: C
+  nameWithType: ePaperSize.C
+  fullName: OfficeOpenXml.ePaperSize.C
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: C
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 136
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nC paper (17 in. by 22 in.)\n"
+  example: []
+  syntax:
+    content: C = 24
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.D
+  commentId: F:OfficeOpenXml.ePaperSize.D
+  id: D
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: D
+  nameWithType: ePaperSize.D
+  fullName: OfficeOpenXml.ePaperSize.D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: D
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nD paper (22 in. by 34 in.)\n"
+  example: []
+  syntax:
+    content: D = 25
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.E
+  commentId: F:OfficeOpenXml.ePaperSize.E
+  id: E
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: E
+  nameWithType: ePaperSize.E
+  fullName: OfficeOpenXml.ePaperSize.E
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: E
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 144
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nE paper (34 in. by 44 in.)\n"
+  example: []
+  syntax:
+    content: E = 26
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.DLEnvelope
+  commentId: F:OfficeOpenXml.ePaperSize.DLEnvelope
+  id: DLEnvelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: DLEnvelope
+  nameWithType: ePaperSize.DLEnvelope
+  fullName: OfficeOpenXml.ePaperSize.DLEnvelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DLEnvelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 148
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDL envelope (110 mm by 220 mm)\n"
+  example: []
+  syntax:
+    content: DLEnvelope = 27
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.C5Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.C5Envelope
+  id: C5Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: C5Envelope
+  nameWithType: ePaperSize.C5Envelope
+  fullName: OfficeOpenXml.ePaperSize.C5Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: C5Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 152
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nC5 envelope (162 mm by 229 mm)\n"
+  example: []
+  syntax:
+    content: C5Envelope = 28
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.C3Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.C3Envelope
+  id: C3Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: C3Envelope
+  nameWithType: ePaperSize.C3Envelope
+  fullName: OfficeOpenXml.ePaperSize.C3Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: C3Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nC3 envelope (324 mm by 458 mm)\n"
+  example: []
+  syntax:
+    content: C3Envelope = 29
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.C4Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.C4Envelope
+  id: C4Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: C4Envelope
+  nameWithType: ePaperSize.C4Envelope
+  fullName: OfficeOpenXml.ePaperSize.C4Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: C4Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 160
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nC4 envelope (229 mm by 324 mm)\n"
+  example: []
+  syntax:
+    content: C4Envelope = 30
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.C6Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.C6Envelope
+  id: C6Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: C6Envelope
+  nameWithType: ePaperSize.C6Envelope
+  fullName: OfficeOpenXml.ePaperSize.C6Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: C6Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nC6 envelope (114 mm by 162 mm)\n"
+  example: []
+  syntax:
+    content: C6Envelope = 31
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.C65Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.C65Envelope
+  id: C65Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: C65Envelope
+  nameWithType: ePaperSize.C65Envelope
+  fullName: OfficeOpenXml.ePaperSize.C65Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: C65Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nC65 envelope (114 mm by 229 mm)\n"
+  example: []
+  syntax:
+    content: C65Envelope = 32
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.B4Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.B4Envelope
+  id: B4Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: B4Envelope
+  nameWithType: ePaperSize.B4Envelope
+  fullName: OfficeOpenXml.ePaperSize.B4Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: B4Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 172
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nB4 envelope (250 mm by 353 mm)\n"
+  example: []
+  syntax:
+    content: B4Envelope = 33
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.B5Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.B5Envelope
+  id: B5Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: B5Envelope
+  nameWithType: ePaperSize.B5Envelope
+  fullName: OfficeOpenXml.ePaperSize.B5Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: B5Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 176
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nB5 envelope (176 mm by 250 mm)\n"
+  example: []
+  syntax:
+    content: B5Envelope = 34
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.B6Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.B6Envelope
+  id: B6Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: B6Envelope
+  nameWithType: ePaperSize.B6Envelope
+  fullName: OfficeOpenXml.ePaperSize.B6Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: B6Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nB6 envelope (176 mm by 125 mm)\n"
+  example: []
+  syntax:
+    content: B6Envelope = 35
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.ItalyEnvelope
+  commentId: F:OfficeOpenXml.ePaperSize.ItalyEnvelope
+  id: ItalyEnvelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: ItalyEnvelope
+  nameWithType: ePaperSize.ItalyEnvelope
+  fullName: OfficeOpenXml.ePaperSize.ItalyEnvelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ItalyEnvelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 184
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nItaly envelope (110 mm by 230 mm)\n"
+  example: []
+  syntax:
+    content: ItalyEnvelope = 36
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.MonarchEnvelope
+  commentId: F:OfficeOpenXml.ePaperSize.MonarchEnvelope
+  id: MonarchEnvelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: MonarchEnvelope
+  nameWithType: ePaperSize.MonarchEnvelope
+  fullName: OfficeOpenXml.ePaperSize.MonarchEnvelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonarchEnvelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 188
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMonarch envelope (3.875 in. by 7.5 in.).\n"
+  example: []
+  syntax:
+    content: MonarchEnvelope = 37
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Six3_4Envelope
+  commentId: F:OfficeOpenXml.ePaperSize.Six3_4Envelope
+  id: Six3_4Envelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Six3_4Envelope
+  nameWithType: ePaperSize.Six3_4Envelope
+  fullName: OfficeOpenXml.ePaperSize.Six3_4Envelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Six3_4Envelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n6 3/4 envelope (3.625 in. by 6.5 in.)\n"
+  example: []
+  syntax:
+    content: Six3_4Envelope = 38
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.USStandard
+  commentId: F:OfficeOpenXml.ePaperSize.USStandard
+  id: USStandard
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: USStandard
+  nameWithType: ePaperSize.USStandard
+  fullName: OfficeOpenXml.ePaperSize.USStandard
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: USStandard
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 196
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUS standard fanfold (14.875 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: USStandard = 39
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.GermanStandard
+  commentId: F:OfficeOpenXml.ePaperSize.GermanStandard
+  id: GermanStandard
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: GermanStandard
+  nameWithType: ePaperSize.GermanStandard
+  fullName: OfficeOpenXml.ePaperSize.GermanStandard
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GermanStandard
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 200
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGerman standard fanfold (8.5 in. by 12 in.)\n"
+  example: []
+  syntax:
+    content: GermanStandard = 40
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.GermanLegal
+  commentId: F:OfficeOpenXml.ePaperSize.GermanLegal
+  id: GermanLegal
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: GermanLegal
+  nameWithType: ePaperSize.GermanLegal
+  fullName: OfficeOpenXml.ePaperSize.GermanLegal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GermanLegal
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 204
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGerman legal fanfold (8.5 in. by 13 in.)\n"
+  example: []
+  syntax:
+    content: GermanLegal = 41
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.ISOB4
+  commentId: F:OfficeOpenXml.ePaperSize.ISOB4
+  id: ISOB4
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: ISOB4
+  nameWithType: ePaperSize.ISOB4
+  fullName: OfficeOpenXml.ePaperSize.ISOB4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ISOB4
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 208
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nISO B4 (250 mm by 353 mm)\n"
+  example: []
+  syntax:
+    content: ISOB4 = 42
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.JapaneseDoublePostcard
+  commentId: F:OfficeOpenXml.ePaperSize.JapaneseDoublePostcard
+  id: JapaneseDoublePostcard
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: JapaneseDoublePostcard
+  nameWithType: ePaperSize.JapaneseDoublePostcard
+  fullName: OfficeOpenXml.ePaperSize.JapaneseDoublePostcard
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JapaneseDoublePostcard
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 212
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nJapanese double postcard (200 mm by 148 mm)\n"
+  example: []
+  syntax:
+    content: JapaneseDoublePostcard = 43
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Standard9
+  commentId: F:OfficeOpenXml.ePaperSize.Standard9
+  id: Standard9
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Standard9
+  nameWithType: ePaperSize.Standard9
+  fullName: OfficeOpenXml.ePaperSize.Standard9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard9
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 216
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStandard paper (9 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: Standard9 = 44
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Standard10
+  commentId: F:OfficeOpenXml.ePaperSize.Standard10
+  id: Standard10
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Standard10
+  nameWithType: ePaperSize.Standard10
+  fullName: OfficeOpenXml.ePaperSize.Standard10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard10
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 220
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStandard paper (10 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: Standard10 = 45
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.Standard15
+  commentId: F:OfficeOpenXml.ePaperSize.Standard15
+  id: Standard15
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: Standard15
+  nameWithType: ePaperSize.Standard15
+  fullName: OfficeOpenXml.ePaperSize.Standard15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard15
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 224
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nStandard paper (15 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: Standard15 = 46
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.InviteEnvelope
+  commentId: F:OfficeOpenXml.ePaperSize.InviteEnvelope
+  id: InviteEnvelope
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: InviteEnvelope
+  nameWithType: ePaperSize.InviteEnvelope
+  fullName: OfficeOpenXml.ePaperSize.InviteEnvelope
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InviteEnvelope
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 228
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInvite envelope (220 mm by 220 mm)\n"
+  example: []
+  syntax:
+    content: InviteEnvelope = 47
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.LetterExtra
+  commentId: F:OfficeOpenXml.ePaperSize.LetterExtra
+  id: LetterExtra
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: LetterExtra
+  nameWithType: ePaperSize.LetterExtra
+  fullName: OfficeOpenXml.ePaperSize.LetterExtra
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LetterExtra
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 232
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLetter extra paper (9.275 in. by 12 in.)\n"
+  example: []
+  syntax:
+    content: LetterExtra = 50
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.LegalExtra
+  commentId: F:OfficeOpenXml.ePaperSize.LegalExtra
+  id: LegalExtra
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: LegalExtra
+  nameWithType: ePaperSize.LegalExtra
+  fullName: OfficeOpenXml.ePaperSize.LegalExtra
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegalExtra
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLegal extra paper (9.275 in. by 15 in.)\n"
+  example: []
+  syntax:
+    content: LegalExtra = 51
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.TabloidExtra
+  commentId: F:OfficeOpenXml.ePaperSize.TabloidExtra
+  id: TabloidExtra
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: TabloidExtra
+  nameWithType: ePaperSize.TabloidExtra
+  fullName: OfficeOpenXml.ePaperSize.TabloidExtra
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TabloidExtra
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 240
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTabloid extra paper (11.69 in. by 18 in.)\n"
+  example: []
+  syntax:
+    content: TabloidExtra = 52
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A4Extra
+  commentId: F:OfficeOpenXml.ePaperSize.A4Extra
+  id: A4Extra
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A4Extra
+  nameWithType: ePaperSize.A4Extra
+  fullName: OfficeOpenXml.ePaperSize.A4Extra
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A4Extra
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 244
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA4 extra paper (236 mm by 322 mm)\n"
+  example: []
+  syntax:
+    content: A4Extra = 53
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.LetterTransverse
+  commentId: F:OfficeOpenXml.ePaperSize.LetterTransverse
+  id: LetterTransverse
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: LetterTransverse
+  nameWithType: ePaperSize.LetterTransverse
+  fullName: OfficeOpenXml.ePaperSize.LetterTransverse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LetterTransverse
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLetter transverse paper (8.275 in. by 11 in.)\n"
+  example: []
+  syntax:
+    content: LetterTransverse = 54
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A4Transverse
+  commentId: F:OfficeOpenXml.ePaperSize.A4Transverse
+  id: A4Transverse
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A4Transverse
+  nameWithType: ePaperSize.A4Transverse
+  fullName: OfficeOpenXml.ePaperSize.A4Transverse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A4Transverse
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 252
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA4 transverse paper (210 mm by 297 mm)\n"
+  example: []
+  syntax:
+    content: A4Transverse = 55
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.LetterExtraTransverse
+  commentId: F:OfficeOpenXml.ePaperSize.LetterExtraTransverse
+  id: LetterExtraTransverse
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: LetterExtraTransverse
+  nameWithType: ePaperSize.LetterExtraTransverse
+  fullName: OfficeOpenXml.ePaperSize.LetterExtraTransverse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LetterExtraTransverse
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 256
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLetter extra transverse paper (9.275 in. by 12 in.)\n"
+  example: []
+  syntax:
+    content: LetterExtraTransverse = 56
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.SuperA
+  commentId: F:OfficeOpenXml.ePaperSize.SuperA
+  id: SuperA
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: SuperA
+  nameWithType: ePaperSize.SuperA
+  fullName: OfficeOpenXml.ePaperSize.SuperA
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SuperA
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 260
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSuperA/SuperA/A4 paper (227 mm by 356 mm)\n"
+  example: []
+  syntax:
+    content: SuperA = 57
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.SuperB
+  commentId: F:OfficeOpenXml.ePaperSize.SuperB
+  id: SuperB
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: SuperB
+  nameWithType: ePaperSize.SuperB
+  fullName: OfficeOpenXml.ePaperSize.SuperB
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SuperB
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 264
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSuperB/SuperB/A3 paper (305 mm by 487 mm)\n"
+  example: []
+  syntax:
+    content: SuperB = 58
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.LetterPlus
+  commentId: F:OfficeOpenXml.ePaperSize.LetterPlus
+  id: LetterPlus
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: LetterPlus
+  nameWithType: ePaperSize.LetterPlus
+  fullName: OfficeOpenXml.ePaperSize.LetterPlus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LetterPlus
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 268
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLetter plus paper (8.5 in. by 12.69 in.)\n"
+  example: []
+  syntax:
+    content: LetterPlus = 59
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A4Plus
+  commentId: F:OfficeOpenXml.ePaperSize.A4Plus
+  id: A4Plus
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A4Plus
+  nameWithType: ePaperSize.A4Plus
+  fullName: OfficeOpenXml.ePaperSize.A4Plus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A4Plus
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 272
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA4 plus paper (210 mm by 330 mm)\n"
+  example: []
+  syntax:
+    content: A4Plus = 60
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A5Transverse
+  commentId: F:OfficeOpenXml.ePaperSize.A5Transverse
+  id: A5Transverse
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A5Transverse
+  nameWithType: ePaperSize.A5Transverse
+  fullName: OfficeOpenXml.ePaperSize.A5Transverse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A5Transverse
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 276
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA5 transverse paper (148 mm by 210 mm)\n"
+  example: []
+  syntax:
+    content: A5Transverse = 61
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.JISB5Transverse
+  commentId: F:OfficeOpenXml.ePaperSize.JISB5Transverse
+  id: JISB5Transverse
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: JISB5Transverse
+  nameWithType: ePaperSize.JISB5Transverse
+  fullName: OfficeOpenXml.ePaperSize.JISB5Transverse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JISB5Transverse
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 280
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nJIS B5 transverse paper (182 mm by 257 mm)\n"
+  example: []
+  syntax:
+    content: JISB5Transverse = 62
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A3Extra
+  commentId: F:OfficeOpenXml.ePaperSize.A3Extra
+  id: A3Extra
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A3Extra
+  nameWithType: ePaperSize.A3Extra
+  fullName: OfficeOpenXml.ePaperSize.A3Extra
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A3Extra
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 284
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA3 extra paper (322 mm by 445 mm)\n"
+  example: []
+  syntax:
+    content: A3Extra = 63
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A5Extra
+  commentId: F:OfficeOpenXml.ePaperSize.A5Extra
+  id: A5Extra
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A5Extra
+  nameWithType: ePaperSize.A5Extra
+  fullName: OfficeOpenXml.ePaperSize.A5Extra
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A5Extra
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 288
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA5 extra paper (174 mm by 235 mm)\n"
+  example: []
+  syntax:
+    content: A5Extra = 64
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.ISOB5
+  commentId: F:OfficeOpenXml.ePaperSize.ISOB5
+  id: ISOB5
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: ISOB5
+  nameWithType: ePaperSize.ISOB5
+  fullName: OfficeOpenXml.ePaperSize.ISOB5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ISOB5
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 292
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nISO B5 extra paper (201 mm by 276 mm)\n"
+  example: []
+  syntax:
+    content: ISOB5 = 65
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A2
+  commentId: F:OfficeOpenXml.ePaperSize.A2
+  id: A2
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A2
+  nameWithType: ePaperSize.A2
+  fullName: OfficeOpenXml.ePaperSize.A2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A2
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 296
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA2 paper (420 mm by 594 mm)\n"
+  example: []
+  syntax:
+    content: A2 = 66
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A3Transverse
+  commentId: F:OfficeOpenXml.ePaperSize.A3Transverse
+  id: A3Transverse
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A3Transverse
+  nameWithType: ePaperSize.A3Transverse
+  fullName: OfficeOpenXml.ePaperSize.A3Transverse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A3Transverse
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 300
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA3 transverse paper (297 mm by 420 mm)\n"
+  example: []
+  syntax:
+    content: A3Transverse = 67
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaperSize.A3ExtraTransverse
+  commentId: F:OfficeOpenXml.ePaperSize.A3ExtraTransverse
+  id: A3ExtraTransverse
+  parent: OfficeOpenXml.ePaperSize
+  langs:
+  - csharp
+  - vb
+  name: A3ExtraTransverse
+  nameWithType: ePaperSize.A3ExtraTransverse
+  fullName: OfficeOpenXml.ePaperSize.A3ExtraTransverse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: A3ExtraTransverse
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 304
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA3 extra transverse paper (322 mm by 445 mm*/\n"
+  example: []
+  syntax:
+    content: A3ExtraTransverse = 68
+    return:
+      type: OfficeOpenXml.ePaperSize
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ePaperSize
+  commentId: T:OfficeOpenXml.ePaperSize
+  parent: OfficeOpenXml
+  name: ePaperSize
+  nameWithType: ePaperSize
+  fullName: OfficeOpenXml.ePaperSize

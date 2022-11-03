@@ -1,0 +1,513 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  id: eSubTotalFunctions
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Avg
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Count
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.CountA
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Default
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Max
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Min
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.None
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Product
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDev
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDevP
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Sum
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Var
+  - OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.VarP
+  langs:
+  - csharp
+  - vb
+  name: eSubTotalFunctions
+  nameWithType: eSubTotalFunctions
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSubTotalFunctions
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nBuilt-in subtotal functions\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum eSubTotalFunctions
+    content.vb: >-
+      <Flags>
+
+      Public Enum eSubTotalFunctions
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.None
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.None
+  id: None
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eSubTotalFunctions.None
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nNone\n"
+  example: []
+  syntax:
+    content: None = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Count
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Count
+  id: Count
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: eSubTotalFunctions.Count
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Count
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCount\n"
+  example: []
+  syntax:
+    content: Count = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.CountA
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.CountA
+  id: CountA
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: CountA
+  nameWithType: eSubTotalFunctions.CountA
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.CountA
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountA
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCount, numbers\n"
+  example: []
+  syntax:
+    content: CountA = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Avg
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Avg
+  id: Avg
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Avg
+  nameWithType: eSubTotalFunctions.Avg
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Avg
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Avg
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAverage\n"
+  example: []
+  syntax:
+    content: Avg = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Default
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Default
+  id: Default
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: eSubTotalFunctions.Default
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Default
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefault, total\n"
+  example: []
+  syntax:
+    content: Default = 16
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Min
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Min
+  id: Min
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: eSubTotalFunctions.Min
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Min
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Min
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nMinimum\n"
+  example: []
+  syntax:
+    content: Min = 32
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Max
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Max
+  id: Max
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: eSubTotalFunctions.Max
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Max
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Max
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nMaximum\n"
+  example: []
+  syntax:
+    content: Max = 64
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Product
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Product
+  id: Product
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Product
+  nameWithType: eSubTotalFunctions.Product
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Product
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Product
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nProduct\n"
+  example: []
+  syntax:
+    content: Product = 128
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDev
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDev
+  id: StdDev
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: StdDev
+  nameWithType: eSubTotalFunctions.StdDev
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDev
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDev
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nStandard deviation\n"
+  example: []
+  syntax:
+    content: StdDev = 256
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDevP
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDevP
+  id: StdDevP
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: StdDevP
+  nameWithType: eSubTotalFunctions.StdDevP
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.StdDevP
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDevP
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nStandard deviation of a population\n"
+  example: []
+  syntax:
+    content: StdDevP = 512
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Sum
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Sum
+  id: Sum
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Sum
+  nameWithType: eSubTotalFunctions.Sum
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Sum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sum
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSummary\n"
+  example: []
+  syntax:
+    content: Sum = 1024
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Var
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Var
+  id: Var
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: Var
+  nameWithType: eSubTotalFunctions.Var
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.Var
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Var
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nVariation\n"
+  example: []
+  syntax:
+    content: Var = 2048
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.VarP
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.VarP
+  id: VarP
+  parent: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  langs:
+  - csharp
+  - vb
+  name: VarP
+  nameWithType: eSubTotalFunctions.VarP
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions.VarP
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VarP
+    path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nVariation of a population\n"
+  example: []
+  syntax:
+    content: VarP = 4096
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSubTotalFunctions
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eSubTotalFunctions
+  nameWithType: eSubTotalFunctions
+  fullName: OfficeOpenXml.Table.PivotTable.eSubTotalFunctions

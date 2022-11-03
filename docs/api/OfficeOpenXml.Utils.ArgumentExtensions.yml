@@ -1,0 +1,678 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Utils.ArgumentExtensions
+  commentId: T:OfficeOpenXml.Utils.ArgumentExtensions
+  id: ArgumentExtensions
+  parent: OfficeOpenXml.Utils
+  children:
+  - OfficeOpenXml.Utils.ArgumentExtensions.IsInRange``1(OfficeOpenXml.Utils.IArgument{``0},``0,``0,System.String)
+  - OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull``1(OfficeOpenXml.Utils.IArgument{``0},System.String)
+  - OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty(OfficeOpenXml.Utils.IArgument{System.String},System.String)
+  langs:
+  - csharp
+  - vb
+  name: ArgumentExtensions
+  nameWithType: ArgumentExtensions
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Utils/ArgumentExtensions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ArgumentExtensions
+    path: ../src/EPPlus/Utils/ArgumentExtensions.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nExtension methods for guarding\n"
+  example: []
+  syntax:
+    content: public static class ArgumentExtensions
+    content.vb: Public Module ArgumentExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull``1(OfficeOpenXml.Utils.IArgument{``0},System.String)
+  commentId: M:OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull``1(OfficeOpenXml.Utils.IArgument{``0},System.String)
+  id: IsNotNull``1(OfficeOpenXml.Utils.IArgument{``0},System.String)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.Utils.ArgumentExtensions
+  langs:
+  - csharp
+  - vb
+  name: IsNotNull<T>(IArgument<T>, String)
+  nameWithType: ArgumentExtensions.IsNotNull<T>(IArgument<T>, String)
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull<T>(OfficeOpenXml.Utils.IArgument<T>, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Utils/ArgumentExtensions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsNotNull
+    path: ../src/EPPlus/Utils/ArgumentExtensions.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nThrows an ArgumentNullException if argument is null\n"
+  example: []
+  syntax:
+    content: >-
+      public static void IsNotNull<T>(this IArgument<T> argument, string argumentName)
+          where T : class
+    parameters:
+    - id: argument
+      type: OfficeOpenXml.Utils.IArgument{{T}}
+      description: Argument to check
+    - id: argumentName
+      type: System.String
+      description: parameter/argument name
+    typeParameters:
+    - id: T
+      description: Argument type
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub IsNotNull(Of T As Class)(argument As IArgument(Of T), argumentName As String)
+  overload: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+  nameWithType.vb: ArgumentExtensions.IsNotNull(Of T)(IArgument(Of T), String)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull(Of T)(OfficeOpenXml.Utils.IArgument(Of T), System.String)
+  name.vb: IsNotNull(Of T)(IArgument(Of T), String)
+- uid: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty(OfficeOpenXml.Utils.IArgument{System.String},System.String)
+  commentId: M:OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty(OfficeOpenXml.Utils.IArgument{System.String},System.String)
+  id: IsNotNullOrEmpty(OfficeOpenXml.Utils.IArgument{System.String},System.String)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.Utils.ArgumentExtensions
+  langs:
+  - csharp
+  - vb
+  name: IsNotNullOrEmpty(IArgument<String>, String)
+  nameWithType: ArgumentExtensions.IsNotNullOrEmpty(IArgument<String>, String)
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty(OfficeOpenXml.Utils.IArgument<System.String>, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Utils/ArgumentExtensions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsNotNullOrEmpty
+    path: ../src/EPPlus/Utils/ArgumentExtensions.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nThrows an <xref href=\"System.ArgumentNullException\" data-throw-if-not-resolved=\"false\"></xref> if the string argument is null or empty\n"
+  example: []
+  syntax:
+    content: public static void IsNotNullOrEmpty(this IArgument<string> argument, string argumentName)
+    parameters:
+    - id: argument
+      type: OfficeOpenXml.Utils.IArgument{System.String}
+      description: Argument to check
+    - id: argumentName
+      type: System.String
+      description: parameter/argument name
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub IsNotNullOrEmpty(argument As IArgument(Of String), argumentName As String)
+  overload: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+  nameWithType.vb: ArgumentExtensions.IsNotNullOrEmpty(IArgument(Of String), String)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty(OfficeOpenXml.Utils.IArgument(Of System.String), System.String)
+  name.vb: IsNotNullOrEmpty(IArgument(Of String), String)
+- uid: OfficeOpenXml.Utils.ArgumentExtensions.IsInRange``1(OfficeOpenXml.Utils.IArgument{``0},``0,``0,System.String)
+  commentId: M:OfficeOpenXml.Utils.ArgumentExtensions.IsInRange``1(OfficeOpenXml.Utils.IArgument{``0},``0,``0,System.String)
+  id: IsInRange``1(OfficeOpenXml.Utils.IArgument{``0},``0,``0,System.String)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.Utils.ArgumentExtensions
+  langs:
+  - csharp
+  - vb
+  name: IsInRange<T>(IArgument<T>, T, T, String)
+  nameWithType: ArgumentExtensions.IsInRange<T>(IArgument<T>, T, T, String)
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions.IsInRange<T>(OfficeOpenXml.Utils.IArgument<T>, T, T, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Utils/ArgumentExtensions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsInRange
+    path: ../src/EPPlus/Utils/ArgumentExtensions.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nThrows an ArgumentOutOfRangeException if the value of the argument is out of the supplied range\n"
+  example: []
+  syntax:
+    content: >-
+      public static void IsInRange<T>(this IArgument<T> argument, T min, T max, string argumentName)
+          where T : IComparable
+    parameters:
+    - id: argument
+      type: OfficeOpenXml.Utils.IArgument{{T}}
+      description: The argument to check
+    - id: min
+      type: '{T}'
+      description: Min value of the supplied range
+    - id: max
+      type: '{T}'
+      description: Max value of the supplied range
+    - id: argumentName
+      type: System.String
+      description: parameter/argument name
+    typeParameters:
+    - id: T
+      description: Type implementing <xref href="System.IComparable" data-throw-if-not-resolved="false"></xref>
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub IsInRange(Of T As IComparable)(argument As IArgument(Of T), min As T, max As T, argumentName As String)
+  overload: OfficeOpenXml.Utils.ArgumentExtensions.IsInRange*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+  nameWithType.vb: ArgumentExtensions.IsInRange(Of T)(IArgument(Of T), T, T, String)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.Utils.ArgumentExtensions.IsInRange(Of T)(OfficeOpenXml.Utils.IArgument(Of T), T, T, System.String)
+  name.vb: IsInRange(Of T)(IArgument(Of T), T, T, String)
+references:
+- uid: OfficeOpenXml.Utils
+  commentId: N:OfficeOpenXml.Utils
+  name: OfficeOpenXml.Utils
+  nameWithType: OfficeOpenXml.Utils
+  fullName: OfficeOpenXml.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+- uid: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull*
+  commentId: Overload:OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull
+  name: IsNotNull
+  nameWithType: ArgumentExtensions.IsNotNull
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNull
+- uid: OfficeOpenXml.Utils.IArgument{{T}}
+  commentId: T:OfficeOpenXml.Utils.IArgument{``0}
+  parent: OfficeOpenXml.Utils
+  definition: OfficeOpenXml.Utils.IArgument`1
+  name: IArgument<T>
+  nameWithType: IArgument<T>
+  fullName: OfficeOpenXml.Utils.IArgument<T>
+  nameWithType.vb: IArgument(Of T)
+  fullName.vb: OfficeOpenXml.Utils.IArgument(Of T)
+  name.vb: IArgument(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Utils.IArgument`1
+  commentId: T:OfficeOpenXml.Utils.IArgument`1
+  name: IArgument<T>
+  nameWithType: IArgument<T>
+  fullName: OfficeOpenXml.Utils.IArgument<T>
+  nameWithType.vb: IArgument(Of T)
+  fullName.vb: OfficeOpenXml.Utils.IArgument(Of T)
+  name.vb: IArgument(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty*
+  commentId: Overload:OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty
+  name: IsNotNullOrEmpty
+  nameWithType: ArgumentExtensions.IsNotNullOrEmpty
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions.IsNotNullOrEmpty
+- uid: OfficeOpenXml.Utils.IArgument{System.String}
+  commentId: T:OfficeOpenXml.Utils.IArgument{System.String}
+  parent: OfficeOpenXml.Utils
+  definition: OfficeOpenXml.Utils.IArgument`1
+  name: IArgument<String>
+  nameWithType: IArgument<String>
+  fullName: OfficeOpenXml.Utils.IArgument<System.String>
+  nameWithType.vb: IArgument(Of String)
+  fullName.vb: OfficeOpenXml.Utils.IArgument(Of System.String)
+  name.vb: IArgument(Of String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IComparable
+  commentId: T:System.IComparable
+  parent: System
+  isExternal: true
+  name: IComparable
+  nameWithType: IComparable
+  fullName: System.IComparable
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+- uid: OfficeOpenXml.Utils.ArgumentExtensions.IsInRange*
+  commentId: Overload:OfficeOpenXml.Utils.ArgumentExtensions.IsInRange
+  name: IsInRange
+  nameWithType: ArgumentExtensions.IsInRange
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions.IsInRange
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T

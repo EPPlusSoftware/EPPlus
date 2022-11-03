@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelFillGradientType
+  commentId: T:OfficeOpenXml.Style.ExcelFillGradientType
+  id: ExcelFillGradientType
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelFillGradientType.Linear
+  - OfficeOpenXml.Style.ExcelFillGradientType.None
+  - OfficeOpenXml.Style.ExcelFillGradientType.Path
+  langs:
+  - csharp
+  - vb
+  name: ExcelFillGradientType
+  nameWithType: ExcelFillGradientType
+  fullName: OfficeOpenXml.Style.ExcelFillGradientType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillGradientType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFillGradientType
+    path: ../src/EPPlus/Style/enums/ExcelFillGradientType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nType of gradient fill\n"
+  example: []
+  syntax:
+    content: public enum ExcelFillGradientType
+    content.vb: Public Enum ExcelFillGradientType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelFillGradientType.None
+  commentId: F:OfficeOpenXml.Style.ExcelFillGradientType.None
+  id: None
+  parent: OfficeOpenXml.Style.ExcelFillGradientType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ExcelFillGradientType.None
+  fullName: OfficeOpenXml.Style.ExcelFillGradientType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillGradientType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Style/enums/ExcelFillGradientType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNo gradient fill. \n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelFillGradientType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillGradientType.Linear
+  commentId: F:OfficeOpenXml.Style.ExcelFillGradientType.Linear
+  id: Linear
+  parent: OfficeOpenXml.Style.ExcelFillGradientType
+  langs:
+  - csharp
+  - vb
+  name: Linear
+  nameWithType: ExcelFillGradientType.Linear
+  fullName: OfficeOpenXml.Style.ExcelFillGradientType.Linear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillGradientType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Linear
+    path: ../src/EPPlus/Style/enums/ExcelFillGradientType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLinear gradient type. Linear gradient type means that the transition from one color to the next is along a line.\n"
+  example: []
+  syntax:
+    content: Linear = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelFillGradientType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelFillGradientType.Path
+  commentId: F:OfficeOpenXml.Style.ExcelFillGradientType.Path
+  id: Path
+  parent: OfficeOpenXml.Style.ExcelFillGradientType
+  langs:
+  - csharp
+  - vb
+  name: Path
+  nameWithType: ExcelFillGradientType.Path
+  fullName: OfficeOpenXml.Style.ExcelFillGradientType.Path
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelFillGradientType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Path
+    path: ../src/EPPlus/Style/enums/ExcelFillGradientType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nPath gradient type. Path gradient type means the that the transition from one color to the next is a rectangle, defined by coordinates.\n"
+  example: []
+  syntax:
+    content: Path = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelFillGradientType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelFillGradientType
+  commentId: T:OfficeOpenXml.Style.ExcelFillGradientType
+  parent: OfficeOpenXml.Style
+  name: ExcelFillGradientType
+  nameWithType: ExcelFillGradientType
+  fullName: OfficeOpenXml.Style.ExcelFillGradientType

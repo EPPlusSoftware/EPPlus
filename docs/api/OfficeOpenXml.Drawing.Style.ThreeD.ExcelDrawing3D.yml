@@ -1,0 +1,909 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  id: ExcelDrawing3D
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  children:
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawing3D
+  nameWithType: ExcelDrawing3D
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawing3D
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\n3D settings for a drawing object\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawing3D : XmlHelper'
+    content.vb: >-
+      Public Class ExcelDrawing3D
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  derivedClasses:
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DText
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene
+  id: Scene
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: Scene
+  nameWithType: ExcelDrawing3D.Scene
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Scene
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nDefines scene-level 3D properties to apply to an object\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingScene3D Scene { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+    content.vb: Public ReadOnly Property Scene As ExcelDrawingScene3D
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight
+  id: ExtrusionHeight
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: ExtrusionHeight
+  nameWithType: ExcelDrawing3D.ExtrusionHeight
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExtrusionHeight
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe height of the extrusion\n"
+  example: []
+  syntax:
+    content: public double ExtrusionHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property ExtrusionHeight As Double
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth
+  id: ContourWidth
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: ContourWidth
+  nameWithType: ExcelDrawing3D.ContourWidth
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContourWidth
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe height of the extrusion\n"
+  example: []
+  syntax:
+    content: public double ContourWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property ContourWidth As Double
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel
+  id: TopBevel
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: TopBevel
+  nameWithType: ExcelDrawing3D.TopBevel
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopBevel
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe bevel on the top or front face of a shape\n"
+  example: []
+  syntax:
+    content: public ExcelDrawing3DBevel TopBevel { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+    content.vb: Public ReadOnly Property TopBevel As ExcelDrawing3DBevel
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel
+  id: BottomBevel
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: BottomBevel
+  nameWithType: ExcelDrawing3D.BottomBevel
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomBevel
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 120
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe bevel on the top or front face of a shape\n"
+  example: []
+  syntax:
+    content: public ExcelDrawing3DBevel BottomBevel { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+    content.vb: Public ReadOnly Property BottomBevel As ExcelDrawing3DBevel
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor
+  id: ExtrusionColor
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: ExtrusionColor
+  nameWithType: ExcelDrawing3D.ExtrusionColor
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExtrusionColor
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe color of the extrusion applied to a shape\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingColorManager ExtrusionColor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+    content.vb: Public ReadOnly Property ExtrusionColor As ExcelDrawingColorManager
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor
+  id: ContourColor
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: ContourColor
+  nameWithType: ExcelDrawing3D.ContourColor
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContourColor
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe color for the contour on a shape\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingColorManager ContourColor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+    content.vb: Public ReadOnly Property ContourColor As ExcelDrawingColorManager
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType
+  id: MaterialType
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: MaterialType
+  nameWithType: ExcelDrawing3D.MaterialType
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaterialType
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 157
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe surface appearance of a shape\n"
+  example: []
+  syntax:
+    content: public ePresetMaterialType MaterialType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ePresetMaterialType
+    content.vb: Public Property MaterialType As ePresetMaterialType
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate
+  id: ShapeDepthZCoordinate
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: ShapeDepthZCoordinate
+  nameWithType: ExcelDrawing3D.ShapeDepthZCoordinate
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShapeDepthZCoordinate
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 172
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe z coordinate for the 3D shape\n"
+  example: []
+  syntax:
+    content: public double? ShapeDepthZCoordinate { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property ShapeDepthZCoordinate As Double?
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete
+  commentId: M:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete
+  id: Delete
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  langs:
+  - csharp
+  - vb
+  name: Delete()
+  nameWithType: ExcelDrawing3D.Delete()
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
+    startLine: 220
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nRemove all 3D settings\n"
+  example: []
+  syntax:
+    content: public void Delete()
+    content.vb: Public Sub Delete
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Style.ThreeD
+  commentId: N:OfficeOpenXml.Drawing.Style.ThreeD
+  name: OfficeOpenXml.Drawing.Style.ThreeD
+  nameWithType: OfficeOpenXml.Drawing.Style.ThreeD
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene
+  name: Scene
+  nameWithType: ExcelDrawing3D.Scene
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Scene
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  name: ExcelDrawingScene3D
+  nameWithType: ExcelDrawingScene3D
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight
+  name: ExtrusionHeight
+  nameWithType: ExcelDrawing3D.ExtrusionHeight
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionHeight
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth
+  name: ContourWidth
+  nameWithType: ExcelDrawing3D.ContourWidth
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourWidth
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel
+  name: TopBevel
+  nameWithType: ExcelDrawing3D.TopBevel
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.TopBevel
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  name: ExcelDrawing3DBevel
+  nameWithType: ExcelDrawing3DBevel
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel
+  name: BottomBevel
+  nameWithType: ExcelDrawing3D.BottomBevel
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.BottomBevel
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor
+  name: ExtrusionColor
+  nameWithType: ExcelDrawing3D.ExtrusionColor
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ExtrusionColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: ExcelDrawingColorManager
+  nameWithType: ExcelDrawingColorManager
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  commentId: N:OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  nameWithType: OfficeOpenXml.Drawing.Style.Coloring
+  fullName: OfficeOpenXml.Drawing.Style.Coloring
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor
+  name: ContourColor
+  nameWithType: ExcelDrawing3D.ContourColor
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ContourColor
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType
+  name: MaterialType
+  nameWithType: ExcelDrawing3D.MaterialType
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.MaterialType
+- uid: OfficeOpenXml.Drawing.ePresetMaterialType
+  commentId: T:OfficeOpenXml.Drawing.ePresetMaterialType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetMaterialType
+  nameWithType: ePresetMaterialType
+  fullName: OfficeOpenXml.Drawing.ePresetMaterialType
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate
+  name: ShapeDepthZCoordinate
+  nameWithType: ExcelDrawing3D.ShapeDepthZCoordinate
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.ShapeDepthZCoordinate
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete
+  name: Delete
+  nameWithType: ExcelDrawing3D.Delete
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D.Delete

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+  id: IExcelDataValidationFormulaWithValue`1
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  children:
+  - OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value
+  langs:
+  - csharp
+  - vb
+  name: IExcelDataValidationFormulaWithValue<T>
+  nameWithType: IExcelDataValidationFormulaWithValue<T>
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue<T>
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaWithValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelDataValidationFormulaWithValue
+    path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaWithValue.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
+  summary: "\nInterface for a formula with a value\n"
+  example: []
+  syntax:
+    content: 'public interface IExcelDataValidationFormulaWithValue<T> : IExcelDataValidationFormula'
+    typeParameters:
+    - id: T
+      description: ''
+    content.vb: >-
+      Public Interface IExcelDataValidationFormulaWithValue(Of T)
+          Inherits IExcelDataValidationFormula
+  inheritedMembers:
+  - OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  nameWithType.vb: IExcelDataValidationFormulaWithValue(Of T)
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+  fullName.vb: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue(Of T)
+  name.vb: IExcelDataValidationFormulaWithValue(Of T)
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value
+  id: Value
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: IExcelDataValidationFormulaWithValue<T>.Value
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue<T>.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaWithValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaWithValue.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
+  summary: "\nThe value.\n"
+  example: []
+  syntax:
+    content: T Value { get; set; }
+    parameters: []
+    return:
+      type: '{T}'
+    content.vb: Property Value As T
+  overload: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value*
+  nameWithType.vb: IExcelDataValidationFormulaWithValue(Of T).Value
+  modifiers.csharp:
+  - get
+  - set
+  fullName.vb: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue(Of T).Value
+references:
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: OfficeOpenXml.DataValidation.Formulas.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Formulas.Contracts
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  name: ExcelFormula
+  nameWithType: IExcelDataValidationFormula.ExcelFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: IExcelDataValidationFormula
+  nameWithType: IExcelDataValidationFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value*
+  commentId: Overload:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value
+  name: Value
+  nameWithType: IExcelDataValidationFormulaWithValue<T>.Value
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue<T>.Value
+  nameWithType.vb: IExcelDataValidationFormulaWithValue(Of T).Value
+  fullName.vb: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue(Of T).Value
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T

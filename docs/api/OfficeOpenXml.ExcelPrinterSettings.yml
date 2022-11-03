@@ -1,0 +1,1352 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelPrinterSettings
+  commentId: T:OfficeOpenXml.ExcelPrinterSettings
+  id: ExcelPrinterSettings
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite
+  - OfficeOpenXml.ExcelPrinterSettings.BottomMargin
+  - OfficeOpenXml.ExcelPrinterSettings.Draft
+  - OfficeOpenXml.ExcelPrinterSettings.FitToHeight
+  - OfficeOpenXml.ExcelPrinterSettings.FitToPage
+  - OfficeOpenXml.ExcelPrinterSettings.FitToWidth
+  - OfficeOpenXml.ExcelPrinterSettings.FooterMargin
+  - OfficeOpenXml.ExcelPrinterSettings.HeaderMargin
+  - OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered
+  - OfficeOpenXml.ExcelPrinterSettings.LeftMargin
+  - OfficeOpenXml.ExcelPrinterSettings.Orientation
+  - OfficeOpenXml.ExcelPrinterSettings.PageOrder
+  - OfficeOpenXml.ExcelPrinterSettings.PaperSize
+  - OfficeOpenXml.ExcelPrinterSettings.PrintArea
+  - OfficeOpenXml.ExcelPrinterSettings.RepeatColumns
+  - OfficeOpenXml.ExcelPrinterSettings.RepeatRows
+  - OfficeOpenXml.ExcelPrinterSettings.RightMargin
+  - OfficeOpenXml.ExcelPrinterSettings.Scale
+  - OfficeOpenXml.ExcelPrinterSettings.ShowGridLines
+  - OfficeOpenXml.ExcelPrinterSettings.ShowHeaders
+  - OfficeOpenXml.ExcelPrinterSettings.TopMargin
+  - OfficeOpenXml.ExcelPrinterSettings.VerticalCentered
+  langs:
+  - csharp
+  - vb
+  name: ExcelPrinterSettings
+  nameWithType: ExcelPrinterSettings
+  fullName: OfficeOpenXml.ExcelPrinterSettings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPrinterSettings
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 325
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrinter settings\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelPrinterSettings : XmlHelper'
+    content.vb: >-
+      Public NotInheritable Class ExcelPrinterSettings
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.ExcelPrinterSettings.LeftMargin
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.LeftMargin
+  id: LeftMargin
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: LeftMargin
+  nameWithType: ExcelPrinterSettings.LeftMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.LeftMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftMargin
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 340
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLeft margin in inches\n"
+  example: []
+  syntax:
+    content: public decimal LeftMargin { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property LeftMargin As Decimal
+  overload: OfficeOpenXml.ExcelPrinterSettings.LeftMargin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.RightMargin
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.RightMargin
+  id: RightMargin
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: RightMargin
+  nameWithType: ExcelPrinterSettings.RightMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.RightMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightMargin
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 356
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRight margin in inches\n"
+  example: []
+  syntax:
+    content: public decimal RightMargin { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property RightMargin As Decimal
+  overload: OfficeOpenXml.ExcelPrinterSettings.RightMargin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.TopMargin
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.TopMargin
+  id: TopMargin
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: TopMargin
+  nameWithType: ExcelPrinterSettings.TopMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.TopMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopMargin
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 372
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTop margin in inches\n"
+  example: []
+  syntax:
+    content: public decimal TopMargin { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property TopMargin As Decimal
+  overload: OfficeOpenXml.ExcelPrinterSettings.TopMargin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.BottomMargin
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.BottomMargin
+  id: BottomMargin
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: BottomMargin
+  nameWithType: ExcelPrinterSettings.BottomMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.BottomMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomMargin
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 388
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBottom margin in inches\n"
+  example: []
+  syntax:
+    content: public decimal BottomMargin { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property BottomMargin As Decimal
+  overload: OfficeOpenXml.ExcelPrinterSettings.BottomMargin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.HeaderMargin
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.HeaderMargin
+  id: HeaderMargin
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: HeaderMargin
+  nameWithType: ExcelPrinterSettings.HeaderMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.HeaderMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderMargin
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 404
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHeader margin in inches\n"
+  example: []
+  syntax:
+    content: public decimal HeaderMargin { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property HeaderMargin As Decimal
+  overload: OfficeOpenXml.ExcelPrinterSettings.HeaderMargin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.FooterMargin
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.FooterMargin
+  id: FooterMargin
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: FooterMargin
+  nameWithType: ExcelPrinterSettings.FooterMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FooterMargin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FooterMargin
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 420
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFooter margin in inches\n"
+  example: []
+  syntax:
+    content: public decimal FooterMargin { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property FooterMargin As Decimal
+  overload: OfficeOpenXml.ExcelPrinterSettings.FooterMargin*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.Orientation
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.Orientation
+  id: Orientation
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: Orientation
+  nameWithType: ExcelPrinterSettings.Orientation
+  fullName: OfficeOpenXml.ExcelPrinterSettings.Orientation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Orientation
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 437
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOrientation \nPortrait or Landscape\n"
+  example: []
+  syntax:
+    content: public eOrientation Orientation { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eOrientation
+    content.vb: Public Property Orientation As eOrientation
+  overload: OfficeOpenXml.ExcelPrinterSettings.Orientation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.FitToWidth
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.FitToWidth
+  id: FitToWidth
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: FitToWidth
+  nameWithType: ExcelPrinterSettings.FitToWidth
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FitToWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FitToWidth
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 454
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFit to Width in pages. \nSet FitToPage to true when using this one. \n0 is automatic\n"
+  example: []
+  syntax:
+    content: public int FitToWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property FitToWidth As Integer
+  overload: OfficeOpenXml.ExcelPrinterSettings.FitToWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.FitToHeight
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.FitToHeight
+  id: FitToHeight
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: FitToHeight
+  nameWithType: ExcelPrinterSettings.FitToHeight
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FitToHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FitToHeight
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 471
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFit to height in pages. \nSet FitToPage to true when using this one. \n0 is automatic\n"
+  example: []
+  syntax:
+    content: public int FitToHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property FitToHeight As Integer
+  overload: OfficeOpenXml.ExcelPrinterSettings.FitToHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.Scale
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.Scale
+  id: Scale
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: Scale
+  nameWithType: ExcelPrinterSettings.Scale
+  fullName: OfficeOpenXml.ExcelPrinterSettings.Scale
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Scale
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 486
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint scale\n"
+  example: []
+  syntax:
+    content: public int Scale { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Scale As Integer
+  overload: OfficeOpenXml.ExcelPrinterSettings.Scale*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.FitToPage
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.FitToPage
+  id: FitToPage
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: FitToPage
+  nameWithType: ExcelPrinterSettings.FitToPage
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FitToPage
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FitToPage
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 501
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFit To Page.\n"
+  example: []
+  syntax:
+    content: public bool FitToPage { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FitToPage As Boolean
+  overload: OfficeOpenXml.ExcelPrinterSettings.FitToPage*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.ShowHeaders
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.ShowHeaders
+  id: ShowHeaders
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: ShowHeaders
+  nameWithType: ExcelPrinterSettings.ShowHeaders
+  fullName: OfficeOpenXml.ExcelPrinterSettings.ShowHeaders
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowHeaders
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 516
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint headings (column letter and row numbers)\n"
+  example: []
+  syntax:
+    content: public bool ShowHeaders { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowHeaders As Boolean
+  overload: OfficeOpenXml.ExcelPrinterSettings.ShowHeaders*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.RepeatRows
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.RepeatRows
+  id: RepeatRows
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: RepeatRows
+  nameWithType: ExcelPrinterSettings.RepeatRows
+  fullName: OfficeOpenXml.ExcelPrinterSettings.RepeatRows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RepeatRows
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 532
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint titles\nRows to be repeated after each pagebreak.\nThe address must be a full row address (ex. 1:1)\n"
+  example: []
+  syntax:
+    content: public ExcelAddress RepeatRows { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddress
+    content.vb: Public Property RepeatRows As ExcelAddress
+  overload: OfficeOpenXml.ExcelPrinterSettings.RepeatRows*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.RepeatColumns
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.RepeatColumns
+  id: RepeatColumns
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: RepeatColumns
+  nameWithType: ExcelPrinterSettings.RepeatColumns
+  fullName: OfficeOpenXml.ExcelPrinterSettings.RepeatColumns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RepeatColumns
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 592
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint titles\nColumns to be repeated after each pagebreak.\nThe address must be a full column address (ex. A:A)\n"
+  example: []
+  syntax:
+    content: public ExcelAddress RepeatColumns { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddress
+    content.vb: Public Property RepeatColumns As ExcelAddress
+  overload: OfficeOpenXml.ExcelPrinterSettings.RepeatColumns*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.PrintArea
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.PrintArea
+  id: PrintArea
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: PrintArea
+  nameWithType: ExcelPrinterSettings.PrintArea
+  fullName: OfficeOpenXml.ExcelPrinterSettings.PrintArea
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrintArea
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 651
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe printarea.\nNull if no print area is set.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase PrintArea { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public Property PrintArea As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelPrinterSettings.PrintArea*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.ShowGridLines
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.ShowGridLines
+  id: ShowGridLines
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: ShowGridLines
+  nameWithType: ExcelPrinterSettings.ShowGridLines
+  fullName: OfficeOpenXml.ExcelPrinterSettings.ShowGridLines
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowGridLines
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 684
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint gridlines \n"
+  example: []
+  syntax:
+    content: public bool ShowGridLines { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowGridLines As Boolean
+  overload: OfficeOpenXml.ExcelPrinterSettings.ShowGridLines*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered
+  id: HorizontalCentered
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: HorizontalCentered
+  nameWithType: ExcelPrinterSettings.HorizontalCentered
+  fullName: OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalCentered
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 699
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHorizontal centered when printing \n"
+  example: []
+  syntax:
+    content: public bool HorizontalCentered { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property HorizontalCentered As Boolean
+  overload: OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.VerticalCentered
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.VerticalCentered
+  id: VerticalCentered
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: VerticalCentered
+  nameWithType: ExcelPrinterSettings.VerticalCentered
+  fullName: OfficeOpenXml.ExcelPrinterSettings.VerticalCentered
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalCentered
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 714
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nVertical centered when printing \n"
+  example: []
+  syntax:
+    content: public bool VerticalCentered { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property VerticalCentered As Boolean
+  overload: OfficeOpenXml.ExcelPrinterSettings.VerticalCentered*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.PageOrder
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.PageOrder
+  id: PageOrder
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: PageOrder
+  nameWithType: ExcelPrinterSettings.PageOrder
+  fullName: OfficeOpenXml.ExcelPrinterSettings.PageOrder
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageOrder
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 729
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSpecifies printed page order\n"
+  example: []
+  syntax:
+    content: public ePageOrder PageOrder { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ePageOrder
+    content.vb: Public Property PageOrder As ePageOrder
+  overload: OfficeOpenXml.ExcelPrinterSettings.PageOrder*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite
+  id: BlackAndWhite
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: BlackAndWhite
+  nameWithType: ExcelPrinterSettings.BlackAndWhite
+  fullName: OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlackAndWhite
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 758
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint black and white\n"
+  example: []
+  syntax:
+    content: public bool BlackAndWhite { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property BlackAndWhite As Boolean
+  overload: OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.Draft
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.Draft
+  id: Draft
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: Draft
+  nameWithType: ExcelPrinterSettings.Draft
+  fullName: OfficeOpenXml.ExcelPrinterSettings.Draft
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Draft
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 773
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrint a draft\n"
+  example: []
+  syntax:
+    content: public bool Draft { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Draft As Boolean
+  overload: OfficeOpenXml.ExcelPrinterSettings.Draft*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPrinterSettings.PaperSize
+  commentId: P:OfficeOpenXml.ExcelPrinterSettings.PaperSize
+  id: PaperSize
+  parent: OfficeOpenXml.ExcelPrinterSettings
+  langs:
+  - csharp
+  - vb
+  name: PaperSize
+  nameWithType: ExcelPrinterSettings.PaperSize
+  fullName: OfficeOpenXml.ExcelPrinterSettings.PaperSize
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaperSize
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 788
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPaper size \n"
+  example: []
+  syntax:
+    content: public ePaperSize PaperSize { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ePaperSize
+    content.vb: Public Property PaperSize As ePaperSize
+  overload: OfficeOpenXml.ExcelPrinterSettings.PaperSize*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelPrinterSettings.LeftMargin*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.LeftMargin
+  name: LeftMargin
+  nameWithType: ExcelPrinterSettings.LeftMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.LeftMargin
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  name: Decimal
+  nameWithType: Decimal
+  fullName: System.Decimal
+- uid: OfficeOpenXml.ExcelPrinterSettings.RightMargin*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.RightMargin
+  name: RightMargin
+  nameWithType: ExcelPrinterSettings.RightMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.RightMargin
+- uid: OfficeOpenXml.ExcelPrinterSettings.TopMargin*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.TopMargin
+  name: TopMargin
+  nameWithType: ExcelPrinterSettings.TopMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.TopMargin
+- uid: OfficeOpenXml.ExcelPrinterSettings.BottomMargin*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.BottomMargin
+  name: BottomMargin
+  nameWithType: ExcelPrinterSettings.BottomMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.BottomMargin
+- uid: OfficeOpenXml.ExcelPrinterSettings.HeaderMargin*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.HeaderMargin
+  name: HeaderMargin
+  nameWithType: ExcelPrinterSettings.HeaderMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.HeaderMargin
+- uid: OfficeOpenXml.ExcelPrinterSettings.FooterMargin*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.FooterMargin
+  name: FooterMargin
+  nameWithType: ExcelPrinterSettings.FooterMargin
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FooterMargin
+- uid: OfficeOpenXml.ExcelPrinterSettings.Orientation*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.Orientation
+  name: Orientation
+  nameWithType: ExcelPrinterSettings.Orientation
+  fullName: OfficeOpenXml.ExcelPrinterSettings.Orientation
+- uid: OfficeOpenXml.eOrientation
+  commentId: T:OfficeOpenXml.eOrientation
+  parent: OfficeOpenXml
+  name: eOrientation
+  nameWithType: eOrientation
+  fullName: OfficeOpenXml.eOrientation
+- uid: OfficeOpenXml.ExcelPrinterSettings.FitToWidth*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.FitToWidth
+  name: FitToWidth
+  nameWithType: ExcelPrinterSettings.FitToWidth
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FitToWidth
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelPrinterSettings.FitToHeight*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.FitToHeight
+  name: FitToHeight
+  nameWithType: ExcelPrinterSettings.FitToHeight
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FitToHeight
+- uid: OfficeOpenXml.ExcelPrinterSettings.Scale*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.Scale
+  name: Scale
+  nameWithType: ExcelPrinterSettings.Scale
+  fullName: OfficeOpenXml.ExcelPrinterSettings.Scale
+- uid: OfficeOpenXml.ExcelPrinterSettings.FitToPage*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.FitToPage
+  name: FitToPage
+  nameWithType: ExcelPrinterSettings.FitToPage
+  fullName: OfficeOpenXml.ExcelPrinterSettings.FitToPage
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelPrinterSettings.ShowHeaders*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.ShowHeaders
+  name: ShowHeaders
+  nameWithType: ExcelPrinterSettings.ShowHeaders
+  fullName: OfficeOpenXml.ExcelPrinterSettings.ShowHeaders
+- uid: OfficeOpenXml.ExcelPrinterSettings.RepeatRows*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.RepeatRows
+  name: RepeatRows
+  nameWithType: ExcelPrinterSettings.RepeatRows
+  fullName: OfficeOpenXml.ExcelPrinterSettings.RepeatRows
+- uid: OfficeOpenXml.ExcelAddress
+  commentId: T:OfficeOpenXml.ExcelAddress
+  parent: OfficeOpenXml
+  name: ExcelAddress
+  nameWithType: ExcelAddress
+  fullName: OfficeOpenXml.ExcelAddress
+- uid: OfficeOpenXml.ExcelPrinterSettings.RepeatColumns*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.RepeatColumns
+  name: RepeatColumns
+  nameWithType: ExcelPrinterSettings.RepeatColumns
+  fullName: OfficeOpenXml.ExcelPrinterSettings.RepeatColumns
+- uid: OfficeOpenXml.ExcelPrinterSettings.PrintArea*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.PrintArea
+  name: PrintArea
+  nameWithType: ExcelPrinterSettings.PrintArea
+  fullName: OfficeOpenXml.ExcelPrinterSettings.PrintArea
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.ExcelPrinterSettings.ShowGridLines*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.ShowGridLines
+  name: ShowGridLines
+  nameWithType: ExcelPrinterSettings.ShowGridLines
+  fullName: OfficeOpenXml.ExcelPrinterSettings.ShowGridLines
+- uid: OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered
+  name: HorizontalCentered
+  nameWithType: ExcelPrinterSettings.HorizontalCentered
+  fullName: OfficeOpenXml.ExcelPrinterSettings.HorizontalCentered
+- uid: OfficeOpenXml.ExcelPrinterSettings.VerticalCentered*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.VerticalCentered
+  name: VerticalCentered
+  nameWithType: ExcelPrinterSettings.VerticalCentered
+  fullName: OfficeOpenXml.ExcelPrinterSettings.VerticalCentered
+- uid: OfficeOpenXml.ExcelPrinterSettings.PageOrder*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.PageOrder
+  name: PageOrder
+  nameWithType: ExcelPrinterSettings.PageOrder
+  fullName: OfficeOpenXml.ExcelPrinterSettings.PageOrder
+- uid: OfficeOpenXml.ePageOrder
+  commentId: T:OfficeOpenXml.ePageOrder
+  parent: OfficeOpenXml
+  name: ePageOrder
+  nameWithType: ePageOrder
+  fullName: OfficeOpenXml.ePageOrder
+- uid: OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite
+  name: BlackAndWhite
+  nameWithType: ExcelPrinterSettings.BlackAndWhite
+  fullName: OfficeOpenXml.ExcelPrinterSettings.BlackAndWhite
+- uid: OfficeOpenXml.ExcelPrinterSettings.Draft*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.Draft
+  name: Draft
+  nameWithType: ExcelPrinterSettings.Draft
+  fullName: OfficeOpenXml.ExcelPrinterSettings.Draft
+- uid: OfficeOpenXml.ExcelPrinterSettings.PaperSize*
+  commentId: Overload:OfficeOpenXml.ExcelPrinterSettings.PaperSize
+  name: PaperSize
+  nameWithType: ExcelPrinterSettings.PaperSize
+  fullName: OfficeOpenXml.ExcelPrinterSettings.PaperSize
+- uid: OfficeOpenXml.ePaperSize
+  commentId: T:OfficeOpenXml.ePaperSize
+  parent: OfficeOpenXml
+  name: ePaperSize
+  nameWithType: ePaperSize
+  fullName: OfficeOpenXml.ePaperSize

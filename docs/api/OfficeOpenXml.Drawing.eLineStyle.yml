@@ -1,0 +1,433 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eLineStyle
+  commentId: T:OfficeOpenXml.Drawing.eLineStyle
+  id: eLineStyle
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eLineStyle.Dash
+  - OfficeOpenXml.Drawing.eLineStyle.DashDot
+  - OfficeOpenXml.Drawing.eLineStyle.Dot
+  - OfficeOpenXml.Drawing.eLineStyle.LongDash
+  - OfficeOpenXml.Drawing.eLineStyle.LongDashDot
+  - OfficeOpenXml.Drawing.eLineStyle.LongDashDotDot
+  - OfficeOpenXml.Drawing.eLineStyle.Solid
+  - OfficeOpenXml.Drawing.eLineStyle.SystemDash
+  - OfficeOpenXml.Drawing.eLineStyle.SystemDashDot
+  - OfficeOpenXml.Drawing.eLineStyle.SystemDashDotDot
+  - OfficeOpenXml.Drawing.eLineStyle.SystemDot
+  langs:
+  - csharp
+  - vb
+  name: eLineStyle
+  nameWithType: eLineStyle
+  fullName: OfficeOpenXml.Drawing.eLineStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLineStyle
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPreset line dash\n"
+  example: []
+  syntax:
+    content: public enum eLineStyle
+    content.vb: Public Enum eLineStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eLineStyle.Dash
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.Dash
+  id: Dash
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: Dash
+  nameWithType: eLineStyle.Dash
+  fullName: OfficeOpenXml.Drawing.eLineStyle.Dash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dash
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDash 1111000\n"
+  example: []
+  syntax:
+    content: Dash = 0
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.DashDot
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.DashDot
+  id: DashDot
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: DashDot
+  nameWithType: eLineStyle.DashDot
+  fullName: OfficeOpenXml.Drawing.eLineStyle.DashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDash Dot\n11110001000\n"
+  example: []
+  syntax:
+    content: DashDot = 1
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.Dot
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.Dot
+  id: Dot
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: Dot
+  nameWithType: eLineStyle.Dot
+  fullName: OfficeOpenXml.Drawing.eLineStyle.Dot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDot 1000\n"
+  example: []
+  syntax:
+    content: Dot = 2
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.LongDash
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.LongDash
+  id: LongDash
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: LongDash
+  nameWithType: eLineStyle.LongDash
+  fullName: OfficeOpenXml.Drawing.eLineStyle.LongDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDash
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLarge Dash \n11111111000\n"
+  example: []
+  syntax:
+    content: LongDash = 3
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.LongDashDot
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.LongDashDot
+  id: LongDashDot
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: LongDashDot
+  nameWithType: eLineStyle.LongDashDot
+  fullName: OfficeOpenXml.Drawing.eLineStyle.LongDashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDashDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLarge Dash Dot \n111111110001000\n"
+  example: []
+  syntax:
+    content: LongDashDot = 4
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.LongDashDotDot
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.LongDashDotDot
+  id: LongDashDotDot
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: LongDashDotDot
+  nameWithType: eLineStyle.LongDashDotDot
+  fullName: OfficeOpenXml.Drawing.eLineStyle.LongDashDotDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDashDotDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLarge Dash Dot Dot\n1111111100010001000\n"
+  example: []
+  syntax:
+    content: LongDashDotDot = 5
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.Solid
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.Solid
+  id: Solid
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: Solid
+  nameWithType: eLineStyle.Solid
+  fullName: OfficeOpenXml.Drawing.eLineStyle.Solid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Solid
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSolid \n1\n"
+  example: []
+  syntax:
+    content: Solid = 6
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.SystemDash
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.SystemDash
+  id: SystemDash
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: SystemDash
+  nameWithType: eLineStyle.SystemDash
+  fullName: OfficeOpenXml.Drawing.eLineStyle.SystemDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SystemDash
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSystem Dash\n1110\n"
+  example: []
+  syntax:
+    content: SystemDash = 7
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.SystemDashDot
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.SystemDashDot
+  id: SystemDashDot
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: SystemDashDot
+  nameWithType: eLineStyle.SystemDashDot
+  fullName: OfficeOpenXml.Drawing.eLineStyle.SystemDashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SystemDashDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSystem Dash Dot\n111010\n"
+  example: []
+  syntax:
+    content: SystemDashDot = 8
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.SystemDashDotDot
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.SystemDashDotDot
+  id: SystemDashDotDot
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: SystemDashDotDot
+  nameWithType: eLineStyle.SystemDashDotDot
+  fullName: OfficeOpenXml.Drawing.eLineStyle.SystemDashDotDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SystemDashDotDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSystem Dash Dot Dot\n11101010\n"
+  example: []
+  syntax:
+    content: SystemDashDotDot = 9
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLineStyle.SystemDot
+  commentId: F:OfficeOpenXml.Drawing.eLineStyle.SystemDot
+  id: SystemDot
+  parent: OfficeOpenXml.Drawing.eLineStyle
+  langs:
+  - csharp
+  - vb
+  name: SystemDot
+  nameWithType: eLineStyle.SystemDot
+  fullName: OfficeOpenXml.Drawing.eLineStyle.SystemDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SystemDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSystem Dot \n10\n"
+  example: []
+  syntax:
+    content: SystemDot = 10
+    return:
+      type: OfficeOpenXml.Drawing.eLineStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eLineStyle
+  commentId: T:OfficeOpenXml.Drawing.eLineStyle
+  parent: OfficeOpenXml.Drawing
+  name: eLineStyle
+  nameWithType: eLineStyle
+  fullName: OfficeOpenXml.Drawing.eLineStyle
