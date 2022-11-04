@@ -497,7 +497,12 @@ namespace OfficeOpenXml.Utils
         {
             if (type == "s")
             {
-                return xr.ReadElementContentAsInt();
+                var s = xr.ReadElementContentAsString();
+                if (int.TryParse(s, out int sId))
+                {
+                    return sId;
+                }
+                return s;
             }
             else if (type == "str")
             {

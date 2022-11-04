@@ -2055,9 +2055,8 @@ namespace OfficeOpenXml
         private void SetValueFromXml(XmlReader xr, string type, int styleID, int row, int col)
         {
             var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
-            if (type == "s")
+            if (type == "s" && v is int ix)
             {
-                var ix = (int)v;
                 SetValueInner(row, col, _package.Workbook._sharedStringsList[ix].Text);
                 if (_package.Workbook._sharedStringsList[ix].isRichText)
                 {

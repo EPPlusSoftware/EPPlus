@@ -3821,5 +3821,13 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void I742()
+        {
+            using (var p = OpenTemplatePackage(@"i742.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
