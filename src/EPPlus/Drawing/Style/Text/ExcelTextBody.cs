@@ -322,7 +322,7 @@ namespace OfficeOpenXml.Drawing
                         CreateNode($"{_path}/a:normAutofit");
                         break;
                     case eTextAutofit.ShapeAutofit:
-                        DeleteNode($"{_path}/a:spAutoFit");
+                        DeleteNode($"{_path}/a:noAutofit");
                         DeleteNode($"{_path}/a:normAutofit");
                         CreateNode($"{_path}/a:spAutofit");
                         break;
