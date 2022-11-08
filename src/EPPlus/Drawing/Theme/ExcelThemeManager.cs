@@ -73,6 +73,14 @@ namespace OfficeOpenXml.Drawing.Theme
             themeXml.LoadXml(_defaultTheme);
             Load(themeXml);
         }
+        internal ExcelTheme GetOrCreateTheme()
+        {
+            if(CurrentTheme==null)
+            {
+                CreateDefaultTheme();
+            }
+            return _theme;
+        }
         /// <summary>
         /// Delete the current theme
         /// </summary>

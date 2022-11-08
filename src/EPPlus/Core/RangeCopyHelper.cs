@@ -450,7 +450,7 @@ namespace OfficeOpenXml.Core
             c.Column = cell.Column-1;
 
             c._commentHelper.TopNode.InnerXml = cell.Comment._commentHelper.TopNode.InnerXml;
-            c.RichText = new Style.ExcelRichTextCollection(c._commentHelper.NameSpaceManager, c._commentHelper.GetNode("d:text"));
+            c.RichText = new Style.ExcelRichTextCollection(c._commentHelper.NameSpaceManager, c._commentHelper.GetNode("d:text"), destination._worksheet);
             //Add relation to image used for filling the comment
             if(cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Frame ||
               cell.Comment.Fill.Style == Drawing.Vml.eVmlFillType.Tile ||

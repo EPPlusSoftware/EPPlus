@@ -26,8 +26,9 @@ namespace OfficeOpenXml.Style
     public class ExcelRichTextCollection : XmlHelper, IEnumerable<ExcelRichText>
     {
         List<ExcelRichText> _list = new List<ExcelRichText>();
-        ExcelRangeBase _cells=null;
-        internal ExcelRichTextCollection(XmlNamespaceManager ns, XmlNode topNode) :
+        internal ExcelRangeBase _cells=null;
+        internal ExcelWorksheet _ws;
+        internal ExcelRichTextCollection(XmlNamespaceManager ns, XmlNode topNode, ExcelWorksheet ws) :
             base(ns, topNode)
         {
             var nl = topNode.SelectNodes("d:r", NameSpaceManager);
@@ -38,11 +39,13 @@ namespace OfficeOpenXml.Style
                     _list.Add(new ExcelRichText(ns, n,this));
                 }
             }
+            _ws = ws;
         }
         internal ExcelRichTextCollection(XmlNamespaceManager ns, XmlNode topNode, ExcelRangeBase cells) :
-            this(ns, topNode)
+            this(ns, topNode, cells._worksheet)
         {
             _cells = cells;
+
         }        
         /// <summary>
         /// Collection containing the richtext objects

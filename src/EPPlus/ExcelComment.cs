@@ -45,7 +45,7 @@ namespace OfficeOpenXml
             }
 
             TopNode = cell.Worksheet.VmlDrawings[cell.Start.Row, cell.Start.Column].TopNode;
-            RichText = new ExcelRichTextCollection(ns,textElem);
+            RichText = new ExcelRichTextCollection(ns,textElem, cell.Worksheet);
             var tNode = textElem.SelectSingleNode("d:t", ns);
             if (tNode != null)
             {

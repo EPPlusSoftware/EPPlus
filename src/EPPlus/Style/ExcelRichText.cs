@@ -17,6 +17,8 @@ using System.Xml;
 using System.Drawing;
 using System.Globalization;
 using OfficeOpenXml.Export.HtmlExport;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Theme;
 
 namespace OfficeOpenXml.Style
 {
@@ -28,21 +30,21 @@ namespace OfficeOpenXml.Style
         internal ExcelRichText(XmlNamespaceManager ns, XmlNode topNode, ExcelRichTextCollection collection) :
             base(ns, topNode)
         {
-            SchemaNodeOrder=new string[] {"rPr", "t", "b", "i","strike", "u", "vertAlign" , "sz", "color", "rFont", "family", "scheme", "charset"};
+            SchemaNodeOrder = new string[] { "rPr", "t", "b", "i", "strike", "u", "vertAlign", "sz", "color", "rFont", "family", "scheme", "charset" };
             _collection = collection;
         }
         internal delegate void CallbackDelegate();
-        CallbackDelegate _callback;
+        internal CallbackDelegate _callback;
         internal void SetCallback(CallbackDelegate callback)
         {
-            _callback=callback;
+            _callback = callback;
         }
-        const string TEXT_PATH="d:t";
+        const string TEXT_PATH = "d:t";
         /// <summary>
         /// The text
         /// </summary>
-        public string Text 
-        { 
+        public string Text
+        {
 
             get
             {
@@ -50,7 +52,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
-                if (value==null) throw new InvalidOperationException("Text can't be null");
+                if (value == null) throw new InvalidOperationException("Text can't be null");
                 _collection.ConvertRichtext();
                 SetXmlNodeString(TEXT_PATH, value, false);
                 if (PreserveSpace)
@@ -93,7 +95,7 @@ namespace OfficeOpenXml.Style
                 XmlElement elem = TopNode.SelectSingleNode(TEXT_PATH, NameSpaceManager) as XmlElement;
                 if (elem != null)
                 {
-                    return elem.GetAttribute("xml:space")=="preserve";
+                    return elem.GetAttribute("xml:space") == "preserve";
                 }
                 return false;
             }
@@ -136,7 +138,7 @@ namespace OfficeOpenXml.Style
                 {
                     DeleteNode(BOLD_PATH);
                 }
-                if(_callback!=null) _callback();
+                if (_callback != null) _callback();
             }
         }
         const string ITALIC_PATH = "d:rPr/d:i";
@@ -221,8 +223,8 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                string v=GetXmlNodeString(VERT_ALIGN_PATH);
-                if(v=="")
+                string v = GetXmlNodeString(VERT_ALIGN_PATH);
+                if (v == "")
                 {
                     return ExcelVerticalAlignmentFont.None;
                 }
@@ -243,13 +245,13 @@ namespace OfficeOpenXml.Style
                 _collection.ConvertRichtext();
                 if (value == ExcelVerticalAlignmentFont.None)
                 {
-					// If Excel 2010 encounters a vertical align value of blank, it will not load
-					// the spreadsheet. So if None is specified, delete the node, it will be 
-					// recreated if a new value is applied later.
-					DeleteNode(VERT_ALIGN_PATH, true);
-				} else {
-					SetXmlNodeString(VERT_ALIGN_PATH, value.ToString().ToLowerInvariant());
-				}
+                    // If Excel 2010 encounters a vertical align value of blank, it will not load
+                    // the spreadsheet. So if None is specified, delete the node, it will be 
+                    // recreated if a new value is applied later.
+                    DeleteNode(VERT_ALIGN_PATH, true);
+                } else {
+                    SetXmlNodeString(VERT_ALIGN_PATH, value.ToString().ToLowerInvariant());
+                }
                 if (_callback != null) _callback();
             }
         }
@@ -287,29 +289,73 @@ namespace OfficeOpenXml.Style
                 if (_callback != null) _callback();
             }
         }
-        const string COLOR_PATH = "d:rPr/d:color/@rgb";
+        internal const string COLOR_PATH = "d:rPr/d:color/@rgb";
+        internal const string COLOR_THEME_PATH = "d:rPr/d:color/@theme";
+        internal const string COLOR_TINT_PATH = "d:rPr/d:color/@tint";
         /// <summary>
-        /// Text color
+        /// Text color.
+        /// Also see <seealso cref="ColorSettings"/>
         /// </summary>
         public Color Color
         {
             get
             {
-                string col = GetXmlNodeString(COLOR_PATH);
+                var col = GetXmlNodeString(COLOR_PATH);
+                var tint = GetXmlNodeDoubleNull(COLOR_TINT_PATH);
+                Color ret;
                 if (col == "")
                 {
-                    return Color.Empty;
+                    var v = GetXmlNodeIntNull(COLOR_THEME_PATH);
+                    if (v.HasValue)
+                    {
+                        ret = Utils.ColorConverter.GetThemeColor(_collection._ws.Workbook.ThemeManager.GetOrCreateTheme(), (eThemeSchemeColor)v);
+                    }
+                    else
+                    {
+                        if (_collection._cells == null)
+                        {
+                            ret = Utils.ColorConverter.GetThemeColor(_collection._ws.Workbook.ThemeManager.GetOrCreateTheme().ColorScheme.Dark1);
+                        }
+                        else
+                        {
+                            //If not color is set, return the font of the first cell in the range.
+                            var s=_collection._cells.Style.Font.Color.LookupColor();
+                            ret = Color.FromArgb(int.Parse(s.Substring(1), NumberStyles.AllowHexSpecifier));
+                        }
+                    }
                 }
                 else
                 {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                    ret = Color.FromArgb(int.Parse(col, NumberStyles.AllowHexSpecifier));
                 }
+                if (tint.HasValue)
+                {
+                    return Utils.ColorConverter.ApplyTint(ret, tint.Value);
+                }
+                return ret;
             }
             set
             {
                 _collection.ConvertRichtext();
                 SetXmlNodeString(COLOR_PATH, value.ToArgb().ToString("X")/*.Substring(2, 6)*/);
                 if (_callback != null) _callback();
+            }
+        }
+
+        ExcelRichTextColor _colorSettings = null;
+        /// <summary>
+        /// Color settings.
+        /// <seealso cref="Color"/>
+        /// </summary>
+        public ExcelRichTextColor ColorSettings
+        {
+            get
+            {
+                if(_colorSettings==null)
+                {
+                    _colorSettings = new ExcelRichTextColor(NameSpaceManager, TopNode, this);
+                }
+                return _colorSettings;
             }
         }
         /// <summary>

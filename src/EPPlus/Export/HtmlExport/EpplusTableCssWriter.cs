@@ -249,7 +249,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             else if (c.Theme.HasValue)
             {
-                ret = ColorConverter.GetThemeColor(_theme, c.Theme.Value);
+                ret = Utils.ColorConverter.GetThemeColor(_theme, c.Theme.Value);
             }
             else if (c.Index.HasValue)
             {
@@ -262,7 +262,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
             if (c.Tint.HasValue)
             {
-                ret = ColorConverter.ApplyTint(ret, c.Tint.Value);
+                ret = Utils.ColorConverter.ApplyTint(ret, c.Tint.Value);
             }
             return "#" + ret.ToArgb().ToString("x8").Substring(2);
         }

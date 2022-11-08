@@ -15,7 +15,7 @@ using OfficeOpenXml.Drawing.Style.Coloring;
 using System.Drawing;
 using OfficeOpenXml.Drawing.Theme;
 
-namespace OfficeOpenXml.Export.HtmlExport
+namespace OfficeOpenXml.Utils
 {
     internal class ColorConverter
     {
@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var cm = theme.ColorScheme.GetColorByEnum(tc);
             return GetThemeColor(cm);
         }
-        private static Color GetThemeColor(ExcelDrawingThemeColorManager cm)
+        internal static Color GetThemeColor(ExcelDrawingThemeColorManager cm)
         {
             Color color;
             switch (cm.ColorType)
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                     color = Color.Empty;
                     break;
             }
-            
+
             //TODO:Apply Transforms
 
             return color;

@@ -3829,5 +3829,72 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I743()
+        {
+            using (var p = OpenTemplatePackage(@"i743.xlsx"))
+            {
+                int[] rows = { 1, 3, 5, 7, 9, 12, 14, 16, 18, 20 };
+
+                foreach (var row in rows)
+                {
+                    var cell = p.Workbook.Worksheets[0].Cells[row, 3];
+                    var cellColor = "";
+
+                    if (!String.IsNullOrEmpty(cell.Style.Font.Color.Theme.ToString()))
+                    {
+                        var theme = cell.Style.Font.Color.Theme.ToString();
+
+                        if (theme == "Text1") theme = "Dark1";
+                        else if (theme == "Text2") theme = "Dark2";
+                        else if (theme == "Background1") theme = "Light1";
+                        else if (theme == "Background2") theme = "Light2";
+
+                        var colorManager = (ExcelDrawingThemeColorManager)p.Workbook.ThemeManager.CurrentTheme.ColorScheme
+                                                        .GetType()
+                                                        .GetProperty(theme)
+                                                        .GetValue(p.Workbook.ThemeManager.CurrentTheme.ColorScheme);
+
+                        switch (colorManager.ColorType)
+                        {
+                            case eDrawingColorType.None:
+                                break;
+                            case eDrawingColorType.RgbPercentage:
+                                break;
+                            case eDrawingColorType.Rgb:
+                                cellColor = '#' + colorManager.RgbColor.Color.Name.ToUpper();
+                                break;
+                            case eDrawingColorType.Hsl:
+                                break;
+                            case eDrawingColorType.System:
+                                cellColor = '#' + colorManager.SystemColor.LastColor.Name.ToUpper();
+                                break;
+                            case eDrawingColorType.Scheme:
+                                break;
+                            case eDrawingColorType.Preset:
+                                break;
+                            case eDrawingColorType.ChartStyleColor:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    Debug.WriteLine(p.Workbook.Worksheets[0].Cells[row, 1].Text);
+                    Debug.WriteLine("Cell RGB: " + cell.Style.Font.Color.Rgb);
+                    Debug.WriteLine("Cell LookUp: " + cell.Style.Font.Color.LookupColor());
+                    Debug.WriteLine("Cell Theme: " + cellColor);
+
+                    if (cell.RichText != null)
+                    {
+                        foreach (var richText in cell.RichText)
+                        {
+                            Debug.WriteLine(richText.Text + " " + richText.Color.Name.ToUpper());
+                        }
+                    }
+                }
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
