@@ -316,15 +316,29 @@ namespace OfficeOpenXml.Style
             }
             else if(theColor.Theme.HasValue)
             {
-                var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theColor.Theme.Value);
-                var color = Utils.ColorConverter.GetThemeColor(themeColor);
-                return "#" + color.ToArgb().ToString("X");
+                return GetThemeColor(theColor.Theme.Value, Convert.ToDouble(theColor.Tint));
+            }
+            else if (theColor.Auto)
+            {
+                return GetThemeColor(eThemeSchemeColor.Background1, Convert.ToDouble(theColor.Tint));
             }
             else
             {
                 var c = ((int)(Math.Round((theColor.Tint+1) * 128))).ToString("X");
                 return "#FF" + c + c + c;
             }
+        }
+
+        private string GetThemeColor(eThemeSchemeColor theme, double tint)
+        {
+            var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
+            var color = Utils.ColorConverter.GetThemeColor(themeColor);
+            if (tint != 0)
+            {
+                color = Utils.ColorConverter.ApplyTint(color, tint);
+            }
+
+            return "#" + color.ToArgb().ToString("X");
         }
     }
 }
