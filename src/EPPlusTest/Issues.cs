@@ -3694,17 +3694,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
         public void i720()
         {
             var stream = new MemoryStream();
-            using (var p = OpenPackage("i720.xlsx", true))
+            using (var p = OpenPackage("i720.xlsx"))
             {
                 p.Settings.TextSettings.DefaultTextMeasurer = new OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics.DefaultTextMeasurer();
                 var worksheet = p.Workbook.Worksheets.Add("Sheet1");
-                worksheet.Cells["A1"].Formula = "Sum({1,2;3,4})";
+                worksheet.Cells["A1"].Value = "Test";
                 worksheet.Cells["a:xfd"].AutoFitColumns();
-                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -3895,64 +3893,6 @@ namespace EPPlusTest
                     }
                 }
                 SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void Calculate_NumericExpressionMultiplyTwoRanges()
-        {
-            using (var package = OpenPackage($"calc.xlsx", true))
-            {
-                var ws1 = package.Workbook.Worksheets.Add("Sheet1");
-                ws1.Cells["A1"].Value = 1;
-                ws1.Cells["B1"].Value = 2;
-                ws1.Cells["C1"].Value = 3;
-
-                ws1.Cells["A2"].Value = 10;
-                ws1.Cells["B2"].Value = 20;
-                ws1.Cells["C2"].Value = 30;
-
-                ws1.Cells["D1"].Formula = "SUM({1,2;3,4})";
-
-                var ws2 = package.Workbook.Worksheets.Add("Sheet2");
-                ws2.Cells["A1:A3"].Value = 4;
-
-                var parser = package.Workbook.FormulaParser;
-                var result = parser.ParseAt("Sheet1", 1, 4);
-            }
-        }
-        [TestMethod]
-        public void I745()
-        {
-            using (var package = OpenPackage("i745.xlsx", true))
-            {
-                var ws = package.Workbook.Worksheets.Add("Group not moved with row");
-
-                var drawing1 = ws.Drawings.AddShape("Shape1", eShapeStyle.Rect);
-                drawing1.SetPosition(5, 0, 5, 0);
-                drawing1.SetSize(200, 100);
-                drawing1.Text = "This group not moved when changing row(5) height";
-                drawing1.Fill.Style = eFillStyle.SolidFill;
-                drawing1.Fill.Color = Color.Green;
-
-                var drawing2 = ws.Drawings.AddShape("Shape2", eShapeStyle.Rect);
-                drawing2.SetPosition(5, 10, 5, 10);
-                drawing2.SetSize(50, 20);
-                drawing2.Text = "Shape 2";
-                drawing2.Fill.Style = eFillStyle.SolidFill;
-                drawing2.Fill.Color = Color.Blue;
-
-                drawing1.Group(drawing2);
-
-                var drawing3 = ws.Drawings.AddShape("Shape3", eShapeStyle.Rect);
-                drawing3.SetPosition(5, 0, 9, 0);
-                drawing3.SetSize(200, 100);
-                drawing3.Text = "Single shape will move";
-                drawing3.Fill.Style = eFillStyle.SolidFill;
-                drawing3.Fill.Color = Color.Red;
-
-                ws.Row(5).Height = 30; // change row height
-
-                SaveAndCleanup(package);
             }
         }
     }
