@@ -3896,5 +3896,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void Supportcase403()
+        {
+            using(var package = new ExcelPackage(@"c:\Temp\Supportcase403\long_formula.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                sheet.Calculate();
+                var v = sheet.Cells["B2"].Value;
+            }
+        }
     }
 }

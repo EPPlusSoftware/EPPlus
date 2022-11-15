@@ -32,6 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             Require.That(context).Named("context").IsNotNull();
             _context = context;
             _specialCompilers.Add(typeof(If), new IfFunctionCompiler(repository.GetFunction("if"), context));
+            _specialCompilers.Add(typeof(CountIf), new CountIfFunctionCompiler(repository.GetFunction("countif"), context));
             _specialCompilers.Add(typeof(SumIf), new SumIfCompiler(repository.GetFunction("sumif"), context));
             _specialCompilers.Add(typeof(CountIfs), new CountIfsCompiler(repository.GetFunction("countifs"), context));
             _specialCompilers.Add(typeof(IfError), new IfErrorFunctionCompiler(repository.GetFunction("iferror"), context));
