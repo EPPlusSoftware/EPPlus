@@ -102,7 +102,7 @@ namespace OfficeOpenXml
 			{
                 if (_worksheet._package.DoAdjustDrawings)
                 {
-                    var pos = _worksheet.Drawings.GetDrawingWidths();
+                    var pos = _worksheet.Drawings.GetDrawingWidths();                    
                     _hidden = value;
                     _worksheet.Drawings.AdjustWidth(pos);
                 }

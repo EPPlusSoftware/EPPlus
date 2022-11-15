@@ -78,8 +78,8 @@ namespace OfficeOpenXml.Drawing
             AdjustXmlAndMoveToGroup(drawing);
             ExcelGroupShape.Validate(drawing, _parent._drawings, _parent);
             AppendDrawingNode(drawing.TopNode);
-            drawing._parent = _parent;
-
+            drawing._parent = _parent;            
+            
             _groupDrawings.Add(drawing);
             _drawingNames.Add(drawing.Name, _groupDrawings.Count - 1);
         }
@@ -348,6 +348,32 @@ namespace OfficeOpenXml.Drawing
             SetSize((int)(r - l), (int)(b - t));
 
             SetxFrmPosition();
+        }
+        internal void AdjustChildrenForResizeRow(double prevTop)
+        {
+            var top = GetPixelTop();
+            var diff = top - prevTop;
+            if(diff!=0)
+            {
+                for (int i = 0; i < Drawings.Count; i++)
+                {
+                    Drawings[i].SetPixelTop(Drawings[i]._top + diff);
+                    Drawings[i].Position.UpdateXml();
+                }
+            }
+        }
+        internal void AdjustChildrenForResizeColumn(double prevLeft)
+        {
+            var left = GetPixelLeft();
+            var diff = left - prevLeft;
+            if (diff != 0)
+            {
+                for (int i = 0; i < Drawings.Count; i++)
+                {
+                    Drawings[i].SetPixelLeft(Drawings[i]._left + diff);
+                    Drawings[i].Position.UpdateXml();
+                }
+            }
         }
 
         private void SetxFrmPosition()

@@ -1612,7 +1612,10 @@ namespace OfficeOpenXml.Drawing
                         d.SetPixelLeft(pos[ix, 0]);
                     }
                     d.SetPixelWidth(pos[ix, 1]);
-
+                }
+                if (d is ExcelGroupShape gr)
+                {
+                    gr.AdjustChildrenForResizeColumn(pos[ix, 0]);
                 }
                 ix++;
             }
@@ -1621,16 +1624,19 @@ namespace OfficeOpenXml.Drawing
         {
             var ix = 0;
             //Now set the size for all drawings depending on the editAs property.
-            foreach (OfficeOpenXml.Drawing.ExcelDrawing d in this)
+            foreach (ExcelDrawing d in this)
             {
-                if (d.EditAs != Drawing.eEditAs.TwoCell)
+                if (d.EditAs != eEditAs.TwoCell)
                 {
-                    if (d.EditAs == Drawing.eEditAs.Absolute)
+                    if (d.EditAs == eEditAs.Absolute)
                     {
                         d.SetPixelTop(pos[ix, 0]);
                     }
                     d.SetPixelHeight(pos[ix, 1]);
-
+                }
+                if (d is ExcelGroupShape gr)
+                {
+                    gr.AdjustChildrenForResizeRow(pos[ix, 0]);
                 }
                 ix++;
             }

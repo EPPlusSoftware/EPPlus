@@ -26,6 +26,7 @@ namespace OfficeOpenXml.VBA.Signatures
         {
             _vbaPart = vbaPart;
             _signatureType = signatureType;
+            Context=new EPPlusSignatureContext(signatureType);
         }
 
         private readonly ZipPackagePart _vbaPart;
