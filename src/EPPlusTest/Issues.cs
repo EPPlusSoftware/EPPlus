@@ -3881,7 +3881,7 @@ namespace EPPlusTest
                         }
                     }
 
-                    Debug.WriteLine(p.Workbook.Worksheets[0].Cells[row, 1].Text);
+                    Debug.WriteLine(p.Workbook.Worksheets[0].Cells[row, 1].Text + $" address:{cell.Address}");
                     Debug.WriteLine("Cell RGB: " + cell.Style.Font.Color.Rgb);
                     Debug.WriteLine("Cell LookUp: " + cell.Style.Font.Color.LookupColor());
                     Debug.WriteLine("Cell Theme: " + cellColor);

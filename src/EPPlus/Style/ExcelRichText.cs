@@ -292,6 +292,7 @@ namespace OfficeOpenXml.Style
         internal const string COLOR_PATH = "d:rPr/d:color/@rgb";
         internal const string COLOR_THEME_PATH = "d:rPr/d:color/@theme";
         internal const string COLOR_TINT_PATH = "d:rPr/d:color/@tint";
+        internal const string RPR_PATH = "d:rPr";
         /// <summary>
         /// Text color.
         /// Also see <seealso cref="ColorSettings"/>
@@ -312,14 +313,14 @@ namespace OfficeOpenXml.Style
                     }
                     else
                     {
-                        if (_collection._cells == null)
+                        if (_collection._cells == null || (ExistsNode(RPR_PATH))) //If the rPn element exist but no color element, automatic should be used.
                         {
                             ret = Utils.ColorConverter.GetThemeColor(_collection._ws.Workbook.ThemeManager.GetOrCreateTheme().ColorScheme.Dark1);
                         }
                         else
                         {
                             //If not color is set, return the font of the first cell in the range.
-                            var s=_collection._cells.Style.Font.Color.LookupColor();
+                            var s = _collection._cells.Style.Font.Color.LookupColor();
                             ret = Color.FromArgb(int.Parse(s.Substring(1), NumberStyles.AllowHexSpecifier));
                         }
                     }

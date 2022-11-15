@@ -217,6 +217,6 @@ namespace EPPlusTest
                 
                 SaveAndCleanup(p);
             }
-            }
+        }
     }
 }

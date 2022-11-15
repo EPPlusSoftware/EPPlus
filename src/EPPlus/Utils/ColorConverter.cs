@@ -83,5 +83,6 @@ namespace OfficeOpenXml.Utils
                 return ExcelDrawingHslColor.GetRgb(h, s, l);
             }
         }
+        
     }
 }
