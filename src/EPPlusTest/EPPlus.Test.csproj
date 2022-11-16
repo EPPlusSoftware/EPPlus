@@ -9,7 +9,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>net481;net6.0</TargetFrameworks>
+    <TargetFrameworks>net481;net7.0</TargetFrameworks>
     <RootNamespace>EPPlusTest</RootNamespace>
     <AssemblyName>EPPlusTest</AssemblyName>
     <SignAssembly>True</SignAssembly>
@@ -26,7 +26,7 @@
     <DefineConstants>TRACE;RELEASE;NETCOREAPP2_0;Core</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0'">
     <DefineConstants>Core;Standard21</DefineConstants>
   </PropertyGroup>
 
