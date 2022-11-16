@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
     <AssemblyVersion>6.1.0.0</AssemblyVersion>
     <FileVersion>6.1.0.0</FileVersion>
     <Version>6.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
-    <PackageLicenseFile>license.md</PackageLicenseFile>
+	<PackageLicenseFile>license.md</PackageLicenseFile>
     <Company>EPPlus Software AB</Company>
     <Product>EPPlus</Product>
 	<Description>A spreadsheet library for .NET framework and .NET core</Description>
@@ -351,6 +351,10 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
     <DefineConstants>Core;NET60</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0'">
+    <DefineConstants>Core;NET70</DefineConstants>
+  </PropertyGroup>
 	
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NET45;NETFULL</DefineConstants>
@@ -368,29 +372,6 @@
     <Compile Remove="Core\Worksheet\Fonts\Tables\**" />
     <EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
     <None Remove="Core\Worksheet\Fonts\Tables\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Compatibility\SystemDrawing\KnownColor.cs" />
-    <Compile Remove="Compatibility\SystemDrawing\KnownColors.cs" />
-    <Compile Remove="Core\Worksheet\Fonts\GenericFontMetrics\GenericMetricsManager.cs" />
-    <Compile Remove="Core\Worksheet\Fonts\TableRecord.cs" />
-    <Compile Remove="Core\Worksheet\Fonts\Tag.cs" />
-    <Compile Remove="Core\Worksheet\Fonts\TtfFont.cs" />
-    <Compile Remove="Drawing\ExcelDrawingLine.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Css.async.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Css.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Html.async.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlRangeExporter.Html.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Css.async.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Css.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Html.async.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExporter.Html.cs" />
-    <Compile Remove="Export\HtmlExport\ExcelHtmlTableExportSetting.cs" />
-    <Compile Remove="Export\HtmlExport\HtmlExporterBase.async.cs" />
-    <Compile Remove="Export\HtmlExport\HtmlExporterBase.cs" />
-    <Compile Remove="Packaging\DotNetZip\ZipFile.SaveSelfExtractor.cs" />
-  
   </ItemGroup>
 
 
@@ -443,7 +424,8 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="4.7.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>2.2.1</Version>
@@ -452,7 +434,16 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
+      <Version>2.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+  </ItemGroup>
+
+ <ItemGroup>
     <None Remove="resources\DefaultTableStyles.cst" />
     <None Remove="resources\fontsize.zip" />
     <None Remove="resources\TextMetrics.zip" />

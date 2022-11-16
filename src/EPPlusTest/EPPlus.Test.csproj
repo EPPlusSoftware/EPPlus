@@ -9,7 +9,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net481;net6.0</TargetFrameworks>
     <RootNamespace>EPPlusTest</RootNamespace>
     <AssemblyName>EPPlusTest</AssemblyName>
     <SignAssembly>True</SignAssembly>
@@ -26,11 +26,11 @@
     <DefineConstants>TRACE;RELEASE;NETCOREAPP2_0;Core</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
     <DefineConstants>Core;Standard21</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net481'">
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
 
@@ -41,12 +41,12 @@
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
+    <!--<PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />-->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />

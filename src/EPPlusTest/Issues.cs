@@ -907,24 +907,6 @@ namespace EPPlusTest
             Assert.IsNotNull(ws.Cells["A1"].Hyperlink);
         }
         [TestMethod]
-        public void Issuer246()
-        {
-            InitBase();
-            var pkg = OpenPackage("issue246.xlsx", true);
-            var ws = pkg.Workbook.Worksheets.Add("DateFormat");
-            ws.Cells["A1"].Value = 43465;
-            ws.Cells["A1"].Style.Numberformat.Format = @"[$-F800]dddd,\ mmmm\ dd,\ yyyy";
-            pkg.Save();
-
-            pkg = OpenPackage("issue246.xlsx");
-            ws = pkg.Workbook.Worksheets["DateFormat"];
-            var pCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
-            System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo("sv-Se");
-            Assert.AreEqual(ws.Cells["A1"].Text, "den 31 december 2018");
-            Assert.AreEqual(ws.GetValue<DateTime>(1, 1), new DateTime(2018, 12, 31));
-            System.Threading.Thread.CurrentThread.CurrentCulture = pCulture;
-        }
-        [TestMethod]
         public void Issue347()
         {
             var package = OpenTemplatePackage("Issue327.xlsx");
@@ -3893,17 +3875,6 @@ namespace EPPlusTest
                     }
                 }
                 SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void Supportcase403()
-        {
-            using(var package = new ExcelPackage(@"c:\Temp\Supportcase403\long_formula.xlsx"))
-            {
-                var sheet = package.Workbook.Worksheets[0];
-                sheet.Calculate();
-                var v = sheet.Cells["B2"].Value;
             }
         }
     }
