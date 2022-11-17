@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -132,6 +134,58 @@ namespace EPPlusTest.Sorting
                 Assert.AreEqual("XL", sheet.Cells[7, 1].Value);
 
                 //package.SaveAs(new FileInfo(@"c:\Temp\TableSort2.xlsx"));
+            }
+        }
+
+        [TestMethod]
+        public void ShouldSortRelativeTableAddresses()
+        {
+            using(var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["B1"].Value = 123;
+                var tbl = ws.Tables.Add(ws.Cells["B1:P12"], "TestTable");
+                tbl.TableStyle = TableStyles.Custom;
+
+                tbl.ShowFirstColumn = true;
+                tbl.ShowTotal = true;
+                tbl.ShowHeader = true;
+                tbl.ShowLastColumn = true;
+                tbl.ShowFilter = false;
+                Assert.AreEqual(tbl.ShowFilter, false);
+                ws.Cells["K2"].Value = 5;
+                ws.Cells["J3"].Value = 4;
+
+                tbl.Columns[8].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
+                tbl.Columns[9].TotalsRowFormula = string.Format("SUM([{0}])", tbl.Columns[9].Name);
+                tbl.Columns[14].CalculatedColumnFormula = "TestTable[[#This Row],[123]]+TestTable[[#This Row],[Column2]]";
+                ws.Cells["B2"].Value = 1;
+                ws.Cells["B3"].Value = 2;
+                ws.Cells["B4"].Value = 3;
+                ws.Cells["B5"].Value = 4;
+                ws.Cells["B6"].Value = 5;
+                ws.Cells["B7"].Value = 6;
+                ws.Cells["B8"].Value = 7;
+                ws.Cells["B9"].Value = 8;
+                ws.Cells["B10"].Value = 9;
+                ws.Cells["B11"].Value = 10;
+                ws.Cells["B12"].Value = 11;
+                ws.Cells["C2"].Value = 11;
+                ws.Cells["C3"].Value = 10;
+                ws.Cells["C4"].Value = 9;
+                ws.Cells["C5"].Value = 8;
+                ws.Cells["C6"].Value = 7;
+                ws.Cells["C7"].Value = 6;
+                ws.Cells["C8"].Value = 5;
+                ws.Cells["C9"].Value = 4;
+                ws.Cells["C10"].Value = 3;
+                ws.Cells["C11"].Value = 2;
+                ws.Cells["C12"].Value = 1;
+              
+
+                tbl.Sort(x => x.SortBy.Column(1, eSortOrder.Ascending));
+
+                package.SaveAs(@"c:\Temp\RelativeTableFormulas.xlsx");
             }
         }
     }
