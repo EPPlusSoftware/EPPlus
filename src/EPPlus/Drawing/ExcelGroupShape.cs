@@ -323,6 +323,13 @@ namespace OfficeOpenXml.Drawing
         }
         internal void SetPositionAndSizeFromChildren()
         {
+            // refresh drawings position/size in case of resizing row/column
+          
+            foreach (ExcelDrawing d in Drawings)
+            {
+                d.GetPositionSize();
+            }
+
             double t = Drawings[0]._top, l = Drawings[0]._left, b = Drawings[0]._top + Drawings[0]._height, r=Drawings[0]._left + Drawings[0]._width;
             for(int i=1;i<Drawings.Count;i++)
             {
