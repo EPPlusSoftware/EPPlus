@@ -3877,5 +3877,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s404()
+        {
+            using (var p = OpenTemplatePackage(@"s404.xlsm"))
+            {
+                p.Workbook.VbaProject.Protection.SetPassword(null);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
