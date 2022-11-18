@@ -40,6 +40,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0'
+        
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
@@ -69,8 +74,3 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
 
-    -name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '7.0'
-        include-prerelease: false
