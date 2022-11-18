@@ -56,9 +56,9 @@ namespace OfficeOpenXml.Utils
             var tokens = SourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
             if (!tokens.Any(x => x.TokenTypeIsSet(TokenType.ExcelAddress))) return formula;
             var resultTokens = new List<Token>();
-            foreach(var token in tokens)
+            foreach (var token in tokens)
             {
-                if(!token.TokenTypeIsSet(TokenType.ExcelAddress))
+                if (!token.TokenTypeIsSet(TokenType.ExcelAddress))
                 {
                     resultTokens.Add(token);
                 }
@@ -66,13 +66,21 @@ namespace OfficeOpenXml.Utils
                 {
                     var addresses = new List<ExcelCellAddress>();
                     var adr = new ExcelAddressBase(token.Value);
-                    var newAdr = adr.AddRow(currentRow, newRow, true);
-                    var newToken = new Token(newAdr.FullAddress, TokenType.ExcelAddress);
-                    resultTokens.Add(newToken);
+                    // if the formula is a table formula (relative) keep it as it is
+                    if (adr.Table == null)
+                    {
+                        var newAdr = adr.AddRow(currentRow, newRow, true);
+                        var newToken = new Token(newAdr.FullAddress, TokenType.ExcelAddress);
+                        resultTokens.Add(newToken);
+                    }
+                    else
+                    {
+                        resultTokens.Add(token);
+                    }
                 }
             }
             var result = new StringBuilder();
-            foreach(var token in resultTokens)
+            foreach (var token in resultTokens)
             {
                 result.Append(token.Value);
             }
@@ -95,9 +103,17 @@ namespace OfficeOpenXml.Utils
                 {
                     var addresses = new List<ExcelCellAddress>();
                     var adr = new ExcelAddressBase(token.Value);
-                    var newAdr = adr.AddColumn(currentColumn, newColumn, true);
-                    var newToken = new Token(newAdr.FullAddress, TokenType.ExcelAddress);
-                    resultTokens.Add(newToken);
+                    // if the formula is a table formula (relative) keep it as it is
+                    if (adr.Table == null)
+                    {
+                        var newAdr = adr.AddColumn(currentColumn, newColumn, true);
+                        var newToken = new Token(newAdr.FullAddress, TokenType.ExcelAddress);
+                        resultTokens.Add(newToken);
+                    }
+                    else
+                    {
+                        resultTokens.Add(token);
+                    }
                 }
             }
             var result = new StringBuilder();

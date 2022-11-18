@@ -1291,6 +1291,7 @@ namespace OfficeOpenXml.Table
         {
             //Set sort state
             var sortState = new SortState(Range.Worksheet.NameSpaceManager, this);
+            sortState.Clear();
             var dataRange = DataRange;
             sortState.Ref = dataRange.Address;
             sortState.CaseSensitive = (compareOptions == CompareOptions.IgnoreCase || compareOptions == CompareOptions.OrdinalIgnoreCase);
