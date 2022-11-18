@@ -3886,5 +3886,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i725()
+        {
+            var stream = new FileStream(_testInputPathOptional + "TestWorkbook.xlsx",FileMode.Open);
+            using(var p = new ExcelPackage())
+            {
+                p.Load(stream);
+                var ba = p.GetAsByteArray();
+            }
+        }
+
     }
 }
