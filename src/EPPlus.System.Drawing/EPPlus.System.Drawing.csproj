@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+    <TargetFrameworks>net7.0;net6.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
     <AssemblyVersion>6.1.0.0</AssemblyVersion>
     <FileVersion>6.1.0.0</FileVersion>
     <Version>6.1.0</Version>
@@ -23,6 +23,10 @@
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
 		<DefineConstants>Core;NET60</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0'">
+		<DefineConstants>Core;NET70</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
