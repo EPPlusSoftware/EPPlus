@@ -1,4 +1,18 @@
 ﻿# Features / Fixed issues - EPPlus 6
+
+## Version 6.1.1
+### Minor features
+* Add support for linking a cell to a chart title text
+### Fixed issues
+* EPPlus did not preserve "Host Extender Info" in the vba project.
+* VBA signing failed on new workbooks.
+* ExcelTable sorting corrupted relative formulas.
+* Images in a group did not change position when row height changed.
+* RichText.Color and ExcelColor.LookupColor did not return the correct color if the color was Auto or Theme and did not always adjust for Tint.
+* Workbooks with shared strings without a reference and a blank v-element failed to load.
+### Other changes
+* Added Target framework .NET 7.
+
 ## Version 6.1.0
 ### Features
 * Support for new types of VBA signing. See [This link](https://github.com/EPPlusSoftware/EPPlus/wiki/VBA)

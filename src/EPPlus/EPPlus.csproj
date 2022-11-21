@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>6.1.0.0</AssemblyVersion>
-    <FileVersion>6.1.0.0</FileVersion>
-    <Version>6.1.0</Version>
+    <AssemblyVersion>6.1.1.0</AssemblyVersion>
+    <FileVersion>6.1.1.0</FileVersion>
+    <Version>6.1.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -17,13 +17,17 @@
     <PackageTags>Excel ooxml</PackageTags>
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.1.0
+		EPPlus 6.1.1
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+
+		## Version 6.1.1
+		* Added Target framework .NET 7.
+		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 
 		## Version 6.1.0
 		* Support for the Agile and V3 VBA signing. - https://github.com/EPPlusSoftware/EPPlus/wiki/VBA
@@ -37,7 +41,7 @@
 		* AddPicture(string, Stream, ePictureType, Uri)
 		* Preserve the 'Table' formula properties (Created via the What-If analysis-Data Table).
 		* Target framework .NET 5.0 has been removed as it is out of support by Microsoft.
-		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		* Bug fixes.
 
 		## Version 6.0.8
 		* Bug fixes.
