@@ -27,6 +27,7 @@
 
 		## Version 6.1.1
 		* Added Target framework .NET 7.
+		* Add support for linking a cell to a chart title text
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
 
 		## Version 6.1.0
@@ -279,9 +280,10 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.1.0	20221103 Newer types of VBA signatures, ToCollection method, Methods for Grouping rows and columns. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-		6.0.8	20220921 Minor bug fixes. 
-		5.8.14	20220921 Minor bug fixes. 
+		6.1.1	20221121 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.1.0	20221103 Newer types of VBA signatures, ToCollection method, Methods for Grouping rows and columns.
+		6.0.8	20220921 Minor bug fixes.
+		5.8.14	20220921 Minor bug fixes.
 		6.0.7	20220830 Minor bug fixes.
 		5.8.13	20220830 Minor bug fixes.
 		6.0.6	20220708 Minor bug fixes.
@@ -297,7 +299,7 @@
 		6.0.0	20220307 Beta 1
 		5.8.7	20220301 Minor bug fixes.
 		5.8.6	20220203 Minor bug fixes.
-		5.8.5	20220113 Minor features and bug fixes. 
+		5.8.5	20220113 Minor features and bug fixes.
 		5.8.4	20211214 Minor features and bug fixes.
 		5.8.3	20211119 Minor bug fixes.
 		5.8.2	20211029 Minor bug fixes.
