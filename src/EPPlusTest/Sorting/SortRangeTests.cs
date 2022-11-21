@@ -559,5 +559,24 @@ namespace EPPlusTest.Sorting
                 Assert.IsNull(sheet.Cells[1, 3].Value);
             }
         }
+
+        [TestMethod]
+        public void ShouldClearSortStateWhenNewSort()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                sheet.Cells["A1"].Value = 4;
+                sheet.Cells["A2"].Value = 1;
+                
+                sheet.Cells["A1:A2"].Sort(x => x.SortBy.Column(0));
+
+                Assert.AreEqual(1, sheet.Cells["A1"].Value);
+                Assert.AreEqual(1, sheet.SortState.SortConditions.Count());
+
+                sheet.Cells["A1:A2"].Sort(x => x.SortBy.Column(0));
+                Assert.AreEqual(1, sheet.SortState.SortConditions.Count());
+            }
+        }
     }
 }
