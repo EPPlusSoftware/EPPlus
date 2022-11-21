@@ -15,7 +15,8 @@
     <RootNamespace>OfficeOpenXml</RootNamespace>
     <RepositoryUrl>https://github.com/EPPlusSoftware/EPPlus.git</RepositoryUrl>
     <PackageTags>Excel ooxml</PackageTags>
-    <Copyright>EPPlus Software AB</Copyright>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
 		EPPlus 6.1.1
 
@@ -475,9 +476,18 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+	<None Include="readme.md">
+	    <Pack>True</Pack>
+		<PackagePath></PackagePath>
+	</None>
   </ItemGroup>
   <ItemGroup>
 	  <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="readme.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
