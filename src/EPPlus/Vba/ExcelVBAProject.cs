@@ -19,6 +19,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.Constants;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.VBA
 {
@@ -104,6 +105,7 @@ namespace OfficeOpenXml.VBA
         /// Code Modules (Modules, classes, designer code)
         /// </summary>
         public ExcelVbaModuleCollection Modules { get; set; }
+        internal List<string> _HostExtenders = new List<string>();
         ExcelVbaSignature _signature = null;
         /// <summary>
         /// The digital signature
@@ -203,14 +205,36 @@ namespace OfficeOpenXml.VBA
             _protection = new ExcelVbaProtection(this);
             string prevPackage = "";
             var lines = Regex.Split(ProjectStreamText, "\r\n");
+            bool isHostExtender = false, isWorkspace=false;
             foreach (string line in lines)
             {
                 if (line.StartsWith("[", StringComparison.OrdinalIgnoreCase))
                 {
-
+                    switch(line.Trim())
+                    {
+                        case "[Host Extender Info]":
+                            isHostExtender = true;
+                            _HostExtenders.Clear();
+                            break;
+                        case "[Workspace]":
+                            isWorkspace = true;
+                            break;
+                    }
+                }
+                else if(isWorkspace)
+                {
+                    //We ignore workspaces for now and set all windows with coordinates 0,0.
+                }
+                else if (isHostExtender)
+                {
+                    if (string.IsNullOrEmpty(line) == false)
+                    {
+                        _HostExtenders.Add(line);
+                    }
                 }
                 else
                 {
+                    
                     var split = line.Split('=');
                     if (split.Length > 1 && split[1].Length > 1 && split[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase)) //Remove any double qouates
                     {
@@ -982,7 +1006,17 @@ namespace OfficeOpenXml.VBA
             sb.AppendFormat("GC=\"{0}\"\r\n\r\n", WriteVisibilityState());
 
             sb.Append("[Host Extender Info]\r\n");
-            sb.Append("&H00000001={3832D640-CF90-11CF-8E43-00A0C911005A};VBE;&H00000000\r\n");
+            if(_HostExtenders.Count==0)
+            {
+                sb.Append("&H00000001={3832D640-CF90-11CF-8E43-00A0C911005A};VBE;&H00000000\r\n");
+            }
+            else
+            {
+                foreach(var line in _HostExtenders)
+                {
+                    sb.Append($"{line}\r\n");
+                }
+            }
             sb.Append("\r\n");
             sb.Append("[Workspace]\r\n");
             foreach(var module in Modules)
