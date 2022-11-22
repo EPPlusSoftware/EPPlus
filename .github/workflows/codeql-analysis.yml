@@ -42,7 +42,9 @@ jobs:
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
-        
+      with:
+        dotnet-version: 7.x.x        
+      
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
