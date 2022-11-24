@@ -307,7 +307,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     Name = name,
                     wsIx = -1,
-                    Value = ExcelErrorCodes.Name
+                    Value = ExcelErrorValue.Create(eErrorType.Name)
                 };
             }
             else
@@ -680,7 +680,15 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 var wb = _package.Workbook;
-                if (wsIx == -1) return null; //Non-existing worksheet
+                if (wsIx == -1)
+                {
+                    return new NameInfo()
+                    {
+                        Name = name,
+                        wsIx = -1,
+                        Value = ExcelErrorValue.Create(eErrorType.Name)
+                    };
+                }
                 var workSheetIx = wsIx < 0 ? ParsingContext.CurrentCell.WorksheetIx : wsIx;
                 ExcelNamedRange nameItem = null;
                 ExcelWorksheet ws = null;

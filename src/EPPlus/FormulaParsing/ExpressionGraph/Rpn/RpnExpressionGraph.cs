@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
@@ -286,15 +287,32 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             }
             return precompiledExps;
         }
+        Dictionary<int, RangeDictionary> _usedRanges;
+
         internal CompileResult Execute(IList<Token> exps)
         {
+            var _usedRanges = new Dictionary<int, RangeDictionary>();
             var cell = new RpnFormulaCell();
             short extRefIx = short.MinValue;
             short wsIx = short.MinValue;
             var s = cell._expressionStack;
+
             for (int i = 0; i < exps.Count; i++)
             {
                 var t = exps[i];
+
+                if (s.Count > 0 && 
+                    !(t.TokenType == TokenType.Operator && t.Value != ":") && 
+                    s.Peek().Status == RpnExpressionStatus.IsAddress)
+                {
+                    //We have an address, follow dependency chain before executing .
+                    var a = GetAddressToFollow(s.Peek(), usedRanges);
+                    if(a!=null)
+                    {
+
+                    }
+                }
+
                 switch (t.TokenType)
                 {                    
                     case TokenType.Boolean:
@@ -345,6 +363,19 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 }
             }
             return s.Pop().Compile();
+        }
+
+        private FormulaRangeAddress GetAddressToFollow(RpnExpression ae)
+        {
+            var a = ae.Compile().Address;
+            if (a.IsSingleCell)
+            {
+                if (usedRanges.Exists(a.FromRow, a.ToRow))
+                {
+
+                }
+            }
+
         }
 
         private void GetTableAddress(IList<Token> exps, ref int i, out FormulaTableAddress tableAddress)

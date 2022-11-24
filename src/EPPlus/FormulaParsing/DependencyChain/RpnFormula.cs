@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal void SetFormula(string formula, ISourceCodeTokenizer tokenizer, RpnExpressionGraph graph)
         {
-            var tokens =  graph.CreateExpressionList(tokenizer.Tokenize(formula));
+            var tokens =  graph.    CreateExpressionList(tokenizer.Tokenize(formula));
             var _expresions = graph.CompileExpressions(tokens);
         }
     }

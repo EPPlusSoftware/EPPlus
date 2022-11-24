@@ -40,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             var cache = Context.AddressCache;
             var cacheId = cache.GetNewId();
             
-            if (_name == null)
+            if (_name.Value == null)
             {
                 // check if there is a table with the name
                 var table = Context.ExcelDataProvider.GetExcelTable(_name.Name);
