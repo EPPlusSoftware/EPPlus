@@ -16,16 +16,25 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
     public class ExpressionConverter : IExpressionConverter
     {
+        internal ExpressionConverter(ParsingContext ctx)
+        {
+            _ctx = ctx;
+        }
+
+        private readonly ParsingContext _ctx;
+
         public StringExpression ToStringExpression(Expression expression)
         {
             var result = expression.Compile();
             string toString;
-            if(result.DataType == DataType.Decimal)
+            if (result.DataType == DataType.Decimal)
             {
                 toString = result.ResultNumeric.ToString("G15");
             }
@@ -33,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 toString = result.Result.ToString();
             }
-            var newExp = new StringExpression(toString);
+            var newExp = new StringExpression(toString, _ctx);
             newExp.Operator = expression.Operator;
             return newExp;
         }
@@ -44,54 +53,75 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 case DataType.Integer:
                     return compileResult.Result is string
-                        ? new IntegerExpression(compileResult.Result.ToString())
-                        : new IntegerExpression(Convert.ToDouble(compileResult.Result));
+                        ? new IntegerExpression(compileResult.Result.ToString(), _ctx)
+                        : new IntegerExpression(Convert.ToDouble(compileResult.Result), _ctx);
                 case DataType.String:
-                    return new StringExpression(compileResult.Result.ToString());
+                    return new StringExpression(compileResult.Result.ToString(), _ctx);
                 case DataType.Decimal:
                     return compileResult.Result is string
-                               ? new DecimalExpression(compileResult.Result.ToString())
-                               : new DecimalExpression(((double) compileResult.Result));
+                               ? new DecimalExpression(compileResult.Result.ToString(), _ctx)
+                               : new DecimalExpression(((double)compileResult.Result), _ctx);
                 case DataType.Boolean:
                     return compileResult.Result is string
-                               ? new BooleanExpression(compileResult.Result.ToString())
-                               : new BooleanExpression((bool) compileResult.Result);
+                               ? new BooleanExpression(compileResult.Result.ToString(), _ctx)
+                               : new BooleanExpression((bool)compileResult.Result, _ctx);
                 //case DataType.Enumerable:
                 //    return 
                 case DataType.ExcelError:
                     //throw (new OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException((ExcelErrorValue)compileResult.Result)); //Added JK
                     return compileResult.Result is string
                         ? new ExcelErrorExpression(compileResult.Result.ToString(),
-                            ExcelErrorValue.Parse(compileResult.Result.ToString()))
-                        : new ExcelErrorExpression((ExcelErrorValue) compileResult.Result);
+                            ExcelErrorValue.Parse(compileResult.Result.ToString()), _ctx)
+                        : new ExcelErrorExpression((ExcelErrorValue)compileResult.Result, _ctx);
                 case DataType.Empty:
-                   return new IntegerExpression(0); //Added JK
+                    return new IntegerExpression(0, _ctx); //Added JK
                 case DataType.Time:
                 case DataType.Date:
-                    return new DecimalExpression((double)compileResult.Result);
+                    return new DecimalExpression((double)compileResult.Result, _ctx);
                 case DataType.Enumerable:
                     var rangeInfo = compileResult.Result as IRangeInfo;
                     if (rangeInfo != null)
                     {
-                        return new ExcelRangeExpression(rangeInfo);
+                        return new ExcelRangeExpression(rangeInfo, _ctx);
                     }
                     break;
-
+                case DataType.ExcelRange:                    
+                    if(compileResult.Result is FormulaRangeAddress f)
+                    {
+                        if(f.ExternalReferenceIx < -1 || f.WorksheetIx==-1)
+                        {
+                            return new ExcelErrorExpression(ExcelErrorValue.Create(eErrorType.Ref), _ctx);
+                        }
+                        if (f.WorksheetIx == short.MinValue) f.WorksheetIx = _ctx.Scopes.Current.Address.WorksheetIx;
+                        return new ExcelRangeExpression(_ctx.ExcelDataProvider.GetRange(_ctx.Package.Workbook.Worksheets[f.WorksheetIx]?.Name, f.FromRow, f.FromCol, f.ToRow, f.ToCol), _ctx);
+                    }
+                    else if (compileResult.Result is IRangeInfo ri)
+                    {
+                        if(ri.IsInMemoryRange)
+                        {
+                            return new ExcelRangeExpression(ri, _ctx);
+                        }
+                        return new ExcelRangeExpression(_ctx.ExcelDataProvider.GetRange(ri.Worksheet?.Name, ri.Address.FromRow, ri.Address.FromCol, ri.Address.ToRow, ri.Address.ToCol), _ctx);
+                    }
+                    break;
+                case DataType.ExcelCellAddress:
+                    if (compileResult.ResultValue is FormulaRangeAddress r)
+                    {
+                        if (r.ExternalReferenceIx<0 || r.WorksheetIx < 0)
+                        {
+                            return new ExcelErrorExpression(ExcelErrorValue.Create(eErrorType.Ref), _ctx);
+                        }
+                        return new ExcelRangeExpression(_ctx.ExcelDataProvider.GetRange(_ctx.Package.Workbook.Worksheets[r.WorksheetIx]?.Name, r.FromRow, r.FromCol, r.ToRow, r.ToCol), _ctx);
+                    }
+                    break;
             }
             return null;
         }
 
-        private static IExpressionConverter _instance;
-        public static IExpressionConverter Instance
+        //private static IExpressionConverter _instance;
+        public static IExpressionConverter GetInstance(ParsingContext context)
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new ExpressionConverter();
-                }
-                return _instance;
-            }
+            return new ExpressionConverter(context);
         }
     }
 }

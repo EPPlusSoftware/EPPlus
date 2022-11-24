@@ -35,6 +35,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest
 {
@@ -42,11 +43,13 @@ namespace EPPlusTest
     public class ExpressionEvaluatorTests
     {
         private ExpressionEvaluator _evaluator;
+        private ParsingContext _context;
 
         [TestInitialize]
         public void Setup()
         {
-            _evaluator = new ExpressionEvaluator();
+            _context = ParsingContext.Create();
+            _evaluator = new ExpressionEvaluator(_context);
         }
 
         #region Numeric Expression Tests

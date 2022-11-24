@@ -50,8 +50,9 @@ namespace OfficeOpenXml.FormulaParsing
         /// Constructor
         /// </summary>
         /// <param name="excelDataProvider">An instance of <see cref="ExcelDataProvider"/> which provides access to a workbook</param>
-        internal FormulaParser(ExcelDataProvider excelDataProvider)
-            : this(excelDataProvider, ParsingContext.Create())
+        /// <param name="package">The package to calculate</param>
+        internal FormulaParser(ExcelDataProvider excelDataProvider, ExcelPackage package = null)
+            : this(excelDataProvider, ParsingContext.Create(package))
         {
            
         }
@@ -60,13 +61,14 @@ namespace OfficeOpenXml.FormulaParsing
         /// Constructor
         /// </summary>
         /// <param name="excelDataProvider">An <see cref="ExcelDataProvider"></see></param>
+        /// <param name="package">Excel package to calculate</param>
         /// <param name="parsingContext">Parsing context</param>
         internal FormulaParser(ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
         {
             parsingContext.Parser = this;
             parsingContext.ExcelDataProvider = excelDataProvider;
             parsingContext.NameValueProvider = new EpplusNameValueProvider(excelDataProvider);
-            parsingContext.RangeAddressFactory = new RangeAddressFactory(excelDataProvider);
+            parsingContext.RangeAddressFactory = new RangeAddressFactory(excelDataProvider, parsingContext);
             _parsingContext = parsingContext;
             _excelDataProvider = excelDataProvider;
             Configure(configuration =>
@@ -74,7 +76,7 @@ namespace OfficeOpenXml.FormulaParsing
                 configuration
                     .SetLexer(new Lexer(_parsingContext.Configuration.FunctionRepository, _parsingContext.NameValueProvider))
                     .SetGraphBuilder(new ExpressionGraphBuilder(excelDataProvider, _parsingContext))
-                    .SetExpresionCompiler(new ExpressionCompiler())
+                    .SetExpresionCompiler(new ExpressionCompiler(parsingContext))
                     .FunctionRepository.LoadModule(new BuiltInFunctions());
             });
         }
@@ -94,6 +96,9 @@ namespace OfficeOpenXml.FormulaParsing
         private ILexer _lexer;
         private IExpressionGraphBuilder _graphBuilder;
         private IExpressionCompiler _compiler;
+        internal IExpressionGraphBuilder GraphBuilder => _graphBuilder;
+        internal ParsingContext ParsingContext => _parsingContext;
+        internal IExpressionCompiler Compiler => _compiler;
 
         internal ILexer Lexer { get { return _lexer; } }
         internal IEnumerable<string> FunctionNames { get { return _parsingContext.Configuration.FunctionRepository.FunctionNames; } } 
@@ -103,13 +108,13 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         internal FilterInfo FilterInfo { get; private set; }
 
-        internal virtual object Parse(string formula, RangeAddress rangeAddress)
+        internal virtual object Parse(string formula, FormulaRangeAddress rangeAddress)
         {
             using (var scope = _parsingContext.Scopes.NewScope(rangeAddress))
             {
                 var tokens = _lexer.Tokenize(formula);
                 var graph = _graphBuilder.Build(tokens);
-                if (graph.Expressions.Count() == 0)
+                if (graph.Expressions.Count == 0)
                 {
                     return null;
                 }
@@ -203,7 +208,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns>The result of the calculation</returns>
         public virtual object Parse(string formula)
         {
-            return Parse(formula, RangeAddress.Empty);
+            return Parse(formula, FormulaRangeAddress.Empty);
         }
 
         /// <summary>
@@ -215,7 +220,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             Require.That(address).Named("address").IsNotNullOrEmpty();
             var rangeAddress = _parsingContext.RangeAddressFactory.Create(address);
-            return ParseAt(rangeAddress.Worksheet, rangeAddress.FromRow, rangeAddress.FromCol);
+            return ParseAt(rangeAddress.WorksheetName, rangeAddress.FromRow, rangeAddress.FromCol);
         }
 
         /// <summary>

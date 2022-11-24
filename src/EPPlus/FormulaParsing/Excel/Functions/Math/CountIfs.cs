@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 {
                     var addressString = ArgToAddress(arguments, ix, context);
                     var address = new ExcelAddress(addressString);
-                    var ws = string.IsNullOrEmpty(address.WorkSheetName) ? context.Scopes.Current.Address.Worksheet : address.WorkSheetName;
+                    var ws = string.IsNullOrEmpty(address.WorkSheetName) ? context.Scopes.Current.Address.WorksheetName : address.WorkSheetName;
                     rangeInfo = context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, address.Address);
                     argRanges.Add(new RangeOrValue { Range = rangeInfo });
                 }
@@ -63,11 +63,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 var value = functionArguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
                 criterias.Add(value);
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], false);
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context, false);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], false);
+                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], context, false);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
             

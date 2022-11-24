@@ -37,5 +37,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             var val = new Random(System.DateTime.Now.Millisecond + Seed).NextDouble();
             return CreateResult(val, DataType.Decimal);
         }
+        public override bool IsVolatile
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

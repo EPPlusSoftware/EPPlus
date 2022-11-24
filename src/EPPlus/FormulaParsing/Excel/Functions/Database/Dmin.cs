@@ -25,17 +25,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Description = "Returns the minimum value from a field of a list or database, that satisfy specified conditions")]
     internal class Dmin : DatabaseFunction
     {
-        public Dmin()
-            : this(new RowMatcher())
-        {
-
-        }
-
-        public Dmin(RowMatcher rowMatcher)
-            : base(rowMatcher)
-        {
-
-        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);

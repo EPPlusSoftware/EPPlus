@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,20 +18,63 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    public class ExpressionGraph
+    public class ExpressionTree
     {
         private List<Expression> _expressions = new List<Expression>();
-        public IEnumerable<Expression> Expressions { get { return _expressions; } }
+        IList<ExpressionWithParent> _addressExpressions=null;
+        public IList<ExpressionWithParent> AddressExpressions 
+        { 
+            get
+            {
+                if (_addressExpressions == null)
+                {
+                    _addressExpressions = new List<ExpressionWithParent>();
+                    GetAddressExpressions(_addressExpressions, _expressions);
+                }
+                return _addressExpressions;
+            }
+        }
+
+        private void GetAddressExpressions(IList<ExpressionWithParent> list, IList<Expression> expressions)
+        {
+            foreach(var e in expressions)
+            {
+                if(e.ExpressionType==ExpressionType.CellAddress || 
+                   e.ExpressionType==ExpressionType.RangeAddress || 
+                   e.ExpressionType==ExpressionType.TableAddress ||
+                   e.ExpressionType==ExpressionType.NameValue)
+                {
+                    var a = e.Compile().Address;
+                    if(a!=null)
+                    {
+                        list.Add((ExpressionWithParent)e);
+                    }
+                    if(e.ExpressionType == ExpressionType.RangeAddress || e.ExpressionType == ExpressionType.TableAddress)
+                    {
+                        continue;
+                    }
+                }
+                else if(e.ExpressionType==ExpressionType.Function)
+                {
+                    var f = (FunctionExpression)e;
+                    if(f.Function.ReturnsReference)
+                    {
+                        list.Add((ExpressionWithParent)e);
+                    }
+                }
+                if(e.HasChildren)
+                {
+                    GetAddressExpressions(list, e.Children);
+                }
+            }
+        }
+
+        public IList<Expression> Expressions { get { return _expressions; } }
         public Expression Current { get; private set; }
 
         public Expression Add(Expression expression)
         {
             _expressions.Add(expression);
-            if (Current != null)
-            {
-                Current.Next = expression;
-                expression.Prev = Current;
-            }
             Current = expression;
             return expression;
         }
@@ -38,16 +82,31 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public void Reset()
         {
             _expressions.Clear();
-            Current = null;
+            Current = null;           
+            _addressExpressions=null;
         }
 
         public void Remove(Expression item)
         {
-            if (item == Current)
-            {
-                Current = item.Prev ?? item.Next;
-            }
             _expressions.Remove(item);
+        }
+
+        internal void SetAddresses(int rowOffset, int colOffset)
+        {
+            foreach(CellAddressExpression a in AddressExpressions)
+            {
+                
+            }
+        }
+
+        internal ExpressionTree CreateFromOffset(int rowOffset, int colOffset)
+        {
+            var ret = new ExpressionTree();
+            foreach(var e in _expressions)
+            {
+                ret.Add(e.Clone(rowOffset, colOffset));
+            }
+            return ret;
         }
     }
 }

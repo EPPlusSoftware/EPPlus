@@ -32,7 +32,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             ValidateArguments(arguments, 2);
             var arg1 = arguments.ElementAt(0);
             var args = arg1.Value as IEnumerable<FunctionArgument>;
-            var crf = new CompileResultFactory();
             if (args != null)
             {
                 var index = ArgToInt(arguments, 1, RoundingMethod.Floor);
@@ -47,17 +46,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 //    throw new ExcelErrorValueException(eErrorType.Value);
                 //}
                 //return CreateResult(ConvertUtil.GetValueDouble(candidate.Value), DataType.Decimal);
-                return crf.Create(candidate.Value);
+                return CompileResultFactory.Create(candidate.Value);
             }
             if (arg1.IsExcelRange)
             {
                 var row = ArgToInt(arguments, 1, RoundingMethod.Floor);                 
                 var col = arguments.Count()>2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
                 var ri=arg1.ValueAsRangeInfo;
-                if (row > ri.Address._toRow - ri.Address._fromRow + 1 ||
-                    col > ri.Address._toCol - ri.Address._fromCol + 1)
+                if (row > ri.Address.ToRow - ri.Address.FromRow + 1 ||
+                    col > ri.Address.ToCol - ri.Address.FromCol + 1)
                 {
-                    ThrowExcelErrorValueException(eErrorType.Ref);
+                    return new CompileResult(eErrorType.Ref);
                 }
                 var candidate = ri.GetOffset(row-1, col-1);
                 //Commented JK-Can be any data type
@@ -65,9 +64,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 //{
                 //    throw new ExcelErrorValueException(eErrorType.Value);
                 //}
-                return crf.Create(candidate);
+                return CompileResultFactory.Create(candidate);
             }
-            throw new NotImplementedException();
+            if(arg1.ValueIsExcelError)
+            {
+                return new CompileResult(arg1.ValueAsExcelErrorValue.Type);
+            }
+            return new CompileResult(eErrorType.Value);
         }
+        public override bool ReturnsReference => true;
     }
 }

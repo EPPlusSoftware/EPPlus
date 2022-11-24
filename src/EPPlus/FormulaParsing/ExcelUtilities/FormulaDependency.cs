@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
@@ -27,28 +28,28 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 	    }
         public Guid ScopeId { get; private set; }
 
-        public RangeAddress Address { get; private set; }
+        public FormulaRangeAddress Address { get; private set; }
 
-        private List<RangeAddress> _referencedBy = new List<RangeAddress>();
+        private List<FormulaRangeAddress> _referencedBy = new List<FormulaRangeAddress>();
 
-        private List<RangeAddress> _references = new List<RangeAddress>();
+        private List<FormulaRangeAddress> _references = new List<FormulaRangeAddress>();
 
-        public virtual void AddReferenceFrom(RangeAddress rangeAddress)
+        public virtual void AddReferenceFrom(FormulaRangeAddress rangeAddress)
         {
-            if (Address.CollidesWith(rangeAddress) || _references.Exists(x => x.CollidesWith(rangeAddress)))
+            if (Address.CollidesWith(rangeAddress)!=ExcelAddressBase.eAddressCollition.No || _references.Exists(x => x.CollidesWith(rangeAddress)!=ExcelAddressBase.eAddressCollition.No))
             {
                 throw new CircularReferenceException("Circular reference detected at " + rangeAddress.ToString());
             }
             _referencedBy.Add(rangeAddress);
         }
 
-        public virtual void AddReferenceTo(RangeAddress rangeAddress)
-        {
-            if (Address.CollidesWith(rangeAddress) || _referencedBy.Exists(x => x.CollidesWith(rangeAddress)))
-            {
-                throw new CircularReferenceException("Circular reference detected at " + rangeAddress.ToString());
-            }
-            _references.Add(rangeAddress);
-        }
+        //public virtual void AddReferenceTo(RangeAddress rangeAddress)
+        //{
+        //    if (Address.CollidesWith(rangeAddress) != ExcelAddressBase.eAddressCollition.No || _referencedBy.Exists(x => x.CollidesWith(rangeAddress) != ExcelAddressBase.eAddressCollition.No))
+        //    {
+        //        throw new CircularReferenceException("Circular reference detected at " + rangeAddress.ToString());
+        //    }
+        //    _references.Add(rangeAddress);
+        //}
     }
 }

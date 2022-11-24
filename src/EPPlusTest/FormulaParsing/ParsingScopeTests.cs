@@ -48,7 +48,7 @@ namespace EPPlusTest.FormulaParsing
         public void Setup()
         {
             var provider = A.Fake<ExcelDataProvider>();
-            _factory = new RangeAddressFactory(provider);
+            _factory = new RangeAddressFactory(provider, ParsingContext.Create());
             _lifeTimeEventHandler = A.Fake<IParsingLifetimeEventHandler>();
             _parsingScopes = A.Fake<ParsingScopes>();
         }

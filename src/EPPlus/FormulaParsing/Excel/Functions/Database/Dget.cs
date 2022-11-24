@@ -27,24 +27,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
     internal class Dget : DatabaseFunction
     {
 
-        public Dget()
-            : this(new RowMatcher())
-        {
-            
-        }
-
-        public Dget(RowMatcher rowMatcher)
-            : base(rowMatcher)
-        {
-
-        }
-
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);
-            var dbAddress = arguments.ElementAt(0).ValueAsRangeInfo.Address.Address;
+            var rowMatcher = new RowMatcher(context);
+            var dbAddress = arguments.ElementAt(0).ValueAsRangeInfo.Address.ToString();
             var field = ArgToString(arguments, 1).ToLower(CultureInfo.InvariantCulture);
-            var criteriaRange = arguments.ElementAt(2).ValueAsRangeInfo.Address.Address;
+            var criteriaRange = arguments.ElementAt(2).ValueAsRangeInfo.Address.ToString();
 
             var db = new ExcelDatabase(context.ExcelDataProvider, dbAddress);
             var criteria = new ExcelDatabaseCriteria(context.ExcelDataProvider, criteriaRange);
@@ -54,11 +43,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
             while (db.HasMoreRows)
             {
                 var dataRow = db.Read();
-                if (!RowMatcher.IsMatch(dataRow, criteria)) continue;
+                if (!rowMatcher.IsMatch(dataRow, criteria)) continue;
                 if(++nHits > 1) return CreateResult(ExcelErrorValue.Values.Num, DataType.ExcelError);
                 retVal = dataRow[field];
             }
-            return new CompileResultFactory().Create(retVal);
+            return CompileResultFactory.Create(retVal);
         }
     }
 }

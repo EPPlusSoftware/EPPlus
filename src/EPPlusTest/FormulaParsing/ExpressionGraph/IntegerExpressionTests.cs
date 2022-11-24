@@ -33,36 +33,39 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
     [TestClass]
     public class IntegerExpressionTests
     {
+        private ParsingContext _context = ParsingContext.Create();
+
         [TestMethod]
         public void MergeWithNextWithPlusOperatorShouldCalulateSumCorrectly()
         {
-            var exp1 = new IntegerExpression("1");
+            var exp1 = new IntegerExpression("1", _context);
             exp1.Operator = Operator.Plus;
-            var exp2 = new IntegerExpression("2");
-            exp1.Next = exp2;
+            var exp2 = new IntegerExpression("2", _context);
 
-            var result = exp1.MergeWithNext();
+            var result = exp1.MergeWithNext(new List<Expression>() { exp1, exp2}, 0);
 
-            Assert.AreEqual(3d, result.Compile().Result);
+            Assert.AreEqual(3d, result.Compile().ResultValue);
         }
 
         [TestMethod]
         public void MergeWithNextWithPlusOperatorShouldSetNextPointer()
         {
-            var exp1 = new IntegerExpression("1");
+            var exp1 = new IntegerExpression("1", _context);
             exp1.Operator = Operator.Plus;
-            var exp2 = new IntegerExpression("2");
-            exp1.Next = exp2;
+            var exp2 = new IntegerExpression("2", _context);
 
-            var result = exp1.MergeWithNext();
+            var l = new List<Expression>() { exp1, exp2 };
+            var result = exp1.MergeWithNext(l, 0);
 
-            Assert.IsNull(result.Next);
+            Assert.AreEqual(1, l.Count);
+            Assert.AreEqual(0, l.IndexOf(result));
         }
 
         //[TestMethod]

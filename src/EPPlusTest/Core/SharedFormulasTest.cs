@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EPPlusTest.Drawing.Chart.Styling;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 
@@ -7,10 +8,24 @@ namespace OfficeOpenXml.FormulaParsing
     [TestClass]
     public class SharedFormulasTest
     {
+        private static ExcelPackage _package;
+        private static ExcelWorksheet _ws;
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            _package = new ExcelPackage();
+            _ws = _package.Workbook.Worksheets.Add("Sheet1");
+        }
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            _package.Dispose();
+        }
         [TestMethod]
         public void SharedFormulasShouldNotEffectFullColumn()
         {
-            var f=new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default) { Index = 0, Formula = "SUM(C:D)", Address = "A1:B2", StartRow = 1, StartCol = 1 };
+            var f=new SharedFormula() { Index = 0, Formula = "SUM(C:D)", Address = "A1:B2", StartRow = 1, StartCol = 1 };
 
             var fA1= f.GetFormula(1, 1, "sheet1");
             var fA2 = f.GetFormula(2, 1, "sheet1");
@@ -25,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing
         [TestMethod]
         public void SharedFormulasShouldNotEffectFullRow()
         {
-            var f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default) { Index = 0, Formula = "SUM(3:4)", Address = "A1:B2", StartRow = 1, StartCol = 1 };
+            var f = new SharedFormula() { Index = 0, Formula = "SUM(3:4)", Address = "A1:B2", StartRow = 1, StartCol = 1 };
 
             var fA1 = f.GetFormula(1, 1, "sheet1");
             var fA2 = f.GetFormula(2, 1, "sheet1");
@@ -40,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing
         [TestMethod]
         public void SharedFormulasShouldNotEffectFullSheet()
         {
-            var f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default) { Index = 0, Formula = "SUM(A:XFD)", Address = "A1:B2", StartRow = 1, StartCol = 1 };
+            var f = new SharedFormula() { Index = 0, Formula = "SUM(A:XFD)", Address = "A1:B2", StartRow = 1, StartCol = 1 };
 
             var fA1 = f.GetFormula(1, 1, "sheet1");
             var fA2 = f.GetFormula(2, 1, "sheet1");

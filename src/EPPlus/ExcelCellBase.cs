@@ -474,6 +474,17 @@ namespace OfficeOpenXml
             }
             return col;
         }
+        internal static int GetColumnNumber(string columnAddress)
+        {
+            var c = 0;
+            columnAddress = columnAddress.ToUpper();
+            for (int i = columnAddress.Length - 1; i >= 0; i--)
+            {
+                c += (columnAddress[i] - startChar) * numberOfCharacters;
+            }
+            return c;
+        }
+
         #region GetAddress
         /// <summary>
         /// Get the row number in text

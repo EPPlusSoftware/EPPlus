@@ -288,13 +288,13 @@ namespace OfficeOpenXml
             }
 
             range.CheckAndSplitSharedFormula(address);
-            ExcelWorksheet.Formulas f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
+            SharedFormula f = new SharedFormula(range);
             f.Formula = value;
             f.Index = range._worksheet.GetMaxShareFunctionIndex(IsArray);
             f.Address = address.FirstAddress;
             f.StartCol = address.Start.Column;
             f.StartRow = address.Start.Row;
-            f.FormulaType = ExcelWorksheet.FormulaType.Shared;
+            f.FormulaType = FormulaType.Shared;
 
             range._worksheet._sharedFormulas.Add(f.Index, f);
 
@@ -924,7 +924,7 @@ namespace OfficeOpenXml
             if (formula[0] == '=') formula = formula.Substring(1); // remove any starting equalsign.
             range.CheckAndSplitSharedFormula(range);
 
-            ExcelWorksheet.Formulas f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
+            SharedFormula f = new SharedFormula(range);
             f.Formula = formula;
             f.Address = range.FirstAddress;
             f.StartCol = range.Start.Column;
@@ -943,7 +943,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private void SetFormulaAddress(ExcelRangeBase range, ExcelAddressBase address, ExcelWorksheet.Formulas f)
+        private void SetFormulaAddress(ExcelRangeBase range, ExcelAddressBase address, SharedFormula f)
         {
             for (int row = address._fromRow; row <= address._toRow; row++)
             {
@@ -1533,7 +1533,7 @@ namespace OfficeOpenXml
                         int id = (int)f;
                         if (id >= 0 && !formulas.Contains(id))
                         {
-                            if (_worksheet._sharedFormulas[id].FormulaType==ExcelWorksheet.FormulaType.Array &&
+                            if (_worksheet._sharedFormulas[id].FormulaType==FormulaType.Array &&
                                     Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) // If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
                                 throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
@@ -1584,10 +1584,10 @@ namespace OfficeOpenXml
                 {
                     if (fIsSet)
                     {
-                        f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
+                        f = new SharedFormula(fRange);
                         f.Index = _worksheet.GetMaxShareFunctionIndex(false);
                         f.StartCol = fRange._fromCol;
-                        f.FormulaType = ExcelWorksheet.FormulaType.Shared;
+                        f.FormulaType = FormulaType.Shared;
                         _worksheet._sharedFormulas.Add(f.Index, f);
                     }
                     else
@@ -1618,9 +1618,9 @@ namespace OfficeOpenXml
                 {
                     if (fIsSet)
                     {
-                        f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
+                        f = new SharedFormula(this);
                         f.Index = _worksheet.GetMaxShareFunctionIndex(false);
-                        f.FormulaType = ExcelWorksheet.FormulaType.Shared;
+                        f.FormulaType = FormulaType.Shared;
                         _worksheet._sharedFormulas.Add(f.Index, f);
                     }
                     else
@@ -1653,9 +1653,9 @@ namespace OfficeOpenXml
                 {
                     if (fIsSet)
                     {
-                        f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
+                        f = new SharedFormula(fRange);
                         f.Index = _worksheet.GetMaxShareFunctionIndex(false);
-                        f.FormulaType = ExcelWorksheet.FormulaType.Shared;
+                        f.FormulaType = FormulaType.Shared;
                         _worksheet._sharedFormulas.Add(f.Index, f);
                     }
 

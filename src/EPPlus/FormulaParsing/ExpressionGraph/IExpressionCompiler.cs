@@ -19,6 +19,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
     public interface IExpressionCompiler
     {
-        CompileResult Compile(IEnumerable<Expression> expressions);
+        CompileResult Compile(IList<Expression> expressions);
     }
 }

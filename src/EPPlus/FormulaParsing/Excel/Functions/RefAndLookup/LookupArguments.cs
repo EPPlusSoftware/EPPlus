@@ -50,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var rangeInfo = arg1 as IRangeInfo;
                 if (rangeInfo != null)
                 {
-                    RangeAddress = string.IsNullOrEmpty(rangeInfo.Address.WorkSheetName) ? rangeInfo.Address.Address : "'" + rangeInfo.Address.WorkSheetName + "'!" + rangeInfo.Address.Address;
+                    RangeAddress = rangeInfo.Address.ToString();
                     RangeInfo = rangeInfo;
                     ArgumentDataType = LookupArgumentDataType.ExcelRange;
                 }

@@ -20,12 +20,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
     public abstract class CompileStrategy
     {
         protected readonly Expression _expression;
+        protected ParsingContext Context { get; private set; }
 
-        public CompileStrategy(Expression expression)
+        public CompileStrategy(Expression expression, ParsingContext ctx)
         {
             _expression = expression;
+            Context = ctx;
         }
 
-        public abstract Expression Compile();
+        public abstract Expression Compile(IList<Expression> expressions, int index);
     }
 }

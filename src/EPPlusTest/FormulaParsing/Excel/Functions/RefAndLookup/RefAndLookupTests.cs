@@ -41,6 +41,7 @@ using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using AddressFunction = OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Address;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -94,7 +95,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new VLookup();
             var args = FunctionsHelper.CreateArgs(2, "A1:B2", 2);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
             
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
@@ -114,7 +115,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new VLookup();
             var args = FunctionsHelper.CreateArgs(4, "A1:B2", 2, true);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(3);
@@ -133,7 +134,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new VLookup();
             var args = FunctionsHelper.CreateArgs("B", "A1:B2", 2, true);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();;
 
@@ -153,7 +154,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new HLookup();
             var args = FunctionsHelper.CreateArgs(2, "A1:B2", 2);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
 
@@ -173,7 +174,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new HLookup();
             var args = FunctionsHelper.CreateArgs(2, "A1:B2", 2, false);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
 
@@ -194,7 +195,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new HLookup();
             var args = FunctionsHelper.CreateArgs(1, "A1:B2", 2, true);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
 
@@ -214,7 +215,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Lookup();
             var args = FunctionsHelper.CreateArgs(4, "A1:B3", 2);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
@@ -236,7 +237,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Lookup();
             var args = FunctionsHelper.CreateArgs(4, "A1:C2", 2);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
@@ -299,7 +300,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Match();
             var args = FunctionsHelper.CreateArgs(3, "A1:C1", 0);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
@@ -316,7 +317,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Match();
             var args = FunctionsHelper.CreateArgs(3, "A1:A3", 0);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
@@ -334,7 +335,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Match();
             var args = FunctionsHelper.CreateArgs(4, "A1:C1", 1);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
@@ -351,7 +352,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Match();
             var args = FunctionsHelper.CreateArgs(6, "A1:C1", -1);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(10);
@@ -368,7 +369,7 @@ namespace EPPlusTest.Excel.Functions
             var func = new Match();
             var args = FunctionsHelper.CreateArgs(10, "A1:C1", -1);
             var parsingContext = ParsingContext.Create();
-            parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
 
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(10);
@@ -400,7 +401,7 @@ namespace EPPlusTest.Excel.Functions
         {
             var func = new Row();
             var parsingContext = ParsingContext.Create();
-            var rangeAddressFactory = new RangeAddressFactory(A.Fake<ExcelDataProvider>());
+            var rangeAddressFactory = new RangeAddressFactory(A.Fake<ExcelDataProvider>(), ParsingContext.Create());
             parsingContext.Scopes.NewScope(rangeAddressFactory.Create("A2"));
             var result = func.Execute(Enumerable.Empty<FunctionArgument>(), parsingContext);
             Assert.AreEqual(2, result.Result);
@@ -421,7 +422,7 @@ namespace EPPlusTest.Excel.Functions
         {
             var func = new Column();
             var parsingContext = ParsingContext.Create();
-            var rangeAddressFactory = new RangeAddressFactory(A.Fake<ExcelDataProvider>());
+            var rangeAddressFactory = new RangeAddressFactory(A.Fake<ExcelDataProvider>(), ParsingContext.Create());
             parsingContext.Scopes.NewScope(rangeAddressFactory.Create("B2"));
             var result = func.Execute(Enumerable.Empty<FunctionArgument>(), parsingContext);
             Assert.AreEqual(2, result.Result);

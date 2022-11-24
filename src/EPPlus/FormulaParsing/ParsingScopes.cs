@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -41,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="address"></param>
         /// <returns></returns>
-        public virtual ParsingScope NewScope(RangeAddress address)
+        public virtual ParsingScope NewScope(FormulaRangeAddress address)
         {
             ParsingScope scope;
             if (_scopes.Count() > 0)

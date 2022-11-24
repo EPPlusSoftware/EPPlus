@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -28,6 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     public class FunctionRepository : IFunctionNameProvider
     {
         private Dictionary<Type, FunctionCompiler> _customCompilers = new Dictionary<Type, FunctionCompiler>();
+        private Dictionary<Type, RpnFunctionCompiler> _rpnCustomCompilers = new Dictionary<Type, RpnFunctionCompiler>();
 
         private Dictionary<string, ExcelFunction> _functions = new Dictionary<string, ExcelFunction>(StringComparer.Ordinal);
         
@@ -37,6 +39,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public Dictionary<Type, FunctionCompiler> CustomCompilers
         {
             get { return _customCompilers; }
+        }
+
+        internal Dictionary<Type, RpnFunctionCompiler> RpnCustomCompilers
+        {
+            get { return _rpnCustomCompilers; }
         }
 
         private FunctionRepository()

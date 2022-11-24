@@ -35,18 +35,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private readonly bool _negate;
 
         internal ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext)
-            : this(expression, excelDataProvider, parsingContext, new RangeAddressFactory(excelDataProvider), false)
+            : this(expression, excelDataProvider, parsingContext, new RangeAddressFactory(excelDataProvider, parsingContext), false)
         {
 
         }
         internal ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext, bool negate)
-            : this(expression, excelDataProvider, parsingContext, new RangeAddressFactory(excelDataProvider), negate)
+            : this(expression, excelDataProvider, parsingContext, new RangeAddressFactory(excelDataProvider, parsingContext), negate)
         {
 
         }
 
         internal ExcelAddressExpression(string expression, ExcelDataProvider excelDataProvider, ParsingContext parsingContext, RangeAddressFactory rangeAddressFactory, bool negate)
-            : base(expression)
+            : base(expression, parsingContext)
         {
             Require.That(excelDataProvider).Named("excelDataProvider").IsNotNull();
             Require.That(parsingContext).Named("parsingContext").IsNotNull();
@@ -70,6 +70,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get;
             internal set;
         }
+
+        internal override ExpressionType ExpressionType => ExpressionType.RangeAddress;
 
         public override CompileResult Compile()
         {
@@ -95,12 +97,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private CompileResult CompileRangeValues()
         {
             var c = this._parsingContext.Scopes.Current;
-            var resultRange = _excelDataProvider.GetRange(c.Address.Worksheet, c.Address.FromRow, c.Address.FromCol, ExpressionString);
+            var resultRange = _excelDataProvider.GetRange(c.Address);
             if (resultRange == null)
             {
                 return CompileResult.Empty;
             }
-            if (this.ResolveAsRange || resultRange.Address.Rows > 1 || resultRange.Address.Columns > 1)
+            if (this.ResolveAsRange || resultRange.Address.IsSingleCell==false)
             {
                 return new CompileResult(resultRange, DataType.Enumerable);
             }
@@ -114,9 +116,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             var cell = result.FirstOrDefault();
             if (cell == null)
-                return CompileResult.Empty;
-            var factory = new CompileResultFactory();
-            var compileResult = factory.Create(cell.Value);
+                return CompileResult.Empty;            
+            var compileResult = CompileResultFactory.Create(cell.Value);
             if (_negate && compileResult.IsNumeric)
             {
                 compileResult = new CompileResult(compileResult.ResultNumeric * -1, compileResult.DataType);

@@ -20,15 +20,22 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
 {
     public class CompileStrategyFactory : ICompileStrategyFactory
     {
+        public CompileStrategyFactory(ParsingContext ctx)
+        {
+            _context = ctx;
+        }
+
+        private readonly ParsingContext _context;
+
         public CompileStrategy Create(Expression expression)
         {
             if (expression.Operator.Operator == Operators.Concat)
             {
-                return new StringConcatStrategy(expression);
+                return new StringConcatStrategy(expression, _context);
             }
             else
             {
-                return new DefaultCompileStrategy(expression);
+                return new DefaultCompileStrategy(expression, _context);
             }
         }
     }

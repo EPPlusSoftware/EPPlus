@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     {
         public static Expression Percent
         {
-            get { return new ConstantExpression("Percent", () => new CompileResult(0.01, DataType.Decimal)); }
+            get { return new ConstantExpression("Percent", () => new CompileResult(0.01, DataType.Decimal), ParsingContext.Create()); }
         }
     }
 
@@ -29,11 +29,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     {
         private readonly Func<CompileResult> _factoryMethod;
 
-        public ConstantExpression(string title, Func<CompileResult> factoryMethod)
-            : base(title)
+        public ConstantExpression(string title, Func<CompileResult> factoryMethod, ParsingContext ctx)
+            : base(title, ctx)
         {
             _factoryMethod = factoryMethod;
         }
+
+        internal override ExpressionType ExpressionType => ExpressionType.Constant;
 
         public override CompileResult Compile()
         {

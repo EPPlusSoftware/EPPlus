@@ -35,6 +35,7 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using System.Globalization;
 using System.Threading;
+using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
@@ -42,17 +43,19 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
     public class ExpressionConverterTests
     {
         private IExpressionConverter _converter;
+        private ParsingContext _context;
 
         [TestInitialize]
         public void Setup()
         {
-            _converter = new ExpressionConverter();
+            _context = ParsingContext.Create();
+            _converter = new ExpressionConverter(_context);
         }
 
         [TestMethod]
         public void ToStringExpressionShouldConvertIntegerExpressionToStringExpression()
         {
-            var integerExpression = new IntegerExpression("2");
+            var integerExpression = new IntegerExpression("2", _context);
             var result = _converter.ToStringExpression(integerExpression);
             Assert.IsInstanceOfType(result, typeof(StringExpression));
             Assert.AreEqual("2", result.Compile().Result);
@@ -61,7 +64,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         [TestMethod]
         public void ToStringExpressionShouldCopyOperatorToStringExpression()
         {
-            var integerExpression = new IntegerExpression("2");
+            var integerExpression = new IntegerExpression("2", _context);
             integerExpression.Operator = Operator.Plus;
             var result = _converter.ToStringExpression(integerExpression);
             Assert.AreEqual(integerExpression.Operator, result.Operator);
@@ -70,7 +73,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         [TestMethod]
         public void ToStringExpressionShouldConvertDecimalExpressionToStringExpression()
         {
-            var decimalExpression = new DecimalExpression("2.5");
+            var decimalExpression = new DecimalExpression("2.5", _context);
             var result = _converter.ToStringExpression(decimalExpression);
             Assert.IsInstanceOfType(result, typeof(StringExpression));
             Assert.AreEqual($"2{CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}5", result.Compile().Result);

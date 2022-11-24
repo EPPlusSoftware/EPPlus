@@ -33,7 +33,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using FakeItEasy;
-using ExGraph = OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionGraph;
+using ExGraph = OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionTree;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
@@ -62,7 +62,7 @@ namespace EPPlusTest.FormulaParsing
         public void ParserShouldCallLexer()
         {
             var lexer = A.Fake<ILexer>();
-            A.CallTo(() => lexer.Tokenize("ABC")).Returns(Enumerable.Empty<Token>());
+            A.CallTo(() => (IEnumerable<Token>)lexer.Tokenize("ABC")).Returns(Enumerable.Empty<Token>());
             _parser.Configure(x => x.SetLexer(lexer));
 
             _parser.Parse("ABC");
@@ -97,8 +97,9 @@ namespace EPPlusTest.FormulaParsing
             var lexer = A.Fake<ILexer>();
             var tokens = new List<Token>();
             A.CallTo(() => lexer.Tokenize("ABC")).Returns(tokens);
+            var ctx = ParsingContext.Create();
             var expectedGraph = new ExGraph();
-            expectedGraph.Add(new StringExpression("asdf"));
+            expectedGraph.Add(new StringExpression("asdf", ctx));
             var graphBuilder = A.Fake<IExpressionGraphBuilder>();
             A.CallTo(() => graphBuilder.Build(tokens)).Returns(expectedGraph);
             var compiler = A.Fake<IExpressionCompiler>();

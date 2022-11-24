@@ -27,33 +27,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Description = "Returns the number of cells containing numbers in a field of a list or database that satisfy specified conditions")]
     internal class Dcount : ExcelFunction
     {
-        private readonly RowMatcher _rowMatcher;
-
-        public Dcount()
-            : this(new RowMatcher())
-        {
-            
-        }
-
-        public Dcount(RowMatcher rowMatcher)
-        {
-            _rowMatcher = rowMatcher;
-        }
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var dbAddress = arguments.ElementAt(0).ValueAsRangeInfo.Address.Address;
+            var rowMatcher = new RowMatcher(context);
+            var dbAddress = arguments.ElementAt(0).ValueAsRangeInfo.Address.ToString();
             string field = null;
             string criteriaRange = null;
             if (arguments.Count() == 2)
             {
-                criteriaRange = arguments.ElementAt(1).ValueAsRangeInfo.Address.Address;
+                criteriaRange = arguments.ElementAt(1).ValueAsRangeInfo.Address.ToString();
             }
             else
             {
                 field = ArgToString(arguments, 1).ToLower(CultureInfo.InvariantCulture);
-                criteriaRange = arguments.ElementAt(2).ValueAsRangeInfo.Address.Address;
+                criteriaRange = arguments.ElementAt(2).ValueAsRangeInfo.Address.ToString();
             } 
             var db = new ExcelDatabase(context.ExcelDataProvider, dbAddress);
             var criteria = new ExcelDatabaseCriteria(context.ExcelDataProvider, criteriaRange);
@@ -62,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
             while (db.HasMoreRows)
             {
                 var dataRow = db.Read();
-                if (_rowMatcher.IsMatch(dataRow, criteria))
+                if (rowMatcher.IsMatch(dataRow, criteria))
                 {
                     // if a fieldname is supplied, count only this row if the value
                     // of the supplied field is numeric.

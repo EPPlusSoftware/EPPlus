@@ -4,6 +4,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _package = new ExcelPackage();
             _provider = new EpplusExcelDataProvider(_package);
             _parsingContext = ParsingContext.Create();
-            _parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
             _worksheet = _package.Workbook.Worksheets.Add("testsheet");
         }
 

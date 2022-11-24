@@ -267,7 +267,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 foreach (var sf in ws._sharedFormulas.Values)
                 {
                     //Do not convert array formulas.
-                    if (sf.FormulaType == ExcelWorksheet.FormulaType.Shared && (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0))
+                    if (sf.FormulaType == FormulaType.Shared && (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0))
                     {
                         if (ConvertEffectedSharedFormulaIfReferenceWithinRange(ws, range, sf, wsUpdate.Name))
                         {
@@ -278,7 +278,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 deletedSf.ForEach(x => ws._sharedFormulas.Remove(x));
             }
         }
-        private static bool ConvertEffectedSharedFormulaIfReferenceWithinRange(ExcelWorksheet ws, ExcelAddressBase delRange, ExcelWorksheet.Formulas sf, string wsName)
+        private static bool ConvertEffectedSharedFormulaIfReferenceWithinRange(ExcelWorksheet ws, ExcelAddressBase delRange, SharedFormula sf, string wsName)
         {
             bool doConvertSF = false;
             var sfAddress = new ExcelAddressBase(sf.Address);
@@ -309,7 +309,7 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             return doConvertSF;
         }
-        private static void ConvertSharedFormulaToCellFormula(ExcelWorksheet ws, ExcelWorksheet.Formulas sf, ExcelAddressBase sfAddress)
+        private static void ConvertSharedFormulaToCellFormula(ExcelWorksheet ws, SharedFormula sf, ExcelAddressBase sfAddress)
         {
             for (var r = 0; r < sfAddress.Rows; r++)
             {

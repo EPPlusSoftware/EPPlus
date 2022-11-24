@@ -34,6 +34,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         LessThanOrEqual,
         NotEqualTo,
         IntegerDivision,
-        Exponentiation
+        Exponentiation,
+        Colon,
+        Intersect
     }
 }

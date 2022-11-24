@@ -47,6 +47,23 @@ namespace OfficeOpenXml.Utils
             return (t == typeof(double) || t == typeof(decimal) || t == typeof(long));
         }
 
+        internal static bool IsNumericOrDate(object candidate, bool includeNumericString, bool includePercentageString)
+        {
+            if (IsNumericOrDate(candidate)) return true;
+            if(candidate != null)
+            {
+                if (includeNumericString && TryParseNumericString(candidate.ToString(), out double d, CultureInfo.CurrentCulture))
+                {
+                    return true;
+                }
+                else if(includePercentageString && IsPercentageString(candidate.ToString()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         internal static bool IsPercentageString(string s)
         {
             if (string.IsNullOrEmpty(s)) return false;
@@ -206,6 +223,59 @@ namespace OfficeOpenXml.Utils
             }
             return d;
         }
+
+        internal static double GetValueDouble(object v, bool ignoreBool, bool retNaN, bool includeStrings)
+        {
+            double d;
+            try
+            {
+                if (ignoreBool && v is bool)
+                {
+                    return 0;
+                }
+                if (IsNumericOrDate(v))
+                {
+                    if (v is DateTime)
+                    {
+                        d = ((DateTime)v).ToOADate();
+                    }
+                    else if (v is TimeSpan)
+                    {
+                        d = DateTime.FromOADate(0).Add((TimeSpan)v).ToOADate();
+                    }
+                    else
+                    {
+                        d = Convert.ToDouble(v, CultureInfo.InvariantCulture);
+                    }
+                }
+                else if(includeStrings && v != null)
+                {
+                    if(TryParseNumericString(v.ToString(), out double val, CultureInfo.CurrentCulture))
+                    {
+                        d = val;
+                    }
+                    else if(TryParsePercentageString(v.ToString(), out double percentage, CultureInfo.CurrentCulture))
+                    {
+                        d = percentage;
+                    }
+                    else
+                    {
+                        d = retNaN ? double.NaN : 0;
+                    }
+                }
+                else
+                {
+                    d = retNaN ? double.NaN : 0;
+                }
+            }
+
+            catch
+            {
+                d = retNaN ? double.NaN : 0;
+            }
+            return d;
+        }
+
         internal static DateTime? GetValueDate(object v)
         {
             if (v is DateTime d)

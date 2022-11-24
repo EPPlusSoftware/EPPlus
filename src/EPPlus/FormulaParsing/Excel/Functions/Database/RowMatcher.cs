@@ -25,8 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         private readonly WildCardValueMatcher _wildCardValueMatcher;
         private readonly ExpressionEvaluator _expressionEvaluator;
 
-        public RowMatcher()
-            : this(new WildCardValueMatcher(), new ExpressionEvaluator())
+        public RowMatcher(ParsingContext ctx)
+            : this(new WildCardValueMatcher(), new ExpressionEvaluator(ctx))
         {
             
         }

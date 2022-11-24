@@ -59,11 +59,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 var value = functionArguments[ix + 1].Value != null ? ArgToString(arguments, ix + 1) : null;
                 criterias.Add(value);
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0]);
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix]);
+                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], context);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 

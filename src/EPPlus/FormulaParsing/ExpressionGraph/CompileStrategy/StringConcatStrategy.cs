@@ -19,26 +19,33 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
 {
     public class StringConcatStrategy : CompileStrategy
     {
-        public StringConcatStrategy(Expression expression)
-            : base(expression)
+        public StringConcatStrategy(Expression expression, ParsingContext ctx)
+            : base(expression, ctx)
         {
            
         }
 
-        public override Expression Compile()
+        public override Expression Compile(IList<Expression> expressions, int index)
         {
-            var newExp = _expression is ExcelAddressExpression ? _expression : ExpressionConverter.Instance.ToStringExpression(_expression);
-            newExp.Prev = _expression.Prev;
-            newExp.Next = _expression.Next;
-            if (_expression.Prev != null)
+            if(!(_expression is ExcelRangeExpression))
             {
-                _expression.Prev.Next = newExp;
+                var newExp = _expression is CellAddressExpression ? _expression : ExpressionConverter.GetInstance(Context).ToStringExpression(_expression);
+                expressions.RemoveAt(index);
+                expressions.Insert(index, newExp);
+                //newExp.Prev = _expression.Prev;
+                //newExp.Next = _expression.Next;
+                //if (_expression.Prev != null)
+                //{
+                //    _expression.Prev.Next = newExp;
+                //}
+                //if (_expression.Next != null)
+                //{
+                //    _expression.Next.Prev = newExp;
+                //}
+                return newExp.MergeWithNext(expressions, index);
             }
-            if (_expression.Next != null)
-            {
-                _expression.Next.Prev = newExp;
-            }
-            return newExp.MergeWithNext();
+            return _expression.MergeWithNext(expressions, index);
         }
+            
     }
 }

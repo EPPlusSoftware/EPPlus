@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         public Match()
-            : base(new WildCardValueMatcher(), new CompileResultFactory())
+            : base(new WildCardValueMatcher())
         {
 
         }
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             var searchedValue = arguments.ElementAt(0).Value;
             var address =  ArgToAddress(arguments,1, context); 
-            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider);
+            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
             var rangeAddress = rangeAddressFactory.Create(address);
             var matchType = GetMatchType(arguments);
             var args = new LookupArguments(searchedValue, address, 0, 0, false, arguments.ElementAt(1).ValueAsRangeInfo);

@@ -64,11 +64,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     }
                 }
             }
-            else if (arg.Value is IRangeInfo)
+            else if (arg.Value is IRangeInfo ri)
             {
-                foreach (var c in (IRangeInfo)arg.Value)
+                foreach (var c in ri)
                 {
-                    if (ShouldIgnore(c, context) == false)
+                    if (ri.IsInMemoryRange || !ShouldIgnore(c, context))
                     {
                         CheckForAndHandleExcelError(c);
                         retVal += c.ValueDouble;

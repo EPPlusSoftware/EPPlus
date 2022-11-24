@@ -19,12 +19,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
     public class StringExpression : AtomicExpression
     {
-        public StringExpression(string expression)
-            : base(expression)
+        public StringExpression(string expression, ParsingContext ctx)
+            : base(expression, ctx)
         {
 
         }
-
+        internal override ExpressionType ExpressionType => ExpressionType.String; 
         public override CompileResult Compile()
         {
             return new CompileResult(ExpressionString, DataType.String);

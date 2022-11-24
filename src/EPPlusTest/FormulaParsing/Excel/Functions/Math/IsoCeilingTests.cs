@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
         public void Initialize()
         {
             _parsingContext = ParsingContext.Create();
-            _parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestMethod]

@@ -10,6 +10,7 @@
  *************************************************************************************************
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 
@@ -26,7 +27,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 if(cse.Value is int si && hs.Contains(si)==false)
                 {
                     var f = ws._sharedFormulas[si];
-                    if(f.FormulaType==ExcelWorksheet.FormulaType.DataTable)
+                    if(f.FormulaType==FormulaType.DataTable)
                     {
                         var fa = new ExcelAddressBase(f.Address);
                         if (isDelete)

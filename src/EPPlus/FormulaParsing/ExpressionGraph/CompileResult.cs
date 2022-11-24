@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -61,9 +62,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         public CompileResult(object result, DataType dataType, int excelAddressReferenceId)
         {
-            if(result is ExcelDoubleCellValue)
+            if(result is ExcelDoubleCellValue v)
             {
-                Result = ((ExcelDoubleCellValue)result).Value;
+                Result = v.Value;
             }
             else
             {
@@ -71,6 +72,15 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             }
             DataType = dataType;
             ExcelAddressReferenceId = excelAddressReferenceId;
+        }
+
+        internal void Negate()
+        {
+            if(ResultNumeric!=0)
+            {
+                _resultNumeric *= -1;
+                Result = _resultNumeric;
+            }
         }
 
         public CompileResult(eErrorType errorType)
@@ -97,13 +107,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get
             {
                 var r = Result as IRangeInfo;
-                if (r == null)
+                if (r == null || r.Address == null)
                 {
                     return Result;
                 }
                 else
                 {
-                    return r.GetValue(r.Address._fromRow, r.Address._fromCol);
+                    return r.GetValue(r.Address.FromRow, r.Address.FromCol);
                 }
             }
         }
@@ -217,6 +227,36 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public bool IsResultOfResolvedExcelRange
         {
             get { return ExcelAddressReferenceId > 0; }
+        }
+        public virtual FormulaRangeAddress Address
+        {
+            get
+            {
+                return null;
+            }
+        }
+    }
+    public class AddressCompileResult : CompileResult
+    {
+        public AddressCompileResult(Object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType)
+        {
+            Address = address;
+        }
+        public AddressCompileResult(Object result, DataType dataType) : base(result, dataType)
+        { 
+
+        }
+        public AddressCompileResult(eErrorType error) : base(error)
+        {
+
+        }
+        public AddressCompileResult(ExcelErrorValue errorValue) : base(errorValue)
+        {
+
+        }
+        public override FormulaRangeAddress Address
+        {
+            get;
         }
     }
 }

@@ -34,6 +34,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FakeItEasy;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing;
+using static OfficeOpenXml.ExcelAddressBase;
 
 namespace EPPlusTest.ExcelUtilities
 {
@@ -46,7 +47,7 @@ namespace EPPlusTest.ExcelUtilities
         public void Setup()
         {
             var provider = A.Fake<ExcelDataProvider>();
-            _factory = new RangeAddressFactory(provider);
+            _factory = new RangeAddressFactory(provider, ParsingContext.Create());
         }
 
         [TestMethod]
@@ -54,7 +55,8 @@ namespace EPPlusTest.ExcelUtilities
         {
             var address1 = _factory.Create("A1:A6");
             var address2 = _factory.Create("A5");
-            Assert.IsTrue(address1.CollidesWith(address2));
+            var result = address1.CollidesWith(address2);
+            Assert.AreEqual(eAddressCollition.Inside, result);
         }
 
         [TestMethod]
@@ -62,7 +64,8 @@ namespace EPPlusTest.ExcelUtilities
         {
             var address1 = _factory.Create("A1:A6");
             var address2 = _factory.Create("A8");
-            Assert.IsFalse(address1.CollidesWith(address2));
+            var result = address1.CollidesWith(address2);
+            Assert.AreEqual(eAddressCollition.No, result);
         }
 
         [TestMethod]
@@ -70,7 +73,8 @@ namespace EPPlusTest.ExcelUtilities
         {
             var address1 = _factory.Create("Ws!A1:A6");
             var address2 = _factory.Create("A5");
-            Assert.IsFalse(address1.CollidesWith(address2));
+            var result = address1.CollidesWith(address2);
+            Assert.AreEqual(eAddressCollition.No, result);
         }
     }
 }

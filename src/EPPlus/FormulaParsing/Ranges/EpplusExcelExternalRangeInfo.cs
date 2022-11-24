@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
@@ -23,7 +22,7 @@ using System;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.ExternalReferences;
 
-namespace OfficeOpenXml.FormulaParsing
+namespace OfficeOpenXml.FormulaParsing.Ranges
 {
     /// <summary>
     /// Provide the formula parser with information about an workbook external range.
@@ -32,36 +31,55 @@ namespace OfficeOpenXml.FormulaParsing
     {
         internal ExcelExternalWorksheet _externalWs;
         internal CellStoreEnumerator<object> _values = null;
+        private RangeDefinition _size;
         int _fromRow, _toRow, _fromCol, _toCol;
         int _cellCount = 0;
-        ExcelAddressBase _address;
+        FormulaRangeAddress _address;
         ICellInfo _cell;
 
         /// <summary>
         /// The constructor
         /// </summary>
-        /// <param name="externalWb">The external workbook</param>
-        /// <param name="wb">The workbook having the external reference</param>
-        /// <param name="address">The address within the external workbook including the worksheet name</param>
-        public EpplusExcelExternalRangeInfo(ExcelExternalWorkbook externalWb, ExcelWorkbook wb, ExcelAddressBase address)
+        /// <param name="externalReferenceIx">Index of the external workbook</param>
+        /// <param name="worksheetIx">The external worksheet index/id</param>
+        /// <param name="fromRow">The from row of the address</param>
+        /// <param name="fromCol">The from column of the address</param>
+        /// <param name="toRow">The to row of the address</param>
+        /// <param name="toCol">The to column of the address</param>
+        /// <param name="ctx">Parsing context</param>
+        public EpplusExcelExternalRangeInfo(int externalReferenceIx, int worksheetIx, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx)
         {
-            SetAddress(wb, address, externalWb);
-        }
-        private void SetAddress(ExcelWorkbook wb, ExcelAddressBase address, ExcelExternalWorkbook externalWb)
-        {
-            if (externalWb != null)
+            _fromRow = fromRow;
+            _fromCol = fromCol;
+            _toRow = toRow;
+            _toCol = toCol;
+            _address = new FormulaRangeAddress(ctx)
             {
-                _externalWs = externalWb.CachedWorksheets[address.WorkSheetName];
-                _fromRow = address._fromRow;
-                _fromCol = address._fromCol;
-                _toRow = address._toRow;
-                _toCol = address._toCol;
-                _address = address;
+                FromRow = fromRow,
+                FromCol = fromCol,
+                ToRow = toRow,
+                ToCol = toCol
+            };
+            _size = new RangeDefinition(toRow + fromCol + 1, (short)(toCol - fromCol + 1));
+            if (externalReferenceIx > 0 && ctx.Package != null && ctx.Package.Workbook.ExternalLinks.Count < externalReferenceIx)
+            {
+                var externalWb = ctx.Package.Workbook.ExternalLinks[externalReferenceIx].As.ExternalWorkbook;
+                if (externalWb != null)
+                {
+
+                }
+                _externalWs = externalWb.CachedWorksheets[worksheetIx];
                 if (_externalWs != null)
                 {
+                    _address.ExternalReferenceIx = (short)externalReferenceIx;
+                    _address.WorksheetIx = (short)_externalWs.SheetId;
                     _values = _externalWs.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
                     _cell = new ExternalCellInfo(_externalWs, _values);
                 }
+            }
+            else if (ctx.Package != null && ctx.Package.Workbook.Worksheets[worksheetIx] != null)
+            {
+                _address.WorksheetIx = (short)worksheetIx;
             }
         }
         /// <summary>
@@ -70,7 +88,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns></returns>
         public int GetNCells()
         {
-            return ((_toRow - _fromRow) + 1) * ((_toCol - _fromCol) + 1);
+            return (_toRow - _fromRow + 1) * (_toCol - _fromCol + 1);
         }
         /// <summary>
         /// If the range is invalid (#REF!)
@@ -133,6 +151,16 @@ namespace OfficeOpenXml.FormulaParsing
                 return false;
             }
         }
+
+        /// <summary>
+        /// Size of the range
+        /// </summary>
+        public RangeDefinition Size => _size;
+
+        /// <summary>
+        /// True if this is a range that doesn't is connected to a worksheet.
+        /// </summary>
+        public bool IsInMemoryRange => false;
 
         /// <summary>
         /// Return the current object in the enumeration
@@ -211,10 +239,13 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// The address of the range
         /// </summary>
-        public ExcelAddressBase Address
-        {
-            get { return _address; }
-        }
+        //public ExcelAddressBase Address
+        //{
+        //    get { return _address; }
+        //}
+
+        public FormulaRangeAddress Address { get { return _address; } }
+
         /// <summary>
         /// Gets the value 
         /// </summary>
@@ -360,4 +391,3 @@ namespace OfficeOpenXml.FormulaParsing
         }
     }
 }
-    

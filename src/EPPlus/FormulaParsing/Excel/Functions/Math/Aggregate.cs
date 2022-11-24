@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         public override void BeforeInvoke(ParsingContext context)
         {
             base.BeforeInvoke(context);
-            var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.Worksheet, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
+            var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.WorksheetName, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
             if (!context.SubtotalAddresses.Contains(cellId))
             {
                 context.SubtotalAddresses.Add(cellId);
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             if(IgnoreNestedSubtotalAndAggregate(options))
             {
                 context.Scopes.Current.IsSubtotal = true;
-                var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.Worksheet, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
+                var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.WorksheetName, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
                 if(!context.SubtotalAddresses.Contains(cellId))
                 {
                     context.SubtotalAddresses.Add(cellId);

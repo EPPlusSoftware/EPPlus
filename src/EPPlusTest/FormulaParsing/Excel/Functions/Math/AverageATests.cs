@@ -34,6 +34,8 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 {
@@ -71,6 +73,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 		{
 			// For cell references, AverageA divides by all cells, but only adds actual numbers, dates, and booleans.
 			ExcelPackage package = new ExcelPackage();
+			var ctx = ParsingContext.Create(package);
 			var worksheet = package.Workbook.Worksheets.Add("Test");
 			double[] values =
 			{
@@ -96,11 +99,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 			var range6 = worksheet.Cells[1, 6];
 			range6.Value = "Test";
 			AverageA average = new AverageA();
-			var rangeInfo1 = new EpplusExcelDataProvider.RangeInfo(worksheet, 1, 1, 1, 3);
-			var rangeInfo2 = new EpplusExcelDataProvider.RangeInfo(worksheet, 1, 4, 1, 4);
-			var rangeInfo3 = new EpplusExcelDataProvider.RangeInfo(worksheet, 1, 5, 1, 6);
+			var rangeInfo1 = new RangeInfo(worksheet, 1, 1, 1, 3, ctx);
+			var rangeInfo2 = new RangeInfo(worksheet, 1, 4, 1, 4, ctx);
+			var rangeInfo3 = new RangeInfo(worksheet, 1, 5, 1, 6, ctx);
 			var context = ParsingContext.Create();
-			var address = new OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress();
+			var address = new FormulaRangeAddress(context);
 			address.FromRow = address.ToRow = address.FromCol = address.ToCol = 2;
 			context.Scopes.NewScope(address);
 			var result = average.Execute(new FunctionArgument[]

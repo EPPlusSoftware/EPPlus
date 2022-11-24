@@ -34,6 +34,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             foreach (var child in children)
             {
                 var compileResult = child.Compile();
+                if(compileResult.DataType == DataType.ExcelRange)
+                {
+
+                }
                 if (compileResult.IsResultOfSubtotal)
                 {
                     var arg = new FunctionArgument(compileResult.Result, compileResult.DataType);

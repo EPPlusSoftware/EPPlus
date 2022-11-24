@@ -33,10 +33,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             Add("<=", Operator.LessThanOrEqual);
             Add("<>", Operator.NotEqualsTo);
             Add("&", Operator.Concat);
+            Add(":", Operator.Colon);
+            //Add("!", Operator.Exclamation);
+            Add("isc", Operator.Intersect);
         }
 
         private static IDictionary<string, IOperator> _instance;
 
+        /// <summary>
+        /// Instance of the OperatorsDict
+        /// </summary>
         public static IDictionary<string, IOperator> Instance
         {
             get 

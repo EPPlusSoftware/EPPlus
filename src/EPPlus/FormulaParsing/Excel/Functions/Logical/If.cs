@@ -31,8 +31,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var condition = ArgToBool(arguments, 0);
             var firstStatement = arguments.ElementAt(1).Value;
             var secondStatement = arguments.ElementAt(2).Value;
-            var factory = new CompileResultFactory();
-            return condition ? factory.Create(firstStatement) : factory.Create(secondStatement);
+            return condition ? CompileResultFactory.Create(firstStatement) : CompileResultFactory.Create(secondStatement);
+        }
+        public override bool ReturnsReference => true;
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            if(argumentIndex==0)
+            {
+                return FunctionParameterInformation.Condition;
+            }
+            else if(argumentIndex==1)
+            {
+                return FunctionParameterInformation.UseIfConditionIsTrue;
+            }
+            else
+            {
+                return FunctionParameterInformation.UseIfConditionIsFalse;
+            }
         }
     }
 }

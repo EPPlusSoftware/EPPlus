@@ -48,7 +48,7 @@ namespace EPPlusTest.ExcelUtilities
         {
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.ExcelMaxRows).Returns(ExcelMaxRows);
-            _factory = new RangeAddressFactory(provider);
+            _factory = new RangeAddressFactory(provider, ParsingContext.Create());
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]
@@ -93,7 +93,7 @@ namespace EPPlusTest.ExcelUtilities
         public void CreateShouldSetWorksheetNameIfSuppliedInAddress()
         {
             var address = _factory.Create("Ws!A1");
-            Assert.AreEqual("Ws", address.Worksheet);
+            Assert.AreEqual("Ws", address.WorksheetName);
         }
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace EPPlusTest.ExcelUtilities
         public void CreateShouldReturnAnInstanceWithWorksheetSetToEmptyString()
         {
             var address = _factory.Create(0, 1);
-            Assert.AreEqual(string.Empty, address.Worksheet);
+            Assert.AreEqual(string.Empty, address.WorksheetName);
         }
 
         [TestMethod]

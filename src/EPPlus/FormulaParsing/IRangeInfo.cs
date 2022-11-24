@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using System;
 using System.Collections.Generic;
 /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
@@ -20,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing
     /// <summary>
     /// Information about a specific range used by the formula parser.
     /// </summary>
-    public interface IRangeInfo : IEnumerator<ICellInfo>, IEnumerable<ICellInfo>
+    public interface IRangeInfo : IAddressInfo, IEnumerator<ICellInfo>, IEnumerable<ICellInfo>
     {
         /// <summary>
         /// If the range is empty
@@ -30,15 +32,21 @@ namespace OfficeOpenXml.FormulaParsing
         /// If the contains more than one cell  with a value.
         /// </summary>
         bool IsMulti { get; }
+
+        /// <summary>
+        /// Returns true if the range is not referring to the cell store, but rather keeps the data in memory.
+        /// </summary>
+        bool IsInMemoryRange { get; }
         /// <summary>
         /// Get number of cells
         /// </summary>
         /// <returns>Number of cells</returns>
         int GetNCells();
+
         /// <summary>
-        /// The address.
+        /// Size of the range, i.e. number of Cols and number of Rows
         /// </summary>
-        ExcelAddressBase Address { get; }
+        RangeDefinition Size { get; }
         /// <summary>
         /// Get the value from a cell
         /// </summary>
@@ -57,5 +65,13 @@ namespace OfficeOpenXml.FormulaParsing
         /// The worksheet 
         /// </summary>
         ExcelWorksheet Worksheet { get; }
+    }
+    public interface IAddressInfo
+    {
+        /// <summary>
+        /// The address.
+        /// </summary>
+        //ExcelAddressBase Address { get; }
+        FormulaRangeAddress Address { get; }
     }
 }

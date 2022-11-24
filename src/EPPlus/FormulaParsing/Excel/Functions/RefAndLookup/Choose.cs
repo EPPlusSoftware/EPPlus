@@ -50,9 +50,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     return CreateResult(choosedValue, DataType.Enumerable);
                 }
-                var factory = new CompileResultFactory();
-                return factory.Create(choosedValue);
+                return CompileResultFactory.Create(choosedValue);
             }
         }
+        public override bool ReturnsReference => true;
     }
 }

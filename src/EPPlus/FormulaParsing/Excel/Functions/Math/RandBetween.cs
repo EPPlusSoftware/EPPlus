@@ -48,5 +48,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             return high - low;
         }
+        public override bool IsVolatile
+        {
+            get
+            {
+                return true;
+            }
+        }
+
     }
 }

@@ -160,6 +160,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">Is thrown when <paramref name="val"/> is empty</exception>
         /// <exception cref="ArgumentException">Is thrown when <paramref name="val"/> is not a valid Excel error.</exception>
+        /// <exception cref="ArgumentException">If the argument cannot be converted.</exception>
         public static ExcelErrorValue Parse(string val)
         {
             if (Values.StringIsErrorValue(val))
@@ -168,6 +169,11 @@ namespace OfficeOpenXml
             }
             if(string.IsNullOrEmpty(val)) throw new ArgumentNullException("val");
             throw new ArgumentException("Not a valid error value: " + val);
+        }
+
+        internal static bool IsErrorValue(string val)
+        {
+            return Values.StringIsErrorValue(val);
         }
 
         private ExcelErrorValue(eErrorType type)

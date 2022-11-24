@@ -19,8 +19,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
     public abstract class AtomicExpression : Expression
     {
-        public AtomicExpression(string expression)
-            : base(expression)
+        public AtomicExpression(string expression, ParsingContext ctx)
+            : base(expression, ctx)
         {
 
         }
@@ -28,6 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public override bool IsGroupedExpression
         {
             get { return false; }
+        }
+        internal override Expression Clone()
+        {
+            return this;
         }
     }
 }

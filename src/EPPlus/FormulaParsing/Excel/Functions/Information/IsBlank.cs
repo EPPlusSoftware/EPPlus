@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 if (arg.Value is IRangeInfo)
                 {                    
                     var r=(IRangeInfo)arg.Value;
-                    if (r.GetValue(r.Address._fromRow, r.Address._fromCol) != null)
+                    if (r.GetValue(r.Address.FromRow, r.Address.FromCol) != null)
                     {
                         result = false;
                     }

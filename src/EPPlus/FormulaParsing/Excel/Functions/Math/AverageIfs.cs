@@ -54,11 +54,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 var v = GetCriteraFromArgsByIndex(functionArguments, ix);
                 criterias.Add(v);
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0]);
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], false);
+                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], context, false);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
 

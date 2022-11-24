@@ -20,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System.Text.RegularExpressions;
 using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -50,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var searchedValue = arguments.ElementAt(0).Value;
             Require.That(arguments.ElementAt(1).Value).Named("firstAddress").IsNotNull();
             var firstAddress = ArgToAddress(arguments, 1, context);
-            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider);
+            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
             var address = rangeAddressFactory.Create(firstAddress);
             var nRows = address.ToRow - address.FromRow;
             var nCols = address.ToCol - address.FromCol;
@@ -73,7 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             Require.That(arguments.ElementAt(2).Value).Named("secondAddress").IsNotNull();
             var firstAddress = ArgToAddress(arguments, 1, context);
             var secondAddress = ArgToAddress(arguments, 2, context);
-            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider);
+            var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
             var address1 = rangeAddressFactory.Create(firstAddress);
             var address2 = rangeAddressFactory.Create(secondAddress);
             var lookupIndex = (address2.FromCol - address1.FromCol) + 1;

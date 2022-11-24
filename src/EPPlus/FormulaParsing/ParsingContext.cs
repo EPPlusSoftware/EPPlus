@@ -28,8 +28,9 @@ namespace OfficeOpenXml.FormulaParsing
     /// </summary>
     public class ParsingContext : IParsingLifetimeEventHandler
     {
-        private ParsingContext() {
+        private ParsingContext(ExcelPackage package) {
             SubtotalAddresses = new HashSet<ulong>();
+            Package = package;
         }
 
         /// <summary>
@@ -42,6 +43,11 @@ namespace OfficeOpenXml.FormulaParsing
         /// Excel, in this case EPPlus.
         /// </summary>
         internal ExcelDataProvider ExcelDataProvider { get; set; }
+
+        /// <summary>
+        /// The <see cref="ExcelPackage"/> where the calculation is done.
+        /// </summary>
+        internal ExcelPackage Package { get; private set; }
 
         /// <summary>
         /// Utility for handling addresses
@@ -80,15 +86,21 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// Factory method.
         /// </summary>
+        /// <param name="package">The ExcelPackage where calculation is done</param>
         /// <returns></returns>
-        public static ParsingContext Create()
+        public static ParsingContext Create(ExcelPackage package)
         {
-            var context = new ParsingContext();
+            var context = new ParsingContext(package);
             context.Configuration = ParsingConfiguration.Create();
             context.Scopes = new ParsingScopes(context);
             context.AddressCache = new ExcelAddressCache();
             context.NameValueProvider = NvProvider.Empty;
             return context;
+        }
+
+        public static ParsingContext Create()
+        {
+            return Create(null);
         }
 
         void IParsingLifetimeEventHandler.ParsingCompleted()
@@ -98,5 +110,6 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         internal HashSet<ulong> SubtotalAddresses { get; private set; }
+        internal FormulaCellAddress CurrentCell { get; set; }
     }
 }

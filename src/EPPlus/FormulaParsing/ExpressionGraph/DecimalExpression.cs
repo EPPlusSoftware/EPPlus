@@ -19,24 +19,24 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private double? _compiledValue;
         private bool _negate;
 
-        public DecimalExpression(string expression)
-            : this(expression, false)
+        public DecimalExpression(string expression, ParsingContext ctx)
+            : this(expression, false, ctx)
         {
             
         }
 
-        public DecimalExpression(string expression, bool negate)
-            : base(expression)
+        public DecimalExpression(string expression, bool negate, ParsingContext ctx)
+            : base(expression, ctx)
         {
             _negate = negate;
         }
 
-        public DecimalExpression(double compiledValue)
-            : base(compiledValue.ToString(CultureInfo.InvariantCulture))
+        public DecimalExpression(double compiledValue, ParsingContext ctx)
+            : base(compiledValue.ToString(CultureInfo.InvariantCulture), ctx)
         {
             _compiledValue = compiledValue;
         }
-
+        internal override ExpressionType ExpressionType => ExpressionType.Decimal;
         public override CompileResult Compile()
         {
             double result = _compiledValue ?? double.Parse(ExpressionString, CultureInfo.InvariantCulture);

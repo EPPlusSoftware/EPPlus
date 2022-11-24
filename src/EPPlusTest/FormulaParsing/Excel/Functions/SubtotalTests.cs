@@ -39,6 +39,7 @@ using OfficeOpenXml.FormulaParsing.Excel;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -51,7 +52,7 @@ namespace EPPlusTest.Excel.Functions
         public void Setup()
         {
             _context = ParsingContext.Create();
-            _context.Scopes.NewScope(RangeAddress.Empty);
+            _context.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]

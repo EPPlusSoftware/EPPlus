@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 var address = new ExcelAddressBase(addressString);
                 var currentCell = context.Scopes.Current.Address;
                 var range = context.ExcelDataProvider.GetRange(
-                    address.WorkSheetName ?? context.Scopes.Current.Address.Worksheet,
+                    address.WorkSheetName ?? context.Scopes.Current.Address.WorksheetName,
                     currentCell.FromRow,
                     currentCell.FromCol,
                     address.Address);

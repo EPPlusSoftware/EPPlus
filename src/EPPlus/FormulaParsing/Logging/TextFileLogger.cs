@@ -48,8 +48,8 @@ namespace OfficeOpenXml.FormulaParsing.Logging
         {
             if (context.Scopes.Current != null && context.Scopes.Current.Address != null)
             {
-                _sw.WriteLine("Worksheet: {0}", context.Scopes.Current.Address.Worksheet ?? "<not specified>");
-                _sw.WriteLine("Address: {0}", context.Scopes.Current.Address.Address ?? "<not available>");
+                _sw.WriteLine("Worksheet: {0}", context.Scopes.Current.Address.WorksheetName ?? "<not specified>");
+                _sw.WriteLine("Address: {0}", context.Scopes.Current.Address.WorksheetAddress ?? "<not available>");
             }
         }
 

@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         public virtual IEnumerable<string> GetReferencedAddresses(string cellFormula, ParsingContext context)
         {
             var resultCells = new List<string>();
-            var r = context.Configuration.Lexer.Tokenize(cellFormula, context.Scopes.Current.Address.Worksheet);
+            var r = context.Configuration.Lexer.Tokenize(cellFormula, context.Scopes.Current.Address.WorksheetName);
             var toAddresses = r.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
             foreach (var toAddress in toAddresses)
             {
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     {
                         for (var row = rangeAddress.FromRow; row <= rangeAddress.ToRow; row++)
                         {
-                            resultCells.Add(context.RangeAddressFactory.Create(col, row).Address);
+                            resultCells.Add(context.RangeAddressFactory.Create(col, row).WorksheetAddress);
                         }
                     }
                 }

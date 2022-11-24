@@ -61,132 +61,132 @@ namespace OfficeOpenXml
 	/// </summary>
     public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable, IPictureRelationDocument
     {
-            internal enum FormulaType
-            {
-                Normal,
-                Shared,
-                Array,
-                DataTable
-            }        
-        internal class Formulas
-        {
-            public Formulas(ISourceCodeTokenizer tokenizer)
-            {
-                _tokenizer = tokenizer;
-            }
+        //internal class Formulas
+        //{
+        //    public Formulas(ISourceCodeTokenizer tokenizer)
+        //    {
+        //        _tokenizer = tokenizer;
+        //    }
 
-            private ISourceCodeTokenizer _tokenizer;
-            internal int Index { get; set; }
-            internal string Address { get; set; }
-            internal FormulaType FormulaType { get; set; }
-            string _formula = "";
-            public string Formula 
-            { 
-                get
-                {
-                    return _formula;
-                }
-                set
-                {
-                    if (_formula != value)
-                    {
-                        _formula = value;
-                        Tokens = null;
-                    }
-                }
-            }            
-            public int StartRow { get; set; }
-            public int StartCol { get; set; }
-            public bool FirstCellDeleted { get; set; }  //del1
-            public bool SecondCellDeleted { get; set; } //del2
+        //    private ISourceCodeTokenizer _tokenizer;
+        //    internal int Index { get; set; }
+        //    internal string Address { get; set; }
+        //    internal FormulaType FormulaType { get; set; }
+        //    string _formula = "";
+        //    public string Formula
+        //    {
+        //        get
+        //        {
+        //            return _formula;
+        //        }
+        //        set
+        //        {
+        //            if (_formula != value)
+        //            {
+        //                _formula = value;
+        //                Tokens = null;
+        //            }
+        //        }
+        //    }            
+        //    public int StartRow { get; set; }
+        //    public int StartCol { get; set; }
+        //    internal List<Token> Tokens { get; set; }
+        //    internal IEnumerable<Token> GetTokensFromOffset(string currentWs, int row, int column)
+        //    {
+        //        if (_tokenOffsetCollection == null)
+        //        {
+        //            var tokens = _tokenizer.Tokenize(Formula, currentWs).ToList();
+        //            _tokenOffsetCollection = new TokenOffsetCollection(currentWs, tokens);
+        //        }
+        //        _tokenOffsetCollection.SetOffset(row - StartRow, column - StartCol);
+        //        return _tokenOffsetCollection;
+        //    }
 
-            public bool DataTableIsTwoDimesional { get; set; } //dt2D
-            public bool IsDataTableRow { get; set; } //dtr
-            public string R1CellAddress { get; set; } //r1
-            public string R2CellAddress { get; set; } //r2
-            internal IEnumerable<Token> Tokens { get; set; }
+        //    private TokenOffsetCollection _tokenOffsetCollection;
+        //    public bool IsDataTableRow { get; set; } //dtr
+        //    public string R1CellAddress { get; set; } //r1
+        //    public string R2CellAddress { get; set; } //r2
+        //    internal void SetTokens(string worksheet)
+        //    {
+        //        if (Tokens == null)
+        //        {
+        //            Tokens = _tokenizer.Tokenize(Formula, worksheet).ToList();
+        //        }
+        //    }
+        //    internal string GetFormula(int row, int column, string worksheet)
+        //    {
+        //        if (StartRow == row && StartCol == column)
+        //        {
+        //            return Formula;
+        //        }
 
-            internal void SetTokens(string worksheet)
-            {
-                if (Tokens == null)
-                {
-                    Tokens = _tokenizer.Tokenize(Formula, worksheet);
-                }
-            }
-            internal string GetFormula(int row, int column, string worksheet)
-            {
-                if ((StartRow == row && StartCol == column))
-                {
-                    return Formula;
-                }
-
-                SetTokens(worksheet);
-                string f = "";
-                foreach (var token in Tokens)
-                {
-                    if (token.TokenTypeIsSet(TokenType.ExcelAddress))
-                    {
-                        var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
-                        if (a.IsFullColumn)
-                        {
-                            if (a.IsFullRow)
-                            {
-                                f += token.Value;
-                            }
-                            else    
-                            {
-                                f += a.GetOffset(0, column - StartCol, true);
-                            }
-                        }
-                        else if (a.IsFullRow)
-                        {
-                            f += a.GetOffset(row - StartRow, 0, true);
-                        }
-                        else
-                        {
-                            if (a.Table != null)
-                            {
-                                f += token.Value;
-                            }
-                            else
-                            {
-                                f += a.GetOffset(row - StartRow, column - StartCol, true);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if(token.TokenTypeIsSet(TokenType.StringContent))
-                        {
-                            f += token.Value.Replace("\"", "\"\"");
-                        }
-                        else
-                        {
-                            f += token.Value;
-                        }
-                    }
-                }
-                return f;
-            }
-            internal Formulas Clone()
-            {
-                return new Formulas(_tokenizer)
-                {
-                    Index = Index,
-                    Address = Address,
-                    FormulaType = FormulaType,
-                    Formula = Formula,
-                    StartRow = StartRow,
-                    StartCol = StartCol,
-                    DataTableIsTwoDimesional = DataTableIsTwoDimesional,
-                    IsDataTableRow = IsDataTableRow,
-                    R1CellAddress = R1CellAddress,
-                    R2CellAddress = R2CellAddress,
-                    FirstCellDeleted = FirstCellDeleted,
-                    SecondCellDeleted = SecondCellDeleted,
-                };
-            }
-        }
+        //        SetTokens(worksheet);
+        //        string f = "";
+        //        foreach (var token in Tokens)
+        //        {
+        //            if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+        //            {
+        //                var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
+        //                if (a.IsFullColumn)
+        //                {
+        //                    if (a.IsFullRow)
+        //                    {
+        //                        f += token.Value;
+        //                    }
+        //                    else
+        //                    {
+        //                        f += a.GetOffset(0, column - StartCol, true);
+        //                    }
+        //                }
+        //                else if (a.IsFullRow)
+        //                {
+        //                    f += a.GetOffset(row - StartRow, 0, true);
+        //                }
+        //                else
+        //                {
+        //                    if (a.Table != null)
+        //                    {
+        //                        f += token.Value;
+        //                    }
+        //                    else
+        //                    {
+        //                        f += a.GetOffset(row - StartRow, column - StartCol, true);
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (token.TokenTypeIsSet(TokenType.StringContent))
+        //                {
+        //                    f += "\"" + token.Value.Replace("\"", "\"\"") + "\"";
+        //                }
+        //                else
+        //                {
+        //                    f += token.Value;
+        //                }
+        //            }
+        //        }
+        //        return f;
+        //    }
+        //    internal Formulas Clone()
+        //    {
+        //        return new Formulas(_tokenizer)
+        //        {
+        //            Index = Index,
+        //            Address = Address,
+        //            FormulaType = FormulaType,
+        //            Formula = Formula,
+        //            StartRow = StartRow,
+        //            StartCol = StartCol,
+        //            DataTableIsTwoDimesional = DataTableIsTwoDimesional,
+        //            IsDataTableRow = IsDataTableRow,
+        //            R1CellAddress = R1CellAddress,
+        //            R2CellAddress = R2CellAddress,
+        //            FirstCellDeleted = FirstCellDeleted,
+        //            SecondCellDeleted = SecondCellDeleted,
+        //        };
+        //    }
+        //}
         /// <summary>
         /// Keeps track of meta data referencing cells or values.
         /// </summary>
@@ -210,7 +210,6 @@ namespace OfficeOpenXml
                 formulaCells.Value = null;
             }
         }
-
         /// <summary>
         /// Removes all values of cells with formulas in the entire worksheet, but keeps the formulas.
         /// </summary>
@@ -272,8 +271,6 @@ namespace OfficeOpenXml
             }
             internal void Add(ExcelAddressBase address, bool doValidate)
             {
-                int ix = 0;
-
                 //Validate
                 if (doValidate && Validate(address) == false)
                 {
@@ -281,7 +278,7 @@ namespace OfficeOpenXml
                 }
                 lock (this)
                 {
-                    ix = _list.Count;
+                    var ix = _list.Count;
                     _list.Add(address.Address);
                     SetIndex(address, ix);
                 }
@@ -322,7 +319,6 @@ namespace OfficeOpenXml
                 }
                 return true;
             }
-
             internal void SetIndex(ExcelAddressBase address, int ix)
             {
                 if (address._fromRow == 1 && address._toRow == ExcelPackage.MaxRows) //Entire row
@@ -414,14 +410,14 @@ namespace OfficeOpenXml
         internal CellStoreValue _values;
         internal CellStore<object> _formulas;
         internal FlagCellStore _flags;
-        internal CellStore<List<Token>> _formulaTokens;
+        internal CellStore<IList<Token>> _formulaTokens;
 
         internal CellStore<Uri> _hyperLinks;
         internal CellStore<int> _commentsStore;
         internal CellStore<int> _threadedCommentsStore;
         internal CellStore<MetaDataReference> _metadataStore;
 
-        internal Dictionary<int, Formulas> _sharedFormulas = new Dictionary<int, Formulas>();
+        internal Dictionary<int, SharedFormula> _sharedFormulas = new Dictionary<int, SharedFormula>();
         internal RangeSorter _rangeSorter;
         internal int _minCol = ExcelPackage.MaxColumns;
         internal int _maxCol = 0;
@@ -1902,7 +1898,7 @@ namespace OfficeOpenXml
                             string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                             if (formula != "")
                             {
-                                _sharedFormulas.Add(sfIndex, new Formulas(SourceCodeTokenizer.Default) { Index = sfIndex, Formula = formula, Address = fAddress, StartRow = address._fromRow, StartCol = address._fromCol, FormulaType = FormulaType.Shared });
+                                _sharedFormulas.Add(sfIndex, new SharedFormula(this, fAddress, formula) { Index = sfIndex });
                             }
                         }
                         else
@@ -1920,25 +1916,30 @@ namespace OfficeOpenXml
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
 
-                        _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = refAddress, StartRow = address._fromRow, StartCol = address._fromCol, FormulaType = FormulaType.Array });
+                        _sharedFormulas.Add(afIndex, new SharedFormula(this, refAddress, formula) { Index = afIndex, IsArray = true });
                     }
                     else if (t=="dataTable") 
                     {
                         var afIndex = GetMaxShareFunctionIndex(true);
                         string refAddress = xr.GetAttribute("ref");
-                        var f = new Formulas(SourceCodeTokenizer.Default)
+                        var del1 = GetBoolFromString(xr.GetAttribute("del1"));
+                        var del2 = GetBoolFromString(xr.GetAttribute("del2"));
+                        var dt2D = GetBoolFromString(xr.GetAttribute("dt2D"));
+                        var r1 = xr.GetAttribute("r1") ?? "";
+                        var r2 = xr.GetAttribute("r2") ?? "";
+                        var formula = xr.ReadElementContentAsString();
+
+                        var f = new SharedFormula(this, refAddress, formula)
                         {
-                            Address = refAddress,
                             StartRow = address._fromRow,
                             StartCol = address._fromCol,
                             FormulaType = FormulaType.DataTable,
-                            FirstCellDeleted = GetBoolFromString(xr.GetAttribute("del1")),
-                            SecondCellDeleted =GetBoolFromString(xr.GetAttribute("del2")),
-                            DataTableIsTwoDimesional = GetBoolFromString(xr.GetAttribute("dt2D")),
-                            R1CellAddress = xr.GetAttribute("r1")??"",
-                            R2CellAddress = xr.GetAttribute("r2")??""
+                            FirstCellDeleted = del1,
+                            SecondCellDeleted = del2,
+                            DataTableIsTwoDimesional = dt2D,
+                            R1CellAddress = r1,
+                            R2CellAddress = r2
                         };
-                        f.Formula = xr.ReadElementContentAsString();
                         if (!string.IsNullOrEmpty(refAddress))
                         {
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.DataTableFormula);
@@ -2033,7 +2034,7 @@ namespace OfficeOpenXml
         private void UpdateMergedCells(StreamWriter sw, string prefix)
         {
             sw.Write($"<{prefix}mergeCells>");
-            foreach (string address in _mergedCells.Distinct())
+            foreach (string address in _mergedCells.Distinct().OrderBy(x => x))
             {
                 sw.Write($"<{prefix}mergeCell ref=\"{address}\" />");
             }
@@ -3454,7 +3455,7 @@ namespace OfficeOpenXml
             sw.Flush();
         }
 
-        private string GetDataTableAttributes(Formulas f)
+        private string GetDataTableAttributes(SharedFormula f)
         {
             var attributes = " ";
             if(f.IsDataTableRow)
@@ -3503,7 +3504,7 @@ namespace OfficeOpenXml
                         {
                             if (!(addr._fromRow == row && addr._fromCol == col))
                             {
-                                var fIx=_formulas.GetValue(row, col);
+                                var fIx = _formulas.GetValue(row, col);
                                 if (fIx is int && (int)fIx == f.Index)
                                 {
                                     _formulas.SetValue(row, col, f.GetFormula(row, col, this.Name));

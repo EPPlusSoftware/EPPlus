@@ -24,23 +24,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
     internal abstract class MultipleRangeCriteriasFunction : ExcelFunction
     {
-
-        private readonly ExpressionEvaluator _expressionEvaluator;
-
-        protected MultipleRangeCriteriasFunction()
-            :this(new ExpressionEvaluator())
+        protected bool Evaluate(object obj, string expression, ParsingContext ctx, bool convertNumericString = true)
         {
-            
-        }
-
-        protected MultipleRangeCriteriasFunction(ExpressionEvaluator evaluator)
-        {
-            Require.That(evaluator).Named("evaluator").IsNotNull();
-            _expressionEvaluator = evaluator;
-        }
-
-        protected bool Evaluate(object obj, string expression, bool convertNumericString = true)
-        {
+            var expressionEvaluator = new ExpressionEvaluator(ctx);
             double? candidate = default(double?);
             if (IsNumeric(obj))
             {
@@ -48,29 +34,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             if (candidate.HasValue)
             {
-                return _expressionEvaluator.Evaluate(candidate.Value, expression, convertNumericString);
+                return expressionEvaluator.Evaluate(candidate.Value, expression, convertNumericString);
             }
-            return _expressionEvaluator.Evaluate(obj, expression, convertNumericString);
+            return expressionEvaluator.Evaluate(obj, expression, convertNumericString);
         }
 
-        protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, string searched, bool convertNumericString = true)
+        protected List<int> GetMatchIndexes(RangeOrValue rangeOrValue, string searched, ParsingContext ctx, bool convertNumericString = true)
         {
+            var expressionEvaluator = new ExpressionEvaluator(ctx);
             var result = new List<int>();
             var internalIndex = 0;
             if (rangeOrValue.Range != null)
             {
                 var rangeInfo = rangeOrValue.Range;
-                var toRow = rangeInfo.Address._toRow;
+                var toRow = rangeInfo.Address.ToRow;
                 if (rangeInfo.Worksheet.Dimension.End.Row < toRow)
                 {
                     toRow = rangeInfo.Worksheet.Dimension.End.Row;
                 }
-                for (var row = rangeInfo.Address._fromRow; row <= toRow; row++)
+                for (var row = rangeInfo.Address.FromRow; row <= toRow; row++)
                 {
-                    for (var col = rangeInfo.Address._fromCol; col <= rangeInfo.Address._toCol; col++)
+                    for (var col = rangeInfo.Address.FromCol; col <= rangeInfo.Address.ToCol; col++)
                     {
                         var candidate = rangeInfo.GetValue(row, col);
-                        if (searched != null && Evaluate(candidate, searched, convertNumericString))
+                        if (searched != null && Evaluate(candidate, searched, ctx, convertNumericString))
                         {
                             result.Add(internalIndex);
                         }
@@ -78,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     }
                 }
             }
-            else if(Evaluate(rangeOrValue.Value, searched, convertNumericString))
+            else if(Evaluate(rangeOrValue.Value, searched, ctx, convertNumericString))
             {
                 result.Add(internalIndex);
             }

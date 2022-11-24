@@ -41,6 +41,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.Excel.Functions
 {
@@ -53,7 +54,7 @@ namespace EPPlusTest.Excel.Functions
         public void Initialize()
         {
             _parsingContext = ParsingContext.Create();
-            _parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestMethod]

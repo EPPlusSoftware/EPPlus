@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
                 foreach(var funcArg in rangeValues)
                 {
                     var arguments = new List<FunctionArgument> { arg1 };
-                    var cr = new CompileResultFactory().Create(funcArg.Value);
+                    var cr = CompileResultFactory.Create(funcArg.Value);
                     BuildFunctionArguments(cr, arguments);
                     var r = Function.Execute(arguments, Context);
                     result.Add(r.Result);

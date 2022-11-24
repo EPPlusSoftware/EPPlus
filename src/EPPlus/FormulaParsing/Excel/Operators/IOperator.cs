@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     {
         Operators Operator { get; }
 
-        CompileResult Apply(CompileResult left, CompileResult right);
+        CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx);
 
         int Precedence { get; }
     }

@@ -20,8 +20,6 @@ namespace OfficeOpenXml.Export.HtmlExport
 {
     internal static class ColumnDataTypeManager
     {
-        private static CompileResultFactory _compileResultFactory = new CompileResultFactory();
-
         public static class HtmlDataTypes
         {
             public const string Number = "number";

@@ -10,10 +10,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     public abstract class IfsWithMultipleMatchesBase : ExcelFunction
     {
-        private readonly ExpressionEvaluator _evaluator = new ExpressionEvaluator();
-        protected IEnumerable<double> GetMatches(string functionName, IEnumerable<FunctionArgument> arguments, out CompileResult errorResult)
+        protected IEnumerable<double> GetMatches(string functionName, IEnumerable<FunctionArgument> arguments, ParsingContext ctx, out CompileResult errorResult)
         {
             ValidateArguments(arguments, 3);
+            var expressionEvaluator = new ExpressionEvaluator(ctx);
             errorResult = null;
             var maxRange = arguments.ElementAt(0).ValueAsRangeInfo;
             var maxArgs = arguments.Count() < (126 * 2 + 1) ? arguments.Count() : 126 * 2 + 1;
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                     var matchCriteria = arguments.ElementAt(criteriaIx + 1).Value;
 
                     var candidate = criteriaRange.ElementAt(valueIx).Value;
-                    if (!_evaluator.Evaluate(candidate, Convert.ToString(matchCriteria, CultureInfo.InvariantCulture)))
+                    if (!expressionEvaluator.Evaluate(candidate, Convert.ToString(matchCriteria, CultureInfo.InvariantCulture)))
                     {
                         isMatch = false;
                         break;

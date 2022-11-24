@@ -32,18 +32,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
     [TestClass]
     public class EnumerableExpressionTests
     {
+        private ParsingContext _context = ParsingContext.Create();
+
         [TestMethod]
         public void CompileShouldReturnEnumerableOfCompiledChildExpressions()
         {
-            var expression = new EnumerableExpression();
-            expression.AddChild(new IntegerExpression("2"));
-            expression.AddChild(new IntegerExpression("3"));
+            var expression = new EnumerableExpression(_context);
+            expression.AddChild(new IntegerExpression("2", _context));
+            expression.AddChild(new IntegerExpression("3", _context));
             var result = expression.Compile();
 
             Assert.IsInstanceOfType(result.Result, typeof(IEnumerable<object>));

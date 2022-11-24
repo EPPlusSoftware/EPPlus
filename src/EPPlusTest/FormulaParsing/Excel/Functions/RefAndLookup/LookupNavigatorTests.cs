@@ -37,12 +37,26 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.Excel.Functions.RefAndLookup
 {
     [TestClass]
     public class LookupNavigatorTests
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+            _package = new ExcelPackage();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _package.Dispose();
+        }
+
+        private ExcelPackage _package;
         const string WorksheetName = "";
         private LookupArguments GetArgs(params object[] args)
         {
@@ -52,8 +66,9 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
 
         private ParsingContext GetContext(ExcelDataProvider provider)
         {
-            var ctx = ParsingContext.Create();
-            ctx.Scopes.NewScope(new RangeAddress(){Worksheet = WorksheetName, FromCol = 1, FromRow = 1});
+            _package.Workbook.Worksheets.Add(WorksheetName);
+            var ctx = ParsingContext.Create(_package);
+            ctx.Scopes.NewScope(new FormulaRangeAddress(ctx){WorksheetIx = 0, FromCol = 1, FromRow = 1});
             ctx.ExcelDataProvider = provider;
             return ctx;
         }

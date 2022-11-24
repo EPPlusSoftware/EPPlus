@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     /// <summary>
     /// Expression that handles execution of a function.
     /// </summary>
-    internal class FunctionExpression : AtomicExpression
+    [DebuggerDisplay("FunctionExpression: {ExpressionString}")]
+    internal class FunctionExpression : ExpressionWithParent
     {
         /// <summary>
         /// Constructor
@@ -35,13 +37,15 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         /// <param name="expression">should be the of the function</param>
         /// <param name="parsingContext"></param>
         /// <param name="isNegated">True if the numeric result of the function should be negated.</param>
-        public FunctionExpression(string expression, ParsingContext parsingContext, bool isNegated)
-            : base(expression)
+        /// <param name="parent">The parent expression</param>
+        public FunctionExpression(string expression, ParsingContext parsingContext, bool isNegated, Expression parent)
+            : base(expression, parsingContext)
         {
             _parsingContext = parsingContext;
             _functionCompilerFactory = new FunctionCompilerFactory(parsingContext.Configuration.FunctionRepository, parsingContext);
             _isNegated = isNegated;
-            base.AddChild(new FunctionArgumentExpression(this));
+            _parent = parent;
+            //base.AddChild(new FunctionArgumentExpression(this, parsingContext));
         }
 
         private readonly ParsingContext _parsingContext;
@@ -111,13 +115,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             
         }
 
+        internal int GetArgumentIndex(Expression expression)
+        {
+            return Children.IndexOf(expression);
+        }
+
         /// <summary>
         /// Adds a new <see cref="FunctionArgumentExpression"/> for the next child
         /// </summary>
         /// <returns></returns>
         public override Expression PrepareForNextChild()
         {
-            return base.AddChild(new FunctionArgumentExpression(this));
+            return base.AddChild(new FunctionArgumentExpression(this, Context));
         }
 
         /// <summary>
@@ -127,9 +136,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             get
             {
-                return (Children.Any() && Children.First().Children.Any());
+                //return (Children.Any() && Children.First().Children.Any());
+                return Children.Any();
             }
         }
+
+        internal override ExpressionType ExpressionType => ExpressionType.Function;
+
+        public override bool IsGroupedExpression => false;
 
         /// <summary>
         /// Adds a child expression
@@ -138,8 +152,24 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         /// <returns></returns>
         public override Expression AddChild(Expression child)
         {
-            Children.Last().AddChild(child);
+            //Children.Last().AddChild(child);
+            Children.Add(child);
             return child;
+        }
+        internal override Expression Clone()
+        {
+            return CloneMe(new FunctionExpression(ExpressionString, Context, _isNegated, null));
+        }
+        internal override Expression Clone(int rowOffset, int colOffset)
+        {
+            return CloneExpressionWithOffset(Clone(), rowOffset,colOffset);
+        }
+        internal ExcelFunction Function
+        {
+            get
+            {
+                return _parsingContext.Configuration.FunctionRepository.GetFunction(ExpressionString);
+            }
         }
     }
 }

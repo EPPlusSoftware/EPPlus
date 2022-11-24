@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 if (arg is IRangeInfo)
                 {
                     var r = (IRangeInfo)arg;
-                    var e=r.GetValue(r.Address._fromRow, r.Address._fromCol) as ExcelErrorValue;
+                    var e=r.GetValue(r.Address.FromRow, r.Address.FromCol) as ExcelErrorValue;
                     if (e !=null && e.Type==eErrorType.NA)
                     {
                         return CreateResult(false, DataType.Boolean);

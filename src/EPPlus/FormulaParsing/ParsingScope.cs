@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="parsingScopes"></param>
         /// <param name="address"></param>
-        public ParsingScope(ParsingScopes parsingScopes, RangeAddress address)
+        public ParsingScope(ParsingScopes parsingScopes, FormulaRangeAddress address)
             : this(parsingScopes, null, address)
         {
         }
@@ -41,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <param name="parsingScopes"></param>
         /// <param name="parent"></param>
         /// <param name="address"></param>
-        public ParsingScope(ParsingScopes parsingScopes, ParsingScope parent, RangeAddress address)
+        public ParsingScope(ParsingScopes parsingScopes, ParsingScope parent, FormulaRangeAddress address)
         {
             _parsingScopes = parsingScopes;
             Parent = parent;
@@ -62,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// The address of the cell currently beeing parsed.
         /// </summary>
-        public RangeAddress Address { get; private set; }
+        public FormulaRangeAddress Address { get; private set; }
 
         /// <summary>
         /// True if the current scope is a Subtotal function being executed.

@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             if(arguments.Count() == 0)
             {
                 var cell = context.Scopes.Current.Address;
-                var ws = cell.Worksheet;
+                var ws = cell.WorksheetName;
                 result = context.ExcelDataProvider.GetWorksheetIndex(ws);
             }
             else
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                         if (result == -1)
                         {
                             // not a worksheet name, now check if it is a named range in the current worksheet
-                            var wsNamedRanges = context.ExcelDataProvider.GetWorksheetNames(context.Scopes.Current.Address.Worksheet);
+                            var wsNamedRanges = context.ExcelDataProvider.GetWorksheetNames(context.Scopes.Current.Address.WorksheetName);
                             var matchingWsName = wsNamedRanges.FirstOrDefault(x => x.Name == value);
                             if (matchingWsName != null)
                             {
@@ -95,6 +95,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 return CreateResult(eErrorType.NA);
             }
             return CreateResult(result, DataType.Integer);
+        }
+        /// <summary>
+        /// Reference Parameters do not need to be follows in the dependency chain.
+        /// </summary>
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreAddress;
         }
     }
 }

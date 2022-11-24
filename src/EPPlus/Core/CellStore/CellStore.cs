@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace OfficeOpenXml.Core.CellStore
 {
     /// <summary>
-    /// For testing purpose only. Can be removed when cells store is fully optimized.
+    /// For testing purpouse only. Can be removed when cellsstore is fully optimized.
     /// </summary>
     internal static class CellStoreSettings
     {
@@ -74,6 +74,16 @@ namespace OfficeOpenXml.Core.CellStore
                 }
                 return false;
             }
+        }
+        internal bool HasValue(int fromRow, int fromCol, int toRow, int toCol)
+        {
+            var colPos = GetClosestColumnPosition(toCol);
+            while((colPos >= 0 || colPos < ColumnCount) && _columnIndex[colPos].Index>=fromCol && _columnIndex[colPos].Index<=toCol)
+            {
+                var r = _columnIndex[colPos++].GetNextRow(fromRow);
+                if (r <= toRow) return true;
+            }
+            return false;
         }
         internal int GetClosestColumnPosition(int column)
         {

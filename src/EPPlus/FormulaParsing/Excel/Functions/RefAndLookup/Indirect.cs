@@ -36,10 +36,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {                
-                var n=context.ExcelDataProvider.GetName(context.Scopes.Current.Address.Worksheet, address);
-                if(n.Value is EpplusExcelDataProvider.RangeInfo ri)
+                var n=context.ExcelDataProvider.GetName(context.Scopes.Current.Address.WorksheetName, address);
+                if(n.Value is IRangeInfo ri)
                 {
-                    adr = ri.Address;
+                    adr = ri.Address.ToExcelAddressBase();
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var ws = adr.WorkSheetName;
             if (string.IsNullOrEmpty(ws))
             {
-                ws = context.Scopes.Current.Address.Worksheet;
+                ws = context.Scopes.Current.Address.WorksheetName;
             }
             var result = context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, address);
             if (result.IsEmpty)
@@ -62,9 +62,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var cell = result.FirstOrDefault();
                 var val = cell != null ? cell.Value : null;
                 if (val == null) return CompileResult.Empty;
-                return new CompileResultFactory().Create(val);
+                return CompileResultFactory.Create(val);
             }
             return new CompileResult(result, DataType.Enumerable);
         }
+        public override bool ReturnsReference => true;
     }
 }

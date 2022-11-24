@@ -41,6 +41,21 @@ namespace OfficeOpenXml
         {
             _ws = "";
         }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ws">Worksheet name</param>
+        /// <param name="fromRow">From row</param>
+        /// <param name="fromCol">From column</param>
+        /// <param name="toRow">To row</param>
+        /// <param name="toColumn">To column</param>
+        public ExcelAddress(string ws, int fromRow, int fromCol, int toRow, int toColumn)
+            : base(fromRow, fromCol, toRow, toColumn)
+        {
+            _ws = ws;
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>

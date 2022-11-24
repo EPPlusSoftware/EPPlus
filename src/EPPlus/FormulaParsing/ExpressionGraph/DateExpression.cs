@@ -20,8 +20,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
     public class DateExpression : AtomicExpression
     {
-        public DateExpression(string expression)
-            : base(expression)
+        public DateExpression(string expression, ParsingContext ctx)
+            : base(expression, ctx)
         {
 
         }
@@ -31,5 +31,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             var date = double.Parse(ExpressionString);
             return new CompileResult(DateTime.FromOADate(date), DataType.Date);
         }
+        internal override ExpressionType ExpressionType => ExpressionType.Date;
     }
 }

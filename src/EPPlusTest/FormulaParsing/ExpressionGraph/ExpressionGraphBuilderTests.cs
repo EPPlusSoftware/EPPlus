@@ -143,8 +143,8 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             };
             var result = _graphBuilder.Build(tokens);
 
-            Assert.IsNotNull(result.Expressions.First().Next);
-            Assert.IsInstanceOfType(result.Expressions.First().Next, typeof(IntegerExpression));
+            Assert.IsNotNull(result.Expressions[1]);
+            Assert.IsInstanceOfType(result.Expressions[1], typeof(IntegerExpression));
 
         }
 
@@ -270,7 +270,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             var expression = _graphBuilder.Build(tokens);
             Assert.AreEqual(1, expression.Expressions.Count());
 
-            var compiler = new ExpressionCompiler(new ExpressionConverter(), new CompileStrategyFactory());
+            var compiler = new ExpressionCompiler(new ExpressionConverter(ctx), new CompileStrategyFactory(ctx), ctx);
             var result = compiler.Compile(expression.Expressions);
             Assert.AreEqual("Yes", result.Result);
         }
@@ -317,11 +317,11 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         {
             var tokens = new List<Token>
             {
-                new Token("A1", TokenType.ExcelAddress)
+                new Token("A1", TokenType.CellAddress)
             };
 
             var result = _graphBuilder.Build(tokens);
-            Assert.IsInstanceOfType(result.Expressions.First(), typeof(ExcelAddressExpression));
+            Assert.IsInstanceOfType(result.Expressions.First(), typeof(CellAddressExpression));
         }
     }
 }

@@ -25,17 +25,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Description = "Calculates the sum of values in a field of a list or database, that satisfy specified conditions")]
     internal class Dsum : DatabaseFunction
     {
-        public Dsum()
-            : this(new RowMatcher())
-        {
-
-        }
-
-        public Dsum(RowMatcher rowMatcher)
-            : base(rowMatcher)
-        {
-
-        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);

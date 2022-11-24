@@ -27,16 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     internal class Switch : ExcelFunction
     {
         public Switch()
-            : this(new CompileResultFactory())
         {
 
         }
-        public Switch(CompileResultFactory compileResultFactory)
-        {
-            _compileResultFactory = compileResultFactory;
-        }
-
-        private readonly CompileResultFactory _compileResultFactory;
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -48,10 +41,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 var candidate = arguments.ElementAt(x).Value;
                 if(IsMatch(expression, candidate))
                 {
-                    return _compileResultFactory.Create(arguments.ElementAt(x + 1).Value);
+                    return CompileResultFactory.Create(arguments.ElementAt(x + 1).Value);
                 }
             }
-            if (arguments.Count() % 2 == 0) return _compileResultFactory.Create(arguments.Last().Value);
+            if (arguments.Count() % 2 == 0) return CompileResultFactory.Create(arguments.Last().Value);
             return new CompileResult(eErrorType.NA);
         }
 
@@ -83,5 +76,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             }
             return Convert.ToDouble(obj);
         }
+        public override bool ReturnsReference => true;
     }
 }

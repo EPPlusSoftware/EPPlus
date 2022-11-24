@@ -175,7 +175,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static void Init(ExcelWorkbook workbook)
         {
-            workbook._formulaTokens = new CellStore<List<Token>>();
+            workbook._formulaTokens = new CellStore<IList<Token>>(); ;
             foreach (var ws in workbook.Worksheets)
             {
                 if (!(ws is ExcelChartsheet))
@@ -184,7 +184,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         ws._formulaTokens.Dispose();
                     }
-                    ws._formulaTokens = new CellStore<List<Token>>();
+                    ws._formulaTokens = new CellStore<IList<Token>>();
                 }
             }
         }

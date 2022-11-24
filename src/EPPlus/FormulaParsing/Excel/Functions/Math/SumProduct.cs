@@ -49,9 +49,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 else if (arg.IsExcelRange)
                 {
                     var r=arg.ValueAsRangeInfo;
-                    for (int col = r.Address._fromCol; col <= r.Address._toCol; col++)
+                    for (int col = r.Address.FromCol; col <= r.Address.ToCol; col++)
                     {
-                        for (int row = r.Address._fromRow; row <= r.Address._toRow; row++)
+                        for (int row = r.Address.FromRow; row <= r.Address.ToRow; row++)
                         {
                             AddValue(r.GetValue(row,col), currentResult);
                         }

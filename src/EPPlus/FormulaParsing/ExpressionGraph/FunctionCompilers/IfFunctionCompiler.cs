@@ -18,6 +18,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
@@ -45,8 +46,34 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             Function.BeforeInvoke(Context);
             var firstChild = children.ElementAt(0);
             var v = firstChild.Compile().Result;
+            if(v is InMemoryRange mr)
+            {
+                var range = new InMemoryRange(mr.Size);
+                for(var row = 0; row < mr.Size.NumberOfRows;row++)
+                {
+                    for(var col = 0; col < mr.Size.NumberOfCols; col++)
+                    {
+                        args.Clear();
+                        var cell = mr.GetCell(row, col);
+                        object val = null;
+                        if(cell != null)
+                        {
+                            val = cell.Value;
+                        }
+                        var res = CallFunction(val, children, args);
+                        range.SetValue(row, col, res.Result);
+                    }
+                }
+                return new CompileResult(range, DataType.ExcelRange);
+            }
+            else
+            {
+                return CallFunction(v, children, args);
+            }
+        }
 
-            /****  Handle names and ranges ****/
+        private CompileResult CallFunction(object v, IEnumerable<Expression> children, List<FunctionArgument> args)
+        {
             if (v is INameInfo)
             {
                 v = ((INameInfo)v).Value;

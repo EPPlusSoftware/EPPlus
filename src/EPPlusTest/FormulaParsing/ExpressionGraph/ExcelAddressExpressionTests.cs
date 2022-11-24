@@ -35,12 +35,14 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using FakeItEasy;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
     [TestClass]
     public class ExcelAddressExpressionTests
     {
+        /*
         private ParsingContext _parsingContext;
         private ParsingScope _scope;
 
@@ -53,7 +55,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         public void Setup()
         {
             _parsingContext = ParsingContext.Create();
-            _scope = _parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            _scope = _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestCleanup]
@@ -105,6 +107,16 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         //    Assert.AreEqual(expectedAddress, result.Result);
 
         //}
+
+        #region New token types
+
+        [TestMethod, Ignore]
+        public void ShouldCompilAddressUsingColonOperator1()
+        {
+            var formula = "SUM(A1:B2)";
+            var tokens = SourceCodeTokenizer.Optimized.Tokenize(formula);
+        }
+        #endregion
 
         #region Compile Tests
         [TestMethod]
@@ -378,5 +390,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             }
         }
         #endregion
+        */
     }
+
 }

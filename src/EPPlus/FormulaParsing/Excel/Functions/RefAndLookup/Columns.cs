@@ -34,19 +34,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var r=arguments.ElementAt(0).ValueAsRangeInfo;
             if (r != null)
             {
-                return CreateResult(r.Address._toCol - r.Address._fromCol + 1, DataType.Integer);
+                return CreateResult(r.Address.ToCol - r.Address.FromCol + 1, DataType.Integer);
             }
             else
             {
                 var range = ArgToAddress(arguments, 0, context);
                 if (ExcelAddressUtil.IsValidAddress(range))
                 {
-                    var factory = new RangeAddressFactory(context.ExcelDataProvider);
+                    var factory = new RangeAddressFactory(context.ExcelDataProvider, context);
                     var address = factory.Create(range);
                     return CreateResult(address.ToCol - address.FromCol + 1, DataType.Integer);
                 }
             }
             throw new ArgumentException("Invalid range supplied");
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreAddress;
         }
     }
 }

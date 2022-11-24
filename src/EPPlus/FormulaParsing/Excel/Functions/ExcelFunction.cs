@@ -29,6 +29,23 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     /// <summary>
+    /// Information about an argument passed to a function used in the formula parser. 
+    /// </summary>
+    public enum FunctionParameterInformation
+    { 
+        /// <summary>
+        /// The argument will be handled as a normally.
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// If the argument is an address this address will be ignored in the dependency chain.
+        /// </summary>
+        IgnoreAddress,
+        Condition,
+        UseIfConditionIsTrue,
+        UseIfConditionIsFalse
+    }
+    /// <summary>
     /// Base class for Excel function implementations.
     /// </summary>
     public abstract class ExcelFunction
@@ -96,7 +113,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 //var r=((ExcelDataProvider.IRangeInfo)arg);
                 var r = arg.ValueAsRangeInfo;
-                return r.GetValue(r.Address._fromRow, r.Address._fromCol);
+                return r.GetValue(r.Address.FromRow, r.Address.FromCol);
             }
             else
             {
@@ -169,12 +186,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
         protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index)
         {            
-            return arguments.ElementAt(index).IsExcelRange ? arguments.ElementAt(index).ValueAsRangeInfo.Address.FullAddress : ArgToString(arguments, index);
+            return arguments.ElementAt(index).IsExcelRange ? arguments.ElementAt(index).ValueAsRangeInfo.Address.ToString() : ArgToString(arguments, index);
         }
 
         protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
         {
             var arg = arguments.ElementAt(index);
+            
             if(arg.ExcelAddressReferenceId > 0)
             {
                 return context.AddressCache.Get(arg.ExcelAddressReferenceId);
@@ -522,11 +540,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         protected virtual IEnumerable<double> ArgsToDoubleEnumerableZeroPadded(bool ignoreHiddenCells, IRangeInfo rangeInfo, ParsingContext context)
         {
-            var startRow = rangeInfo.Address.Start.Row;
-            var endRow = rangeInfo.Address.End.Row > rangeInfo.Worksheet.Dimension._toRow ? rangeInfo.Worksheet.Dimension._toRow : rangeInfo.Address.End.Row;
-            var startCol = rangeInfo.Address.Start.Column;
-            var endCol = rangeInfo.Address.End.Column > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.End.Column;
-            var horizontal = (startRow == endRow && rangeInfo.Address._fromCol < rangeInfo.Address._toCol);
+            var startRow = rangeInfo.Address.FromRow;
+            var endRow = rangeInfo.Address.ToRow > rangeInfo.Worksheet.Dimension._toRow ? rangeInfo.Worksheet.Dimension._toRow : rangeInfo.Address.ToRow;
+            var startCol = rangeInfo.Address.FromCol;
+            var endCol = rangeInfo.Address.ToCol > rangeInfo.Worksheet.Dimension._toCol ? rangeInfo.Worksheet.Dimension._toCol : rangeInfo.Address.ToCol;
+            var horizontal = (startRow == endRow && rangeInfo.Address.FromCol < rangeInfo.Address.ToCol);
             var funcArg = new FunctionArgument(rangeInfo);
             var result = ArgsToDoubleEnumerable(ignoreHiddenCells, new List<FunctionArgument> { funcArg }, context);
             var dict = new Dictionary<int, double>();
@@ -638,6 +656,35 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return CompileResult.Empty;
             }
             return CreateResult(result, DataType.Enumerable);
+        }
+        /// <summary>
+        /// If the function returns a different value with the same parameters.
+        /// </summary>
+        public virtual bool IsVolatile
+        {
+            get
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// If the function returns a range reference
+        /// </summary>
+        public virtual bool ReturnsReference
+        {
+            get
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Information of individual arguments of the function used internally by the formula parser .
+        /// </summary>
+        /// <param name="argumentIndex">The argument index</param>
+        /// <returns>Function argument information</returns>
+        public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.Normal;
         }
     }
 }

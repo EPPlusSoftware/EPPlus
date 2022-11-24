@@ -12,35 +12,37 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
+    [DebuggerDisplay("{ExpressionString}")]
     public class IntegerExpression : AtomicExpression
     {
         private double? _compiledValue;
         private bool _negate;
 
-        public IntegerExpression(string expression)
-            : this(expression, false)
+        public IntegerExpression(string expression, ParsingContext ctx)
+            : this(expression, false, ctx)
         {
 
         }
 
-        public IntegerExpression(string expression, bool negate)
-            : base(expression)
+        public IntegerExpression(string expression, bool negate, ParsingContext ctx)
+            : base(expression, ctx)
         {
             _negate = negate;
         }
 
-        public IntegerExpression(double val)
-            : base(val.ToString(CultureInfo.InvariantCulture))
+        public IntegerExpression(double val, ParsingContext ctx)
+            : base(val.ToString(CultureInfo.InvariantCulture), ctx)
         {
             _compiledValue = Math.Floor(val);
         }
-
+        internal override ExpressionType ExpressionType => ExpressionType.Integer;
         public override CompileResult Compile()
         {
             double result = _compiledValue ?? double.Parse(ExpressionString, CultureInfo.InvariantCulture);

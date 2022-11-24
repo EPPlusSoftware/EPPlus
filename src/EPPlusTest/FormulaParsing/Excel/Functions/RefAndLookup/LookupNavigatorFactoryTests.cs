@@ -34,6 +34,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -50,7 +51,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _excelPackage.Workbook.Worksheets.Add("Test");
             _context = ParsingContext.Create();
             _context.ExcelDataProvider = new EpplusExcelDataProvider(_excelPackage);
-            _context.Scopes.NewScope(RangeAddress.Empty);
+            _context.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestCleanup]
@@ -62,7 +63,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         [TestMethod]
         public void Should_Return_ExcelLookupNavigator_When_Range_Is_Set()
         {
-            var args = new LookupArguments(FunctionsHelper.CreateArgs(8, "A:B", 1), ParsingContext.Create());
+            var args = new LookupArguments(FunctionsHelper.CreateArgs(8, "A:B", 1), ParsingContext.Create(_excelPackage));
             var navigator = LookupNavigatorFactory.Create(LookupDirection.Horizontal, args, _context);
             Assert.IsInstanceOfType(navigator, typeof(ExcelLookupNavigator));
         }
@@ -70,7 +71,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         [TestMethod]
         public void Should_Return_ArrayLookupNavigator_When_Array_Is_Supplied()
         {
-            var args = new LookupArguments(FunctionsHelper.CreateArgs(8, FunctionsHelper.CreateArgs(1,2), 1), ParsingContext.Create());
+            var args = new LookupArguments(FunctionsHelper.CreateArgs(8, FunctionsHelper.CreateArgs(1,2), 1), ParsingContext.Create(_excelPackage));
             var navigator = LookupNavigatorFactory.Create(LookupDirection.Horizontal, args, _context);
             Assert.IsInstanceOfType(navigator, typeof(ArrayLookupNavigator));
         }

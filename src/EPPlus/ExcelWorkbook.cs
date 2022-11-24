@@ -256,7 +256,7 @@ namespace OfficeOpenXml
 		internal FormulaParser _formulaParser = null;
 		internal ExcelThreadedCommentPersonCollection _threadedCommentPersons = null;
 		internal FormulaParserManager _parserManager;
-		internal CellStore<List<Token>> _formulaTokens;
+		internal CellStore<IList<Token>> _formulaTokens;
 		internal class PivotTableCacheRangeInfo
 		{
 			public string Address { get; set; }
@@ -1784,8 +1784,20 @@ namespace OfficeOpenXml
             }
 			return null;
         }
+        internal ExcelTable GetTable(string name)
+        {
+            foreach (var ws in Worksheets)
+            {
+                var t = ws.Tables.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                if (t != null)
+                {
+                    return t;
+                }
+            }
+            return null;
+        }
 
-		internal void ClearDefaultHeightsAndWidths()
+        internal void ClearDefaultHeightsAndWidths()
 		{
 			foreach (var ws in Worksheets)
 			{

@@ -82,12 +82,20 @@ namespace OfficeOpenXml
                         }
                         else
                         {
+                            
                             _worksheets.Add(ix, new ExcelWorksheet(_namespaceManager, _pck, relId, uriWorksheet, name, sheetID, positionID, null));
                         }
                     }
                     ix++;
                 }
             }
+        }
+
+        internal short GetPositionByToken(string tokenValue)
+        {
+            var name = tokenValue.TrimStart('\'').TrimEnd('\'').Replace("''", "'");
+            var ws = _worksheets.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            return (short)(ws == null ? -1 : ws.PositionId);
         }
 
         private eWorkSheetHidden TranslateHidden(string value)

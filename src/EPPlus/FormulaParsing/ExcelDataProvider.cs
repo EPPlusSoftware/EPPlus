@@ -72,12 +72,15 @@ namespace OfficeOpenXml.FormulaParsing
         /// <param name="address">The reference address</param>
         /// <returns></returns>
         public abstract IRangeInfo GetRange(string worksheetName, string address);
+        internal abstract IRangeInfo GetRange(FormulaRangeAddress range);
+        public abstract IRangeInfo GetRange(int wsIx, int row, int column);
         public abstract INameInfo GetName(string worksheet, string name);
+        public abstract INameInfo GetName(int externalRef,int wsIx, string name);
 
         public abstract IEnumerable<object> GetRangeValues(string address);
 
         public abstract string GetRangeFormula(string worksheetName, int row, int column);
-        public abstract List<Token> GetRangeFormulaTokens(string worksheetName, int row, int column);
+        public abstract IList<Token> GetRangeFormulaTokens(string worksheetName, int row, int column);
         public abstract bool IsRowHidden(string worksheetName, int row);
         ///// <summary>
         ///// Returns a single cell value

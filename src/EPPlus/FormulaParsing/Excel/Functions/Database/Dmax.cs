@@ -25,17 +25,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Description = "Returns the maximum value from a field of a list or database, that satisfy specified conditions")]
     internal class Dmax : DatabaseFunction
     {
-        public Dmax()
-            : this(new RowMatcher())
-        {
-
-        }
-
-        public Dmax(RowMatcher rowMatcher)
-            : base(rowMatcher)
-        {
-
-        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);

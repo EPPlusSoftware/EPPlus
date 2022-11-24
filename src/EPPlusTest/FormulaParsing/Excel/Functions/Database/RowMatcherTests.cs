@@ -38,6 +38,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
     [TestClass]
     public class RowMatcherTests
     {
+        private ParsingContext _context = ParsingContext.Create();
         private ExcelDatabaseCriteria GetCriteria(Dictionary<ExcelDatabaseCriteriaField, object> items)
         {
             var provider = A.Fake<ExcelDataProvider>();
@@ -58,7 +59,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
             crit[new ExcelDatabaseCriteriaField("Crit1")] = 1;
             crit[new ExcelDatabaseCriteriaField("Crit3")] = 3;
 
-            var matcher = new RowMatcher();
+            var matcher = new RowMatcher(_context);
 
             var criteria = GetCriteria(crit);
 
@@ -77,7 +78,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
             crit[new ExcelDatabaseCriteriaField("Crit1")] = 1;
             crit[new ExcelDatabaseCriteriaField("Crit3")] = 4;
 
-            var matcher = new RowMatcher();
+            var matcher = new RowMatcher(_context);
 
             var criteria = GetCriteria(crit);
 
@@ -96,7 +97,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
             crit[new ExcelDatabaseCriteriaField("Crit1")] = "1";
             crit[new ExcelDatabaseCriteriaField("Crit3")] = 3;
 
-            var matcher = new RowMatcher();
+            var matcher = new RowMatcher(_context);
 
             var criteria = GetCriteria(crit);
 
@@ -115,7 +116,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
             crit[new ExcelDatabaseCriteriaField("Crit1")] = "1";
             crit[new ExcelDatabaseCriteriaField("Crit3")] = 3;
 
-            var matcher = new RowMatcher();
+            var matcher = new RowMatcher(_context);
 
             var criteria = GetCriteria(crit);
 
@@ -134,7 +135,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
             crit[new ExcelDatabaseCriteriaField("Crit1")] = "t*t";
             crit[new ExcelDatabaseCriteriaField("Crit3")] = 3;
 
-            var matcher = new RowMatcher();
+            var matcher = new RowMatcher(_context);
 
             var criteria = GetCriteria(crit);
 
@@ -153,7 +154,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
             crit[new ExcelDatabaseCriteriaField("Crit2")] = "<3";
             crit[new ExcelDatabaseCriteriaField("Crit3")] = 3;
 
-            var matcher = new RowMatcher();
+            var matcher = new RowMatcher(_context);
 
             var criteria = GetCriteria(crit);
 
@@ -172,7 +173,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Database
             crit[new ExcelDatabaseCriteriaField(2)] = "<3";
             crit[new ExcelDatabaseCriteriaField("Crit3")] = 3;
 
-            var matcher = new RowMatcher();
+            var matcher = new RowMatcher(_context);
 
             var criteria = GetCriteria(crit);
 

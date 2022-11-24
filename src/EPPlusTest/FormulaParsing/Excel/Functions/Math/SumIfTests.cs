@@ -32,6 +32,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
@@ -50,7 +51,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             _package = new ExcelPackage();
             _provider = new EpplusExcelDataProvider(_package);
             _parsingContext = ParsingContext.Create();
-            _parsingContext.Scopes.NewScope(RangeAddress.Empty);
+            _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
             _worksheet = _package.Workbook.Worksheets.Add("testsheet");
         }
 

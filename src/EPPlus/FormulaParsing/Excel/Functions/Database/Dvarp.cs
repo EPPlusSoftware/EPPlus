@@ -26,18 +26,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Description = "Calculates the variance (based on an entire population) of values in a field of a list or database, that satisfy specified conditions")]
     internal class Dvarp : DatabaseFunction
     {
-         public Dvarp()
-            : this(new RowMatcher())
-        {
-
-        }
-
-         public Dvarp(RowMatcher rowMatcher)
-            : base(rowMatcher)
-        {
-
-        }
-
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);

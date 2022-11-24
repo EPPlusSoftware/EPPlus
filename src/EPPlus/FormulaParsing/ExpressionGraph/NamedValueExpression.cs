@@ -10,29 +10,32 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
-using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System;
+using OfficeOpenXml.ExternalReferences;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    public class NamedValueExpression : AtomicExpression
+    internal class NamedValueExpression : ExpressionWithParent
     {
-        public NamedValueExpression(string expression, ParsingContext parsingContext)
-            : base(expression)
+        FormulaAddressBase _locationInfo;
+        public NamedValueExpression(string expression, ParsingContext parsingContext, ref FormulaAddressBase locationInfo)
+            : base(expression, parsingContext)
         {
             _parsingContext = parsingContext;
+            _locationInfo = locationInfo??new FormulaAddressBase();
         }
 
         private readonly ParsingContext _parsingContext;
 
+        internal override ExpressionType ExpressionType => ExpressionType.NameValue;
+        public override bool IsGroupedExpression => false;
         public override CompileResult Compile()
         {
-            var c = this._parsingContext.Scopes.Current;
-            var name = _parsingContext.ExcelDataProvider.GetName(c.Address.Worksheet, ExpressionString);
+            var c = _parsingContext.Scopes.Current;
+            var name = _parsingContext.ExcelDataProvider.GetName(_locationInfo.ExternalReferenceIx, _locationInfo.WorksheetIx, ExpressionString);
             
             var cache = _parsingContext.AddressCache;
             var cacheId = cache.GetNewId();
@@ -44,43 +47,63 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 if(table != null)
                 {
                     var ri = new RangeInfo(table.WorkSheet, table.Address);
-                    cache.Add(cacheId, ri.Address.FullAddress);
+                    cache.Add(cacheId, ri.Address.ToString());
                     return new CompileResult(ri, DataType.Enumerable, cacheId);
                 }
 
                 return new CompileResult(eErrorType.Name);
             }
+
             if (name.Value==null)
             {
                 return new CompileResult(null, DataType.Empty, cacheId);
             }
+
             if (name.Value is IRangeInfo)
             {
                 var range = (IRangeInfo)name.Value;
-                cache.Add(cacheId, range.Address.FullAddress);
-                if (range.IsMulti)
+                if (range.GetNCells()>1)
                 {
-                    return new CompileResult(name.Value, DataType.Enumerable, cacheId);
+                    return new AddressCompileResult(name.Value, DataType.Enumerable, range.Address);
                 }
                 else
                 {                    
                     if (range.IsEmpty)
                     {
-                        return new CompileResult(null, DataType.Empty, cacheId);
+                        return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
-                    var factory = new CompileResultFactory();
-                    return factory.Create(range.First().Value, cacheId);
+                    return CompileResultFactory.Create(range.First().Value, cacheId, range.Address);
                 }
             }
             else
             {                
-                var factory = new CompileResultFactory();
-                return factory.Create(name.Value, cacheId);
+                return CompileResultFactory.Create(name.Value, cacheId);
             }
-
-            
             
             //return new CompileResultFactory().Create(result);
+        }
+
+        private ExcelExternalDefinedName GetExternalName()
+        {
+            ExcelWorkbook wb = _parsingContext.Package.Workbook;
+            var erIx = _locationInfo.ExternalReferenceIx - 1;
+            if (erIx >= 0 && erIx < wb.ExternalLinks.Count && wb.ExternalLinks[erIx].ExternalLinkType == ExternalReferences.eExternalLinkType.ExternalWorkbook)
+            {
+                var er = (ExcelExternalWorkbook)wb.ExternalLinks[erIx];                
+                if (_locationInfo.WorksheetIx < 0)
+                {
+                    return er.CachedNames[ExpressionString];
+                }
+                else
+                {
+                    return er.CachedWorksheets[_locationInfo.WorksheetIx].CachedNames[ExpressionString];
+                }
+            }
+            return null;
+        }
+        internal override Expression Clone()
+        {
+            return CloneMe(new NamedValueExpression(ExpressionString, Context, ref _locationInfo));
         }
     }
 }

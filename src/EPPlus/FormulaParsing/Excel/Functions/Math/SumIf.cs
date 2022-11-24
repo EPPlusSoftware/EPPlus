@@ -29,22 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Adds the cells in a supplied range, that satisfy a given criteria")]
     internal class SumIf : HiddenValuesHandlingFunction
     {
-        private readonly ExpressionEvaluator _evaluator;
-
-        public SumIf()
-            : this(new ExpressionEvaluator())
-        {
-
-        }
-
-        public SumIf(ExpressionEvaluator evaluator)
-        {
-            Require.That(evaluator).Named("evaluator").IsNotNull();
-            _evaluator = evaluator;
-        }
+        private ExpressionEvaluator _evaluator;
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
+            _evaluator = new ExpressionEvaluator(context);
             ValidateArguments(arguments, 2);
             var argRange = ArgToRangeInfo(arguments, 0);
 
@@ -113,10 +102,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 if (_evaluator.Evaluate(cell.Value, criteria))
                 {
-                    var rowOffset = cell.Row - range.Address._fromRow;
-                    var columnOffset = cell.Column - range.Address._fromCol;
-                    if (sumRange.Address._fromRow + rowOffset <= sumRange.Address._toRow &&
-                       sumRange.Address._fromCol + columnOffset <= sumRange.Address._toCol)
+                    var rowOffset = cell.Row - range.Address.FromRow;
+                    var columnOffset = cell.Column - range.Address.FromCol;
+                    if (sumRange.Address.FromRow + rowOffset <= sumRange.Address.ToRow &&
+                       sumRange.Address.FromCol + columnOffset <= sumRange.Address.ToCol)
                     {
                         var val = sumRange.GetOffset(rowOffset, columnOffset);
                         if (val is ExcelErrorValue)

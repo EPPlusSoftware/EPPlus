@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipe
                 var functionCompilerFactory = new FunctionCompilerFactory(context.Configuration.FunctionRepository, context);
                 var startRange = funcName.Split(':')[0];
                 var c = context.Scopes.Current;
-                var resultRange = context.ExcelDataProvider.GetRange(c.Address.Worksheet, c.Address.FromRow, c.Address.FromCol, startRange);
+                var resultRange = context.ExcelDataProvider.GetRange(c.Address.WorksheetName, c.Address.FromRow, c.Address.FromCol, startRange);
                 var rangeOffset = new RangeOffset
                 {
                     StartRange = resultRange

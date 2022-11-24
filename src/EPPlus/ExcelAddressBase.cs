@@ -79,6 +79,28 @@ namespace OfficeOpenXml
             _address = GetAddress(_fromRow, _fromCol, _toRow, _toCol);
         }
 
+        /// <summary>
+        /// Creates an address object
+        /// </summary>
+        /// <param name="externalReferenceIx">Index of an external reference</param>
+        /// <param name="worksheetName">Worksheet name</param>
+        /// <param name="fromRow">Start row</param>
+        /// <param name="fromCol">Start column</param>
+        /// <param name="toRow">End row</param>
+        /// <param name="toColumn">End column</param>
+        public ExcelAddressBase(int externalReferenceIx, string worksheetName, int fromRow, int fromCol, int toRow, int toColumn)
+        {
+            _ws = worksheetName;
+            _fromRow = fromRow;
+            _toRow = toRow;
+            _fromCol = fromCol;
+            _toCol = toColumn;
+            _wb = externalReferenceIx.ToString();
+            Validate();
+
+            _address = GetFullAddress(_wb, worksheetName, GetAddress(_fromRow, _fromCol, _toRow, _toCol));
+        }
+
         internal static bool IsTableAddress(string address)
         {
             SplitAddress(address, out string wb, out string ws, out string intAddress);
@@ -280,8 +302,8 @@ namespace OfficeOpenXml
             if(address._fromRow > _toRow || _toRow < address._fromRow ||
                address._fromCol > _toCol || _toCol < address._fromCol ||
                _fromRow > address._toRow || address._toRow < _fromRow ||
-               _fromCol > address._toCol || address._toCol < _fromCol
-               )
+               _fromCol > address._toCol || address._toCol < _fromCol ||
+               address._ws != _ws)               
             {
                 return null;
             }
@@ -1221,7 +1243,7 @@ namespace OfficeOpenXml
                 }
             }
         }
-        private static bool IsR1C1(string address)
+        internal static bool IsR1C1(string address)
         {
             var start = address.LastIndexOf("!", address.Length-1, StringComparison.OrdinalIgnoreCase);
             if (start>=0)

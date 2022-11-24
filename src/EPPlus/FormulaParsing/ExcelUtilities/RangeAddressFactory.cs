@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -24,35 +25,42 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         private readonly ExcelDataProvider _excelDataProvider;
         private readonly AddressTranslator _addressTranslator;
         private readonly IndexToAddressTranslator _indexToAddressTranslator;
+        private readonly ParsingContext _context;
 
-        internal RangeAddressFactory(ExcelDataProvider excelDataProvider)
-            : this(excelDataProvider, new AddressTranslator(excelDataProvider), new IndexToAddressTranslator(excelDataProvider, ExcelReferenceType.RelativeRowAndColumn))
+        internal RangeAddressFactory(ExcelDataProvider excelDataProvider, ParsingContext context)
+            : this(excelDataProvider, new AddressTranslator(excelDataProvider), new IndexToAddressTranslator(excelDataProvider, ExcelReferenceType.RelativeRowAndColumn), context)
         {
            
             
         }
 
-        internal RangeAddressFactory(ExcelDataProvider excelDataProvider, AddressTranslator addressTranslator, IndexToAddressTranslator indexToAddressTranslator)
+        internal RangeAddressFactory(ExcelDataProvider excelDataProvider, AddressTranslator addressTranslator, IndexToAddressTranslator indexToAddressTranslator, ParsingContext context)
         {
             Require.That(excelDataProvider).Named("excelDataProvider").IsNotNull();
             Require.That(addressTranslator).Named("addressTranslator").IsNotNull();
             Require.That(indexToAddressTranslator).Named("indexToAddressTranslator").IsNotNull();
+            Require.That(context).Named("context").IsNotNull();
             _excelDataProvider = excelDataProvider;
             _addressTranslator = addressTranslator;
             _indexToAddressTranslator = indexToAddressTranslator;
+            _context = context;
         }
 
-        public RangeAddress Create(int col, int row)
+        public FormulaRangeAddress Create(int col, int row)
         {
             return Create(string.Empty, col, row);
         }
 
-        public RangeAddress Create(string worksheetName, int col, int row)
+        public FormulaRangeAddress Create(string worksheetName, int col, int row)
         {
-            return new RangeAddress()
+            var wsIndex = -1;
+            if(_context.Package != null && _context.Package.Workbook.Worksheets[worksheetName] != null)
             {
-                Address = _indexToAddressTranslator.ToAddress(col, row),
-                Worksheet = worksheetName,
+                wsIndex = _context.Package.Workbook.Worksheets[worksheetName].PositionId;
+            }
+            return new FormulaRangeAddress(_context)
+            {
+                WorksheetIx = (short)wsIndex,
                 FromCol = col,
                 ToCol = col,
                 FromRow = row,
@@ -66,17 +74,21 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="worksheetName">will be used if no worksheet name is specified in <paramref name="address"/></param>
         /// <param name="address">address of a range</param>
         /// <returns></returns>
-        public RangeAddress Create(string worksheetName, string address)
+        public FormulaRangeAddress Create(string worksheetName, string address)
         {
             Require.That(address).Named("range").IsNotNullOrEmpty();
             //var addressInfo = ExcelAddressInfo.Parse(address);
             var adr = new ExcelAddressBase(address);  
             var sheet = string.IsNullOrEmpty(adr.WorkSheetName) ? worksheetName : adr.WorkSheetName;
             var dim = _excelDataProvider.GetDimensionEnd(sheet);
-            var rangeAddress = new RangeAddress()
+            var worksheetIx = -1;
+            if(!string.IsNullOrEmpty(sheet) && _context.Package != null && _context.Package.Workbook.Worksheets[sheet] != null)
             {
-                Address = adr.Address,
-                Worksheet = sheet,
+                worksheetIx = _context.Package.Workbook.Worksheets[sheet].PositionId;
+            }
+            var rangeAddress = new FormulaRangeAddress(_context)
+            {
+                WorksheetIx = (short)worksheetIx,
                 FromRow = adr._fromRow,
                 FromCol = adr._fromCol,
                 ToRow = (dim != null && adr._toRow > dim.Row) ? dim.Row : adr._toRow,
@@ -94,7 +106,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             return rangeAddress;
         }
 
-        public RangeAddress Create(string range)
+        public FormulaRangeAddress Create(string range)
         {
             Require.That(range).Named("range").IsNotNullOrEmpty();
             //var addressInfo = ExcelAddressInfo.Parse(range);
@@ -103,13 +115,17 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 var a = _excelDataProvider.GetRange(adr.WorkSheetName, range).Address;
                 //Convert the Table-style Address to an A1C1 address
-                adr = new ExcelAddressBase(a._fromRow, a._fromCol, a._toRow, a._toCol);
-                adr._ws = a._ws;                
+                adr = new ExcelAddressBase(a.FromRow, a.FromCol, a.ToRow, a.ToCol);
+                adr._ws = a.WorksheetName;                
             }
-            var rangeAddress = new RangeAddress()
+            short worksheetIx = -1;
+            if (!string.IsNullOrEmpty(adr._ws) && _context.Package != null && _context.Package.Workbook.Worksheets[adr._ws] != null)
             {
-                Address = adr.Address,
-                Worksheet = adr.WorkSheetName ?? "",
+                worksheetIx = (short)_context.Package.Workbook.Worksheets[adr._ws].PositionId;
+            }
+            var rangeAddress = new FormulaRangeAddress(_context)
+            {
+                WorksheetIx = worksheetIx,
                 FromRow = adr._fromRow,
                 FromCol = adr._fromCol,
                 ToRow = adr._toRow,
@@ -125,28 +141,6 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             //    HandleSingleCellAddress(rangeAddress, addressInfo);
             //}
             return rangeAddress;
-        }
-
-        private void HandleSingleCellAddress(RangeAddress rangeAddress, ExcelAddressInfo addressInfo)
-        {
-            int col, row;
-            _addressTranslator.ToColAndRow(addressInfo.StartCell, out col, out row);
-            rangeAddress.FromCol = col;
-            rangeAddress.ToCol = col;
-            rangeAddress.FromRow = row;
-            rangeAddress.ToRow = row;
-        }
-
-        private void HandleMultipleCellAddress(RangeAddress rangeAddress, ExcelAddressInfo addressInfo)
-        {
-            int fromCol, fromRow;
-            _addressTranslator.ToColAndRow(addressInfo.StartCell, out fromCol, out fromRow);
-            int toCol, toRow;
-            _addressTranslator.ToColAndRow(addressInfo.EndCell, out toCol, out toRow, AddressTranslator.RangeCalculationBehaviour.LastPart);
-            rangeAddress.FromCol = fromCol;
-            rangeAddress.ToCol = toCol;
-            rangeAddress.FromRow = fromRow;
-            rangeAddress.ToRow = toRow;
         }
     }
 }

@@ -23,14 +23,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     public class ExcelErrorExpression : Expression
     {
         ExcelErrorValue _error;
-        public ExcelErrorExpression(string expression, ExcelErrorValue error)
-            : base(expression)
+        public ExcelErrorExpression(string expression, ExcelErrorValue error, ParsingContext ctx)
+            : base(expression, ctx)
         {
             _error = error;
         }
 
-        public ExcelErrorExpression(ExcelErrorValue error)
-            : this(error.ToString(), error)
+        public ExcelErrorExpression(ExcelErrorValue error, ParsingContext ctx)
+            : this(error.ToString(), error, ctx)
         {
             
         }
@@ -40,17 +40,20 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get { return false; }
         }
 
+        internal override ExpressionType ExpressionType => ExpressionType.ValueError;
+
         public override CompileResult Compile()
         {
-            return new CompileResult(_error, DataType.ExcelError);
-            //if (ParentIsLookupFunction)
-            //{
-            //    return new CompileResult(ExpressionString, DataType.ExcelError);
-            //}
-            //else
-            //{
-            //    return CompileRangeValues();
-            //}
+            if (_result == null)
+            {
+                _result = new CompileResult(_error, DataType.ExcelError);
+            }
+            return _result; 
+        }
+
+        internal override Expression Clone()
+        {            
+            return CloneMe(new ExcelErrorExpression(_error, Context));
         }
     }
 }

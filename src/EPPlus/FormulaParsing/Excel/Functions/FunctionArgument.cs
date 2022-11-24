@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -55,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         public int ExcelAddressReferenceId { get; set; }
-
+        public FormulaRangeAddress Address { get; set; }
         public bool IsExcelRange
         {
             get { return Value != null && Value is IRangeInfo; }
@@ -100,7 +101,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 }
                 else
                 {
-                    return v.GetValue(v.Address._fromRow, v.Address._fromCol);
+                    return v.GetValue(v.Address.FromRow, v.Address.FromCol);
                 }
             }
         }

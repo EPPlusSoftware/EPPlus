@@ -16,6 +16,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using System;
@@ -685,7 +686,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
                     }
-                    if(f.FormulaType==ExcelWorksheet.FormulaType.DataTable)
+                    if(f.FormulaType==FormulaType.DataTable)
                     {
                         if(string.IsNullOrEmpty(f.R1CellAddress)==false)
                         {
