@@ -486,7 +486,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             return new RpnFormula(_ws, row, col)
             {
-                _addressExpressionIndex = 0,
+                _expressionIndex = 0,
                 _row = row,
                 _column = col,
             };

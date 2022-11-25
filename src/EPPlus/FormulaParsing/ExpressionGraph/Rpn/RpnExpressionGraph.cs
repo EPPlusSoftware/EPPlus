@@ -291,7 +291,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 
         internal CompileResult Execute(IList<Token> exps)
         {
-            var _usedRanges = new Dictionary<int, RangeDictionary>();
+            _usedRanges = new Dictionary<int, RangeDictionary>();
             var cell = new RpnFormulaCell();
             short extRefIx = short.MinValue;
             short wsIx = short.MinValue;
@@ -306,7 +306,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     s.Peek().Status == RpnExpressionStatus.IsAddress)
                 {
                     //We have an address, follow dependency chain before executing .
-                    var a = GetAddressToFollow(s.Peek(), usedRanges);
+                    var a = GetAddressToFollow(s.Peek());
                     if(a!=null)
                     {
 
@@ -368,14 +368,36 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         private FormulaRangeAddress GetAddressToFollow(RpnExpression ae)
         {
             var a = ae.Compile().Address;
+            if (a.WorksheetIx < 0) return null;
+
+            RangeDictionary rd;
+            if (!_usedRanges.TryGetValue(a.WorksheetIx, out rd))
+            {
+                rd = new RangeDictionary();
+                _usedRanges.Add(a.WorksheetIx, rd);
+            }
+
             if (a.IsSingleCell)
             {
-                if (usedRanges.Exists(a.FromRow, a.ToRow))
+                if (rd.Exists(a.FromRow, a.ToRow))
+                {
+                    return null;
+                }
+                var ws = _parsingContext.Package.Workbook.Worksheets[a.WorksheetIx];
+                if(ws._formulas.Exists(a.FromRow, a.FromCol))
+                {
+                    return a.Address;
+                }
+            }
+            else
+            {
+                FormulaRangeAddress r=a.Address;
+                if (rd.Merge(ref r))
                 {
 
                 }
             }
-
+            return null;
         }
 
         private void GetTableAddress(IList<Token> exps, ref int i, out FormulaTableAddress tableAddress)
@@ -559,6 +581,82 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 var result = op.Apply(c2, c1, _parsingContext);
                 PushResult(cell, result);
             }
+        }
+
+        internal void ExecuteNextExpression(RpnFormula f, ref FormulaRangeAddress address)
+        {
+        //    var et = f._expressions;
+
+        //    short extRefIx = short.MinValue;
+        //    short wsIx = short.MinValue;
+        //    var s = f._expressionStack;
+        //    var exps = f._expressions;
+        //    while(f._expressionIndex < exps.Count)
+        //    {
+        //        var t = exps[f._expressionIndex++];
+
+        //        if (s.Count > 0 &&
+        //            !(t.TokenType == TokenType.Operator && t.Value != ":") &&
+        //            s.Peek().Status == RpnExpressionStatus.IsAddress)
+        //        {
+        //            //We have an address, follow dependency chain before executing .
+        //            var a = GetAddressToFollow(s.Peek());
+        //            if (a != null)
+        //            {
+
+        //            }
+        //        }
+
+        //        switch (t.TokenType)
+        //        {
+        //            case TokenType.Boolean:
+        //                s.Push(new RpnBooleanExpression(t.Value, _parsingContext));
+        //                break;
+        //            case TokenType.Integer:
+        //                s.Push(new RpnIntegerExpression(t.Value, _parsingContext));
+        //                break;
+        //            case TokenType.Decimal:
+        //                s.Push(new RpnDecimalExpression(t.Value, _parsingContext));
+        //                break;
+        //            case TokenType.StringContent:
+        //                s.Push(new RpnStringExpression(t.Value, _parsingContext));
+        //                break;
+        //            case TokenType.Negator:
+        //                s.Peek().Negate();
+        //                break;
+        //            case TokenType.CellAddress:
+        //                s.Push(new RpnCellAddressExpression(t.Value, _parsingContext, extRefIx, wsIx));
+        //                extRefIx = wsIx = short.MinValue;
+        //                break;
+        //            case TokenType.NameValue:
+        //                s.Push(new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
+        //                break;
+        //            case TokenType.ExternalReference:
+        //                extRefIx = short.Parse(t.Value);
+        //                break;
+        //            case TokenType.WorksheetNameContent:
+        //                wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
+        //                break;
+        //            case TokenType.Function:
+        //                ExecFunc(t, cell);
+        //                break;
+        //            case TokenType.StartFunctionArguments:
+        //                cell._funcStackPosition.Push(s.Count);
+        //                break;
+        //            case TokenType.TableName:
+        //                GetTableAddress(exps, ref i, out FormulaTableAddress tableAddress);
+        //                s.Push(new RpnTableAddressExpression(tableAddress, _parsingContext));
+        //                break;
+        //            case TokenType.OpeningEnumerable:
+        //                GetArray(exps, ref i, out List<List<object>> array);
+        //                s.Push(new RpnEnumerableExpression(array, _parsingContext));
+        //                break;
+        //            case TokenType.Operator:
+        //                ApplyOperator(t, cell);
+        //                break;
+        //        }
+        //    }
+        //    return s.Pop().Compile();
         }
     }
 }
