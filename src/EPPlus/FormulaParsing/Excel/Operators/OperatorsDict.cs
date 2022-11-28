@@ -34,7 +34,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             Add("<>", Operator.NotEqualsTo);
             Add("&", Operator.Concat);
             Add(":", Operator.Colon);
-            //Add("!", Operator.Exclamation);
             Add("isc", Operator.Intersect);
         }
 
@@ -50,6 +49,43 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 if (_instance == null)
                 {
                     _instance = new OperatorsDict();
+                }
+                return _instance;
+            }
+        }
+    }
+    public class OperatorsEnumDict : Dictionary<Operators, IOperator>
+    {
+        public OperatorsEnumDict()
+        {
+            Add(Operators.Plus, Operator.Plus);
+            Add(Operators.Minus, Operator.Minus);
+            Add(Operators.Multiply, Operator.Multiply);
+            Add(Operators.Divide, Operator.Divide);
+            Add(Operators.Exponentiation, Operator.Exp);
+            Add(Operators.Equals, Operator.Eq);
+            Add(Operators.GreaterThan, Operator.GreaterThan);
+            Add(Operators.GreaterThanOrEqual, Operator.GreaterThanOrEqual);
+            Add(Operators.LessThan, Operator.LessThan);
+            Add(Operators.LessThanOrEqual, Operator.LessThanOrEqual);
+            Add(Operators.NotEqualTo, Operator.NotEqualsTo);
+            Add(Operators.Concat, Operator.Concat);
+            Add(Operators.Colon, Operator.Colon);
+            Add(Operators.Intersect, Operator.Intersect);
+        }
+
+        private static IDictionary<Operators, IOperator> _instance;
+
+        /// <summary>
+        /// Instance of the OperatorsDict
+        /// </summary>
+        public static IDictionary<Operators, IOperator> Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new OperatorsEnumDict();
                 }
                 return _instance;
             }

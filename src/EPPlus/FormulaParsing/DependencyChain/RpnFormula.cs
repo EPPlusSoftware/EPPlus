@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _expressionIndex = 0;
         internal Stack<RpnExpression> _expressionStack;
         internal Stack<int> _funcStackPosition;
-
+        internal CompileResult _currentResult;
         public RpnFormula(ExcelWorksheet ws, int row, int column)
         {
             _ws = ws;

@@ -95,22 +95,30 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     depChain.processedCells.Add(id);
                     ws.Workbook.FormulaParser.ParsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, fs.Row, fs.Column);
-                    if (fs.Value is int ix)
-                    {
-                        f = ws._sharedFormulas[ix].GetRpnFormula(fs.Row, fs.Column);
-                    }
-                    else
-                    {
-                        var s = fs.Value.ToString();
-                        //compiler
-                        if (string.IsNullOrEmpty(s)) continue;
-                        f = new RpnFormula(ws, fs.Row, fs.Column);
-                        f.SetFormula(s, depChain._tokenizer, depChain._graph);
-                    }
+                    f=GetFormula(depChain, ws, fs);
                     AddChainForFormula(depChain, lexer, f, options);
                 }
             }
         }
+
+        private static RpnFormula GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, CellStoreEnumerator<object> fs)
+        {
+            if (fs.Value is int ix)
+            {
+                var sf = ws._sharedFormulas[ix];
+                return ws._sharedFormulas[ix].GetRpnFormula(depChain, fs.Row, fs.Column);
+            }
+            else
+            {
+                var s = fs.Value.ToString();
+                //compiler
+                if (string.IsNullOrEmpty(s)) return null;
+                var f = new RpnFormula(ws, fs.Row, fs.Column);
+                f.SetFormula(s, depChain._tokenizer, depChain._graph);
+                return f;
+            }
+        }
+
         internal class CalcState
         {
             internal Stack<Formula> _stack = new Stack<Formula>();
@@ -125,18 +133,15 @@ namespace OfficeOpenXml.FormulaParsing
 ExecuteFormula:
             depChain._graph.ExecuteNextExpression(f, ref address);
             var et = f._expressions;
-            if (f._expressionIndex < et.Count)
+            while (f._expressionIndex < et.Count)
             {
                 var e = et[f._expressionIndex++];
                 switch(e.ExpressionType)
                 {
                     case ExpressionType.CellAddress:
-                    case ExpressionType.ExcelRange:
-                    case ExpressionType.TableAddress:
-                        var r = e.Compile();
-                        address = r.Address;
-                        GetProcessedAddress(depChain, ref address);
-                        if (address == null)
+                        address = e.GetAddress();
+                        var isAdded = GetProcessedAddress(depChain, ref address);
+                        if (isAdded==false || address == null)
                         {
                             goto ExecuteFormula;
                         }
@@ -144,33 +149,31 @@ ExecuteFormula:
                         {
                             goto FollowChain;
                         }
+                    case ExpressionType.ExcelRange:
+                    case ExpressionType.TableAddress:
+                        break;
                     case ExpressionType.Function:
                         break;
                 }
             }
             depChain.formulas.Add(f);
+            if (depChain._formulaStack.Count > 0)
+            {
+                f = depChain._formulaStack.Pop();                
+                goto NextFormula;
+            }
+            return;
         FollowChain:
             ws = depChain._parsingContext.Package.Workbook.Worksheets[address.WorksheetIx];
             f._formulaEnumerator = new CellStoreEnumerator<object>(ws._formulas, address.FromRow, address.FromCol, address.ToRow, address.ToCol);
-            if(f._formulaEnumerator.Next())
+        NextFormula:
+            if (f._formulaEnumerator.Next())
             {
-                var v = f._formulaEnumerator.Value;
-                if(v is string formula)
-                {
-                    if (string.IsNullOrEmpty(formula)) goto FollowChain;
-                }
-                else
-                {
-                    //Shared formula.
-
-                }
-
                 depChain._formulaStack.Push(f);
-                f = new RpnFormula(ws, f._formulaEnumerator.Row, f._formulaEnumerator.Column);
+                f=GetFormula(depChain, ws, f._formulaEnumerator);
                 goto ExecuteFormula;
             }
             
-            f=depChain._formulaStack.Pop();
             goto ExecuteFormula;
             //                var ae = et.AddressExpressions[f.AddressExpressionIndex++];
             //                if (ae.ExpressionType == ExpressionType.Function) goto FollowFormulaChain;

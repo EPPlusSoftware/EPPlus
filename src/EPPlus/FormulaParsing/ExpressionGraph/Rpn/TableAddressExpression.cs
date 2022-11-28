@@ -31,5 +31,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             get;
             set;
         } = RpnExpressionStatus.CanCompile;
+        public virtual FormulaRangeAddress GetAddress() { return _addressInfo; }
     }
 }

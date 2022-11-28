@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public override CompileResult Compile()
         {
             if (_result == null)
-            {
+            {                
                 _result = new AddressCompileResult(_range, DataType.ExcelRange, _range.Address);
             }
             return _result;
@@ -35,5 +35,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get;
             set;
         } = RpnExpressionStatus.IsAddress;
+        public virtual FormulaRangeAddress GetAddress() { return _range.Address; }
     }
 }

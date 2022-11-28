@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
@@ -199,6 +200,22 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 var exps = _graph.CreateExpressionList(tokens);
                 var cr = _graph.Execute(exps);
                 Assert.AreEqual(3D, cr.Result);
+            }
+        }
+        [TestMethod]
+        public void Calculate_AddressExpression_PreCompile()
+        {
+            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
+            using (_parsingContext.Scopes.NewScope(rangeAddress))
+            {
+                var formula = "B1*(A2/A1)+1";
+                var tokens = _tokenizer.Tokenize(formula);
+                var exps = _graph.CreateExpressionList(tokens);
+                var er = _graph.CompileExpressions(exps);
+                Assert.AreEqual(4, er.Count);
+                Assert.AreEqual(Operators.Divide ,er[0].Operator);
+                Assert.AreEqual(Operators.Multiply, er[1].Operator);
+                Assert.AreEqual(Operators.Plus, er[2].Operator);
             }
         }
 

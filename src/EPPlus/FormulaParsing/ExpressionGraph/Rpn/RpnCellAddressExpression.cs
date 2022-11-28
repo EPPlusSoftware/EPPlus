@@ -10,11 +10,16 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     [DebuggerDisplay("CellAddressExpression: {ExpressionString}")]
     internal class RpnCellAddressExpression : RpnExpression
     {
-        FormulaRangeAddress _addressInfo;
-        bool _negate=false;
+        protected FormulaRangeAddress _addressInfo;
+        protected bool _negate =false;
+        internal RpnCellAddressExpression(FormulaRangeAddress addressInfo, bool negate) : base(addressInfo._context)
+        {
+            _addressInfo = addressInfo;
+            _negate = negate;
+        }
         public RpnCellAddressExpression(string address, ParsingContext ctx, short externalReferenceIx, short worksheetIx) : base(ctx)
         {
-            _addressInfo = new FormulaRangeAddress() { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx };
+            _addressInfo = new FormulaRangeAddress() { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx < 0 ? ctx.CurrentCell.WorksheetIx : worksheetIx };
             ExcelCellBase.GetRowColFromAddress(address, out int row, out int col, out bool fixedRow, out bool fixedCol);
             _addressInfo.FromRow = _addressInfo.ToRow = row;
             _addressInfo.FromCol = _addressInfo.ToCol = col;
@@ -29,8 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 if(_addressInfo.ExternalReferenceIx < 1)
                 {
-                    var wsIx = _addressInfo.WorksheetIx < 0 ? Context.CurrentCell.WorksheetIx : _addressInfo.WorksheetIx;
-                    _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[wsIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), 0, _addressInfo);
+                    _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), 0, _addressInfo);
                 }
             }
             return _result;
@@ -44,5 +48,16 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             get;
             set;
         } = RpnExpressionStatus.IsAddress;
+        internal override RpnExpression CloneWithOffset(int row, int col)
+        {
+            row += _addressInfo.FromRow;
+            col += _addressInfo.FromCol;
+            return new RpnCellAddressExpression(new FormulaRangeAddress(Context) { FromRow = row, ToRow = row, FromCol = col, ToCol = col, ExternalReferenceIx = _addressInfo.ExternalReferenceIx, WorksheetIx = _addressInfo.WorksheetIx }, _negate)
+            {
+                Status = Status,                
+                Operator= Operator
+            };
+        }
+        public override FormulaRangeAddress GetAddress() { return _addressInfo; }
     }
 }

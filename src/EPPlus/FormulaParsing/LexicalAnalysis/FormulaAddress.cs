@@ -6,6 +6,7 @@ using System.Text;
 using static OfficeOpenXml.ExcelAddressBase;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -482,14 +483,38 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 _compiler = _compiler,
             };
         }
-        internal RpnFormula GetRpnFormula(int row, int col)
+        IList<RpnExpression> _compiledExpressions = null;
+        internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {
+            if (_compiledExpressions == null)
+            {
+                _compiledExpressions= depChain._graph.CompileExpressions(depChain._graph.CreateExpressionList(Tokens));
+            }
             return new RpnFormula(_ws, row, col)
             {
                 _expressionIndex = 0,
                 _row = row,
                 _column = col,
+                _expressions = CloneExpessions(row, col)
             };
+        }
+        private IList<RpnExpression> CloneExpessions(int row, int col)
+        {
+            var l=new List<RpnExpression>();
+            foreach(var expression in _compiledExpressions)
+            {
+                if(expression.ExpressionType == ExpressionType.CellAddress ||
+                   expression.ExpressionType == ExpressionType.ExcelRange ||
+                   expression.ExpressionType == ExpressionType.TableAddress)
+                {
+                    l.Add(expression.CloneWithOffset(row - StartRow, col - StartCol));
+                }
+                else
+                {
+                    l.Add(expression);
+                }
+            }
+            return l;
         }
 
         internal string GetFormula(int row, int column, string worksheet)
@@ -788,7 +813,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get
             {
-                if (Row > 1 && Column > 1)
+                if (Row > 0 && Column > 0)
                 {
                     return ExcelAddressBase.GetAddress(Row, Column);
                 }

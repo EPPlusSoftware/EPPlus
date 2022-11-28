@@ -39,7 +39,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var ws1 = _package.Workbook.Worksheets.Add("Sheet2");
             ws1.Cells["A1:A1000"].Value = 1;
             ws1.Cells["B1"].Value = 100;
-            ws1.Cells["B2:B1000"].Value = "B1*(A2/A1)+1";
+            ws1.Cells["B2:B1000"].Formula = "B1*(A2/A1)+1";
 
             ws1.Cells["C1"].Formula = "B1000/B1-1";
             ws1.Cells["D1"].Formula = "Sum(B1:B1000)/C1";

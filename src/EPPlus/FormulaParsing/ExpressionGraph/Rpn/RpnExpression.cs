@@ -41,6 +41,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         }
         public abstract CompileResult Compile();
         public abstract void Negate();
+
+        internal virtual RpnExpression CloneWithOffset(int row, int col)
+        {
+            return this;
+        }
+
         internal abstract RpnExpressionStatus Status { get; set; }
+        public virtual FormulaRangeAddress GetAddress() { return null; }
     }
 }
