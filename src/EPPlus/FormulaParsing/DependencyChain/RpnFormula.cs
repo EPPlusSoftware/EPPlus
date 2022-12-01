@@ -12,9 +12,10 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _row;
         internal int _column;
         internal string _formula;
-        internal IList<RpnExpression> _expressions;
+        internal IList<Token> _tokens;
+        internal Dictionary<int, RpnExpression> _expressions;
         internal CellStoreEnumerator<object> _formulaEnumerator;
-        internal int _expressionIndex = 0;
+        internal int _tokenIndex = 0;
         internal Stack<RpnExpression> _expressionStack;
         internal Stack<int> _funcStackPosition;
         internal CompileResult _currentResult;
@@ -28,9 +29,9 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal void SetFormula(string formula, ISourceCodeTokenizer tokenizer, RpnExpressionGraph graph)
         {
-            var tokens =  graph.CreateExpressionList(tokenizer.Tokenize(formula));
+            _tokens =  tokenizer.Tokenize(formula);
             _formula= formula;
-            _expressions = graph.CompileExpressions(tokens);
+            _expressions = graph.CompileExpressions(ref _tokens);
         }
     }
 }

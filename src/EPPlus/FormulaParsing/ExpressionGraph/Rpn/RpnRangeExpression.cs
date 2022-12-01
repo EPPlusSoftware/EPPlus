@@ -7,12 +7,12 @@ using Operators = OfficeOpenXml.FormulaParsing.Excel.Operators.Operators;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    [DebuggerDisplay("CellAddressExpression: {ExpressionString}")]
-    internal class RpnRangeExpression : RpnExpression
+    [DebuggerDisplay("RangeExpression: {_range.Address.Address.Address}")]
+    internal class RpnRangeExpressionOld : RpnExpression
     {
         IRangeInfo _range;
         bool _negate=false;
-        public RpnRangeExpression(IRangeInfo address, ParsingContext ctx) : base(ctx)
+        public RpnRangeExpressionOld(IRangeInfo address, ParsingContext ctx) : base(ctx)
         {
             _range = address;
         }

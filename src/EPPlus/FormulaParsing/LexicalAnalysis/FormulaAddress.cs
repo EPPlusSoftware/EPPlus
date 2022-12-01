@@ -41,9 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         protected void SetFormula(ExcelWorksheet ws, string formula)
         {
-            Tokens = _tokenizer.Tokenize(formula);
-
-            var ctx = ws.Workbook.FormulaParser.ParsingContext;
+            Tokens = RpnExpressionGraph.CreateRPNTokens(_tokenizer.Tokenize(formula));
         }
         //private ExpressionTree _expressionTree = null;
         //public ExpressionTree ExpressionTree
@@ -407,6 +405,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         internal int Index { get; set; }
         string _formula;
+
         internal string Formula 
         { 
             get
@@ -416,7 +415,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             set
             {
                 _formula = value;
-                Tokens = _tokenizer.Tokenize(_formula);
+                SetFormula(_ws, value);
             }
         }
         internal bool IsArray { get; set; }
@@ -483,35 +482,36 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 _compiler = _compiler,
             };
         }
-        IList<RpnExpression> _compiledExpressions = null;
+        //RpnCompiledFormula _compiledExpressions = null;
+        private Dictionary<int, RpnExpression> _compiledExpressions;
         internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {
             if (_compiledExpressions == null)
             {
-                _compiledExpressions= depChain._graph.CompileExpressions(depChain._graph.CreateExpressionList(Tokens));
+                _compiledExpressions = depChain._graph.CompileExpressions(ref Tokens);
             }
             return new RpnFormula(_ws, row, col)
             {
-                _expressionIndex = 0,
+                _tokenIndex = 0,
                 _row = row,
                 _column = col,
                 _expressions = CloneExpessions(row, col)
             };
         }
-        private IList<RpnExpression> CloneExpessions(int row, int col)
+        private Dictionary<int, RpnExpression> CloneExpessions(int row, int col)
         {
-            var l=new List<RpnExpression>();
+            var l=new Dictionary<int, RpnExpression>();
             foreach(var expression in _compiledExpressions)
             {
-                if(expression.ExpressionType == ExpressionType.CellAddress ||
-                   expression.ExpressionType == ExpressionType.ExcelRange ||
-                   expression.ExpressionType == ExpressionType.TableAddress)
+                if(expression.Value.ExpressionType == ExpressionType.CellAddress ||
+                   expression.Value.ExpressionType == ExpressionType.ExcelRange ||
+                   expression.Value.ExpressionType == ExpressionType.TableAddress)
                 {
-                    l.Add(expression.CloneWithOffset(row - StartRow, col - StartCol));
+                    l.Add(expression.Key, expression.Value.CloneWithOffset(row - StartRow, col - StartCol));
                 }
                 else
                 {
-                    l.Add(expression);
+                    l.Add(expression.Key, expression.Value);
                 }
             }
             return l;

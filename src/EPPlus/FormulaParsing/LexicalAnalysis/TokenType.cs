@@ -172,5 +172,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         CellAddress = (ulong)1 << 36,
         StartFunctionArguments = (ulong)1 << 37,
+        Array = (ulong)1 << 38,
     }
 }

@@ -73,13 +73,13 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             var expected = 3.001953125D;
             Assert.AreEqual(3.001953125D, cr.ResultNumeric);
 
-            var er = _graph.CompileExpressions(exps);
-            Assert.AreEqual(expected, er[0].Compile().ResultNumeric);
+            //var er = _graph.CompileExpressions(exps);
+            //Assert.AreEqual(expected, er._expressions[0].Compile().ResultNumeric);
                 
         }
         [TestMethod]
@@ -87,20 +87,20 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "(( 1 -(- 2)-( 3 + 4 + 5 ))/( 6 + 7 * 8 - 9) * 10 )";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             var expected = -1.6981132075471697D;
             Assert.AreEqual(expected, cr.ResultNumeric);
 
-            var er = _graph.CompileExpressions(exps);
-            Assert.AreEqual(expected, er[0].Compile().ResultNumeric);
+            //var er = _graph.CompileExpressions(exps);
+            //Assert.AreEqual(expected, er._expressions[0].Compile().ResultNumeric);
         }
         [TestMethod]
         public void Calculate_NumericExpression3()
         {
             var formula = "( 1 + 2 ) * ( 3 / 4 ) ^ ( 5 + 6 )";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             Assert.AreEqual(0.12670540809631348D, cr.ResultNumeric);
         }
@@ -109,25 +109,25 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "sin(max((( 2 + 2 ) / 2), (3 * 3) / 3) / 3 * pi())";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             var expected = 3.231085104332676E-15;
             Assert.AreEqual(expected, cr.ResultNumeric);
 
-            var er = _graph.CompileExpressions(exps);
-            Assert.AreEqual(expected, er[0].Compile().ResultNumeric);
+            //var er = _graph.CompileExpressions(exps);
+            //Assert.AreEqual(expected, er._expressions[0].Compile().ResultNumeric);
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithAddresses1()
         {
             var formula = "A1 + B1 * C1 / ( 1 - 5 ) ^ 2 ^ 3";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             var expected = 1.00146484375;
             Assert.AreEqual(expected, cr.ResultNumeric);
 
-            var er = _graph.CompileExpressions(exps);
+            //var er = _graph.CompileExpressions(exps);
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithAddresses2()
@@ -137,12 +137,12 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             {
                 var formula = "(SUM(Sheet1!A1:C1)+1) * 3";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
+                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
                 var cr = _graph.Execute(exps);
                 
                 Assert.AreEqual(21, cr.ResultNumeric);
 
-                 var er = _graph.CompileExpressions(exps);
+                 //var er = _graph.CompileExpressions(exps);
             }
         }
         [TestMethod]
@@ -155,7 +155,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 //{
                 var formula = "SUM(A1:B1+A2:B2)+1";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
+                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
                 var cr = _graph.Execute(exps);
 
                 Assert.AreEqual(34, cr.ResultNumeric);
@@ -167,7 +167,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "\"Test\" & \" \" & \"2\"";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             Assert.AreEqual("Test 2", cr.Result);
         }
@@ -176,7 +176,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "Sum({1,2;3,4})";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             Assert.AreEqual(10D, cr.Result);
         }
@@ -185,7 +185,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "sum({1,2,3;3,4,5}+A1:C2)";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             Assert.AreEqual(84D, cr.Result);
         }
@@ -197,7 +197,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             {
                 var formula = "Sum(Table1[col 1])";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
+                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
                 var cr = _graph.Execute(exps);
                 Assert.AreEqual(3D, cr.Result);
             }
@@ -210,12 +210,12 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             {
                 var formula = "B1*(A2/A1)+1";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
-                var er = _graph.CompileExpressions(exps);
-                Assert.AreEqual(4, er.Count);
-                Assert.AreEqual(Operators.Divide ,er[0].Operator);
-                Assert.AreEqual(Operators.Multiply, er[1].Operator);
-                Assert.AreEqual(Operators.Plus, er[2].Operator);
+                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
+                //var er = _graph.CompileExpressions(exps);
+                //Assert.AreEqual(4, er._expressions.Count);
+                //Assert.AreEqual(Operators.Divide ,er._expressions[0].Operator);
+                //Assert.AreEqual(Operators.Multiply, er._expressions[1].Operator);
+                //Assert.AreEqual(Operators.Plus, er._expressions[2].Operator);
             }
         }
 
@@ -224,7 +224,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "sum({1,2,3;3,4,5}+A1:C2)";
             var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CreateExpressionList(tokens);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
             var cr = _graph.Execute(exps);
             Assert.AreEqual(84D, cr.Result);
         }
@@ -237,7 +237,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             {
                 var formula = "Sheet1!WorksheetDefinedNameValue";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
+                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
                 var cr = _graph.Execute(exps);
                 Assert.AreEqual("Name Value", cr.Result);
             }
@@ -250,7 +250,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             {
                 var formula = "WorkbookDefinedNameValue";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
+                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
                 var cr = _graph.Execute(exps);
                 Assert.AreEqual(1, cr.Result);
             }
@@ -263,7 +263,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             {
                 var formula = "NonExistingSheet!WorksheetDefinedNameValue";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
+                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
                 var cr = _graph.Execute(exps);
                 Assert.IsInstanceOfType(cr.Result, typeof(ExcelErrorValue));
                 Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)cr.Result).Type);
@@ -275,12 +275,13 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
             using (_parsingContext.Scopes.NewScope(rangeAddress))
             {
-                var formula = "=IF(A1>A2,SUM(A1:C1),SUM(A2:C2))";
+                var formula = "IF((A1 * 1) > (A2 / 2) + 1,SUM(A1:C1),SUM(A2:C2))";
                 var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CreateExpressionList(tokens);
-                var cr = _graph.Execute(exps);
-                Assert.IsInstanceOfType(cr.Result, typeof(ExcelErrorValue));
-                Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)cr.Result).Type);
+                var exps = _graph.CompileExpressions(ref tokens);
+                //var cr = _graph.Execute(exps);
+                //var ce = _graph.CompileExpressions(exps);
+                //Assert.IsInstanceOfType(cr.Result, typeof(ExcelErrorValue));
+                //Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)cr.Result).Type);
             }
         }
     }

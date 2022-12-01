@@ -14,18 +14,21 @@ using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using static OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.RpnExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 {
+    [Flags]
     internal enum RpnExpressionStatus : short
     {
         NoSet=0,
         CanCompile=1,
         IsAddress=2,
-        OnExpressionList=4
+        OnExpressionList=4,
+        FunctionArgument=8
     }
     internal abstract class RpnExpression
     {
@@ -49,5 +52,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 
         internal abstract RpnExpressionStatus Status { get; set; }
         public virtual FormulaRangeAddress GetAddress() { return null; }
+
+        internal virtual void MergeAddress(string address)
+        {
+
+        }
     }
 }

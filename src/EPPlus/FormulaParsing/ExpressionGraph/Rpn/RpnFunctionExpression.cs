@@ -26,12 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         private readonly string _functionName;
         private readonly IEnumerable<RpnExpression> _arguments;
         private readonly RpnFunctionCompilerFactory _functionCompilerFactory;
+        private readonly int _pos;
         bool _negate=false;
-        internal RpnFunctionExpression(string tokenValue, ParsingContext ctx, IEnumerable<RpnExpression> arguments) : base(ctx)
+        internal RpnFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
             _functionName = tokenValue;
             if (_functionName.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) _functionName = _functionName.Replace("_xlfn.", string.Empty);
-            _arguments = arguments;
+            _arguments = new List<RpnExpression>();
+            _pos = pos;
             _functionCompilerFactory = new RpnFunctionCompilerFactory(ctx.Configuration.FunctionRepository, ctx);
 
         }
