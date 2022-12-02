@@ -495,6 +495,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 _tokenIndex = 0,
                 _row = row,
                 _column = col,
+                _tokens = Tokens,
                 _expressions = CloneExpessions(row, col)
             };
         }

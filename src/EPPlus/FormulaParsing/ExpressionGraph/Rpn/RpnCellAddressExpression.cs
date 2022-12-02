@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Packaging.Ionic;
 using System;
 using System.Diagnostics;
@@ -36,7 +37,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 if(_addressInfo.ExternalReferenceIx < 1)
                 {
-                    _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), 0, _addressInfo);
+                    if (_addressInfo.IsSingleCell)
+                    {
+                        _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), 0, _addressInfo);
+                    }
+                    else
+                    {
+                        _result = new AddressCompileResult(new RangeInfo(_addressInfo, Context), DataType.ExcelRange, _addressInfo);
+                    }
                 }
             }
             return _result;

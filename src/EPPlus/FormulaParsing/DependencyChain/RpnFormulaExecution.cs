@@ -91,16 +91,15 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var ws = range.Worksheet;
             RpnFormula f = null;
+            //TODO: Remove the row below when scope has been fixed.
+            depChain._parsingContext.Scopes.NewScope(new FormulaRangeAddress() { FromRow = range._fromRow, FromCol = range._fromCol});
             var fs = new CellStoreEnumerator<object>(ws._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
             while (fs.Next())
             {
-
                 if (fs.Value == null || fs.Value.ToString().Trim() == "") continue;
                 var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
                 if (depChain.processedCells.Contains(id) == false)
                 {
-                    depChain.processedCells.Add(id);
-                    ws.Workbook.FormulaParser.ParsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, fs.Row, fs.Column);
                     f=GetFormula(depChain, ws, fs);
                     AddChainForFormula(depChain, lexer, f, options);
                 }
@@ -133,28 +132,36 @@ namespace OfficeOpenXml.FormulaParsing
         private static void AddChainForFormula(RpnOptimizedDependencyChain depChain, ILexer lexer, RpnFormula f, ExcelCalculationOption options)
         {
             FormulaRangeAddress address=null;
-            //var subCalcs = new Stack<CalcState>();
-            //var calcState = new CalcState();
             var ws = f._ws;
 ExecuteFormula:
-            depChain._graph.ExecuteNextExpression(f, ref address);
-            var tokens = f._tokens;
-            if(f._tokenIndex < tokens.Count)
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, f._row, f._column);
+            if (f._tokenIndex < f._tokens.Count)
             {
                 ExecuteNextToken(depChain, f);
-                if (f._expressions[f._tokenIndex].Status == RpnExpressionStatus.IsAddress)
+                if (f._tokenIndex < f._tokens.Count)
                 {
-                    address = f._expressions[f._tokenIndex++].GetAddress();
-                    goto FollowChain;
+                    if(depChain.accessedRanges.TryGetValue(ws.PositionId, out RangeDictionary rd)==false)
+                    {
+                        rd=new RangeDictionary();
+                        depChain.accessedRanges.Add(ws.PositionId, rd);
+                    }
+                    address = f._expressions[f._tokenIndex].GetAddress();
+                    if (rd.Merge(ref address))
+                    {
+                        goto FollowChain;
+                    }
+                    f._tokenIndex++;
+                    goto ExecuteFormula;
                 }
             }
             //Set the value.
-            f._ws.SetValueInner(f._row, f._column, f._expressionStack.Pop().Compile());
-
+            f._ws.SetValueInner(f._row, f._column, f._expressionStack.Pop().Compile().ResultValue);
+            var id = ExcelCellBase.GetCellId(ws.IndexInList, f._row, f._column);
+            depChain.processedCells.Add(id);
             depChain.formulas.Add(f);
             if (depChain._formulaStack.Count > 0)
             {
-                f = depChain._formulaStack.Pop();                
+                f = depChain._formulaStack.Pop();
                 goto NextFormula;
             }
             return;
@@ -168,7 +175,7 @@ ExecuteFormula:
                 f=GetFormula(depChain, ws, f._formulaEnumerator);
                 goto ExecuteFormula;
             }
-            f._expressions[f._tokenIndex].Compile();
+            f._tokenIndex++;
             goto ExecuteFormula;
             //                var ae = et.AddressExpressions[f.AddressExpressionIndex++];
             //                if (ae.ExpressionType == ExpressionType.Function) goto FollowFormulaChain;
@@ -333,8 +340,8 @@ ExecuteFormula:
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
                         break;
-
-                } 
+                }
+                f._tokenIndex++;
             }
         }
         private static void ApplyOperator(ParsingContext context, Token opToken, RpnFormula f)
@@ -375,6 +382,9 @@ ExecuteFormula:
                     break;
                 case DataType.String:
                     f._expressionStack.Push(new RpnStringExpression(result, context));
+                    break;
+                case DataType.ExcelError:
+                    f._expressionStack.Push(new RpnErrorExpression(result, context));
                     break;
                 case DataType.ExcelRange:
                     f._expressionStack.Push(new RpnRangeExpression(result.Address, false));

@@ -6,11 +6,12 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
+using System.Diagnostics;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
     [TestClass]
-    public class ReversedPolishNotationExecutionTests
+    public class ReversedPolishNotationExecutionTests : TestBase
     {
         ExcelPackage _package;
         ParsingContext _parsingContext;
@@ -32,6 +33,12 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 
             SetUpWorksheet1();
             SetUpWorksheet2();
+        }
+        [TestCleanup]
+        public void Cleanup()
+        {
+            SaveWorkbook("Rpn.xlsx", _package);
+            _package.Dispose();
         }
 
         private void SetUpWorksheet1()
@@ -64,7 +71,11 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void ExecuteWorksheet1()
         {
             var dp = new RpnOptimizedDependencyChain(_package.Workbook);
+            var sw=Stopwatch.StartNew();
             dp.Execute();
+            Debug.WriteLine($"Duration: {sw.ElapsedMilliseconds / 1000}");
+            Assert.AreEqual(9.99D, _package.Workbook._worksheets[0].Cells["C1"].Value);
+            Assert.AreEqual(60010.01D, Math.Round((double)_package.Workbook._worksheets[0].Cells["D1"].Value, 2));
         }
     }
 }

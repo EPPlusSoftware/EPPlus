@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal void SetFormula(string formula, ISourceCodeTokenizer tokenizer, RpnExpressionGraph graph)
         {
-            _tokens =  tokenizer.Tokenize(formula);
+            _tokens = RpnExpressionGraph.CreateRPNTokens(tokenizer.Tokenize(formula));
             _formula= formula;
             _expressions = graph.CompileExpressions(ref _tokens);
         }
