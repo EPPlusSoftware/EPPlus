@@ -55,6 +55,7 @@ using OfficeOpenXml.Drawing.Style.Coloring;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 using OfficeOpenXml.Utils.CompundDocument;
+using System.Security.AccessControl;
 
 namespace EPPlusTest
 {
@@ -3884,6 +3885,52 @@ namespace EPPlusTest
             {
                 p.Workbook.VbaProject.Protection.SetPassword(null);
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i751()
+        {
+            using (var p = OpenTemplatePackage(@"i751-Normal.xlsx"))
+            {
+                var ws= p.Workbook.Worksheets[0];
+                ws.DeleteColumn(3);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i752()
+        {
+            using (var p = OpenTemplatePackage(@"i752.xlsx"))
+            {
+                for (int row = 1; row <= p.Workbook.Worksheets[0].Dimension.End.Row; row++)
+                {
+                    if (p.Workbook.Worksheets[0].Cells[row, 1].Text == "") continue;
+
+                    var cell = p.Workbook.Worksheets[0].Cells[row, 3];
+
+                    Debug.WriteLine($"\n--> {p.Workbook.Worksheets[0].Cells[row, 1].Text}");
+                    Debug.Write($"Cell Font: [{cell.Style.Font.Name}], Size: [{cell.Style.Font.Size}]");
+                    if (cell.Style.Font.Bold) Console.Write(", Bold");
+                    Debug.WriteLine("");
+
+                    foreach (var richText in cell.RichText)
+                    {
+                        Debug.Write($"RichText {richText.Text} Font: [{richText.FontName}], Size: [{richText.Size}]");
+                        if (richText.Bold) Console.Write(", Bold");
+                        Debug.WriteLine("");
+                    }
+                }
+            }
+        }
+        [TestMethod]
+        public void s407()
+        {
+            using (var p = OpenTemplatePackage(@"s407.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets.First();
+                var sheet2 = p.Workbook.Worksheets.Add("copy", sheet1);
+                p.Save();
+
             }
         }
     }

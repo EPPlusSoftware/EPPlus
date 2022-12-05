@@ -371,7 +371,7 @@ namespace OfficeOpenXml
         {
             ExcelRow newRow = added.Row(Row);
             newRow.Collapsed = Collapsed;
-            if (newRow.CustomHeight)
+            if (CustomHeight)
             {
                 newRow.Height = Height;
             }
