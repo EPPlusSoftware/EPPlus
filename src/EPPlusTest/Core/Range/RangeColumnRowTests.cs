@@ -433,7 +433,7 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(1, ws.Cells["K19"].EntireRow.OutlineLevel);
         }
         [TestMethod]
-        public void s407()
+        public void VerifyRowHeightIsCopied()
         {
             var sheet1 = _pck.Workbook.Worksheets.Add("row_height");
             sheet1.Rows[1].Height = 30D;
