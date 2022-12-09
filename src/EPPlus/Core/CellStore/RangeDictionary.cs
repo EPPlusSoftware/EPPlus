@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 
 namespace OfficeOpenXml.Core.CellStore
@@ -56,7 +57,32 @@ namespace OfficeOpenXml.Core.CellStore
                 return false;
             }
         }
-
+        internal bool Exists(FormulaRangeAddress newAddress)
+        {
+            for (int c = newAddress.FromCol; c <= newAddress.ToCol; c++)
+            {
+                var rowSpan = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
+                if (_addresses.TryGetValue(c, out List<long> rows))
+                {
+                    var ix = rows.BinarySearch(rowSpan);
+                    if(ix >= 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        var r = rows[~ix];
+                        var fr = (int)(r >> 20) + 1;
+                        var tr = (int)(r & 0xFFFFF) + 1;
+                        if (fr >= newAddress.ToRow || tr <= newAddress.FromRow)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
         /// <summary>
         /// Merge the cell into the existing data and returns the ranges added.
         /// </summary>
@@ -71,8 +97,10 @@ namespace OfficeOpenXml.Core.CellStore
                 var rowSpan = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
                 if (!_addresses.TryGetValue(c, out List<long> rows))
                 {
-                    rows = new List<long>();
-                    rows.Add(rowSpan);
+                    rows = new List<long>
+                    {
+                        rowSpan
+                    };
                     spillRanges.Add(rowSpan);
                     _addresses.Add(c, rows);
                     isAdded = 1;

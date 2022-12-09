@@ -18,24 +18,29 @@ using System.Collections;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 {
     internal class RpnFunctionExpression : RpnExpression
     {
-        private readonly string _functionName;
-        private readonly IEnumerable<RpnExpression> _arguments;
         private readonly RpnFunctionCompilerFactory _functionCompilerFactory;
-        private readonly int _pos;
-        bool _negate=false;
+        internal readonly ExcelFunction _function;
+        internal int _startPos, _endPos;
+        internal IList<int> _arguments;
+        internal int _argPos=0;
+        internal bool _latestConitionValue;
+        bool _negate =false;
         internal RpnFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
-            _functionName = tokenValue;
-            if (_functionName.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) _functionName = _functionName.Replace("_xlfn.", string.Empty);
-            _arguments = new List<RpnExpression>();
-            _pos = pos;
-            _functionCompilerFactory = new RpnFunctionCompilerFactory(ctx.Configuration.FunctionRepository, ctx);
 
+            if (tokenValue.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) tokenValue = tokenValue.Replace("_xlfn.", string.Empty);
+            _arguments = new List<int>();
+            _startPos = pos;
+            _functionCompilerFactory = new RpnFunctionCompilerFactory(ctx.Configuration.FunctionRepository, ctx);
+            _function = ctx.Configuration.FunctionRepository.GetFunction(tokenValue);
+            //var compiler = _functionCompilerFactory.Create(_function);
         }
         internal override ExpressionType ExpressionType => ExpressionType.Function;
         public override void Negate()
@@ -49,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 // older versions of Excel (pre 2007) adds "_xlfn." in front of some function names for compatibility reasons.
                 // EPPlus implements most of these functions, so we just remove this.
 
-                var function = Context.Configuration.FunctionRepository.GetFunction(_functionName);
+                //var function = Context.Configuration.FunctionRepository.GetFunction(_functionName);
                 //if (function == null)
                 //{
                 //    // Handle unrecognized func name
@@ -66,10 +71,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 //}
                 if (Context.Debug)
                 {
-                    Context.Configuration.Logger.LogFunction(_functionName);
+                    Context.Configuration.Logger.LogFunction(_function.GetType().Name);
                 }
-                var compiler = _functionCompilerFactory.Create(function);
-                var result = compiler.Compile(_arguments.Any() ? _arguments : Enumerable.Empty<RpnExpression>());
+                var compiler = _functionCompilerFactory.Create(_function);
+                var result = compiler.Compile(/*_arguments.Any() ? _arguments : */Enumerable.Empty<RpnExpression>());
                 //if (_isNegated)
                 //{
                 //    if (!result.IsNumeric)
@@ -95,6 +100,15 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 return new CompileResult(e.ErrorValue, DataType.ExcelError);
             }
         }
+
+        internal int GetTokenPosForArg(FunctionParameterInformation type)
+        {
+            var i = _argPos;
+            while (i < _arguments.Count && _function.GetParameterInfo(i) != type) i++;
+            if(i < _arguments.Count ) return _arguments[i];
+            return -1;
+        }
+
         private RpnExpressionStatus _status= RpnExpressionStatus.NoSet;
         internal override RpnExpressionStatus Status
         {
@@ -102,14 +116,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             {
                 if(_status==RpnExpressionStatus.NoSet)
                 {
-                    foreach(var a in _arguments)
-                    {
-                        if(a.Status==RpnExpressionStatus.IsAddress)
-                        {
-                            _status= a.Status;
-                            return _status;
-                        }
-                    }
+                    //foreach(var a in _arguments)
+                    //{
+                    //    if(a.Status==RpnExpressionStatus.IsAddress)
+                    //    {
+                    //        _status= a.Status;
+                    //        return _status;
+                    //    }
+                    //}
                     _status= RpnExpressionStatus.CanCompile;
                 }
                 return _status;

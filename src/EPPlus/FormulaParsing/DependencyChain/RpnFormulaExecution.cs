@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
@@ -17,13 +18,23 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing
 {
+    internal struct CircularReference
+    {
+        public CircularReference(ulong fromCell, ulong toCell)
+        {
+            FromCell = fromCell;
+            ToCell = toCell;
+        }
+        internal ulong FromCell;
+        internal ulong ToCell;
+    }
     internal class RpnOptimizedDependencyChain
     {
         internal List<RpnFormula> formulas = new List<RpnFormula>();
         internal Stack<RpnFormula> _formulaStack=new Stack<RpnFormula>();
         internal Dictionary<int, RangeDictionary> accessedRanges = new Dictionary<int, RangeDictionary>();
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
-        internal List<ulong> _circularReferences = new List<ulong>();
+        internal List<CircularReference> _circularReferences = new List<CircularReference>();
         internal ISourceCodeTokenizer _tokenizer;
         internal RpnExpressionGraph _graph;
         internal ParsingContext _parsingContext;
@@ -48,9 +59,18 @@ namespace OfficeOpenXml.FormulaParsing
         {
             return RpnFormulaExecution.Create(_parsingContext.Package.Workbook, new ExcelCalculationOption());
         }
+        internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws)
+        {
+            return RpnFormulaExecution.Create(ws, new ExcelCalculationOption());
+        }
+        internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
+        {
+            return RpnFormulaExecution.Create(ws, options);
+        }
     }
     internal class RpnFormulaExecution
     {
+        internal static ArgumentParser _boolArgumentParser = new BoolArgumentParser();
         internal static RpnOptimizedDependencyChain Create(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             var depChain = new RpnOptimizedDependencyChain(wb);
@@ -93,6 +113,7 @@ namespace OfficeOpenXml.FormulaParsing
             RpnFormula f = null;
             //TODO: Remove the row below when scope has been fixed.
             depChain._parsingContext.Scopes.NewScope(new FormulaRangeAddress() { FromRow = range._fromRow, FromCol = range._fromCol});
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, range._fromRow, range._fromCol);
             var fs = new CellStoreEnumerator<object>(ws._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
             while (fs.Next())
             {
@@ -123,29 +144,40 @@ namespace OfficeOpenXml.FormulaParsing
                 return f;
             }
         }
-
-        internal class CalcState
+        private static RpnFormula GetNameFormula(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, INameInfo name)
         {
-            internal Stack<Formula> _stack = new Stack<Formula>();
-
+            ExcelCellBase.SplitCellId(name.Id, out int wsIx, out int row, out int col);
+            var f = new RpnFormula(ws, row , col);
+            f.SetFormula(name.Formula, depChain._tokenizer, depChain._graph);
+            return f;
         }
         private static void AddChainForFormula(RpnOptimizedDependencyChain depChain, ILexer lexer, RpnFormula f, ExcelCalculationOption options)
         {
             FormulaRangeAddress address=null;
+            RangeDictionary rd = AddAddressToRD(depChain, f._ws);
+            rd.Merge(f._row, f._column);
+        ExecuteFormula:
             var ws = f._ws;
-ExecuteFormula:
-            depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, f._row, f._column);
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column);
             if (f._tokenIndex < f._tokens.Count)
             {
-                ExecuteNextToken(depChain, f);
+                address = ExecuteNextToken(depChain, f);
                 if (f._tokenIndex < f._tokens.Count)
                 {
-                    if(depChain.accessedRanges.TryGetValue(ws.PositionId, out RangeDictionary rd)==false)
+                    if (address == null && f._expressions[f._tokenIndex].ExpressionType == ExpressionType.NameValue)
                     {
-                        rd=new RangeDictionary();
-                        depChain.accessedRanges.Add(ws.PositionId, rd);
+                        f = GetNameFormula(depChain, ws, ((RpnNamedValueExpression)f._expressions[f._tokenIndex])._name);
+                        goto NextFormula;
                     }
+
+                    rd = AddAddressToRD(depChain, ws);
                     address = f._expressions[f._tokenIndex].GetAddress();
+
+                    if (rd.Exists(address) || address.CollidesWith(f._ws.IndexInList, f._row, f._column))
+                    {
+                        CheckCircularReferences(depChain, f, address, options);
+                    }
+
                     if (rd.Merge(ref address))
                     {
                         goto FollowChain;
@@ -177,141 +209,57 @@ ExecuteFormula:
             }
             f._tokenIndex++;
             goto ExecuteFormula;
-            //                var ae = et.AddressExpressions[f.AddressExpressionIndex++];
-            //                if (ae.ExpressionType == ExpressionType.Function) goto FollowFormulaChain;
-            //                if(ae._parent?.ExpressionType==ExpressionType.Function)
-            //                {
-            //                    var fe = ((FunctionExpression)ae._parent);
-            //                    currentFunction = fe.Function;
-            //                    switch(currentFunction.GetParameterInfo(fe.GetArgumentIndex(ae)))
-            //                    {
-            //                        case FunctionParameterInformation.IgnoreAddress:
-            //                            goto FollowFormulaChain;
-            //                        case FunctionParameterInformation.Condition:
-            //                            subCalcs.Push(calcState);
-            //                            calcState = new CalcState();
-
-            //                            goto FollowFormulaChain;
-            //                        default:
-            //                            break;
-            //                    }
-            //                    if(currentFunction.ReturnsReference)
-            //                    {
-            //                        //fa.Stack
-            //                        int i=1;d
-            //                if (address.FromRow == address.ToRow && address.FromCol == address.ToCol)
-            //                {
-            //                    if (GetProcessedAddress(depChain, (int)address.WorksheetIx, address.FromRow, address.FromCol))                         
-            //                    {
-            //                        ExcelWorksheet fws;
-            //                        if (address.WorksheetIx > 0)
-            //                            fws = ws.Workbook.Worksheets[address.WorksheetIx];
-            //                        else
-            //                            fws = ws;
-
-            //                        if(fws._formulas.Exists(address.FromRow, address.FromCol))
-            //                        {
-            //                            calcState._stack.Push(f);
-            //                            var fv = fws._formulas.GetValue(address.FromRow, address.FromCol);
-            //                            if (fv is int ix)
-            //                            {
-            //                                f = fws._sharedFormulas[ix].GetFormula(address.FromRow, address.FromCol);
-            //                            }
-            //                            else
-            //                            {
-            //                                var s = fv.ToString();
-            //                                //compiler
-            //                                if (string.IsNullOrEmpty(s)) goto FollowFormulaChain;
-            //                                f = new Formula(fws, address.FromRow, address.FromCol, s);
-            //                            }
-            //                            depChain.processedCells.Add(f.Id);
-            //                            ws = fws;
-            //                            goto FollowFormulaChain;
-            //                        }
-            //                    }
-            //                }
-            //                else if (GetProcessedAddress(depChain, ref address))
-            //                {
-            //                    ExcelWorksheet fws;
-            //                    if (address.WorksheetIx > 0)
-            //                        fws = ws.Workbook.Worksheets[address.WorksheetIx];
-            //                    else
-            //                        fws = ws;
-
-            //                    f._formulaEnumerator = new CellStoreEnumerator<object>(fws._formulas, address.FromRow, address.FromCol, address.ToRow, address.ToCol);
-            //                    goto NextFormula;
-            //                }
-            //                if (f.AddressExpressionIndex < et.AddressExpressions.Count)
-            //                {
-            //                    //f.AddressExpressionIndex++;
-            //                    goto FollowFormulaChain;
-            //                }
-            //            }
-            //            if (IsCircularReference(depChain, calcState._stack, f.Id))
-            //            {
-            //                //Check
-            //            }
-            //            else
-            //            {
-            //                depChain.Add(f);
-            //            }
-
-            //            if (calcState._stack.Count > 0)
-            //            {
-            //                f = calcState._stack.Pop();
-            //                ws = f._ws;
-            //                if (f._formulaEnumerator == null)
-            //                {
-            //                    goto FollowFormulaChain;
-            //                }
-            //                else
-            //                {
-            //                    goto NextFormula;
-            //                }
-            //            }
-            //            return;
-            //NextFormula:
-            //            var fs = f._formulaEnumerator;
-            //            if (f._formulaEnumerator.Next())
-            //            {
-            //                if (fs.Value == null || fs.Value.ToString().Trim() == "") goto NextFormula;
-            //                var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
-            //                if (depChain.processedCells.Contains(id) == false)
-            //                {
-            //                    depChain.processedCells.Add(id);
-            //                    ws.Workbook.FormulaParser.ParsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, fs.Row, fs.Column);
-            //                    calcState._stack.Push(f);
-            //                    if (fs.Value is int ix)
-            //                    {
-            //                        f = ws._sharedFormulas[ix].GetFormula(fs.Row, fs.Column);
-            //                    }
-
-            //                    else
-            //                    {
-            //                        var s = fs.Value.ToString();
-            //                        //compiler
-            //                        if (string.IsNullOrEmpty(s)) goto NextFormula;
-            //                        f = new Formula(ws, fs.Row, fs.Column, s);
-            //                    }
-            //                    ws = f._ws;
-            //                    goto FollowFormulaChain;
-            //                }
-            //                else if (IsCircularReference(depChain, calcState._stack, id))
-            //                {
-            //                    //Check
-            //                }
-
-            //                goto NextFormula;
-            //            }
-            //            f._formulaEnumerator = null;
-            //            goto FollowFormulaChain;
         }
-        private static void ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f)
+
+        private static RangeDictionary AddAddressToRD(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws)
+        {
+            if (depChain.accessedRanges.TryGetValue(ws.IndexInList, out RangeDictionary rd) == false)
+            {
+                rd = new RangeDictionary();
+                depChain.accessedRanges.Add(ws.IndexInList, rd);
+            }
+
+            return rd;
+        }
+
+        private static void CheckCircularReferences(RpnOptimizedDependencyChain depChain, RpnFormula f, FormulaRangeAddress address, ExcelCalculationOption options)
+        {
+            if (address.CollidesWith(f._ws.IndexInList, f._row, f._column))
+            {
+                var fId = ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column);
+                HandleCircularReference(depChain, f, options, fId);
+            }
+
+            foreach (var sf in depChain._formulaStack)
+            {
+                var toCell = ExcelCellBase.GetCellId(f._ws.IndexInList, sf._row, sf._column);
+                if(address.CollidesWith(f._ws.IndexInList, sf._row, sf._column))
+                {
+                    HandleCircularReference(depChain, f, options, toCell);
+                }
+            }
+        }
+
+        private static void HandleCircularReference(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, ulong toCell)
+        {
+            if (options.AllowCircularReferences)
+            {
+                var refFormula = depChain._formulaStack.Peek();
+                var fromCell = ExcelCellBase.GetCellId(refFormula._ws.IndexInList, refFormula._row, refFormula._column);
+                depChain._circularReferences.Add(new CircularReference(fromCell, toCell));
+            }
+            else
+            {
+                throw new CircularReferenceException($"Circular reference in cell {f.GetAddress()}");
+            }
+        }
+
+        private static FormulaRangeAddress ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f)
         {
 
+            var s = f._expressionStack;
             while (f._tokenIndex < f._tokens.Count)
             {
-                var s = f._expressionStack;
                 var t = f._tokens[f._tokenIndex];
                 switch (t.TokenType)
                 {
@@ -326,16 +274,54 @@ ExecuteFormula:
                         break;
                     case TokenType.CellAddress:
                     case TokenType.ExcelAddress:
-                        s.Push(f._expressions[f._tokenIndex]);
-                        return;
+                        var e = f._expressions[f._tokenIndex];
+                        s.Push(e);
+                        if (f._funcStack.Count == 0)
+                        {
+                            return e.GetAddress();
+                        }
+                        break;
                     case TokenType.NameValue:
-                        s.Push(f._expressions[f._tokenIndex]);
+                        var ne = (RpnNamedValueExpression)f._expressions[f._tokenIndex];
+                        s.Push(ne);
+                        var address = ne.GetAddress();
+                        if(address==null)
+                        {
+                            if(string.IsNullOrEmpty(ne._name.Formula)==false)
+                            {
+                                return null;
+                            }
+                        }
+                        else if (f._funcStack.Count == 0)                        
+                        {
+                            return address;
+                        }
+                        break;
+                    case TokenType.Comma:
+                        if(f._funcStack.Count > 0)
+                        {
+                            var fexp = f._funcStack.Peek();
+                            var pi = fexp._function.GetParameterInfo(fexp._argPos);
+                            switch (pi)
+                            {
+                                case FunctionParameterInformation.Condition:
+                                    var v = s.Pop().Compile();
+                                    fexp._latestConitionValue = (bool)_boolArgumentParser.Parse(v.Result);
+
+                                    break;
+                            }
+                        }
                         break;
                     case TokenType.Function:
                         ExecFunc(depChain, t, f);
                         break;
                     case TokenType.StartFunctionArguments:
-                        f._funcStackPosition.Push(s.Count);
+                        var fe = (RpnFunctionExpression)f._expressions[f._tokenIndex];
+                        if(fe._function.HasNormalArguments==false)
+                        {
+                            LoadArgumentPositions(fe, f);
+                        }
+                        f._funcStack.Push(fe);
                         break;
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
@@ -343,7 +329,34 @@ ExecuteFormula:
                 }
                 f._tokenIndex++;
             }
+            return null;
         }
+
+        private static void LoadArgumentPositions(RpnFunctionExpression func, RpnFormula f)
+        {
+            int subFunctions = 0;
+            for(int i=f._tokenIndex+1;i<f._tokens.Count;i++)
+            {
+                if (f._tokens[i].TokenType==TokenType.Comma)
+                {
+                    func._arguments.Add(i - 1);
+                }
+                else if(f._tokens[i].TokenType==TokenType.StartFunctionArguments)
+                {
+                    subFunctions++;
+                }
+                else if (f._tokens[i].TokenType==TokenType.Function)
+                {
+                    if (subFunctions == 0)
+                    {
+                        func._endPos = i - 1;
+                    }
+                    subFunctions--;
+                }
+            }
+            func._endPos = f._tokens.Count;
+        }
+
         private static void ApplyOperator(ParsingContext context, Token opToken, RpnFormula f)
         {
             var v1 = f._expressionStack.Pop();
@@ -363,9 +376,12 @@ ExecuteFormula:
         {
             var func = depChain._parsingContext.Configuration.FunctionRepository.GetFunction(t.Value);
             var args = GetFunctionArguments(f);
-            var compiler = depChain._functionCompilerFactory.Create(func);
-            var result = compiler.Compile(args);
-            PushResult(depChain._parsingContext, f, result);
+            if (f._funcStack.Count == 0)
+            {
+                var compiler = depChain._functionCompilerFactory.Create(func);
+                var result = compiler.Compile(args);
+                PushResult(depChain._parsingContext, f, result);
+            }
         }
         private static void PushResult(ParsingContext context, RpnFormula f, CompileResult result)
         {
@@ -396,31 +412,15 @@ ExecuteFormula:
         private static IList<RpnExpression> GetFunctionArguments(RpnFormula f)
         {
             var list = new List<RpnExpression>();
-            var pos = f._funcStackPosition.Pop();
+            var pos = f._funcStack.Pop();
             var s = f._expressionStack;
-            while (s.Count > pos)
+            while (s.Count > pos._startPos)
             {
                 var si = s.Pop();
                 si.Status |= RpnExpressionStatus.FunctionArgument;
                 list.Insert(0, si);
             }
             return list;
-        }
-
-        private static bool IsCircularReference(RpnOptimizedDependencyChain depChain, Stack<Formula> stack, ulong Id)
-        {
-            foreach(var f in stack)
-            {
-                var fId = ExcelCellBase.GetCellId(f._ws.IndexInList, f.StartRow, f.StartCol);
-                if (Id==fId)
-                {
-                    depChain._circularReferences.Add(Id);
-                    //throw Circual Reference.
-                    //throw new CircularReferenceException($"Circular reference detected in cell {ExcelCellBase.GetAddress(f.StartRow,f.StartCol)}");
-                    return true;
-                }
-            }
-            return false;
         }
 
         private static bool GetProcessedAddress(RpnOptimizedDependencyChain depChain, ref FormulaRangeAddress address)

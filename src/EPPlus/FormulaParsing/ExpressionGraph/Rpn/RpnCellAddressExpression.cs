@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         }
         public RpnRangeExpression(string address, ParsingContext ctx, short externalReferenceIx, short worksheetIx) : base(ctx)
         {
-            _addressInfo = new FormulaRangeAddress() { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx < 0 ? ctx.CurrentCell.WorksheetIx : worksheetIx };
+            _addressInfo = new FormulaRangeAddress(ctx) { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx < 0 ? ctx.CurrentCell.WorksheetIx : worksheetIx };
             ExcelCellBase.GetRowColFromAddress(address, out int fromRow, out int fromCol, out int toRow, out int toCol, out bool fixedFromRow, out bool fixedFromCol, out bool fixedToRow, out bool fixedToCol);
             _addressInfo.FromRow = fromRow;
             _addressInfo.ToRow = toRow;

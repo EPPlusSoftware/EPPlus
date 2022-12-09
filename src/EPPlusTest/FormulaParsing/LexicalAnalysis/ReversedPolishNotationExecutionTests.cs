@@ -30,23 +30,27 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 
             _graph = new RpnExpressionGraph(_parsingContext);
             _tokenizer = OptimizedSourceCodeTokenizer.Default;
-
+            
+            
             SetUpWorksheet1();
             SetUpWorksheet2();
+            _package.Workbook.Names.AddName("SumRange1", _package.Workbook.Worksheets["Sheet1"].Cells["A1:A100"]);
+            _package.Workbook.Names.AddName("SumRange2", _package.Workbook.Worksheets["Sheet2"].Cells["A1:C2"]);
         }
         [TestCleanup]
         public void Cleanup()
         {
             SaveWorkbook("Rpn.xlsx", _package);
+
             _package.Dispose();
         }
 
         private void SetUpWorksheet1()
         {
-            var ws1 = _package.Workbook.Worksheets.Add("Sheet2");
-            ws1.Cells["A1:A1000"].Value = 1;
+            var ws1 = _package.Workbook.Worksheets.Add("Sheet1");
+            ws1.Cells["A1:A10000"].Value = 1;
             ws1.Cells["B1"].Value = 100;
-            ws1.Cells["B2:B1000"].Formula = "B1*(A2/A1)+1";
+            ws1.Cells["B2:B10000"].Formula = "B1*(A2/A1)+1";
 
             ws1.Cells["C1"].Formula = "B1000/B1-1";
             ws1.Cells["D1"].Formula = "Sum(B1:B1000)/C1";
@@ -54,17 +58,21 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 
         private void SetUpWorksheet2()
         {
-        //    var ws1 = _package.Workbook.Worksheets.Add("Sheet1");
-        //    ws1.Cells["A1"].Value = 1;
-        //    ws1.Cells["B1"].Value = 2;
-        //    ws1.Cells["C1"].Value = 3;
+            var ws1 = _package.Workbook.Worksheets.Add("Sheet2");
+            ws1.Cells["A1"].Value = 1;
+            ws1.Cells["B1"].Value = 2;
+            ws1.Cells["C1"].Value = 3;
 
-        //    ws1.Cells["A2"].Value = 10;
-        //    ws1.Cells["B2"].Value = 20;
-        //    ws1.Cells["C2"].Value = 30;
+            ws1.Cells["A2"].Value = 10;
+            ws1.Cells["B2"].Value = 20;
+            ws1.Cells["C2"].Value = 30;
 
-        //    _package.Workbook.Names.AddValue("WorkbookDefinedNameValue", 1);
-        //    ws1.Names.AddValue("WorksheetDefinedNameValue", "Name Value");
+            ws1.Names.AddName("TwrStart", _package.Workbook.Worksheets["Sheet1"].Cells["B1"]);
+            ws1.Cells["D1"].Formula = "Sum(SumRange1)+TwrStart";
+            ws1.Cells["D2"].Formula = "Sum(SumRange2)+TwrStart";
+
+            _package.Workbook.Names.AddValue("WorkbookDefinedNameValue", 1);
+            ws1.Names.AddValue("WorksheetDefinedNameValue", "Name Value");
         }
 
         [TestMethod]
@@ -72,10 +80,136 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var dp = new RpnOptimizedDependencyChain(_package.Workbook);
             var sw=Stopwatch.StartNew();
-            dp.Execute();
+            dp.Execute(_package.Workbook.Worksheets[0]);
             Debug.WriteLine($"Duration: {sw.ElapsedMilliseconds / 1000}");
             Assert.AreEqual(9.99D, _package.Workbook._worksheets[0].Cells["C1"].Value);
             Assert.AreEqual(60010.01D, Math.Round((double)_package.Workbook._worksheets[0].Cells["D1"].Value, 2));
+        }
+        [TestMethod]
+        public void ExecuteWorksheet2()
+        {
+            var dp = new RpnOptimizedDependencyChain(_package.Workbook);
+            dp.Execute(_package.Workbook.Worksheets[1]);
+
+            Assert.AreEqual(200D, _package.Workbook._worksheets[1].Cells["D1"].Value);
+            Assert.AreEqual(166D, _package.Workbook._worksheets[1].Cells["D2"].Value);
+        }
+        [TestMethod]
+        public void CircularReferenceSelf()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Formula = "A1";
+                ws.Cells["B1"].Formula = "A1:B1";
+
+
+                var dc= RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(2, dc._circularReferences.Count);
+                int wsIx, row, col;
+                ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 1);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[0].ToCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 1);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[1].FromCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 2);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[1].ToCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 2);
+
+            }
+        }
+        [TestMethod]
+        public void CircularReferenceChain1()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Formula = "B1";
+                ws.Cells["B1"].Formula = "C1";
+                ws.Cells["C1"].Formula = "A1";
+
+                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(1, dc._circularReferences.Count);
+                int wsIx, row, col;
+                ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 3);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[0].ToCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 1);
+            }
+        }
+        [TestMethod]
+        public void CircularReferenceChain2()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Formula = "B1";
+                ws.Cells["B1"].Formula = "C1";
+                ws.Cells["C1"].Formula = "Sum(A1:C1)";
+
+                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(3, dc._circularReferences.Count);
+                int wsIx, row, col;
+                ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 2);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[0].ToCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 3);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[1].FromCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 1);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[1].ToCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 3);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[2].FromCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 3);
+
+                ExcelCellBase.SplitCellId(dc._circularReferences[2].ToCell, out wsIx, out row, out col);
+                Assert.AreEqual(wsIx, 0);
+                Assert.AreEqual(row, 1);
+                Assert.AreEqual(col, 3);
+
+            }
+        }
+        [TestMethod]
+        public void IfFunctionTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["B1"].Value = 2;
+                ws.Cells["C1"].Formula = "if(false, a1, Sum(b1))";
+                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(1, ws.Cells["C1"].Value);
+            }
         }
     }
 }

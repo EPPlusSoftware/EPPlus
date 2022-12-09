@@ -34,6 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             return condition ? CompileResultFactory.Create(firstStatement) : CompileResultFactory.Create(secondStatement);
         }
         public override bool ReturnsReference => true;
+        public override bool HasNormalArguments => false;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {
             if(argumentIndex==0)

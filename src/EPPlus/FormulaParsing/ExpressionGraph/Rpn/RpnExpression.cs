@@ -24,11 +24,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
     [Flags]
     internal enum RpnExpressionStatus : short
     {
-        NoSet=0,
-        CanCompile=1,
-        IsAddress=2,
-        OnExpressionList=4,
-        FunctionArgument=8
+        NoSet = 0,
+        CanCompile = 1,
+        IsAddress = 2,
+        OnExpressionList = 4,
+        FunctionArgument = 8
     }
     internal abstract class RpnExpression
     {

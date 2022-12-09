@@ -702,14 +702,14 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
 
-                if (wsIx < 0 && nameItem == null)
+                if (wsIx < 0 && nameItem == null && wb.Names.ContainsKey(name))
                 {
                     nameItem = wb.Names[name];
                 }
 
                 if (nameItem == null) return null;
 
-                var id = ExcelAddressBase.GetCellId(nameItem.LocalSheetId, nameItem.Index, 0);
+                var id = ExcelCellBase.GetCellId(nameItem.LocalSheetId, nameItem.Index, 0);
                 var ni = new NameInfo()
                 {
                     Id = id,

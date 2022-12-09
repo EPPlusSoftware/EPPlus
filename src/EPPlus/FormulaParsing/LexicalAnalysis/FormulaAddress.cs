@@ -972,6 +972,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return 0;
             }
         }
+
+        internal bool CollidesWith(int wsIx, int row, int column)
+        {
+            return wsIx==WorksheetIx && row >= FromRow && row <= ToRow && column >= FromCol && column <= ToCol;
+        }
         public FormulaRangeAddress Address => this;
     }
     public class FormulaTableAddress : FormulaRangeAddress

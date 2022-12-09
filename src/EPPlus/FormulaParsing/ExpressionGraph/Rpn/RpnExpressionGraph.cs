@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing.Drawing2D;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
@@ -54,6 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     case TokenType.ClosingParenthesis:
                         if (operatorStack.Count > 0)
                         {
+                            
                             var o = operatorStack.Pop();
                             while (o.TokenType != TokenType.OpeningParenthesis)
                             {
@@ -84,7 +86,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         break;
 
                     case TokenType.Function:
-                        expressions.Add(new Token(TokenType.StartFunctionArguments));
+                        expressions.Add(new Token(token.Value,TokenType.StartFunctionArguments));
                         operatorStack.Push(token);
                         break;
                     case TokenType.Comma:
@@ -92,6 +94,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         {
                             expressions.Add(operatorStack.Pop());
                         }
+                        expressions.Add(token);
                         break;
                     default:
                         expressions.Add(token);
@@ -165,6 +168,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     case TokenType.OpeningEnumerable:
                         ExtractArray(tokens, i , out List<List<object>> array);
                         expressions.Add(i, new RpnEnumerableExpression(array, _parsingContext));
+                        break;
+                    case TokenType.StartFunctionArguments:
+                        var func = new RpnFunctionExpression(t.Value, _parsingContext, i);
+                        expressions.Add(i, func);
+                        if(i <= tokens.Count && tokens[i+1].TokenType!=TokenType.Function)
+                        {
+                            func._arguments.Add(i);
+                        }
                         break;
                 }
             }
@@ -407,11 +418,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     case TokenType.WorksheetNameContent:
                         wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
                         break;
+                    case TokenType.Comma:
+                        cell._funcStackPosition.Peek()._arguments.Add(i-1);
+                        break;
                     case TokenType.Function:
                         ExecFunc(t, cell);
                         break;
                     case TokenType.StartFunctionArguments:
-                        cell._funcStackPosition.Push(s.Count);
+                        var func = new RpnFunctionExpression(t.Value, _parsingContext, i);
+                        if (i <= exps.Count && exps[i + 1].TokenType != TokenType.Function)
+                        {
+                            func._arguments.Add(i);
+                        }
                         break;
                     case TokenType.TableName:
                         ExtractTableAddress(exps, i, out FormulaTableAddress tableAddress);
@@ -590,7 +608,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             var list = new List<RpnExpression>();
             var pos = cell._funcStackPosition.Pop();
             var s = cell._expressionStack;
-            while (s.Count > pos)
+            while (s.Count > pos._startPos)
             {
                 var si = s.Pop();
                 si.Status |= RpnExpressionStatus.FunctionArgument;
@@ -659,26 +677,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 var result = op.Apply(c2, c1, _parsingContext);
                 PushResult(cell, result);
             }
-        }
-
-        internal void ExecuteNextExpression(RpnFormula f, ref FormulaRangeAddress address)
-        {
-            var e = f._expressions;
-            //if (f._expressionIndex == 1)
-            //{
-            //    var pe = e[f._expressionIndex - 1];                
-            //    if (OperatorsEnumDict.Instance.TryGetValue(pe.Operator, out IOperator op))
-            //    {
-            //        f._currentResult = op.Apply(pe.Compile(), e[f._expressionIndex].Compile(), _parsingContext);                    
-            //    }
-            //}
-            //else if(f._currentResult!=null)
-            //{
-            //    if (OperatorsEnumDict.Instance.TryGetValue(e[f._expressionIndex].Operator, out IOperator op))
-            //    {
-            //        f._currentResult = op.Apply(f._currentResult, e[f._expressionIndex].Compile(), _parsingContext);
-            //    }
-            //}
         }
     }
 }

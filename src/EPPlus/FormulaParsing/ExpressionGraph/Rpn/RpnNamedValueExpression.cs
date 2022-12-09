@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     {
         short _externalReferenceIx;
         short _worksheetIx;
-        INameInfo _name;
+        internal INameInfo _name;
         bool _negate=false;
         public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, short worksheetIx) : base(parsingContext)
         {
@@ -39,7 +39,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             
             var cache = Context.AddressCache;
             var cacheId = cache.GetNewId();
-            
+            if (_name == null) return new CompileResult(null, DataType.Empty, cacheId);
+
             if (_name.Value == null)
             {
                 // check if there is a table with the name
@@ -100,6 +101,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 {
                     return er.CachedWorksheets[_worksheetIx].CachedNames[_name.Name];
                 }
+            }
+            return null;
+        }
+        public override FormulaRangeAddress GetAddress()
+        {
+            if(_name.Value is IRangeInfo ri) 
+            {
+                return ri.Address;
             }
             return null;
         }

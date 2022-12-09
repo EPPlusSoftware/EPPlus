@@ -19,11 +19,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         public RpnFormulaCell()
         {
             _expressionStack = new Stack<RpnExpression>();
-            _funcStackPosition = new Stack<int>();
-
+            _funcStackPosition = new Stack<RpnFunctionExpression>();
         }
         internal Stack<RpnExpression> _expressionStack;
-        internal Stack<int> _funcStackPosition;
+        internal Stack<RpnFunctionExpression> _funcStackPosition;
 
     }
 }

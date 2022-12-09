@@ -41,6 +41,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// If the argument is an address this address will be ignored in the dependency chain.
         /// </summary>
         IgnoreAddress,
+        /// <summary>
+        /// This argument is a condition returning a boolean expression
+        /// </summary>
         Condition,
         UseIfConditionIsTrue,
         UseIfConditionIsFalse
@@ -675,6 +678,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             get
             {
                 return false;
+            }
+        }
+        public virtual bool HasNormalArguments
+        {
+            get
+            {
+                return true;
             }
         }
         /// <summary>
