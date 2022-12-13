@@ -30,6 +30,7 @@ namespace OfficeOpenXml
         CellAddress,
         RangeAddress,
         TableAddress,
-        RangeDefinition
+        RangeDefinition,
+        Empty
     }
 }

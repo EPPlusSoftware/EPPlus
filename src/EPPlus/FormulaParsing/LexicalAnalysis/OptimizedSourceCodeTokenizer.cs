@@ -396,7 +396,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         ||
                         pt.TokenType == TokenType.OpeningEnumerable)
                     {
-                        l.Add(new Token("-", TokenType.Negator));
+                        if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
+                        {
+                            current.Insert(0,'-');
+                        }
+                        else
+                        {
+                            l.Add(new Token("-", TokenType.Negator));
+                        }
                     }
                     else
                     {

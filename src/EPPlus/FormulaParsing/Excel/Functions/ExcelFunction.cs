@@ -25,6 +25,7 @@ using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -593,7 +594,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             validator.Validate(result);
             return new CompileResult(result, dataType);
         }
-
+        /// <summary>
+        /// Use this method to create a result to return from Excel functions. 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="address">The address for the range</param>
+        /// <returns></returns>
+        protected CompileResult CreateAddressResult(IRangeInfo result, DataType dataType)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new AddressCompileResult(result, dataType, result.Address);
+        }
         protected CompileResult CreateResult(eErrorType errorType)
         {
             return CreateResult(ExcelErrorValue.Create(errorType), DataType.ExcelError);

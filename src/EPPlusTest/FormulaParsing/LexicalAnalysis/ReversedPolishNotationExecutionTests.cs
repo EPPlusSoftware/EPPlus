@@ -48,9 +48,9 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         private void SetUpWorksheet1()
         {
             var ws1 = _package.Workbook.Worksheets.Add("Sheet1");
-            ws1.Cells["A1:A10000"].Value = 1;
+            ws1.Cells["A1:A1000"].Value = 1;
             ws1.Cells["B1"].Value = 100;
-            ws1.Cells["B2:B10000"].Formula = "B1*(A2/A1)+1";
+            ws1.Cells["B2:B1000"].Formula = "B1*(A2/A1)+1";
 
             ws1.Cells["C1"].Formula = "B1000/B1-1";
             ws1.Cells["D1"].Formula = "Sum(B1:B1000)/C1";
@@ -137,7 +137,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Formula = "B1";
                 ws.Cells["B1"].Formula = "C1";
-                ws.Cells["C1"].Formula = "A1";
+                ws.Cells["C1"].Formula = "A1+1";
 
                 var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(1, dc._circularReferences.Count);
@@ -199,14 +199,27 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             }
         }
         [TestMethod]
-        public void IfFunctionTest()
+        public void IfFunctionTest1()
         {
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Value = 1;
                 ws.Cells["B1"].Value = 2;
-                ws.Cells["C1"].Formula = "if(false, a1, Sum(b1))";
+                ws.Cells["C1"].Formula = "if(A1 > B1, A1, Sum(b1))";
+                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                Assert.AreEqual(2D, ws.Cells["C1"].Value);
+            }
+        }
+        [TestMethod]
+        public void IfFunctionTest2()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["B1"].Value = 2;
+                ws.Cells["C1"].Formula = "if(A1 < B1, Offset(B1, 0, -1), Sum(b1))";
                 var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(1, ws.Cells["C1"].Value);
             }

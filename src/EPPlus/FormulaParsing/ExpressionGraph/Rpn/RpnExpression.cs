@@ -30,20 +30,35 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         OnExpressionList = 4,
         FunctionArgument = 8
     }
+    internal class RpnEmptyExpression : RpnExpression
+    {
+        internal override ExpressionType ExpressionType => ExpressionType.Empty;
+        public override CompileResult Compile()
+        {
+            return CompileResult.Empty;
+        }
+        internal override RpnExpressionStatus Status { get; set; }
+    }
     internal abstract class RpnExpression
     {
         protected CompileResult _cachedCompileResult;
         internal Operators Operator;
+        internal static RpnEmptyExpression Empty=new RpnEmptyExpression();
 
         protected ParsingContext Context { get; private set; }
         internal abstract ExpressionType ExpressionType { get; }
-
+        internal RpnExpression()
+        {
+        }
         public RpnExpression(ParsingContext ctx)
         {
             Context = ctx;
         }
         public abstract CompileResult Compile();
-        public abstract void Negate();
+        public virtual void Negate()
+        {
+
+        }
 
         internal virtual RpnExpression CloneWithOffset(int row, int col)
         {

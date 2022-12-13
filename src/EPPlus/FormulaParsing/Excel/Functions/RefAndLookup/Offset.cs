@@ -58,10 +58,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             var newRange = context.ExcelDataProvider.GetRange(adr.WorksheetName, fromRow, fromCol, toRow, toCol);
             
-            return CreateResult(newRange, DataType.Enumerable);
+            return CreateAddressResult(newRange, DataType.ExcelRange);
         }
         public override bool ReturnsReference => true;
-       
+        public override bool HasNormalArguments => false;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {
             if(argumentIndex==0)

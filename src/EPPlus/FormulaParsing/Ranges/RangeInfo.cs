@@ -89,7 +89,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         private void SetAddress(ExcelWorksheet ws, ExcelAddressBase address)
         {
             _ws = ws;
-            _address = new FormulaRangeAddress(null) { FromRow = address._fromRow, FromCol = address._fromCol, ToRow = address._toRow, ToCol = address._toCol, WorksheetIx = (short)ws.PositionId };
+            _address = new FormulaRangeAddress(_context) { FromRow = address._fromRow, FromCol = address._fromCol, ToRow = address._toRow, ToCol = address._toCol, WorksheetIx = (short)ws.PositionId };
             if (_ws != null && _ws.IsDisposed == false)
             {
                 _values = new CellStoreEnumerator<ExcelValue>(_ws._values, address._fromRow, address._fromCol, address._toRow, address._toCol);

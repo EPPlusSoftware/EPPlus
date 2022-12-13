@@ -9,7 +9,7 @@ using Operators = OfficeOpenXml.FormulaParsing.Excel.Operators.Operators;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
-    [DebuggerDisplay("CellAddressExpression: {_addressInfo.Address}")]
+    [DebuggerDisplay("RangeExpression: {_addressInfo.Address}")]
     internal class RpnRangeExpression : RpnExpression
     {
         protected FormulaRangeAddress _addressInfo;

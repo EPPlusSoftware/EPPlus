@@ -30,8 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         internal int _startPos, _endPos;
         internal IList<int> _arguments;
         internal int _argPos=0;
-        internal bool _latestConitionValue;
-        bool _negate =false;
+        internal bool? _latestConitionValue = null;
+        bool _negate = false;
         internal RpnFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
 

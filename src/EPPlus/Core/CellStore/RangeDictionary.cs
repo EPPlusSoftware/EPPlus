@@ -59,6 +59,7 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal bool Exists(FormulaRangeAddress newAddress)
         {
+            if (newAddress == null) return false;
             for (int c = newAddress.FromCol; c <= newAddress.ToCol; c++)
             {
                 var rowSpan = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
@@ -71,12 +72,16 @@ namespace OfficeOpenXml.Core.CellStore
                     }
                     else
                     {
-                        var r = rows[~ix];
-                        var fr = (int)(r >> 20) + 1;
-                        var tr = (int)(r & 0xFFFFF) + 1;
-                        if (fr >= newAddress.ToRow || tr <= newAddress.FromRow)
+                        ix = ~ix;
+                        if (ix < rows.Count)
                         {
-                            return true;
+                            var r = rows[ix];
+                            var fr = (int)(r >> 20) + 1;
+                            var tr = (int)(r & 0xFFFFF) + 1;
+                            if (fr >= newAddress.ToRow || tr <= newAddress.FromRow)
+                            {
+                                return true;
+                            }
                         }
                     }
                 }

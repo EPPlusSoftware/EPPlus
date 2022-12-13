@@ -90,9 +90,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         operatorStack.Push(token);
                         break;
                     case TokenType.Comma:
-                        while (operatorStack.Peek().TokenType == TokenType.Operator)
+                        var op = operatorStack.Peek().TokenType;
+                        while (op == TokenType.Operator || op==TokenType.Negator)
                         {
                             expressions.Add(operatorStack.Pop());
+                            op = operatorStack.Peek().TokenType;
                         }
                         expressions.Add(token);
                         break;
