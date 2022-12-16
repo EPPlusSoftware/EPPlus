@@ -92,7 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                         {
                             return new ExcelErrorExpression(ExcelErrorValue.Create(eErrorType.Ref), _ctx);
                         }
-                        if (f.WorksheetIx == short.MinValue) f.WorksheetIx = _ctx.Scopes.Current.Address.WorksheetIx;
+                        if (f.WorksheetIx == short.MinValue) f.WorksheetIx = _ctx.CurrentCell.WorksheetIx;
                         return new ExcelRangeExpression(_ctx.ExcelDataProvider.GetRange(_ctx.Package.Workbook.Worksheets[f.WorksheetIx]?.Name, f.FromRow, f.FromCol, f.ToRow, f.ToCol), _ctx);
                     }
                     else if (compileResult.Result is IRangeInfo ri)

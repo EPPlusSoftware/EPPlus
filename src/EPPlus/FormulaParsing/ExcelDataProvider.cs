@@ -36,7 +36,8 @@ namespace OfficeOpenXml.FormulaParsing
         /// Returns the names of all worksheet names
         /// </summary>
         /// <returns></returns>
-        public abstract ExcelNamedRangeCollection GetWorksheetNames(string worksheet);
+        public abstract ExcelNamedRangeCollection GetWorksheetNames(int wsIx);
+        public abstract ExcelNamedRangeCollection GetWorksheetNames(string worksheetName);
         /// <summary>
         /// Returns the names of all worksheet names
         /// </summary>
@@ -74,7 +75,6 @@ namespace OfficeOpenXml.FormulaParsing
         public abstract IRangeInfo GetRange(string worksheetName, string address);
         internal abstract IRangeInfo GetRange(FormulaRangeAddress range);
         public abstract IRangeInfo GetRange(int wsIx, int row, int column);
-        public abstract INameInfo GetName(string worksheet, string name);
         public abstract INameInfo GetName(int externalRef,int wsIx, string name);
 
         public abstract IEnumerable<object> GetRangeValues(string address);
@@ -97,15 +97,16 @@ namespace OfficeOpenXml.FormulaParsing
         /// <param name="col"></param>
         /// <returns></returns>
         public abstract object GetCellValue(string sheetName, int row, int col);
+        public abstract object GetCellValue(int wsIx, int row, int col);
 
         /// <summary>
         /// Creates a cell id, representing the full address of a cell.
         /// </summary>
-        /// <param name="sheetName">Name of the worksheet</param>
+        /// <param name="wsIx">The worksheet index</param>
         /// <param name="row">Row ix</param>
         /// <param name="col">Column Index</param>
         /// <returns>An <see cref="ulong"/> representing the addrss</returns>
-        public abstract ulong GetCellId(string sheetName, int row, int col);
+        public abstract ulong GetCellId(int wsIx, int row, int col);
 
         ///// <summary>
         ///// Sets the value on the cell
@@ -119,7 +120,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="worksheet"></param>
         /// <returns></returns>
-        public abstract ExcelCellAddress GetDimensionEnd(string worksheet);
+        public abstract ExcelCellAddress GetDimensionEnd(int worksheet);
 
         /// <summary>
         /// Use this method to free unmanaged resources.

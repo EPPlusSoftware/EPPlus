@@ -197,9 +197,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             var arg = arguments.ElementAt(index);
             
-            if(arg.ExcelAddressReferenceId > 0)
+            if(arg.Address !=null)
             {
-                return context.AddressCache.Get(arg.ExcelAddressReferenceId);
+                return arg.Address.WorksheetAddress;
             }
             return ArgToAddress(arguments, index);
         }

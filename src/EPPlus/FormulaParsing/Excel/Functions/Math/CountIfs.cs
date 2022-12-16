@@ -44,12 +44,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 var arg = functionArguments[ix];
                 if (arg.DataType == DataType.ExcelError) continue;
                 var rangeInfo = arg.ValueAsRangeInfo;
-                if(rangeInfo == null && arg.ExcelAddressReferenceId > 0)
+                if(rangeInfo == null && arg.Address !=null)
                 {
-                    var addressString = ArgToAddress(arguments, ix, context);
-                    var address = new ExcelAddress(addressString);
-                    var ws = string.IsNullOrEmpty(address.WorkSheetName) ? context.Scopes.Current.Address.WorksheetName : address.WorkSheetName;
-                    rangeInfo = context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, address.Address);
+                    var wsIx = arg.Address.WorksheetIx < 0 ? context.CurrentCell.WorksheetIx : arg.Address.WorksheetIx;
+                    rangeInfo = context.ExcelDataProvider.GetRange(wsIx, context.CurrentCell.Row, context.CurrentCell.Column);
                     argRanges.Add(new RangeOrValue { Range = rangeInfo });
                 }
                 else if(rangeInfo != null)

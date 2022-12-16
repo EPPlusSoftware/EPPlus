@@ -22,7 +22,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
         public void Initialize()
         {
             _parsingContext = ParsingContext.Create();
-            _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestMethod]

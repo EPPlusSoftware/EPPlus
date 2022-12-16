@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     {
         private static bool IsSubTotal(ICellInfo c, ParsingContext context)
         {
-            return (context.Scopes.Current.IsSubtotal && context.SubtotalAddresses.Contains(c.Id));
+            return context.SubtotalAddresses.Contains(c.Id);
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, ICellInfo c, ParsingContext context)
@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var hasFilter = false;
             if (context.Parser != null && context.Parser.FilterInfo != null)
             {
-                hasFilter = context.Parser.FilterInfo.WorksheetHasFilter(c.WorksheetName);
+                hasFilter = context.Parser.FilterInfo.WorksheetHasFilter(context.Package.Workbook.Worksheets[c.WorksheetName].IndexInList);
             }
             return ((ignoreHiddenValues || hasFilter) && c.IsHiddenRow) || IsSubTotal(c, context);
         }
@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         internal static bool ShouldIgnore(bool ignoreHiddenValues, FunctionArgument arg, ParsingContext context)
         {
             var hasFilter = false;
-            if (context.Parser != null && context.Parser.FilterInfo != null && context.Parser.FilterInfo.WorksheetHasFilter(context.Scopes.Current.Address.WorksheetName))
+            if (context.Parser != null && context.Parser.FilterInfo != null && context.Parser.FilterInfo.WorksheetHasFilter(context.CurrentCell.WorksheetIx))
             {
                 hasFilter = true;
             }

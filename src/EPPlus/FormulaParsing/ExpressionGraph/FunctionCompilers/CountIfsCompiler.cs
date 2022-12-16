@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             {
                 var rangeExpr = children.ElementAt(rangeIx).Children.First();
                 rangeExpr.IgnoreCircularReference = true;
-                var currentAdr = Context.Scopes.Current.Address;
+                //var currentAdr = Context.CurrentCell;
                 //var rangeAdr = new ExcelAddress(rangeExpr.ExpressionString);
                 //var rangeWs = string.IsNullOrEmpty(rangeAdr.WorkSheetName) ? currentAdr.Worksheet : rangeAdr.WorkSheetName;
                 //if (currentAdr.Worksheet == rangeWs && rangeAdr.Collide(new ExcelAddress(currentAdr.Address)) != ExcelAddressBase.eAddressCollition.No)

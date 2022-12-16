@@ -106,20 +106,36 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="worksheet">The worksheet</param>
         /// <param name="options">Calculation options</param>
+        //public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
+        //{
+        //    Init(worksheet.Workbook);       
+        //    var dc = DependencyChainFactory.Create(worksheet, options);
+        //    var parser = worksheet.Workbook.FormulaParser;
+        //    var filterInfo = new FilterInfo(worksheet.Workbook);
+        //    parser.InitNewCalc(filterInfo);
+        //    if (parser.Logger != null)
+        //    {
+        //        var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
+        //        parser.Logger.Log(msg);
+        //    }
+        //    CalcChain(worksheet.Workbook, parser, dc, options);
+        //}
         public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
         {
-            Init(worksheet.Workbook);       
-            var dc = DependencyChainFactory.Create(worksheet, options);
-            var parser = worksheet.Workbook.FormulaParser;
-            var filterInfo = new FilterInfo(worksheet.Workbook);
-            parser.InitNewCalc(filterInfo);
-            if (parser.Logger != null)
-            {
-                var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
-                parser.Logger.Log(msg);
-            }
-            CalcChain(worksheet.Workbook, parser, dc, options);
+            Init(worksheet.Workbook);
+            var res = RpnFormulaExecution.Create(worksheet, options);
+            //var dc = DependencyChainFactory.Create(worksheet, options);
+            //var parser = worksheet.Workbook.FormulaParser;
+            //var filterInfo = new FilterInfo(worksheet.Workbook);
+            //parser.InitNewCalc(filterInfo);
+            //if (parser.Logger != null)
+            //{
+            //    var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
+            //    parser.Logger.Log(msg);
+            //}
+            //CalcChain(worksheet.Workbook, parser, dc, options);
         }
+
         /// <summary>
         /// Calculate all formulas in the current range
         /// </summary>

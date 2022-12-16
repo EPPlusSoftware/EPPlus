@@ -49,9 +49,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 else
                 {
                     // Single Cell.
-                    var wsIx = _addressInfo.WorksheetIx < -1 ? Context.Scopes.Current.Address.WorksheetIx : _addressInfo.WorksheetIx;
+                    var wsIx = _addressInfo.WorksheetIx < -1 ? Context.CurrentCell.WorksheetIx : _addressInfo.WorksheetIx;
                     if (wsIx < 0) return new CompileResult(eErrorType.Ref);
-                    _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[wsIx].GetValueInner(row, col), 0, _addressInfo);
+                    _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[wsIx].GetValueInner(row, col), _addressInfo);
                     if (_result.IsNumeric && _negate)
                     {
                         _result.Negate();

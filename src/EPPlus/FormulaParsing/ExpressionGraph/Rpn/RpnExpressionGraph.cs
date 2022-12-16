@@ -115,7 +115,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         public Dictionary<int, RpnExpression> CompileExpressions(ref IList<Token> tokens)
         {
             short extRefIx = short.MinValue;
-            short wsIx = short.MinValue;
+            int wsIx = int.MinValue;
 
             var expressions = new Dictionary<int, RpnExpression>();
             for (int i = 0; i < tokens.Count; i++)
@@ -152,7 +152,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         {
                             expressions.Add(i, new RpnRangeExpression(t.Value, _parsingContext, extRefIx, wsIx));
                         }
-                        extRefIx = wsIx = short.MinValue;
+                        extRefIx = short.MinValue;
+                        wsIx = int.MinValue;
                         break;
                     case TokenType.NameValue:
                         expressions.Add(i, new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
@@ -299,7 +300,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         //    var precompiledExps = cp._expressions;
         //    var cell = new RpnFormulaCell();
         //    short extRefIx = short.MinValue;
-        //    short wsIx = short.MinValue;
+        //    int wsIx = int.MinValue;
         //    var s = cell._expressionStack;
         //    for (int i = 0; i < exps.Count; i++)
         //    {
@@ -323,7 +324,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         //                break;
         //            case TokenType.CellAddress:
         //                s.Push(new RpnRangeExpression(t.Value, _parsingContext, extRefIx, wsIx));
-        //                extRefIx = wsIx = short.MinValue;
+        //                extRefIx = wsIx = int.MinValue;
         //                break;
         //            case TokenType.NameValue:
         //                s.Push(new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
@@ -371,7 +372,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             _usedRanges = new Dictionary<int, RangeDictionary>();
             var cell = new RpnFormulaCell();
             short extRefIx = short.MinValue;
-            short wsIx = short.MinValue;
+            int wsIx = int.MinValue;
             var s = cell._expressionStack;
 
             for (int i = 0; i < exps.Count; i++)
@@ -409,7 +410,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         break;
                     case TokenType.CellAddress:
                         s.Push(new RpnRangeExpression(t.Value, _parsingContext, extRefIx, wsIx));
-                        extRefIx = wsIx = short.MinValue;                        
+                        extRefIx = short.MinValue;
+                        wsIx = int.MinValue;                        
                         break;
                     case TokenType.NameValue:
                         s.Push(new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));

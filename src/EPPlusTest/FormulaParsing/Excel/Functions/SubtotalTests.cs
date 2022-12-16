@@ -52,7 +52,6 @@ namespace EPPlusTest.Excel.Functions
         public void Setup()
         {
             _context = ParsingContext.Create();
-            _context.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestMethod, ExpectedException(typeof(ExcelErrorValueException))]

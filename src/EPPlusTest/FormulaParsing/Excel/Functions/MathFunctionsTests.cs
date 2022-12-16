@@ -54,7 +54,6 @@ namespace EPPlusTest.Excel.Functions
         public void Initialize()
         {
             _parsingContext = ParsingContext.Create();
-            _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestMethod]

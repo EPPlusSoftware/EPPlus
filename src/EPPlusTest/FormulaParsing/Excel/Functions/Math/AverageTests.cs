@@ -95,12 +95,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 				var context = ParsingContext.Create();
 				var address = new FormulaRangeAddress(context);
 				address.FromRow = address.ToRow = address.FromCol = address.ToCol = 2;
-				context.Scopes.NewScope(address);
+				//context.Scopes.NewScope(address);
+				context.CurrentCell = new FormulaCellAddress(worksheet.IndexInList, address.FromRow, address.FromCol);
 				var result = average.Execute(new FunctionArgument[]
 				{
-				new FunctionArgument(rangeInfo1),
-				new FunctionArgument(rangeInfo2),
-				new FunctionArgument(rangeInfo3)
+					new FunctionArgument(rangeInfo1),
+					new FunctionArgument(rangeInfo2),
+					new FunctionArgument(rangeInfo3)
 				}, context);
 				Assert.AreEqual((2000 + new DateTime(2013, 1, 5).ToOADate()) / 2, result.Result);
 			}

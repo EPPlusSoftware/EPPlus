@@ -44,12 +44,5 @@ namespace EPPlusTest.FormulaParsing
             var context = ParsingContext.Create();
             Assert.IsNotNull(context.Configuration);
         }
-
-        [TestMethod]
-        public void ScopesShouldBeSetByFactoryMethod()
-        {
-            var context = ParsingContext.Create();
-            Assert.IsNotNull(context.Scopes);
-        }
     }
 }

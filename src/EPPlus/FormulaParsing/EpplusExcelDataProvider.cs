@@ -64,9 +64,21 @@ namespace OfficeOpenXml.FormulaParsing
             return _package.Workbook.Worksheets.Select(x => x.Name);
         }
 
-        public override ExcelNamedRangeCollection GetWorksheetNames(string worksheet)
+        public override ExcelNamedRangeCollection GetWorksheetNames(int wsIx)
         {
-            var ws=_package.Workbook.Worksheets[worksheet];
+            var ws=_package.Workbook.Worksheets[wsIx];
+            if (ws != null)
+            {
+                return ws.Names;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public override ExcelNamedRangeCollection GetWorksheetNames(string worksheetName)
+        {
+            var ws = _package.Workbook.Worksheets[worksheetName];
             if (ws != null)
             {
                 return ws.Names;
@@ -146,7 +158,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override IRangeInfo GetRange(int wsIx, int row, int column)
         {
-            if (wsIx < -1) wsIx = ParsingContext.Scopes.Current.Address.WorksheetIx;
+            if (wsIx < -1) wsIx = ParsingContext.CurrentCell.WorksheetIx;
             return new RangeInfo(new FormulaRangeAddress(_context) { WorksheetIx = wsIx, FromRow = row, FromCol = column, ToRow=row, ToCol=column }, _context);
         }
         public override IRangeInfo GetRange(string worksheet, string address)
@@ -226,19 +238,19 @@ namespace OfficeOpenXml.FormulaParsing
             return a;
         }
 
-        public override INameInfo GetName(string worksheet, string name)
-        {
-            if(ExcelCellBase.IsExternalAddress(name))
-            {
-                return GetExternalName(name, ParsingContext);
-            }
-            else
-            {
-                var ws = _package.Workbook.Worksheets[worksheet];
-                var wsIx = ws == null ? -1 : ws.PositionId;
-                return GetLocalName(_package, (short)wsIx, name, ParsingContext);
-            }
-        }
+        //public override INameInfo GetName(string worksheet, string name)
+        //{
+        //    if(ExcelCellBase.IsExternalAddress(name))
+        //    {
+        //        return GetExternalName(name, ParsingContext);
+        //    }
+        //    else
+        //    {
+        //        var ws = _package.Workbook.Worksheets[worksheet];
+        //        var wsIx = ws == null ? -1 : ws.PositionId;
+        //        return GetLocalName(_package, (short)wsIx, name, ParsingContext);
+        //    }
+        //}
         private INameInfo GetExternalName(string name, ParsingContext ctx)
         {
             var extRef = ExcelCellBase.GetWorkbookFromAddress(name);
@@ -524,21 +536,25 @@ namespace OfficeOpenXml.FormulaParsing
             SetCurrentWorksheet(sheetName);
             return _currentWorksheet.GetValueInner(row, col);
         }
-
-        public override ulong GetCellId(string sheetName, int row, int col)
+        public override object GetCellValue(int wsIx, int row, int col)
         {
-            if (string.IsNullOrEmpty(sheetName)) return 0;
-            var worksheet = _package.Workbook.Worksheets[sheetName];
-            var wsIx = worksheet != null ? worksheet.IndexInList : 0;
-            return ExcelCellBase.GetCellId(wsIx, row, col);
+            _currentWorksheet = _package.Workbook.Worksheets[wsIx];
+            return _currentWorksheet.GetValueInner(row, col);
         }
+        //public override ulong GetCellId(string sheetName, int row, int col)
+        //{
+        //    if (string.IsNullOrEmpty(sheetName)) return 0;
+        //    var worksheet = _package.Workbook.Worksheets[sheetName];
+        //    var wsIx = worksheet != null ? worksheet.IndexInList : 0;
+        //    return ExcelCellBase.GetCellId(wsIx, row, col);
+        //}
 
-        public override ExcelCellAddress GetDimensionEnd(string worksheet)
+        public override ExcelCellAddress GetDimensionEnd(int wsIx)
         {
             ExcelCellAddress address = null;
             try
             {
-                address = _package.Workbook.Worksheets[worksheet].Dimension.End;
+                address = _package.Workbook.Worksheets[wsIx].Dimension.End;
             }
             catch{}
             
@@ -568,6 +584,18 @@ namespace OfficeOpenXml.FormulaParsing
                 _currentWorksheet = _package.Workbook.Worksheets.First(); 
             }
             
+        }
+        private void SetCurrentWorksheet(int wsIx)
+        {
+            if (wsIx < 0)
+            {
+                _currentWorksheet = _package.Workbook.Worksheets[wsIx];
+            }
+            else
+            {
+                _currentWorksheet = _package.Workbook.Worksheets.First();
+            }
+
         }
 
         //public override void SetCellValue(string address, object value)
@@ -728,10 +756,12 @@ namespace OfficeOpenXml.FormulaParsing
                 return ni;
             }
         }
-        //public override void SetToTableAddress(ExcelAddress address)
-        //{
-        //    address.SetRCFromTable(_package, address);
-        //}
+
+        public override ulong GetCellId(int wsIx, int row, int col)
+        {
+            return ExcelCellBase.GetCellId(wsIx, row, col); 
+        }
+
     }
 }
     

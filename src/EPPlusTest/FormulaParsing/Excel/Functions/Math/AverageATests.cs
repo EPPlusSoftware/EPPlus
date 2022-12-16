@@ -105,7 +105,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 			var context = ParsingContext.Create();
 			var address = new FormulaRangeAddress(context);
 			address.FromRow = address.ToRow = address.FromCol = address.ToCol = 2;
-			context.Scopes.NewScope(address);
 			var result = average.Execute(new FunctionArgument[]
 			{
 				new FunctionArgument(rangeInfo1),

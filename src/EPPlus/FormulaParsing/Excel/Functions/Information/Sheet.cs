@@ -19,23 +19,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             var result = -1;
             if(arguments.Count() == 0)
             {
-                var cell = context.Scopes.Current.Address;
-                var ws = cell.WorksheetName;
-                result = context.ExcelDataProvider.GetWorksheetIndex(ws);
+                result = context.CurrentCell.WorksheetIx;
             }
             else
             {
                 var arg = arguments.ElementAt(0);
-                if(arg.ExcelAddressReferenceId > 0)
+                if(arg.Address!=null)
                 {
-                    var address = ArgToAddress(arguments, 0, context);
-                    if (address.Contains('!'))
+                    if (arg.Address.WorksheetIx>=0)
                     {
-                        var excelAddress = new ExcelAddress(address);
-                        result = context.ExcelDataProvider.GetWorksheetIndex(excelAddress.WorkSheetName);
+                        result = arg.Address.WorksheetIx;
+                        //var excelAddress = new ExcelAddress(address);
+                        //result = context.ExcelDataProvider.GetWorksheetIndex(excelAddress.WorkSheetName);
                     }
                     else
                     {
+                        var address = ArgToAddress(arguments, 0, context);
                         var value = string.IsNullOrEmpty(address) ? ArgToString(arguments, 0) : address;
                         var worksheetNames = context.ExcelDataProvider.GetWorksheets();
                         
@@ -51,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                         if (result == -1)
                         {
                             // not a worksheet name, now check if it is a named range in the current worksheet
-                            var wsNamedRanges = context.ExcelDataProvider.GetWorksheetNames(context.Scopes.Current.Address.WorksheetName);
+                            var wsNamedRanges = context.CurrentWorksheet.Names;
                             var matchingWsName = wsNamedRanges.FirstOrDefault(x => x.Name == value);
                             if (matchingWsName != null)
                             {

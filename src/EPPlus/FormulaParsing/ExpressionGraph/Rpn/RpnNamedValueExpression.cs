@@ -22,24 +22,24 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     internal class RpnNamedValueExpression : RpnExpression
     {
         short _externalReferenceIx;
-        short _worksheetIx;
+        int _worksheetIx;
         internal INameInfo _name;
         bool _negate=false;
-        public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, short worksheetIx) : base(parsingContext)
+        public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
         {
-            _externalReferenceIx= externalReferenceIx;
-            _worksheetIx= worksheetIx;
+            _externalReferenceIx = externalReferenceIx;
+            _worksheetIx = worksheetIx;
             _name = Context.ExcelDataProvider.GetName(_externalReferenceIx, _worksheetIx, name);
         }
 
         internal override ExpressionType ExpressionType => ExpressionType.NameValue;
         public override CompileResult Compile()
         {
-            var c = Context.Scopes.Current;
+            //var c = Context.Scopes.Current;
             
-            var cache = Context.AddressCache;
-            var cacheId = cache.GetNewId();
-            if (_name == null) return new CompileResult(null, DataType.Empty, cacheId);
+            //var cache = Context.AddressCache;
+            //var cacheId = cache.GetNewId();
+            if (_name == null) return new CompileResult(null, DataType.Empty);
 
             if (_name.Value == null)
             {
@@ -48,8 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 if(table != null)
                 {
                     var ri = new RangeInfo(table.WorkSheet, table.Address);
-                    cache.Add(cacheId, ri.Address.ToString());
-                    return new CompileResult(ri, DataType.Enumerable, cacheId);
+                    return new AddressCompileResult(ri, DataType.ExcelRange, ri.Address);
                 }
 
                 return new CompileResult(eErrorType.Name);
@@ -57,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
             if (_name.Value==null)
             {
-                return new CompileResult(null, DataType.Empty, cacheId);
+                return new CompileResult(null, DataType.Empty);
             }
 
             if (_name.Value is IRangeInfo)
@@ -65,7 +64,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 var range = (IRangeInfo)_name.Value;
                 if (range.GetNCells()>1)
                 {
-                    return new AddressCompileResult(_name.Value, DataType.Enumerable, range.Address);
+                    return new AddressCompileResult(_name.Value, DataType.ExcelRange, range.Address);
                 }
                 else
                 {                    
@@ -73,12 +72,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     {
                         return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
-                    return CompileResultFactory.Create(range.First().Value, cacheId, range.Address);
+                    return CompileResultFactory.Create(range.First().Value, range.Address);
                 }
             }
             else
             {                
-                return CompileResultFactory.Create(_name.Value, cacheId);
+                return CompileResultFactory.Create(_name.Value);
             }
             
             //return new CompileResultFactory().Create(result);

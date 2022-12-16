@@ -38,9 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             {
                 var lastExp = children.ElementAt(2).Children.First();
                 lastExp.IgnoreCircularReference = true;
-                var currentAdr = Context.Scopes.Current.Address;
+                var currentAdr = Context.CurrentCell;
                 var sumRangeAdr = new ExcelAddress(lastExp.ExpressionString);
-                var sumRangeWs = string.IsNullOrEmpty(sumRangeAdr.WorkSheetName) ? currentAdr.WorksheetName : sumRangeAdr.WorkSheetName;
+                //var sumRangeWs = string.IsNullOrEmpty(sumRangeAdr.WorkSheetName) ? currentAdr.WorksheetName : sumRangeAdr.WorkSheetName;
                 //if(currentAdr.Worksheet == sumRangeWs && sumRangeAdr.Collide(new ExcelAddress(currentAdr.Address)) != ExcelAddressBase.eAddressCollition.No)
                 //{
                 //    var candidateArg = children.ElementAt(1)?.Children.FirstOrDefault()?.Compile().Result;

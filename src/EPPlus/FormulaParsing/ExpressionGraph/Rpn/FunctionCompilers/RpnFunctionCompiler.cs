@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             else
             {
                 var funcArg = new FunctionArgument(compileResult.Result, dataType);
-                funcArg.ExcelAddressReferenceId = compileResult.ExcelAddressReferenceId;
+                //funcArg.ExcelAddressReferenceId = compileResult.ExcelAddressReferenceId;
                 funcArg.Address = compileResult.Address;
                 if(compileResult.IsHiddenCell)
                 {

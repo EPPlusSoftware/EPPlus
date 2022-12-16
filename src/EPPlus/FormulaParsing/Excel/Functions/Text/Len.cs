@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
@@ -29,16 +30,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         {
             ValidateArguments(arguments, 1);
             var arg = arguments.First();
-            if(arg.ExcelAddressReferenceId > 0)
+            if(arg.Address!=null)
             {
-                var addressString = ArgToAddress(arguments, 0, context);
-                var address = new ExcelAddressBase(addressString);
-                var currentCell = context.Scopes.Current.Address;
-                var range = context.ExcelDataProvider.GetRange(
-                    address.WorkSheetName ?? context.Scopes.Current.Address.WorksheetName,
-                    currentCell.FromRow,
-                    currentCell.FromCol,
-                    address.Address);
+                var currentCell = context.CurrentCell;
+                var wsIx = arg.Address.WorksheetIx < 0 ? currentCell.WorksheetIx : arg.Address.WorksheetIx;
+                var range = context.ExcelDataProvider.GetRange(arg.Address);
                 var firstCell = range.FirstOrDefault();
                 if(firstCell != null && firstCell.Value != null)
                 {

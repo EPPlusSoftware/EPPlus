@@ -25,7 +25,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _package = new ExcelPackage();
             _provider = new EpplusExcelDataProvider(_package);
             _parsingContext = ParsingContext.Create();
-            _parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
+            //_parsingContext.Scopes.NewScope(FormulaRangeAddress.Empty);
             _worksheet = _package.Workbook.Worksheets.Add("testsheet");
         }
 

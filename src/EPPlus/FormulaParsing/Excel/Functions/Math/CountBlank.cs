@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             ValidateArguments(arguments, 1);
             var arg = arguments.First();
-            if(!arg.IsExcelRange && arg.ExcelAddressReferenceId <= 0)throw new InvalidOperationException("CountBlank only support ranges as arguments");
+            if(!arg.IsExcelRange && arg.Address==null)throw new InvalidOperationException("CountBlank only support ranges as arguments");
             var result = 0;
             IRangeInfo range;
             if(arg.IsExcelRange)
@@ -41,15 +41,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             else
             {
-                var currentCellAdr = context.Scopes.Current.Address;
-                var worksheet = currentCellAdr.WorksheetName;
-                var address = context.AddressCache.Get(arg.ExcelAddressReferenceId);
-                var excelAddress = new ExcelAddressBase(address);
-                if(!string.IsNullOrEmpty(excelAddress.WorkSheetName))
-                {
-                    worksheet = excelAddress.WorkSheetName;
-                }
-                range = context.ExcelDataProvider.GetRange(worksheet, currentCellAdr.FromRow, currentCellAdr.FromCol, excelAddress.Address);
+                //var currentCellAdr = context.CurrentCell;
+                //var worksheet = currentCellAdr.WorksheetName;
+                //var address = context.AddressCache.Get(arg.ExcelAddressReferenceId);
+                //var excelAddress = new ExcelAddressBase(address);
+                //if(!string.IsNullOrEmpty(excelAddress.WorkSheetName))
+                //{
+                //    worksheet = excelAddress.WorkSheetName;
+                //}
+                range = context.ExcelDataProvider.GetRange(arg.Address);
                 result = range.GetNCells();
             }
             foreach (var cell in range)

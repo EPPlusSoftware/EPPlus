@@ -35,9 +35,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 adr = new ExcelAddressBase(address);
             }
             else
-            {                
-                var n=context.ExcelDataProvider.GetName(context.Scopes.Current.Address.WorksheetName, address);
-                if(n.Value is IRangeInfo ri)
+            {
+                var n = context.ExcelDataProvider.GetName(0, context.CurrentCell.WorksheetIx, address);
+                if (n.Value is IRangeInfo ri)
                 {
                     adr = ri.Address.ToExcelAddressBase();
                 }
@@ -47,12 +47,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 address = adr.Address;
             }
-            var ws = adr.WorkSheetName;
-            if (string.IsNullOrEmpty(ws))
-            {
-                ws = context.Scopes.Current.Address.WorksheetName;
-            }
-            var result = context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, address);
+            int wsIx = context.GetWorksheetIndex(adr.WorkSheetName);
+            var result = context.ExcelDataProvider.GetRange(wsIx, context.CurrentCell.Row, context.CurrentCell.Column);
             if (result.IsEmpty)
             {
                 return CompileResult.Empty;

@@ -68,7 +68,8 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
         {
             _package.Workbook.Worksheets.Add(WorksheetName);
             var ctx = ParsingContext.Create(_package);
-            ctx.Scopes.NewScope(new FormulaRangeAddress(ctx){WorksheetIx = 0, FromCol = 1, FromRow = 1});
+            //ctx.Scopes.NewScope(new FormulaRangeAddress(ctx){WorksheetIx = 0, FromCol = 1, FromRow = 1});
+            ctx.CurrentCell = new FormulaCellAddress(0, 1, 1);
             ctx.ExcelDataProvider = provider;
             return ctx;
         }
@@ -114,7 +115,7 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
         public void HasNextShouldBeTrueIfNotLastCell()
         {
             var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetDimensionEnd(A<string>.Ignored)).Returns(new ExcelCellAddress(5, 5));
+            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(5, 5));
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(3);
             A.CallTo(() => provider.GetCellValue(WorksheetName,2, 1)).Returns(4);
             var args = GetArgs(3, "A1:B2", 1);
@@ -128,7 +129,7 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
             var provider = A.Fake<ExcelDataProvider>();
             A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(3);
             A.CallTo(() => provider.GetCellValue(WorksheetName,2, 1)).Returns(4);
-            A.CallTo(() => provider.GetDimensionEnd(A<string>.Ignored)).Returns(new ExcelCellAddress(100, 10));
+            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(100, 10));
             var args = GetArgs(6, "A1:B2", 1);
             var navigator = LookupNavigatorFactory.Create(LookupDirection.Vertical, args, GetContext(provider));
             navigator.MoveNext();
@@ -139,7 +140,7 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
         public void MoveNextShouldIncreaseIndex()
         {
             var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetDimensionEnd(A<string>.Ignored)).Returns(new ExcelCellAddress(5, 5));
+            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(5, 5));
             A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 1)).Returns(3);
             A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 2)).Returns(4);
             var args = GetArgs(6, "A1:B2", 1);
@@ -153,7 +154,7 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
         public void GetLookupValueShouldReturnCorrespondingValue()
         {
             var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetDimensionEnd(A<string>.Ignored)).Returns(new ExcelCellAddress(5, 5));
+            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(5, 5));
             A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 1)).Returns(3);
             A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 2)).Returns(4);
             var args = GetArgs(6, "A1:B2", 2);
@@ -165,7 +166,7 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
         public void GetLookupValueShouldReturnCorrespondingValueWithOffset()
         {
             var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetDimensionEnd(A<string>.Ignored)).Returns(new ExcelCellAddress(5, 5));
+            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(5, 5));
             A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 1)).Returns(3);
             A.CallTo(() => provider.GetCellValue(WorksheetName, 3, 3)).Returns(4);
             var args = new LookupArguments(3, "A1:A4", 3, 2, false,null);

@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             _addressInfo = addressInfo;
             _negate = negate;
         }
-        public RpnRangeExpression(string address, ParsingContext ctx, short externalReferenceIx, short worksheetIx) : base(ctx)
+        public RpnRangeExpression(string address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
         {
             _addressInfo = new FormulaRangeAddress(ctx) { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx < 0 ? ctx.CurrentCell.WorksheetIx : worksheetIx };
             ExcelCellBase.GetRowColFromAddress(address, out int fromRow, out int fromCol, out int toRow, out int toCol, out bool fixedFromRow, out bool fixedFromCol, out bool fixedToRow, out bool fixedToCol);
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 {
                     if (_addressInfo.IsSingleCell)
                     {
-                        _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), 0, _addressInfo);
+                        _result = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), _addressInfo);
                     }
                     else
                     {

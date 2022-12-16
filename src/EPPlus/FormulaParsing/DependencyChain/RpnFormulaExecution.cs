@@ -112,7 +112,7 @@ namespace OfficeOpenXml.FormulaParsing
             var ws = range.Worksheet;
             RpnFormula f = null;
             //TODO: Remove the row below when scope has been fixed.
-            depChain._parsingContext.Scopes.NewScope(new FormulaRangeAddress() { FromRow = range._fromRow, FromCol = range._fromCol});
+            //depChain._parsingContext.Scopes.NewScope(new FormulaRangeAddress() { FromRow = range._fromRow, FromCol = range._fromCol});
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, range._fromRow, range._fromCol);
             var fs = new CellStoreEnumerator<object>(ws._formulas, range._fromRow, range._fromCol, range._toRow, range._toCol);
             while (fs.Next())
@@ -322,13 +322,20 @@ namespace OfficeOpenXml.FormulaParsing
                                     f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                                 }
                             }
+                            else if(fexp._function.HasNormalArguments)
+                            {
+                                fexp._arguments.Add(f._tokenIndex);
+                            }
                         }
                         break;
                     case TokenType.Function:
                         var r=ExecFunc(depChain, t, f);
                         if(r.DataType==DataType.ExcelRange)
                         {
-                            return r.Address;
+                            if (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false)
+                            {
+                                return r.Address;
+                            }
                         }
                         break;
                     case TokenType.StartFunctionArguments:
@@ -399,7 +406,8 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     if (subFunctions == 0)
                     {
-                        func._endPos = i - 1;
+                        func._endPos = i;
+                        return;
                     }
                     subFunctions--;
                 }
@@ -456,6 +464,11 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.Enumerable:
                     f._expressionStack.Push(new RpnEnumerableExpression(null, context));
                     break;
+                case DataType.Empty:
+                    f._expressionStack.Push(RpnExpression.Empty);
+                    break;
+                default:
+                    throw new InvalidOperationException("Unhandled compile result");
             }
         }
 

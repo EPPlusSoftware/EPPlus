@@ -34,11 +34,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public override bool IsGroupedExpression => false;
         public override CompileResult Compile()
         {
-            var c = _parsingContext.Scopes.Current;
+            //var c = _parsingContext.Scopes.Current;
             var name = _parsingContext.ExcelDataProvider.GetName(_locationInfo.ExternalReferenceIx, _locationInfo.WorksheetIx, ExpressionString);
             
-            var cache = _parsingContext.AddressCache;
-            var cacheId = cache.GetNewId();
+            //var cache = _parsingContext.AddressCache;
+            //var cacheId = cache.GetNewId();
             
             if (name == null)
             {
@@ -47,8 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 if(table != null)
                 {
                     var ri = new RangeInfo(table.WorkSheet, table.Address);
-                    cache.Add(cacheId, ri.Address.ToString());
-                    return new CompileResult(ri, DataType.Enumerable, cacheId);
+                    return new AddressCompileResult(ri, DataType.ExcelRange, ri.Address);
                 }
 
                 return new CompileResult(eErrorType.Name);
@@ -56,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
             if (name.Value==null)
             {
-                return new CompileResult(null, DataType.Empty, cacheId);
+                return new CompileResult(null, DataType.Empty);
             }
 
             if (name.Value is IRangeInfo)
@@ -72,12 +71,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     {
                         return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
-                    return CompileResultFactory.Create(range.First().Value, cacheId, range.Address);
+                    return CompileResultFactory.Create(range.First().Value, range.Address);
                 }
             }
             else
             {                
-                return CompileResultFactory.Create(name.Value, cacheId);
+                return CompileResultFactory.Create(name.Value);
             }
             
             //return new CompileResultFactory().Create(result);

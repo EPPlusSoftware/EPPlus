@@ -34,7 +34,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             _excelDataProvider = new EpplusExcelDataProvider(_package, parsingContext);
             _compiler = new ExpressionCompiler(parsingContext);
 
-            parsingContext.Scopes.NewScope(new FormulaRangeAddress() { WorksheetIx=0, FromRow = 1, FromCol = 1, ToRow = 1,ToCol = 1 });
+            parsingContext.CurrentCell = new FormulaCellAddress(0, 1, 1);
             parsingContext.ExcelDataProvider = _excelDataProvider;
             _graphBuilder = new ExpressionGraphBuilder(_excelDataProvider, parsingContext);
         }

@@ -24,8 +24,7 @@ namespace EPPlusTest.FormulaParsing
             _package = new ExcelPackage();
             _package.Workbook.Worksheets.Add("test");
             _context = ParsingContext.Create(_package);
-            var address = new FormulaRangeAddress(_context) { FromCol = 1, ToCol = 1, FromRow = 1, ToRow = 1, WorksheetIx = 0 };
-            _context.Scopes.NewScope(address);
+            _context.CurrentCell = new FormulaCellAddress(0, 1, 1);
         }
 
         [TestCleanup]

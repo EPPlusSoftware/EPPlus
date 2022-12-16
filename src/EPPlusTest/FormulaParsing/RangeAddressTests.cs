@@ -31,15 +31,7 @@ namespace EPPlusTest.FormulaParsing
             _context.ExcelDataProvider = _excelDataProvider;
             _graphBuilder = new ExpressionGraphBuilder(_excelDataProvider, _context);
             _expressionCompiler = new ExpressionCompiler(_context);
-            var currentAddress = new FormulaRangeAddress()
-            {
-                WorksheetIx = 0,
-                FromCol = 0,
-                FromRow = 10,
-                ToCol = 0,
-                ToRow = 10
-            };
-            _context.Scopes.NewScope(currentAddress);
+            _context.CurrentCell = new FormulaCellAddress(0, 10, 0);
         }
 
         [TestCleanup]

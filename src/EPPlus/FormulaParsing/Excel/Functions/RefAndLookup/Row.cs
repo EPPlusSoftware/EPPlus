@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             if (arguments == null || arguments.Count() == 0)
             {
-                return CreateResult(context.Scopes.Current.Address.FromRow, DataType.Integer);
+                return CreateResult(context.CurrentCell.Row, DataType.Integer);
             }
             var rangeAddress = ArgToAddress(arguments, 0, context);
             if (!ExcelAddressUtil.IsValidAddress(rangeAddress))
@@ -45,5 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             return FunctionParameterInformation.IgnoreAddress;
         }
+        public override bool HasNormalArguments => false;
+
     }
 }

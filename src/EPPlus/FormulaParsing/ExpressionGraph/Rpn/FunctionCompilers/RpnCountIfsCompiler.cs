@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             {
                 //var rangeExpr = children.ElementAt(rangeIx).Children.First();
                 //rangeExpr.IgnoreCircularReference = true;
-                var currentAdr = Context.Scopes.Current.Address;
+                //var currentAdr = Context.Scopes.Current.Address;
             }
             foreach (var child in children)
             {

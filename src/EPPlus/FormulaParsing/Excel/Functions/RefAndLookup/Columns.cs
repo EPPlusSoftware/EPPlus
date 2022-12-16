@@ -52,5 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             return FunctionParameterInformation.IgnoreAddress;
         }
+        public override bool HasNormalArguments => false;
+
     }
 }

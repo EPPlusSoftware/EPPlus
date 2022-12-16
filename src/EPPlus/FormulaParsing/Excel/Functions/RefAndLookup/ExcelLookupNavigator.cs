@@ -22,8 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     internal class ExcelLookupNavigator : LookupNavigator
     {
-        private int _currentRow;
-        private int _currentCol;
+        private int _currentWsIx, _currentRow, _currentCol;
         private object _currentValue;
         private FormulaRangeAddress _rangeAddress;
         private int _index;
@@ -40,12 +39,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var factory = new RangeAddressFactory(ParsingContext.ExcelDataProvider, ParsingContext);
             if (Arguments.RangeInfo == null)
             {
-                _rangeAddress = factory.Create(ParsingContext.Scopes.Current.Address.WorksheetName, Arguments.RangeAddress);
+                _rangeAddress = factory.Create(ParsingContext.CurrentCell.WorksheetIx, Arguments.RangeAddress);
             }
             else
             {
-                _rangeAddress = factory.Create(Arguments.RangeInfo.Address.WorksheetName, Arguments.RangeInfo.Address.WorksheetAddress);
+                _rangeAddress = Arguments.RangeInfo.Address; //factory.Create(Arguments.RangeInfo.Address.WorksheetName, Arguments.RangeInfo.Address.WorksheetAddress);
             }
+            
             _currentCol = _rangeAddress.FromCol;
             _currentRow = _rangeAddress.FromRow;
             SetCurrentValue();

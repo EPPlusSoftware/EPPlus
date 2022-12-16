@@ -806,7 +806,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// <summary>
         /// Worksheet index in the package.
         /// -1             - Non-existing worksheet
-        /// short.MinValue - Not set. 
+        /// int.MinValue - Not set. 
         /// </summary>
         public int WorksheetIx;
         public int Row, Column;
@@ -835,7 +835,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// -1             - Non-existing worksheet
         /// short.MinValue - Not set. 
         /// </summary>
-        public int WorksheetIx = short.MinValue;
+        public int WorksheetIx = int.MinValue;
     }
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
@@ -847,6 +847,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal FormulaRangeAddress(ParsingContext ctx)
         {            
             _context = ctx;
+            if(WorksheetIx==int.MinValue) 
+            {
+                WorksheetIx = ctx.CurrentCell.WorksheetIx;
+            }
         }
         public int FromRow, FromCol, ToRow, ToCol;
         internal FixedFlag FixedFlag;
@@ -996,10 +1000,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     table = null;
                 }
             }
-            else if(WorksheetIx == short.MinValue)
+            else if(WorksheetIx == int.MinValue)
             {
                 table = package.Workbook.GetTable(TableName);
-                WorksheetIx = (short)table.WorkSheet.PositionId;
+                WorksheetIx = table.WorkSheet.IndexInList;
             }
             else
             {

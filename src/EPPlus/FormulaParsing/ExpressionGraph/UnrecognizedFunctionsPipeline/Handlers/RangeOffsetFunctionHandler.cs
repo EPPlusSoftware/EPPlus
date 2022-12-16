@@ -42,23 +42,22 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipe
         public override bool Handle(string funcName, IEnumerable<Expression> children, ParsingContext context, out ExcelFunction function)
         {
             function = null;
-            if(funcName.Contains(":OFFSET"))
-            {
-                var functionCompilerFactory = new FunctionCompilerFactory(context.Configuration.FunctionRepository, context);
-                var startRange = funcName.Split(':')[0];
-                var c = context.Scopes.Current;
-                var resultRange = context.ExcelDataProvider.GetRange(c.Address.WorksheetName, c.Address.FromRow, c.Address.FromCol, startRange);
-                var rangeOffset = new RangeOffset
-                {
-                    StartRange = resultRange
-                };
-                var compiler = functionCompilerFactory.Create(new Offset());
-                children.First().Children.First().IgnoreCircularReference = true;
-                var compileResult = compiler.Compile(children);
-                rangeOffset.EndRange = compileResult.Result as IRangeInfo;
-                function = rangeOffset;
-                return true;
-            }
+            //if(funcName.Contains(":OFFSET"))
+            //{
+            //    var functionCompilerFactory = new FunctionCompilerFactory(context.Configuration.FunctionRepository, context);
+            //    var startRange = funcName.Split(':')[0];
+            //    var resultRange = context.ExcelDataProvider.GetRange(c.Address.WorksheetName, c.Address.FromRow, c.Address.FromCol, startRange);
+            //    var rangeOffset = new RangeOffset
+            //    {
+            //        StartRange = resultRange
+            //    };
+            //    var compiler = functionCompilerFactory.Create(new Offset());
+            //    children.First().Children.First().IgnoreCircularReference = true;
+            //    var compileResult = compiler.Compile(children);
+            //    rangeOffset.EndRange = compileResult.Result as IRangeInfo;
+            //    function = rangeOffset;
+            //    return true;
+            //}
             return false;
         }
     }

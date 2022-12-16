@@ -47,8 +47,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 width = ArgToInt(functionArguments, 4);
                 if (width == 0) return new CompileResult(eErrorType.Ref);
             }
-            var ws = context.Scopes.Current.Address.WorksheetName;            
-            //var r =context.ExcelDataProvider.GetRange(ws, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol, startRange);
             var adr = arg0.Address;
 
             var fromRow = adr.FromRow + rowOffset;

@@ -149,27 +149,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
         }
 
-        private static FormulaRangeAddress GetScopeAddress(ParsingContext ctx)
-        {
-            if(ctx != null && ctx.Scopes.Current != null && ctx.Scopes.Current.Address != null)
-            {
-                return ctx.Scopes.Current.Address;
-            }
-            else
-            {
-                return null;
-            }
-        }
 
         private static InMemoryRange CreateRange(IRangeInfo l, IRangeInfo r, ParsingContext ctx)
         {
             var width = Math.Max(l.Size.NumberOfCols, r.Size.NumberOfCols);
             var height = Math.Max(l.Size.NumberOfRows, r.Size.NumberOfRows);
             var rangeDef = new RangeDefinition(height, width);
-            var adr = GetScopeAddress(ctx);
-            if(adr != null)
+            //var adr = GetScopeAddress(ctx);
+            if(r.Address != null)
             {
-                return new InMemoryRange(adr, rangeDef, ctx);
+                return new InMemoryRange(r.Address, rangeDef, ctx);
             }
             else
             {

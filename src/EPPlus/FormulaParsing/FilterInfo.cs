@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         private readonly ExcelWorkbook _workbook;
-        private readonly HashSet<string> _worksheetFilters = new HashSet<string>();
+        private readonly HashSet<int> _worksheetFilters = new HashSet<int>();
 
         private void Initialize()
         {
@@ -39,16 +39,16 @@ namespace OfficeOpenXml.FormulaParsing
                 if (worksheet.IsChartSheet) continue;
                 if(worksheet.AutoFilter != null && worksheet.AutoFilter.Columns != null && worksheet.AutoFilter.Columns.Count > 0)
                 {
-                    _worksheetFilters.Add(worksheet.Name);
+                    _worksheetFilters.Add(worksheet.IndexInList);
                     continue;
                 }
                 foreach(var table in worksheet.Tables)
                 {                    
                     if(table.AutoFilter != null && table.AutoFilter.Columns != null && table.AutoFilter.Columns.Count > 0)
                     {
-                        if(!_worksheetFilters.Contains(worksheet.Name))
+                        if(!_worksheetFilters.Contains(worksheet.IndexInList))
                         {
-                            _worksheetFilters.Add(worksheet.Name);
+                            _worksheetFilters.Add(worksheet.IndexInList);
                             continue;
                         }
                     }
@@ -59,11 +59,11 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// Returns true if there is an Autofilter with at least one column on the requested worksheet.
         /// </summary>
-        /// <param name="worksheetName"></param>
+        /// <param name="wsIx"></param>
         /// <returns></returns>
-        public bool WorksheetHasFilter(string worksheetName)
+        public bool WorksheetHasFilter(int wsIx)
         {
-            return _worksheetFilters.Contains(worksheetName);
+            return _worksheetFilters.Contains(wsIx);
         }
     }
 }

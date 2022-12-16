@@ -53,7 +53,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
             _package = new ExcelPackage();
             _worksheet = _package.Workbook.Worksheets.Add("Test");
             _excelDataProvider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => _excelDataProvider.GetDimensionEnd(A<string>.Ignored)).Returns(new ExcelCellAddress(10, 1));
+            A.CallTo(() => _excelDataProvider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(10, 1));
             A.CallTo(() => _excelDataProvider.GetWorkbookNameValues()).Returns(new ExcelNamedRangeCollection(_package.Workbook));
             _parser = new FormulaParser(_excelDataProvider);
         }

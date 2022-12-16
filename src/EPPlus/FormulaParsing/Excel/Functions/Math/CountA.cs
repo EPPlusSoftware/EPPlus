@@ -72,7 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
         private void _CheckForAndHandleExcelError(FunctionArgument arg, ParsingContext context)
         {
-            if (context.Scopes.Current.IsSubtotal)
+            if (context.IsSubtotal)
             {
                 CheckForAndHandleExcelError(arg);
             }
@@ -80,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
         private void _CheckForAndHandleExcelError(ICellInfo cell, ParsingContext context)
         {
-            if (context.Scopes.Current.IsSubtotal)
+            if (context.IsSubtotal)
             {
                 CheckForAndHandleExcelError(cell);
             }

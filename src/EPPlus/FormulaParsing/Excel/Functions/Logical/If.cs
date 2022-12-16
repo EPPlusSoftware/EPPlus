@@ -29,9 +29,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         {
             ValidateArguments(arguments, 3);
             var condition = ArgToBool(arguments, 0);
-            var firstStatement = arguments.ElementAt(1).Value;
-            var secondStatement = arguments.ElementAt(2).Value;
-            return condition ? CompileResultFactory.Create(firstStatement) : CompileResultFactory.Create(secondStatement);
+            var firstStatement = arguments.ElementAt(1);
+            var secondStatement = arguments.ElementAt(2);
+            return condition ? CompileResultFactory.Create(firstStatement.Value, firstStatement.Address) : CompileResultFactory.Create(secondStatement.Value, secondStatement.Address);
         }
         public override bool ReturnsReference => true;
         public override bool HasNormalArguments => false;

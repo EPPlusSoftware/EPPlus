@@ -51,7 +51,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _excelPackage.Workbook.Worksheets.Add("Test");
             _context = ParsingContext.Create();
             _context.ExcelDataProvider = new EpplusExcelDataProvider(_excelPackage);
-            _context.Scopes.NewScope(FormulaRangeAddress.Empty);
         }
 
         [TestCleanup]

@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 Result = result;
             }
             DataType = dataType;
-            ExcelAddressReferenceId = excelAddressReferenceId;
+            //ExcelAddressReferenceId = excelAddressReferenceId;
         }
 
         internal void Negate()
@@ -222,11 +222,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
         public bool IsHiddenCell { get; set; }
 
-        public int ExcelAddressReferenceId { get; set; }
+        //public int ExcelAddressReferenceId { get; set; }
 
         public bool IsResultOfResolvedExcelRange
         {
-            get { return ExcelAddressReferenceId > 0; }
+            get { return Address != null; }
         }
         public virtual FormulaRangeAddress Address
         {

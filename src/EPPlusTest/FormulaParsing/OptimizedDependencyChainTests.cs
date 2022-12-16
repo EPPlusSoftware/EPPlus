@@ -30,7 +30,7 @@ namespace EPPlusTest.FormulaParsing
             var parsingContext = ParsingContext.Create(_package);
             _compiler = new ExpressionCompiler(parsingContext);
 
-            parsingContext.Scopes.NewScope(new FormulaRangeAddress() { WorksheetIx = 1, FromRow = 1, FromCol = 1, ToRow = 1, ToCol = 1 });
+            parsingContext.CurrentCell = new FormulaCellAddress(0, 1, 1);
             parsingContext.ExcelDataProvider = _excelDataProvider;
             _graphBuilder = new ExpressionGraphBuilder(_excelDataProvider, parsingContext);
         }

@@ -64,16 +64,16 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         public ParsingConfiguration Configuration { get; set; }
 
-        /// <summary>
-        /// Scopes, a scope represents the parsing of a cell or a value.
-        /// </summary>
-        public ParsingScopes Scopes { get; private set; }
+        ///// <summary>
+        ///// Scopes, a scope represents the parsing of a cell or a value.
+        ///// </summary>
+        //public ParsingScopes Scopes { get; private set; }
 
-        /// <summary>
-        /// Address cache
-        /// </summary>
-        /// <seealso cref="ExcelAddressCache"/>
-        public ExcelAddressCache AddressCache { get; private set; }
+        ///// <summary>
+        ///// Address cache
+        ///// </summary>
+        ///// <seealso cref="ExcelAddressCache"/>
+        //public ExcelAddressCache AddressCache { get; private set; }
 
         /// <summary>
         /// Returns true if a <see cref="IFormulaParserLogger"/> is attached to the parser.
@@ -92,8 +92,8 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var context = new ParsingContext(package);
             context.Configuration = ParsingConfiguration.Create();
-            context.Scopes = new ParsingScopes(context);
-            context.AddressCache = new ExcelAddressCache();
+            //context.Scopes = new ParsingScopes(context);
+            //context.AddressCache = new ExcelAddressCache();
             context.NameValueProvider = NvProvider.Empty;
             return context;
         }
@@ -105,11 +105,42 @@ namespace OfficeOpenXml.FormulaParsing
 
         void IParsingLifetimeEventHandler.ParsingCompleted()
         {
-            AddressCache.Clear();
+            //AddressCache.Clear();
            // SubtotalAddresses.Clear();
+        }
+
+        internal int GetWorksheetIndex(string wsName)
+        {
+            if(string.IsNullOrEmpty(wsName))
+            {
+                return CurrentCell.WorksheetIx;
+            }
+            else
+            {
+                return Package.Workbook.Worksheets.GetPositionByToken(wsName);
+            }
         }
 
         internal HashSet<ulong> SubtotalAddresses { get; private set; }
         internal FormulaCellAddress CurrentCell { get; set; }
+        internal ExcelWorksheet CurrentWorksheet 
+        { 
+            get
+            {
+                if(CurrentCell.WorksheetIx>0 && CurrentCell.WorksheetIx < Package.Workbook.Worksheets.Count)
+                {
+                    return Package.Workbook.Worksheets[CurrentCell.WorksheetIx];
+                }
+                return null;
+            }
+        }
+        public bool IsSubtotal 
+        { 
+            get
+            {
+                var ci=ExcelCellBase.GetCellId(CurrentCell.WorksheetIx, CurrentCell.Row, CurrentCell.Column);
+                return SubtotalAddresses.Contains(ci);
+            }
+        }
     }
 }

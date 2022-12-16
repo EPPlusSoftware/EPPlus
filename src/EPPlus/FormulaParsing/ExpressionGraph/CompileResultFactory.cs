@@ -24,11 +24,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     {
         public static CompileResult Create(object obj)
         {
-            return Create(obj, 0);
-        }
-
-        public static CompileResult Create(object obj, int excelAddressReferenceId)
-        {
             if (obj is IRangeInfo)
             {
                 obj = ((IRangeInfo)obj).GetOffset(0, 0);
@@ -43,28 +38,28 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             switch (tc)
             {
                 case TypeCode.String:
-                   return new CompileResult(obj, DataType.String, excelAddressReferenceId);
+                   return new CompileResult(obj, DataType.String);
                 case TypeCode.Double:
                 case TypeCode.Decimal:
                 case TypeCode.Single:
-                    return new CompileResult(obj, DataType.Decimal, excelAddressReferenceId);
+                    return new CompileResult(obj, DataType.Decimal);
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                 case TypeCode.Int64:
-                    return new CompileResult(obj, DataType.Integer, excelAddressReferenceId);
+                    return new CompileResult(obj, DataType.Integer);
                 case TypeCode.Boolean:
-                    return new CompileResult(obj, DataType.Boolean, excelAddressReferenceId);
+                    return new CompileResult(obj, DataType.Boolean);
                 case TypeCode.DateTime:
-                    return new CompileResult(((System.DateTime)obj).ToOADate(), DataType.Date, excelAddressReferenceId);
+                    return new CompileResult(((System.DateTime)obj).ToOADate(), DataType.Date);
                 default:
                     if (t.Equals(typeof(ExcelErrorValue)))
                     {
-                        return new CompileResult(obj, DataType.ExcelError, excelAddressReferenceId);
+                        return new CompileResult(obj, DataType.ExcelError);
                     }
                     throw new ArgumentException("Non supported type " + t.FullName);
             }
         }
-        public static CompileResult Create(object obj, int excelAddressReferenceId, FormulaRangeAddress address)
+        public static CompileResult Create(object obj, FormulaRangeAddress address)
         {
             if (obj is IRangeInfo ri)
             {

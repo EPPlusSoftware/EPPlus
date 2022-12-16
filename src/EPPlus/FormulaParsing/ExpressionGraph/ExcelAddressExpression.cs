@@ -81,23 +81,23 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 {
                     return CompileResult.Empty;
                 }
-                throw new CircularReferenceException("Circular reference occurred at " + _parsingContext.Scopes.Current.Address.Address);
+                throw new CircularReferenceException("Circular reference occurred at " + _parsingContext.CurrentCell.Address);
             }
-            var cache = _parsingContext.AddressCache;
-            var cacheId = cache.GetNewId();
-            if(!cache.Add(cacheId, ExpressionString))
-            {
-                throw new InvalidOperationException("Catastropic error occurred, address caching failed");
-            }
+            //var cache = _parsingContext.AddressCache;
+            //var cacheId = cache.GetNewId();
+            //if(!cache.Add(cacheId, ExpressionString))
+            //{
+            //    throw new InvalidOperationException("Catastropic error occurred, address caching failed");
+            //}
                 var compileResult = CompileRangeValues();
-            compileResult.ExcelAddressReferenceId = cacheId;
+            //compileResult.ExcelAddressReferenceId = cacheId;
             return compileResult;
         }
 
         private CompileResult CompileRangeValues()
         {
-            var c = this._parsingContext.Scopes.Current;
-            var resultRange = _excelDataProvider.GetRange(c.Address);
+            var c = this._parsingContext.CurrentCell;
+            var resultRange = _excelDataProvider.GetRange(c.WorksheetIx, c.Row, c.Column);
             if (resultRange == null)
             {
                 return CompileResult.Empty;

@@ -77,10 +77,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var cr = _graph.Execute(exps);
             var expected = 3.001953125D;
             Assert.AreEqual(3.001953125D, cr.ResultNumeric);
-
-            //var er = _graph.CompileExpressions(exps);
-            //Assert.AreEqual(expected, er._expressions[0].Compile().ResultNumeric);
-                
         }
         [TestMethod]
         public void Calculate_NumericExpression2()
@@ -91,9 +87,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var cr = _graph.Execute(exps);
             var expected = -1.6981132075471697D;
             Assert.AreEqual(expected, cr.ResultNumeric);
-
-            //var er = _graph.CompileExpressions(exps);
-            //Assert.AreEqual(expected, er._expressions[0].Compile().ResultNumeric);
         }
         [TestMethod]
         public void Calculate_NumericExpression3()
@@ -113,9 +106,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var cr = _graph.Execute(exps);
             var expected = 3.231085104332676E-15;
             Assert.AreEqual(expected, cr.ResultNumeric);
-
-            //var er = _graph.CompileExpressions(exps);
-            //Assert.AreEqual(expected, er._expressions[0].Compile().ResultNumeric);
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithAddresses1()
@@ -126,41 +116,28 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var cr = _graph.Execute(exps);
             var expected = 1.00146484375;
             Assert.AreEqual(expected, cr.ResultNumeric);
-
-            //var er = _graph.CompileExpressions(exps);
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithAddresses2()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
                 var formula = "(SUM(Sheet1!A1:C1)+1) * 3";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-                var cr = _graph.Execute(exps);
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var cr = _graph.Execute(exps);
                 
-                Assert.AreEqual(21, cr.ResultNumeric);
-
-                 //var er = _graph.CompileExpressions(exps);
-            }
+            Assert.AreEqual(21, cr.ResultNumeric);
         }
         [TestMethod]
         public void Calculate_NumericExpressionMultiplyTwoRanges()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
-                //for (int i = 0; i < 1000000; i++)
-                //{
-                var formula = "SUM(A1:B1+A2:B2)+1";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-                var cr = _graph.Execute(exps);
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "SUM(A1:B1+A2:B2)+1";
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var cr = _graph.Execute(exps);
 
-                Assert.AreEqual(34, cr.ResultNumeric);
-                //}
-            }
+            Assert.AreEqual(34, cr.ResultNumeric);
         }
         [TestMethod]
         public void Calculate_Concat_Strings()
@@ -192,31 +169,20 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         [TestMethod]
         public void Calculate_TableAddress()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
-                var formula = "Sum(Table1[col 1])";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-                var cr = _graph.Execute(exps);
-                Assert.AreEqual(3D, cr.Result);
-            }
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "Sum(Table1[col 1])";
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var cr = _graph.Execute(exps);
+            Assert.AreEqual(3D, cr.Result);
         }
         [TestMethod]
         public void Calculate_AddressExpression_PreCompile()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
-                var formula = "B1*(A2/A1)+1";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-                //var er = _graph.CompileExpressions(exps);
-                //Assert.AreEqual(4, er._expressions.Count);
-                //Assert.AreEqual(Operators.Divide ,er._expressions[0].Operator);
-                //Assert.AreEqual(Operators.Multiply, er._expressions[1].Operator);
-                //Assert.AreEqual(Operators.Plus, er._expressions[2].Operator);
-            }
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "B1*(A2/A1)+1";
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
         }
 
         [TestMethod]
@@ -232,57 +198,41 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         [TestMethod]
         public void Calculate_Worksheet_NameFixedValue()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
-                var formula = "Sheet1!WorksheetDefinedNameValue";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-                var cr = _graph.Execute(exps);
-                Assert.AreEqual("Name Value", cr.Result);
-            }
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "Sheet1!WorksheetDefinedNameValue";
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var cr = _graph.Execute(exps);
+            Assert.AreEqual("Name Value", cr.Result);
         }
         [TestMethod]
         public void Calculate_Workbook_NameFixedValue()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
-                var formula = "WorkbookDefinedNameValue";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-                var cr = _graph.Execute(exps);
-                Assert.AreEqual(1, cr.Result);
-            }
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "WorkbookDefinedNameValue";
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var cr = _graph.Execute(exps);
+            Assert.AreEqual(1, cr.Result);
         }
         [TestMethod]
         public void Calculate_NonExisting_Worksheet_NameFixedValue()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
-                var formula = "NonExistingSheet!WorksheetDefinedNameValue";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-                var cr = _graph.Execute(exps);
-                Assert.IsInstanceOfType(cr.Result, typeof(ExcelErrorValue));
-                Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)cr.Result).Type);
-            }
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "NonExistingSheet!WorksheetDefinedNameValue";
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var cr = _graph.Execute(exps);
+            Assert.IsInstanceOfType(cr.Result, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)cr.Result).Type);
         }
         [TestMethod]
         public void FunctionsInFunctionsTests()
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create("sheet1", 4, 1);
-            using (_parsingContext.Scopes.NewScope(rangeAddress))
-            {
-                var formula = "IF((A1 * 1) > (A2 / 2) + 1,SUM(A1:C1),SUM(A2:C2))";
-                var tokens = _tokenizer.Tokenize(formula);
-                var exps = _graph.CompileExpressions(ref tokens);
-                //var cr = _graph.Execute(exps);
-                //var ce = _graph.CompileExpressions(exps);
-                //Assert.IsInstanceOfType(cr.Result, typeof(ExcelErrorValue));
-                //Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)cr.Result).Type);
-            }
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "IF((A1 * 1) > (A2 / 2) + 1,SUM(A1:C1),SUM(A2:C2))";
+            var tokens = _tokenizer.Tokenize(formula);
+            var exps = _graph.CompileExpressions(ref tokens);
         }
     }
 }

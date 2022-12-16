@@ -25,15 +25,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
          Description = "Performs a specified calculation (e.g. the sum, product, average, etc.) for a list or database, with the option to ignore hidden rows and error values")]
     internal class Aggregate : ExcelFunction
     {
-        public override void BeforeInvoke(ParsingContext context)
-        {
-            base.BeforeInvoke(context);
-            var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.WorksheetName, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
-            if (!context.SubtotalAddresses.Contains(cellId))
-            {
-                context.SubtotalAddresses.Add(cellId);
-            }
-        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);
@@ -45,9 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
             if(IgnoreNestedSubtotalAndAggregate(options))
             {
-                context.Scopes.Current.IsSubtotal = true;
-                var cellId = context.ExcelDataProvider.GetCellId(context.Scopes.Current.Address.WorksheetName, context.Scopes.Current.Address.FromRow, context.Scopes.Current.Address.FromCol);
-                if(!context.SubtotalAddresses.Contains(cellId))
+                var cellId = ExcelCellBase.GetCellId(context.CurrentCell.WorksheetIx, context.CurrentCell.Row, context.CurrentCell.Column);
+                if (!context.SubtotalAddresses.Contains(cellId))
                 {
                     context.SubtotalAddresses.Add(cellId);
                 }

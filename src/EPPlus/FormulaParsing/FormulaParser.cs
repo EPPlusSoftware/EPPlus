@@ -108,38 +108,36 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         internal FilterInfo FilterInfo { get; private set; }
 
-        internal virtual object Parse(string formula, FormulaRangeAddress rangeAddress)
+        internal virtual object Parse(string formula, FormulaCellAddress cell)
         {
-            using (var scope = _parsingContext.Scopes.NewScope(rangeAddress))
+            _parsingContext.CurrentCell = cell;
+            var tokens = _lexer.Tokenize(formula);
+            var graph = _graphBuilder.Build(tokens);
+            if (graph.Expressions.Count == 0)
             {
-                var tokens = _lexer.Tokenize(formula);
-                var graph = _graphBuilder.Build(tokens);
-                if (graph.Expressions.Count == 0)
-                {
-                    return null;
-                }
-                return _compiler.Compile(graph.Expressions).Result;
+                return null;
             }
+            return _compiler.Compile(graph.Expressions).Result;
         }
 
         internal virtual object Parse(IEnumerable<Token> tokens, string worksheet, string address)
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create(address);
-            using (var scope = _parsingContext.Scopes.NewScope(rangeAddress))
+            var cell = _parsingContext.RangeAddressFactory.CreateCell(address);
+            cell.WorksheetIx = _parsingContext.GetWorksheetIndex(worksheet);
+            _parsingContext.CurrentCell = cell;
+            var graph = _graphBuilder.Build(tokens);
+            if (graph.Expressions.Count() == 0)
             {
-                var graph = _graphBuilder.Build(tokens);
-                if (graph.Expressions.Count() == 0)
-                {
-                    return null;
-                }
-                return _compiler.Compile(graph.Expressions).Result;
+                return null;
             }
+            return _compiler.Compile(graph.Expressions).Result;
         }
         internal virtual object ParseCell(IEnumerable<Token> tokens, string worksheet, int row, int column)
         {
-            var rangeAddress = _parsingContext.RangeAddressFactory.Create(worksheet, column, row);
-            using (var scope = _parsingContext.Scopes.NewScope(rangeAddress))
-            {
+            _parsingContext.CurrentCell = new FormulaCellAddress(_parsingContext.Package.Workbook.Worksheets.GetPositionByToken(worksheet), row, column);
+            //using (var scope = _parsingContext.Scopes.NewScope(rangeAddress))
+            //{
+                
                 //    _parsingContext.Dependencies.AddFormulaScope(scope);
                 var graph = _graphBuilder.Build(tokens);
                 if (graph.Expressions.Count() == 0)
@@ -187,7 +185,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     return ex.ErrorValue;
                 }
-            }
+            //}
         }
 
         /// <summary>
@@ -198,7 +196,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns></returns>
         public virtual object Parse(string formula, string address)
         {
-            return Parse(formula, _parsingContext.RangeAddressFactory.Create(address));
+            return Parse(formula, _parsingContext.RangeAddressFactory.CreateCell(address));
         }
         
         /// <summary>
@@ -208,7 +206,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns>The result of the calculation</returns>
         public virtual object Parse(string formula)
         {
-            return Parse(formula, FormulaRangeAddress.Empty);
+            return Parse(formula, new FormulaCellAddress());
         }
 
         /// <summary>
@@ -239,7 +237,8 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                return Parse(f, _parsingContext.RangeAddressFactory.Create(worksheetName,col,row));
+                var wsIx=_parsingContext.GetWorksheetIndex(worksheetName);
+                return Parse(f, new FormulaCellAddress(wsIx, row, col));
             }
             //var dataItem = _excelDataProvider.GetRangeValues(address).FirstOrDefault();
             //if (dataItem == null /*|| (dataItem.Value == null && dataItem.Formula == null)*/) return null;

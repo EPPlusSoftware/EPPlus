@@ -48,19 +48,14 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 
         public FormulaRangeAddress Create(int col, int row)
         {
-            return Create(string.Empty, col, row);
+            return Create(int.MinValue, col, row);
         }
 
-        public FormulaRangeAddress Create(string worksheetName, int col, int row)
+        public FormulaRangeAddress Create(int wsIx, int col, int row)
         {
-            var wsIndex = -1;
-            if(_context.Package != null && _context.Package.Workbook.Worksheets[worksheetName] != null)
-            {
-                wsIndex = _context.Package.Workbook.Worksheets[worksheetName].PositionId;
-            }
             return new FormulaRangeAddress(_context)
             {
-                WorksheetIx = (short)wsIndex,
+                WorksheetIx = wsIx,
                 FromCol = col,
                 ToCol = col,
                 FromRow = row,
@@ -74,21 +69,16 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="worksheetName">will be used if no worksheet name is specified in <paramref name="address"/></param>
         /// <param name="address">address of a range</param>
         /// <returns></returns>
-        public FormulaRangeAddress Create(string worksheetName, string address)
+        public FormulaRangeAddress Create(int wsIx, string address)
         {
             Require.That(address).Named("range").IsNotNullOrEmpty();
             //var addressInfo = ExcelAddressInfo.Parse(address);
             var adr = new ExcelAddressBase(address);  
-            var sheet = string.IsNullOrEmpty(adr.WorkSheetName) ? worksheetName : adr.WorkSheetName;
-            var dim = _excelDataProvider.GetDimensionEnd(sheet);
-            var worksheetIx = -1;
-            if(!string.IsNullOrEmpty(sheet) && _context.Package != null && _context.Package.Workbook.Worksheets[sheet] != null)
-            {
-                worksheetIx = _context.Package.Workbook.Worksheets[sheet].PositionId;
-            }
+            var worksheetIx = string.IsNullOrEmpty(adr.WorkSheetName) ? wsIx : _context.GetWorksheetIndex(adr.WorkSheetName);
+            var dim = _excelDataProvider.GetDimensionEnd((int)wsIx);
             var rangeAddress = new FormulaRangeAddress(_context)
             {
-                WorksheetIx = (short)worksheetIx,
+                WorksheetIx = worksheetIx,
                 FromRow = adr._fromRow,
                 FromCol = adr._fromCol,
                 ToRow = (dim != null && adr._toRow > dim.Row) ? dim.Row : adr._toRow,
@@ -141,6 +131,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             //    HandleSingleCellAddress(rangeAddress, addressInfo);
             //}
             return rangeAddress;
+        }
+        public FormulaCellAddress CreateCell(string cell)
+        {
+            Require.That(cell).Named("cell").IsNotNullOrEmpty();
+            ExcelAddressBase.GetRowColFromAddress(cell, out int row, out int col);
+            return new FormulaCellAddress(int.MinValue, row, col);
         }
     }
 }
