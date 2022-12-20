@@ -3733,7 +3733,7 @@ namespace EPPlusTest
                 Directory.CreateDirectory($"{path}{dir}{key}\\");
                 WriteStorage(storage.SubStorage[key], sb, path, dir + $"{key}\\");
             }
-            foreach(var key in storage.DataStreams.Keys)
+            foreach (var key in storage.DataStreams.Keys)
             {
                 sb.WriteLine($"{path}{dir}\\" + key);
                 System.IO.File.WriteAllBytes($"{path}{dir}\\" + GetFileName(key) + ".bin", storage.DataStreams[key]);
@@ -3746,7 +3746,7 @@ namespace EPPlusTest
             var ic = Path.GetInvalidFileNameChars();
             foreach (var c in key)
             {
-                if(ic.Contains(c))
+                if (ic.Contains(c))
                 {
                     sb.Append($"0x{(int)c}");
                 }
@@ -3764,7 +3764,7 @@ namespace EPPlusTest
         [TestMethod]
         public void i740()
         {
-            using (var package = OpenPackage($"i738.xlsx",true))
+            using (var package = OpenPackage($"i738.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
                 var tableRange = sheet.Cells["A1:C5"];
@@ -3892,7 +3892,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage(@"i751-Normal.xlsx"))
             {
-                var ws= p.Workbook.Worksheets[0];
+                var ws = p.Workbook.Worksheets[0];
                 ws.DeleteColumn(3);
                 SaveAndCleanup(p);
             }
@@ -3931,6 +3931,49 @@ namespace EPPlusTest
                 var sheet2 = p.Workbook.Worksheets.Add("copy", sheet1);
                 p.Save();
 
+            }
+        }
+        [TestMethod]
+        public void i760()
+        {
+            using (var p = OpenPackage($"i760.xlsx",true))
+            {
+                p.Workbook.Worksheets.Add("sheet1");
+                p.Workbook.ThemeManager.DeleteCurrentTheme();
+                p.Workbook.ThemeManager.Load(new FileInfo("c:\\temp\\office.thmx"));
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i761()
+        {
+            using (var package = OpenPackage("i761.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Page1");
+                sheet.Cells["A1"].Value = 0;
+                sheet.Cells["B1"].Value = 5;
+                sheet.Cells["A2"].Value = 0;
+                sheet.Cells["B2"].Value = 1;
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["B3"].Value = 1;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["B4"].Value = 4;
+                sheet.Cells["F1"].Value = 1;
+                sheet.Cells["G1"].CreateArrayFormula($"MIN(IF(A1:A4=F1,B1:B4))");
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i762()
+        {
+            using (var p = OpenTemplatePackage(@"i762.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["C5"].Value = 15;
+                var pc = ws.Drawings[0].As.Chart.PieChart;
+                pc.Series[0].CreateCache();
+
+                SaveAndCleanup(p);
             }
         }
     }

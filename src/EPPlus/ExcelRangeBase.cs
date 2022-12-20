@@ -294,7 +294,7 @@ namespace OfficeOpenXml
             f.Address = address.FirstAddress;
             f.StartCol = address.Start.Column;
             f.StartRow = address.Start.Row;
-            f.FormulaType = ExcelWorksheet.FormulaType.Shared;
+            f.FormulaType = IsArray ? ExcelWorksheet.FormulaType.Array : ExcelWorksheet.FormulaType.Shared;
 
             range._worksheet._sharedFormulas.Add(f.Index, f);
 
