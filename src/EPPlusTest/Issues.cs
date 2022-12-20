@@ -3934,17 +3934,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void i760()
-        {
-            using (var p = OpenPackage($"i760.xlsx",true))
-            {
-                p.Workbook.Worksheets.Add("sheet1");
-                p.Workbook.ThemeManager.DeleteCurrentTheme();
-                p.Workbook.ThemeManager.Load(new FileInfo("c:\\temp\\office.thmx"));
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
         public void i761()
         {
             using (var package = OpenPackage("i761.xlsx", true))
