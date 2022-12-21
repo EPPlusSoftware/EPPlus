@@ -837,13 +837,23 @@ namespace OfficeOpenXml
 #if (Core)
             //var af = new AutofitHelperSkia(this);
             //af.AutofitColumn(MinimumWidth, MaximumWidth);
-            var af = new AutofitHelper(this);
+            var af = new AutofitColumnHelper(this);
             af.AutofitColumn(MinimumWidth, MaximumWidth);
 #else
-            var af = new AutofitHelper(this);
+            var af = new AutofitColumnHelper(this);
             af.AutofitColumn(MinimumWidth, MaximumWidth);
 #endif
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void AutoFitRows()
+        {
+            var af = new AutofitRowHelper(this);
+            af.AutofitRows();
+        }
+
         internal string TextForWidth
         {
             get

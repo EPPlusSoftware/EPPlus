@@ -278,7 +278,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Row width of the column.
+        /// The width of the column.
         /// </summary>
         public double Width
         {
