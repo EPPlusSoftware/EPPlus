@@ -41,6 +41,11 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal string GetAddress()
         {
+            
+            if(_ws==null)
+            {
+                return ExcelCellBase.GetAddress(_row, _column);
+            }
             return _ws.Name + "!" + ExcelCellBase.GetAddress(_row, _column);
         }
 

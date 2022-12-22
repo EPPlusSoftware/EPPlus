@@ -110,7 +110,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 {
                     if(_currentAddress!=null)
                     {
-                        _currentAddress = new FormulaTableAddress()
+                        _currentAddress = new FormulaTableAddress(_parsingContext)
                         {
                             ExternalReferenceIx = _currentAddress.ExternalReferenceIx,
                             WorksheetIx = _currentAddress.WorksheetIx, 
@@ -119,7 +119,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     }
                     else
                     {
-                        _currentAddress = new FormulaTableAddress() { TableName = token.Value };
+                        _currentAddress = new FormulaTableAddress(_parsingContext) { TableName = token.Value };
                     }
                 }
                 else if(token.TokenTypeIsSet(TokenType.TableColumn))

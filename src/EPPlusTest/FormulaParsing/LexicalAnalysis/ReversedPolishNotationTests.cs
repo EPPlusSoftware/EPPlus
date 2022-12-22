@@ -72,127 +72,95 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void Calculate_NumericExpression1()
         {
             var formula = "3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
             var expected = 3.001953125D;
-            Assert.AreEqual(3.001953125D, cr.ResultNumeric);
+            Assert.AreEqual(expected, value);
         }
         [TestMethod]
         public void Calculate_NumericExpression2()
         {
             var formula = "(( 1 -(- 2)-( 3 + 4 + 5 ))/( 6 + 7 * 8 - 9) * 10 )";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
             var expected = -1.6981132075471697D;
-            Assert.AreEqual(expected, cr.ResultNumeric);
+            Assert.AreEqual(expected, value);
         }
         [TestMethod]
         public void Calculate_NumericExpression3()
         {
             var formula = "( 1 + 2 ) * ( 3 / 4 ) ^ ( 5 + 6 )";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual(0.12670540809631348D, cr.ResultNumeric);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
+            Assert.AreEqual(0.12670540809631348D, value);
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithFunctions()
         {
             var formula = "sin(max((( 2 + 2 ) / 2), (3 * 3) / 3) / 3 * pi())";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
             var expected = 3.231085104332676E-15;
-            Assert.AreEqual(expected, cr.ResultNumeric);
+            Assert.AreEqual(Math.Round(expected * 100000, 15), Math.Round((double)value * 100000, 15));
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithAddresses1()
         {
             var formula = "A1 + B1 * C1 / ( 1 - 5 ) ^ 2 ^ 3";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
             var expected = 1.00146484375;
-            Assert.AreEqual(expected, cr.ResultNumeric);
+            Assert.AreEqual(expected, value);
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithAddresses2()
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
-                var formula = "(SUM(Sheet1!A1:C1)+1) * 3";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-                
-            Assert.AreEqual(21, cr.ResultNumeric);
+            var formula = "(SUM(Sheet1!A1:C1)+1) * 3";
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
+
+            Assert.AreEqual(21D, value);
         }
         [TestMethod]
         public void Calculate_NumericExpressionMultiplyTwoRanges()
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
             var formula = "SUM(A1:B1+A2:B2)+1";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
 
-            Assert.AreEqual(34, cr.ResultNumeric);
+            Assert.AreEqual(34D, value);
         }
         [TestMethod]
         public void Calculate_Concat_Strings()
         {
             var formula = "\"Test\" & \" \" & \"2\"";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual("Test 2", cr.Result);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
+            Assert.AreEqual("Test 2", value);
         }
         [TestMethod]
         public void Calculate_Array()
         {
             var formula = "Sum({1,2;3,4})";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual(10D, cr.Result);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
+            Assert.AreEqual(10D, value);
         }
         [TestMethod]
         public void Calculate_ArrayAdditionWithRange()
         {
             var formula = "sum({1,2,3;3,4,5}+A1:C2)";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual(84D, cr.Result);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual(84D, value);
         }
         [TestMethod]
-        public void Calculate_TableAddress()
+        public void Calculate_TableColumnAddress()
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
             var formula = "Sum(Table1[col 1])";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual(3D, cr.Result);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual(3D, value);
         }
         [TestMethod]
         public void Calculate_AddressExpression_PreCompile()
         {
-            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 2, 4);
             var formula = "B1*(A2/A1)+1";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-        }
-
-        [TestMethod]
-        public void Calculate_TableCell()
-        {
-            var formula = "sum({1,2,3;3,4,5}+A1:C2)";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual(84D, cr.Result);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual(21D, value);
         }
 
         [TestMethod]
@@ -200,39 +168,50 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
             var formula = "Sheet1!WorksheetDefinedNameValue";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual("Name Value", cr.Result);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual("Name Value", value);
         }
         [TestMethod]
         public void Calculate_Workbook_NameFixedValue()
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
             var formula = "WorkbookDefinedNameValue";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.AreEqual(1, cr.Result);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual(1, value);
         }
         [TestMethod]
         public void Calculate_NonExisting_Worksheet_NameFixedValue()
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
             var formula = "NonExistingSheet!WorksheetDefinedNameValue";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var cr = _graph.Execute(exps);
-            Assert.IsInstanceOfType(cr.Result, typeof(ExcelErrorValue));
-            Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)cr.Result).Type);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.IsInstanceOfType(value, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Name, ((ExcelErrorValue)value).Type);
         }
         [TestMethod]
         public void FunctionsInFunctionsTests()
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
             var formula = "IF((A1 * 1) > (A2 / 2) + 1,SUM(A1:C1),SUM(A2:C2))";
-            var tokens = _tokenizer.Tokenize(formula);
-            var exps = _graph.CompileExpressions(ref tokens);
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual(60D, value);
         }
+        [TestMethod]
+        public void SumFullColumn()
+        {
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "Sum(A:A)";
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual(11D, value);
+        }
+        [TestMethod]
+        public void SumFullRow()
+        {
+            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
+            var formula = "Sum(2:2)";
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook.Worksheets[0], formula, new ExcelCalculationOption());
+            Assert.AreEqual(60D, value);
+        }
+
     }
 }

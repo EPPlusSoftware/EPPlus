@@ -16,6 +16,8 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml
 {
@@ -1207,8 +1209,34 @@ namespace OfficeOpenXml
         internal static bool IsExternalAddress(string address)
         {
             return address.StartsWith("[") || address.StartsWith("'[");
-        }        
-            #endregion
-            #endregion
         }
+        internal static bool IsValidRowNumber(int row)
+        {
+            return row >= 1 && row <= ExcelPackage.MaxRows;
+        }
+        //Return true if the value is an address beteween A and XFD without a following number.
+        internal static bool IsColumnLetter(string value)
+        {
+            if (string.IsNullOrEmpty(value) || value.Length > 3) return false;
+
+            value = value.ToUpper();
+
+            foreach(var c in value)
+            {
+                if(c < 'A' || c > 'X')
+                {
+                    return false;
+                }
+            }
+            if (value.Length==3 && (
+                (value[0]=='X' && value[1]>'F') ||
+                (value[0] == 'X' && value[1] == 'F' || value[2]>'D')))
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+        #endregion
+    }
 }

@@ -25,32 +25,32 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
     /// </summary>
     internal class RpnEnumerableExpression : RpnExpression
     {
-        private readonly List<List<object>> _matrix;
+        
+        private readonly IRangeInfo _range;
         private bool _isNegated;
 
-        internal RpnEnumerableExpression(List<List<object>> matrix, ParsingContext ctx)
+        internal RpnEnumerableExpression(CompileResult result, ParsingContext ctx)
             : base(ctx)
         {
-            _matrix = matrix;
+            _cachedCompileResult = result;
+        }
+        internal RpnEnumerableExpression(IRangeInfo range, ParsingContext ctx)
+            : base(ctx)
+        {
+            _range = range;
         }
         internal override ExpressionType ExpressionType => ExpressionType.Enumerable;
-
         /// <summary>
         /// Compiles the expression into a <see cref="CompileResult"/>
         /// </summary>
         /// <returns></returns>
         public override CompileResult Compile()
         {
-            var rangeDef = new RangeDefinition(_matrix.Count, (short)_matrix[0].Count);
-            var result = new InMemoryRange(rangeDef);
-            for (var r = 0; r < _matrix.Count; r++)
+            if(_cachedCompileResult==null)
             {
-                for (var c = 0; c < _matrix[r].Count; c++)
-                {
-                    result.SetValue(r, c, _matrix[r][c]);
-                }
+                _cachedCompileResult = new CompileResult(_range, DataType.ExcelRange);
             }
-            return new CompileResult(result, DataType.ExcelRange);
+            return _cachedCompileResult;
         }
 
         public override void Negate()

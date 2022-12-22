@@ -28,19 +28,30 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             _nRows = rangeDef.NumberOfRows;
             _nCols = rangeDef.NumberOfCols;
-            _cells = new ICellInfo[_nCols, _nRows];
+            _cells = new ICellInfo[_nRows, _nCols];
             _size = rangeDef;
         }
         public InMemoryRange(FormulaRangeAddress address, RangeDefinition rangeDef, ParsingContext ctx)
         {
             _ws = ctx.Package.Workbook.Worksheets[ctx.CurrentCell.WorksheetIx];
             _address = address;
-            _nRows = rangeDef.NumberOfRows;
-            _nCols = rangeDef.NumberOfCols;
-            _cells = new ICellInfo[_nCols, _nRows];
+            _cells = new ICellInfo[_nRows, _nCols];
             _size = rangeDef;
         }
-
+        public InMemoryRange(List<List<object>> range)
+        {
+            _size = new RangeDefinition(range.Count, (short)range[0].Count);
+            _nRows = _size.NumberOfRows;
+            _nCols = _size.NumberOfCols;
+            _cells = new ICellInfo[_nRows, _nCols];
+            for(int c=0;c < _nCols; c++)
+            {
+                for(int r=0;r<_nRows;r++)
+                {
+                    _cells[r, c] = new InMemoryCellInfo(range[r][c]);
+                }
+            }
+        }
         private readonly FormulaRangeAddress _address;
         private readonly RangeDefinition _size;
         private readonly ExcelWorksheet _ws;
@@ -60,12 +71,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public void SetValue(int row, int col, object val)
         {
             var c = new InMemoryCellInfo(val);
-            _cells[col, row] = c;
+            _cells[row, col] = c;
         }
 
         public void SetCell(int row, int col, ICellInfo cell)
         {
-            _cells[col, row] = cell;
+            _cells[row, col] = cell;
         }
 
         public bool IsEmpty => _cells.Length == 0;
@@ -84,7 +95,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get
             {
-                return _cells[_colIx, _rowIndex];
+                return _cells[_rowIndex, _colIx];
             }
         }
 
@@ -92,7 +103,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get
             {
-                return _cells[_colIx, _rowIndex];
+                return _cells[_rowIndex, _colIx];
             }
         }
 
@@ -115,7 +126,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
 
         public object GetOffset(int rowOffset, int colOffset)
         {
-            var c = _cells[colOffset, rowOffset];
+            var c = _cells[rowOffset, colOffset];
             if (c == null)
             {
                 return null;
@@ -125,14 +136,14 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
 
         public object GetValue(int row, int col)
         {
-            var c = _cells[col, row];
+            var c = _cells[row, col];
             if (c == null) return null;
             return c.Value;
         }
 
         public ICellInfo GetCell(int row, int col)
         {
-            var c = _cells[col, row];
+            var c = _cells[row, col];
             if (c == null) return null;
             return c;
         }

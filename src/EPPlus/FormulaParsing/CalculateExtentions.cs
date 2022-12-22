@@ -123,7 +123,7 @@ namespace OfficeOpenXml
         public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
         {
             Init(worksheet.Workbook);
-            var res = RpnFormulaExecution.Create(worksheet, options);
+            var res = RpnFormulaExecution.Execute(worksheet, options);
             //var dc = DependencyChainFactory.Create(worksheet, options);
             //var parser = worksheet.Workbook.FormulaParser;
             //var filterInfo = new FilterInfo(worksheet.Workbook);

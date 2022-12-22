@@ -150,20 +150,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         }
 
 
-        private static InMemoryRange CreateRange(IRangeInfo l, IRangeInfo r, ParsingContext ctx)
+        private static InMemoryRange CreateRange(IRangeInfo l, IRangeInfo r/*, ParsingContext ctx*/)
         {
             var width = Math.Max(l.Size.NumberOfCols, r.Size.NumberOfCols);
             var height = Math.Max(l.Size.NumberOfRows, r.Size.NumberOfRows);
             var rangeDef = new RangeDefinition(height, width);
             //var adr = GetScopeAddress(ctx);
-            if(r.Address != null)
-            {
-                return new InMemoryRange(r.Address, rangeDef, ctx);
-            }
-            else
-            {
+            //if(r.Address != null)
+            //{
+            //    return new InMemoryRange(r.Address, rangeDef, ctx);
+            //}
+            //else
+            //{
                 return new InMemoryRange(rangeDef);
-            }
+            //}
         }
 
         private static void SetValue(InMemoryRange resultRange, int row, int col, object value, bool error)
@@ -284,7 +284,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             {
                 rightVal = right.Result;
             }
-            var resultRange = CreateRange(lr, InMemoryRange.Empty, context);
+            var resultRange = CreateRange(lr, InMemoryRange.Empty);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
@@ -299,7 +299,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         public static InMemoryRange ApplySingleValueLeft(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var rr = right.Result as IRangeInfo;
-            var resultRange = CreateRange(InMemoryRange.Empty, rr, context);
+            var resultRange = CreateRange(InMemoryRange.Empty, rr);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
@@ -317,7 +317,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             var lr = left.Result as IRangeInfo;
             var rr = right.Result as IRangeInfo;
 
-            var resultRange = CreateRange(lr, rr, context);
+            var resultRange = CreateRange(lr, rr);
             var shouldUseSingleCol = ShouldUseSingleCol(lr.Size, rr.Size);
             var shouldUseSingleRow = ShouldUseSingleRow(lr.Size, rr.Size);
             var shouldUseSingleCell = ShouldUseSingleCell(lr.Size, rr.Size);

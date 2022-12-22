@@ -3605,7 +3605,7 @@ namespace EPPlusTest
                     ws.Column(colNum).Collapsed = true;
                     ws.Column(colNum).Hidden = true;
                 }
-
+                ws.Cells["A1"].Formula = "sum({1,2,3;3,4,5}+A1:C2)";
                 SaveAndCleanup(p);
             }
         }

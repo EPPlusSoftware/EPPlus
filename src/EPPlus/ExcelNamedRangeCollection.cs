@@ -274,7 +274,6 @@ namespace OfficeOpenXml
         {
             return _list.GetEnumerator();
         }
-
         #endregion
         #endregion
 
@@ -285,6 +284,5 @@ namespace OfficeOpenXml
                 Remove(_list[0].Name);
             }
         }
-
     }
 }

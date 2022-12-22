@@ -847,7 +847,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal FormulaRangeAddress(ParsingContext ctx)
         {            
             _context = ctx;
-            if(WorksheetIx==int.MinValue) 
+            if(WorksheetIx==int.MinValue && ctx!=null) 
             {
                 WorksheetIx = ctx.CurrentCell.WorksheetIx;
             }
@@ -976,7 +976,19 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return 0;
             }
         }
-
+        public FormulaRangeAddress Clone()
+        {
+            return new FormulaRangeAddress(_context)
+            { 
+                 ExternalReferenceIx= ExternalReferenceIx,
+                 WorksheetIx= WorksheetIx,
+                 FixedFlag= FixedFlag,
+                 FromRow= FromRow,
+                 FromCol= FromCol,
+                 ToRow= ToRow,
+                 ToCol= ToCol             
+            };
+        }
         internal bool CollidesWith(int wsIx, int row, int column)
         {
             return wsIx==WorksheetIx && row >= FromRow && row <= ToRow && column >= FromCol && column <= ToCol;
@@ -985,6 +997,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     }
     public class FormulaTableAddress : FormulaRangeAddress
     {
+        public FormulaTableAddress(ParsingContext ctx) 
+        {
+            _context = ctx;
+        }
         public string TableName = "", ColumnName1 = "", ColumnName2 = "", TablePart1 = "", TablePart2="";
         internal void SetTableAddress(ExcelPackage package)
         {
@@ -1087,14 +1103,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     break;
                 case "#this row":
                     var dr = table.DataRange;
-                    if (WorksheetIx != table.WorkSheet.PositionId || FromRow < dr._fromRow || FromRow > dr._toRow)
+                    var r = _context.CurrentCell.Row;
+                    if (WorksheetIx != table.WorkSheet.PositionId || r < dr._fromRow || r > dr._toRow)
                     {
                         fromRow = toRow = -1;
                     }
                     else
                     {
-                        fromRow = FromRow;
-                        toRow = FromRow;
+                        fromRow = r;
+                        toRow = r;
                         fixedFlag = FixedFlag.FromColFixed | FixedFlag.ToColFixed;
                     }
                     break;

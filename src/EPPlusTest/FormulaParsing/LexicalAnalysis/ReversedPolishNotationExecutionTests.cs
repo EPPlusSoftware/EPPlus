@@ -105,7 +105,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["B1"].Formula = "A1:B1";
 
 
-                var dc= RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                var dc= RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(2, dc._circularReferences.Count);
                 int wsIx, row, col;
                 ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
@@ -140,7 +140,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["B1"].Formula = "C1";
                 ws.Cells["C1"].Formula = "A1+1";
 
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(1, dc._circularReferences.Count);
                 int wsIx, row, col;
                 ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
@@ -164,7 +164,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["B1"].Formula = "C1";
                 ws.Cells["C1"].Formula = "Sum(A1:C1)";
 
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(3, dc._circularReferences.Count);
                 int wsIx, row, col;
                 ExcelCellBase.SplitCellId(dc._circularReferences[0].FromCell, out wsIx, out row, out col);
@@ -207,7 +207,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["A1"].Value = 1;
                 ws.Cells["B1"].Value = 2;
                 ws.Cells["C1"].Formula = "if(A1 > B1, A1, Sum(b1))";
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(2D, ws.Cells["C1"].Value);
             }
         }
@@ -220,7 +220,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["A1"].Value = 1;
                 ws.Cells["B1"].Value = 2;
                 ws.Cells["C1"].Formula = "if(A1 < B1, Offset(B1, 0, -1), Sum(b1))";
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(1, ws.Cells["C1"].Value);
             }
         }
@@ -233,7 +233,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["A1"].Value = 1;
                 ws.Cells["B1"].Value = 2;
                 ws.Cells["C1"].Formula = "if(A1 < B1, Offset(C1, 0, -1), Sum(b1))";
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption());
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
                 Assert.AreEqual(2, ws.Cells["C1"].Value);
             }
         }
@@ -246,7 +246,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["A1"].Value = 1;
                 ws.Cells["B1"].Value = 2;
                 ws.Cells["C1"].Formula = "if(A1 < B1, Offset(Offset(B1, 0, A1), 0, -1), Sum(A1:B1))";
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption());
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
                 Assert.AreEqual(2, ws.Cells["C1"].Value);
             }
         }
@@ -259,7 +259,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["A1"].Value = 1;
                 ws.Cells["B1"].Value = 2;
                 ws.Cells["C1"].Formula = "Sum(Offset(B1,0,-1):Offset(c1,0,-1))";
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption());
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
                 Assert.AreEqual(3D, ws.Cells["C1"].Value);
             }
         }
@@ -272,7 +272,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["A1"].Value = 1;
                 ws.Cells["B1"].Value = 2;
                 ws.Cells["C1"].Formula = "Sum(if(true,B1,C1):If(false,C1,A1))";
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption());
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
                 Assert.AreEqual(3D, ws.Cells["C1"].Value);
             }
         }
@@ -283,7 +283,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["B15"].Formula = "Column(B1:B20)";
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption());
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
                 Assert.AreEqual(2, ws.Cells["B15"].Value);
             }
         }
@@ -297,7 +297,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 ws.Cells["A2"].Formula = "SUBTOTAL(9, A5:A6)";
                 ws.Cells["A3"].Value = 2d;
                 ws.Cells["A5"].Value = 2d;
-                var dc = RpnFormulaExecution.Create(ws, new ExcelCalculationOption());
+                var dc = RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
                 var result = ws.Cells["A1"].Value;
                 Assert.AreEqual(2d, result);
             }

@@ -26,6 +26,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         internal override Expression Clone()
         {
             return CloneMe(new TableAddressExpression(Context, _addressInfo));
-        }
+        }        
     }
 }
