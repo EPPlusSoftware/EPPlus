@@ -846,7 +846,12 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// This method will set the row height on each row that contains
+        /// at least one cell that has its Style.WrapText property set to true.
         /// 
+        /// Please note that this method should be used only if you need the row height
+        /// to be set explicitly. Many spreadsheet programs, including Excel, will calculate the row height
+        /// explicitly client side (which is more exact) if the WrapText property is true.
         /// </summary>
         public void AutoFitRows()
         {

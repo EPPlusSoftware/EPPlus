@@ -28,28 +28,32 @@ namespace OfficeOpenXml.Core
             _range = range;
         }
 
-        private double GetWrappedTextHeight(string txt, int fntId, double columnWidth, ExcelTextSettings textSettings, float normalSize)
+        private double GetWrappedTextHeightParagraph(string txt, int fntId, double columnWidth, ExcelTextSettings textSettings, float normalSize)
         {
-            var paragraphs = txt.Split(new[] { '\n', '\r'  }, StringSplitOptions.RemoveEmptyEntries);
             var txtArr = txt.Split(' ');
             var rows = new List<StringBuilder>
             {
                 new StringBuilder()
             };
             var rowIx = 0;
-            foreach(var word in txtArr)
+            var spaceWidth = _textMeasureUtility.MeasureString(" ", fntId, textSettings).Width / normalSize;
+            foreach (var word in txtArr)
             {
-                if (rows[0].Length > 0)
+                if (rows[rowIx].Length > 0)
                 {
-                    var testWord = rows[0].ToString() + " " + word;
+                    var testWord = rows[rowIx].ToString() + " " + word;
                     var measurement = _textMeasureUtility.MeasureString(testWord, fntId, textSettings);
                     var width = measurement.Width / normalSize;
-                    if(width > columnWidth)
+                    if (width > columnWidth + 0.7)
                     {
                         rows.Add(new StringBuilder());
                         rowIx++;
+                        rows[rowIx].Append(word);
                     }
-                    rows[rowIx].Append(" " + word);
+                    else
+                    {
+                        rows[rowIx].Append(" " + word);
+                    }
                 }
                 else
                 {
@@ -57,15 +61,40 @@ namespace OfficeOpenXml.Core
                 }
             }
             var res = new StringBuilder();
-            foreach(var row in rows)
+            for (var i = 0; i < rows.Count; i++)
             {
+                var row = rows[i];
                 res.Append(row.ToString());
-                res.Append("\n");
+                if (i < rows.Count - 1)
+                {
+                    res.Append("\n");
+                }
             }
-            var m = _textMeasureUtility.MeasureString(res.ToString(), fntId, textSettings);
-            var height = m.Height * 0.75d;
+            var measureText = res.ToString();
+            var m = _textMeasureUtility.MeasureString(measureText, fntId, textSettings);
+            var height = m.Height * 0.82d - 0.7;
             height = System.Math.Round(height, 1);
             return height;
+        }
+
+        private double GetWrappedTextHeight(string txt, int fntId, double columnWidth, ExcelTextSettings textSettings, float normalSize)
+        {
+            var result = 0d;
+            var paragraphs = txt.Split(new[] { '\n', '\r'  });
+            var lineHeight = _textMeasureUtility.MeasureString("a", fntId, textSettings).Height / normalSize;
+            for(var i = 0; i < paragraphs.Length; i++)
+            {
+                var paragraph = paragraphs[i];
+                if(!string.IsNullOrEmpty(paragraph) && paragraph != "\n" && paragraph != "\n\r")
+                {
+                    result += GetWrappedTextHeightParagraph(paragraph, fntId, columnWidth, textSettings, normalSize);
+                }
+                if(i < paragraph.Length -1)
+                {
+                    result += lineHeight + 0.6;
+                }
+            }
+            return result;
         }
 
         internal void AutofitRows()
@@ -136,7 +165,15 @@ namespace OfficeOpenXml.Core
                         _textMeasureUtility.FontCache.Add(fntID, f);
                     }
                     var h = GetWrappedTextHeight(cell.Text, fntID, colWidth, textSettings, normalSize);
-                    if(h > ws.Row(rowIx).Height)
+                    if(cell.Style.Border.Bottom.Style == ExcelBorderStyle.Thick)
+                    {
+                        h += 0.75;
+                    }
+                    if (cell.Style.Border.Top.Style == ExcelBorderStyle.Thick)
+                    {
+                        h += 0.75;
+                    }
+                    if (h > ws.Row(rowIx).Height)
                     {
                         ws.Row(rowIx).Height = h;
                     }
