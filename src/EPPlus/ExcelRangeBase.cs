@@ -2196,7 +2196,26 @@ namespace OfficeOpenXml
         public void Reset()
         {
             _enumAddressIx = -1;
-            cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
+            if (_addresses == null)
+            {
+                cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values,
+                    _fromRow,
+                    _fromCol,
+                    _toRow,
+                    _toCol);
+            }
+            else
+            {
+                _enumAddressIx++;
+
+                if (_enumAddressIx >= _addresses.Count) return;
+
+                cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values,
+                    _addresses[_enumAddressIx]._fromRow,
+                    _addresses[_enumAddressIx]._fromCol,
+                    _addresses[_enumAddressIx]._toRow,
+                    _addresses[_enumAddressIx]._toCol);
+            }
         }
 #endregion
 
