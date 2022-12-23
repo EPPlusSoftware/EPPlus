@@ -58,7 +58,8 @@ namespace OfficeOpenXml
                     PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
                 }
             }
-            AutofitScaleFactor = 1f;
+            _autofitWidthScaleFactor = 1f;
+            _autofitHeightScaleFactor = 1f;
         }
 
         /// <summary>
@@ -71,10 +72,58 @@ namespace OfficeOpenXml
         /// </summary>
         public ITextMeasurer FallbackTextMeasurer { get; set; }
 
+        private float _autofitWidthScaleFactor;
+
         /// <summary>
-        /// All measurements of texts will be multiplied with this value. Default is 1.
+        /// All measurements of text-width will be multiplied with this value. Default is 1.
         /// </summary>
-        public float AutofitScaleFactor { get; set; }
+        [Obsolete("Will be removed in future major versions. Use AutofitWidthScaleFactor or AutofitHeightScaleFactor instead.")]
+        public float AutofitScaleFactor
+        {
+            get
+            {
+                return _autofitWidthScaleFactor;
+            }
+            set
+            {
+                if (value < 0.3f || value > 3f) throw new ArgumentException("AutofitScaleFactor: value must be between 0.3 and 3");
+                _autofitWidthScaleFactor = value;
+            }
+        }
+
+        /// <summary>
+        /// All measurements of text-width will be multiplied with this value. Default is 1.
+        /// </summary>
+        public float AutofitWidthScaleFactor
+        {
+            get
+            {
+                return _autofitWidthScaleFactor;
+            }
+            set
+            {
+                if (value < 0.3f || value > 3f) throw new ArgumentException("AutofitWidthScaleFactor: value must be between 0.3 and 3");
+                _autofitWidthScaleFactor = value;
+            }
+        }
+
+        private float _autofitHeightScaleFactor;
+
+        /// <summary>
+        /// All measurements of text-height will be multiplied with this value. Default is 1.
+        /// </summary>
+        public float AutofitHeightScaleFactor
+        {
+            get
+            {
+                return _autofitHeightScaleFactor;
+            }
+            set
+            {
+                if (value < 0.3f || value > 3f) throw new ArgumentException("AutofitHeightScaleFactor: value must be between 0.3 and 3");
+                _autofitHeightScaleFactor = value;
+            }
+        }
         /// <summary>
         /// Returns an instance of the internal generic text measurer
         /// </summary>

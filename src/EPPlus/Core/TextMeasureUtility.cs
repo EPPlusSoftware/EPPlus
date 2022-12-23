@@ -52,10 +52,10 @@ namespace OfficeOpenXml.Core
                 {
                     measurement = MeasureGeneric(t, ts, font);
                 }
-                if (!measurement.IsEmpty && ts.AutofitScaleFactor != 1f)
+                if (!measurement.IsEmpty && (ts.AutofitWidthScaleFactor != 1f || ts.AutofitHeightScaleFactor !=  1f))
                 {
-                    measurement.Height = measurement.Height * ts.AutofitScaleFactor;
-                    measurement.Width = measurement.Width * ts.AutofitScaleFactor;
+                    measurement.Height = measurement.Height * ts.AutofitHeightScaleFactor;
+                    measurement.Width = measurement.Width * ts.AutofitWidthScaleFactor;
                 }
                 measureCache.Add(key, measurement);
             }
@@ -75,16 +75,16 @@ namespace OfficeOpenXml.Core
                 _nonExistingFont.Style = font.Style;
                 measurement = _genericMeasurer.MeasureText(t, _nonExistingFont);
 
-                measurement.Width *= (float)(width / defaultWidth) * ts.AutofitScaleFactor;
-                measurement.Height *= (float)(height / defaultHeight) * ts.AutofitScaleFactor;
+                measurement.Width *= (float)(width / defaultWidth) * ts.AutofitWidthScaleFactor;
+                measurement.Height *= (float)(height / defaultHeight) * ts.AutofitHeightScaleFactor;
             }
             else
             {
                 _nonExistingFont.Size = font.Size;
                 _nonExistingFont.Style = font.Style;
                 measurement = _genericMeasurer.MeasureText(t, _nonExistingFont);
-                measurement.Height = measurement.Height * ts.AutofitScaleFactor;
-                measurement.Width = measurement.Width * ts.AutofitScaleFactor;
+                measurement.Height = measurement.Height * ts.AutofitHeightScaleFactor;
+                measurement.Width = measurement.Width * ts.AutofitWidthScaleFactor;
             }
 
             return measurement;

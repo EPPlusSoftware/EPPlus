@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Core
                     var testWord = rows[rowIx].ToString() + " " + word;
                     var measurement = _textMeasureUtility.MeasureString(testWord, fntId, textSettings);
                     var width = measurement.Width / normalSize;
-                    if (width > columnWidth + 0.7)
+                    if (width > columnWidth + 1.75)
                     {
                         rows.Add(new StringBuilder());
                         rowIx++;
@@ -77,6 +77,9 @@ namespace OfficeOpenXml.Core
             return height;
         }
 
+        // This constant value is used to adjust the measured text-height to the most common graphics settings on clients.
+        private const double HeightScaleFactor = 1.2d;
+
         private double GetWrappedTextHeight(string txt, int fntId, double columnWidth, ExcelTextSettings textSettings, float normalSize)
         {
             var result = 0d;
@@ -94,6 +97,7 @@ namespace OfficeOpenXml.Core
                     result += lineHeight + 0.6;
                 }
             }
+            result *= HeightScaleFactor;
             return result;
         }
 

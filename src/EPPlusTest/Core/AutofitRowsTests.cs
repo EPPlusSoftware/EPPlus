@@ -90,6 +90,22 @@ namespace EPPlusTest.Core
                 sheet.Cells["C3"].Style.WrapText = true;
                 sheet.Cells["C3"].AutoFitRows();
 
+                pck.Settings.TextSettings.AutofitHeightScaleFactor = 0.9f;
+
+                sheet.Cells["D4"].Value = "A long text that needs some serious autofit of row height\n\r\n\rAnd some more text that needs some autofit";
+                sheet.Cells["D4"].Style.WrapText = true;
+                sheet.Cells["D4"].AutoFitRows();
+
+                sheet.Column(5).Width = 25d;
+                sheet.Cells["E5"].Value = "A long text that needs some serious autofit of row height\n\r\n\rAnd some more text that needs some autofit";
+                sheet.Cells["E5"].Style.WrapText = true;
+                sheet.Cells["E5"].AutoFitRows();
+
+                sheet.Column(6).Width = 20d;
+                sheet.Cells["F6"].Value = "A long text that needs some serious autofit of row height\n\nAnd some more text that needs some autofit";
+                sheet.Cells["F6"].Style.WrapText = true;
+                sheet.Cells["F6"].AutoFitRows();
+
                 SaveAndCleanup(pck);
             }
         }
