@@ -18,8 +18,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
     {
         internal RpnIntegerExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
-            var value = int.Parse(tokenValue, CultureInfo.InvariantCulture);
-            _cachedCompileResult = new CompileResult(tokenValue, DataType.Integer);
+            var value = double.Parse(tokenValue, CultureInfo.InvariantCulture);
+            _cachedCompileResult = new CompileResult(value, DataType.Integer);
         }
         internal RpnIntegerExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {

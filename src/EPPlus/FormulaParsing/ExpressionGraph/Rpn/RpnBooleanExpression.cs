@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         internal RpnBooleanExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
             var value = bool.Parse(tokenValue);
-            _cachedCompileResult = new CompileResult(tokenValue, DataType.Boolean);
+            _cachedCompileResult = new CompileResult(value, DataType.Boolean);
         }
         internal RpnBooleanExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {

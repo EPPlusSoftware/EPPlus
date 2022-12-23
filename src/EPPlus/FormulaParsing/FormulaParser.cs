@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="package">The package to calculate</param>
         public FormulaParser(ExcelPackage package)
-            : this(new EpplusExcelDataProvider(package))
+            : this(new EpplusExcelDataProvider(package), package)
         {
 
         }
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="excelDataProvider">An instance of <see cref="ExcelDataProvider"/> which provides access to a workbook</param>
         /// <param name="package">The package to calculate</param>
-        internal FormulaParser(ExcelDataProvider excelDataProvider, ExcelPackage package = null)
+        internal FormulaParser(ExcelDataProvider excelDataProvider, ExcelPackage package=null)
             : this(excelDataProvider, ParsingContext.Create(package))
         {
            
@@ -111,27 +111,16 @@ namespace OfficeOpenXml.FormulaParsing
         internal virtual object Parse(string formula, FormulaCellAddress cell)
         {
             _parsingContext.CurrentCell = cell;
-            var tokens = _lexer.Tokenize(formula);
-            var graph = _graphBuilder.Build(tokens);
-            if (graph.Expressions.Count == 0)
-            {
-                return null;
-            }
-            return _compiler.Compile(graph.Expressions).Result;
+            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package.Workbook, formula, new ExcelCalculationOption());
+            //var tokens = _lexer.Tokenize(formula);
+            //var graph = _graphBuilder.Build(tokens);
+            //if (graph.Expressions.Count == 0)
+            //{
+            //    return null;
+            //}
+            //return _compiler.Compile(graph.Expressions).Result;
         }
 
-        internal virtual object Parse(IEnumerable<Token> tokens, string worksheet, string address)
-        {
-            var cell = _parsingContext.RangeAddressFactory.CreateCell(address);
-            cell.WorksheetIx = _parsingContext.GetWorksheetIndex(worksheet);
-            _parsingContext.CurrentCell = cell;
-            var graph = _graphBuilder.Build(tokens);
-            if (graph.Expressions.Count() == 0)
-            {
-                return null;
-            }
-            return _compiler.Compile(graph.Expressions).Result;
-        }
         internal virtual object ParseCell(IEnumerable<Token> tokens, string worksheet, int row, int column)
         {
             _parsingContext.CurrentCell = new FormulaCellAddress(_parsingContext.Package.Workbook.Worksheets.GetPositionByToken(worksheet), row, column);

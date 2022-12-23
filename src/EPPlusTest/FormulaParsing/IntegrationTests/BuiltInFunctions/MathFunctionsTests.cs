@@ -47,7 +47,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         {
             _package = new ExcelPackage();
             var excelDataProvider = new EpplusExcelDataProvider(_package);
-            _parser = new FormulaParser(excelDataProvider);
+            _parser = new FormulaParser(excelDataProvider, _package);
         }
 
         [TestCleanup]

@@ -47,7 +47,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
         {
             _package = new ExcelPackage();
             var excelDataProvider = new EpplusExcelDataProvider(_package);
-            _parser = new FormulaParser(excelDataProvider);
+            _parser = new FormulaParser(excelDataProvider, _package);
         }
 
         [TestCleanup]
@@ -178,7 +178,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
         [TestMethod]
         public void ShouldHandlePercentageOnFunctionResult()
         {
-            var result = _parser.Parse("SUM(1;2;3)%");
+            var result = _parser.Parse("SUM(1,2,3)%");
             Assert.AreEqual(0.06, result);
         }
 

@@ -423,10 +423,21 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
                         break;
+                    case TokenType.Percent:
+                        ApplyPercent(depChain._parsingContext, f);
+                        break;
                 }
                 f._tokenIndex++;
             }
             return null;
+        }
+
+        private static void ApplyPercent(ParsingContext context, RpnFormula f)
+        {
+            var e = f._expressionStack.Pop();
+            var v=e.Compile().ResultNumeric;
+            v /= 100;
+            f._expressionStack.Push(new RpnDecimalExpression(new CompileResult(v, DataType.Decimal), context));
         }
 
         private static bool ShouldIgnoreAddress(RpnFunctionExpression fe)

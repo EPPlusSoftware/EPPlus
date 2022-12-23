@@ -152,10 +152,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     case TokenType.StringContent:
                         expressions.Add(i, new RpnStringExpression(t.Value, _parsingContext));
                         break;
-                    case TokenType.Negator:
-                        expressions[i - 1].Negate();
-                        tokens.RemoveAt(i--);
-                        break;
+                    //case TokenType.Negator:
+                    //    expressions[i - 1].Negate();
+                    //    tokens.RemoveAt(i--);
+                    //    break;
                     case TokenType.CellAddress:
                         if (i > 1 && tokens[i - 1].TokenType == TokenType.CellAddress && tokens[i + 1].Value == ":" && tokens[i + 1].TokenType == TokenType.Operator)
                         {

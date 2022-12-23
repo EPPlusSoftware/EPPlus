@@ -72,7 +72,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     {
                         return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
-                    return CompileResultFactory.Create(range.First().Value, range.Address);
+                    var v = range.GetOffset(0,0);
+                    return CompileResultFactory.Create(v, range.Address);
                 }
             }
             else
