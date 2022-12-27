@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            var retVal = 0d;
+            var retVal = 0m;
             if (arguments != null)
             {
                 foreach (var arg in arguments)
@@ -47,9 +47,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         }
 
         
-        private double Calculate(FunctionArgument arg, ParsingContext context)
+        private decimal Calculate(FunctionArgument arg, ParsingContext context)
         {
-            var retVal = 0d;
+            var retVal = 0m;
             if (ShouldIgnore(arg, context))
             {
                 return retVal;
@@ -71,14 +71,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     if (ShouldIgnore(c, context) == false)
                     {
                         CheckForAndHandleExcelError(c);
-                        retVal += c.ValueDouble;
+                        retVal += Convert.ToDecimal(c.ValueDouble);
                     }
                 }
             }
             else
             {
                 CheckForAndHandleExcelError(arg);
-                retVal += ConvertUtil.GetValueDouble(arg.Value, true);
+                retVal += ConvertUtil.GetValueDecimal(arg.Value, true);
             }
             return retVal;
         }
