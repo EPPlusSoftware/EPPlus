@@ -160,6 +160,10 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             return rangeInfo.First().Value ?? 0d;
                         }
+                        if (rangeInfo.IsMulti && IsRangeRowOrColumn(rangeInfo))
+                        {
+                            return compileResult.ResultValue;
+                        }
                         // ok to return multicell if it is a workbook scoped name.
                         if (string.IsNullOrEmpty(worksheet))
                         {
@@ -273,5 +277,12 @@ namespace OfficeOpenXml.FormulaParsing
                 _parsingContext.Configuration.Logger.Dispose();
             }
         }
+
+        private static bool IsRangeRowOrColumn(IRangeInfo rangeInfo)
+        {
+            return rangeInfo.Address._fromRow == rangeInfo.Address._toRow 
+                    || rangeInfo.Address._fromCol == rangeInfo.Address._toCol;
+        }
+
     }
 }

@@ -75,6 +75,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             if (Next != null && Operator != null)
             {
                 var result = Operator.Apply(Compile(), Next.Compile());
+                
+                if (result.IsNumeric
+                    && double.IsNaN(result.ResultNumeric))
+                {
+                    result = new CompileResult(eErrorType.Value);
+                }
+
                 expression = ExpressionConverter.Instance.FromCompileResult(result);
                 if (expression is ExcelErrorExpression)
                 {
