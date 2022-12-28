@@ -308,5 +308,18 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return _ws.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
             }
         }
+        public bool IsHidden(int rowOffset, int colOffset)
+        {
+            var row = _ws.GetValueInner(_address.FromRow + rowOffset, 0) as RowInternal;
+            if (row != null)
+            {
+                return row.Hidden || row.Height == 0;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
     }
 }

@@ -61,6 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         }
         public static CompileResult Create(object obj, FormulaRangeAddress address)
         {
+            bool isHidden=false;
             if (obj is IRangeInfo ri)
             {
                 obj = ri.GetOffset(0, 0);
@@ -75,19 +76,19 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             switch (tc)
             {
                 case TypeCode.String:
-                    return new AddressCompileResult(obj, DataType.String, address);
+                    return new AddressCompileResult(obj, DataType.String, address) { IsHiddenCell = isHidden };
                 case TypeCode.Double:
                 case TypeCode.Decimal:
                 case TypeCode.Single:
-                    return new AddressCompileResult(obj, DataType.Decimal, address);
+                    return new AddressCompileResult(obj, DataType.Decimal, address) { IsHiddenCell = isHidden };
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                 case TypeCode.Int64:
-                        return new AddressCompileResult(obj, DataType.Integer, address);
+                        return new AddressCompileResult(obj, DataType.Integer, address) { IsHiddenCell = isHidden };
                 case TypeCode.Boolean:
-                    return new AddressCompileResult(obj, DataType.Boolean, address);
+                    return new AddressCompileResult(obj, DataType.Boolean, address) { IsHiddenCell = isHidden };
                 case TypeCode.DateTime:
-                    return new AddressCompileResult(((System.DateTime)obj).ToOADate(), DataType.Date, address);
+                    return new AddressCompileResult(((System.DateTime)obj).ToOADate(), DataType.Date, address) { IsHiddenCell = isHidden };
                 default:
                     if (t.Equals(typeof(ExcelErrorValue)))
                     {

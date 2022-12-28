@@ -245,7 +245,7 @@ namespace OfficeOpenXml
             {
                 range.SplitFormulas(range._worksheet.Cells[row, col]);
             }
-            if (sfi != null) range._worksheet._formulas.SetValue(row, col, string.Empty);
+            if (sfi != null) range._worksheet._formulas.Clear(row, col, 1, 1);
             range._worksheet.SetValueInner(row, col, value);
             range._worksheet._flags.Clear(row, col, 1, 1);
             range._worksheet._metadataStore.Clear(row, col, 1, 1);
@@ -258,7 +258,7 @@ namespace OfficeOpenXml
             string formula = (value == null ? string.Empty : value.ToString());
             if (formula == string.Empty)
             {
-                range._worksheet._formulas.SetValue(row, col, string.Empty);
+                range._worksheet._formulas.Clear(row, col, 1,1);
             }
             else
             {

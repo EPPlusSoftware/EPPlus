@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         short _externalReferenceIx;
         int _worksheetIx;
         internal INameInfo _name;
-        bool _negate=false;
+        bool _negate = false;
         public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
         {
             _externalReferenceIx = externalReferenceIx;

@@ -133,7 +133,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             return c.Value;
         }
-
+        public bool IsHidden(int rowOffset, int colOffset)
+        {
+            return false;
+        }
         public object GetValue(int row, int col)
         {
             var c = _cells[row, col];

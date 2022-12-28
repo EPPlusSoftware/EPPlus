@@ -62,6 +62,14 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns></returns>
         object GetOffset(int rowOffset, int colOffset);
         /// <summary>
+        /// Returns true if the cell is hidden
+        /// </summary>
+        /// <param name="rowOffset"></param>
+        /// <param name="colOffset"></param>
+        /// <returns></returns>
+        bool IsHidden(int rowOffset, int colOffset);
+
+        /// <summary>
         /// The worksheet 
         /// </summary>
         ExcelWorksheet Worksheet { get; }

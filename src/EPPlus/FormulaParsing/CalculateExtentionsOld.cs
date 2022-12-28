@@ -26,15 +26,15 @@ namespace OfficeOpenXml
     /// <summary>
     /// Extentions methods for formula calculation.
     /// </summary>
-    public static class CalculationExtension
+    public static class CalculationExtensionOld
     {
         /// <summary>
         /// Calculate all formulas in the current workbook
         /// </summary>
         /// <param name="workbook">The workbook</param>
-        public static void Calculate(this ExcelWorkbook workbook)
+        public static void CalculateOld(this ExcelWorkbook workbook)
         {
-            Calculate(workbook, new ExcelCalculationOption(){AllowCircularReferences=false});
+            CalculateOld(workbook, new ExcelCalculationOption(){AllowCircularReferences=false});
         }
 
         /// <summary>
@@ -47,11 +47,11 @@ namespace OfficeOpenXml
         /// workbook.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
         /// </code>
         /// </example>
-        public static void Calculate(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
+        public static void CalculateOld(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
         {
             var option = new ExcelCalculationOption();
             configHandler.Invoke(option);
-            Calculate(workbook, option);
+            CalculateOld(workbook, option);
         }
 
 
@@ -60,29 +60,28 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="workbook">The workbook</param>
         /// <param name="options">Calculation options</param>
-        public static void Calculate(this ExcelWorkbook workbook, ExcelCalculationOption options)
+        public static void CalculateOld(this ExcelWorkbook workbook, ExcelCalculationOption options)
         {
             Init(workbook);
 
-            //var dc = DependencyChainFactory.Create(workbook, options);
+            var dc = DependencyChainFactory.Create(workbook, options);
             var filterInfo = new FilterInfo(workbook);
             workbook.FormulaParser.InitNewCalc(filterInfo);
-            //if (workbook.FormulaParser.Logger != null)
-            //{
-            //    var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
-            //    workbook.FormulaParser.Logger.Log(msg);
-            //}
+            if (workbook.FormulaParser.Logger != null)
+            {
+                var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
+                workbook.FormulaParser.Logger.Log(msg);
+            }
 
-            //CalcChain(workbook, workbook.FormulaParser, dc, options);
-            var dc=RpnFormulaExecution.Execute(workbook, options);
+            CalcChain(workbook, workbook.FormulaParser, dc, options);
         }
         /// <summary>
         /// Calculate all formulas in the current worksheet
         /// </summary>
         /// <param name="worksheet">The worksheet</param>
-        public static void Calculate(this ExcelWorksheet worksheet)
+        public static void CalculateOld(this ExcelWorksheet worksheet)
         {
-            Calculate(worksheet, new ExcelCalculationOption());
+            CalculateOld(worksheet, new ExcelCalculationOption());
         }
 
         /// <summary>
@@ -95,11 +94,11 @@ namespace OfficeOpenXml
         /// sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
         /// </code>
         /// </example>
-        public static void Calculate(this ExcelWorksheet worksheet, Action<ExcelCalculationOption> configHandler)
+        public static void CalculateOld(this ExcelWorksheet worksheet, Action<ExcelCalculationOption> configHandler)
         {
             var option = new ExcelCalculationOption();
             configHandler.Invoke(option);
-            Calculate(worksheet, option);
+            CalculateOld(worksheet, option);
         }
 
         /// <summary>
@@ -121,31 +120,28 @@ namespace OfficeOpenXml
         //    }
         //    CalcChain(worksheet.Workbook, parser, dc, options);
         //}
-        public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
+        public static void CalculateOld(this ExcelWorksheet worksheet, ExcelCalculationOption options)
         {
             Init(worksheet.Workbook);
-            //var dc = DependencyChainFactory.Create(worksheet, options);
-            
-            //var parser = worksheet.Workbook.FormulaParser;
-            //var filterInfo = new FilterInfo(worksheet.Workbook);
-            //parser.InitNewCalc(filterInfo);
-            
-            //if (parser.Logger != null)
-            //{
-            //    var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
-            //    parser.Logger.Log(msg);
-            //}
-            //CalcChain(worksheet.Workbook, parser, dc, options);
-            var dc = RpnFormulaExecution.Execute(worksheet, options);
+            var dc = DependencyChainFactory.Create(worksheet, options);
+            var parser = worksheet.Workbook.FormulaParser;
+            var filterInfo = new FilterInfo(worksheet.Workbook);
+            parser.InitNewCalc(filterInfo);
+            if (parser.Logger != null)
+            {
+                var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
+                parser.Logger.Log(msg);
+            }
+            CalcChain(worksheet.Workbook, parser, dc, options);
         }
 
         /// <summary>
         /// Calculate all formulas in the current range
         /// </summary>
         /// <param name="range">The range</param>
-        public static void Calculate(this ExcelRangeBase range)
+        public static void CalculateOld(this ExcelRangeBase range)
         {
-            Calculate(range, new ExcelCalculationOption());
+            CalculateOld(range, new ExcelCalculationOption());
         }
 
         /// <summary>
@@ -158,11 +154,11 @@ namespace OfficeOpenXml
         /// sheet.Cells["A1:A3"].Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
         /// </code>
         /// </example>
-        public static void Calculate(this ExcelRangeBase range, Action<ExcelCalculationOption> configHandler)
+        public static void CalculateOld(this ExcelRangeBase range, Action<ExcelCalculationOption> configHandler)
         {
             var option = new ExcelCalculationOption();
             configHandler.Invoke(option);
-            Calculate(range, option);
+            CalculateOld(range, option);
         }
 
         /// <summary>
@@ -170,15 +166,14 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="range">The range</param>
         /// <param name="options">Calculation options</param>
-        public static void Calculate(this ExcelRangeBase range, ExcelCalculationOption options)
+        public static void CalculateOld(this ExcelRangeBase range, ExcelCalculationOption options)
         {
             Init(range._workbook);
-            //var parser = range._workbook.FormulaParser;
-            //var filterInfo = new FilterInfo(range._workbook);
-            //parser.InitNewCalc(filterInfo);
-            //var dc = DependencyChainFactory.Create(range, options);
-            //CalcChain(range._workbook, parser, dc, options);
-            var dc = RpnFormulaExecution.Execute(range, options);
+            var parser = range._workbook.FormulaParser;
+            var filterInfo = new FilterInfo(range._workbook);
+            parser.InitNewCalc(filterInfo);
+            var dc = DependencyChainFactory.Create(range, options);
+            CalcChain(range._workbook, parser, dc, options);
         }
 
         /// <summary>
@@ -187,9 +182,9 @@ namespace OfficeOpenXml
         /// <param name="worksheet">The worksheet</param>
         /// <param name="Formula">The formula to be calculated</param>
         /// <returns>The result of the formula calculation</returns>
-        public static object Calculate(this ExcelWorksheet worksheet, string Formula)
+        public static object CalculateOld(this ExcelWorksheet worksheet, string Formula)
         {
-            return Calculate(worksheet, Formula, new ExcelCalculationOption());
+            return CalculateOld(worksheet, Formula, new ExcelCalculationOption());
         }
         /// <summary>
         /// Calculate all formulas in the current range
@@ -198,22 +193,83 @@ namespace OfficeOpenXml
         /// <param name="Formula">The formula to be calculated</param>
         /// <param name="options">Calculation options</param>
         /// <returns>The result of the formula calculation</returns>
-        public static object Calculate(this ExcelWorksheet worksheet, string Formula, ExcelCalculationOption options)
+        public static object CalculateOld(this ExcelWorksheet worksheet, string Formula, ExcelCalculationOption options)
         {
             try
             {
                 worksheet.CheckSheetTypeAndNotDisposed();
                 if(string.IsNullOrEmpty(Formula.Trim())) return null;
                 Init(worksheet.Workbook);
-                //var parser = worksheet.Workbook.FormulaParser;
-                //var filterInfo = new FilterInfo(worksheet.Workbook);
-                //parser.InitNewCalc(filterInfo);
+                var parser = worksheet.Workbook.FormulaParser;
+                var filterInfo = new FilterInfo(worksheet.Workbook);
+                parser.InitNewCalc(filterInfo);
                 if (Formula[0] == '=') Formula = Formula.Substring(1); //Remove any starting equal sign
-                return RpnFormulaExecution.ExecuteFormula(worksheet, Formula, options);
+                var dc = DependencyChainFactory.Create(worksheet, Formula, options);
+                var f = dc.list[0];
+                dc.CalcOrder.RemoveAt(dc.CalcOrder.Count - 1);
+
+                CalcChain(worksheet.Workbook, parser, dc, options);
+
+                return parser.ParseCell(f.Tokens, worksheet.Name, -1, -1);
             }
             catch (Exception ex)
             {
                 return new ExcelErrorValueException(ex.Message, ExcelErrorValue.Create(eErrorType.Value));
+            }
+        }
+        private static void CalcChain(ExcelWorkbook wb, FormulaParser parser, DependencyChain dc, ExcelCalculationOption options)
+        {
+            wb.FormulaParser.Configure(config =>
+            {
+                config.AllowCircularReferences = options.AllowCircularReferences;
+                config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
+            });
+            var debug = parser.Logger != null;
+            foreach (var ix in dc.CalcOrder)
+            {
+                var item = dc.list[ix];
+                try
+                {
+                    object v;
+                    if (item.wsIndex >= 0 && item.wsIndex < wb.Worksheets.Count)
+                    {
+                        var ws = wb.Worksheets._worksheets[item.wsIndex];
+                        v = parser.ParseCell(item.Tokens, ws == null ? "" : ws.Name, item.Row, item.Column);
+                    }
+                    else
+                    {
+                        if(item.Column == 0 && item.Row >= 0 && item.Row < wb.Names.Count)
+                        {
+                            v = parser.ParseCell(item.Tokens, null, item.Row, item.Column);
+                        }
+                        else
+                        {
+                            v = ExcelErrorValue.Create(eErrorType.Ref);
+                        }
+                    }
+                    
+                    SetValue(wb, item, v);
+                    if (debug)
+                    {
+                        parser.Logger.LogCellCounted();
+                    }
+                    if(ix % 1000 == 0)
+                    {
+                        Thread.Sleep(0);
+                    }
+                }
+                catch(Exception e)
+                {
+                    if(e is CircularReferenceException)
+                    {
+                        throw;
+                    }
+                    else
+                    {
+                        var error = ExcelErrorValue.Parse(ExcelErrorValue.Values.Value);
+                        SetValue(wb, item, error);
+                    }
+                }
             }
         }
         internal static void Init(ExcelWorkbook workbook)

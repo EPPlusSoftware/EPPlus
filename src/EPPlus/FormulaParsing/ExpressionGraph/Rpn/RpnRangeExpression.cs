@@ -45,6 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     if (_addressInfo.IsSingleCell)
                     {
                         _cachedCompileResult = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), _addressInfo);
+                        _cachedCompileResult.IsHiddenCell = Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].IsCellHidden(_addressInfo.FromRow, _addressInfo.FromCol);
                     }
                     else
                     {

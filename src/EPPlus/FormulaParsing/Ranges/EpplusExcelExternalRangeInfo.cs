@@ -274,6 +274,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return _externalWs?.CellValues.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
             }
         }
+        public bool IsHidden(int rowOffset, int colOffset)
+        {
+            return false;
+        }
     }
 
     /// <summary>

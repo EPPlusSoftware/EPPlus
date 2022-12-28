@@ -50,6 +50,12 @@ namespace OfficeOpenXml.FormulaParsing
             _parsingContext.NameValueProvider = new EpplusNameValueProvider(dataProvider);
             _parsingContext.RangeAddressFactory = new RangeAddressFactory(dataProvider, _parsingContext);
             _graph = new RpnExpressionGraph(_parsingContext);
+
+            var parser = wb.FormulaParser;
+            var filterInfo = new FilterInfo(wb);
+            parser.InitNewCalc(filterInfo);
+            _parsingContext.Parser= parser;
+
             _functionCompilerFactory = new RpnFunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
         }
 
@@ -96,7 +102,7 @@ namespace OfficeOpenXml.FormulaParsing
 
             return depChain;
         }
-        internal static RpnOptimizedDependencyChain Execute(ExcelRange cells, ExcelCalculationOption options)
+        internal static RpnOptimizedDependencyChain Execute(ExcelRangeBase cells, ExcelCalculationOption options)
         {
             var depChain = new RpnOptimizedDependencyChain(cells._workbook);
 
@@ -118,7 +124,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
 
-        private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRange range, ExcelCalculationOption options)
+        private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRangeBase range, ExcelCalculationOption options)
         {
             var ws = range.Worksheet;
             RpnFormula f = null;
@@ -130,8 +136,10 @@ namespace OfficeOpenXml.FormulaParsing
                 var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
                 if (depChain.processedCells.Contains(id) == false)
                 {
-                    f=GetFormula(depChain, ws, fs);
-                    AddChainForFormula(depChain, f, options);
+                    if (GetFormula(depChain, ws, fs, ref f))
+                    {
+                        AddChainForFormula(depChain, f, options);
+                    }
                 }
             }
         }
@@ -160,22 +168,22 @@ namespace OfficeOpenXml.FormulaParsing
             f._row = -1;
             return AddChainForFormula(depChain, f, options);
         }
-        private static RpnFormula GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, CellStoreEnumerator<object> fs)
+        private static bool GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, CellStoreEnumerator<object> fs, ref RpnFormula f)
         {
             if (fs.Value is int ix)
             {
                 var sf = ws._sharedFormulas[ix];
-                return ws._sharedFormulas[ix].GetRpnFormula(depChain, fs.Row, fs.Column);
+                f = ws._sharedFormulas[ix].GetRpnFormula(depChain, fs.Row, fs.Column);
             }
             else
             {
                 var s = fs.Value.ToString();
                 //compiler
-                if (string.IsNullOrEmpty(s)) return null;
-                var f = new RpnFormula(ws, fs.Row, fs.Column);
+                if (string.IsNullOrEmpty(s)) return false;
+                f = new RpnFormula(ws, fs.Row, fs.Column);
                 f.SetFormula(s, depChain._tokenizer, depChain._graph);
-                return f;
             }
+            return true;
         }
         private static RpnFormula GetNameFormula(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, INameInfo name)
         {
@@ -279,8 +287,15 @@ namespace OfficeOpenXml.FormulaParsing
             if (f._formulaEnumerator.Next())
             {
                 depChain._formulaStack.Push(f);
-                f=GetFormula(depChain, ws, f._formulaEnumerator);
-                goto ExecuteFormula;
+                if(GetFormula(depChain, ws, f._formulaEnumerator, ref f))
+                {
+                    goto ExecuteFormula;
+                }
+                else
+                {
+                    goto NextFormula;
+                }
+               
             }
             f._tokenIndex++;
             goto ExecuteFormula;
@@ -520,8 +535,17 @@ namespace OfficeOpenXml.FormulaParsing
             var func = depChain._parsingContext.Configuration.FunctionRepository.GetFunction(t.Value);
             var args = GetFunctionArguments(f);
             var compiler = depChain._functionCompilerFactory.Create(func);
-            var result = compiler.Compile(args);
-            PushResult(depChain._parsingContext, f, result);
+            CompileResult result;
+            try
+            {
+                result = compiler.Compile(args);
+                PushResult(depChain._parsingContext, f, result);
+            }
+            catch(ExcelErrorValueException e)
+            {
+                result = new CompileResult(e.ErrorValue, DataType.ExcelError);
+                f._expressionStack.Push(new RpnErrorExpression(result, depChain._parsingContext));
+            }
             return result;
         }
         private static void PushResult(ParsingContext context, RpnFormula f, CompileResult result)
