@@ -1543,11 +1543,13 @@ namespace OfficeOpenXml
                             NumberFormats.Add(format, item);
                             //rake36: Use the just added format id
                             newXfs.NumberFormatId = item.NumFmtId;
+                            newXfs.ApplyNumberFormat = true;
                         }
                         else
                         {
                             //rake36: Use the format id defined by the index... not the index itself
                             newXfs.NumberFormatId = NumberFormats[ix].NumFmtId;
+                            newXfs.ApplyNumberFormat = true;
                         }
                     }
                 }
@@ -1562,6 +1564,7 @@ namespace OfficeOpenXml
                         ix = Fonts.Add(xfs.Font.Id, item);
                     }
                     newXfs.FontId = ix;
+                    newXfs.ApplyFont = true;
                 }
 
                 //Border
@@ -1574,6 +1577,7 @@ namespace OfficeOpenXml
                         ix = Borders.Add(xfs.Border.Id, item);
                     }
                     newXfs.BorderId = ix;
+                    newXfs.ApplyBorder = true;
                 }
 
                 //Fill
@@ -1586,6 +1590,7 @@ namespace OfficeOpenXml
                         ix = Fills.Add(xfs.Fill.Id, item);
                     }
                     newXfs.FillId = ix;
+                    newXfs.ApplyFill = true;
                 }
 
                 //Named style reference

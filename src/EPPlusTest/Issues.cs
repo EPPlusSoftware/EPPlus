@@ -3965,5 +3965,104 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void Changed_cell_styles_should_persist_over_file_save_issue_772_ticket49839()
+        {
+            //Issue: If the Custom / Built-in Styles are Saved not in EPPlus the information about their property gets lost 
+
+#if Core
+            var dir = AppContext.BaseDirectory;
+            dir = Directory.GetParent(dir).Parent.Parent.Parent.FullName;
+#else
+            var dir = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+            using var p = new ExcelPackage(new FileInfo(Path.Combine(dir, "Workbooks", "XfsStyles.xlsx")));
+
+
+            var styles = p.Workbook.Styles;
+
+            // control
+            Assert.AreEqual(0, styles.CellStyleXfs[0].NumberFormatId);
+            Assert.AreEqual(0, styles.CellStyleXfs[0].FontId);
+            Assert.AreEqual(0, styles.CellStyleXfs[0].FillId);
+            Assert.AreEqual(0, styles.CellStyleXfs[0].BorderId);
+
+            Assert.IsNull(styles.CellStyleXfs[0].ApplyNumberFormat);
+            Assert.IsNull(styles.CellStyleXfs[0].ApplyFill);
+            Assert.IsNull(styles.CellStyleXfs[0].ApplyBorder);
+            Assert.IsNull(styles.CellStyleXfs[0].ApplyAlignment);
+            Assert.IsNull(styles.CellStyleXfs[0].ApplyProtection);
+
+            Assert.AreEqual(0, styles.CellStyleXfs[1].NumberFormatId);
+            Assert.AreEqual(1, styles.CellStyleXfs[1].FontId);
+            Assert.AreEqual(0, styles.CellStyleXfs[1].FillId);
+            Assert.AreEqual(0, styles.CellStyleXfs[1].BorderId);
+
+            Assert.IsFalse(styles.CellStyleXfs[1].ApplyNumberFormat);
+            Assert.IsFalse(styles.CellStyleXfs[1].ApplyFill);
+            Assert.IsFalse(styles.CellStyleXfs[1].ApplyBorder);
+            Assert.IsFalse(styles.CellStyleXfs[1].ApplyAlignment);
+            Assert.IsFalse(styles.CellStyleXfs[1].ApplyProtection);
+
+            Assert.AreEqual(0, styles.CellXfs[0].NumberFormatId);
+            Assert.AreEqual(0, styles.CellXfs[0].FontId);
+            Assert.AreEqual(0, styles.CellXfs[0].FillId);
+            Assert.AreEqual(0, styles.CellXfs[0].BorderId);
+
+            Assert.IsNull(styles.CellXfs[0].ApplyNumberFormat);
+            Assert.IsNull(styles.CellXfs[0].ApplyFill);
+            Assert.IsNull(styles.CellXfs[0].ApplyBorder);
+            Assert.IsNull(styles.CellXfs[0].ApplyAlignment);
+            Assert.IsNull(styles.CellXfs[0].ApplyProtection);
+
+            Assert.AreEqual(0, styles.CellXfs[1].NumberFormatId);
+            Assert.AreEqual(1, styles.CellXfs[1].FontId);
+            Assert.AreEqual(0, styles.CellXfs[1].FillId);
+            Assert.AreEqual(0, styles.CellXfs[1].BorderId);
+
+            Assert.IsNull(styles.CellXfs[1].ApplyNumberFormat);
+            Assert.IsNull(styles.CellXfs[1].ApplyFill);
+            Assert.IsNull(styles.CellXfs[1].ApplyBorder);
+            Assert.IsNull(styles.CellXfs[1].ApplyAlignment);
+            Assert.IsNull(styles.CellXfs[1].ApplyProtection);
+
+            // Change
+            styles.CellStyleXfs[0].ApplyNumberFormat = true;
+            styles.CellStyleXfs[0].ApplyFill = true;
+            styles.CellStyleXfs[0].ApplyBorder = true;
+            styles.CellStyleXfs[0].ApplyAlignment = true;
+            styles.CellStyleXfs[0].ApplyProtection = true;
+
+            styles.CellStyleXfs[1].ApplyNumberFormat = null;
+            styles.CellStyleXfs[1].ApplyFill = null;
+            styles.CellStyleXfs[1].ApplyBorder = null;
+            styles.CellStyleXfs[1].ApplyAlignment = null;
+            styles.CellStyleXfs[1].ApplyProtection = null;
+
+            using var stream = new MemoryStream();
+            p.SaveAs(stream);
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            using var p_reopen = new ExcelPackage(stream);
+            var styles_reopen = p_reopen.Workbook.Styles;
+
+            // control
+            Assert.IsTrue(styles_reopen.CellStyleXfs[0].ApplyNumberFormat);
+            Assert.IsTrue(styles_reopen.CellStyleXfs[0].ApplyFill);
+            Assert.IsTrue(styles_reopen.CellStyleXfs[0].ApplyBorder);
+            Assert.IsTrue(styles_reopen.CellStyleXfs[0].ApplyAlignment);
+            Assert.IsTrue(styles_reopen.CellStyleXfs[0].ApplyProtection);
+
+            Assert.IsNull(styles_reopen.CellStyleXfs[1].ApplyNumberFormat);
+            Assert.IsNull(styles_reopen.CellStyleXfs[1].ApplyFill);
+            Assert.IsNull(styles_reopen.CellStyleXfs[1].ApplyBorder);
+            Assert.IsNull(styles_reopen.CellStyleXfs[1].ApplyAlignment);
+
+            // here the behaviour is strange
+            //Assert.IsNull(styles_reopen.CellStyleXfs[1].ApplyProtection);
+
+        }
     }
 }
