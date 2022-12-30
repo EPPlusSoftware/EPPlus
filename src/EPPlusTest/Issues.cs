@@ -3965,5 +3965,87 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void Built_In_NumberFormats_must_correspond_thread_culture_issue_774()
+        {
+            //Issue: The German BuildInNumberFormat differs from the English BuildInNumberformat therefore Epplus has to check the culture before parsing the id to NumberFormatExpression.
+
+            var threadDe = new Thread(() =>
+            {
+                Assert.AreEqual("General", ExcelNumberFormat.GetFromBuildInFromID(0));
+                Assert.AreEqual("0", ExcelNumberFormat.GetFromBuildInFromID(1));
+                Assert.AreEqual("0.00", ExcelNumberFormat.GetFromBuildInFromID(2));
+                Assert.AreEqual("#,##0", ExcelNumberFormat.GetFromBuildInFromID(3));
+                Assert.AreEqual("#,##0.00", ExcelNumberFormat.GetFromBuildInFromID(4));
+                Assert.AreEqual("0%", ExcelNumberFormat.GetFromBuildInFromID(9));
+                Assert.AreEqual("0.00%", ExcelNumberFormat.GetFromBuildInFromID(10));
+                Assert.AreEqual("0.00E+00", ExcelNumberFormat.GetFromBuildInFromID(11));
+                Assert.AreEqual("# ?/?", ExcelNumberFormat.GetFromBuildInFromID(12));
+                Assert.AreEqual("# ??/??", ExcelNumberFormat.GetFromBuildInFromID(13));
+                Assert.AreEqual("dd.mm.yyyy", ExcelNumberFormat.GetFromBuildInFromID(14));
+                Assert.AreEqual("dd. mm yy", ExcelNumberFormat.GetFromBuildInFromID(15));
+                Assert.AreEqual("dd. mmm", ExcelNumberFormat.GetFromBuildInFromID(16));
+                Assert.AreEqual("mmm yy", ExcelNumberFormat.GetFromBuildInFromID(17));
+                Assert.AreEqual("h:mm AM/PM", ExcelNumberFormat.GetFromBuildInFromID(18));
+                Assert.AreEqual("h:mm:ss AM/PM", ExcelNumberFormat.GetFromBuildInFromID(19));
+                Assert.AreEqual("hh:mm", ExcelNumberFormat.GetFromBuildInFromID(20));
+                Assert.AreEqual("hh:mm:ss", ExcelNumberFormat.GetFromBuildInFromID(21));
+                Assert.AreEqual("dd.mm.yyyy hh:mm", ExcelNumberFormat.GetFromBuildInFromID(22));
+                Assert.AreEqual("#,##0 _€;-#,##0 _€", ExcelNumberFormat.GetFromBuildInFromID(37));
+                Assert.AreEqual("#,##0 _€;[Red]-#,##0 _€", ExcelNumberFormat.GetFromBuildInFromID(38));
+                Assert.AreEqual("#,##0.00 _€;-#,##0.00 _€", ExcelNumberFormat.GetFromBuildInFromID(39));
+                Assert.AreEqual("#,##0.00 _€;[Red]-#,##0.00 _€", ExcelNumberFormat.GetFromBuildInFromID(40));
+                Assert.AreEqual("mm:ss", ExcelNumberFormat.GetFromBuildInFromID(45));
+                Assert.AreEqual("[h]:mm:ss", ExcelNumberFormat.GetFromBuildInFromID(46));
+                Assert.AreEqual("mm:ss.0", ExcelNumberFormat.GetFromBuildInFromID(47));
+                Assert.AreEqual("##0.0E+0", ExcelNumberFormat.GetFromBuildInFromID(48));
+                Assert.AreEqual("@", ExcelNumberFormat.GetFromBuildInFromID(49));
+            });
+
+            threadDe.CurrentCulture = new CultureInfo("de-DE");
+
+            threadDe.Start();
+
+            threadDe.Join();
+
+            var threadEn = new Thread(() =>
+            {
+                Assert.AreEqual("General", ExcelNumberFormat.GetFromBuildInFromID(0));
+                Assert.AreEqual("0", ExcelNumberFormat.GetFromBuildInFromID(1));
+                Assert.AreEqual("0.00", ExcelNumberFormat.GetFromBuildInFromID(2));
+                Assert.AreEqual("#,##0", ExcelNumberFormat.GetFromBuildInFromID(3));
+                Assert.AreEqual("#,##0.00", ExcelNumberFormat.GetFromBuildInFromID(4));
+                Assert.AreEqual("0%", ExcelNumberFormat.GetFromBuildInFromID(9));
+                Assert.AreEqual("0.00%", ExcelNumberFormat.GetFromBuildInFromID(10));
+                Assert.AreEqual("0.00E+00", ExcelNumberFormat.GetFromBuildInFromID(11));
+                Assert.AreEqual("# ?/?", ExcelNumberFormat.GetFromBuildInFromID(12));
+                Assert.AreEqual("# ??/??", ExcelNumberFormat.GetFromBuildInFromID(13));
+                Assert.AreEqual("mm-dd-yy", ExcelNumberFormat.GetFromBuildInFromID(14));
+                Assert.AreEqual("d-mmm-yy", ExcelNumberFormat.GetFromBuildInFromID(15));
+                Assert.AreEqual("d-mmm", ExcelNumberFormat.GetFromBuildInFromID(16));
+                Assert.AreEqual("mmm-yy", ExcelNumberFormat.GetFromBuildInFromID(17));
+                Assert.AreEqual("h:mm AM/PM", ExcelNumberFormat.GetFromBuildInFromID(18));
+                Assert.AreEqual("h:mm:ss AM/PM", ExcelNumberFormat.GetFromBuildInFromID(19));
+                Assert.AreEqual("h:mm", ExcelNumberFormat.GetFromBuildInFromID(20));
+                Assert.AreEqual("h:mm:ss", ExcelNumberFormat.GetFromBuildInFromID(21));
+                Assert.AreEqual("m/d/yy h:mm", ExcelNumberFormat.GetFromBuildInFromID(22));
+                Assert.AreEqual("#,##0 ;(#,##0)", ExcelNumberFormat.GetFromBuildInFromID(37));
+                Assert.AreEqual("#,##0 ;[Red](#,##0)", ExcelNumberFormat.GetFromBuildInFromID(38));
+                Assert.AreEqual("#,##0.00;(#,##0.00)", ExcelNumberFormat.GetFromBuildInFromID(39));
+                Assert.AreEqual("#,##0.00;[Red](#,##0.00)", ExcelNumberFormat.GetFromBuildInFromID(40));
+                Assert.AreEqual("mm:ss", ExcelNumberFormat.GetFromBuildInFromID(45));
+                Assert.AreEqual("[h]:mm:ss", ExcelNumberFormat.GetFromBuildInFromID(46));
+                Assert.AreEqual("mmss.0", ExcelNumberFormat.GetFromBuildInFromID(47));
+                Assert.AreEqual("##0.0", ExcelNumberFormat.GetFromBuildInFromID(48));
+                Assert.AreEqual("@", ExcelNumberFormat.GetFromBuildInFromID(49));
+            });
+
+            threadEn.CurrentCulture = new CultureInfo("en-En");
+
+            threadEn.Start();
+
+            threadEn.Join();
+        }
     }
 }
