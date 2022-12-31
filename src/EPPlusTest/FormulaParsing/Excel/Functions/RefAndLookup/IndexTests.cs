@@ -75,7 +75,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _worksheet.Cells["A2"].Value = 3d;
             _worksheet.Cells["A3"].Value = 5d;
 
-            _worksheet.Cells["A4"].Formula = "INDEX(A1:A3;3)";
+            _worksheet.Cells["A4"].Formula = "INDEX(A1:A3,3)";
 
             _worksheet.Calculate();
 

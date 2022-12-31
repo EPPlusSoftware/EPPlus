@@ -23,9 +23,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             worksheet.Cells["A9"].Value = "Value 3";
             worksheet.Cells["B4"].Formula = "COUNTA(B1:B3)";
             worksheet.Cells["B10"].Formula = "COUNTA(C7:C9)";
-            worksheet.Cells["C7"].Formula = "IF(B7;\"\";A7)";
-            worksheet.Cells["C8"].Formula = "IF(B8;\"\";A8)";
-            worksheet.Cells["C9"].Formula = "IF(B9;\"\";A9)";
+            worksheet.Cells["C7"].Formula = "IF(B7,\"\",A7)";
+            worksheet.Cells["C8"].Formula = "IF(B8,\"\",A8)";
+            worksheet.Cells["C9"].Formula = "IF(B9,\"\",A9)";
         }
 
         [DataTestMethod]

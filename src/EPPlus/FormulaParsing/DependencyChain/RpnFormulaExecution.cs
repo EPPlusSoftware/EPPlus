@@ -41,22 +41,24 @@ namespace OfficeOpenXml.FormulaParsing
         internal RpnExpressionGraph _graph;
         internal ParsingContext _parsingContext;
         internal RpnFunctionCompilerFactory _functionCompilerFactory;
-        public RpnOptimizedDependencyChain(ExcelWorkbook wb)
+        public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             _tokenizer = OptimizedSourceCodeTokenizer.Default;
-            _parsingContext = ParsingContext.Create(wb._package);
-            var dataProvider = new EpplusExcelDataProvider(wb._package, _parsingContext);
-            _parsingContext.ExcelDataProvider = dataProvider;
-            _parsingContext.NameValueProvider = new EpplusNameValueProvider(dataProvider);
-            _parsingContext.RangeAddressFactory = new RangeAddressFactory(dataProvider, _parsingContext);
+            _parsingContext = wb.FormulaParser.ParsingContext;
             _graph = new RpnExpressionGraph(_parsingContext);
 
             var parser = wb.FormulaParser;
             var filterInfo = new FilterInfo(wb);
             parser.InitNewCalc(filterInfo);
-            _parsingContext.Parser= parser;
 
             _functionCompilerFactory = new RpnFunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
+            
+            wb.FormulaParser.Configure(config =>
+            {
+                config.AllowCircularReferences = options.AllowCircularReferences;
+                config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
+            });
+
         }
 
         internal void Add(RpnFormula f)
@@ -81,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal static ArgumentParser _boolArgumentParser = new BoolArgumentParser();
         internal static RpnOptimizedDependencyChain Execute(ExcelWorkbook wb, ExcelCalculationOption options)
         {
-            var depChain = new RpnOptimizedDependencyChain(wb);
+            var depChain = new RpnOptimizedDependencyChain(wb, options);
             foreach (var ws in wb.Worksheets)
             {
                 if (ws.IsChartSheet==false)
@@ -96,7 +98,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
         {
-            var depChain = new RpnOptimizedDependencyChain(ws.Workbook);
+            var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
 
             ExecuteChain(depChain, ws.Cells, options);
 
@@ -104,7 +106,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelRangeBase cells, ExcelCalculationOption options)
         {
-            var depChain = new RpnOptimizedDependencyChain(cells._workbook);
+            var depChain = new RpnOptimizedDependencyChain(cells._workbook, options);
 
             ExecuteChain(depChain, cells, options);
 
@@ -112,13 +114,13 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static object ExecuteFormula(ExcelWorksheet ws, string formula, ExcelCalculationOption options)
         {
-            var depChain = new RpnOptimizedDependencyChain(ws.Workbook);
+            var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
 
             return ExecuteChain(depChain, ws, formula, options);
         }
         internal static object ExecuteFormula(ExcelWorkbook wb, string formula, ExcelCalculationOption options)
         {
-            var depChain = new RpnOptimizedDependencyChain(wb);
+            var depChain = new RpnOptimizedDependencyChain(wb, options);
 
             return ExecuteChain(depChain, null, formula, options);
         }
@@ -222,17 +224,20 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         address = f._expressions[f._tokenIndex].GetAddress();
                     }
-
                     if (ws==null)
                     {
                         if (address?.WorksheetIx < 0)
                         {
-                            throw (new InvalidOperationException("Address in formula does not reference a worksheet and doues not belong to a worksheet."));
+                            throw (new InvalidOperationException("Address in formula does not reference a worksheet and does not belong to a worksheet."));
                         }
                         else
                         {
                             ws = depChain._parsingContext.Package.Workbook.Worksheets[address.WorksheetIx];
                         }
+                    }
+                    else if(address?.WorksheetIx >= 0 && ws?.IndexInList != address?.WorksheetIx)
+                    {
+                        ws = depChain._parsingContext.Package.Workbook.Worksheets[address.WorksheetIx];
                     }
 
                     rd = AddAddressToRD(depChain, ws.IndexInList);
@@ -421,7 +426,7 @@ namespace OfficeOpenXml.FormulaParsing
                         var r=ExecFunc(depChain, t, f);
                         if(r.DataType==DataType.ExcelRange)
                         {
-                            if (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false)
+                            if (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false && r.Address!=null)
                             {
                                 return r.Address;
                             }
@@ -429,7 +434,7 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.StartFunctionArguments:
                         var fe = (RpnFunctionExpression)f._expressions[f._tokenIndex];
-                        if(fe._function.HasNormalArguments==false)
+                        if(fe._function.HasNormalArguments==false && fe._arguments.Count <= 1)
                         {
                             LoadArgumentPositions(fe, f);
                         }

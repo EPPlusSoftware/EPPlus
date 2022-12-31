@@ -34,13 +34,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 
             if (options < 0 || options > 7) return CreateResult(eErrorType.Value);
 
-            if(IgnoreNestedSubtotalAndAggregate(options))
+            var cellId = ExcelCellBase.GetCellId(context.CurrentCell.WorksheetIx, context.CurrentCell.Row, context.CurrentCell.Column);
+            if (!context.SubtotalAddresses.Contains(cellId))
             {
-                var cellId = ExcelCellBase.GetCellId(context.CurrentCell.WorksheetIx, context.CurrentCell.Row, context.CurrentCell.Column);
-                if (!context.SubtotalAddresses.Contains(cellId))
-                {
-                    context.SubtotalAddresses.Add(cellId);
-                }
+                context.SubtotalAddresses.Add(cellId);
             }
 
             CompileResult result = null;

@@ -27,11 +27,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
+            ValidateArguments(arguments, 2);
             var condition = ArgToBool(arguments, 0);
             var firstStatement = arguments.ElementAt(1);
-            var secondStatement = arguments.ElementAt(2);
-            return condition ? CompileResultFactory.Create(firstStatement.Value, firstStatement.Address) : CompileResultFactory.Create(secondStatement.Value, secondStatement.Address);
+            if (arguments.Count() < 3)
+            {
+                return condition ? CompileResultFactory.Create(firstStatement.Value, firstStatement.Address) : CompileResultFactory.Create(null, null);
+            }
+            else
+            {
+                var secondStatement = arguments.ElementAt(2);
+                return condition ? CompileResultFactory.Create(firstStatement.Value, firstStatement.Address) : CompileResultFactory.Create(secondStatement.Value, secondStatement?.Address);
+            }
         }
         public override bool ReturnsReference => true;
         public override bool HasNormalArguments => false;

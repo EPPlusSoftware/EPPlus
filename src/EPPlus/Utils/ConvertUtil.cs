@@ -22,6 +22,9 @@ using System.IO;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Utils.TypeConversion;
 using System.Xml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.Utils
 {
@@ -643,6 +646,47 @@ namespace OfficeOpenXml.Utils
             else
             {
                 return "";
+            }
+        }
+
+        internal static int ParseInt(object obj, RoundingMethod roundingMethod)
+        {
+            int result;
+            if (obj is IRangeInfo)
+            {
+                var r = ((IRangeInfo)obj).FirstOrDefault();
+                return r == null ? 0 : ConvertToInt(r.ValueDouble, roundingMethod);
+            }
+            var objType = obj.GetType();
+            if (objType == typeof(int))
+            {
+                return (int)obj;
+            }
+            if (objType == typeof(double) || objType == typeof(decimal) || objType == typeof(bool))
+            {
+                return ConvertToInt(obj, roundingMethod);
+            }
+            if (!int.TryParse(obj.ToString(), out result))
+            {
+                throw new ExcelErrorValueException(ExcelErrorValue.Create(eErrorType.Value));
+            }
+            return result;
+        }
+
+        private static int ConvertToInt(object obj, RoundingMethod roundingMethod)
+        {
+            var objType = obj.GetType();
+            if (roundingMethod == RoundingMethod.Convert)
+            {
+                return Convert.ToInt32(obj);
+            }
+            else if (objType == typeof(double))
+            {
+                return Convert.ToInt32(System.Math.Floor((double)obj));
+            }
+            else
+            {
+                return Convert.ToInt32(System.Math.Floor((decimal)obj));
             }
         }
 

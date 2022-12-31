@@ -3,6 +3,7 @@ using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Packaging.Ionic;
+using OfficeOpenXml.Utils;
 using System;
 using System.Diagnostics;
 using Operators = OfficeOpenXml.FormulaParsing.Excel.Operators.Operators;
@@ -29,10 +30,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             _addressInfo = new FormulaRangeAddress(ctx) { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx < 0 ? ctx.CurrentCell.WorksheetIx : worksheetIx };
             ExcelCellBase.GetRowColFromAddress(address, out int fromRow, out int fromCol, out int toRow, out int toCol, out bool fixedFromRow, out bool fixedFromCol, out bool fixedToRow, out bool fixedToCol);
-            _addressInfo.FromRow = fromRow;
-            _addressInfo.ToRow = toRow;
-            _addressInfo.FromCol = fromCol;
-            _addressInfo.ToCol = toCol;
+            _addressInfo.FromRow = fromRow==0 ? 1 : fromRow;
+            _addressInfo.ToRow = toRow == 0 ? ExcelPackage.MaxRows : toRow;
+            _addressInfo.FromCol = fromCol == 0 ? 1 : fromCol;
+            _addressInfo.ToCol = toCol == 0 ? ExcelPackage.MaxColumns : toCol; 
             _addressInfo.FixedFlag = (fixedFromRow ? FixedFlag.FromRowFixed : 0) | (fixedToRow ? FixedFlag.ToRowFixed : 0) | (fixedFromCol ? FixedFlag.FromColFixed : 0) | (fixedToCol ? FixedFlag.ToColFixed : 0);
         }
         internal override ExpressionType ExpressionType => ExpressionType.CellAddress;
@@ -44,7 +45,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 {
                     if (_addressInfo.IsSingleCell)
                     {
-                        _cachedCompileResult = CompileResultFactory.Create(Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol), _addressInfo);
+
+                        var v = Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol);
+                        if (_negate)
+                        {
+                            v = DoNegate(v);
+                        }
+                        _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
                         _cachedCompileResult.IsHiddenCell = Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].IsCellHidden(_addressInfo.FromRow, _addressInfo.FromCol);
                     }
                     else
@@ -55,6 +62,16 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             }
             return _cachedCompileResult;
         }
+
+        private object DoNegate(object v)
+        {
+            if(ConvertUtil.IsNumericOrDate(v))
+            {
+                return ConvertUtil.GetValueDouble(v) * -1;
+            }
+            return v;
+        }
+
         public override void Negate()
         {
             _negate = !_negate;

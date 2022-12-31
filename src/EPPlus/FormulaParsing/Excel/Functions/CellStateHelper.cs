@@ -31,6 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, bool ignoreNonNumeric, ICellInfo c, ParsingContext context)
         {
+            if(c.Address==null) return false;
             if (ignoreNonNumeric && !ConvertUtil.IsNumericOrDate(c.Value)) return true;
             var hasFilter = false;
             if (context.Parser != null && context.Parser.FilterInfo != null)

@@ -101,7 +101,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 }
                 else
                 {
-                    return v.GetValue(v.Address.FromRow, v.Address.FromCol);
+                    if (v.IsInMemoryRange)
+                    {
+                        return v.GetValue(0, 0);
+                    }
+                    else
+                    {
+                        return v.GetValue(v.Address.FromRow, v.Address.FromCol);
+                    }
                 }
             }
         }

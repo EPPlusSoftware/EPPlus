@@ -40,38 +40,63 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     throw new ExcelErrorValueException(eErrorType.Ref);
                 }
                 var candidate = args.ElementAt(index - 1);
-                //Commented JK-Can be any data type
-                //if (!IsNumber(candidate.Value))
-                //{
-                //    throw new ExcelErrorValueException(eErrorType.Value);
-                //}
-                //return CreateResult(ConvertUtil.GetValueDouble(candidate.Value), DataType.Decimal);
+
                 return CompileResultFactory.Create(candidate.Value);
             }
             if (arg1.IsExcelRange)
             {
-                var row = ArgToInt(arguments, 1, RoundingMethod.Floor);                 
-                var col = arguments.Count()>2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
-                var ri=arg1.ValueAsRangeInfo;
-                if (row > ri.Address.ToRow - ri.Address.FromRow + 1 ||
-                    col > ri.Address.ToCol - ri.Address.FromCol + 1)
+                var row = ArgToInt(arguments, 1, RoundingMethod.Floor);
+                var col = arguments.Count() > 2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
+                var ri = arg1.ValueAsRangeInfo;
+                if(row==0 || col==0)
                 {
-                    return new CompileResult(eErrorType.Ref);
+
                 }
-                var candidate = ri.GetOffset(row-1, col-1);
-                //Commented JK-Can be any data type
-                //if (!IsNumber(candidate.Value))   
-                //{
-                //    throw new ExcelErrorValueException(eErrorType.Value);
-                //}
-                return CompileResultFactory.Create(candidate);
+                else
+                {
+                    return GetResultSingleCell(row, col, ri);
+                }
             }
-            if(arg1.ValueIsExcelError)
+            if (arg1.ValueIsExcelError)
             {
                 return new CompileResult(arg1.ValueAsExcelErrorValue.Type);
             }
             return new CompileResult(eErrorType.Value);
         }
+
+        private static CompileResult GetResultSingleCell(int row, int col, IRangeInfo ri)
+        {
+            if (row > ri.Address.ToRow - ri.Address.FromRow + 1 ||
+                col > ri.Address.ToCol - ri.Address.FromCol + 1)
+            {
+                return new CompileResult(eErrorType.Ref);
+            }
+            var r = row - 1;
+            var c = col - 1;
+            var candidate = ri.GetOffset(r, c);
+
+            if (ri.Address == null)
+            {
+                return CompileResultFactory.Create(candidate);
+            }
+            else
+            {
+                var adr = ri.Address.Clone();
+                adr.FromRow = adr.ToRow = row;
+                adr.FromCol = adr.ToCol = col;
+                return CompileResultFactory.Create(candidate, adr);
+            }
+        }
+
         public override bool ReturnsReference => true;
+        public override bool HasNormalArguments => false;
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            if(argumentIndex==0)
+            {
+                return FunctionParameterInformation.IgnoreAddress;
+            }
+            return FunctionParameterInformation.Normal;
+        }
     }
 }

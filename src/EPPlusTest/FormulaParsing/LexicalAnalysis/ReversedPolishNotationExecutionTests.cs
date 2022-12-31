@@ -79,7 +79,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         [TestMethod]
         public void ExecuteWorksheet1()
         {
-            var dp = new RpnOptimizedDependencyChain(_package.Workbook);
+            var dp = new RpnOptimizedDependencyChain(_package.Workbook, new ExcelCalculationOption());
             var sw=Stopwatch.StartNew();
             dp.Execute(_package.Workbook.Worksheets[0]);
             Debug.WriteLine($"Duration: {sw.ElapsedMilliseconds / 1000}");
@@ -89,7 +89,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         [TestMethod]
         public void ExecuteWorksheet2()
         {
-            var dp = new RpnOptimizedDependencyChain(_package.Workbook);
+            var dp = new RpnOptimizedDependencyChain(_package.Workbook, new ExcelCalculationOption());
             dp.Execute(_package.Workbook.Worksheets[1]);
 
             Assert.AreEqual(200D, _package.Workbook._worksheets[1].Cells["D1"].Value);

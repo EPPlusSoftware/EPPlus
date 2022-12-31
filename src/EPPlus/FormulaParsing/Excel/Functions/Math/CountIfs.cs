@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 if(rangeInfo == null && arg.Address !=null)
                 {
                     var wsIx = arg.Address.WorksheetIx < 0 ? context.CurrentCell.WorksheetIx : arg.Address.WorksheetIx;
-                    rangeInfo = context.ExcelDataProvider.GetRange(wsIx, context.CurrentCell.Row, context.CurrentCell.Column);
+                    rangeInfo = context.ExcelDataProvider.GetRange(wsIx, arg.Address.FromRow, arg.Address.FromCol);
                     argRanges.Add(new RangeOrValue { Range = rangeInfo });
                 }
                 else if(rangeInfo != null)

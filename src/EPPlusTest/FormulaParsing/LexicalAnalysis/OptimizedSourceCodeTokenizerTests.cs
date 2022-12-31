@@ -335,16 +335,15 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(+-3-3,5)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(8, tokens.Count());
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Comma));
-            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingParenthesis));
+            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Comma));
+            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.ClosingParenthesis));
         }
 
         [TestMethod]
@@ -369,16 +368,15 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(5,+-3-3)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(8, tokens.Count());
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
             Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Comma));
-            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingParenthesis));
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.ClosingParenthesis));
         }
 
         [TestMethod]

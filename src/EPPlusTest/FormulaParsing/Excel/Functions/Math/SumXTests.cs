@@ -131,7 +131,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
             _sheet.Cells["B1"].Value = 3;
             _sheet.Cells["B2"].Value = 4;
             _sheet.Cells["B3"].Value = 2;
-            _sheet.Cells["C1"].Formula = "SeriesSum(2,1,1;B1:B3)";
+            _sheet.Cells["C1"].Formula = "SeriesSum(2,1,1,B1:B3)";
 
             _sheet.Calculate();
 

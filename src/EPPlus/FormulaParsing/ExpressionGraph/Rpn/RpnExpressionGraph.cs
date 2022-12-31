@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -587,7 +588,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         array.Add(int.Parse(t.Value));
                         break;
                     case TokenType.Decimal:
-                        array.Add(double.Parse(t.Value));
+                        array.Add(double.Parse(t.Value, System.Globalization.NumberStyles.Number, CultureInfo.InvariantCulture));
                         break;
                     case TokenType.StringContent:
                         array.Add(t.Value);

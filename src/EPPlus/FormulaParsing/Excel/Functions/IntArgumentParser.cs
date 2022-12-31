@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -24,49 +25,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     {
         public override object Parse(object obj)
         {
+            Require.That(obj).Named("argument").IsNotNull();
             return Parse(obj, RoundingMethod.Convert);
         }
 
         public override object Parse(object obj, RoundingMethod roundingMethod)
         {
-            Require.That(obj).Named("argument").IsNotNull();
-            int result;
-            if (obj is IRangeInfo)
-            {
-                var r = ((IRangeInfo)obj).FirstOrDefault();
-                return r == null ? 0 : ConvertToInt(r.ValueDouble, roundingMethod);
-            }
-            var objType = obj.GetType();
-            if (objType == typeof(int))
-            {
-                return (int)obj;
-            }
-            if (objType == typeof(double) || objType == typeof(decimal) || objType == typeof(bool))
-            {
-                return ConvertToInt(obj, roundingMethod);
-            }
-            if (!int.TryParse(obj.ToString(), out result))
-            {
-                throw new ExcelErrorValueException(ExcelErrorValue.Create(eErrorType.Value));
-            }
-            return result;
-        }
-
-        private int ConvertToInt(object obj, RoundingMethod roundingMethod)
-        {
-            var objType = obj.GetType();
-            if (roundingMethod == RoundingMethod.Convert)
-            {
-                return Convert.ToInt32(obj);
-            }
-            else if (objType == typeof(double))
-            {
-                return Convert.ToInt32(System.Math.Floor((double)obj));
-            }
-            else
-            {
-                return Convert.ToInt32(System.Math.Floor((decimal)obj));
-            }
+            return Utils.ConvertUtil.ParseInt(obj, roundingMethod);
         }
     }
 }
