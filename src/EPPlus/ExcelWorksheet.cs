@@ -44,6 +44,7 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Packaging;
 namespace OfficeOpenXml
 {
@@ -4203,8 +4204,65 @@ namespace OfficeOpenXml
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
         {
-            _values.SetValue_Value(row, col, value);
+            if (!value.IsNumeric()
+                || Workbook.FullPrecision)
+            {
+                _values.SetValue_Value(row, col, value);
+                return;
+            }
+
+            byte? numberOfDecimals = GetNumberOfDecimals(Cells[row, col]);
+
+            _values.SetValue_Value(row, col, 
+                RoundValue(value, numberOfDecimals));
         }
+
+        private const string _DECIMAL_PLACES_PATTERN = @"\.(?<dec>  [#0]+ )";
+        private static byte? GetNumberOfDecimals(IExcelCell cell)
+        {
+            var formatting = cell.Style.Numberformat.Format;
+
+            if (string.IsNullOrEmpty(formatting))
+                return null;
+
+            // get number of decimal places #.# or 0.00
+            var match = Regex.Match(formatting, _DECIMAL_PLACES_PATTERN,
+                RegexOptions.IgnorePatternWhitespace);
+
+            if (match.Success)
+            {
+                if (!string.IsNullOrEmpty(match.Groups["dec"].Value))
+                    return (byte)match.Groups["dec"].Value.Length;
+            }
+
+            return 0;
+        }
+
+        private static object RoundValue(object value, byte? numberOfDecimals)
+        {
+            if (numberOfDecimals.HasValue
+                && TryParseToDecimal(value, out var val))
+            {
+                return Math.Round(val, numberOfDecimals.Value);
+            }
+
+            return value;
+        }
+
+        private static bool TryParseToDecimal(object number, out decimal val)
+        {
+            if (decimal.TryParse(number.ToString(), out val))
+                return true;
+
+            if (double.TryParse(number.ToString(), out var dblVal))
+            {
+                val = (decimal)dblVal;
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Set accessor of sheet styleId
         /// </summary>

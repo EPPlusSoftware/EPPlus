@@ -3965,5 +3965,33 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void If_full_precision_is_off_value_should_be_calculated_as_seen_issue_779()
+        {
+            //Issue: If Excel has rounding errors(due to the fact that calculation is always
+            //done with floating points) some formulas like "If" are wrong due to aftereffects.
+            //One can do work around that issue by ticking the checkbox "precision as displayed" 
+            //in the advanced excel options.This function was not yet implemented in EPPlus.
+
+            using var p = new ExcelPackage();
+            p.Workbook.Worksheets.Add("first");
+            p.Workbook.FullPrecision = false;
+
+            var sheet = p.Workbook.Worksheets.First();
+
+            sheet.Cells["A1"].Value = 0.0000001;
+            sheet.Cells["A2"].Value = 0.00000001;
+            sheet.Cells["A3"].Formula = "=SUM(A1:A2)";
+            sheet.Cells["A3"].Style.Numberformat.Format = "#,##0";
+            sheet.Cells["A4"].Formula = "=IF(A3=0;\"OK\";\"Not OK\")";
+
+            //var path = Path.Combine(GetLocalResourcesPath(), "FullPrecisionIF.xlsx");
+            //using var p = new ExcelPackage(path);
+
+            p.Workbook.Calculate();
+            Assert.IsFalse(p.Workbook.FullPrecision);
+            Assert.AreEqual("OK", p.Workbook.Worksheets.First().Cells["A4"].Value);
+        }
     }
 }
