@@ -91,6 +91,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Formula = "IFS(0,1,1,1/0)";
                 sheet.Calculate();
+                package.SaveAs("C:\\temp\\t.xlsx");
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Div0), sheet.Cells["A1"].Value);
             }
         }

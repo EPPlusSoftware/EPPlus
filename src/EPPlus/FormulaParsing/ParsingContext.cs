@@ -133,14 +133,11 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return null;
             }
-        }
-        public bool IsSubtotal 
-        { 
-            get
-            {
-                var ci=ExcelCellBase.GetCellId(CurrentCell.WorksheetIx, CurrentCell.Row, CurrentCell.Column);
-                return SubtotalAddresses.Contains(ci);
-            }
+        }       
+        public bool IsSubtotal  //Used in CountA via the aggregate function.
+        {
+            get;
+            set;
         }
     }
 }

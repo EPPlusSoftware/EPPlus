@@ -381,17 +381,20 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.NameValue:
                         var ne = (RpnNamedValueExpression)f._expressions[f._tokenIndex];
                         s.Push(ne);
-                        var address = ne.GetAddress();
-                        if(address==null)
+                        if (ne._name != null)
                         {
-                            if(string.IsNullOrEmpty(ne._name.Formula)==false)
+                            var address = ne.GetAddress();
+                            if (address == null)
                             {
-                                return null;
+                                if (string.IsNullOrEmpty(ne._name?.Formula) == false)
+                                {
+                                    return null;
+                                }
                             }
-                        }
-                        else if (f._funcStack.Count == 0)                        
-                        {
-                            return address;
+                            else if (f._funcStack.Count == 0)
+                            {
+                                return address;
+                            }
                         }
                         break;
                     case TokenType.Comma:
@@ -416,7 +419,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                                 }
                             }
-                            else if(fexp._function.HasNormalArguments)
+                            else
                             {
                                 fexp._arguments.Add(f._tokenIndex);
                             }

@@ -39,6 +39,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 context.SubtotalAddresses.Add(cellId);
             }
+            
+            if (IgnoreNestedSubtotalAndAggregate(options))
+            {
+                context.IsSubtotal = true;
+            }
 
             CompileResult result = null;
             switch(funcNum)

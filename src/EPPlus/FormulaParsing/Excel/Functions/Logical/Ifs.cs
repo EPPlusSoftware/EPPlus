@@ -48,5 +48,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 return FunctionParameterInformation.UseIfConditionIsTrue;
             }
         }
+        public override bool HasNormalArguments => false;
     }
 }

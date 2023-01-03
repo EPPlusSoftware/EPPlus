@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             
             //var cache = Context.AddressCache;
             //var cacheId = cache.GetNewId();
-            if (_name == null) return new CompileResult(null, DataType.Empty);
+            if (_name == null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
             if (_name.Value == null)
             {
@@ -106,7 +106,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         }
         public override FormulaRangeAddress GetAddress()
         {
-            if(_name.Value is IRangeInfo ri) 
+            if(_name?.Value is IRangeInfo ri) 
             {
                 return ri.Address;
             }

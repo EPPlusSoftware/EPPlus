@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     {
         private static bool IsSubTotal(ICellInfo c, ParsingContext context)
         {
-            return context.SubtotalAddresses.Contains(c.Id);
+            return context.IsSubtotal && context.SubtotalAddresses.Contains(c.Id);
         }
 
         internal static bool ShouldIgnore(bool ignoreHiddenValues, ICellInfo c, ParsingContext context)

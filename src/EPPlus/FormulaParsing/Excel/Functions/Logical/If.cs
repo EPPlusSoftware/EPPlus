@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 
@@ -28,6 +29,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
+            if (arguments.ElementAt(0).ValueIsExcelError)
+            {
+                return CompileResultFactory.Create(arguments.ElementAt(0).Value);
+            }
             var condition = ArgToBool(arguments, 0);
             var firstStatement = arguments.ElementAt(1);
             if (arguments.Count() < 3)
