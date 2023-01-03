@@ -653,5 +653,29 @@ namespace EPPlusTest.Table
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void CreateTableAfterDeletingAMergedCell()
+        {
+            // Reproduce issue 780
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // Prepare some data
+                worksheet.Cells["A1"].Value = "Column 1";
+                worksheet.Cells["A2"].Value = 1;
+                worksheet.Cells["B1"].Value = "Column 2";
+                worksheet.Cells["B2"].Value = 2;
+
+                // Merge cells in row 4 (not related to the data above)
+                worksheet.Cells["A4:B4"].Merge = true;
+                // Delete the row that has the merged cells
+                worksheet.DeleteRow(4);
+
+                // Create a table
+                var tableCells = worksheet.Cells["A1:B2"];
+                var table = worksheet.Tables.Add(tableCells, "table"); // --> This triggers a NullReferenceException
+            }
+        }
     }
 }
