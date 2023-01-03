@@ -21,6 +21,21 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
 {
     internal class GenericFontMetricsTextMeasurer : GenericFontMetricsTextMeasurerBase, ITextMeasurer
     {
+        public float GetScalingFactorRowHeight(MeasurementFont font)
+        {
+            if (string.IsNullOrEmpty(font.FontFamily))
+            {
+                return 1f;
+            }
+            switch (font.FontFamily)
+            {
+                case "Arial":
+                    return 1.1f;
+                default:
+                    return 1f;
+            }
+        }
+
         /// <summary>
         /// Measures the supplied text
         /// </summary>

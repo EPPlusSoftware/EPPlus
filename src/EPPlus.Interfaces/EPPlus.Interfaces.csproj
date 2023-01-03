@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>6.1.1.0</AssemblyVersion>
-    <FileVersion>6.1.1.0</FileVersion>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
+    <FileVersion>6.2.0.0</FileVersion>
     <Version>6.1.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageLicenseFile>license.md</PackageLicenseFile>
@@ -12,6 +12,9 @@
     <RootNamespace>OfficeOpenXml.Interfaces</RootNamespace>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageIcon>EPPlusLogo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/EPPlusSoftware/EPPlus/</RepositoryUrl>
+    <PackageTags>EPPlus</PackageTags>
+    <PackageReleaseNotes>6,2 - added GetScalingFactorRowHeight method to ITextMeasurer</PackageReleaseNotes>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">

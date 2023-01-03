@@ -24,6 +24,12 @@ namespace OfficeOpenXml.Interfaces.Drawing.Text
         /// <returns>True if the measurer can be used else false.</returns>
         bool ValidForEnvironment();
         /// <summary>
+        /// Returns scaling factor for a specific font.
+        /// </summary>
+        /// <param name="font"></param>
+        /// <returns>Return 1f if no scaling factor should be used. Otherwise a scaling factor between 0.3 and 3.0 for the <paramref name="font"/>.</returns>
+        float GetScalingFactorRowHeight(MeasurementFont font);
+        /// <summary>
         /// Measures width and height of the parameter <paramref name="text"/>.
         /// </summary>
         /// <param name="text">The text to measure</param>

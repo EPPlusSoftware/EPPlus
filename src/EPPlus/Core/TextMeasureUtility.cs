@@ -51,12 +51,14 @@ namespace OfficeOpenXml.Core
                 if (measurement.IsEmpty && _fontWidthDefault != null)
                 {
                     measurement = MeasureGeneric(t, ts, font);
+                    measurer = _genericMeasurer;
                 }
                 if (!measurement.IsEmpty && (ts.AutofitWidthScaleFactor != 1f || ts.AutofitHeightScaleFactor !=  1f))
                 {
                     measurement.Height = measurement.Height * ts.AutofitHeightScaleFactor;
                     measurement.Width = measurement.Width * ts.AutofitWidthScaleFactor;
                 }
+                measurement.Height *= measurer.GetScalingFactorRowHeight(font);
                 measureCache.Add(key, measurement);
             }
             return measurement;
