@@ -46,13 +46,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     if (_addressInfo.IsSingleCell)
                     {
 
-                        var v = Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol);
+                        var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
+                        var v = ws.GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol);
                         if (_negate)
                         {
                             v = DoNegate(v);
                         }
                         _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
-                        _cachedCompileResult.IsHiddenCell = Context.Package.Workbook.Worksheets[_addressInfo.WorksheetIx].IsCellHidden(_addressInfo.FromRow, _addressInfo.FromCol);
+                        _cachedCompileResult.IsHiddenCell = ws.IsCellHidden(_addressInfo.FromRow, _addressInfo.FromCol);
                     }
                     else
                     {

@@ -157,8 +157,11 @@ namespace OfficeOpenXml.FormulaParsing
                 var id = ExcelCellBase.GetCellId(wsIx, name.Index, 0);
                 if (depChain.processedCells.Contains(id) == false)
                 {
-                    f = GetNameFormula(depChain, ws, depChain._parsingContext.ExcelDataProvider.GetName(0,wsIx, name.Name));
-                    AddChainForFormula(depChain, f, options);
+                    if (string.IsNullOrEmpty(name.Formula) == false)
+                    {
+                        f = GetNameFormula(depChain, ws, depChain._parsingContext.ExcelDataProvider.GetName(0, wsIx, name.Name));
+                        AddChainForFormula(depChain, f, options);
+                    }
                 }
             }
         }
@@ -232,12 +235,12 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         else
                         {
-                            ws = depChain._parsingContext.Package.Workbook.Worksheets[address.WorksheetIx];
+                            ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
                         }
                     }
                     else if(address?.WorksheetIx >= 0 && ws?.IndexInList != address?.WorksheetIx)
                     {
-                        ws = depChain._parsingContext.Package.Workbook.Worksheets[address.WorksheetIx];
+                        ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
                     }
 
                     rd = AddAddressToRD(depChain, ws.IndexInList);
@@ -286,7 +289,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             return value;
         FollowChain:
-            ws = depChain._parsingContext.Package.Workbook.Worksheets[address.WorksheetIx];
+            ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
             f._formulaEnumerator = new CellStoreEnumerator<object>(ws._formulas, address.FromRow, address.FromCol, address.ToRow, address.ToCol);
         NextFormula:
             if (f._formulaEnumerator.Next())
@@ -419,7 +422,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                                 }
                             }
-                            else
+                            else if(fexp._function.HasNormalArguments)
                             {
                                 fexp._arguments.Add(f._tokenIndex);
                             }
@@ -567,6 +570,8 @@ namespace OfficeOpenXml.FormulaParsing
                     f._expressionStack.Push(new RpnDecimalExpression(result, context));
                     break;
                 case DataType.Decimal:
+                case DataType.Date:
+                case DataType.Time:
                     f._expressionStack.Push(new RpnDecimalExpression(result, context));
                     break;
                 case DataType.String:
@@ -581,6 +586,9 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.Enumerable:
                     f._expressionStack.Push(new RpnEnumerableExpression(result, context));
                     break;
+
+                    //f._expressionStack.Push(new RpnDateExpression(result, context));
+                    //break;
                 case DataType.Empty:
                     f._expressionStack.Push(RpnExpression.Empty);
                     break;

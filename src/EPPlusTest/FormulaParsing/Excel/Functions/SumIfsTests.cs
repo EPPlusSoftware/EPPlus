@@ -73,7 +73,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         [TestMethod]
         public void ShouldCalculateTwoCriteriaRanges()
         {
-            _sheet.Cells["A5"].Formula = "SUMIFS(A1:A4;B1:B5;\">5\";C1:C5;\">4\")";
+            _sheet.Cells["A5"].Formula = "SUMIFS(A1:A4,B1:B5,\">5\",C1:C5,\">4\")";
             _sheet.Calculate();
 
             Assert.AreEqual(9d, _sheet.Cells["A5"].Value);
@@ -84,7 +84,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         {
             _sheet.Cells["B3"].Value = ExcelErrorValue.Create(eErrorType.Div0);
 
-            _sheet.Cells["A5"].Formula = "SUMIFS(A1:A4;B1:B5;\">5\";C1:C5;\">4\")";
+            _sheet.Cells["A5"].Formula = "SUMIFS(A1:A4,B1:B5,\">5\",C1:C5,\">4\")";
             _sheet.Calculate();
 
             Assert.AreEqual(6d, _sheet.Cells["A5"].Value);
@@ -94,7 +94,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         public void ShouldHandleExcelRangesInCriteria()
         {
             _sheet.Cells["D1"].Value = 6;
-            _sheet.Cells["A5"].Formula = "SUMIFS(A1:A4;B1:B5;\">5\";C1:C5;D1)";
+            _sheet.Cells["A5"].Formula = "SUMIFS(A1:A4,B1:B5,\">5\",C1:C5,D1)";
             _sheet.Calculate();
 
             Assert.AreEqual(2d, _sheet.Cells["A5"].Value);

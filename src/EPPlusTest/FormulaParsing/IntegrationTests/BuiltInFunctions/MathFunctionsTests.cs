@@ -642,7 +642,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 sheet.Cells["I7"].Value = 5;
                 sheet.Cells["I8"].Value = 1;
 
-                sheet.Cells["H9"].Formula = "AVERAGEIFS(F4:F8;H4:H8;\">3\";I4:I8;\"<5\")";
+                sheet.Cells["H9"].Formula = "AVERAGEIFS(F4:F8,H4:H8,\">3\",I4:I8,\"<5\")";
                 sheet.Calculate();
                 Assert.AreEqual(4.5d, sheet.Cells["H9"].Value);
             }

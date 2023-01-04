@@ -151,7 +151,7 @@ namespace OfficeOpenXml
 				n = name + $"{ix++}";
 			}
 			return n;
-		}
+		}		
 		#endregion
 
 		#region ExcelWorkbook Constructor
@@ -528,8 +528,12 @@ namespace OfficeOpenXml
 
 					_worksheets = new ExcelWorksheets(_package, _namespaceManager, sheetsNode);
 				}
-				return (_worksheets);
+				return _worksheets;
 			}
+		}
+		internal ExcelWorksheet GetWorksheetByIndexInList(int index)
+		{
+			return _worksheets._worksheets[index];
 		}
         #endregion
 

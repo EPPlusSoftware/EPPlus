@@ -723,7 +723,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                 if (workSheetIx >= 0 && workSheetIx < wb.Worksheets.Count)
                 {
-                    ws = wb.Worksheets[workSheetIx];
+                    ws = wb.GetWorksheetByIndexInList(workSheetIx);
                     if (ws.Names.ContainsKey(name))
                     {
                         nameItem = ws.Names[name];
@@ -742,7 +742,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     Id = id,
                     Name = name,
-                    wsIx = (nameItem.Worksheet == null ? wsIx : nameItem.Worksheet.PositionId),
+                    wsIx = (nameItem.Worksheet == null ? wsIx : nameItem.Worksheet.IndexInList),
                     Formula = nameItem.Formula
                 };
                 if (nameItem._fromRow > 0)

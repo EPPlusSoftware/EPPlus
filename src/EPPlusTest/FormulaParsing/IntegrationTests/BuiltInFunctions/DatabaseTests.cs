@@ -312,8 +312,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 // criteria
                 sheet.Cells["D1"].Value = "crit1";
                 sheet.Cells["D2"].Value = "t*t";
-                var t=sheet.Cells["D2"].GetTable();
-                t.ShowFilter = false;
+
                 // function
                 sheet.Cells["F1"].Formula = "DVARP(A1:B3,2,D1:E2)";
 

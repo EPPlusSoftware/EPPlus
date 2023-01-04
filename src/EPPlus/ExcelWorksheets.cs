@@ -95,7 +95,7 @@ namespace OfficeOpenXml
         {
             var name = tokenValue.TrimStart('\'').TrimEnd('\'').Replace("''", "'");
             var ws = _worksheets.Where(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-            return (short)(ws == null ? -1 : ws.PositionId);
+            return (short)(ws == null ? -1 : ws.IndexInList);
         }
 
         private eWorkSheetHidden TranslateHidden(string value)

@@ -30,6 +30,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         {
             ValidateArguments(arguments, 2);
             var maxArgs = arguments.Count() < (127 * 2) ? arguments.Count() : 127 * 2; 
+            if(maxArgs % 2 != 0) 
+            {
+                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+            }
             for(var x = 0; x < maxArgs; x += 2)
             {
                 if (System.Math.Round(ArgToDecimal(arguments, x), 15) != 0d) return CompileResultFactory.Create(arguments.ElementAt(x + 1).Value);
