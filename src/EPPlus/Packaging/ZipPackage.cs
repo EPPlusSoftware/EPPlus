@@ -76,6 +76,7 @@ namespace OfficeOpenXml.Packaging
                     while (e != null)
                     {
                         GetDirSeparator(e);
+                        
                         if (e.UncompressedSize > 0)
                         {
                             if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
@@ -90,7 +91,8 @@ namespace OfficeOpenXml.Packaging
                             }
                             else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                             {
-                                rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
+                                var ba = GetZipEntryAsByteArray(_zip, e);
+                                rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(ba));
                             }
                             else
                             {
