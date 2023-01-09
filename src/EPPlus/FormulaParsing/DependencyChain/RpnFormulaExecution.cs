@@ -115,8 +115,21 @@ namespace OfficeOpenXml.FormulaParsing
         internal static object ExecuteFormula(ExcelWorksheet ws, string formula, ExcelCalculationOption options)
         {
             var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
-
             return ExecuteChain(depChain, ws, formula, options);
+        }
+        internal static object ExecuteFormula(ExcelWorkbook wb, string formula, FormulaCellAddress cell, ExcelCalculationOption options)
+        {
+            var depChain = new RpnOptimizedDependencyChain(wb, options);
+            ExcelWorksheet ws;
+            if (cell.WorksheetIx < 0 || cell.WorksheetIx >= wb.Worksheets.Count)
+            {
+                ws = null;
+            }
+            else
+            {
+                ws = wb.Worksheets[cell.WorksheetIx];
+            }
+            return ExecuteChain(depChain, ws, formula, cell, options);
         }
         internal static object ExecuteFormula(ExcelWorkbook wb, string formula, ExcelCalculationOption options)
         {
@@ -124,6 +137,13 @@ namespace OfficeOpenXml.FormulaParsing
 
             return ExecuteChain(depChain, null, formula, options);
         }
+        //internal static object ExecuteFormula(ExcelWorkbook wb, FormulaCellAddress cell, ExcelCalculationOption options)
+        //{
+        //    var depChain = new RpnOptimizedDependencyChain(wb, options);
+        //    var ws = wb.GetWorksheetByIndexInList(cell.WorksheetIx);
+        //    if (ws == null) return null;            
+        //    return ExecuteChain(depChain, ws, ws.Cells[cell.Row, cell.Column].Formula, options);
+        //}
 
 
         private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelRangeBase range, ExcelCalculationOption options)
@@ -152,7 +172,7 @@ namespace OfficeOpenXml.FormulaParsing
             var hasWs = ws != null;
             foreach (ExcelNamedRange name in namesCollection)
             {
-                depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, name.Index, 0);
+                depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws==null ? -1 : ws.IndexInList, name.Index, 0);
                 var wsIx = (short)(hasWs ? ws.IndexInList : -1);
                 var id = ExcelCellBase.GetCellId(wsIx, name.Index, 0);
                 if (depChain.processedCells.Contains(id) == false)
@@ -164,6 +184,12 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
+        }
+        private static object ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, string formula, FormulaCellAddress cell, ExcelCalculationOption options)
+        {
+            var f = new RpnFormula(ws, cell.Row, cell.Column);
+            f.SetFormula(formula, depChain._tokenizer, depChain._graph);
+            return AddChainForFormula(depChain, f, options);
         }
 
         private static object ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, string formula, ExcelCalculationOption options)
@@ -258,8 +284,16 @@ namespace OfficeOpenXml.FormulaParsing
                     goto ExecuteFormula;
                 }
             }
+            object value;
+            if(f._tokenIndex==int.MaxValue) //int.MaxValue means we have an invalid formulas and we should return a name error 
+            {
+                value = ExcelErrorValue.Create(eErrorType.Name);
+            }
+            else
+            {
+                value = f._expressionStack.Pop().Compile().ResultValue;
+            }
 
-            var value = f._expressionStack.Pop().Compile().ResultValue;
             //Set the value.
             if (f._row >= 0)
             {
@@ -440,6 +474,13 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.StartFunctionArguments:
                         var fe = (RpnFunctionExpression)f._expressions[f._tokenIndex];
+                        if(fe._function==null)  //Function does not exists. Push #NAME?
+                        {
+                            LoadArgumentPositions(fe, f);
+                            f._tokenIndex = fe._endPos;
+                            f._expressionStack.Push(new RpnErrorExpression(new CompileResult(eErrorType.Name), depChain._parsingContext));
+                            break;
+                        }
                         if(fe._function.HasNormalArguments==false && fe._arguments.Count <= 1)
                         {
                             LoadArgumentPositions(fe, f);
@@ -575,6 +616,7 @@ namespace OfficeOpenXml.FormulaParsing
                     f._expressionStack.Push(new RpnDecimalExpression(result, context));
                     break;
                 case DataType.String:
+                case DataType.ExcelAddress:
                     f._expressionStack.Push(new RpnStringExpression(result, context));
                     break;
                 case DataType.ExcelError:

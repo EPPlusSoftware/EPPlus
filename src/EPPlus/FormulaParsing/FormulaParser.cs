@@ -109,16 +109,8 @@ namespace OfficeOpenXml.FormulaParsing
         internal FilterInfo FilterInfo { get; private set; }
 
         internal virtual object Parse(string formula, FormulaCellAddress cell)
-        {
-            _parsingContext.CurrentCell = cell;
-            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package.Workbook, formula, new ExcelCalculationOption());
-            //var tokens = _lexer.Tokenize(formula);
-            //var graph = _graphBuilder.Build(tokens);
-            //if (graph.Expressions.Count == 0)
-            //{
-            //    return null;
-            //}
-            //return _compiler.Compile(graph.Expressions).Result;
+        {            
+            return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, cell, new ExcelCalculationOption());
         }
 
         internal virtual object ParseCell(IEnumerable<Token> tokens, string worksheet, int row, int column)
@@ -195,7 +187,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns>The result of the calculation</returns>
         public virtual object Parse(string formula)
         {
-            return Parse(formula, new FormulaCellAddress());
+            return Parse(formula, new FormulaCellAddress() { Row = -1});
         }
 
         /// <summary>

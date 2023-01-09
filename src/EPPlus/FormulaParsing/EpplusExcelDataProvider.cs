@@ -38,12 +38,6 @@ namespace OfficeOpenXml.FormulaParsing
         private RangeAddressFactory _rangeAddressFactory;
         private Dictionary<ulong, INameInfo> _names=new Dictionary<ulong,INameInfo>();
 
-        internal EpplusExcelDataProvider(ParsingContext ctx)
-            : this(new ExcelPackage(), ctx)
-        {
-           
-        }
-
         public EpplusExcelDataProvider(ExcelPackage package)
             : this(package, ParsingContext.Create(package))
         {
@@ -52,6 +46,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         public EpplusExcelDataProvider(ExcelPackage package, ParsingContext ctx)
         {
+            if (package == null) throw new ArgumentNullException(nameof(package));
             _package = package;
             _context = ctx;
             _rangeAddressFactory = new RangeAddressFactory(this, ctx);

@@ -272,28 +272,28 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestMethod]
         public void SumShouldReturnCorrectResultWithEnumerable()
         {
-            var result = _parser.Parse("sum({1;2;3;-1}, 2.5)");
+            var result = _parser.Parse("sum({1,2,3,-1}, 2.5)");
             Assert.AreEqual(7.5d, result);
         }
 
         [TestMethod]
         public void SumsqShouldReturnCorrectResultWithEnumerable()
         {
-            var result = _parser.Parse("sumsq({2;3})");
+            var result = _parser.Parse("sumsq({2,3})");
             Assert.AreEqual(13d, result);
         }
 
         [TestMethod]
         public void SubtotalShouldNegateExpression()
         {
-            var result = _parser.Parse("-subtotal(2;{1;2})");
+            var result = _parser.Parse("-subtotal(2,{1,2})");
             Assert.AreEqual(-2d, result);
         }
 
         [TestMethod]
         public void StdevShouldReturnAResult()
         {
-            var result = _parser.Parse("stdev(1;2;3;4)");
+            var result = _parser.Parse("stdev(1,2,3,4)");
             Assert.IsInstanceOfType(result, typeof(double));
         }
 
@@ -431,7 +431,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestMethod]
         public void CountIfShouldReturnAResult()
         {
-            var result = _parser.Parse("CountIf({1;2;2;\"\"}, \"2\")");
+            var result = _parser.Parse("CountIf({1,2,2,\"\"}, \"2\")");
             Assert.AreEqual(2d, result);
         }
 
@@ -571,14 +571,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestMethod]
         public void QuotientShouldReturnAResult()
         {
-            var result = _parser.Parse("Quotient(5;2)");
+            var result = _parser.Parse("Quotient(5,2)");
             Assert.AreEqual(2, result);
         }
 
         [TestMethod]
         public void MedianShouldReturnAResult()
         {
-            var result = _parser.Parse("Median(1;2;3)");
+            var result = _parser.Parse("Median(1,2,3)");
             Assert.AreEqual(2d, result);
         }
 
@@ -677,7 +677,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 sheet.Cells["E7"].Value = 20;
                 sheet.Cells["E8"].Value = 30;
 
-                sheet.Cells["E9"].Formula = "SUMIFS(E6:E8;D6:D8;\" > 2\";C6:C8;28)";
+                sheet.Cells["E9"].Formula = "SUMIFS(E6:E8,D6:D8,\" > 2\",C6:C8,28)";
                 sheet.Calculate();
                 Assert.AreEqual(30d, sheet.Cells["E9"].Value);
             }

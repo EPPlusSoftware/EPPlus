@@ -140,7 +140,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 sheet1.Cells["C" + x].Value = c;
             }
             var sheet2 = package.Workbook.Worksheets.Add(ExtractWorksheet);
-            sheet2.Cells["B1:C15"].Formula = "INDEX(Sample_Index_Data;Row_Pos;Col_Pos)";
+            sheet2.Cells["B1:C15"].Formula = "INDEX(Sample_Index_Data,Row_Pos,Col_Pos)";
 
             var sheet3 = package.Workbook.Worksheets.Add(InputWorksheet);
 

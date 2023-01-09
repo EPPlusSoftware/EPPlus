@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -29,26 +30,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             ValidateArguments(arguments, 1);
             var address = ArgToAddress(arguments, 0);
-            ExcelAddressBase adr;
+            FormulaRangeAddress adr;
+            IRangeInfo result;
             if (ExcelAddressBase.IsValidAddress(address) || ExcelAddressBase.IsTableAddress(address))
-            {
-                adr = new ExcelAddressBase(address);
+            {                
+                adr = new FormulaRangeAddress(context, address);
+                result = context.ExcelDataProvider.GetRange(adr);
             }
             else
             {
                 var n = context.ExcelDataProvider.GetName(0, context.CurrentCell.WorksheetIx, address);
                 if (n.Value is IRangeInfo ri)
                 {
-                    adr = ri.Address.ToExcelAddressBase();
+                    result=ri;
                 }
                 else
                 {
-                    adr = new ExcelAddressBase(n.Formula);
+                    return CompileResult.Empty;
                 }
-                address = adr.Address;
             }
-            int wsIx = context.GetWorksheetIndex(adr.WorkSheetName);
-            var result = context.ExcelDataProvider.GetRange(wsIx, context.CurrentCell.Row, context.CurrentCell.Column);
+            //int wsIx = context.GetWorksheetIndex(adr.WorkSheetName);
             if (result.IsEmpty)
             {
                 return CompileResult.Empty;

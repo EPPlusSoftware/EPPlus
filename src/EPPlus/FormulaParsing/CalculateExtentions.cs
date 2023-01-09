@@ -209,7 +209,7 @@ namespace OfficeOpenXml
                 //var filterInfo = new FilterInfo(worksheet.Workbook);
                 //parser.InitNewCalc(filterInfo);
                 if (Formula[0] == '=') Formula = Formula.Substring(1); //Remove any starting equal sign
-                return RpnFormulaExecution.ExecuteFormula(worksheet, Formula, options);
+                return RpnFormulaExecution.ExecuteFormula(worksheet.Workbook, Formula,new FormulaCellAddress(worksheet.IndexInList, -1, 0), options);
             }
             catch (Exception ex)
             {

@@ -852,6 +852,35 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 WorksheetIx = ctx.CurrentCell.WorksheetIx;
             }
         }
+        internal FormulaRangeAddress(ParsingContext ctx, string address) : this(ctx)
+        {
+            int ix;
+            if (address.StartsWith("["))
+            {
+                ix = address.IndexOf(']');
+                if(ix>1)
+                {
+                    ExternalReferenceIx = (short)ctx.Package.Workbook.ExternalLinks.GetExternalLink(address.Substring(1, ix - 1));
+                    address = address.Substring(ix + 1);
+                }
+            }
+            ix = address.LastIndexOf('!');
+            while (ix > 0)
+            {
+                if ((ix > 4 && address.Substring(ix - 4, 4).Equals("#REF!")) == false) break;
+                address.LastIndexOf('!', ix-1);
+            }
+            if(ix>0)
+            {
+                var ws = address.Substring(0, ix - 1);
+                address = address.Substring(ix + 1);
+                if(ws.StartsWith("'") && ws.EndsWith("'"))
+                {
+                    ws = ws.Substring(1, ws.Length - 2).Replace("''", "'");
+                }
+            }
+            ExcelCellBase.GetRowColFromAddress(address, out FromRow, out FromCol, out ToRow, out ToCol);
+        }
         public int FromRow, FromCol, ToRow, ToCol;
         internal FixedFlag FixedFlag;
 
