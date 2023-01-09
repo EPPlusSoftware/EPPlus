@@ -576,6 +576,12 @@ namespace OfficeOpenXml.Utils
             }
         }
 
+        internal static string CropString(string s, int maxLength)
+        {
+            if (s == null) return s;
+            return s.Length > maxLength ? s.Substring(0, maxLength) : s;
+        }
+
         #region internal cache objects
         internal static TextInfo _invariantTextInfo = CultureInfo.InvariantCulture.TextInfo;
         internal static CompareInfo _invariantCompareInfo = CompareInfo.GetCompareInfo(CultureInfo.InvariantCulture.Name);  //TODO:Check that it works
