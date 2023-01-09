@@ -90,8 +90,16 @@ namespace OfficeOpenXml.SystemDrawing.Text
             }
             switch(font.FontFamily)
             {
+                case "Arial":
+                    return 1.1f;
                 case "Times New Roman":
-                    return 1.25f;
+                    return 1.05f;
+                case "Liberation Serif":
+                    return 1.2f;
+                case "Verdana":
+                    return 1.02f;
+                case "Century Gothic":
+                    return 0.9f;
                 default:
                     return 1f;
             }

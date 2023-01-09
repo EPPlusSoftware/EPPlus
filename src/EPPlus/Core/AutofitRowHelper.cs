@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Core
                     var testWord = rows[rowIx].ToString() + " " + word;
                     var measurement = _textMeasureUtility.MeasureString(testWord, fntId, textSettings);
                     var width = measurement.Width / normalSize;
-                    if (width > columnWidth + 1.75)
+                    if (width > columnWidth + 0.6)
                     {
                         rows.Add(new StringBuilder());
                         rowIx++;
@@ -83,7 +83,9 @@ namespace OfficeOpenXml.Core
         private double GetWrappedTextHeight(string txt, int fntId, double columnWidth, ExcelTextSettings textSettings, float normalSize)
         {
             var result = 0d;
-            var paragraphs = txt.Split(new[] { '\n', '\r'  });
+            // ignore carriage return when measuring height
+            if (!string.IsNullOrEmpty(txt)) txt = txt.Replace("\r", string.Empty);
+            var paragraphs = txt.Split(new[] { '\n' });
             var lineHeight = _textMeasureUtility.MeasureString("a", fntId, textSettings).Height / normalSize;
             for(var i = 0; i < paragraphs.Length; i++)
             {
@@ -92,7 +94,7 @@ namespace OfficeOpenXml.Core
                 {
                     result += GetWrappedTextHeightParagraph(paragraph, fntId, columnWidth, textSettings, normalSize);
                 }
-                if(i < paragraph.Length -1)
+                if(i < paragraphs.Length -1)
                 {
                     result += lineHeight + 0.6;
                 }

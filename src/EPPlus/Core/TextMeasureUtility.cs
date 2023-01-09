@@ -36,31 +36,29 @@ namespace OfficeOpenXml.Core
 
         internal TextMeasurement MeasureString(string t, int fntID, ExcelTextSettings ts)
         {
-            var measureCache = new Dictionary<ulong, TextMeasurement>();
-            ulong key = ((ulong)((uint)t.GetHashCode()) << 32) | (uint)fntID;
-            if (!measureCache.TryGetValue(key, out var measurement))
+            if(ts == null || ts.PrimaryTextMeasurer == null)
             {
-                var measurer = ts.PrimaryTextMeasurer;
-                var font = _fontCache[fntID];
-                measurement = measurer.MeasureText(t, font);
-                if (measurement.IsEmpty && ts.FallbackTextMeasurer != null && ts.FallbackTextMeasurer != ts.PrimaryTextMeasurer)
-                {
-                    measurer = ts.FallbackTextMeasurer;
-                    measurement = measurer.MeasureText(t, font);
-                }
-                if (measurement.IsEmpty && _fontWidthDefault != null)
-                {
-                    measurement = MeasureGeneric(t, ts, font);
-                    measurer = _genericMeasurer;
-                }
-                if (!measurement.IsEmpty && (ts.AutofitWidthScaleFactor != 1f || ts.AutofitHeightScaleFactor !=  1f))
-                {
-                    measurement.Height = measurement.Height * ts.AutofitHeightScaleFactor;
-                    measurement.Width = measurement.Width * ts.AutofitWidthScaleFactor;
-                }
-                measurement.Height *= measurer.GetScalingFactorRowHeight(font);
-                measureCache.Add(key, measurement);
+                throw new InvalidOperationException("ExcelTextSettings.PrimaryTextMeasurer was null.");
             }
+            var measurer = ts.PrimaryTextMeasurer;
+            var font = _fontCache[fntID];
+            var measurement = measurer.MeasureText(t, font);
+            if (measurement.IsEmpty && ts.FallbackTextMeasurer != null && ts.FallbackTextMeasurer != ts.PrimaryTextMeasurer)
+            {
+                measurer = ts.FallbackTextMeasurer;
+                measurement = measurer.MeasureText(t, font);
+            }
+            if (measurement.IsEmpty && _fontWidthDefault != null)
+            {
+                measurement = MeasureGeneric(t, ts, font);
+                measurer = _genericMeasurer;
+            }
+            if (!measurement.IsEmpty && (ts.AutofitWidthScaleFactor != 1f || ts.AutofitHeightScaleFactor != 1f))
+            {
+                measurement.Height = measurement.Height * ts.AutofitHeightScaleFactor;
+                measurement.Width = measurement.Width * ts.AutofitWidthScaleFactor;
+            }
+            measurement.Height *= measurer.GetScalingFactorRowHeight(font);
             return measurement;
         }
 
