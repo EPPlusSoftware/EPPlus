@@ -30,7 +30,29 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             switch (font.FontFamily)
             {
                 case "Arial":
+                    return 1.02f;
+                case "Times New Roman":
+                    return 1.15f;
+                case "Liberation Serif":
+                    return 1.2f;
+                case "Verdana":
+                    return 1f;
+                case "Century Gothic":
+                    return 0.95f;
+                case "Courier New":
                     return 1.1f;
+                case "Arial Black":
+                    return 1.02f;
+                case "Corbel":
+                    return 1.05f;
+                case "Trebuchet MS":
+                    return 1.05f;
+                case "Rockwell":
+                    return 0.97f;
+                case "Tw Cen MT":
+                    return 1.12f;
+                case "Tw Cen MT Condensed":
+                    return 1.13f;
                 default:
                     return 1f;
             }

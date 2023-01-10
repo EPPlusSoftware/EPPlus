@@ -50,40 +50,52 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
         internal protected TextMeasurement MeasureTextInternal(string text, uint fontKey, MeasurementFontStyles style, float size)
         {
             var sFont = _fonts[fontKey];
-            var width = 0f;
-            var widthEA = 0f;
             var chars = text.ToCharArray();
-            for (var x = 0; x < chars.Length; x++)
+            var lines = text.Split('\n');
+            var nLines = lines.Length > 1 ? lines.Length : 1;
+            var maxWidth = 0f;
+            foreach(var line in lines)
             {
-                var fnt = sFont;
-                var c = chars[x];
-                // if east asian char use default regardless of actual font.
-                if (IsEastAsianChar(c))
+                var width = 0f;
+                var widthEA = 0f;
+                for (var x = 0; x < chars.Length; x++)
                 {
-                    widthEA += GetEastAsianCharWidth(c, style);
-                }
-                else
-                {
-                    if (sFont.CharMetrics.ContainsKey(c))
+                    var fnt = sFont;
+                    var c = chars[x];
+                    // if east asian char use default regardless of actual font.
+                    if (IsEastAsianChar(c))
                     {
-                        var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
-                        if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
-                        width += fw;
+                        widthEA += GetEastAsianCharWidth(c, style);
                     }
                     else
                     {
-                        width += sFont.ClassWidths[fnt.DefaultWidthClass];
+                        if (sFont.CharMetrics.ContainsKey(c))
+                        {
+                            var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
+                            if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
+                            width += fw;
+                        }
+                        else
+                        {
+                            width += sFont.ClassWidths[fnt.DefaultWidthClass];
+                        }
                     }
                 }
+                width *= size;
+                widthEA *= size;
+                var sf = _fontScaleFactors.GetScaleFactor(fontKey, width);
+                width *= sf;
+                width += widthEA;
 
+                if(width > maxWidth)
+                {
+                    maxWidth = width;
+                }
             }
-            width *= size;
-            widthEA *= size;
-            var sf = _fontScaleFactors.GetScaleFactor(fontKey, width);
-            width *= sf;
-            width += widthEA;
-            var height = sFont.LineHeight1em * size;
-            return new TextMeasurement(width, height);
+            
+           
+            var height = sFont.LineHeight1em * size * nLines;
+            return new TextMeasurement(maxWidth, height);
         }
 
 

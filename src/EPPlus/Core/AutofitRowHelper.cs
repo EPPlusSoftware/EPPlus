@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Core
                     var testWord = rows[rowIx].ToString() + " " + word;
                     var measurement = _textMeasureUtility.MeasureString(testWord, fntId, textSettings);
                     var width = measurement.Width / normalSize;
-                    if (width > columnWidth + 0.6)
+                    if (width > columnWidth + 0.9)
                     {
                         rows.Add(new StringBuilder());
                         rowIx++;
@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Core
             }
             var measureText = res.ToString();
             var m = _textMeasureUtility.MeasureString(measureText, fntId, textSettings);
-            var height = m.Height * 0.82d - 0.7;
+            var height = m.Height * 0.83d - 0.7;
             height = System.Math.Round(height, 1);
             return height;
         }
