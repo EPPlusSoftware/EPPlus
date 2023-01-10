@@ -4200,5 +4200,20 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void S415()
+        {
+            using(var p = OpenTemplatePackage("s415.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                //ws.Cells["A1:A4"].Style.Numberformat.Format = "0.000000";
+                Assert.AreEqual("0,000000", ws.Cells["A1"].Text);
+                Assert.AreEqual("0,000001", ws.Cells["A2"].Text);
+                Assert.AreEqual("0,000002", ws.Cells["A3"].Text);
+                Assert.AreEqual("0,000005", ws.Cells["A4"].Text);
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

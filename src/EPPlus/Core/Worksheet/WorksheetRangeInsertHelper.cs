@@ -16,6 +16,10 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using System;
@@ -714,6 +718,8 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom=0, int columnTo=ExcelPackage.MaxColumns)
         {
+            var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+
             //Adjust formulas
             foreach (var wsToUpdate in ws.Workbook.Worksheets)
             {
@@ -751,15 +757,30 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         if (ws.Name == wsToUpdate.Name)
                         {
-                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
+                            var tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
                         else if (v.Contains(ws.Name))
                         {
-                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
+                            var tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
                     }
                 }
 }        }
+
+        private static SourceCodeTokenizer _sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+        private static IEnumerable<Token> GetTokens(ExcelWorksheet ws, int row, int column, string formula)
+        {
+            var tokens = ws._formulaTokens.GetValue(row, column);
+            if(tokens==null)
+            {
+                tokens = (List<Token>)_sct.Tokenize(formula, ws.Name);
+                ws._formulaTokens.SetValue(row, column, tokens);
+            }
+            return tokens;
+        }
+
         private static void FixFormulasInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             foreach (var wsToUpdate in ws.Workbook.Worksheets)
@@ -842,12 +863,13 @@ namespace OfficeOpenXml.Core.Worksheet
             }
                         
             var insertRange=new ExcelAddressBase(rowFrom, columnFrom, rowFrom + rows - 1, columnFrom + columns - 1);
-            FormulaDataTableValidation.HasPartlyFormulaDataTable(ws, insertRange, false, "Can't insert into a part of a data table function");
+            FormulaDataTableValidation.HasPartlyFormulaDataTable(ws, insertRange, false, "Can't insert into a part of a data table function");            
         }
         internal static void InsertCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, int columnTo=ExcelPackage.MaxColumns)
         {
             ws._values.Insert(rowFrom, columnFrom, rows, columns);
             ws._formulas.Insert(rowFrom, columnFrom, rows, columns);
+            ws._formulaTokens.Insert(rowFrom, columnFrom, rows, columns);
             ws._commentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._threadedCommentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
@@ -874,6 +896,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             ws._values.InsertShiftRight(fromAddress);
             ws._formulas.InsertShiftRight(fromAddress);
+            ws._formulaTokens.InsertShiftRight(fromAddress);
             ws._commentsStore.InsertShiftRight(fromAddress);
             ws._threadedCommentsStore.InsertShiftRight(fromAddress);
             ws._hyperLinks.InsertShiftRight(fromAddress);

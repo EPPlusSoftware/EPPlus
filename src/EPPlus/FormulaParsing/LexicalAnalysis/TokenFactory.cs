@@ -21,6 +21,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -103,15 +105,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 token = token.Trim();
             }
-            if (Regex.IsMatch(token, RegexConstants.Decimal))
-            {
-                return new Token(token, TokenType.Decimal);
-            }
-            if(Regex.IsMatch(token, RegexConstants.Integer))
+            if (IsNumeric(token, false))
             {
                 return new Token(token, TokenType.Integer);
             }
-            if (Regex.IsMatch(token, RegexConstants.Boolean, RegexOptions.IgnoreCase))
+            if (IsNumeric(token, true))
+            {
+                return new Token(token, TokenType.Decimal);
+            }
+            if (token.Equals("true", StringComparison.InvariantCultureIgnoreCase) || token.Equals("false", StringComparison.InvariantCultureIgnoreCase))
             {
                 return new Token(token, TokenType.Boolean);
             }
@@ -158,6 +160,18 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             return new Token(token, TokenType.Unrecognized);
 
+        }
+
+        public static bool IsNumeric(string value, bool allowDecimal)
+        {
+            foreach(var c in value)
+            {
+                if ((c < '0' || c > '9') && (allowDecimal == false || c != '.'))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public Token Create(string token, TokenType explicitTokenType)

@@ -34,14 +34,14 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
         /// <summary>
         /// Regex constant matching a boolean expression (true or false)
         /// </summary>
-        public const string Boolean = @"^(true|false)$";
-        /// <summary>
-        /// Regex constant matching a decimal expression
-        /// </summary>
-        public const string Decimal = @"^[0-9]+\.[0-9]+$";
-        /// <summary>
-        /// Regex constant matching an integer expression
-        /// </summary>
-        public const string Integer = @"^[0-9]+$";
+        //public const string Boolean = @"^(true|false)$";
+        ///// <summary>
+        ///// Regex constant matching a decimal expression
+        ///// </summary>
+        //public const string Decimal = @"^[0-9]+\.[0-9]+$";
+        ///// <summary>
+        ///// Regex constant matching an integer expression
+        ///// </summary>
+        //public const string Integer = @"^[0-9]+$";
     }
 }

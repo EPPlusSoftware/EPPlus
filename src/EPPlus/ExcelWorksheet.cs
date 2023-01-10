@@ -474,6 +474,7 @@ namespace OfficeOpenXml
             _metadataStore = new CellStore<MetaDataReference>();
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
+            _formulaTokens = new CellStore<List<Token>>();
             _hyperLinks = new CellStore<Uri>();
             _nextControlId = (PositionId + 1) * 1024 + 1;
             _names = new ExcelNamedRangeCollection(Workbook, this);
