@@ -17,6 +17,7 @@ using System.Text;
 using System.IO;
 using System.Security;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -82,11 +83,11 @@ namespace OfficeOpenXml.Packaging
             {
                 if(rel.TargetUri==null || rel.TargetUri.OriginalString.StartsWith("Invalid:URI", StringComparison.OrdinalIgnoreCase))
                 {
-                    xml.AppendFormat("<Relationship Id=\"{0}\" Type=\"{1}\" Target=\"{2}\"{3}/>", SecurityElement.Escape(rel.Id), rel.RelationshipType, SecurityElement.Escape(rel.Target), rel.TargetMode == TargetMode.External ? " TargetMode=\"External\"" : "");
+                    xml.AppendFormat("<Relationship Id=\"{0}\" Type=\"{1}\" Target=\"{2}\"{3}/>", SecurityElement.Escape(rel.Id), rel.RelationshipType, ConvertUtil.CropString(SecurityElement.Escape(rel.Target), 2079), rel.TargetMode == TargetMode.External ? " TargetMode=\"External\"" : "");
                 }
                 else
                 {
-                    xml.AppendFormat("<Relationship Id=\"{0}\" Type=\"{1}\" Target=\"{2}\"{3}/>", SecurityElement.Escape(rel.Id), rel.RelationshipType, SecurityElement.Escape(rel.TargetUri.OriginalString), rel.TargetMode == TargetMode.External ? " TargetMode=\"External\"" : "");
+                    xml.AppendFormat("<Relationship Id=\"{0}\" Type=\"{1}\" Target=\"{2}\"{3}/>", SecurityElement.Escape(rel.Id), rel.RelationshipType, ConvertUtil.CropString(SecurityElement.Escape(rel.TargetUri.OriginalString), 2079), rel.TargetMode == TargetMode.External ? " TargetMode=\"External\"" : "");
                 }
             }
             xml.Append("</Relationships>");

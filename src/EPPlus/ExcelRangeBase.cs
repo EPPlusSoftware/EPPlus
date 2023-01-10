@@ -2170,7 +2170,7 @@ namespace OfficeOpenXml
 
         //public object FormatedText { get; private set; }
 
-        int _enumAddressIx = -1;
+        int _enumAddressIx = 0;
         /// <summary>
         /// Iterate to the next cell
         /// </summary>
@@ -2210,7 +2210,7 @@ namespace OfficeOpenXml
         /// </summary>
         public void Reset()
         {
-            _enumAddressIx = -1;
+            _enumAddressIx = 0;
             cellEnum = new CellStoreEnumerator<ExcelValue>(_worksheet._values, _fromRow, _fromCol, _toRow, _toCol);
         }
 #endregion

@@ -56,6 +56,7 @@ using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.AccessControl;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace EPPlusTest
 {
@@ -3960,9 +3961,243 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets[0];
                 ws.Cells["C5"].Value = 15;
                 var pc = ws.Drawings[0].As.Chart.PieChart;
-                pc.Series[0].CreateCache();
+                pc.Series[0].CreateCache( );
 
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i763()
+        {
+            using (var package = OpenPackage("i761.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Page1");
+                sheet.Cells["A1"].Value = 0;
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 0;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["A6"].Value = 1;
+                sheet.Cells["A7"].Value = 1;
+                sheet.Cells["A8"].Value = 4;
+                sheet.Cells["A9"].Value = 1;
+
+                foreach(var c in sheet.Cells["A1:A3,A5,A6,A7"])
+                {
+                    Console.WriteLine($"{c.Address}");
+                }
+            }
+        }
+        [TestMethod]
+        public void ExcelRangeBase_Counts_Periods_Twice_763_1()
+        {
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.Worksheets.Add("first");
+
+                var sheet = p.Workbook.Worksheets.First();
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["A6"].Value = 1;
+                sheet.Cells["A7"].Value = 1;
+                sheet.Cells["A8"].Value = 1;
+                sheet.Cells["A9"].Value = 1;
+                sheet.Cells["A10"].Value = 1;
+                sheet.Cells["A11"].Value = 1;
+                sheet.Cells["A12"].Formula = "SUM(A1:A3,A5,A6,A7,A8,A10,A9,A11)";
+
+                int counterFirstIteration = 0;
+                int counterSecondIteration = 0;
+
+
+                int CounterSingleAdress = 0;
+                int CounterMultipleRanges = 0;
+                int CounterRangesFirst = 0;
+                int CounterRangesLast = 0;
+                int counterNoRanges = 0;
+                int counterOneRange = 0;
+                int counterMixed = 0;
+                var cellsFirstIteration = string.Empty;
+                var cellsSecondIteration = string.Empty;
+                var cellsSingleAdress = string.Empty;
+                var cellsMultipleRanges = string.Empty;
+                var cellsRangesFirst = string.Empty;
+                var cellsRangesLast = string.Empty;
+                var cellsNoRanges = string.Empty;
+                var cellsOneRange = string.Empty;
+                var cellsMixed = string.Empty;
+
+                //------------------
+                var cellsInRange = string.Empty;
+
+                var rangeWithPeriod = sheet.Cells["A1:A3,A5,A6,A7,A8,A10,A9,A11"];
+                foreach (var cell in rangeWithPeriod)
+                    cellsInRange = $"{cellsInRange};{cell.Address}";
+
+                Assert.AreEqual(";A1;A2;A3;A5;A6;A7;A8;A10;A9;A11", cellsInRange);
+
+                //------------------
+
+                var range = sheet.Cells["A1:A3,A5,A6,A7,A8,A10,A9,A11"];
+                foreach (var cell in range)
+                {
+                    counterFirstIteration++;
+                    cellsFirstIteration = $"{cellsFirstIteration};{cell.Address}";
+                }
+
+                foreach (var cell in range)
+                {
+                    counterSecondIteration++;
+                    cellsSecondIteration = $"{cellsSecondIteration};{cell.Address}";
+                }
+
+                Assert.AreEqual(cellsFirstIteration, cellsSecondIteration);
+                Assert.AreEqual(";A1;A2;A3;A5;A6;A7;A8;A10;A9;A11", cellsFirstIteration);
+
+                Assert.AreEqual(counterFirstIteration, counterSecondIteration);
+                Assert.AreEqual(10, counterFirstIteration);
+
+
+                var rangeSingleAdress = sheet.Cells["A1"];
+                foreach (var cell in rangeSingleAdress)
+                {
+                    CounterSingleAdress++;
+                    cellsSingleAdress = $"{cellsSingleAdress};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1", cellsSingleAdress);
+                Assert.AreEqual(1, CounterSingleAdress);
+
+                cellsSingleAdress = String.Empty;
+                CounterSingleAdress = 0;
+                foreach (var cell in rangeSingleAdress)
+                {
+                    CounterSingleAdress++;
+                    cellsSingleAdress = $"{cellsSingleAdress};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1", cellsSingleAdress);
+                Assert.AreEqual(1, CounterSingleAdress);
+
+
+                var rangeMultipleRanges = sheet.Cells["A1:A4,A5:A7,A8:A11"];
+                foreach (var cell in rangeMultipleRanges)
+                {
+                    CounterMultipleRanges++;
+                    cellsMultipleRanges = $"{cellsMultipleRanges};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7;A8;A9;A10;A11", cellsMultipleRanges);
+                Assert.AreEqual(11, CounterMultipleRanges);
+
+                CounterMultipleRanges = 0;
+                cellsMultipleRanges = String.Empty;
+                foreach (var cell in rangeMultipleRanges)
+                {
+                    CounterMultipleRanges++;
+                    cellsMultipleRanges = $"{cellsMultipleRanges};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7;A8;A9;A10;A11", cellsMultipleRanges);
+                Assert.AreEqual(11, CounterMultipleRanges);
+
+                var rangeRangeFirst = sheet.Cells["A1:A4,A5,A6,A7"];
+                foreach (var cell in rangeRangeFirst)
+                {
+                    CounterRangesFirst++;
+                    cellsRangesFirst = $"{cellsRangesFirst};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesFirst);
+                Assert.AreEqual(7, CounterRangesFirst);
+
+                CounterRangesFirst = 0;
+                cellsRangesFirst = String.Empty;
+                foreach (var cell in rangeRangeFirst)
+                {
+                    CounterRangesFirst++;
+                    cellsRangesFirst = $"{cellsRangesFirst};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesFirst);
+                Assert.AreEqual(7, CounterRangesFirst);
+
+                var rangeRangeLast = sheet.Cells["A1,A2,A3,A4:A7"];
+                foreach (var cell in rangeRangeLast)
+                {
+                    CounterRangesLast++;
+                    cellsRangesLast = $"{cellsRangesLast};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesLast);
+                Assert.AreEqual(7, CounterRangesLast);
+
+                CounterRangesLast = 0;
+                cellsRangesLast = String.Empty;
+                foreach (var cell in rangeRangeLast)
+                {
+                    CounterRangesLast++;
+                    cellsRangesLast = $"{cellsRangesLast};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesLast);
+                Assert.AreEqual(7, CounterRangesLast);
+
+                var rangeOneRange = sheet.Cells["A1:A7"];
+                foreach (var cell in rangeOneRange)
+                {
+                    counterOneRange++;
+                    cellsOneRange = $"{cellsOneRange};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsOneRange);
+                Assert.AreEqual(7, counterOneRange);
+
+
+                var rangeNoRange = sheet.Cells["A1,A2,A3,A4"];
+                foreach (var cell in rangeNoRange)
+                {
+                    counterNoRanges++;
+                    cellsNoRanges = $"{cellsNoRanges};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4", cellsNoRanges);
+                Assert.AreEqual(4, counterNoRanges);
+
+
+                var rangeMixed = sheet.Cells["A1,A2,A3:A5,A6,A7"];
+                foreach (var cell in rangeMixed)
+                {
+                    counterMixed++;
+                    cellsMixed = $"{cellsMixed};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsMixed);
+                Assert.AreEqual(7, counterMixed);
+
+
+                int counter = 0;
+                String cells = String.Empty;
+                foreach (var cell in sheet.Cells)
+                {
+                    counter++;
+                    cells = $"{cells};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7;A8;A9;A10;A11;A12", cells);
+                Assert.AreEqual(12, counter);
+            }
+        }
+        [TestMethod]
+        public void I778()
+        {
+            using (var package = OpenTemplatePackage("i778.xlsx"))
+            {
+                SaveAndCleanup(package);
             }
         }
     }
