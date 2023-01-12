@@ -116,21 +116,21 @@ namespace OfficeOpenXml.DataValidation
             switch (type)
             {
                 case eDataValidationType.Any:
-                    return ExcelDataValidationType.Any;
+                    return Any;
                 case eDataValidationType.Whole:
-                    return ExcelDataValidationType.Whole;
+                    return Whole;
                 case eDataValidationType.List:
-                    return ExcelDataValidationType.List;
+                    return List;
                 case eDataValidationType.Decimal:
-                    return ExcelDataValidationType.Decimal;
+                    return Decimal;
                 case eDataValidationType.TextLength:
-                    return ExcelDataValidationType.TextLength;
+                    return TextLength;
                 case eDataValidationType.DateTime:
-                    return ExcelDataValidationType.DateTime;
+                    return DateTime;
                 case eDataValidationType.Time:
-                    return ExcelDataValidationType.Time;
+                    return Time;
                 case eDataValidationType.Custom:
-                    return ExcelDataValidationType.Custom;
+                    return Custom;
                 default:
                     throw new InvalidOperationException("Non supported Validationtype : " + type.ToString());
             }
@@ -142,21 +142,21 @@ namespace OfficeOpenXml.DataValidation
             {
                 case DataValidationSchemaNames.Any:
                 case DataValidationSchemaNames.None:
-                    return ExcelDataValidationType.Any;
+                    return Any;
                 case DataValidationSchemaNames.Whole:
-                    return ExcelDataValidationType.Whole;
+                    return Whole;
                 case DataValidationSchemaNames.Decimal:
-                    return ExcelDataValidationType.Decimal;
+                    return Decimal;
                 case DataValidationSchemaNames.List:
-                    return ExcelDataValidationType.List;
+                    return List;
                 case DataValidationSchemaNames.TextLength:
-                    return ExcelDataValidationType.TextLength;
+                    return TextLength;
                 case DataValidationSchemaNames.Date:
-                    return ExcelDataValidationType.DateTime;
+                    return DateTime;
                 case DataValidationSchemaNames.Time:
-                    return ExcelDataValidationType.Time;
+                    return Time;
                 case DataValidationSchemaNames.Custom:
-                    return ExcelDataValidationType.Custom;
+                    return Custom;
                 default:
                     throw new ArgumentException("Invalid schemaname: " + schemaName);
             }

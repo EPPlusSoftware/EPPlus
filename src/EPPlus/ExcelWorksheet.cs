@@ -1291,6 +1291,7 @@ namespace OfficeOpenXml
                 end = stream.Position - nextElementLength;
             }
             LoadMergeCells(xr);
+            LoadDataValidations(xr);
             LoadHyperLinks(xr);
             LoadRowPageBreakes(xr);
             LoadColPageBreakes(xr);
@@ -1757,13 +1758,74 @@ namespace OfficeOpenXml
             return hl;
         }
 
+        private void LoadDataValidations(XmlReader xr)
+        {
+
+            if (ReadUntil(xr, 1, "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+            {
+                while (xr.Read())
+                {
+                    if (xr.LocalName != "dataValidation") break;
+
+                    Console.WriteLine(xr.NodeType.ToString());
+                    if (xr.NodeType == XmlNodeType.Element)
+                    {
+                        string validationType = xr.GetAttribute("type");
+                        string address = xr.GetAttribute("sqref");
+
+                        switch (validationType)
+                        {
+                            case DataValidationSchemaNames.Any:
+                            case DataValidationSchemaNames.None:
+                                DataValidations.AddAnyValidation(address);
+                                break;
+                            case DataValidationSchemaNames.Whole:
+                                DataValidations.AddIntegerValidation(address);
+                                break;
+                            case DataValidationSchemaNames.Decimal:
+                                DataValidations.AddDecimalValidation(address);
+                                break;
+                            case DataValidationSchemaNames.List:
+                                DataValidations.AddListValidation(address);
+                                break;
+                            case DataValidationSchemaNames.TextLength:
+                                DataValidations.AddTextLengthValidation(address);
+                                break;
+                            case DataValidationSchemaNames.Date:
+                                DataValidations.AddDateTimeValidation(address);
+                                break;
+                            case DataValidationSchemaNames.Time:
+                                DataValidations.AddDateTimeValidation(address);
+                                break;
+                            case DataValidationSchemaNames.Custom:
+                                DataValidations.AddCustomValidation(address);
+                                break;
+                            default:
+                                throw new ArgumentException("Invalid validationType: " + validationType);
+                        }
+
+                        //switch validationType:
+
+                        //DataValidations.add (new ExcelAddress(address), false);
+                    }
+                }
+            }
+
+            //if (!ReadUntil(xr, 1, "dataValidations ","hyperlinks", "rowBreaks", "colBreaks")) return;
+            //var delRelIds = new HashSet<string>();
+            //while (xr.Read())
+            //{
+
+            //}
+        }
+
         /// <summary>
         /// Load cells
         /// </summary>
         /// <param name="xr">The reader</param>
         private void LoadCells(XmlReader xr)
         {
-            ReadUntil(xr, 1, "sheetData", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks");
+            ReadUntil(xr, 1, "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks");
             ExcelAddressBase address = null;
             string type = "";
             int style = 0;
@@ -2012,8 +2074,8 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="xr"></param>
         private void LoadMergeCells(XmlReader xr)
-        {
-            if (ReadUntil(xr,1, "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+        {//
+            if (ReadUntil(xr,1, "mergeCells", "dataValidations", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
             {
                 while (xr.Read())
                 {
