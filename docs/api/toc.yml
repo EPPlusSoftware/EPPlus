@@ -846,6 +846,8 @@
     name: ExcelChartSurface
   - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
     name: ExcelChartTitle
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+    name: ExcelChartTitleStandard
   - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
     name: ExcelChartTrendline
   - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
@@ -2027,6 +2029,8 @@
     name: ExcelRichText
   - uid: OfficeOpenXml.Style.ExcelRichTextCollection
     name: ExcelRichTextCollection
+  - uid: OfficeOpenXml.Style.ExcelRichTextColor
+    name: ExcelRichTextColor
   - uid: OfficeOpenXml.Style.ExcelSlicerTableStyleElement
     name: ExcelSlicerTableStyleElement
   - uid: OfficeOpenXml.Style.ExcelStyle

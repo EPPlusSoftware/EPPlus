@@ -3472,7 +3472,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1664
+    startLine: 1670
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

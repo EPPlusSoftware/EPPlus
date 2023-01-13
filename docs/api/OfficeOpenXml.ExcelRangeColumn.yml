@@ -356,10 +356,10 @@ items:
     parameters:
     - id: level
       type: System.Int32
-      description: Expand all rows with a <xref href="OfficeOpenXml.ExcelRangeColumn.OutlineLevel" data-throw-if-not-resolved="false"></xref> Equal or Greater than this number.
+      description: Expands all rows with a <xref href="OfficeOpenXml.ExcelRangeColumn.OutlineLevel" data-throw-if-not-resolved="false"></xref> Equal or Greater than this number.
     - id: collapseChildren
       type: System.Boolean
-      description: Collapse all children with a greater <xref href="OfficeOpenXml.ExcelRangeColumn.OutlineLevel" data-throw-if-not-resolved="false"></xref> than <code data-dev-comment-type="paramref" class="paramref">level</code>
+      description: Collapses all children with a greater <xref href="OfficeOpenXml.ExcelRangeColumn.OutlineLevel" data-throw-if-not-resolved="false"></xref> than <code data-dev-comment-type="paramref" class="paramref">level</code>
     content.vb: Public Sub SetVisibleOutlineLevel(level As Integer, collapseChildren As Boolean = True)
   overload: OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel*
   modifiers.csharp:

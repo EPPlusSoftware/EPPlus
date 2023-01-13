@@ -27,6 +27,7 @@ items:
   - OfficeOpenXml.Style.ExcelReadingOrder
   - OfficeOpenXml.Style.ExcelRichText
   - OfficeOpenXml.Style.ExcelRichTextCollection
+  - OfficeOpenXml.Style.ExcelRichTextColor
   - OfficeOpenXml.Style.ExcelSlicerTableStyleElement
   - OfficeOpenXml.Style.ExcelStyle
   - OfficeOpenXml.Style.ExcelTableStyleElement
@@ -195,6 +196,12 @@ references:
   name: ExcelRichTextCollection
   nameWithType: ExcelRichTextCollection
   fullName: OfficeOpenXml.Style.ExcelRichTextCollection
+- uid: OfficeOpenXml.Style.ExcelRichTextColor
+  commentId: T:OfficeOpenXml.Style.ExcelRichTextColor
+  parent: OfficeOpenXml.Style
+  name: ExcelRichTextColor
+  nameWithType: ExcelRichTextColor
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor
 - uid: OfficeOpenXml.Style.ExcelStyle
   commentId: T:OfficeOpenXml.Style.ExcelStyle
   parent: OfficeOpenXml.Style

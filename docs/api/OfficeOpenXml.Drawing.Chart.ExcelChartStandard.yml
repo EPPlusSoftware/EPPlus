@@ -5,6 +5,7 @@ items:
   id: ExcelChartStandard
   parent: OfficeOpenXml.Drawing.Chart
   children:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Border
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.DeleteTitle
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.DisplayBlanksAs
@@ -26,6 +27,8 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Title
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.VaryColors
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.View3D
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
   langs:
   - csharp
   - vb
@@ -78,9 +81,6 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType
   - OfficeOpenXml.Drawing.Chart.ExcelChart._chartNode
   - OfficeOpenXml.Drawing.Chart.ExcelChart.Series
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
   - OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsType3D
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsTypeLine
@@ -202,14 +202,14 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nTitel of the chart\n"
+  summary: "\nTitle of the chart\n"
   example: []
   syntax:
-    content: public ExcelChartTitle Title { get; }
+    content: public ExcelChartTitleStandard Title { get; }
     parameters: []
     return:
-      type: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
-    content.vb: Public ReadOnly Property Title As ExcelChartTitle
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+    content.vb: Public ReadOnly Property Title As ExcelChartTitleStandard
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Title*
   modifiers.csharp:
   - public
@@ -235,7 +235,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 775
+    startLine: 779
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -275,7 +275,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLegend
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 785
+    startLine: 789
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -315,7 +315,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 795
+    startLine: 799
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -350,7 +350,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 803
+    startLine: 807
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -390,7 +390,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RoundedCorners
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 854
+    startLine: 858
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -430,7 +430,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHiddenData
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 869
+    startLine: 873
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -470,7 +470,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayBlanksAs
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 886
+    startLine: 890
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -510,7 +510,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDataLabelsOverMaximum
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 909
+    startLine: 913
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -550,7 +550,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PlotArea
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 965
+    startLine: 969
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -590,7 +590,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Legend
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 979
+    startLine: 983
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -627,7 +627,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 995
+    startLine: 999
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -667,7 +667,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1010
+    startLine: 1014
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -707,7 +707,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1025
+    startLine: 1029
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -747,7 +747,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1040
+    startLine: 1044
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -787,7 +787,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1055
+    startLine: 1059
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -827,7 +827,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1070
+    startLine: 1074
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -867,7 +867,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View3D
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1085
+    startLine: 1089
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -907,7 +907,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Grouping
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1104
+    startLine: 1108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -944,7 +944,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VaryColors
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
-    startLine: 1119
+    startLine: 1123
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -966,6 +966,115 @@ items:
   modifiers.vb:
   - Public
   - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+  id: Axis
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandard
+  langs:
+  - csharp
+  - vb
+  name: Axis
+  nameWithType: ExcelChartStandard.Axis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Axis
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
+    startLine: 1196
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  syntax:
+    content: public ExcelChartAxisStandard[] Axis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard[]
+    content.vb: Public ReadOnly Property Axis As ExcelChartAxisStandard()
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  id: XAxis
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandard
+  langs:
+  - csharp
+  - vb
+  name: XAxis
+  nameWithType: ExcelChartStandard.XAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XAxis
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
+    startLine: 1210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe X Axis\n"
+  example: []
+  syntax:
+    content: public ExcelChartAxisStandard XAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+    content.vb: Public ReadOnly Property XAxis As ExcelChartAxisStandard
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
+  id: YAxis
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandard
+  langs:
+  - csharp
+  - vb
+  name: YAxis
+  nameWithType: ExcelChartStandard.YAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YAxis
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartStandard.cs
+    startLine: 1224
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe Y Axis\n"
+  example: []
+  syntax:
+    content: public ExcelChartAxisStandard YAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+    content.vb: Public ReadOnly Property YAxis As ExcelChartAxisStandard
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.Drawing.Chart
   commentId: N:OfficeOpenXml.Drawing.Chart
@@ -1058,24 +1167,6 @@ references:
   name: Series
   nameWithType: ExcelChart.Series
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.Series
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: Axis
-  nameWithType: ExcelChart.Axis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: XAxis
-  nameWithType: ExcelChart.XAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: YAxis
-  nameWithType: ExcelChart.YAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   parent: OfficeOpenXml.Drawing.Chart.ExcelChart
@@ -2543,12 +2634,12 @@ references:
   name: Title
   nameWithType: ExcelChartStandard.Title
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Title
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
-  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
   parent: OfficeOpenXml.Drawing.Chart
-  name: ExcelChartTitle
-  nameWithType: ExcelChartTitle
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: ExcelChartTitleStandard
+  nameWithType: ExcelChartTitleStandard
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.HasTitle
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.HasTitle
   parent: OfficeOpenXml.Drawing.Chart.ExcelChart
@@ -2862,3 +2953,48 @@ references:
   name: VaryColors
   nameWithType: ExcelChartStandard.VaryColors
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.VaryColors
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+  name: Axis
+  nameWithType: ExcelChartStandard.Axis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard[]
+  isExternal: true
+  name: ExcelChartAxisStandard[]
+  nameWithType: ExcelChartAxisStandard[]
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard[]
+  nameWithType.vb: ExcelChartAxisStandard()
+  fullName.vb: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard()
+  name.vb: ExcelChartAxisStandard()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+    name: ExcelChartAxisStandard
+    nameWithType: ExcelChartAxisStandard
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+    name: ExcelChartAxisStandard
+    nameWithType: ExcelChartAxisStandard
+    fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  name: XAxis
+  nameWithType: ExcelChartStandard.XAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartAxisStandard
+  nameWithType: ExcelChartAxisStandard
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
+  name: YAxis
+  nameWithType: ExcelChartStandard.YAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
