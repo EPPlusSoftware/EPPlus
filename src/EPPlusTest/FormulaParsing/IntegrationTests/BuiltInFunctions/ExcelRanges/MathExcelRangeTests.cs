@@ -115,7 +115,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
                 _worksheet.Cells["B" + (i + 2)].Value = "MyCompany";
                 _worksheet.Cells["C" + (i + 2)].Value = points[i];
             }
-            _worksheet.Cells["D1"].Formula = "COUNTIFS(B:B;\"MyCompany\",C:C, \">=10\",C:C,\"<=20\")";
+            _worksheet.Cells["D1"].Formula = "COUNTIFS(B:B,\"MyCompany\",C:C, \">=10\",C:C,\"<=20\")";
             _worksheet.Calculate();
             Assert.AreEqual(7d, _worksheet.Cells["D1"].Value);
         }

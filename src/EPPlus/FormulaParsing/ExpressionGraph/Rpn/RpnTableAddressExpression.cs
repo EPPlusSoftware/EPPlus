@@ -19,7 +19,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         public override CompileResult Compile()
         {
             var ri = Context.ExcelDataProvider.GetRange(_addressInfo);
-            return new AddressCompileResult(ri, DataType.ExcelRange, _addressInfo);
+            if (ri.IsMulti)
+            {
+                return new AddressCompileResult(ri, DataType.ExcelRange, _addressInfo);
+            }
+            else
+            {
+                return CompileResultFactory.Create(ri.GetOffset(0,0), _addressInfo);
+            }
         }
 
         public override void Negate()

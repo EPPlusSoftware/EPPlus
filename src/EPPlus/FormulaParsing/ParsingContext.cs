@@ -10,16 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Logging;
 using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
+using System;
+using OfficeOpenXml.ExternalReferences;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -121,8 +118,21 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
+        internal ExcelExternalWorkbook GetExternalWoorkbook(int externalReferenceIx)
+        {
+            return Package.Workbook.ExternalLinks[externalReferenceIx - 1] as ExcelExternalWorkbook;
+        }
+
         internal HashSet<ulong> SubtotalAddresses { get; private set; }
         internal FormulaCellAddress CurrentCell { get; set; }
+        internal string CurrentCellFullAddress 
+        { 
+            get
+            {
+                var ws = CurrentCell.WorksheetIx < 0 || CurrentCell.WorksheetIx>=Package.Workbook.Worksheets.Count ? "" : Package.Workbook.Worksheets[CurrentCell.WorksheetIx].Name+"!";
+                return ws + CurrentCell.Address;
+            }
+        }
         internal ExcelWorksheet CurrentWorksheet 
         { 
             get

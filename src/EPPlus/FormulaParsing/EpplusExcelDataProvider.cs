@@ -272,18 +272,18 @@ namespace OfficeOpenXml.FormulaParsing
         private INameInfo GetExternalName(int extIx, int wsIx, string name, ParsingContext ctx)
         {
             extIx -= 1;
-            if (extIx > 0 && extIx < _package.Workbook.ExternalLinks.Count)
+            if (extIx >= 0 && extIx < _package.Workbook.ExternalLinks.Count)
             {
                 var externalWorkbook = _package.Workbook.ExternalLinks[extIx].As.ExternalWorkbook;
                 if (externalWorkbook != null)
                 {
                     if (externalWorkbook.Package == null)
                     {
-                        return GetLocalName(externalWorkbook.Package, wsIx, name, ctx);
+                        return GetNameFromCache(externalWorkbook, wsIx, name, ctx);
                     }
                     else
                     {
-                        return GetNameFromCache(externalWorkbook, wsIx, name, ctx);
+                        return GetLocalName(externalWorkbook.Package, wsIx, name, ctx);
                     }
                 }
                 return new NameInfo()
@@ -298,7 +298,7 @@ namespace OfficeOpenXml.FormulaParsing
         private INameInfo GetLocalName(ExcelPackage package, int wsIx, string name, ParsingContext ctx)
         {
             ExcelNamedRange extName=null;
-            if(wsIx==short.MinValue)
+            if(wsIx==int.MinValue)
             {
                 extName = package.Workbook.Names[name];
             }
@@ -341,7 +341,7 @@ namespace OfficeOpenXml.FormulaParsing
             ExcelExternalDefinedName nameItem=null;
 
             int ix=-1;
-            if (wsIx==short.MinValue)
+            if (wsIx==int.MinValue)
             {
                 nameItem = externalWorkbook.CachedNames[name];
             }
@@ -351,7 +351,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
 
             object value;
-            if (!string.IsNullOrEmpty(nameItem.RefersTo))
+            if (!string.IsNullOrEmpty(nameItem?.RefersTo))
             {
                 var nameAddress = nameItem.RefersTo.TrimStart('=');
                 ExcelAddressBase address = new ExcelAddressBase(nameAddress);

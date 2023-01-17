@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             Function.BeforeInvoke(Context);
             var firstChild = children.ElementAt(0);
             var v = firstChild.Compile().Result;
-            if(v is InMemoryRange mr)
+            if(v is InMemoryRange mr) //Array in the condition
             {
                 var range = new InMemoryRange(mr.Size);
                 for(var row = 0; row < mr.Size.NumberOfRows;row++)
@@ -55,11 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
                     {
                         args.Clear();
                         var cell = mr.GetCell(row, col);
-                        object val = null;
-                        if(cell != null)
-                        {
-                            val = cell.Value;
-                        }
+                        var val = cell?.Value;
                         var res = CallFunction(val, children, args);
                         range.SetValue(row, col, res.Result);
                     }

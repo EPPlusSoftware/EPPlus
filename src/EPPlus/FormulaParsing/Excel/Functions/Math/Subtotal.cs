@@ -83,6 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             //{
             //    return CreateResult(0d, DataType.Empty);
             //}
+            context.IsSubtotal = true;
             var actualArgs = arguments.Skip(1);
             ExcelFunction function = null;
             function = GetFunctionByCalcType(funcNum);

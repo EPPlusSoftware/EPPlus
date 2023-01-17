@@ -61,25 +61,39 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 ToCol = toCol
             };
             _size = new RangeDefinition(toRow + fromCol + 1, (short)(toCol - fromCol + 1));
-            if (externalReferenceIx > 0 && ctx.Package != null && ctx.Package.Workbook.ExternalLinks.Count < externalReferenceIx)
+            if (externalReferenceIx > 0 && ctx.Package != null && ctx.Package.Workbook.ExternalLinks.Count <= externalReferenceIx)
             {
-                var externalWb = ctx.Package.Workbook.ExternalLinks[externalReferenceIx].As.ExternalWorkbook;
+                var externalWb = ctx.Package.Workbook.ExternalLinks[externalReferenceIx-1].As.ExternalWorkbook;
                 if (externalWb != null)
                 {
-
-                }
-                _externalWs = externalWb.CachedWorksheets[worksheetIx];
-                if (_externalWs != null)
-                {
-                    _address.ExternalReferenceIx = (short)externalReferenceIx;
-                    _address.WorksheetIx = (short)_externalWs.SheetId;
-                    _values = _externalWs.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
-                    _cell = new ExternalCellInfo(_externalWs, _values);
+                    _externalWs = externalWb.CachedWorksheets[worksheetIx];
+                    if (_externalWs != null)
+                    {
+                        _values = _externalWs.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
+                        _cell = new ExternalCellInfo(_externalWs, _values);
+                    }
                 }
             }
             else if (ctx.Package != null && ctx.Package.Workbook.Worksheets[worksheetIx] != null)
             {
                 _address.WorksheetIx = (short)worksheetIx;
+            }
+        }
+        public EpplusExcelExternalRangeInfo(ExcelExternalWorkbook externalWb, FormulaRangeAddress address , ParsingContext ctx)
+        {
+            _fromRow = _address.FromRow;
+            _fromCol = _address.FromCol;
+            _toRow = _address.ToRow;
+            _toCol = _address.ToCol;
+            _size = new RangeDefinition(_toRow + _fromCol + 1, (short)(_toCol - _fromCol + 1));
+            if (externalWb != null)
+            {
+                _externalWs = externalWb.CachedWorksheets[address.WorksheetIx];
+                if (_externalWs != null)
+                {
+                    _values = _externalWs.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
+                    _cell = new ExternalCellInfo(_externalWs, _values);
+                }
             }
         }
         /// <summary>

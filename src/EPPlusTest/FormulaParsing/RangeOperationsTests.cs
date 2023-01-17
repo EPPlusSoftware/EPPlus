@@ -153,7 +153,7 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Cells["A3"].Value = 5;
                 sheet.Cells["A4"].Formula = "SUM(IF(A1:A3=3,1,2))";
                 sheet.Calculate();
-                var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
+                var result = Math.Round((double)sheet.Cells["A4"].Value, 2);
                 Assert.AreEqual(5d, result);
             }
         }

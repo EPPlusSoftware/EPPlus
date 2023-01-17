@@ -13,10 +13,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
@@ -33,18 +36,116 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 return CompileResultFactory.Create(arguments.ElementAt(0).Value);
             }
-            var condition = ArgToBool(arguments, 0);
-            var firstStatement = arguments.ElementAt(1);
-            if (arguments.Count() < 3)
+            var arg0 = arguments.ElementAt(0).Value;
+            var arg1 = arguments.ElementAt(1);
+            var arg2 = arguments.Count() < 3 ? new FunctionArgument(false,DataType.Boolean) : arguments.ElementAt(2);
+            if (arg0 is IRangeInfo ri)
             {
-                return condition ? CompileResultFactory.Create(firstStatement.Value, firstStatement.Address) : CompileResultFactory.Create(null, null);
+                var arg1Type = GetType(arg1.Value);
+                var arg2Type = GetType(arg2.Value);
+                var range = new InMemoryRange(ri.Size);
+                for (var row = 0; row < ri.Size.NumberOfRows; row++)
+                {
+                    for (var col = 0; col < ri.Size.NumberOfCols; col++)
+                    {
+                        var cell = ri.GetOffset(row, col);
+                        var condition = ConvertUtil.GetValueBool(cell);
+                        object v = condition ? GetArrayResult(arg1, arg1Type, row, col) : GetArrayResult(arg2, arg2Type, row, col);
+                        range.SetValue(row, col, v);
+                    }
+                }
+                return new CompileResult(range, DataType.ExcelRange);
             }
             else
             {
-                var secondStatement = arguments.ElementAt(2);
-                return condition ? CompileResultFactory.Create(firstStatement.Value, firstStatement.Address) : CompileResultFactory.Create(secondStatement.Value, secondStatement?.Address);
+                var condition = ConvertUtil.GetValueBool(arg0);
+                if (arguments.Count() < 3)
+                {
+                    return condition ? CompileResultFactory.Create(arg1.Value, arg1.Address) : CompileResultFactory.Create(false, null);
+                }
+                else
+                {
+                    var secondStatement = arguments.ElementAt(2);
+                    return condition ? CompileResultFactory.Create(arg1.Value, arg1.Address) : CompileResultFactory.Create(secondStatement.Value, secondStatement?.Address);
+                }
+
             }
         }
+        public enum ArgumentType
+        {
+            Null,
+            Number,
+            Boolean,
+            String,
+            Range
+        }
+        private ArgumentType GetType(object value)
+        {
+            if(value==null)
+            {
+                return ArgumentType.Null;
+            }
+            var tc = Type.GetTypeCode(value.GetType());
+            switch(tc)
+            {
+                case TypeCode.String:
+                case TypeCode.Char:
+                    return ArgumentType.String;
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Single: 
+                case TypeCode.Double:
+                case TypeCode.Decimal:
+                case TypeCode.DateTime:
+                    return ArgumentType.Number;
+                case TypeCode.Boolean:
+                    return ArgumentType.Boolean;
+                case TypeCode.Empty:
+                    return ArgumentType.Null;
+                default:
+                    if (value is IRangeInfo)
+                        return ArgumentType.Range;
+                    else
+                        return ArgumentType.String;
+            }
+        }
+
+        private object GetArrayResult(FunctionArgument arg, ArgumentType type, int row, int col)
+        {
+            if(type==ArgumentType.Range)
+            {
+                var r = arg.ValueAsRangeInfo;
+                if(r.Size.NumberOfRows>row && r.Size.NumberOfCols>col)
+                {
+                    return r.GetOffset(row, col);
+                }
+                else if(r.Size.NumberOfRows > row && r.Size.NumberOfCols == 1)
+                {
+                    return r.GetOffset(row, 0);
+                }
+                else if (r.Size.NumberOfCols > col && r.Size.NumberOfRows == 1)
+                {
+                    return r.GetValue(0, col);
+                }
+                else if(r.Size.NumberOfCols == 1 && r.Size.NumberOfRows == 1)
+                {
+                    return r.GetValue(0, 0);
+                }
+                else
+                {
+                    return ExcelErrorValue.Create(eErrorType.NA);
+                }
+            }
+            else
+            {
+                return arg.Value;
+            }
+        }
+
         public override bool ReturnsReference => true;
         public override bool HasNormalArguments => false;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)

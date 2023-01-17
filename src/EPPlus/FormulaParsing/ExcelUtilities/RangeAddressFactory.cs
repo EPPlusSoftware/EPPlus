@@ -135,8 +135,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         public FormulaCellAddress CreateCell(string cell)
         {
             Require.That(cell).Named("cell").IsNotNullOrEmpty();
-            ExcelAddressBase.GetRowColFromAddress(cell, out int row, out int col);
-            return new FormulaCellAddress(int.MinValue, row, col);
+            ExcelAddressBase.GetRowColFromAddress(cell, out int row, out int col);            
+            var wsIx = _excelDataProvider.GetWorksheetIndex(ExcelAddress.GetWorksheetPart(cell, "")) - 1;
+            return new FormulaCellAddress(wsIx, row, col);
         }
     }
 }

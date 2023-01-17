@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
            isTableRef= 0x200,
            isExtRef =  0x400,
            isIntersect= 0x800,
+           isError    = 0x1000
         }
         public IList<Token> Tokenize(string input, string worksheet)
         {
@@ -175,6 +177,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 #else
                             current.Clear();
 #endif
+                        }
+                        else if(c=='/' && current.Length == 2 && current[0] =='#' && (current[1]=='n' || current[1]=='N'))
+                        {                            
+                            current.Append(c); //We have a #n/a
                         }
                         else if (c==' ' && bracketCount > 0)
                         {
@@ -325,15 +331,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
             if (isInString != 0)
             {
-                throw new FormatException("Unterminated string");
+                throw new InvalidFormulaException("Unterminated string");
             }
             else if (paranthesesCount != 0)
             {
-                throw new FormatException("Number of opened and closed parentheses does not match");
+                throw new InvalidFormulaException("Number of opened and closed parentheses does not match");
             }
             else if (bracketCount != 0)
             {
-                throw new FormatException("Number of opened and closed brackets does not match");
+                throw new InvalidFormulaException("Number of opened and closed brackets does not match");
             }
 
             return l;
@@ -505,6 +511,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 {
                     l.Add(new Token(currentString, TokenType.Boolean));
                 }
+                else if(currentString.Equals("#N/A",StringComparison.OrdinalIgnoreCase))
+                {
+                    l.Add(new Token(currentString, TokenType.NAError));
+                }
                 else if (_r1c1==false && IsValidCellAddress(currentString))
                 {
                     l.Add(new Token(currentString, TokenType.CellAddress));
@@ -546,6 +556,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 else if ((flags & statFlags.isNumeric) == statFlags.isNumeric)
                 {
                     l.Add(new Token(currentString, TokenType.Integer));
+                }
+                else
+                {
+                    throw (new InvalidFormulaException($"The formula does not have a valid format near string  {currentString}."));
                 }
             }
 

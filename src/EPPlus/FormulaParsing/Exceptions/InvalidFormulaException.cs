@@ -25,5 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Exceptions
         {
 
         }
+        public InvalidFormulaException(string msg, Exception innerException) 
+            : base(msg, innerException)
+        {
+
+        }
     }
 }

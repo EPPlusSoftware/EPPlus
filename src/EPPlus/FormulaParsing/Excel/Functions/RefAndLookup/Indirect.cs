@@ -17,6 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Table;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -32,9 +33,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var address = ArgToAddress(arguments, 0);
             FormulaRangeAddress adr;
             IRangeInfo result;
-            if (ExcelAddressBase.IsValidAddress(address) || ExcelAddressBase.IsTableAddress(address))
+            if (ExcelAddressBase.IsValidAddress(address))
             {                
                 adr = new FormulaRangeAddress(context, address);
+                result = context.ExcelDataProvider.GetRange(adr);
+            }
+            if (ExcelAddressBase.IsTableAddress(address))
+            {
+                adr = new FormulaTableAddress(context, address);
                 result = context.ExcelDataProvider.GetRange(adr);
             }
             else
@@ -59,10 +65,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var cell = result.FirstOrDefault();
                 var val = cell != null ? cell.Value : null;
                 if (val == null) return CompileResult.Empty;
-                return CompileResultFactory.Create(val);
+                return CompileResultFactory.Create(val, result.Address);
             }
-            return new CompileResult(result, DataType.Enumerable);
+            return new AddressCompileResult(result, DataType.ExcelRange, result.Address);
         }
+
+
         public override bool ReturnsReference => true;
     }
 }

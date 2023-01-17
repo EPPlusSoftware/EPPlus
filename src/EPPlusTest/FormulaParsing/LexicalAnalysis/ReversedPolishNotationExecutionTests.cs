@@ -59,21 +59,21 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 
         private void SetUpWorksheet2()
         {
-            var ws1 = _package.Workbook.Worksheets.Add("Sheet2");
-            ws1.Cells["A1"].Value = 1;
-            ws1.Cells["B1"].Value = 2;
-            ws1.Cells["C1"].Value = 3;
+            var ws2 = _package.Workbook.Worksheets.Add("Sheet2");
+            ws2.Cells["A1"].Value = 1;
+            ws2.Cells["B1"].Value = 2;
+            ws2.Cells["C1"].Value = 3;
 
-            ws1.Cells["A2"].Value = 10;
-            ws1.Cells["B2"].Value = 20;
-            ws1.Cells["C2"].Value = 30;
+            ws2.Cells["A2"].Value = 10;
+            ws2.Cells["B2"].Value = 20;
+            ws2.Cells["C2"].Value = 30;
 
-            ws1.Names.AddName("TwrStart", _package.Workbook.Worksheets["Sheet1"].Cells["B1"]);
-            ws1.Cells["D1"].Formula = "Sum(SumRange1)+TwrStart";
-            ws1.Cells["D2"].Formula = "Sum(SumRange2)+TwrStart";
+            ws2.Names.AddName("TwrStart", _package.Workbook.Worksheets["Sheet1"].Cells["B1"]);
+            ws2.Cells["D1"].Formula = "Sum(SumRange1)+TwrStart";
+            ws2.Cells["D2"].Formula = "Sum(SumRange2)+TwrStart";
 
             _package.Workbook.Names.AddValue("WorkbookDefinedNameValue", 1);
-            ws1.Names.AddValue("WorksheetDefinedNameValue", "Name Value");
+            ws2.Names.AddValue("WorksheetDefinedNameValue", "Name Value");
         }
 
         [TestMethod]
@@ -103,7 +103,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Formula = "A1";
                 ws.Cells["B1"].Formula = "A1:B1";
-
 
                 var dc= RpnFormulaExecution.Execute(ws, new ExcelCalculationOption() { AllowCircularReferences = true });
                 Assert.AreEqual(2, dc._circularReferences.Count);

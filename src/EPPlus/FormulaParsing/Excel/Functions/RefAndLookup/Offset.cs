@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if (width == 0) return new CompileResult(eErrorType.Ref);
             }
             var adr = arg0.Address;
-
+            if(adr==null) return new CompileResult(eErrorType.Value);
             var fromRow = adr.FromRow + rowOffset;
             var fromCol = adr.FromCol + colOffset;
             var toRow = (height != 0 ? adr.FromRow + height - 1 : adr.ToRow) + rowOffset;

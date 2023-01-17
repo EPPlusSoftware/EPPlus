@@ -94,7 +94,7 @@ namespace EPPlusTest.FormulaParsing
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A3"].Value = 2;
-                var res = package.Workbook.FormulaParser.Parse("1+A3", "test!A3");
+                var res = package.Workbook.FormulaParser.Parse("1+A3", "test!A2");
                 Assert.AreEqual(3d, res);
                 Assert.AreEqual(2, sheet.Cells["A3"].Value);
 

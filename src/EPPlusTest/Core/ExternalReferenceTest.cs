@@ -268,7 +268,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual(p.File.DirectoryName + "\\extref.xlsx", book4.File.FullName, true);
             Assert.IsNotNull(book4.Package);
             SaveWorkbook("dde.xlsx",p);
-            }
+        }
 
         [TestMethod]
         public void UpdateCacheShouldBeSameAsExcel()

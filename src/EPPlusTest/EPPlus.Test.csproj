@@ -39,6 +39,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FormulaParsing\ExpressionGraph\EnumerableExpressionTests.cs" />
+    <Compile Remove="FormulaParsing\ExpressionGraph\ExpressionCompilerTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />

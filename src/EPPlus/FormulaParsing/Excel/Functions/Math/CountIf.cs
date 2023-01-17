@@ -55,9 +55,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             if (range.IsExcelRange)
             {
                 var rangeInfo = range.ValueAsRangeInfo;
-                for (int row = rangeInfo.Address.FromRow; row < rangeInfo.Address.ToRow + 1; row++)
+                int fromRow, toRow,fromCol, toCol;
+                if(rangeInfo.Address==null)
                 {
-                    for (int col = rangeInfo.Address.FromCol; col < rangeInfo.Address.ToCol + 1; col++)
+                    fromRow = fromCol = 0;
+                    toRow = rangeInfo.Size.NumberOfRows-1;
+                    toCol = rangeInfo.Size.NumberOfCols-1;
+                }
+                else
+                {
+                    fromRow = rangeInfo.Address.FromRow;
+                    toRow = rangeInfo.Address.ToRow;
+                    fromCol = rangeInfo.Address.FromCol;
+                    toCol = rangeInfo.Address.ToCol;
+                }
+                for (int row = fromRow; row <= toRow; row++)
+                {
+                    for (int col = fromCol; col <= toCol; col++)
                     {
                         if (criteria != null && Evaluate(rangeInfo.GetValue(row, col), criteria))
                         {

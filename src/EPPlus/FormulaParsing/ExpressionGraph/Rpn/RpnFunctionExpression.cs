@@ -23,6 +23,13 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 {
+    internal enum ExpressionCondition : byte
+    {
+        None = 0xFF,
+        False = 0,
+        True = 1,
+        Both = 2
+    }
     internal class RpnFunctionExpression : RpnExpression
     {
         private readonly RpnFunctionCompilerFactory _functionCompilerFactory;
@@ -30,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         internal int _startPos, _endPos;
         internal IList<int> _arguments;
         internal int _argPos=0;
-        internal bool? _latestConitionValue = null;
+        internal ExpressionCondition _latestConitionValue = ExpressionCondition.None;
         bool _negate = false;
         internal RpnFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {

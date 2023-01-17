@@ -19,7 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             var result = -1;
             if(arguments.Count() == 0)
             {
-                result = context.CurrentCell.WorksheetIx;
+                result = context.CurrentCell.WorksheetIx + 1;
             }
             else
             {
@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 {
                     if (arg.Address.WorksheetIx>=0)
                     {
-                        result = arg.Address.WorksheetIx;
+                        result = arg.Address.WorksheetIx + 1;
                         //var excelAddress = new ExcelAddress(address);
                         //result = context.ExcelDataProvider.GetWorksheetIndex(excelAddress.WorkSheetName);
                     }

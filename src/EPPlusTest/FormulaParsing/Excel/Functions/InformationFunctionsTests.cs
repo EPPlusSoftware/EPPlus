@@ -345,7 +345,8 @@ namespace EPPlusTest.Excel.Functions
                 var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
 
                 sheet2.Tables.Add(sheet2.Cells["D1:G5"], "myTable");
-                sheet.Cells["A1"].Formula = "SHEET(myTable)";
+                sheet.Cells["A1"].Formula = "SHEET(myTable[])";
+                //package.SaveAs("c:\\temp\\t.xlsx");
                 sheet.Calculate();
                 Assert.AreEqual(2, sheet.Cells["A1"].Value);
             }

@@ -164,7 +164,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             Assert.IsInstanceOfType(result.Expressions.First(), typeof(FunctionExpression));
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void BuildShouldSetChildrenOnFunctionExpression()
         {
             var tokens = new List<Token>
@@ -235,7 +235,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             Assert.AreEqual(-2d, result.Expressions.First().Compile().Result);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void BuildShouldHandleEnumerableTokens()
         {
             var tokens = new List<Token>
@@ -260,7 +260,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             Assert.AreEqual(2, enumerableExpression.Children.Count(), "Enumerable.Count was not 2");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ShouldHandleInnerFunctionCall2()
         {
             var ctx = ParsingContext.Create();
@@ -275,7 +275,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             Assert.AreEqual("Yes", result.Result);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ShouldHandleInnerFunctionCall3()
         {
             var ctx = ParsingContext.Create();

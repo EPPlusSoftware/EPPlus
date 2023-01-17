@@ -28,8 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
         {
             _externalReferenceIx = externalReferenceIx;
-            _worksheetIx = worksheetIx;
-            _name = Context.ExcelDataProvider.GetName(_externalReferenceIx, _worksheetIx, name);
+            _name = Context.ExcelDataProvider.GetName(_externalReferenceIx, worksheetIx, name);
         }
 
         internal override ExpressionType ExpressionType => ExpressionType.NameValue;

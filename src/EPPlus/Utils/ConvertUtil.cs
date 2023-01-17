@@ -25,7 +25,7 @@ using System.Xml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
-
+using OfficeOpenXml.FormulaParsing.Utilities;
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -278,7 +278,23 @@ namespace OfficeOpenXml.Utils
             }
             return d;
         }
-
+        internal static bool GetValueBool(object v)
+        {
+            if (v is IRangeInfo)
+            {
+                var r = ((IRangeInfo)v).FirstOrDefault();
+                v = (r == null ? null : r.Value);
+            }
+            if (v == null) return false;
+            if (v is bool) return (bool)v;
+            if (v.IsNumeric()) return Convert.ToBoolean(v);
+            bool result;
+            if (bool.TryParse(v.ToString(), out result))
+            {
+                return result;
+            }
+            return result;
+        }
         internal static DateTime? GetValueDate(object v)
         {
             if (v is DateTime d)

@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         private readonly ArgumentCollectionUtil _argumentCollectionUtil;
-        private readonly ArgumentParsers _argumentParsers;
+        protected readonly ArgumentParsers _argumentParsers;
         private readonly CompileResultValidators _compileResultValidators;
         protected readonly int NumberOfSignificantFigures = 15;
 

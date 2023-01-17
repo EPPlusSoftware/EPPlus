@@ -48,7 +48,6 @@ namespace EPPlusTest.Excel.Functions
     [TestClass]
     public class RefAndLookupTests
     {
-        const string WorksheetName = null;
         [TestMethod]
         public void LookupArgumentsShouldSetSearchedValue()
         {
@@ -92,156 +91,141 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void VLookupShouldReturnResultFromMatchingRow()
         {
-            var func = new VLookup();
-            var args = FunctionsHelper.CreateArgs(2, "A1:B2", 2);
-            var parsingContext = ParsingContext.Create();
-            
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 1)).Returns(2);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 2)).Returns(5);
-            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(100,10));
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(2,A1:B2,2)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = 2;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Calculate();
 
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(5, result.Result);
+                Assert.AreEqual(5, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void VLookupShouldReturnClosestValueBelowWhenRangeLookupIsTrue()
         {
-            var func = new VLookup();
-            var args = FunctionsHelper.CreateArgs(4, "A1:B2", 2, true);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(4,A1:B2,2,true)";
+                sheet.Cells[1, 1].Value = 3;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = 5;
+                sheet.Cells[2, 2].Value = 4;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 1)).Returns(5);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 2)).Returns(4);
-
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(1, result.Result);
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void VLookupShouldReturnClosestStringValueBelowWhenRangeLookupIsTrue()
         {
-            var func = new VLookup();
-            var args = FunctionsHelper.CreateArgs("B", "A1:B2", 2, true);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(\"B\",A1:B2,2,true)";
+                sheet.Cells[1, 1].Value = "A";
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = "C";
+                sheet.Cells[2, 2].Value = 4;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();;
-
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 1)).Returns("A");
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 2)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 1)).Returns("C");
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 2)).Returns(4);
-
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(1, result.Result);
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void HLookupShouldReturnResultFromMatchingRow()
         {
-            var func = new HLookup();
-            var args = FunctionsHelper.CreateArgs(2, "A1:B2", 2);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "HLOOKUP(2,A1:B2,2)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = 2;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 1)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 2)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 1)).Returns(2);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 2)).Returns(5);
-
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(5, result.Result);
+                Assert.AreEqual(5, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void HLookupShouldReturnNaErrorIfNoMatchingRecordIsFoundWhenRangeLookupIsFalse()
         {
-            var func = new HLookup();
-            var args = FunctionsHelper.CreateArgs(2, "A1:B2", 2, false);
-            var parsingContext = ParsingContext.Create();
-
-            var provider = A.Fake<ExcelDataProvider>();
-
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 1)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 2)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 1)).Returns(2);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 2)).Returns(5);
-
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            var expectedResult = ExcelErrorValue.Create(eErrorType.NA);
-            Assert.AreEqual(expectedResult, result.Result);
+            using(var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "HLOOKUP(2,A1:B2,2,false)";
+                sheet.Cells[1, 1].Value = 3;
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = 2;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Calculate();
+                var expectedResult = ExcelErrorValue.Create(eErrorType.NA);
+                Assert.AreEqual(expectedResult, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void HLookupShouldReturnErrorIfNoMatchingRecordIsFoundWhenRangeLookupIsTrue()
         {
-            var func = new HLookup();
-            var args = FunctionsHelper.CreateArgs(1, "A1:B2", 2, true);
-            var parsingContext = ParsingContext.Create();
-
-            var provider = A.Fake<ExcelDataProvider>();
-
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 1)).Returns(2);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 1, 2)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 1)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName, 2, 2)).Returns(5);
-
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(result.DataType, DataType.ExcelError);
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "HLOOKUP(1,A1:B2,2,true)";
+                sheet.Cells[1, 1].Value = 2;
+                sheet.Cells[1, 2].Value = 3;
+                sheet.Cells[2, 1].Value = 3;
+                sheet.Cells[2, 2].Value = 5;
+                sheet.Calculate();
+                var expectedResult = ExcelErrorValue.Create(eErrorType.NA);
+                Assert.AreEqual(expectedResult, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void LookupShouldReturnResultFromMatchingRowArrayVertical()
         {
-            var func = new Lookup();
-            var args = FunctionsHelper.CreateArgs(4, "A1:B3", 2);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "LOOKUP(4,A1:B3,2)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = "A";
+                sheet.Cells[2, 1].Value = 3;
+                sheet.Cells[2, 2].Value = "B";
+                sheet.Cells[3, 1].Value = 5;
+                sheet.Cells[3, 2].Value = "C";
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns("A");
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 1)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 2)).Returns("B");
-            A.CallTo(() => provider.GetCellValue(WorksheetName,3, 1)).Returns(5);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,3, 2)).Returns("C");
-            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(100, 10));
-
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual("B", result.Result);
+                Assert.AreEqual("B", sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void LookupShouldReturnResultFromMatchingRowArrayHorizontal()
         {
-            var func = new Lookup();
-            var args = FunctionsHelper.CreateArgs(4, "A1:C2", 2);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "LOOKUP(4,A1:C2,2)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = 3;
+                sheet.Cells[1, 3].Value = 5;
+                sheet.Cells[2, 1].Value = "A";
+                sheet.Cells[2, 2].Value = "B";
+                sheet.Cells[2, 3].Value = "C";
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 3)).Returns(5);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 1)).Returns("A");
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 2)).Returns("B");
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 3)).Returns("C");
-
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual("B", result.Result);
+                Assert.AreEqual("B", sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
@@ -289,82 +273,81 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void MatchShouldReturnIndexOfMatchingValHorizontal_MatchTypeExact()
         {
-            var func = new Match();
-            var args = FunctionsHelper.CreateArgs(3, "A1:C1", 0);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "Match(3,A1:C1,0)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = 3;
+                sheet.Cells[1, 3].Value = 5;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 3)).Returns(5);
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(2, result.Result);
+                Assert.AreEqual(2, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void MatchShouldReturnIndexOfMatchingValVertical_MatchTypeExact()
         {
-            var func = new Match();
-            var args = FunctionsHelper.CreateArgs(3, "A1:A3", 0);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "Match(3,A1:A3,0)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[2, 1].Value = 3;
+                sheet.Cells[3, 1].Value = 5;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,2, 1)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,3, 1)).Returns(5);
-            A.CallTo(() => provider.GetDimensionEnd(A<int>.Ignored)).Returns(new ExcelCellAddress(100, 10));
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(2, result.Result);
+                Assert.AreEqual(2, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void MatchShouldReturnIndexOfMatchingValHorizontal_MatchTypeClosestBelow()
         {
-            var func = new Match();
-            var args = FunctionsHelper.CreateArgs(4, "A1:C1", 1);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "Match(4,A1:C1,1)";
+                sheet.Cells[1, 1].Value = 1;
+                sheet.Cells[1, 2].Value = 3;
+                sheet.Cells[1, 3].Value = 5;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(1);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns(3);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 3)).Returns(5);
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(2, result.Result);
+                Assert.AreEqual(2, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void MatchShouldReturnIndexOfMatchingValHorizontal_MatchTypeClosestAbove()
         {
-            var func = new Match();
-            var args = FunctionsHelper.CreateArgs(6, "A1:C1", -1);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "Match(6,A1:C1,-1)";
+                sheet.Cells[1, 1].Value = 10;
+                sheet.Cells[1, 2].Value = 8;
+                sheet.Cells[1, 3].Value = 5;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(10);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns(8);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 3)).Returns(5);
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(2, result.Result);
+                Assert.AreEqual(2, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]
         public void MatchShouldReturnFirstItemWhenExactMatch_MatchTypeClosestAbove()
         {
-            var func = new Match();
-            var args = FunctionsHelper.CreateArgs(10, "A1:C1", -1);
-            var parsingContext = ParsingContext.Create();
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "Match(10,A1:C1,-1)";
+                sheet.Cells[1, 1].Value = 10;
+                sheet.Cells[1, 2].Value = 8;
+                sheet.Cells[1, 3].Value = 5;
+                sheet.Calculate();
 
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 1)).Returns(10);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 2)).Returns(8);
-            A.CallTo(() => provider.GetCellValue(WorksheetName,1, 3)).Returns(5);
-            parsingContext.ExcelDataProvider = provider;
-            var result = func.Execute(args, parsingContext);
-            Assert.AreEqual(1, result.Result);
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+            }
         }
 
         [TestMethod]

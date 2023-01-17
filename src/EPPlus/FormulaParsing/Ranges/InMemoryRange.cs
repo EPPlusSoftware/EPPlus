@@ -11,6 +11,7 @@
   05/31/2022         EPPlus Software AB           EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.LoadFunctions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,6 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                     _cells[r, c] = new InMemoryCellInfo(range[r][c]);
                 }
             }
+            _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = _nRows-1, ToCol = _nCols - 1 };
         }
         private readonly FormulaRangeAddress _address;
         private readonly RangeDefinition _size;

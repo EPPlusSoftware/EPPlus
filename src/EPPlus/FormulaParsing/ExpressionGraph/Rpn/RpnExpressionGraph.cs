@@ -188,6 +188,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         break;
                     case TokenType.ExternalReference:
                         extRefIx = short.Parse(t.Value);
+                        wsIx = int.MinValue;
                         break;
                     case TokenType.WorksheetNameContent:
                         wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
@@ -594,6 +595,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         break;
                     case TokenType.ClosingEnumerable:
                     case TokenType.Comma:
+                        break;
+                    case TokenType.NAError:
+                        array.Add(ExcelErrorValue.Create(eErrorType.NA));
+                        break;
+                    case TokenType.InvalidReference:
+                        array.Add(ExcelErrorValue.Create(eErrorType.Ref));
+                        break;
+                    case TokenType.NumericError:
+                        array.Add(ExcelErrorValue.Create(eErrorType.Num));
+                        break;
+                    case TokenType.ValueDataTypeError:
+                        array.Add(ExcelErrorValue.Create(eErrorType.Value));
                         break;
                     default:
                         throw new InvalidFormulaException("Array contains invalid tokens. Cell "+ _parsingContext.CurrentCell.WorksheetIx);

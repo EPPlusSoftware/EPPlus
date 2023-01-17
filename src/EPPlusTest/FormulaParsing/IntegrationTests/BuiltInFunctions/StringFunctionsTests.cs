@@ -34,6 +34,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using FakeItEasy;
 using OfficeOpenXml;
+using System.Globalization;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
 {
@@ -56,15 +57,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestMethod]
         public void TextShouldConcatenateWithNextExpression()
         {
+            var pcr = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture= CultureInfo.InvariantCulture;
             var package = new ExcelPackage();
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.GetFormat(23.5, "$0.00")).Returns("$23.50");
-            A.CallTo(() => provider.GetWorkbookNameValues()).Returns(new ExcelNamedRangeCollection(package.Workbook));
-            var parser = new FormulaParser(provider);
-
+            var parser = package.Workbook.FormulaParser;
             var result = parser.Parse("TEXT(23.5,\"$0.00\") & \" per hour\"");
             Assert.AreEqual("$23.50 per hour", result);
             package.Dispose();
+            CultureInfo.CurrentCulture = pcr;
         }
 
         [TestMethod]

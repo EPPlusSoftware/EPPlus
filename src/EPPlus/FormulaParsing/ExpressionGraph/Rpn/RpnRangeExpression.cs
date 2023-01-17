@@ -6,6 +6,7 @@ using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Utils;
 using System;
 using System.Diagnostics;
+using System.Threading;
 using Operators = OfficeOpenXml.FormulaParsing.Excel.Operators.Operators;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
@@ -58,6 +59,35 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     else
                     {
                         _cachedCompileResult = new AddressCompileResult(new RangeInfo(_addressInfo, Context), DataType.ExcelRange, _addressInfo);
+                    }
+                }
+                else
+                {
+                    var wb = Context.GetExternalWoorkbook(_addressInfo.ExternalReferenceIx);
+                    IRangeInfo ri;
+                    if(wb?.Package!=null)
+                    {
+                        var ws = wb?.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
+                        ri=new RangeInfo(ws, _addressInfo.FromRow, _addressInfo.FromCol, _addressInfo.ToRow, _addressInfo.ToCol, Context);
+                    }
+                    else
+                    {
+                        ri = new EpplusExcelExternalRangeInfo(wb, _addressInfo, Context);
+                    }
+
+                    if (ri.IsMulti)
+                    {
+                        _cachedCompileResult = new AddressCompileResult(ri, DataType.ExcelRange, _addressInfo);
+                    }
+                    else
+                    {
+                        var v = ri.GetOffset(0, 0);
+                        if (_negate)
+                        {
+                            v = DoNegate(v);
+                        }
+
+                        _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
                     }
                 }
             }

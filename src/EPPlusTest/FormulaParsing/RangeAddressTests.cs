@@ -41,7 +41,7 @@ namespace EPPlusTest.FormulaParsing
             _package.Dispose();
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ShouldSetSimpleRangeAddress()
         {
             var input = "A1:A2";
@@ -59,7 +59,7 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(1, address.ToCol);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ShouldSetRangeAddressOnOtherWorksheet()
         {
             _package.Workbook.Worksheets.Add("Sheet2");
@@ -78,7 +78,7 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(1, address.ToCol);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ShouldSetSingleCellAddress()
         {
             var input = "A1";

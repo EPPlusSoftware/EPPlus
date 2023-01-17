@@ -1514,7 +1514,7 @@ namespace EPPlusTest
                 ws.Calculate();
                 Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
 
-                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1\"))";
+                ws.Cells["B1"].Formula = "TEXTJOIN(\" | \", false, INDIRECT(\"Table1[]\"))";
                 ws.Calculate();
                 Assert.AreEqual("1 | 2 | 3", ws.Cells["B1"].Value);
             }

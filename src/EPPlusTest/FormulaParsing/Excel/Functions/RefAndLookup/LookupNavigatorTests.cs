@@ -41,6 +41,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.Excel.Functions.RefAndLookup
 {
+    //TODO: Check if these tests can be removed and tested via the normal formula calculation
     [TestClass]
     public class LookupNavigatorTests
     {
@@ -57,7 +58,7 @@ namespace EPPlusTest.Excel.Functions.RefAndLookup
         }
 
         private ExcelPackage _package;
-        const string WorksheetName = "";
+        const string WorksheetName = "abc";
         private LookupArguments GetArgs(params object[] args)
         {
             var lArgs = FunctionsHelper.CreateArgs(args);

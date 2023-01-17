@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -23,20 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     {
         public override object Parse(object obj)
         {
-            if (obj is IRangeInfo)
-            {
-                var r = ((IRangeInfo)obj).FirstOrDefault();
-                obj = (r == null ? null : r.Value);
-            }
-            if (obj == null) return false;
-            if (obj is bool) return (bool)obj;
-            if (obj.IsNumeric()) return Convert.ToBoolean(obj);
-            bool result;
-            if (bool.TryParse(obj.ToString(), out result))
-            {
-                return result;
-            }
-            return result;
+            return ConvertUtil.GetValueBool(obj);
         }
 
         public override object Parse(object obj, RoundingMethod roundingMethod)

@@ -29,6 +29,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRanges
 {
@@ -76,6 +77,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidFormulaException))]
         public void ShouldHandleInvalidRef()
         {
             var sheet = _package.Workbook.Worksheets.Add("ab#k..2");
