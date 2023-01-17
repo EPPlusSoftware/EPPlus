@@ -10,12 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -44,32 +40,38 @@ namespace OfficeOpenXml.DataValidation
 
         public IExcelDataValidationDecimal AddDecimalDataValidation()
         {
-            return _worksheet.DataValidations.AddDecimalValidation(_address);
+            return null;
+            //return _worksheet.DataValidations.AddDecimalValidation(_address);
         }
 
         public IExcelDataValidationDateTime AddDateTimeDataValidation()
         {
-            return _worksheet.DataValidations.AddDateTimeValidation(_address);
+            return null;
+            //return _worksheet.DataValidations.AddDateTimeValidation(_address);
         }
 
         public IExcelDataValidationList AddListDataValidation()
         {
-            return _worksheet.DataValidations.AddListValidation(_address);
+            return null;
+            //return _worksheet.DataValidations.AddListValidation(_address);
         }
 
         public IExcelDataValidationInt AddTextLengthDataValidation()
         {
-            return _worksheet.DataValidations.AddTextLengthValidation(_address);
+            return null;
+            //return _worksheet.DataValidations.AddTextLengthValidation(_address);
         }
 
         public IExcelDataValidationTime AddTimeDataValidation()
         {
-            return _worksheet.DataValidations.AddTimeValidation(_address);
+            return null;
+            //return _worksheet.DataValidations.AddTimeValidation(_address);
         }
 
         public IExcelDataValidationCustom AddCustomDataValidation()
         {
-            return _worksheet.DataValidations.AddCustomValidation(_address);
+            return null;
+            //return _worksheet.DataValidations.AddCustomValidation(_address);
         }
     }
 }

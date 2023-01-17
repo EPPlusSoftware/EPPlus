@@ -10,16 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using System.Globalization;
-using OfficeOpenXml.Utils;
-using System.Xml;
 using OfficeOpenXml.DataValidation.Contracts;
-using OfficeOpenXml.DataValidation.Formulas;
+using OfficeOpenXml.Utils;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -47,128 +43,64 @@ namespace OfficeOpenXml.DataValidation
     /// validation.Operator = ExcelDataValidationOperator.between;
     /// </code>
     /// </summary>
-    public class ExcelDataValidationCollection : XmlHelper, IEnumerable<IExcelDataValidation>
+    public class ExcelDataValidationCollection : IEnumerable<IExcelDataValidation>
     {
         private List<IExcelDataValidation> _validations = new List<IExcelDataValidation>();
-        private ExcelExLstDataValidationCollection _extLstValidations = null;
         private ExcelWorksheet _worksheet = null;
-        private readonly bool _extListUsed = false;
-        private readonly DataValidationFormulaListener _formulaListener = null;
 
         private const string DataValidationPath = "//d:dataValidations";
         private readonly string DataValidationItemsPath = string.Format("{0}/d:dataValidation", DataValidationPath);
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="worksheet"></param>
-        internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
-            : base(worksheet.NameSpaceManager, worksheet.WorksheetXml.DocumentElement)
+        internal ExcelDataValidationCollection(XmlReader xr)
         {
-            Require.Argument(worksheet).IsNotNull("worksheet");
-            _worksheet = worksheet;
-            _formulaListener = new DataValidationFormulaListener(this, _worksheet);
-            SchemaNodeOrder = worksheet.SchemaNodeOrder;
-
-            // check existing nodes and load them
-            var dataValidationNodes = worksheet.WorksheetXml.SelectNodes(DataValidationItemsPath, worksheet.NameSpaceManager);
-            if (dataValidationNodes != null && dataValidationNodes.Count > 0)
+            while (xr.Read())
             {
-                foreach (XmlNode node in dataValidationNodes)
+                if (xr.LocalName != "dataValidation") break;
+
+                if (xr.NodeType == XmlNodeType.Element)
                 {
-                    if (node.Attributes["sqref"] == null) continue;
-
-                    var addr = node.Attributes["sqref"].Value;
-                    var uid = node.Attributes["xr:uid"] != null && !string.IsNullOrEmpty(node.Attributes["xr:uid"].Value) ? node.Attributes["xr:uid"].Value : ExcelDataValidation.NewId();
-                    var typeSchema = node.Attributes["type"] != null ? node.Attributes["type"].Value : "";
-
-                    var type = ExcelDataValidationType.GetBySchemaName(typeSchema);
-                    var validation = ExcelDataValidationFactory.Create(type, worksheet, addr, node, InternalValidationType.DataValidation, uid);
-                    validation.RegisterFormulaListener(_formulaListener);
-                    validation.Uid = uid;
+                    var validation = ExcelDataValidationFactory.Create(xr);
                     _validations.Add(validation);
-                }
-            }
-            if (_validations.Count > 0)
-            {
-                OnValidationCountChanged();
-            }
-            _extLstValidations = new ExcelExLstDataValidationCollection(worksheet, _formulaListener);
-            _extListUsed = !_extLstValidations.IsEmpty;
-            InternalValidationEnabled = true;
 
-            if(worksheet.WorksheetXml.DocumentElement!=null)
-            {
-                var xr=worksheet.WorksheetXml.DocumentElement.GetAttribute("xmlns:xr");
-                if(string.IsNullOrEmpty(xr))
-                {
-                    worksheet.WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
-                    var mc = worksheet.WorksheetXml.DocumentElement.GetAttribute("xmlns:mc");
-                    if(mc != ExcelPackage.schemaMarkupCompatibility)
-                    {
-                        worksheet.WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
-                    }
-                    var ignore = worksheet.WorksheetXml.DocumentElement.GetAttribute("mc:Ignorable");
-                    var nsIgnore = ignore.Split(' ');
-                    if (!nsIgnore.Contains("xr"))
-                    {
-                        worksheet.WorksheetXml.DocumentElement.SetAttribute("Ignorable",ExcelPackage.schemaMarkupCompatibility, string.IsNullOrEmpty(ignore) ? "xr" : ignore + " xr");
-                    }
+                    //string validationTypeName = xr.GetAttribute("type");
+                    //string address = xr.GetAttribute("sqref");
+                    //string uid = xr.GetAttribute("uid");
+
+                    //ExcelDataValidationType type = ExcelDataValidationType.GetBySchemaName(validationType);
+                    //Type method = ExcelDataValidationType.GetMethodTypeBySchemaName(validationTypeName);
+                    //var validationType = ExcelDataValidationType.GetBySchemaName(validationTypeName);
+
+                    //var validation = ExcelDataValidationFactory.Create(address, uid, validationTypeName);
+
                 }
             }
         }
 
-        internal void AddCopyOfDataValidation(string address, ExcelDataValidation dv)
-        {
-            EnsureRootElementExists();
-            var node = CreateNode(DataValidationItemsPath, false,true);
-            CopyElement((XmlElement)dv.TopNode, (XmlElement)node);
-            var validation = ExcelDataValidationFactory.Create(dv.ValidationType, _worksheet, address, node, InternalValidationType.DataValidation, ExcelDataValidation.NewId());
-            _validations.Add(validation);
-        }
+        //T AddValidation<T>(string address, Type type)
+        //    where T : IExcelDataValidation
+        //{
+        //    //ValidateAddress(address);
+        //    //EnsureRootElementExists();
+        //    // Object item = new ExcelDataValidationAny(_worksheet, ExcelDataValidation.NewId(), address, ValidationType);
+        //    //_validations.Add(item);
+        //    //OnValidationCountChanged();
 
-        private void EnsureRootElementExists()
-        {
-            var node = _worksheet.WorksheetXml.SelectSingleNode(DataValidationPath, _worksheet.NameSpaceManager);
-            if (node == null)
-            {
-                CreateNode(DataValidationPath.TrimStart('/'));
-            }
-        }
+        //    //ValidateAddress(address);
+        //    //EnsureRootElementExists();
+        //    //object item = Activator.CreateInstance(type, _worksheet, ExcelDataValidation.NewId(), ValidationType);
+        //    //_validations.Add((T)item);
+        //    //OnValidationCountChanged();
+        //    ////Object item = Activator.CreateInstance(typeof(T));   
+        //    ///
+
+
+
+        //    return (T);
+        //}
 
         private void OnValidationCountChanged()
         {
 
-            //if (TopNode != null)
-            //{
-            //    SetXmlNodeString("@count", _validations.Count.ToString());
-            //}
-            var dvNode = GetRootNode();
-            if (_validations.Count == 0)
-            {
-                if (dvNode != null)
-                {
-                    _worksheet.WorksheetXml.DocumentElement.RemoveChild(dvNode);
-                    TopNode = _worksheet.WorksheetXml.DocumentElement;
-                }
-                //_worksheet.ClearValidations();
-            }
-            else
-            {
-                var attr = _worksheet.WorksheetXml.DocumentElement.SelectSingleNode(DataValidationPath + "[@count]", _worksheet.NameSpaceManager);
-                if (attr == null)
-                {
-                    dvNode.Attributes.Append(_worksheet.WorksheetXml.CreateAttribute("count"));
-                }
-                dvNode.Attributes["count"].Value = _validations.Count.ToString(CultureInfo.InvariantCulture);
-            }
-        }
-
-        private XmlNode GetRootNode()
-        {
-            EnsureRootElementExists();
-            TopNode = _worksheet.WorksheetXml.SelectSingleNode(DataValidationPath, _worksheet.NameSpaceManager);
-            return TopNode;
         }
 
         /// <summary>
@@ -195,7 +127,7 @@ namespace OfficeOpenXml.DataValidation
                     var result = validation.Address.Collide(newAddress);
                     if (result != ExcelAddressBase.eAddressCollition.No)
                     {
-                         throw new InvalidOperationException(string.Format("The address ({0}) collides with an existing validation ({1})", address, validation.Address.Address));
+                        throw new InvalidOperationException(string.Format("The address ({0}) collides with an existing validation ({1})", address, validation.Address.Address));
                     }
                 }
             }
@@ -204,11 +136,6 @@ namespace OfficeOpenXml.DataValidation
         private void ValidateAddress(string address)
         {
             ValidateAddress(address, null);
-        }
-
-        internal ExcelExLstDataValidationCollection DataValidationsExt
-        {
-            get { return _extLstValidations; }
         }
 
         /// <summary>
@@ -222,13 +149,24 @@ namespace OfficeOpenXml.DataValidation
             {
                 validation.Validate();
             }
-            if(_extLstValidations != null)
-            {
-                foreach(var extValidation in _extLstValidations)
-                {
-                    extValidation.Validate();
-                }
-            }
+            //if (_extLstValidations != null)
+            //{
+            //    foreach (var extValidation in _extLstValidations)
+            //    {
+            //        extValidation.Validate();
+            //    }
+            //}
+        }
+
+        internal void AddCopyOfDataValidation(string address, ExcelDataValidation dv)
+        {
+            var validation = ExcelDataValidationFactory.Create(dv.ValidationType, address, ExcelDataValidation.NewId());
+            _validations.Add(validation);
+        }
+
+        private void EnsureRootElementExists()
+        {
+
         }
 
         /// <summary>
@@ -236,177 +174,67 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="address">The range/address to validate</param>
         /// <returns></returns>
+        //public IExcelDataValidationAny AddAnyValidation(string address) =>
+        //    AddValidation<IExcelDataValidationAny>(address, typeof(ExcelDataValidationAny));
+
+        //public IExcelDataValidationInt AddIntegerValidation(string address) =>
+        //    AddValidation<IExcelDataValidationInt>(address, typeof(ExcelDataValidationInt));
+
         public IExcelDataValidationAny AddAnyValidation(string address)
         {
             ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationAny(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Any);
+            var item = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
             _validations.Add(item);
             OnValidationCountChanged();
             return item;
         }
 
-        /// <summary>
-        /// Adds an <see cref="IExcelDataValidationInt"/> to the worksheet. Whole means that the only accepted values
-        /// are integer values.
-        /// </summary>
-        /// <param name="address">the range/address to validate</param>
         public IExcelDataValidationInt AddIntegerValidation(string address)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationInt(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Whole);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            //ValidateAddress(address);
+            //var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address);
+            //_validations.Add(item);
+            //OnValidationCountChanged();
+            return null;
         }
-
-        /// <summary>
-        /// Addes an <see cref="IExcelDataValidationDecimal"/> to the worksheet. The only accepted values are
-        /// decimal values.
-        /// </summary>
-        /// <param name="address">The range/address to validate</param>
-        /// <returns></returns>
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationDecimal(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Decimal);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            return null;
         }
 
-        /// <summary>
-        /// Adds an <see cref="IExcelDataValidationList"/> to the worksheet. The accepted values are defined
-        /// in a list.
-        /// </summary>
-        /// <param name="address">The range/address to validate</param>
-        /// <returns></returns>
         public IExcelDataValidationList AddListValidation(string address)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationList(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.List);
-            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            return null;
         }
 
-        internal IExcelDataValidationList AddListValidation(string address, string uid)
-        {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationList(_worksheet, uid, address, ExcelDataValidationType.List);
-            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
-        }
-
-        /// <summary>
-        /// Adds an <see cref="IExcelDataValidationInt"/> regarding text length to the worksheet.
-        /// </summary>
-        /// <param name="address">The range/address to validate</param>
-        /// <returns></returns>
         public IExcelDataValidationInt AddTextLengthValidation(string address)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationInt(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.TextLength);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            return null;
         }
-
-        /// <summary>
-        /// Adds an <see cref="IExcelDataValidationDateTime"/> to the worksheet.
-        /// </summary>
-        /// <param name="address">The range/address to validate</param>
-        /// <returns></returns>
-        public IExcelDataValidationDateTime AddDateTimeValidation(string address)
+        internal IExcelDataValidationList AddListValidation(string address, string uid)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationDateTime(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.DateTime);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            return null;
         }
 
-
-        /// <summary>
-        /// Addes a <see cref="IExcelDataValidationTime"/> to the worksheet
-        /// </summary>
-        /// <param name="address">The range/address to validate</param>
-        /// <returns></returns>
         public IExcelDataValidationTime AddTimeValidation(string address)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationTime(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Time);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            return null;
         }
-        /// <summary>
-        /// Adds a <see cref="ExcelDataValidationCustom"/> to the worksheet.
-        /// </summary>
-        /// <param name="address">The range/address to validate</param>
-        /// <returns></returns>
+        public IExcelDataValidationDateTime AddDateTimeValidation(string address)
+        {
+            return null;
+        }
         public IExcelDataValidationCustom AddCustomValidation(string address)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationCustom(_worksheet, ExcelDataValidation.NewId(), address, ExcelDataValidationType.Custom);
-            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            return null;
         }
-
         internal IExcelDataValidationCustom AddCustomValidation(string address, string uid)
         {
-            ValidateAddress(address);
-            EnsureRootElementExists();
-            var item = new ExcelDataValidationCustom(_worksheet, uid, address, ExcelDataValidationType.Custom);
-            ((ExcelDataValidationFormula)item.Formula).RegisterFormulaListener(_formulaListener);
-            _validations.Add(item);
-            OnValidationCountChanged();
-            return item;
+            return null;
         }
 
-        /// <summary>
-        /// Removes an <see cref="ExcelDataValidation"/> from the collection.
-        /// </summary>
-        /// <param name="item">The item to remove</param>
-        /// <returns>True if remove succeeds, otherwise false</returns>
-        /// <exception cref="ArgumentNullException">if <paramref name="item"/> is null</exception>
-        public bool Remove(IExcelDataValidation item)
-        {
-            Require.Argument(item).IsNotNull("item");
-            if (!(item is ExcelDataValidation))
-            {
-                throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
-            }
 
-            ((ExcelDataValidation)item).Delete();
-            var retVal = _validations.Remove(item);
-            if (retVal) OnValidationCountChanged();
-            return retVal;
-        }
 
-        private List<IExcelDataValidation> GetValidations()
-        {
-            if(_extLstValidations != null)
-            {
-                var totalValidations = new List<IExcelDataValidation>(_validations);
-                totalValidations.AddRange(_extLstValidations);
-                return totalValidations;
-            }
-            return _validations;
-        }
 
         /// <summary>
         /// Number of validations
@@ -415,7 +243,6 @@ namespace OfficeOpenXml.DataValidation
         {
             get { return GetValidations().Count; }
         }
-
 
         /// <summary>
         /// Epplus validates that all data validations are consistend and valid
@@ -464,6 +291,25 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
+        /// Removes an <see cref="ExcelDataValidation"/> from the collection.
+        /// </summary>
+        /// <param name="item">The item to remove</param>
+        /// <returns>True if remove succeeds, otherwise false</returns>
+        /// <exception cref="ArgumentNullException">if <paramref name="item"/> is null</exception>
+        public bool Remove(IExcelDataValidation item)
+        {
+            Require.Argument(item).IsNotNull("item");
+            if (!(item is ExcelDataValidation))
+            {
+                throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
+            }
+
+            var retVal = _validations.Remove(item);
+            if (retVal) OnValidationCountChanged();
+            return retVal;
+        }
+
+        /// <summary>
         /// Returns the first matching validation.
         /// </summary>
         /// <param name="match"></param>
@@ -478,13 +324,6 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public void Clear()
         {
-            if (TopNode != null && !string.IsNullOrEmpty(TopNode.LocalName) && TopNode.LocalName.ToLower() == "datavalidations")
-            {
-                TopNode.ParentNode.RemoveChild(TopNode);
-            }
-            _validations.Clear();
-            _extLstValidations.Clear();
-            OnValidationCountChanged();
         }
 
         /// <summary>
@@ -493,32 +332,22 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="match"></param>
         public void RemoveAll(Predicate<IExcelDataValidation> match)
         {
-            var matches = _validations.FindAll(match);
-            foreach (var m in matches)
-            {
-                if (!(m is ExcelDataValidation))
-                {
-                    throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
-                }
-                TopNode.RemoveChild(((ExcelDataValidation)m).TopNode);
-                //var dvNode = TopNode.SelectSingleNode(DataValidationPath.TrimStart('/'), NameSpaceManager);
-                //if (dvNode != null)
-                //{
-                //    dvNode.RemoveChild(((ExcelDataValidation)m).TopNode);
-                //}
-            }
-            _validations.RemoveAll(match);
-            OnValidationCountChanged();
         }
+
 
         IEnumerator<IExcelDataValidation> IEnumerable<IExcelDataValidation>.GetEnumerator()
         {
             return GetValidations().GetEnumerator();
         }
 
-        IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetValidations().GetEnumerator();
+        }
+
+        private List<IExcelDataValidation> GetValidations()
+        {
+            return _validations;
         }
     }
 }

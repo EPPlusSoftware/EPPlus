@@ -490,4 +490,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\ExtensionFunctions\" />
+  </ItemGroup>
 </Project>

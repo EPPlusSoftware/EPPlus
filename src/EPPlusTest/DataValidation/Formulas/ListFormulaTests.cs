@@ -26,13 +26,10 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.DataValidation;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
@@ -58,7 +55,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "list", "\"1,2\"");
             // Act
-            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.AreEqual(2, validation.Formula.Values.Count);
         }
@@ -69,9 +66,9 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "list", "\"1,2\"");
             // Act
-            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), "A1");
             // Assert
-            CollectionAssert.AreEquivalent(new List<string>{ "1", "2"}, (ICollection)validation.Formula.Values);
+            CollectionAssert.AreEquivalent(new List<string> { "1", "2" }, (ICollection)validation.Formula.Values);
         }
 
         [TestMethod]
@@ -80,7 +77,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "list", "A1");
             // Act
-            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);
         }

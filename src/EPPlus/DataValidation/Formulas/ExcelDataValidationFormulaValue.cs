@@ -10,12 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.Utils;
-using System.Xml;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -33,8 +27,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// <param name="topNode">validation top node</param>
         /// <param name="formulaPath">xml path of the current formula</param>
         /// <param name="validationUid">Uid for the data validation</param>
-        public ExcelDataValidationFormulaValue(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
-            : base(namespaceManager, topNode, formulaPath, validationUid)
+        public ExcelDataValidationFormulaValue(string formula, string validationUid)
+            : base(formula, validationUid)
         {
 
         }
@@ -43,7 +37,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// <summary>
         /// Typed value
         /// </summary>
-        public T Value 
+        public T Value
         {
             get
             {
@@ -53,7 +47,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
             {
                 State = FormulaState.Value;
                 _value = value;
-                SetXmlNodeString(FormulaPath, GetValueAsString());
+                _formula = GetValueAsString();
             }
         }
 

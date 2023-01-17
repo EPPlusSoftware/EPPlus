@@ -26,10 +26,6 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.DataValidation;
 
@@ -57,7 +53,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "decimal", "1");
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             Assert.AreEqual(1, validation.Formula.Value);
         }
 
@@ -68,7 +64,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "decimal", "A1");
 
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
 
             // Assert
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);

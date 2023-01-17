@@ -10,15 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Exceptions;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -40,7 +33,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// <summary>
     /// Base class for a formula
     /// </summary>
-    internal abstract class ExcelDataValidationFormula : XmlHelper
+    internal abstract class ExcelDataValidationFormula
     {
         /// <summary>
         /// Constructor
@@ -49,8 +42,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// <param name="topNode">validation top node</param>
         /// <param name="formulaPath">xml path of the current formula</param>
         /// <param name="validationUid">id of the data validation containing this formula</param>
-        public ExcelDataValidationFormula(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
-            : base(namespaceManager, topNode)
+        public ExcelDataValidationFormula(string formulaPath, string validationUid)
         {
             Require.Argument(formulaPath).IsNotNullOrEmpty("formulaPath");
             Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
@@ -59,32 +51,13 @@ namespace OfficeOpenXml.DataValidation.Formulas
         }
 
         private string _validationUid;
-        private string _formula;
-        private List<IFormulaListener> _formulaListeners = new List<IFormulaListener>();
+        protected string _formula;
 
 
         protected string FormulaPath
         {
             get;
             private set;
-        }
-
-        internal void RegisterFormulaListener(IFormulaListener listener)
-        {
-            _formulaListeners.Add(listener);
-        }
-
-        internal void DetachFormulaListener(IFormulaListener listener)
-        {
-            _formulaListeners.Remove(listener);
-        }
-
-        private void OnFormulaChanged(string uid, string oldValue, string newValue) 
-        { 
-            foreach(var listener in _formulaListeners)
-            {
-                listener.Notify(new ValidationFormulaChangedArgs { ValidationUid = uid, OldValue = oldValue, NewValue = newValue });
-            }
         }
 
         /// <summary>
@@ -123,10 +96,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
                 {
                     throw new DataValidationFormulaTooLongException("The length of a DataValidation formula cannot exceed 255 characters");
                 }
-                var oldValue = _formula;
                 _formula = value;
-                SetXmlNodeString(FormulaPath, value);
-                OnFormulaChanged(_validationUid, oldValue, value);
             }
         }
 

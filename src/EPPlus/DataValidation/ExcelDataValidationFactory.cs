@@ -10,13 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.Utils;
+using System;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -35,50 +31,133 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="internalType"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        internal static ExcelDataValidation Create(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+        /// 
+
+        //T AddValidation<T>(string address, ExcelDataValidationType ValidationType, Type type)
+        //where T : IExcelDataValidation
+        //{
+        //}
+
+        //internal static T Create<T>(string address, ExcelDataValidationType ValidationType, T method)
+        //    where T : NewDataValidation
+        //{
+        //    object item = Activator.CreateInstance(typeof(T), address, ExcelDataValidation.NewId(), ValidationType);
+        //    return (T)item;
+        //}
+        internal static ExcelDataValidation Create(XmlReader xr)
         {
-            Require.Argument(type).IsNotNull("validationType");
+            string validationTypeName = xr.GetAttribute("type");
+
+            switch (validationTypeName)
+            {
+                case null:
+                    return new ExcelDataValidationAny(xr);
+                //case eDataValidationType.TextLength:
+                case "whole":
+                    return new ExcelDataValidationInt(xr);
+                //case eDataValidationType.Decimal:
+                //    return new ExcelDataValidationDecimal(worksheet, uid, address, type, itemElementNode);
+                //case eDataValidationType.List:
+                //    return CreateListValidation(type, worksheet, address, itemElementNode, internalType, uid);
+                //case eDataValidationType.DateTime:
+                //    return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
+                //case eDataValidationType.Time:
+                //    return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
+                //case eDataValidationType.Custom:
+                //    return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
+                default:
+                    throw new InvalidOperationException($"Non supported validationtype: {validationTypeName}");
+            }
+
+            return null;
+        }
+
+        internal static ExcelDataValidation Create(ExcelDataValidationType type, string address, string uid)
+        {
             switch (type.Type)
             {
                 case eDataValidationType.Any:
-                    return new ExcelDataValidationAny(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.TextLength:
-                case eDataValidationType.Whole:
-                    return new ExcelDataValidationInt(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.Decimal:
-                    return new ExcelDataValidationDecimal(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.List:
-                    return CreateListValidation(type, worksheet, address, itemElementNode, internalType, uid);
-                case eDataValidationType.DateTime:
-                    return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.Time:
-                    return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.Custom:
-                    return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
+                    return new ExcelDataValidationAny(uid, address);
                 default:
-                    throw new InvalidOperationException("Non supported validationtype: " + type.Type.ToString());
+                    throw new InvalidOperationException($"Non supported validationtype: {type}");
             }
+            return null;
         }
 
-        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormulaList> CreateListValidation(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+
+        //internal static ExcelDataValidation Create(string uid, string address, string validationType)
+        //{
+
+        //    //switch (validationType.Type)
+        //    //{
+        //    //    case eDataValidationType.Any:
+        //    //        return new ExcelDataValidationAny(uid, address, validationType);
+        //    //    //case eDataValidationType.TextLength:
+        //    //    //case eDataValidationType.Whole:
+        //    //    //    return new ExcelDataValidationInt(worksheet, uid, address, type, itemElementNode);
+        //    //    //case eDataValidationType.Decimal:
+        //    //    //    return new ExcelDataValidationDecimal(worksheet, uid, address, type, itemElementNode);
+        //    //    //case eDataValidationType.List:
+        //    //    //    return CreateListValidation(type, worksheet, address, itemElementNode, internalType, uid);
+        //    //    //case eDataValidationType.DateTime:
+        //    //    //    return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
+        //    //    //case eDataValidationType.Time:
+        //    //    //    return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
+        //    //    //case eDataValidationType.Custom:
+        //    //    //    return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
+        //    //    default:
+        //    //        throw new InvalidOperationException("Non supported validationtype: " + validationType.Type.ToString());
+        //    //}
+        //    //object item = Activator.CreateInstance(typeof(T), address, ExcelDataValidation.NewId(), InternalValidationType internalType);
+        //    //return (T)item;
+        //    return null;
+        //}
+
+
+        //internal static ExcelDataValidation Create(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+        //{
+        //    Require.Argument(type).IsNotNull("validationType");
+        //    switch (type.Type)
+        //    {
+        //        case eDataValidationType.Any:
+        //            return new ExcelDataValidationAny(worksheet, uid, address, type, itemElementNode);
+        //        case eDataValidationType.TextLength:
+        //        case eDataValidationType.Whole:
+        //            return new ExcelDataValidationInt(worksheet, uid, address, type, itemElementNode);
+        //        case eDataValidationType.Decimal:
+        //            return new ExcelDataValidationDecimal(worksheet, uid, address, type, itemElementNode);
+        //        case eDataValidationType.List:
+        //            return CreateListValidation(type, worksheet, address, itemElementNode, internalType, uid);
+        //        case eDataValidationType.DateTime:
+        //            return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
+        //        case eDataValidationType.Time:
+        //            return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
+        //        case eDataValidationType.Custom:
+        //            return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
+        //        default:
+        //            throw new InvalidOperationException("Non supported validationtype: " + type.Type.ToString());
+        //    }
+        //}
+
+        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormulaList> CreateListValidation(string address, string uid)
         {
-            if(internalType == InternalValidationType.DataValidation)
-            {
-                return new ExcelDataValidationList(worksheet, uid, address, type, itemElementNode);
-            }
-            // extLst
-            return new ExcelDataValidationExtList(worksheet, uid, address, type, itemElementNode);
+            //if (internalType == InternalValidationType.DataValidation)
+            //{
+            return new ExcelDataValidationList(uid, address);
+            //}
+
+            //// extLst
+            //return new ExcelDataValidationExtList(worksheet, uid, address, type, itemElementNode);
         }
 
-        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormula> CreateCustomValidation(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormula> CreateCustomValidation(string address, string uid)
         {
-            if (internalType == InternalValidationType.DataValidation)
-            {
-                return new ExcelDataValidationCustom(worksheet, uid, address, type, itemElementNode);
-            }
-            // extLst
-            return new ExcelDataValidationExtCustom(worksheet, uid, address, type, itemElementNode);
+            //if (internalType == InternalValidationType.DataValidation)
+            //{
+            return new ExcelDataValidationCustom(uid, address);
+            // }
+            //// extLst
+            //return new ExcelDataValidationExtCustom(worksheet, uid, address, type, itemElementNode);
         }
-
     }
 }

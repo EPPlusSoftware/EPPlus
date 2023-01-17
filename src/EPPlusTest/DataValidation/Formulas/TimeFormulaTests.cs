@@ -26,10 +26,6 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.DataValidation;
 
@@ -58,8 +54,8 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "time", "0.675");
 
             // Act
-            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
-            
+            var formula = new ExcelDataValidationTime(ExcelDataValidation.NewId(), "A1");
+
             // Assert
             Assert.AreEqual(time.Hour, formula.Formula.Value.Hour);
         }
@@ -72,7 +68,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "time", "0.395");
 
             // Act
-            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
+            var formula = new ExcelDataValidationTime(ExcelDataValidation.NewId(), "A1");
 
             // Assert
             Assert.AreEqual(time.Minute, formula.Formula.Value.Minute);
@@ -86,7 +82,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "time", "0.812");
 
             // Act
-            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
+            var formula = new ExcelDataValidationTime(ExcelDataValidation.NewId(), "A1");
 
             // Assert
             Assert.AreEqual(time.Second.Value, formula.Formula.Value.Second.Value);

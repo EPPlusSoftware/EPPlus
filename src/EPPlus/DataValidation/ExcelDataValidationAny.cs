@@ -10,14 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.DataValidation.Formulas;
-using System.Xml;
 using OfficeOpenXml.DataValidation.Contracts;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -26,50 +20,12 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public class ExcelDataValidationAny : ExcelDataValidation, IExcelDataValidationAny
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
-            : base(worksheet, uid, address, validationType)
-        {
-        }
+        internal ExcelDataValidationAny(XmlReader xr) : base(xr)
+        { }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, uid, address, validationType, itemElementNode)
-        {
-        }
+        internal ExcelDataValidationAny(string uid, string address) : base(uid, address)
+        { }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        /// <param name="namespaceManager"></param>
-        internal ExcelDataValidationAny(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
-        {
-        }
-
-        /// <summary>
-        /// This method will validate the state of the validation
-        /// </summary>
-        public override void Validate()
-        {
-        }
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Any);
     }
 }

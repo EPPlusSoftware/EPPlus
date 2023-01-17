@@ -10,12 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using System.Xml;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -24,14 +19,12 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// </summary>
     internal class ExcelDataValidationFormulaCustom : ExcelDataValidationFormula, IExcelDataValidationFormula
     {
-        public ExcelDataValidationFormulaCustom(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
-            : base(namespaceManager, topNode, formulaPath, validationUid)
+        public ExcelDataValidationFormulaCustom(string formula, string validationUid)
+            : base(formula, validationUid)
         {
-            SchemaNodeOrder = new string[] { "formula1", "sqref" };
-            var value = GetXmlNodeString(formulaPath);
-            if (!string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(formula))
             {
-                ExcelFormula = value;
+                ExcelFormula = formula;
             }
             State = FormulaState.Formula;
         }
@@ -48,7 +41,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
 
         internal override void ResetValue()
         {
-            
+
         }
     }
 }

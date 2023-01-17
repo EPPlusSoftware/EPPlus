@@ -10,240 +10,77 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.Utils;
-using System.Xml;
-using System.Text.RegularExpressions;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.DataValidation.Contracts;
-using OfficeOpenXml.DataValidation.Exceptions;
+using OfficeOpenXml.Utils;
+using System;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
     /// <summary>
     /// Abstract base class for all Excel datavalidations. Contains functionlity which is common for all these different validation types.
     /// </summary>
-    public abstract class ExcelDataValidation : XmlHelper, IExcelDataValidation
+    public abstract class ExcelDataValidation : IExcelDataValidation
     {
-        private const string ItemElementNodeName = "d:dataValidation";
-        private const string ExtLstElementNodeName = "x14:dataValidation";
-        private readonly string _uidPath = "@xr:uid";
-        private readonly string _errorStylePath = "@errorStyle";
-        private readonly string _errorTitlePath = "@errorTitle";
-        private readonly string _errorPath = "@error";
-        private readonly string _promptTitlePath = "@promptTitle";
-        private readonly string _promptPath = "@prompt";
-        private readonly string _operatorPath = "@operator";
-        private readonly string _showErrorMessagePath = "@showErrorMessage";
-        private readonly string _showInputMessagePath = "@showInputMessage";
-        private readonly string _typeMessagePath = "@type";
-        private readonly string _sqrefPath = "@sqref";
-        private readonly string _sqrefPathExt = "xm:sqref";
-        private readonly string _allowBlankPath = "@allowBlank";
         /// <summary>
         /// Xml path for Formula1
         /// </summary>
         private readonly string _formula1Path = "d:formula1";
         private readonly string _formula1ExtLstPath = "x14:formula1/xm:f";
+
         /// <summary>
         /// Xml path for Formula2
         /// </summary>
         private readonly string _formula2Path = "d:formula2";
         private readonly string _formula2ExtLstPath = "x14:formula2/xm:f";
 
-        internal ExcelDataValidation(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
-            : this(worksheet, uid, address, validationType, null, internalValidationType)
-        { }
+        public string Uid { get; internal set; }
 
+        public ExcelAddress Address { get; internal set; }
+
+        public virtual ExcelDataValidationType ValidationType { get; }
+
+        string errorStyleString = null;
         /// <summary>
-        /// Constructor
+        /// Warning style
         /// </summary>
-        /// <param name="worksheet">worksheet that owns the validation</param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="itemElementNode">Xml top node (dataValidations)</param>
-        /// <param name="validationType">Data validation type</param>
-        /// <param name="address">address for data validation</param>
-        /// <param name="internalValidationType">If the datavalidation is internal or in the extLst element</param>
-        internal ExcelDataValidation(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
-            : this(worksheet, uid, address, validationType, itemElementNode, null, internalValidationType)
-        {
-
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="worksheet">worksheet that owns the validation</param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="itemElementNode">Xml top node (dataValidations) when importing xml</param>
-        /// <param name="validationType">Data validation type</param>
-        /// <param name="address">address for data validation</param>
-        /// <param name="namespaceManager">Xml Namespace manager</param>
-        /// <param name="internalValidationType"><see cref="InternalValidationType"/></param>
-        internal ExcelDataValidation(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
-            : base(namespaceManager != null ? namespaceManager : worksheet.NameSpaceManager)
-        {
-            Require.Argument(uid).IsNotNullOrEmpty("uid");
-            Require.Argument(address).IsNotNullOrEmpty("address");
-            InternalValidationType = internalValidationType;
-            InitNodeOrder(validationType);
-            address = CheckAndFixRangeAddress(address);
-            if (itemElementNode == null)
-            {
-                TopNode = worksheet.WorksheetXml.SelectSingleNode(GetTopNodeName(), worksheet.NameSpaceManager);
-                itemElementNode = CreateNode(GetItemElementNodeName(), false, true);
-                TopNode.AppendChild(itemElementNode);
-            }
-            TopNode = itemElementNode;
-            ValidationType = validationType;
-            Uid = uid;
-            Address = new ExcelAddress(address);
-            
-        }
-
-        private bool _isStale = false;
-
-        /// <summary>
-        /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
-        /// </summary>
-        bool IExcelDataValidation.IsStale
+        public ExcelDataValidationWarningStyle ErrorStyle
         {
             get
             {
-                return _isStale;
+                if (!string.IsNullOrEmpty(errorStyleString))
+                    return (ExcelDataValidationWarningStyle)Enum.Parse(typeof(ExcelDataValidationWarningStyle), errorStyleString);
+
+                return ExcelDataValidationWarningStyle.undefined;
             }
-        }
-
-        internal void SetStale()
-        {
-            _isStale = true;
-        }
-
-        internal void CheckIfStale()
-        {
-            if (_isStale)
+            set
             {
-                throw new DataValidationStaleException("This instance of Data validation is stale. Ensure that you set all other properties before you set the Formula.ExcelFormula property. See https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions for more details.");
-            }
-        }
-
-
-
-        internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
-
-        internal virtual void RegisterFormulaListener(DataValidationFormulaListener listener)
-        {
-
-        }
-
-        private string GetSqRefPath()
-        {
-            return InternalValidationType == InternalValidationType.DataValidation ? _sqrefPath : _sqrefPathExt;
-        }
-
-        private string GetItemElementNodeName()
-        {
-            return InternalValidationType == InternalValidationType.DataValidation ? ItemElementNodeName : ExtLstElementNodeName;
-        }
-
-        private string GetTopNodeName()
-        {
-            return InternalValidationType == InternalValidationType.DataValidation ? "//d:dataValidations" : "//d:extLst/d:ext/x14:dataValidations";
-        }
-
-        private void InitNodeOrder(ExcelDataValidationType validationType)
-        {
-            // set schema node order
-            if(validationType == ExcelDataValidationType.List || validationType == ExcelDataValidationType.Custom)
-            {
-                if(InternalValidationType == InternalValidationType.DataValidation)
-                {
-                    SchemaNodeOrder = new string[]{
-                        "uid",
-                        "type",
-                        "errorStyle",
-                        "showDropDown",
-                        "allowBlank",
-                        "showInputMessage",
-                        "showErrorMessage",
-                        "errorTitle",
-                        "error",
-                        "promptTitle",
-                        "prompt",
-                        "sqref",
-                        "formula1"
-                    };
-                }
+                if (value == ExcelDataValidationWarningStyle.undefined)
+                    errorStyleString = null;
                 else
-                {
-                    SchemaNodeOrder = new string[]{
-                        "uid",
-                        "type",
-                        "errorStyle",
-                        "showDropDown",
-                        "allowBlank",
-                        "showInputMessage",
-                        "showErrorMessage",
-                        "errorTitle",
-                        "error",
-                        "promptTitle",
-                        "prompt",
-                        "formula1",
-                        "sqref"
-                    };
-                }
+                    errorStyleString = value.ToString();
             }
-            else
-            {
-                SchemaNodeOrder = new string[]{
-                    "uid",
-                    "type",
-                    "errorStyle",
-                    "operator",
-                    "allowBlank",
-                    "showInputMessage",
-                    "showErrorMessage",
-                    "errorTitle",
-                    "error",
-                    "promptTitle",
-                    "prompt",
-                    "sqref",
-                    "formula1",
-                    "formula2"
-                };
-            }
-            
         }
 
-        private string CheckAndFixRangeAddress(string address)
-        {
-            if (address.Contains(','))
-            {
-                throw new FormatException("Multiple addresses may not be commaseparated, use space instead");
-            }
-            address = ConvertUtil._invariantTextInfo.ToUpper(address);
-            if (Regex.IsMatch(address, @"[A-Z]+:[A-Z]+"))
-            {
-                address = AddressUtility.ParseEntireColumnSelections(address);
-            }
-            return address;
-        }
+        public bool? AllowBlank { get; set; } = null;
 
-        protected void SetNullableBoolValue(string path, bool? val)
-        {
-            if (val.HasValue)
-            {
-                SetXmlNodeBool(path, val.Value);
-            }
-            else
-            {
-                DeleteNode(path);
-            }
-        }
+        public bool? ShowInputMessage { get; set; } = null;
+
+        public bool? ShowErrorMessage { get; set; } = null;
+
+        public string ErrorTitle { get; set; } = null;
+
+        public string Error { get; set; } = null;
+
+        public string PromptTitle { get; set; } = null;
+
+        public string Prompt { get; set; } = null;
+
+        public virtual bool AllowsOperator { get { return true; } }
+
+        internal string IFormula1 = null;
+        internal string IFormula2 = null;
+        string dvAddress = null;
 
         /// <summary>
         /// This method will validate the state of the validation
@@ -253,78 +90,20 @@ namespace OfficeOpenXml.DataValidation
         {
             var address = Address.Address;
             // validate Formula1
-            if (string.IsNullOrEmpty(Formula1Internal) && !(AllowBlank ?? false))
+            if (string.IsNullOrEmpty(IFormula1) && !(AllowBlank ?? false))
             {
                 throw new InvalidOperationException("Validation of " + address + " failed: Formula1 cannot be empty");
             }
         }
 
-        internal void Delete()
-        {
-            DeleteTopNode();
-        }
-
-        #region Public properties
+        public ExcelDataValidationAsType As { get; }
 
         /// <summary>
-        /// True if the validation type allows operator to be set.
+        /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
         /// </summary>
-        public bool AllowsOperator
-        {
-            get
-            {
-                return ValidationType.AllowOperator;
-            }
-        }
+        public bool IsStale { get; }
 
-        /// <summary>
-        /// Uuid of the data validation
-        /// </summary>
-        public string Uid
-        {
-            get
-            {
-                return GetXmlNodeString(_uidPath);
-            }
-            set
-            {
-                CheckIfStale();
-                if (string.IsNullOrEmpty(value)) throw new ArgumentNullException("Uid");
-                var uid = value.TrimStart('{').TrimEnd('}');
-                SetXmlNodeString(_uidPath, "{" + uid + "}");
-            }
-        }
-
-        /// <summary>
-        /// Address of data validation
-        /// </summary>
-        public ExcelAddress Address
-        {
-            get
-            {
-                return new ExcelAddress(GetXmlNodeString(GetSqRefPath()).Replace(" ", ","));
-            }
-            private set
-            {
-                SetAddress(value.Address);
-            }
-        }
-        /// <summary>
-        /// Validation type
-        /// </summary>
-        public ExcelDataValidationType ValidationType
-        {
-            get
-            {
-                var typeString = GetXmlNodeString(_typeMessagePath);
-                return ExcelDataValidationType.GetBySchemaName(typeString);
-            }
-            private set
-            {
-                SetXmlNodeString(_typeMessagePath, value.SchemaName, true);
-            }
-        }
-
+        string operatorString = null;
         /// <summary>
         /// Operator for comparison between the entered value and Formula/Formulas.
         /// </summary>
@@ -332,7 +111,6 @@ namespace OfficeOpenXml.DataValidation
         {
             get
             {
-                var operatorString = GetXmlNodeString(_operatorPath);
                 if (!string.IsNullOrEmpty(operatorString))
                 {
                     return (ExcelDataValidationOperator)Enum.Parse(typeof(ExcelDataValidationOperator), operatorString);
@@ -341,235 +119,32 @@ namespace OfficeOpenXml.DataValidation
             }
             set
             {
-                if (!ValidationType.AllowOperator)
+                if ((ValidationType.Type == eDataValidationType.Any) || ValidationType.Type == eDataValidationType.List)
                 {
                     throw new InvalidOperationException("The current validation type does not allow operator to be set");
                 }
-                CheckIfStale();
-                SetXmlNodeString(_operatorPath, value.ToString());
+                //CheckIfStale();
+                //SetXmlNodeString(_operatorPath, value.ToString());
             }
         }
 
-        /// <summary>
-        /// Warning style
-        /// </summary>
-        public ExcelDataValidationWarningStyle ErrorStyle
-        {
-            get
-            {
-                var errorStyleString = GetXmlNodeString(_errorStylePath);
-                if (!string.IsNullOrEmpty(errorStyleString))
-                {
-                    return (ExcelDataValidationWarningStyle)Enum.Parse(typeof(ExcelDataValidationWarningStyle), errorStyleString);
-                }
-                return ExcelDataValidationWarningStyle.undefined;
-            }
-            set
-            {
-                if (value == ExcelDataValidationWarningStyle.undefined)
-                {
-                    DeleteNode(_errorStylePath);
-                }
-                else
-                {
-                    CheckIfStale();
-                    SetXmlNodeString(_errorStylePath, value.ToString());
-                }
-            }
-        }
 
-        /// <summary>
-        /// True if blanks should be allowed
-        /// </summary>
-        public bool? AllowBlank
-        {
-            get
-            {
-                return GetXmlNodeBoolNullable(_allowBlankPath);
-            }
-            set
-            {
-                CheckIfStale();
-                SetNullableBoolValue(_allowBlankPath, value);
-            }
-        }
+        //virtual internal void Load(XmlReader xr)
+        //{
+        //    while (xr.Read())
+        //    {
+        //        if (xr.LocalName != "dataValidation") break;
 
-        /// <summary>
-        /// True if input message should be shown
-        /// </summary>
-        public bool? ShowInputMessage
-        {
-            get
-            {
-                return GetXmlNodeBoolNullable(_showInputMessagePath);
-            }
-            set
-            {
-                CheckIfStale();
-                SetNullableBoolValue(_showInputMessagePath, value);
-            }
-        }
+        //        if (xr.NodeType == XmlNodeType.Element)
+        //        {
+        //            string validationType = xr.GetAttribute("type");
+        //            string address = xr.GetAttribute("sqref");
 
-        /// <summary>
-        /// True if error message should be shown
-        /// </summary>
-        public bool? ShowErrorMessage
-        {
-            get
-            {
-                return GetXmlNodeBoolNullable(_showErrorMessagePath);
-            }
-            set
-            {
-                CheckIfStale();
-                SetNullableBoolValue(_showErrorMessagePath, value);
-            }
-        }
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        /// Title of error message box
-        /// </summary>
-        public string ErrorTitle
-        {
-            get
-            {
-                return GetXmlNodeString(_errorTitlePath);
-            }
-
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    DeleteNode(_errorTitlePath);
-                }
-                else
-                {
-                    CheckIfStale();
-                    SetXmlNodeString(_errorTitlePath, value.ToString());
-                }
-            }
-        }
-
-        /// <summary>
-        /// Error message box text
-        /// </summary>
-        public string Error
-        {
-            get
-            {
-                return GetXmlNodeString(_errorPath);
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    DeleteNode(_errorPath);
-                }
-                else
-                {
-                    CheckIfStale();
-                    SetXmlNodeString(_errorPath, value.ToString());
-                }
-            }
-        }
-
-        /// <summary>
-        /// Title of the validation message box.
-        /// </summary>
-        public string PromptTitle
-        {
-            get
-            {
-                return GetXmlNodeString(_promptTitlePath);
-            }
-            set
-            {
-                CheckIfStale();
-                SetXmlNodeString(_promptTitlePath, value);
-            }
-        }
-
-        /// <summary>
-        /// Text of the validation message box.
-        /// </summary>
-        public string Prompt
-        {
-            get
-            {
-                return GetXmlNodeString(_promptPath);
-            }
-            set
-            {
-                CheckIfStale();
-                SetXmlNodeString(_promptPath, value);
-            }
-        }
-
-        /// <summary>
-        /// Formula 1
-        /// </summary>
-        protected string Formula1Internal
-        {
-            get
-            {
-                return GetXmlNodeString(GetFormula1Path());
-            }
-        }
-
-        /// <summary>
-        /// Formula 2
-        /// </summary>
-        protected string Formula2Internal
-        {
-            get
-            {
-                return GetXmlNodeString(GetFormula2Path());
-            }
-        }
-
-        #endregion
-
-        #region Internal properties
-
-        internal static string NewId()
-        {
-            return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
-        }
-        internal bool IsExtLst { get; set; }
-
-        ExcelDataValidationAsType _as = null;
-        /// <summary>
-        /// Us this property to case <see cref="IExcelDataValidation"/>s to its subtypes
-        /// </summary>
-        public ExcelDataValidationAsType As
-        {
-            get
-            {
-                if(_as == null)
-                {
-                    _as = new ExcelDataValidationAsType(this);
-                }
-                return _as;
-            }
-        }
-        #endregion
-
-        /// <summary>
-        /// Sets the value to the supplied path
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="val">The value to set</param>
-        /// <param name="path">xml path</param>
-        protected void SetValue<T>(Nullable<T> val, string path)
-            where T : struct
-        {
-            if (!val.HasValue)
-            {
-                DeleteNode(path);
-            }
-            var stringValue = val.Value.ToString().Replace(',', '.');
-            SetXmlNodeString(path, stringValue);
-        }
+        internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
 
         /// <summary>
         /// Returns the <see cref="Formula1Internal"/> xml path
@@ -588,11 +163,61 @@ namespace OfficeOpenXml.DataValidation
             return InternalValidationType == InternalValidationType.DataValidation ? _formula2Path : _formula2ExtLstPath;
         }
 
+        protected ExcelDataValidation(string uid, string address)
+        {
+            Require.Argument(uid).IsNotNullOrEmpty("uid");
+            Require.Argument(address).IsNotNullOrEmpty("address");
+
+            Uid = uid;
+            Address = new ExcelAddress(address);
+        }
+
+        protected ExcelDataValidation(XmlReader xr)
+        {
+            LoadXML(xr);
+        }
+
+
+        public virtual void LoadXML(XmlReader xr)
+        {
+            Address = new ExcelAddress(xr.GetAttribute("sqref"));
+            Uid = xr.GetAttribute("xr:uid");
+
+            operatorString = xr.GetAttribute("operator");
+            errorStyleString = xr.GetAttribute("errorStyle");
+
+            AllowBlank = xr.GetAttribute("allowBlank") == "1" ? true : false;
+
+            ShowInputMessage = xr.GetAttribute("showInputMessage") == "1" ? true : false;
+            ShowErrorMessage = xr.GetAttribute("showErrorMessage") == "1" ? true : false;
+
+            ErrorTitle = xr.GetAttribute("errorTitle");
+            Error = xr.GetAttribute("error");
+
+            PromptTitle = xr.GetAttribute("promptTitle");
+            Prompt = xr.GetAttribute("prompt");
+
+            xr.MoveToContent();
+            string content = xr.Value;
+            //if(InternalValidationType == InternalValidationType.DataValidation)
+
+            //else
+        }
+
+
+
+        internal static string NewId()
+        {
+            return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
+        }
+
         internal void SetAddress(string address)
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
-            SetXmlNodeString(GetSqRefPath(), dvAddress.Replace(",", " "));
-            
+            dvAddress = address;
         }
+
+
     }
 }
+

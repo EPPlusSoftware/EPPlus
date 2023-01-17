@@ -10,21 +10,17 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
 using System.Globalization;
 namespace OfficeOpenXml.DataValidation.Formulas
 {
     internal class ExcelDataValidationFormulaDateTime : ExcelDataValidationFormulaValue<DateTime?>, IExcelDataValidationFormulaDateTime
     {
-        public ExcelDataValidationFormulaDateTime(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
-            : base(namespaceManager, topNode, formulaPath, validationUid)
+        public ExcelDataValidationFormulaDateTime(string formula, string validationUid)
+            : base(formula, validationUid)
         {
-            var value = GetXmlNodeString(formulaPath);
+            var value = formula;
             if (!string.IsNullOrEmpty(value))
             {
                 double oADate = default(double);

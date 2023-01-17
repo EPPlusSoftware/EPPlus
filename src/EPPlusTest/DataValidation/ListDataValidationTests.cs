@@ -27,12 +27,11 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 
-using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
+using System;
 
 namespace EPPlusTest.DataValidation
 {
@@ -92,7 +91,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ListDataValidation_ShowErrorMessageIsSet()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("list formula");
 
@@ -142,8 +141,8 @@ namespace EPPlusTest.DataValidation
                 validation = sheet.DataValidations.Find(x => x.Uid == validation.Uid).As.ListValidation;
 
                 Assert.IsTrue(validation.HideDropDown.Value);
-                var v = validation as ExcelDataValidationExtList;
-                var attributeValue = v.TopNode.Attributes["showDropDown"].Value;
+                var v = validation as ExcelDataValidationList;
+                var attributeValue = v.HideDropDown.Value;
                 Assert.AreEqual("1", attributeValue);
             }
         }
@@ -166,7 +165,7 @@ namespace EPPlusTest.DataValidation
 
                 Assert.IsTrue(validation.HideDropDown.Value);
                 var v = validation as ExcelDataValidationList;
-                var attributeValue = v.TopNode.Attributes["showDropDown"].Value;
+                var attributeValue = v.HideDropDown.Value;
                 Assert.AreEqual("1", attributeValue);
             }
         }

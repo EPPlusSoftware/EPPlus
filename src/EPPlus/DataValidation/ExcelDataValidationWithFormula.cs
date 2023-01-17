@@ -10,11 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -26,6 +23,7 @@ namespace OfficeOpenXml.DataValidation
     public class ExcelDataValidationWithFormula<T> : ExcelDataValidation
         where T : IExcelDataValidationFormula
     {
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -33,39 +31,14 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationWithFormula(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
-            : this(worksheet, uid, address, validationType, null)
+        internal ExcelDataValidationWithFormula(string uid, string address)
+            : base(uid, address)
         {
 
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="worksheet">Worksheet that owns the validation</param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="itemElementNode">Xml top node (dataValidations)</param>
-        /// <param name="validationType">Data validation type</param>
-        /// <param name="address">address for data validation</param>
-        /// <param name="internalValidationType">If the datavalidation is internal or in the extLst element</param>
-        internal ExcelDataValidationWithFormula(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
-            : base(worksheet, uid, address, validationType, itemElementNode, internalValidationType)
-        {
-            
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="worksheet">Worksheet that owns the validation</param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="itemElementNode">Xml top node (dataValidations)</param>
-        /// <param name="validationType">Data validation type</param>
-        /// <param name="address">address for data validation</param>
-        /// <param name="namespaceManager">for test purposes</param>
-        /// <param name="internalValidationType"><see cref="InternalValidationType"/></param>
-        internal ExcelDataValidationWithFormula(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager, InternalValidationType internalValidationType = InternalValidationType.DataValidation)
-            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager, internalValidationType)
+        internal ExcelDataValidationWithFormula(XmlReader xr)
+            : base(xr)
         {
 
         }
@@ -88,11 +61,11 @@ namespace OfficeOpenXml.DataValidation
         public override void Validate()
         {
             base.Validate();
-            if (ValidationType != ExcelDataValidationType.List 
-                && ValidationType != ExcelDataValidationType.Custom  
+            if (ValidationType.Type != eDataValidationType.List
+                && ValidationType.Type != eDataValidationType.Custom
                 && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
             {
-                if (string.IsNullOrEmpty(Formula2Internal))
+                if (string.IsNullOrEmpty(IFormula2))
                 {
                     throw new InvalidOperationException("Validation of " + Address.Address + " failed: Formula2 must be set if operator is 'between' or 'notBetween'");
                 }

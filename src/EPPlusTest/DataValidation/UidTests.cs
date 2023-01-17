@@ -1,10 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.DataValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.DataValidation
 {
@@ -31,7 +26,7 @@ namespace EPPlusTest.DataValidation
             LoadXmlTestData("A1", "decimal", "1.3");
             var id = ExcelDataValidation.NewId();
             // Act
-            var validation = new ExcelDataValidationDecimal(_sheet, id, "A1", ExcelDataValidationType.Decimal, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationDecimal(id, "A1");
             // Assert
             Assert.AreEqual(id, validation.Uid);
         }

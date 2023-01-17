@@ -26,14 +26,10 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
-using System.IO;
+using System;
 
 namespace EPPlusTest.DataValidation
 {
@@ -58,10 +54,10 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "greaterThanOrEqual", "1");
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.AreEqual(ExcelDataValidationOperator.greaterThanOrEqual, validation.Operator);
-       }
+        }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
@@ -77,7 +73,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", true, false);
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.IsTrue(validation.ShowErrorMessage ?? false);
         }
@@ -88,7 +84,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", false, true);
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.IsTrue(validation.ShowInputMessage ?? false);
         }
@@ -99,7 +95,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.AreEqual("Prompt", validation.Prompt);
         }
@@ -110,7 +106,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.AreEqual("PromptTitle", validation.PromptTitle);
         }
@@ -121,7 +117,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.AreEqual("Error", validation.Error);
         }
@@ -132,7 +128,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
             // Assert
             Assert.AreEqual("ErrorTitle", validation.ErrorTitle);
         }
