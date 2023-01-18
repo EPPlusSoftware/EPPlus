@@ -1292,6 +1292,7 @@ namespace OfficeOpenXml
             }
             LoadMergeCells(xr);
             LoadDataValidations(xr);
+            LoadExtLst(xr);
             LoadHyperLinks(xr);
             LoadRowPageBreakes(xr);
             LoadColPageBreakes(xr);
@@ -1758,18 +1759,38 @@ namespace OfficeOpenXml
             return hl;
         }
 
-        internal ExcelDataValidationCollection _dataValidation = null;
+        internal ExcelDataValidationCollection _dataValidations = null;
         /// <summary>
         /// DataValidation defined in the worksheet. Use the Add methods to create DataValidations and add them to the worksheet. Then
         /// set the properties on the instance returned.
         /// </summary>
         /// <seealso cref="ExcelDataValidationCollection"/>
-        public ExcelDataValidationCollection DataValidations { get { return _dataValidation; } }
+        public ExcelDataValidationCollection DataValidations { get { return _dataValidations; } }
 
         private void LoadDataValidations(XmlReader xr)
         {
-            if (ReadUntil(xr, 1, "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
-                _dataValidation = new ExcelDataValidationCollection(xr);
+            if (ReadUntil(xr, 1, "dataValidations", "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+                _dataValidations = new ExcelDataValidationCollection(xr);
+        }
+
+        private void LoadExtLst(XmlReader xr)
+        {
+            if (ReadUntil(xr, 1, "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+            {
+                xr.Read();
+                string name = xr.Name;
+                string nodeType = xr.NodeType.ToString();
+
+                if (xr.GetAttribute("uri") == "{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}")
+                {
+                    xr.Read();
+                    if (_dataValidations == null)
+                        _dataValidations = new ExcelDataValidationCollection(xr);
+                    else
+                        _dataValidations.ReadDataValidations(xr);
+                }
+            }
+
         }
 
         /// <summary>
@@ -3906,7 +3927,7 @@ namespace OfficeOpenXml
         }
         internal void ClearValidations()
         {
-            _dataValidation = null;
+            _dataValidations = null;
         }
 
         ExcelBackgroundImage _backgroundImage = null;
@@ -4063,7 +4084,7 @@ namespace OfficeOpenXml
             _tables = null;
             _vmlDrawings = null;
             _conditionalFormatting = null;
-            _dataValidation = null;
+            _dataValidations = null;
             _drawings = null;
 
             _sheetID = -1;

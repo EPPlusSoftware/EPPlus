@@ -53,6 +53,11 @@ namespace OfficeOpenXml.DataValidation
 
         internal ExcelDataValidationCollection(XmlReader xr)
         {
+            ReadDataValidations(xr);
+        }
+
+        public void ReadDataValidations(XmlReader xr)
+        {
             while (xr.Read())
             {
                 if (xr.LocalName != "dataValidation") break;
@@ -61,17 +66,6 @@ namespace OfficeOpenXml.DataValidation
                 {
                     var validation = ExcelDataValidationFactory.Create(xr);
                     _validations.Add(validation);
-
-                    //string validationTypeName = xr.GetAttribute("type");
-                    //string address = xr.GetAttribute("sqref");
-                    //string uid = xr.GetAttribute("uid");
-
-                    //ExcelDataValidationType type = ExcelDataValidationType.GetBySchemaName(validationType);
-                    //Type method = ExcelDataValidationType.GetMethodTypeBySchemaName(validationTypeName);
-                    //var validationType = ExcelDataValidationType.GetBySchemaName(validationTypeName);
-
-                    //var validation = ExcelDataValidationFactory.Create(address, uid, validationTypeName);
-
                 }
             }
         }

@@ -177,10 +177,10 @@ namespace OfficeOpenXml.DataValidation
             LoadXML(xr);
         }
 
-
-        public virtual void LoadXML(XmlReader xr)
+        internal virtual void LoadXML(XmlReader xr)
         {
-            Address = new ExcelAddress(xr.GetAttribute("sqref"));
+            string address = xr.GetAttribute("sqref");
+
             Uid = xr.GetAttribute("xr:uid");
 
             operatorString = xr.GetAttribute("operator");
@@ -197,11 +197,22 @@ namespace OfficeOpenXml.DataValidation
             PromptTitle = xr.GetAttribute("promptTitle");
             Prompt = xr.GetAttribute("prompt");
 
-            xr.MoveToContent();
-            string content = xr.Value;
-            //if(InternalValidationType == InternalValidationType.DataValidation)
+            LoadSpecifics(xr);
 
-            //else
+            if (address == null)
+                while (xr.LocalName != "sqref")
+                {
+                    xr.Read();
+                    if (xr.LocalName == "sqref")
+                        address = xr.ReadString();
+                }
+
+            Address = new ExcelAddress(address);
+        }
+
+        internal virtual void LoadSpecifics(XmlReader xr)
+        {
+
         }
 
 

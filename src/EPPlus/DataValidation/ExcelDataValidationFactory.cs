@@ -47,11 +47,12 @@ namespace OfficeOpenXml.DataValidation
         internal static ExcelDataValidation Create(XmlReader xr)
         {
             string validationTypeName = xr.GetAttribute("type");
-
+            ExcelDataValidation alt;
             switch (validationTypeName)
             {
                 case null:
-                    return new ExcelDataValidationAny(xr);
+                    alt = new ExcelDataValidationAny(xr);
+                    break;
                 //case eDataValidationType.TextLength:
                 case "whole":
                     return new ExcelDataValidationInt(xr);
@@ -67,7 +68,11 @@ namespace OfficeOpenXml.DataValidation
                 //    return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
                 default:
                     throw new InvalidOperationException($"Non supported validationtype: {validationTypeName}");
+
+
             }
+
+            alt.LoadXML(xr);
 
             return null;
         }

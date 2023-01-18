@@ -19,7 +19,7 @@ namespace OfficeOpenXml.DataValidation
     /// Represents a data validation with two formulas
     /// </summary>
     /// <typeparam name="T">An instance implementing the <see cref="IExcelDataValidationFormula"></see></typeparam>
-    public class ExcelDataValidationWithFormula2<T> : ExcelDataValidationWithFormula<T>
+    public abstract class ExcelDataValidationWithFormula2<T> : ExcelDataValidationWithFormula<T>
         where T : IExcelDataValidationFormula
     {
         /// <summary>
@@ -33,6 +33,12 @@ namespace OfficeOpenXml.DataValidation
             : base(uid, address)
         {
 
+        }
+
+        internal override void LoadSpecifics(XmlReader xr)
+        {
+            base.LoadSpecifics(xr);
+            Formula2 = ReadFormula(xr);
         }
 
         internal ExcelDataValidationWithFormula2(XmlReader xr)

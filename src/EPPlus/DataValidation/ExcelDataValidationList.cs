@@ -33,7 +33,12 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationList(string uid, string address)
             : base(uid, address)
         {
-            Formula = new ExcelDataValidationFormulaList(IFormula1, uid);
+            //Formula = new ExcelDataValidationFormulaList(IFormula1, uid);
+        }
+
+        internal override IExcelDataValidationFormulaList LoadFormula(string formulaValue)
+        {
+            return new ExcelDataValidationFormulaList(IFormula1, Uid);
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace OfficeOpenXml.DataValidation
         /// </remarks>
         public bool? HideDropDown { get; set; }
 
-        public override void LoadXML(XmlReader xr)
+        internal override void LoadXML(XmlReader xr)
         {
             base.LoadXML(xr);
 

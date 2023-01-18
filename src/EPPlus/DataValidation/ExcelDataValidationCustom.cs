@@ -31,7 +31,12 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationCustom(string uid, string address)
             : base(uid, address)
         {
-            Formula = new ExcelDataValidationFormulaCustom(IFormula1, uid);
+
+        }
+
+        override internal IExcelDataValidationFormula LoadFormula(string formulaValue)
+        {
+            return new ExcelDataValidationFormulaCustom(IFormula1, Uid);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace OfficeOpenXml.DataValidation
     /// A validation containing a formula
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExcelDataValidationWithFormula<T> : ExcelDataValidation
+    public abstract class ExcelDataValidationWithFormula<T> : ExcelDataValidation
         where T : IExcelDataValidationFormula
     {
 
@@ -42,6 +42,33 @@ namespace OfficeOpenXml.DataValidation
         {
 
         }
+
+        internal override void LoadSpecifics(XmlReader xr)
+        {
+            base.LoadSpecifics(xr);
+            Formula = ReadFormula(xr);
+        }
+
+        internal T ReadFormula(XmlReader xr)
+        {
+            XmlNodeType type;
+            do
+            {
+                xr.Read();
+                type = xr.NodeType;
+                string name = xr.Name;
+                string localName = xr.LocalName;
+
+                if (type == XmlNodeType.Text)
+                    return LoadFormula(xr.Value);
+
+            } while (type != XmlNodeType.Text);
+
+            //this should never be reached but the compiler doesn't understand that.
+            return default(T);
+        }
+
+        abstract internal T LoadFormula(string formulaValue);
 
         /// <summary>
         /// Formula - Either a {T} value (except for custom validation) or a spreadsheet formula

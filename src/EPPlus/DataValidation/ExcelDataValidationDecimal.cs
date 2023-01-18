@@ -31,8 +31,13 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationDecimal(string uid, string address)
             : base(uid, address)
         {
-            Formula = new ExcelDataValidationFormulaDecimal(IFormula1, uid);
-            Formula2 = new ExcelDataValidationFormulaDecimal(IFormula2, uid);
+            //Formula = new ExcelDataValidationFormulaDecimal(IFormula1, uid);
+            //Formula2 = new ExcelDataValidationFormulaDecimal(IFormula2, uid);
+        }
+
+        internal override IExcelDataValidationFormulaDecimal LoadFormula(string formulaValue)
+        {
+            return new ExcelDataValidationFormulaDecimal(formulaValue, Uid);
         }
     }
 }

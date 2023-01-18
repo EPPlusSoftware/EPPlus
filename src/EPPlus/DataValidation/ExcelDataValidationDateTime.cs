@@ -32,8 +32,12 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationDateTime(string uid, string address)
             : base(uid, address)
         {
-            Formula = new ExcelDataValidationFormulaDateTime(IFormula1, uid);
-            Formula2 = new ExcelDataValidationFormulaDateTime(IFormula2, uid);
+
+        }
+
+        internal override IExcelDataValidationFormulaDateTime LoadFormula(string formulaValue)
+        {
+            return new ExcelDataValidationFormulaDateTime(formulaValue, Uid);
         }
     }
 }

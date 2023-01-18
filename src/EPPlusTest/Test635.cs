@@ -31,7 +31,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Stuff()
         {
-            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\BookInitial.xlsx");
+            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\OtherSheetTest.xlsx");
 
             ExcelPackage package = new ExcelPackage(testFile);
 

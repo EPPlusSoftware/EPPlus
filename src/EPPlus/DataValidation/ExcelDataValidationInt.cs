@@ -28,6 +28,11 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
+        internal override IExcelDataValidationFormulaInt LoadFormula(string formulaValue)
+        {
+            return new ExcelDataValidationFormulaInt(formulaValue, Uid);
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -37,8 +42,8 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="validationType"></param>
         internal ExcelDataValidationInt(string uid, string address) : base(uid, address)
         {
-            Formula = new ExcelDataValidationFormulaInt(IFormula1, uid);
-            Formula2 = new ExcelDataValidationFormulaInt(IFormula2, uid);
+            //Formula = new ExcelDataValidationFormulaInt(IFormula1, uid);
+            //Formula2 = new ExcelDataValidationFormulaInt(IFormula2, uid);
         }
     }
 }
