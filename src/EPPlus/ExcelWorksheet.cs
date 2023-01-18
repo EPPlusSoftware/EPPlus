@@ -1292,10 +1292,11 @@ namespace OfficeOpenXml
             }
             LoadMergeCells(xr);
             LoadDataValidations(xr);
-            LoadExtLst(xr);
             LoadHyperLinks(xr);
             LoadRowPageBreakes(xr);
             LoadColPageBreakes(xr);
+            LoadExtLst(xr);
+
             Encoding encoding;
             if (isZipStream)
             {
@@ -1357,7 +1358,7 @@ namespace OfficeOpenXml
         }
         private void LoadRowPageBreakes(XmlReader xr)
         {
-            if (!ReadUntil(xr, 1, "rowBreaks", "colBreaks")) return;
+            if (!xr.ReadUntil(1, "rowBreaks", "colBreaks", "extLst")) return;
             while (xr.Read())
             {
                 if (xr.LocalName == "brk")
@@ -1379,7 +1380,7 @@ namespace OfficeOpenXml
         }
         private void LoadColPageBreakes(XmlReader xr)
         {
-            if (!ReadUntil(xr, 1, "colBreaks")) return;
+            if (!xr.ReadUntil(1, "colBreaks", "extLst")) return;
             while (xr.Read())
             {
                 if (xr.LocalName == "brk")
@@ -1565,22 +1566,23 @@ namespace OfficeOpenXml
             }
             start = startPos;
         }
-        private bool ReadUntil(XmlReader xr, int depth, params string[] tagName)
-        {
-            if (xr.EOF) return false;
-            while ((xr.Depth == depth && Array.Exists(tagName, tag => Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false)
-            {
-                do
-                {
-                    xr.Read();
-                    if (xr.EOF) return false;
-                } while (xr.Depth != depth);
-            }
-            return (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
-        }
+        //private bool ReadUntil(XmlReader xr, int depth, params string[] tagName)
+        //{
+        //    XmlReaderHelper.
+        //    //if (xr.EOF) return false;
+        //    //while ((xr.Depth == depth && Array.Exists(tagName, tag => Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false)
+        //    //{
+        //    //    do
+        //    //    {
+        //    //        xr.Read();
+        //    //        if (xr.EOF) return false;
+        //    //    } while (xr.Depth != depth);
+        //    //}
+        //    //return (Utils.ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
+        //}
         private void LoadColumns(XmlReader xr)//(string xml)
         {
-            if (ReadUntil(xr, 1, "cols", "sheetData"))
+            if (xr.ReadUntil(1, "cols", "sheetData"))
             {
                 while (xr.Read())
                 {
@@ -1636,7 +1638,7 @@ namespace OfficeOpenXml
         /// <param name="xr">The reader</param>
         private void LoadHyperLinks(XmlReader xr)
         {
-            if (!ReadUntil(xr, 1, "hyperlinks", "rowBreaks", "colBreaks")) return;
+            if (!xr.ReadUntil(1, "hyperlinks", "rowBreaks", "colBreaks", "extLst")) return;
             var delRelIds = new HashSet<string>();
             while (xr.Read())
             {
@@ -1769,13 +1771,13 @@ namespace OfficeOpenXml
 
         private void LoadDataValidations(XmlReader xr)
         {
-            if (ReadUntil(xr, 1, "dataValidations", "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+            if (xr.ReadUntil(1, "dataValidations", "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst") && !xr.EOF)
                 _dataValidations = new ExcelDataValidationCollection(xr);
         }
 
         private void LoadExtLst(XmlReader xr)
         {
-            if (ReadUntil(xr, 1, "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+            if (xr.ReadUntil(1, "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
             {
                 xr.Read();
                 string name = xr.Name;
@@ -1784,6 +1786,7 @@ namespace OfficeOpenXml
                 if (xr.GetAttribute("uri") == "{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}")
                 {
                     xr.Read();
+
                     if (_dataValidations == null)
                         _dataValidations = new ExcelDataValidationCollection(xr);
                     else
@@ -1799,7 +1802,7 @@ namespace OfficeOpenXml
         /// <param name="xr">The reader</param>
         private void LoadCells(XmlReader xr)
         {
-            ReadUntil(xr, 1, "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks");
+            xr.ReadUntil(1, "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks");
             ExcelAddressBase address = null;
             string type = "";
             int style = 0;
@@ -2049,7 +2052,7 @@ namespace OfficeOpenXml
         /// <param name="xr"></param>
         private void LoadMergeCells(XmlReader xr)
         {//
-            if (ReadUntil(xr, 1, "mergeCells", "dataValidations", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+            if (xr.ReadUntil(1, "mergeCells", "dataValidations", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
             {
                 while (xr.Read())
                 {

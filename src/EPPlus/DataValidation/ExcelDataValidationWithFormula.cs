@@ -46,12 +46,18 @@ namespace OfficeOpenXml.DataValidation
         internal override void LoadSpecifics(XmlReader xr)
         {
             base.LoadSpecifics(xr);
-            Formula = ReadFormula(xr);
+            Formula = ReadFormula(xr, "formula1");
         }
 
-        internal T ReadFormula(XmlReader xr)
+        internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
+            //xr.ReadUntil(3, formulaIdentifier, "dataValidation", "extLst");
+
+            //if (xr.LocalName != formulaIdentifier)
+            //    throw new NullReferenceException("CANNOT FIND FORMULA");
+
             XmlNodeType type;
+            string internalFormula = null;
             do
             {
                 xr.Read();
@@ -59,13 +65,24 @@ namespace OfficeOpenXml.DataValidation
                 string name = xr.Name;
                 string localName = xr.LocalName;
 
-                if (type == XmlNodeType.Text)
-                    return LoadFormula(xr.Value);
+                if (type == XmlNodeType.Element)
+                    if (xr.LocalName == "formula1" || xr.LocalName == "formula2")
+                    {
+                        string temp = xr.ReadString();
+                        if (temp == "")
+                        {
+                            xr.Read();
+                            temp = xr.ReadString();
+                        }
 
-            } while (type != XmlNodeType.Text);
+                        internalFormula = temp;
+                    }
+                    else
+                        throw new NullReferenceException("CANNOT FIND FORMULA");
 
-            //this should never be reached but the compiler doesn't understand that.
-            return default(T);
+            } while (type != XmlNodeType.Element);
+
+            return LoadFormula(internalFormula);
         }
 
         abstract internal T LoadFormula(string formulaValue);

@@ -200,12 +200,10 @@ namespace OfficeOpenXml.DataValidation
             LoadSpecifics(xr);
 
             if (address == null)
-                while (xr.LocalName != "sqref")
-                {
-                    xr.Read();
-                    if (xr.LocalName == "sqref")
-                        address = xr.ReadString();
-                }
+                if (xr.ReadUntil(5, "sqref", "dataValidation", "extLst"))
+                    address = xr.ReadString();
+                else
+                    throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
 
             Address = new ExcelAddress(address);
         }

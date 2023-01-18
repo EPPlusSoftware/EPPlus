@@ -38,7 +38,7 @@ namespace OfficeOpenXml.DataValidation
         internal override void LoadSpecifics(XmlReader xr)
         {
             base.LoadSpecifics(xr);
-            Formula2 = ReadFormula(xr);
+            Formula2 = ReadFormula(xr, "formula2");
         }
 
         internal ExcelDataValidationWithFormula2(XmlReader xr)
