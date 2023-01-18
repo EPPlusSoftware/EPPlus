@@ -18,5 +18,17 @@ namespace OfficeOpenXml.Utils
             }
             return (ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
         }
+
+        internal static bool ReadUntil(this XmlReader xr, params string[] tagName)
+        {
+            if (xr.EOF) return false;
+            do
+            {
+                if (xr.EOF) return false;
+                xr.Read();
+            } while ((Array.Exists(tagName, tag => ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false);
+
+            return (ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
+        }
     }
 }

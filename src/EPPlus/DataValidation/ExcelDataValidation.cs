@@ -180,6 +180,8 @@ namespace OfficeOpenXml.DataValidation
         internal virtual void LoadXML(XmlReader xr)
         {
             string address = xr.GetAttribute("sqref");
+            if (address != null)
+                Address = new ExcelAddress(address);
 
             Uid = xr.GetAttribute("xr:uid");
 
@@ -201,11 +203,12 @@ namespace OfficeOpenXml.DataValidation
 
             if (address == null)
                 if (xr.ReadUntil(5, "sqref", "dataValidation", "extLst"))
+                {
                     address = xr.ReadString();
+                    Address = new ExcelAddress(address);
+                }
                 else
                     throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
-
-            Address = new ExcelAddress(address);
         }
 
         internal virtual void LoadSpecifics(XmlReader xr)

@@ -11,6 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Utils;
+
 using System;
 using System.Xml;
 
@@ -51,38 +53,43 @@ namespace OfficeOpenXml.DataValidation
 
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
-            //xr.ReadUntil(3, formulaIdentifier, "dataValidation", "extLst");
+            xr.ReadUntil(formulaIdentifier, "dataValidation", "extLst");
 
-            //if (xr.LocalName != formulaIdentifier)
-            //    throw new NullReferenceException("CANNOT FIND FORMULA");
+            if (xr.LocalName != formulaIdentifier)
+                throw new NullReferenceException("CANNOT FIND FORMULA");
 
-            XmlNodeType type;
-            string internalFormula = null;
-            do
-            {
+            if (Address == null)
                 xr.Read();
-                type = xr.NodeType;
-                string name = xr.Name;
-                string localName = xr.LocalName;
 
-                if (type == XmlNodeType.Element)
-                    if (xr.LocalName == "formula1" || xr.LocalName == "formula2")
-                    {
-                        string temp = xr.ReadString();
-                        if (temp == "")
-                        {
-                            xr.Read();
-                            temp = xr.ReadString();
-                        }
+            return LoadFormula(xr.ReadString());
 
-                        internalFormula = temp;
-                    }
-                    else
-                        throw new NullReferenceException("CANNOT FIND FORMULA");
+            //XmlNodeType type;
+            //string internalFormula = null;
+            //do
+            //{
+            //    xr.Read();
+            //    type = xr.NodeType;
+            //    string name = xr.Name;
+            //    string localName = xr.LocalName;
 
-            } while (type != XmlNodeType.Element);
+            //    if (type == XmlNodeType.Element)
+            //        if (xr.LocalName == "formula1" || xr.LocalName == "formula2")
+            //        {
+            //            string temp = xr.ReadString();
+            //            if (temp == "")
+            //            {
+            //                xr.Read();
+            //                temp = xr.ReadString();
+            //            }
 
-            return LoadFormula(internalFormula);
+            //            internalFormula = temp;
+            //        }
+            //        else
+            //            throw new NullReferenceException("CANNOT FIND FORMULA");
+
+            //} while (type != XmlNodeType.Element);
+
+            //return LoadFormula(internalFormula);
         }
 
         abstract internal T LoadFormula(string formulaValue);
