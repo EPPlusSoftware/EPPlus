@@ -28,6 +28,7 @@
  *******************************************************************************/
 using System;
 using System.Linq;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
@@ -63,7 +64,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
 				new FunctionArgument(date1),
 				new FunctionArgument(date2.ToString("d"))
 			}, ParsingContext.Create());
-			Assert.AreEqual((value1 + value2 + value3 + value4 + value5 + value6) / 6, result.Result);
+			Assert.AreEqual((value1 + value2 + value3 + value4 + value5 + value6) / 6, result.Result, $"Current Culture is {Thread.CurrentThread.CurrentCulture.Name}");
 		}
 
 		[TestMethod]
