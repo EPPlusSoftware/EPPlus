@@ -73,6 +73,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartStyleItem
   - OfficeOpenXml.Drawing.Chart.ExcelChartSurface
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
   - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineLabel
@@ -372,6 +373,7 @@ references:
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
   commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  parent: OfficeOpenXml.Drawing.Chart
   name: ExcelChartAxisStandard
   nameWithType: ExcelChartAxisStandard
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
@@ -548,6 +550,12 @@ references:
   name: ExcelChartTitle
   nameWithType: ExcelChartTitle
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartTitleStandard
+  nameWithType: ExcelChartTitleStandard
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
   commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
   parent: OfficeOpenXml.Drawing.Chart

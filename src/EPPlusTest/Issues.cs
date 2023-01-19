@@ -4200,5 +4200,28 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void StyleKeepBoxes()
+        {
+            using (var p = OpenTemplatePackage("XfsStyles.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void BuildInStylesRegional()
+        {
+            using (var p = OpenPackage("BuildinStylesRegional.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:A4"].FillNumber(1);
+                ws.Cells["A1"].Style.Numberformat.Format = "#,##0 ;(#,##0)";
+                ws.Cells["A2"].Style.Numberformat.Format = "#,##0 ;[Red](#,##0)";
+                ws.Cells["A3"].Style.Numberformat.Format = "#,##0.00;(#,##0.00)";
+                ws.Cells["A4"].Style.Numberformat.Format = "#,##0.00;[Red](#,##0.00)";
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

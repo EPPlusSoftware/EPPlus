@@ -163,6 +163,7 @@ references:
   fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
 - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
   commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
   name: ExcelChartExAxis
   nameWithType: ExcelChartExAxis
   fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis

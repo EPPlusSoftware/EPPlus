@@ -155,6 +155,7 @@ items:
   - OfficeOpenXml.Style.ExcelParagraphCollection
   - OfficeOpenXml.Style.ExcelRichText
   - OfficeOpenXml.Style.ExcelRichTextCollection
+  - OfficeOpenXml.Style.ExcelRichTextColor
   - OfficeOpenXml.Style.ExcelSlicerTableStyleElement
   - OfficeOpenXml.Style.ExcelTableStyleElement
   - OfficeOpenXml.Style.ExcelTextFont

@@ -137,7 +137,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteCurrentTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 78
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme
@@ -169,7 +169,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 92
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme
@@ -205,7 +205,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 109
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme
@@ -241,7 +241,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 125
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme

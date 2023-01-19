@@ -97,7 +97,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ExpressionGraph/FunctionCompilers/FunctionCompilerFactory.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers

@@ -2,8 +2,11 @@
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions
@@ -14,7 +17,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         [TestMethod]
         public void ShouldHandleYearDiff()
         {
-            using(var package = new ExcelPackage())
+            var culture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 
@@ -30,11 +35,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 sheet.Calculate();
                 Assert.AreEqual(1d, sheet.Cells["C1"].Value);
             }
+            Thread.CurrentThread.CurrentCulture = culture;
         }
 
         [TestMethod]
         public void ShouldHandleMonthDiff()
         {
+            var culture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
@@ -51,11 +59,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 sheet.Calculate();
                 Assert.AreEqual(20d, sheet.Cells["C1"].Value);
             }
+            Thread.CurrentThread.CurrentCulture = culture;
         }
 
         [TestMethod]
         public void ShouldHandleTotalDays()
         {
+            var culture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
@@ -72,11 +83,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 sheet.Calculate();
                 Assert.AreEqual(639d, sheet.Cells["C1"].Value);
             }
+            Thread.CurrentThread.CurrentCulture = culture;
         }
 
         [TestMethod]
         public void ShouldHandleTotalDaysYm()
         {
+            var culture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
@@ -93,11 +107,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 sheet.Calculate();
                 Assert.AreEqual(11d, sheet.Cells["C1"].Value);
             }
+            Thread.CurrentThread.CurrentCulture = culture;
         }
 
         [TestMethod]
         public void ShouldHandleTotalDaysYd()
         {
+            var culture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
@@ -114,11 +131,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 sheet.Calculate();
                 Assert.AreEqual(274d, sheet.Cells["C1"].Value);
             }
+            Thread.CurrentThread.CurrentCulture = culture;
         }
 
         [TestMethod]
         public void ShouldHandleTotalDaysMd()
         {
+            var culture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
@@ -135,6 +155,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 sheet.Calculate();
                 Assert.AreEqual(29d, sheet.Cells["C1"].Value);
             }
+            Thread.CurrentThread.CurrentCulture = culture;
         }
     }
 }

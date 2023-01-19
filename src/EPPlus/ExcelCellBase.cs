@@ -869,6 +869,7 @@ namespace OfficeOpenXml
         }
         #endregion
         #region UpdateFormulaReferences
+        private static SourceCodeTokenizer _sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
         /// <summary>
         /// Updates the Excel formula so that all the cellAddresses are incremented by the row and column increments
         /// if they fall after the afterRow and afterColumn.
@@ -883,13 +884,16 @@ namespace OfficeOpenXml
         /// <param name="modifiedSheet">The sheet where cells are being inserted or deleted.</param>
         /// <param name="setFixed">Fixed address</param>
         /// <param name="copy">If a copy operation is performed, fully fixed cells should be untoughe.</param>
+        /// <param name="tokens">Tokens, if a cache exists</param>
         /// <returns>The updated version of the <paramref name="formula"/>.</returns>
-        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false, bool copy=false)
+        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false, bool copy=false, IEnumerable<Token> tokens=null)
         {
             try
             {
-                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
-                var tokens = sct.Tokenize(formula);
+                if(tokens==null)
+                {
+                    tokens = _sct.Tokenize(formula);
+                }
                 var f = "";
                 foreach (var t in tokens)
                 {

@@ -39,15 +39,16 @@ items:
   summary: "\nThe title of a chart\n"
   example: []
   syntax:
-    content: 'public class ExcelChartTitle : XmlHelper'
+    content: 'public abstract class ExcelChartTitle : XmlHelper'
     content.vb: >-
-      Public Class ExcelChartTitle
+      Public MustInherit Class ExcelChartTitle
           Inherits XmlHelper
   inheritance:
   - System.Object
   - OfficeOpenXml.XmlHelper
   derivedClasses:
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -58,9 +59,11 @@ items:
   - System.Object.ToString
   modifiers.csharp:
   - public
+  - abstract
   - class
   modifiers.vb:
   - Public
+  - MustInherit
   - Class
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
@@ -87,18 +90,20 @@ items:
   summary: "\nThe text\n"
   example: []
   syntax:
-    content: public string Text { get; set; }
+    content: public abstract string Text { get; set; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public Property Text As String
+    content.vb: Public MustOverride Property Text As String
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text*
   modifiers.csharp:
   - public
+  - abstract
   - get
   - set
   modifiers.vb:
   - Public
+  - MustOverride
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
   id: Border
@@ -117,7 +122,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 96
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -154,7 +159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 111
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -191,7 +196,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 127
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -228,7 +233,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 146
+    startLine: 138
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -265,7 +270,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 161
+    startLine: 153
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -302,7 +307,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 176
+    startLine: 168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -339,7 +344,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 196
+    startLine: 188
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -376,7 +381,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overlay
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 231
+    startLine: 223
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -413,7 +418,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AnchorCtr
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 259
+    startLine: 251
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -450,7 +455,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Anchor
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 273
+    startLine: 265
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -487,7 +492,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextVertical
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 288
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -524,7 +529,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTitle.cs
-    startLine: 302
+    startLine: 294
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

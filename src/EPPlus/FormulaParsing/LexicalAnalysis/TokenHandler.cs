@@ -63,7 +63,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                                               
                 if (_context.CurrentTokenHasValue)
                 {
-                    if (Regex.IsMatch(_context.CurrentToken, "^\"*$"))
+                    //if (Regex.IsMatch(_context.CurrentToken, "^\"*$"))
+                    if(_context.CurrentToken.StartsWith("\"") && _context.CurrentToken.EndsWith("\""))
                     {
                         _context.AddToken(_tokenFactory.Create(_context.CurrentToken, TokenType.StringContent));
                     }
