@@ -35,7 +35,7 @@ namespace OfficeOpenXml.DataValidation
             //Formula2 = new ExcelDataValidationFormulaDecimal(IFormula2, uid);
         }
 
-        internal override IExcelDataValidationFormulaDecimal LoadFormula(string formulaValue)
+        internal override IExcelDataValidationFormulaDecimal DefineFormulaClassType(string formulaValue)
         {
             return new ExcelDataValidationFormulaDecimal(formulaValue, Uid);
         }

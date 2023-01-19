@@ -146,23 +146,6 @@ namespace OfficeOpenXml.DataValidation
 
         internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
 
-        /// <summary>
-        /// Returns the <see cref="Formula1Internal"/> xml path
-        /// </summary>
-        /// <returns></returns>
-        protected string GetFormula1Path()
-        {
-            return InternalValidationType == InternalValidationType.DataValidation ? _formula1Path : _formula1ExtLstPath;
-        }
-        /// <summary>
-        /// Returns the <see cref="Formula2Internal"/> xml path
-        /// </summary>
-        /// <returns></returns>
-        protected string GetFormula2Path()
-        {
-            return InternalValidationType == InternalValidationType.DataValidation ? _formula2Path : _formula2ExtLstPath;
-        }
-
         protected ExcelDataValidation(string uid, string address)
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");
@@ -180,8 +163,8 @@ namespace OfficeOpenXml.DataValidation
         internal virtual void LoadXML(XmlReader xr)
         {
             string address = xr.GetAttribute("sqref");
-            if (address != null)
-                Address = new ExcelAddress(address);
+            if (address == null)
+                InternalValidationType = InternalValidationType.ExtLst;
 
             Uid = xr.GetAttribute("xr:uid");
 
@@ -199,19 +182,21 @@ namespace OfficeOpenXml.DataValidation
             PromptTitle = xr.GetAttribute("promptTitle");
             Prompt = xr.GetAttribute("prompt");
 
-            LoadSpecifics(xr);
+            ReadClassSpecificXmlNodes(xr);
 
-            if (address == null)
-                if (xr.ReadUntil(5, "sqref", "dataValidation", "extLst"))
+            if (address == null && xr.ReadUntil(5, "sqref", "dataValidation", "extLst"))
+            {
+                address = xr.ReadString();
+                if (address == null)
                 {
-                    address = xr.ReadString();
-                    Address = new ExcelAddress(address);
-                }
-                else
                     throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
+                }
+            }
+
+            Address = new ExcelAddress(address);
         }
 
-        internal virtual void LoadSpecifics(XmlReader xr)
+        internal virtual void ReadClassSpecificXmlNodes(XmlReader xr)
         {
 
         }

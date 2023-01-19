@@ -34,7 +34,7 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
-        override internal IExcelDataValidationFormula LoadFormula(string formulaValue)
+        override internal IExcelDataValidationFormula DefineFormulaClassType(string formulaValue)
         {
             return new ExcelDataValidationFormulaCustom(IFormula1, Uid);
         }

@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Utils;
-
 using System;
 using System.Xml;
 
@@ -45,9 +44,9 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
-        internal override void LoadSpecifics(XmlReader xr)
+        internal override void ReadClassSpecificXmlNodes(XmlReader xr)
         {
-            base.LoadSpecifics(xr);
+            base.ReadClassSpecificXmlNodes(xr);
             Formula = ReadFormula(xr, "formula1");
         }
 
@@ -58,41 +57,13 @@ namespace OfficeOpenXml.DataValidation
             if (xr.LocalName != formulaIdentifier)
                 throw new NullReferenceException("CANNOT FIND FORMULA");
 
-            if (Address == null)
+            if (InternalValidationType == InternalValidationType.ExtLst)
                 xr.Read();
 
-            return LoadFormula(xr.ReadString());
-
-            //XmlNodeType type;
-            //string internalFormula = null;
-            //do
-            //{
-            //    xr.Read();
-            //    type = xr.NodeType;
-            //    string name = xr.Name;
-            //    string localName = xr.LocalName;
-
-            //    if (type == XmlNodeType.Element)
-            //        if (xr.LocalName == "formula1" || xr.LocalName == "formula2")
-            //        {
-            //            string temp = xr.ReadString();
-            //            if (temp == "")
-            //            {
-            //                xr.Read();
-            //                temp = xr.ReadString();
-            //            }
-
-            //            internalFormula = temp;
-            //        }
-            //        else
-            //            throw new NullReferenceException("CANNOT FIND FORMULA");
-
-            //} while (type != XmlNodeType.Element);
-
-            //return LoadFormula(internalFormula);
+            return DefineFormulaClassType(xr.ReadString());
         }
 
-        abstract internal T LoadFormula(string formulaValue);
+        abstract internal T DefineFormulaClassType(string formulaValue);
 
         /// <summary>
         /// Formula - Either a {T} value (except for custom validation) or a spreadsheet formula
