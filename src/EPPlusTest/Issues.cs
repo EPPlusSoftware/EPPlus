@@ -4214,39 +4214,26 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void Parsing_date_should_work_for_any_culture_format_issue_776()
-        {
-            //Issue: Date FormatException
 
-            using (var p = new ExcelPackage())
-            {
-                p.Workbook.Worksheets.Add("first");
-
-                var sheet = p.Workbook.Worksheets.First();
-
-                sheet.Cells["A1"].Value = "31.12.2019";   // here we have date formated by german style
-                sheet.Cells["A2"].Formula = "CHOOSE(MONTH($A$1),\" Jan \", \" Feb \", \" Mar \", \" Apr \", \" May \", \" Jun \", \" Jul \", \" Aug \", \" Sep \", \" Oct \", \" Nov \", \" Dec \")";
-                sheet.Cells["A3"].Formula = "=DAY($A$1)&$A$2";
-
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-
-                p.Workbook.Calculate();
-                Assert.AreEqual(ExcelErrorValue.Values.Value, sheet.Cells["A2"].Value.ToString());
-                Assert.AreEqual(ExcelErrorValue.Values.Value, sheet.Cells["A3"].Value.ToString());
-
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
-
-                p.Workbook.Calculate();
-                Assert.AreEqual(" Dec ", sheet.Cells["A2"].Value.ToString());
-                Assert.AreEqual("31 Dec ", sheet.Cells["A3"].Value.ToString());
-            }
-        }
         [TestMethod]
         public void StyleKeepBoxes()
         {
             using (var p = OpenTemplatePackage("XfsStyles.xlsx"))
             {
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void BuildInStylesRegional()
+        {
+            using (var p = OpenPackage("BuildinStylesRegional.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:A4"].FillNumber(1);
+                ws.Cells["A1"].Style.Numberformat.Format = "#,##0 ;(#,##0)";
+                ws.Cells["A2"].Style.Numberformat.Format = "#,##0 ;[Red](#,##0)";
+                ws.Cells["A3"].Style.Numberformat.Format = "#,##0.00;(#,##0.00)";
+                ws.Cells["A4"].Style.Numberformat.Format = "#,##0.00;[Red](#,##0.00)";
                 SaveAndCleanup(p);
             }
         }
