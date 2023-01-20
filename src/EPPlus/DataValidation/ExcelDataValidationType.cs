@@ -11,6 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 
+using System;
+
 namespace OfficeOpenXml.DataValidation
 {
     /// <summary>
@@ -83,5 +85,35 @@ namespace OfficeOpenXml.DataValidation
         /// Validation type
         /// </summary>
         public eDataValidationType Type { get; private set; }
+
+        /// <summary>
+        /// Returns a validation type by <see cref="eDataValidationType"/>
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal string TypeToXmlString()
+        {
+            switch (Type)
+            {
+                case eDataValidationType.Any:
+                    return DataValidationSchemaNames.Any;
+                case eDataValidationType.Whole:
+                    return DataValidationSchemaNames.Whole;
+                case eDataValidationType.List:
+                    return DataValidationSchemaNames.List;
+                case eDataValidationType.Decimal:
+                    return DataValidationSchemaNames.Decimal;
+                case eDataValidationType.TextLength:
+                    return DataValidationSchemaNames.TextLength;
+                case eDataValidationType.DateTime:
+                    return DataValidationSchemaNames.Date;
+                case eDataValidationType.Time:
+                    return DataValidationSchemaNames.Time;
+                case eDataValidationType.Custom:
+                    return DataValidationSchemaNames.Custom;
+                default:
+                    throw new InvalidOperationException("Non supported Validationtype : " + Type.ToString());
+            }
+        }
     }
 }

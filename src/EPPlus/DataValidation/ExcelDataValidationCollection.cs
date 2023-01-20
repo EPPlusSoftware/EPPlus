@@ -97,6 +97,30 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        int GetCount(InternalValidationType type)
+        {
+            int validationCount = 0;
+            for (int i = 0; i < Count; i++)
+            {
+                if (_validations[i].InternalValidationType == type)
+                {
+                    validationCount++;
+                }
+            }
+            return validationCount;
+        }
+
+        internal int GetNonExtLstCount()
+        {
+            return GetCount(InternalValidationType.DataValidation);
+        }
+
+
+        internal int GetExtLstCount()
+        {
+            return GetCount(InternalValidationType.ExtLst);
+        }
+
         //T AddValidation<T>(string address, Type type)
         //    where T : IExcelDataValidation
         //{

@@ -45,17 +45,36 @@ namespace EPPlusTest
 
             using (var P = new ExcelPackage(@"C:\Users\OssianEdström\Documents\AWriteTest.xlsx"))
             {
-                P.Workbook.Worksheets.Add("NewSheet");
-                AddIntegerValidation(P);
+                ExcelWorksheet sheet = P.Workbook.Worksheets.Add("NewSheet");
+                var validation = sheet.DataValidations.AddIntegerValidation("A1:A2");
+
+                // Alternatively:
+                //var validation = sheet.Cells["A1:A2"].DataValidation;
+
+                //validation.AddAnyDataValidation();
+                //var validation2 = validation.AddDateTimeDataValidation();
+
+                //validation2.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+
+
+                validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                validation.PromptTitle = "Enter a integer value here";
+                validation.Prompt = "Value should be between 1 and 5";
+                validation.ShowInputMessage = true;
+                validation.ErrorTitle = "An invalid value was entered";
+                validation.Error = "Value must be between 1 and 5";
+                validation.ShowErrorMessage = true;
+                validation.Operator = ExcelDataValidationOperator.between;
+                validation.Formula.Value = 1;
+                validation.Formula2.Value = 5;
 
                 SaveAndCleanup(P);
             }
 
         }
 
-        private static void AddIntegerValidation(ExcelPackage package)
+        private static void AddIntegerValidation(ExcelWorksheet sheet)
         {
-            var sheet = package.Workbook.Worksheets.Add("integer");
             //add a validation and set values
             var validation = sheet.DataValidations.AddIntegerValidation("A1:A2");
 

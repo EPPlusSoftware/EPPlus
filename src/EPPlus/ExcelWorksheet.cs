@@ -44,6 +44,7 @@ using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+
 namespace OfficeOpenXml
 {
     [Flags]
@@ -3139,15 +3140,15 @@ namespace OfficeOpenXml
                 {
                     if (DataValidations.HasValidationType(InternalValidationType.DataValidation))
                     {
-                        CreateNode("dataValidations");
+                        CreateNode("d:dataValidations");
                         if (DataValidations.HasValidationType(InternalValidationType.ExtLst))
                         {
-                            CreateNode("extLst");
+                            CreateNode("d:extLst");
                         }
                     }
                     else
                     {
-                        CreateNode("extLst");
+                        CreateNode("d:extLst");
                     }
                 }
 
@@ -3178,16 +3179,21 @@ namespace OfficeOpenXml
                 }
 
                 int hyperStart = mergeEnd, hyperEnd = mergeEnd;
-                if (GetNode("dataValidations") != null)
+                if (GetNode("d:dataValidations") != null)
                 {
                     int dataValStart = mergeEnd, dataValEnd = mergeEnd;
                     GetBlockPos(xml, "dataValidations", ref dataValStart, ref dataValEnd);
-                    sw.Write(xml.Substring(dataValEnd, dataValStart - mergeEnd));
+                    sw.Write(xml.Substring(mergeEnd, dataValStart - mergeEnd));
                     UpdateDataValidation(sw, prefix);
 
                     hyperStart = dataValEnd;
                     hyperEnd = dataValEnd;
                 }
+
+                //int dataValStart = mergeEnd, dataValEnd = mergeEnd;
+                //GetBlockPos(xml, "dataValidations", ref dataValStart, ref dataValEnd);
+                //sw.Write(xml.Substring(mergeEnd, dataValStart - mergeEnd));
+                //UpdateDataValidation(sw, prefix);
 
                 GetBlockPos(xml, "hyperlinks", ref hyperStart, ref hyperEnd);
                 sw.Write(xml.Substring(mergeEnd, hyperStart - mergeEnd));
@@ -3241,12 +3247,106 @@ namespace OfficeOpenXml
             return "";
         }
 
+        private void WriteDataValidationAttributes(ref StringBuilder cache, int i)
+        {
+            if (DataValidations[i].ValidationType != null)
+            {
+                cache.Append($"type=\"{DataValidations[i].ValidationType.TypeToXmlString()}\" ");
+            }
+
+            if (DataValidations[i].ErrorStyle.ToString() != null)
+            {
+                cache.Append($"errorStyle=\"{DataValidations[i].ErrorStyle.ToString()}\" ");
+            }
+
+            //support IME mode here?
+
+            if (DataValidations[i].Operator != 0)
+            {
+                cache.Append($"operator=\"{DataValidations[i].Operator.ToString()}\" ");
+            }
+
+
+            //Note that if false excel does not write these properties out so we don't either.
+            if (DataValidations[i].AllowBlank == true)
+            {
+                cache.Append($"allowBlank=\"1\" ");
+            }
+
+            if (DataValidations[i] is ExcelDataValidationList)
+            {
+                if ((DataValidations[i] as ExcelDataValidationList).HideDropDown == true)
+                {
+                    cache.Append($"showDropDown=\"1\" ");
+                }
+            }
+
+            if (DataValidations[i].ShowInputMessage == true)
+            {
+                cache.Append($"showInputMessage=\"1\" ");
+            }
+
+            if (DataValidations[i].ShowErrorMessage == true)
+            {
+                cache.Append($"showErrorMessage=\"1\" ");
+            }
+
+            if (string.IsNullOrEmpty(DataValidations[i].ErrorTitle) == false)
+            {
+                cache.Append($"errorTitle=\"{DataValidations[i].ErrorTitle}\" ");
+            }
+
+            if (string.IsNullOrEmpty(DataValidations[i].Error) == false)
+            {
+                cache.Append($"error=\"{DataValidations[i].Error}\" ");
+            }
+
+            if (string.IsNullOrEmpty(DataValidations[i].PromptTitle) == false)
+            {
+                cache.Append($"promptTitle=\"{DataValidations[i].PromptTitle}\" ");
+            }
+
+            if (string.IsNullOrEmpty(DataValidations[i].Prompt) == false)
+            {
+                cache.Append($"prompt=\"{DataValidations[i].Prompt}\" ");
+            }
+
+            //Fix for ExtLst?
+            cache.Append($"sqref=\"{DataValidations[i].Address.ToString()}\" ");
+
+            cache.Append($"xr:uid=\"{DataValidations[i].Uid.ToString()}\"");
+
+            cache.Append(">");
+        }
+
+        private void WriteDataValidation(ref StringBuilder cache, string prefix, int i)
+        {
+            cache.Append($"<{prefix}dataValidation ");
+            WriteDataValidationAttributes(ref cache, i);
+            //write formulas
+            //write adress if extLst
+            cache.Append($"</{prefix}dataValidation>");
+        }
+
         private void UpdateDataValidation(StreamWriter sw, string prefix)
         {
+            var cache = new StringBuilder();
+
+
+            cache.Append($"<{prefix}dataValidations count=\"{DataValidations.GetNonExtLstCount()}\">");
+            //sw.Write("count =\"1\"");
+
             for (int i = 0; i < DataValidations.Count; i++)
             {
-
+                if (DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
+                {
+                    WriteDataValidation(ref cache, prefix, i);
+                }
             }
+            cache.Append($"</{prefix}dataValidations>");
+
+            sw.Write(cache.ToString());
+            sw.Flush();
         }
 
 
