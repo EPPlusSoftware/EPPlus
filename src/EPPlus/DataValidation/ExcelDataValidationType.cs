@@ -65,9 +65,6 @@ namespace OfficeOpenXml.DataValidation
         public const string Custom = "custom";
     }
 
-    //Va jag vill string -> Class
-    //Va måste va string -> enum -> class
-
     /// <summary>
     /// Types of datavalidation
     /// </summary>

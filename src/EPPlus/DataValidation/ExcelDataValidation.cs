@@ -146,6 +146,11 @@ namespace OfficeOpenXml.DataValidation
 
         internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
 
+        internal void SetInternalValidationType(InternalValidationType type)
+        {
+            InternalValidationType = type;
+        }
+
         protected ExcelDataValidation(string uid, string address)
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");

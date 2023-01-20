@@ -11,10 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -51,7 +53,13 @@ namespace OfficeOpenXml.DataValidation
         private const string DataValidationPath = "//d:dataValidations";
         private readonly string DataValidationItemsPath = string.Format("{0}/d:dataValidation", DataValidationPath);
 
-        internal ExcelDataValidationCollection(XmlReader xr)
+        internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
+        {
+            _worksheet = worksheet;
+        }
+
+        internal ExcelDataValidationCollection(XmlReader xr, ExcelWorksheet worksheet)
+            : this(worksheet)
         {
             ReadDataValidations(xr);
         }
@@ -182,6 +190,29 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
+        private bool RefersToOtherWorksheet(string address)
+        {
+            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
+            {
+                var adr = new ExcelAddress(address);
+                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _worksheet.Name;
+            }
+            else if (!string.IsNullOrEmpty(address))
+            {
+                var tokens = SourceCodeTokenizer.Default.Tokenize(address, _worksheet.Name);
+                if (!tokens.Any()) return false;
+                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
+                foreach (var token in addressTokens)
+                {
+                    var adr = new ExcelAddress(token.Value);
+                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _worksheet.Name)
+                        return true;
+                }
+
+            }
+            return false;
+        }
+
         /// <summary>
         /// Adds a <see cref="ExcelDataValidationAny"/> to the worksheet.
         /// </summary>
@@ -197,6 +228,8 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             var item = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
+            if (RefersToOtherWorksheet(address))
+                item.SetInternalValidationType(InternalValidationType.ExtLst);
             _validations.Add(item);
             return item;
         }
@@ -205,8 +238,10 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address);
+            if (RefersToOtherWorksheet(address))
+                item.SetInternalValidationType(InternalValidationType.ExtLst);
             _validations.Add(item);
-            return null;
+            return item;
         }
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
         {

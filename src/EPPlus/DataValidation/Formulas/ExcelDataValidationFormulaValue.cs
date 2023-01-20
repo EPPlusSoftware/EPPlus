@@ -23,12 +23,9 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="namespaceManager">Namespacemanger of the worksheet</param>
-        /// <param name="topNode">validation top node</param>
-        /// <param name="formulaPath">xml path of the current formula</param>
         /// <param name="validationUid">Uid for the data validation</param>
-        public ExcelDataValidationFormulaValue(string formula, string validationUid)
-            : base(formula, validationUid)
+        public ExcelDataValidationFormulaValue(string validationUid)
+            : base(validationUid)
         {
 
         }

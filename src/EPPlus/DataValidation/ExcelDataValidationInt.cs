@@ -45,8 +45,9 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="validationType"></param>
         internal ExcelDataValidationInt(string uid, string address) : base(uid, address)
         {
-            //Formula = new ExcelDataValidationFormulaInt(IFormula1, uid);
-            //Formula2 = new ExcelDataValidationFormulaInt(IFormula2, uid);
+            //Initilization of forumlas so they don't cause nullref
+            Formula = new ExcelDataValidationFormulaInt(null, uid);
+            Formula2 = new ExcelDataValidationFormulaInt(null, uid);
         }
     }
 }

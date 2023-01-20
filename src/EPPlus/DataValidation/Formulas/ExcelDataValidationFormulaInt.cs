@@ -18,7 +18,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
     internal class ExcelDataValidationFormulaInt : ExcelDataValidationFormulaValue<int?>, IExcelDataValidationFormulaInt
     {
         public ExcelDataValidationFormulaInt(string formula, string validationUid)
-            : base(formula, validationUid)
+            : base(validationUid)
         {
             var value = formula;
             if (!string.IsNullOrEmpty(value))

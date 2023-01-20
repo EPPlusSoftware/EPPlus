@@ -1760,19 +1760,30 @@ namespace OfficeOpenXml
             hl.ColSpann = toCol - fromCol;
             return hl;
         }
-
         internal ExcelDataValidationCollection _dataValidations = null;
         /// <summary>
         /// DataValidation defined in the worksheet. Use the Add methods to create DataValidations and add them to the worksheet. Then
         /// set the properties on the instance returned.
+        /// Must know worksheet or at least worksheet name to determine if extLst when user input DataValidations in API.
         /// </summary>
         /// <seealso cref="ExcelDataValidationCollection"/>
-        public ExcelDataValidationCollection DataValidations { get { return _dataValidations; } }
+        public ExcelDataValidationCollection DataValidations
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                if (_dataValidations == null)
+                {
+                    _dataValidations = new ExcelDataValidationCollection(this);
+                }
+                return _dataValidations;
+            }
+        }
 
         private void LoadDataValidations(XmlReader xr)
         {
             if (xr.ReadUntil(1, "dataValidations", "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst") && !xr.EOF)
-                _dataValidations = new ExcelDataValidationCollection(xr);
+                _dataValidations = new ExcelDataValidationCollection(xr, this);
         }
 
         private void LoadExtLst(XmlReader xr)
@@ -1788,7 +1799,7 @@ namespace OfficeOpenXml
                     xr.Read();
 
                     if (_dataValidations == null)
-                        _dataValidations = new ExcelDataValidationCollection(xr);
+                        _dataValidations = new ExcelDataValidationCollection(xr, this);
                     else
                         _dataValidations.ReadDataValidations(xr);
                 }

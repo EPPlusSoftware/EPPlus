@@ -45,7 +45,6 @@ namespace EPPlusTest
 
             using (var P = new ExcelPackage(@"C:\Users\OssianEdström\Documents\AWriteTest.xlsx"))
             {
-                ExcelWorksheet worksheet = P.Workbook.Worksheets[1];
                 P.Workbook.Worksheets.Add("NewSheet");
                 AddIntegerValidation(P);
 

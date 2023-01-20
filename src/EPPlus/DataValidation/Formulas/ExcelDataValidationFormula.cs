@@ -38,27 +38,15 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="namespaceManager">Namespacemanger of the worksheet</param>
-        /// <param name="topNode">validation top node</param>
-        /// <param name="formula">the current formula</param>
         /// <param name="validationUid">id of the data validation containing this formula</param>
-        public ExcelDataValidationFormula(string formula, string validationUid)
+        public ExcelDataValidationFormula(string validationUid)
         {
-            Require.Argument(formula).IsNotNullOrEmpty("formulaPath");
             Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
-            FormulaValidation = formula;
             _validationUid = validationUid;
         }
 
         private string _validationUid;
         protected string _formula;
-
-
-        protected string FormulaValidation
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// State of the validationformula, i.e. tells if value or formula is set

@@ -21,7 +21,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
     internal class ExcelDataValidationFormulaDecimal : ExcelDataValidationFormulaValue<double?>, IExcelDataValidationFormulaDecimal
     {
         public ExcelDataValidationFormulaDecimal(string formula, string validationUid)
-            : base(formula, validationUid)
+            : base(validationUid)
         {
             var value = formula;
             if (!string.IsNullOrEmpty(value))

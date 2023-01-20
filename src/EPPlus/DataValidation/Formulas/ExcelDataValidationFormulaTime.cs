@@ -19,7 +19,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
     internal class ExcelDataValidationFormulaTime : ExcelDataValidationFormulaValue<ExcelTime>, IExcelDataValidationFormulaTime
     {
         public ExcelDataValidationFormulaTime(string formula, string validationUid)
-            : base(formula, validationUid)
+            : base(validationUid)
         {
             var value = formula;
             if (!string.IsNullOrEmpty(value))

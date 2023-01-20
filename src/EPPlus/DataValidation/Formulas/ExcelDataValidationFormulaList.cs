@@ -144,7 +144,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
         #endregion
 
         public ExcelDataValidationFormulaList(string formula, string uid)
-            : base(formula, uid)
+            : base(uid)
         {
             var values = new DataValidationList();
             values.ListChanged += new EventHandler<EventArgs>(values_ListChanged);

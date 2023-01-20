@@ -20,7 +20,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
     internal class ExcelDataValidationFormulaCustom : ExcelDataValidationFormula, IExcelDataValidationFormula
     {
         public ExcelDataValidationFormulaCustom(string formula, string validationUid)
-            : base(formula, validationUid)
+            : base(validationUid)
         {
             if (!string.IsNullOrEmpty(formula))
             {

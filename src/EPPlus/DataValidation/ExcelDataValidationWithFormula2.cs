@@ -32,7 +32,6 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationWithFormula2(string uid, string address)
             : base(uid, address)
         {
-
         }
 
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
