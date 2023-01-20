@@ -3124,6 +3124,22 @@ namespace OfficeOpenXml
                 CreateNode("d:rowBreaks");
                 CreateNode("d:colBreaks");
 
+                if (DataValidations != null && DataValidations.Count != 0)
+                {
+                    if (DataValidations.HasValidationType(InternalValidationType.DataValidation))
+                    {
+                        CreateNode("dataValidations");
+                        if (DataValidations.HasValidationType(InternalValidationType.ExtLst))
+                        {
+                            CreateNode("extLst");
+                        }
+                    }
+                    else
+                    {
+                        CreateNode("extLst");
+                    }
+                }
+
                 var xml = _worksheetXml.OuterXml;
                 int colStart = 0, colEnd = 0;
                 GetBlockPos(xml, "cols", ref colStart, ref colEnd);
@@ -3151,6 +3167,17 @@ namespace OfficeOpenXml
                 }
 
                 int hyperStart = mergeEnd, hyperEnd = mergeEnd;
+                if (GetNode("dataValidations") != null)
+                {
+                    int dataValStart = mergeEnd, dataValEnd = mergeEnd;
+                    GetBlockPos(xml, "dataValidations", ref dataValStart, ref dataValEnd);
+                    sw.Write(xml.Substring(dataValEnd, dataValStart - mergeEnd));
+                    UpdateDataValidation(sw, prefix);
+
+                    hyperStart = dataValEnd;
+                    hyperEnd = dataValEnd;
+                }
+
                 GetBlockPos(xml, "hyperlinks", ref hyperStart, ref hyperEnd);
                 sw.Write(xml.Substring(mergeEnd, hyperStart - mergeEnd));
                 UpdateHyperLinks(sw, prefix);
@@ -3164,8 +3191,21 @@ namespace OfficeOpenXml
                 GetBlockPos(xml, "colBreaks", ref colBreakStart, ref colBreakEnd);
                 sw.Write(xml.Substring(rowBreakEnd, colBreakStart - rowBreakEnd));
                 UpdateColBreaks(sw, prefix);
-
                 sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
+
+                //if (GetNode("extLst") == null)
+                //{
+                //    sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
+                //}
+                //else
+                //{
+                //    int extLstStart = colBreakEnd, extLstEnd = colBreakEnd;
+                //    GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
+                //    sw.Write(xml.Substring(colBreakEnd, extLstStart - colBreakEnd));
+                //    UpdateExtLstData(sw, prefix);
+
+                //    sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
+                //}
             }
             sw.Flush();
         }
@@ -3188,6 +3228,20 @@ namespace OfficeOpenXml
                 }
             }
             return "";
+        }
+
+        private void UpdateDataValidation(StreamWriter sw, string prefix)
+        {
+            for (int i = 0; i < DataValidations.Count; i++)
+            {
+
+            }
+        }
+
+
+        private void UpdateExtLstData(StreamWriter sw, string prefix)
+        {
+
         }
 
         private void UpdateColBreaks(StreamWriter sw, string prefix)

@@ -33,6 +33,9 @@ namespace OfficeOpenXml.DataValidation
             return new ExcelDataValidationFormulaInt(formulaValue, Uid);
         }
 
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Whole);
+
+
         /// <summary>
         /// Constructor
         /// </summary>

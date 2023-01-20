@@ -4,7 +4,6 @@ using OfficeOpenXml.DataValidation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 
 namespace EPPlusTest
 {
@@ -31,27 +30,27 @@ namespace EPPlusTest
         [TestMethod]
         public void Stuff()
         {
-            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\OtherSheetTest.xlsx");
+            //FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\OtherSheetTest.xlsx");
 
-            ExcelPackage package = new ExcelPackage(testFile);
+            //ExcelPackage package = new ExcelPackage(testFile);
 
-            var wb = package.Workbook.Worksheets;
+            //var wb = package.Workbook.Worksheets;
 
-            //using (var P = OpenPackage(testFile))
-            //{
+            //string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+            //Stream stream = File.Create(path);
+            //package.SaveAs(stream);
+            //stream.Close();
 
-            //}
-            //{
-            //    //ExcelWorksheet worksheet = P.Workbook.Worksheets[1];
-            //    ////P.Workbook.Worksheets.Add("NewSheet");
-            //    ////AddIntegerValidation(P);
-            //    //string path = @"C:\test2.xlsx";
-            //    //Stream stream = File.Create(path);
-            //    //P.SaveAs(stream);
-            //    //stream.Close();
+            // SaveAndCleanup(package);
 
-            //    ////SaveAndCleanup(P);
-            //}
+            using (var P = new ExcelPackage(@"C:\Users\OssianEdström\Documents\AWriteTest.xlsx"))
+            {
+                ExcelWorksheet worksheet = P.Workbook.Worksheets[1];
+                P.Workbook.Worksheets.Add("NewSheet");
+                AddIntegerValidation(P);
+
+                SaveAndCleanup(P);
+            }
 
         }
 

@@ -19,6 +19,13 @@ namespace OfficeOpenXml.Utils
             return (ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
         }
 
+        /// <summary>
+        /// Read file until a tag in tagName is found or EOF.
+        /// This requires more careful consideration than when specifing depth.
+        /// </summary>
+        /// <param name="xr">Handle to xml to read data from</param>
+        /// <param name="tagName">Array of tags to stop at in the order they should appear in the xml</param>
+        /// <returns></returns>
         internal static bool ReadUntil(this XmlReader xr, params string[] tagName)
         {
             if (xr.EOF) return false;

@@ -43,9 +43,9 @@ namespace OfficeOpenXml.DataValidation
     /// validation.Operator = ExcelDataValidationOperator.between;
     /// </code>
     /// </summary>
-    public class ExcelDataValidationCollection : IEnumerable<IExcelDataValidation>
+    public class ExcelDataValidationCollection : IEnumerable<ExcelDataValidation>
     {
-        private List<IExcelDataValidation> _validations = new List<IExcelDataValidation>();
+        private List<ExcelDataValidation> _validations = new List<ExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
 
         private const string DataValidationPath = "//d:dataValidations";
@@ -67,6 +67,25 @@ namespace OfficeOpenXml.DataValidation
                     var validation = ExcelDataValidationFactory.Create(xr);
                     _validations.Add(validation);
                 }
+            }
+        }
+
+        internal bool HasValidationType(InternalValidationType type)
+        {
+            if (Count != 0)
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    if (_validations[i].InternalValidationType == type)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -179,16 +198,14 @@ namespace OfficeOpenXml.DataValidation
             ValidateAddress(address);
             var item = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
             _validations.Add(item);
-            OnValidationCountChanged();
             return item;
         }
 
         public IExcelDataValidationInt AddIntegerValidation(string address)
         {
-            //ValidateAddress(address);
-            //var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address);
-            //_validations.Add(item);
-            //OnValidationCountChanged();
+            ValidateAddress(address);
+            var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address);
+            _validations.Add(item);
             return null;
         }
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
@@ -247,14 +264,14 @@ namespace OfficeOpenXml.DataValidation
         {
             get;
             set;
-        }
+        } = false;
 
         /// <summary>
         /// Index operator, returns by 0-based index
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public IExcelDataValidation this[int index]
+        public ExcelDataValidation this[int index]
         {
             get { return GetValidations()[index]; }
             set { GetValidations()[index] = value; }
@@ -279,7 +296,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="match">predicate to filter out matching validations</param>
         /// <returns></returns>
-        public IEnumerable<IExcelDataValidation> FindAll(Predicate<IExcelDataValidation> match)
+        public IEnumerable<ExcelDataValidation> FindAll(Predicate<ExcelDataValidation> match)
         {
             return GetValidations().FindAll(match);
         }
@@ -290,7 +307,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="item">The item to remove</param>
         /// <returns>True if remove succeeds, otherwise false</returns>
         /// <exception cref="ArgumentNullException">if <paramref name="item"/> is null</exception>
-        public bool Remove(IExcelDataValidation item)
+        public bool Remove(ExcelDataValidation item)
         {
             Require.Argument(item).IsNotNull("item");
             if (!(item is ExcelDataValidation))
@@ -308,7 +325,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="match"></param>
         /// <returns></returns>
-        public IExcelDataValidation Find(Predicate<IExcelDataValidation> match)
+        public ExcelDataValidation Find(Predicate<ExcelDataValidation> match)
         {
             return GetValidations().Find(match);
         }
@@ -329,7 +346,7 @@ namespace OfficeOpenXml.DataValidation
         }
 
 
-        IEnumerator<IExcelDataValidation> IEnumerable<IExcelDataValidation>.GetEnumerator()
+        IEnumerator<ExcelDataValidation> IEnumerable<ExcelDataValidation>.GetEnumerator()
         {
             return GetValidations().GetEnumerator();
         }
@@ -339,7 +356,7 @@ namespace OfficeOpenXml.DataValidation
             return GetValidations().GetEnumerator();
         }
 
-        private List<IExcelDataValidation> GetValidations()
+        private List<ExcelDataValidation> GetValidations()
         {
             return _validations;
         }
