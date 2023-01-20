@@ -444,7 +444,27 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             else if (c == '!')
             {
-                l.Add(new Token(currentString, TokenType.WorksheetNameContent));
+                if(currentString.StartsWith("'["))
+                {
+                    var ix = currentString.IndexOf(']', 2);
+                    if(ix>2)
+                    {
+                        var extId = currentString.Substring(2, ix - 2);
+                        l.Add(_charTokens['[']);
+                        l.Add(new Token(extId, TokenType.ExternalReference));
+                        l.Add(_charTokens[']']);
+                        ix++;
+                    }
+                    else
+                    {
+                        ix = 0;
+                    }
+                    l.Add(new Token("'" + currentString.Substring(ix), TokenType.WorksheetNameContent));
+                }
+                else
+                {
+                    l.Add(new Token(currentString, TokenType.WorksheetNameContent));
+                }
             }
             else if (c == ']')
             {

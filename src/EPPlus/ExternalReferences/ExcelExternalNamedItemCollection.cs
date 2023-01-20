@@ -58,5 +58,18 @@ namespace OfficeOpenXml.ExternalReferences
         {
             return _names.ContainsKey(name);
         }
+        /// <summary>
+        /// Returns the index if the worksheet with the supplied name
+        /// </summary>
+        /// <param name="name">The worksheet name</param>
+        /// <returns>The index name if it exists. Otherwise -1</returns>
+        public int GetIndexByName(string name)
+        {
+            if(_names.TryGetValue(name, out int ix))
+            {
+                return ix;
+            }
+            return -1;
+        }
     }
 }

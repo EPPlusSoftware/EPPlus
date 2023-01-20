@@ -191,7 +191,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         wsIx = int.MinValue;
                         break;
                     case TokenType.WorksheetNameContent:
-                        wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
+                        if (extRefIx <= 0)
+                        {
+                            wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
+                        }
+                        else
+                        {
+                            wsIx = _parsingContext.Package.Workbook.ExternalLinks.GetPositionByToken(extRefIx, t.Value);
+                        }
                         break;
                     case TokenType.TableName:
                         ExtractTableAddress(tokens, i, out FormulaTableAddress tableAddress);                        

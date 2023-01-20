@@ -81,6 +81,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         }
         public EpplusExcelExternalRangeInfo(ExcelExternalWorkbook externalWb, FormulaRangeAddress address , ParsingContext ctx)
         {
+            _address = address;
             _fromRow = _address.FromRow;
             _fromCol = _address.FromCol;
             _toRow = _address.ToRow;

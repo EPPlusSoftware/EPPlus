@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -276,6 +277,26 @@ namespace OfficeOpenXml.ExternalReferences
         internal int GetIndex(ExcelExternalLink link)
         {
             return _list.IndexOf(link);
+        }
+        internal int GetPositionByToken(int extId, string tokenValue)
+        {
+            if(extId > 0 && extId<=_list.Count)
+            {
+                var extWb = _list[extId-1] as ExcelExternalWorkbook;
+                if(extWb!=null)
+                {
+                    if(extWb.Package==null)
+                    {
+                        var name = tokenValue.TrimStart('\'').TrimEnd('\'').Replace("''", "'");
+                        return extWb.CachedWorksheets.GetIndexByName(name);
+                    }
+                    else
+                        return extWb.Package.Workbook.Worksheets.GetPositionByToken(tokenValue);
+                    {
+                    }
+                }
+            }
+            return -1;
         }
         /// <summary>
         /// Updates the value cache for any external workbook in the collection. The link must be an workbook and of type xlsx, xlsm or xlst.

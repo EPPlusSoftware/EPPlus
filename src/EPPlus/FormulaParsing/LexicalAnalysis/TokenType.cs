@@ -174,5 +174,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         StartFunctionArguments = (ulong)1 << 37,
         Array = (ulong)1 << 38,
         NAError = (ulong)1 << 39,
+        SingleQuote = (ulong)1 << 40,
     }
 }

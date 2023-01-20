@@ -714,11 +714,10 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 var workSheetIx = wsIx < 0 ? ParsingContext.CurrentCell.WorksheetIx : wsIx;
                 ExcelNamedRange nameItem = null;
-                ExcelWorksheet ws = null;
 
                 if (workSheetIx >= 0 && workSheetIx < wb.Worksheets.Count)
                 {
-                    ws = wb.GetWorksheetByIndexInList(workSheetIx);
+                    var ws = wb.GetWorksheetByIndexInList(workSheetIx);
                     if (ws.Names.ContainsKey(name))
                     {
                         nameItem = ws.Names[name];
@@ -732,31 +731,41 @@ namespace OfficeOpenXml.FormulaParsing
 
                 if (nameItem == null) return null;
 
-                var id = ExcelCellBase.GetCellId(nameItem.LocalSheetId, nameItem.Index, 0);
-                var ni = new NameInfo()
-                {
-                    Id = id,
-                    Name = name,
-                    wsIx = (nameItem.Worksheet == null ? wsIx : nameItem.Worksheet.IndexInList),
-                    Formula = nameItem.Formula
-                };
-                if (nameItem._fromRow > 0)
-                {
-                    ni.Value = new RangeInfo(nameItem.Worksheet ?? ws, nameItem._fromRow, nameItem._fromCol, nameItem._toRow, nameItem._toCol, ParsingContext);
-                }
-                else
-                {
-                    ni.Value = nameItem.Value;
-                }
-                return ni;
+                return GetName(nameItem);
             }
+        }
+
+        /// <summary>
+        /// Gets a IName
+        /// </summary>
+        /// <param name="nameItem"></param>
+        /// <returns></returns>
+        public override INameInfo GetName(ExcelNamedRange nameItem)
+        {
+            var id = ExcelCellBase.GetCellId(nameItem.LocalSheetId, nameItem.Index, 0);
+            var ni = new NameInfo()
+            {
+                Id = id,
+                Name = nameItem.Name,
+                wsIx = (nameItem.Worksheet == null ? int.MinValue : nameItem.Worksheet.IndexInList),
+                Formula = nameItem.Formula
+            };
+            if (nameItem._fromRow > 0)
+            {
+                ni.Value = new RangeInfo(nameItem.Worksheet ?? ParsingContext.CurrentWorksheet, nameItem._fromRow, nameItem._fromCol, nameItem._toRow, nameItem._toCol, ParsingContext);
+            }
+            else
+            {
+                ni.Value = nameItem.Value;
+            }
+
+            return ni;
         }
 
         public override ulong GetCellId(int wsIx, int row, int col)
         {
             return ExcelCellBase.GetCellId(wsIx, row, col); 
         }
-
     }
 }
     

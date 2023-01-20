@@ -326,7 +326,7 @@ namespace OfficeOpenXml
 					var addressType = ExcelAddressBase.IsValid(fullAddress);
 					ExcelNamedRange namedRange;
 
-                    if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula || addressType == ExcelAddressBase.AddressType.ExternalAddress)    //A value or a formula
+                    if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula)    //A value or a formula
                     {
 						namedRange = AddFormulaOrValueName(elem, fullAddress, nameWorksheet);
                     }

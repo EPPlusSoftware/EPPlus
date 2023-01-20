@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using Newtonsoft.Json.Linq;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
@@ -550,6 +551,19 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(11, tokens.Count);
             Assert.AreEqual(TokenType.ClosingParenthesis, tokens[5].TokenType);
             Assert.AreEqual(TokenType.OpeningParenthesis, tokens[6].TokenType);
+        }
+        [TestMethod]
+        public void TokenizeExternalAddressWithApostrophs()
+        {
+            var input = "'[1]Sheet''&1'!$B$8:$N$38";
+            var tokens = _tokenizer.Tokenize(input);
+            Assert.AreEqual(8, tokens.Count);
+
+            Assert.AreEqual(TokenType.OpeningBracket, tokens[0].TokenType);
+            Assert.AreEqual(TokenType.ExternalReference, tokens[1].TokenType);
+            Assert.AreEqual(TokenType.ClosingBracket, tokens[2].TokenType);
+            Assert.AreEqual(TokenType.WorksheetNameContent, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.WorksheetName, tokens[4].TokenType);
         }
     }
 }

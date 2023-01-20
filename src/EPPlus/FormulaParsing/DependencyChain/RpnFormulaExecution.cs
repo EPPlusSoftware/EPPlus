@@ -213,7 +213,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         if (string.IsNullOrEmpty(name.Formula) == false)
                         {
-                            f = GetNameFormula(depChain, ws, depChain._parsingContext.ExcelDataProvider.GetName(0, wsIx, name.Name));
+                            f = GetNameFormula(depChain, ws, depChain._parsingContext.ExcelDataProvider.GetName(name));
                             AddChainForFormula(depChain, f, options);
                         }
                     }
@@ -322,6 +322,11 @@ namespace OfficeOpenXml.FormulaParsing
                         if (address == null)
                         {
                             address = f._expressions[f._tokenIndex].GetAddress();
+                        }
+                        if(address.ExternalReferenceIx > 0) //We don't follow dep chain into external references.
+                        {
+                            f._tokenIndex++;
+                            goto ExecuteFormula;
                         }
                         if (ws == null)
                         {
@@ -586,6 +591,18 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.Percent:
                         ApplyPercent(depChain._parsingContext, f);
+                        break;
+                    case TokenType.InvalidReference:
+                        s.Push(RpnErrorExpression.RefError);
+                        break;
+                    case TokenType.ValueDataTypeError:
+                        s.Push(RpnErrorExpression.ValueError);
+                        break;
+                    case TokenType.NumericError:
+                        s.Push(RpnErrorExpression.NumError);
+                        break;
+                    case TokenType.NAError:
+                        s.Push(RpnErrorExpression.NaError);
                         break;
                 }
                 f._tokenIndex++;
