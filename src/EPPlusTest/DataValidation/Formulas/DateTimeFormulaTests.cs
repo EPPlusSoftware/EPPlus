@@ -56,7 +56,7 @@ namespace EPPlusTest.DataValidation.Formulas
             var dateAsString = date.ToOADate().ToString(_cultureInfo);
             LoadXmlTestData("A1", "decimal", dateAsString);
             // Act
-            var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.AreEqual(date, validation.Formula.Value);
         }
@@ -69,7 +69,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "decimal", "A1");
 
             // Act
-            var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), "A1", _sheet.Name);
 
             // Assert
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);

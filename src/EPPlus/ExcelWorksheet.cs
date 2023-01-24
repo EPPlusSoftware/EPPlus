@@ -16,6 +16,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
@@ -3138,9 +3139,11 @@ namespace OfficeOpenXml
 
                 if (DataValidations != null && DataValidations.Count != 0)
                 {
+                    WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
                     if (DataValidations.HasValidationType(InternalValidationType.DataValidation))
                     {
-                        CreateNode("d:dataValidations");
+                        var node = (XmlElement)CreateNode("d:dataValidations");
+
                         if (DataValidations.HasValidationType(InternalValidationType.ExtLst))
                         {
                             CreateNode("d:extLst");
@@ -3179,6 +3182,7 @@ namespace OfficeOpenXml
                 }
 
                 int hyperStart = mergeEnd, hyperEnd = mergeEnd;
+
                 if (GetNode("d:dataValidations") != null)
                 {
                     int dataValStart = mergeEnd, dataValEnd = mergeEnd;
@@ -3188,12 +3192,8 @@ namespace OfficeOpenXml
 
                     hyperStart = dataValEnd;
                     hyperEnd = dataValEnd;
+                    mergeEnd = dataValEnd;
                 }
-
-                //int dataValStart = mergeEnd, dataValEnd = mergeEnd;
-                //GetBlockPos(xml, "dataValidations", ref dataValStart, ref dataValEnd);
-                //sw.Write(xml.Substring(mergeEnd, dataValStart - mergeEnd));
-                //UpdateDataValidation(sw, prefix);
 
                 GetBlockPos(xml, "hyperlinks", ref hyperStart, ref hyperEnd);
                 sw.Write(xml.Substring(mergeEnd, hyperStart - mergeEnd));
@@ -3208,21 +3208,21 @@ namespace OfficeOpenXml
                 GetBlockPos(xml, "colBreaks", ref colBreakStart, ref colBreakEnd);
                 sw.Write(xml.Substring(rowBreakEnd, colBreakStart - rowBreakEnd));
                 UpdateColBreaks(sw, prefix);
-                sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
 
-                //if (GetNode("extLst") == null)
-                //{
-                //    sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
-                //}
-                //else
-                //{
-                //    int extLstStart = colBreakEnd, extLstEnd = colBreakEnd;
-                //    GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
-                //    sw.Write(xml.Substring(colBreakEnd, extLstStart - colBreakEnd));
-                //    UpdateExtLstData(sw, prefix);
+                if (GetNode("extLst") == null)
+                {
+                    sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
+                }
+                else
+                {
+                    int extLstStart = colBreakEnd, extLstEnd = colBreakEnd;
+                    GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
+                    sw.Write(xml.Substring(colBreakEnd, extLstStart - colBreakEnd));
 
-                //    sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
-                //}
+                    UpdateExtLstData(sw, prefix);
+
+                    sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
+                }
             }
             sw.Flush();
         }
@@ -3311,38 +3311,226 @@ namespace OfficeOpenXml
                 cache.Append($"prompt=\"{DataValidations[i].Prompt}\" ");
             }
 
-            //Fix for ExtLst?
-            cache.Append($"sqref=\"{DataValidations[i].Address.ToString()}\" ");
+            if (DataValidations.HasValidationType(InternalValidationType.DataValidation))
+            {
+                cache.Append($"sqref=\"{DataValidations[i].Address}\" ");
+            }
 
-            cache.Append($"xr:uid=\"{DataValidations[i].Uid.ToString()}\"");
+            cache.Append($"xr:uid=\"{DataValidations[i].Uid}\"");
 
             cache.Append(">");
         }
 
-        private void WriteDataValidation(ref StringBuilder cache, string prefix, int i)
+        //string[] GetFormulaString(ExcelDataValidation validation)
+        //{
+        //    string[] arr = new string[2];
+        //    switch (validation.ValidationType.Type)
+        //    {
+        //        case eDataValidationType.TextLength:
+        //        case eDataValidationType.Whole:
+        //            arr[0] = ((ExcelDataValidationInt)validation).Formula.ToString();
+        //            arr[1] = ((ExcelDataValidationInt)validation).Formula2.ToString();
+        //            return arr;
+        //        case eDataValidationType.Decimal:
+        //            arr[0] = ((ExcelDataValidationInt)validation).Formula.ToString();
+        //            arr[2] = ((ExcelDataValidationInt)validation).Formula2.ToString();
+        //            return arr;
+        //        case eDataValidationType.List:
+        //            arr[0] = ((ExcelDataValidationList)validation).Formula.ToString();
+        //            arr[1] = null;
+        //            return arr;
+        //        case eDataValidationType.Time:
+        //            arr[0] = ((ExcelDataValidationTime)validation).Formula.ToString();
+        //            arr[1] = ((ExcelDataValidationTime)validation).Formula2.ToString();
+        //            return arr;
+        //        case eDataValidationType.DateTime:
+        //            arr[0] = ((ExcelDataValidationDateTime)validation).Formula.ToString();
+        //            arr[1] = ((ExcelDataValidationDateTime)validation).Formula2.ToString();
+        //            return arr;
+        //        case eDataValidationType.Custom:
+        //            arr[0] = ((ExcelDataValidationCustom)validation).Formula.ToString();
+        //            arr[1] = null;
+        //            return arr;
+        //        default:
+        //            throw new Exception("UNKNOWN TYPE IN GetFormulaString");
+        //    }
+        //}
+
+        //void GetFormulaStringArr(ExcelDataValidation validation, ref string[] formulas)
+        //{
+        //    switch (validation.ValidationType.Type)
+        //    {
+        //        case eDataValidationType.TextLength:
+        //        case eDataValidationType.Whole:
+        //            var a = validation as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
+        //            formulas[0] = a.Formula.ExcelFormula;
+        //            formulas[1] = a.Formula2.ExcelFormula;
+        //            break;
+        //        case eDataValidationType.Decimal:
+        //            formulas[0] = ((ExcelDataValidationDecimal)validation).Formula.Value.Value.ToString(CultureInfo.InvariantCulture);
+        //            formulas[2] = ((ExcelDataValidationDecimal)validation).Formula2.ToString();
+        //            break;
+        //        case eDataValidationType.List:
+        //            formulas[0] = ((ExcelDataValidationList)validation).Formula.ToString();
+        //            formulas[1] = null;
+        //            break;
+        //        case eDataValidationType.Time:
+        //            formulas[0] = ((ExcelDataValidationTime)validation).Formula.ToString();
+        //            formulas[1] = ((ExcelDataValidationTime)validation).Formula2.ToString();
+        //            break;
+        //        case eDataValidationType.DateTime:
+        //            formulas[0] = ((ExcelDataValidationDateTime)validation).Formula.ToString();
+        //            formulas[1] = ((ExcelDataValidationDateTime)validation).Formula2.ToString();
+        //            break;
+        //        case eDataValidationType.Custom:
+        //            formulas[0] = ((ExcelDataValidationCustom)validation).Formula.ToString();
+        //            formulas[1] = null;
+        //            break;
+        //        default:
+        //            throw new Exception("UNKNOWN TYPE IN GetFormulaString");
+        //    }
+        //}
+
+        //Type GetValidationType(ExcelDataValidation validation)
+        //{
+        //    switch (validation.ValidationType.Type)
+        //    {
+        //        case eDataValidationType.TextLength:
+        //        case eDataValidationType.Whole:
+        //            return typeof(ExcelDataValidationInt);
+        //        case eDataValidationType.Decimal:
+        //            return typeof(ExcelDataValidationDecimal);
+        //        case eDataValidationType.List:
+        //            return typeof(ExcelDataValidationList);
+        //        case eDataValidationType.Time:
+        //            return typeof(ExcelDataValidationTime);
+        //        case eDataValidationType.DateTime:
+        //            return typeof(ExcelDataValidationDateTime);
+        //        case eDataValidationType.Custom:
+        //            return typeof(ExcelDataValidationCustom);
+        //        default:
+        //            throw new Exception("UNKNOWN TYPE IN GetFormulaString");
+        //    }
+        //}
+
+
+
+        private void WriteDataValidation(ref StringBuilder cache, string prefix, int i, string extNode = "")
         {
             cache.Append($"<{prefix}dataValidation ");
             WriteDataValidationAttributes(ref cache, i);
-            //write formulas
+
+            if (DataValidations[i].ValidationType.Type != eDataValidationType.Any)
+            {
+                //string formula1 = null;
+                //string formula2 = null;
+
+                switch (DataValidations[i].ValidationType.Type)
+                {
+                    case eDataValidationType.TextLength:
+                    case eDataValidationType.Whole:
+                        var intType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
+                        cache.Append($"<{prefix}formula1>{extNode}{intType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{intType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        break;
+                    case eDataValidationType.Decimal:
+                        var decimalType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDecimal>;
+                        cache.Append($"<{prefix}formula1>{extNode}{decimalType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{decimalType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        break;
+                    case eDataValidationType.List:
+                        var listType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaList>;
+                        cache.Append($"<{prefix}formula1>{extNode}{listType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        break;
+                    case eDataValidationType.Time:
+                        var timeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaTime>;
+                        cache.Append($"<{prefix}formula1>{extNode}{timeType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{timeType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        break;
+                    case eDataValidationType.DateTime:
+                        var dateTimeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDateTime>;
+                        cache.Append($"<{prefix}formula1>{extNode}{dateTimeType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{dateTimeType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        break;
+                    case eDataValidationType.Custom:
+                        var customType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaDateTime>;
+                        cache.Append($"<{prefix}formula1>{extNode}{customType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        break;
+                    default:
+                        throw new Exception("UNKNOWN TYPE IN WriteDataValidation");
+                }
+
+                if (DataValidations.HasValidationType(InternalValidationType.ExtLst))
+                {
+                    cache.Append($"xm:sqref>{DataValidations[i].Address}</xm:sqref>");
+                }
+
+                //var dv = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormula>;
+                //cache.Append($"<formula1>{dv.Formula.ExcelFormula}</formula1>");
+
+
+
+                //if (DataValidations[i] is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula)
+                //{
+                //    var j = 0;
+                //}
+
+                //if (DataValidations[i].ValidationType.Type != eDataValidationType.List
+                //|| DataValidations[i].ValidationType.Type != eDataValidationType.Custom)
+                //{
+                //    var dv2 = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
+                //    cache.Append($"<formula2>{dv2.Formula2}</formula2>");
+                //}
+                //else
+                //{
+                //    if (DataValidations[i] is ExcelDataValidationWithFormula<IExcelDataValidationFormula>)
+                //    {
+                //        var custom = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormula>;
+                //        cache.Append($"<formula1>{custom.Formula.ExcelFormula}</formula1>");
+                //    }
+                //}
+
+                //string[] formulas = new string[2];
+                //GetFormulaStringArr(DataValidations[i], ref formulas);
+
+                //cache.Append($"<formula1>{dv.ExcelFormula}</formula1>");
+                //if (formulas[2] != null)
+                //{
+                //    cache.Append($"<formula2>{formulas[1]}</formula2>");
+                //}
+            }
+
             //write adress if extLst
             cache.Append($"</{prefix}dataValidation>");
         }
 
-        private void UpdateDataValidation(StreamWriter sw, string prefix)
+        private void UpdateDataValidation(StreamWriter sw, string prefix, string extraAttribute = "")
         {
             var cache = new StringBuilder();
+            InternalValidationType type;
+            string extNode = "";
 
+            if (extraAttribute == "")
+            {
 
-            cache.Append($"<{prefix}dataValidations count=\"{DataValidations.GetNonExtLstCount()}\">");
-            //sw.Write("count =\"1\"");
+                cache.Append($"<{prefix}dataValidations count=\"{DataValidations.GetNonExtLstCount()}\">");
+                type = InternalValidationType.DataValidation;
+            }
+            else
+            {
+                cache.Append($"<{prefix}dataValidations {extraAttribute} count=\"{DataValidations.GetExtLstCount()}\">");
+                type = InternalValidationType.ExtLst;
+                extNode = "<xm:f>";
+            }
 
             for (int i = 0; i < DataValidations.Count; i++)
             {
-                if (DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
+                if (DataValidations[i].InternalValidationType == type)
                 {
-                    WriteDataValidation(ref cache, prefix, i);
+                    WriteDataValidation(ref cache, prefix, i, extNode);
                 }
             }
+
             cache.Append($"</{prefix}dataValidations>");
 
             sw.Write(cache.ToString());
@@ -3352,7 +3540,13 @@ namespace OfficeOpenXml
 
         private void UpdateExtLstData(StreamWriter sw, string prefix)
         {
+            sw.Write("<extLst>");
+            sw.Write($"ext xmlns:x14={ExcelPackage.schemaMainX14} uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\">");
 
+            UpdateDataValidation(sw, prefix, $"xlmns:xm={ExcelPackage.schemaMainXm}");
+
+            sw.Write("/ext");
+            sw.Write("</extLst>");
         }
 
         private void UpdateColBreaks(StreamWriter sw, string prefix)

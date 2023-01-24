@@ -29,8 +29,8 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationWithFormula2(string uid, string address)
-            : base(uid, address)
+        internal ExcelDataValidationWithFormula2(string uid, string address, string workSheetName)
+            : base(uid, address, workSheetName)
         {
         }
 
@@ -45,13 +45,20 @@ namespace OfficeOpenXml.DataValidation
         {
 
         }
+
+        private T _internalFormula2;
+
         /// <summary>
         /// Formula - Either a {T} value or a spreadsheet formula
         /// </summary>
         public T Formula2
         {
-            get;
-            protected set;
+            get { return _internalFormula2; }
+            protected set
+            {
+                _internalFormula2 = value;
+                checkIfExtLst(_internalFormula2.ExcelFormula);
+            }
         }
     }
 }

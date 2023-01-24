@@ -24,8 +24,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// Constructor
         /// </summary>
         /// <param name="validationUid">Uid for the data validation</param>
-        public ExcelDataValidationFormulaValue(string validationUid)
-            : base(validationUid)
+        public ExcelDataValidationFormulaValue(string validationUid, string worksheetName)
+            : base(validationUid, worksheetName)
         {
 
         }

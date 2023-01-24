@@ -54,7 +54,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "greaterThanOrEqual", "1");
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.AreEqual(ExcelDataValidationOperator.greaterThanOrEqual, validation.Operator);
         }
@@ -73,7 +73,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", true, false);
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.IsTrue(validation.ShowErrorMessage ?? false);
         }
@@ -84,7 +84,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", false, true);
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.IsTrue(validation.ShowInputMessage ?? false);
         }
@@ -95,7 +95,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.AreEqual("Prompt", validation.Prompt);
         }
@@ -106,7 +106,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.AreEqual("PromptTitle", validation.PromptTitle);
         }
@@ -117,7 +117,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.AreEqual("Error", validation.Error);
         }
@@ -128,7 +128,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.AreEqual("ErrorTitle", validation.ErrorTitle);
         }

@@ -28,8 +28,8 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationDecimal(string uid, string address)
-            : base(uid, address)
+        internal ExcelDataValidationDecimal(string uid, string address, string worksheetName)
+            : base(uid, address, worksheetName)
         {
             //Formula = new ExcelDataValidationFormulaDecimal(IFormula1, uid);
             //Formula2 = new ExcelDataValidationFormulaDecimal(IFormula2, uid);

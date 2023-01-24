@@ -55,7 +55,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "decimal", "1.3");
             // Act
-            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             Assert.AreEqual(1.3D, validation.Formula.Value);
         }
 
@@ -66,7 +66,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "decimal", "A1");
 
             // Act
-            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), "A1", _sheet.Name);
 
             // Assert
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);

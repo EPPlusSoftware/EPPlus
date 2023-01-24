@@ -53,7 +53,7 @@ namespace EPPlusTest.DataValidation.Formulas
             // Arrange
             LoadXmlTestData("A1", "decimal", "1");
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             Assert.AreEqual(1, validation.Formula.Value);
         }
 
@@ -64,7 +64,7 @@ namespace EPPlusTest.DataValidation.Formulas
             LoadXmlTestData("A1", "decimal", "A1");
 
             // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1");
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
 
             // Assert
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);

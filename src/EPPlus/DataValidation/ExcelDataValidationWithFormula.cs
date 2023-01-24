@@ -11,8 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using System;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -24,6 +26,7 @@ namespace OfficeOpenXml.DataValidation
     public abstract class ExcelDataValidationWithFormula<T> : ExcelDataValidation
         where T : IExcelDataValidationFormula
     {
+        protected string _workSheetName;
 
         /// <summary>
         /// Constructor
@@ -32,10 +35,10 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationWithFormula(string uid, string address)
+        internal ExcelDataValidationWithFormula(string uid, string address, string workSheetName)
             : base(uid, address)
         {
-
+            _workSheetName = workSheetName;
         }
 
         internal ExcelDataValidationWithFormula(XmlReader xr)
@@ -50,6 +53,18 @@ namespace OfficeOpenXml.DataValidation
             Formula = ReadFormula(xr, "formula1");
         }
 
+        internal protected void checkIfExtLst(string address)
+        {
+            if (RefersToOtherWorksheet(Formula.ExcelFormula))
+            {
+                InternalValidationType = InternalValidationType.ExtLst;
+            }
+            else
+            {
+                InternalValidationType = InternalValidationType.DataValidation;
+            }
+        }
+
         internal T ReadFormula(XmlReader xr, string formulaIdentifier)
         {
             xr.ReadUntil(formulaIdentifier, "dataValidation", "extLst");
@@ -60,18 +75,48 @@ namespace OfficeOpenXml.DataValidation
             if (InternalValidationType == InternalValidationType.ExtLst)
                 xr.Read();
 
-            return DefineFormulaClassType(xr.ReadString());
+            return DefineFormulaClassType(xr.ReadString(), _workSheetName);
         }
 
-        abstract internal T DefineFormulaClassType(string formulaValue);
+        abstract internal T DefineFormulaClassType(string formulaValue, string worksheetName);
+
+        private T _internalFormula;
 
         /// <summary>
         /// Formula - Either a {T} value (except for custom validation) or a spreadsheet formula
         /// </summary>
         public T Formula
         {
-            get;
-            protected set;
+            get { return _internalFormula; }
+
+            protected set
+            {
+                _internalFormula = value;
+                checkIfExtLst(_internalFormula.ExcelFormula);
+            }
+        }
+
+        private bool RefersToOtherWorksheet(string address)
+        {
+            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
+            {
+                var adr = new ExcelAddress(address);
+                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _workSheetName;
+            }
+            else if (!string.IsNullOrEmpty(address))
+            {
+                var tokens = SourceCodeTokenizer.Default.Tokenize(address, _workSheetName);
+                if (!tokens.Any()) return false;
+                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
+                foreach (var token in addressTokens)
+                {
+                    var adr = new ExcelAddress(token.Value);
+                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _workSheetName)
+                        return true;
+                }
+
+            }
+            return false;
         }
 
         /// <summary>

@@ -144,22 +144,22 @@ namespace OfficeOpenXml.DataValidation
         //    }
         //}
 
-        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormulaList> CreateListValidation(string address, string uid)
+        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormulaList> CreateListValidation(string address, string uid, string workSheetName)
         {
             //if (internalType == InternalValidationType.DataValidation)
             //{
-            return new ExcelDataValidationList(uid, address);
+            return new ExcelDataValidationList(uid, address, workSheetName);
             //}
 
             //// extLst
             //return new ExcelDataValidationExtList(worksheet, uid, address, type, itemElementNode);
         }
 
-        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormula> CreateCustomValidation(string address, string uid)
+        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormula> CreateCustomValidation(string address, string uid, string workSheetName)
         {
             //if (internalType == InternalValidationType.DataValidation)
             //{
-            return new ExcelDataValidationCustom(uid, address);
+            return new ExcelDataValidationCustom(uid, address, workSheetName);
             // }
             //// extLst
             //return new ExcelDataValidationExtCustom(worksheet, uid, address, type, itemElementNode);

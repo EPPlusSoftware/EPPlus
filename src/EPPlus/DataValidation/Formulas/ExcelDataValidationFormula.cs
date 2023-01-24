@@ -39,15 +39,16 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// Constructor
         /// </summary>
         /// <param name="validationUid">id of the data validation containing this formula</param>
-        public ExcelDataValidationFormula(string validationUid)
+        public ExcelDataValidationFormula(string validationUid, string workSheetName)
         {
             Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
             _validationUid = validationUid;
+            _workSheetName = workSheetName;
         }
 
         private string _validationUid;
         protected string _formula;
-
+        private string _workSheetName;
         /// <summary>
         /// State of the validationformula, i.e. tells if value or formula is set
         /// </summary>

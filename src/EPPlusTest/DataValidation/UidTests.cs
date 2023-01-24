@@ -26,7 +26,7 @@ namespace EPPlusTest.DataValidation
             LoadXmlTestData("A1", "decimal", "1.3");
             var id = ExcelDataValidation.NewId();
             // Act
-            var validation = new ExcelDataValidationDecimal(id, "A1");
+            var validation = new ExcelDataValidationDecimal(id, "A1", _sheet.Name);
             // Assert
             Assert.AreEqual(id, validation.Uid);
         }

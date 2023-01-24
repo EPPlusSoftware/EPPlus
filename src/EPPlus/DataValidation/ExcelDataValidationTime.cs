@@ -28,7 +28,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationTime(string uid, string address) : base(uid, address)
+        internal ExcelDataValidationTime(string uid, string address, string worksheetName) : base(uid, address, worksheetName)
         {
             Formula = new ExcelDataValidationFormulaTime(IFormula1, uid);
             Formula2 = new ExcelDataValidationFormulaTime(IFormula2, uid);

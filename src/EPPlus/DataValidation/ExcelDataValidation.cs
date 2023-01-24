@@ -78,6 +78,7 @@ namespace OfficeOpenXml.DataValidation
 
         public virtual bool AllowsOperator { get { return true; } }
 
+
         internal string IFormula1 = null;
         internal string IFormula2 = null;
         string dvAddress = null;
@@ -144,7 +145,7 @@ namespace OfficeOpenXml.DataValidation
         //    }
         //}
 
-        internal InternalValidationType InternalValidationType { get; private set; } = InternalValidationType.DataValidation;
+        internal InternalValidationType InternalValidationType { get; set; } = InternalValidationType.DataValidation;
 
         internal void SetInternalValidationType(InternalValidationType type)
         {

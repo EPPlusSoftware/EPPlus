@@ -43,10 +43,12 @@ namespace EPPlusTest
 
             // SaveAndCleanup(package);
 
-            using (var P = new ExcelPackage(@"C:\Users\OssianEdström\Documents\AWriteTest.xlsx"))
+            using (var P = new ExcelPackage(@"C:\Users\OssianEdström\Documents\extLstTest.xlsx"))
             {
                 ExcelWorksheet sheet = P.Workbook.Worksheets.Add("NewSheet");
-                var validation = sheet.DataValidations.AddIntegerValidation("A1:A2");
+                ExcelWorksheet sheet2 = P.Workbook.Worksheets.Add("ExtSheet");
+
+                var validation = sheet2.DataValidations.AddIntegerValidation("A1");
 
                 // Alternatively:
                 //var validation = sheet.Cells["A1:A2"].DataValidation;
@@ -65,8 +67,10 @@ namespace EPPlusTest
                 validation.Error = "Value must be between 1 and 5";
                 validation.ShowErrorMessage = true;
                 validation.Operator = ExcelDataValidationOperator.between;
-                validation.Formula.Value = 1;
-                validation.Formula2.Value = 5;
+                validation.Formula.ExcelFormula = "NewSheet!A1";
+                validation.Formula2.ExcelFormula = "NewSheet!A2";
+
+                validation.Formula.Value = 5;
 
                 SaveAndCleanup(P);
             }

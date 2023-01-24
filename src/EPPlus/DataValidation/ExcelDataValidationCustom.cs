@@ -28,15 +28,15 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="validationType"></param>
-        internal ExcelDataValidationCustom(string uid, string address)
-            : base(uid, address)
+        internal ExcelDataValidationCustom(string uid, string address, string worksheetName)
+            : base(uid, address, worksheetName)
         {
 
         }
 
         override internal IExcelDataValidationFormula DefineFormulaClassType(string formulaValue)
         {
-            return new ExcelDataValidationFormulaCustom(IFormula1, Uid);
+            return new ExcelDataValidationFormulaCustom(null, Uid);
         }
     }
 }
