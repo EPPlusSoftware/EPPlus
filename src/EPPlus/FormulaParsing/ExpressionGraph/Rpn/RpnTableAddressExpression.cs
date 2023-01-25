@@ -7,10 +7,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
     [DebuggerDisplay("TableAddressExpression: {_addressInfo}")]
     internal class RpnTableAddressExpression : RpnExpression
     {
-        readonly FormulaRangeAddress _addressInfo;
+        readonly FormulaTableAddress _addressInfo;
         private bool _negate;
 
-        public RpnTableAddressExpression(FormulaRangeAddress addressInfo, ParsingContext ctx) : base(ctx)
+        public RpnTableAddressExpression(FormulaTableAddress addressInfo, ParsingContext ctx) : base(ctx)
         {
             _addressInfo = addressInfo;
         }
@@ -18,6 +18,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 
         public override CompileResult Compile()
         {
+            if(_addressInfo.ExternalReferenceIx > 0)
+            {
+                return new CompileResult(eErrorType.Ref);
+            }
+            else
+            {
+                _addressInfo.SetTableAddress(Context.Package);
+                if(_addressInfo.FromRow < 1)
+                {
+                    return new CompileResult(eErrorType.Ref);
+                }
+            }
             var ri = Context.ExcelDataProvider.GetRange(_addressInfo);
             if (ri.IsMulti)
             {
@@ -38,6 +50,9 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             get;
             set;
         } = RpnExpressionStatus.CanCompile;
-        public override FormulaRangeAddress GetAddress() { return _addressInfo.Clone(); }        
+        public override FormulaRangeAddress GetAddress() 
+        { 
+            return _addressInfo.Clone();
+        }
     }
 }

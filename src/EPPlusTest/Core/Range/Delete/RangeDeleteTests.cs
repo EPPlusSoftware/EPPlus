@@ -962,14 +962,16 @@ namespace EPPlusTest.Core.Range.Delete
             {
                 // Create a worksheet with conditional formatting 
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                var dv = ws.DataValidations.AddCustomValidation("B5:G5");
+                //var dv = ws.DataValidations.AddCustomValidation("B5:G5");
+                var dv = ws.DataValidations.AddIntegerValidation("B5:G5");
                 dv.Formula.ExcelFormula = "=(B$4=0)";
 
                 // Delete a row before the column being referenced by the CF formula
                 ws.DeleteRow(2);
 
                 // Check the conditional formatting formula has been updated
-                dv = ws.DataValidations[0].As.CustomValidation;
+                //dv = ws.DataValidations[0].As.CustomValidation;
+                dv = ws.DataValidations.AddIntegerValidation("B5:G5");
                 Assert.AreEqual("=(B$3=0)", dv.Formula.ExcelFormula);
             }
         }

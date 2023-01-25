@@ -98,6 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                             while (op == TokenType.Operator || op == TokenType.Negator)
                             {
                                 expressions.Add(operatorStack.Pop());
+                                if(operatorStack.Count == 0) break;
                                 op = operatorStack.Peek().TokenType;
                             }
                         }
@@ -201,7 +202,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         }
                         break;
                     case TokenType.TableName:
-                        ExtractTableAddress(tokens, i, out FormulaTableAddress tableAddress);                        
+                        ExtractTableAddress(extRefIx, tokens, i, out FormulaTableAddress tableAddress);                        
                         expressions.Add(i, new RpnTableAddressExpression(tableAddress, _parsingContext));
                         break;
                     case TokenType.OpeningEnumerable:
@@ -472,7 +473,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         }
                         break;
                     case TokenType.TableName:
-                        ExtractTableAddress(exps, i, out FormulaTableAddress tableAddress);
+                        ExtractTableAddress(extRefIx, exps, i, out FormulaTableAddress tableAddress);
                         s.Push(new RpnTableAddressExpression(tableAddress, _parsingContext));
                         break;
                     case TokenType.OpeningEnumerable:
@@ -522,10 +523,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             return null;
         }
 
-        private void ExtractTableAddress(IList<Token> exps, int i, out FormulaTableAddress tableAddress)
+        private void ExtractTableAddress(int extRef, IList<Token> exps, int i, out FormulaTableAddress tableAddress)
         {
             //var adr = exps[i].Value;
-            tableAddress = new FormulaTableAddress(_parsingContext) { TableName = exps[i].Value };
+            tableAddress = new FormulaTableAddress(_parsingContext) {ExternalReferenceIx = extRef, TableName = exps[i].Value };
             exps.RemoveAt(i);
             int bracketCount=0;
             while (i < exps.Count)
@@ -569,7 +570,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 exps.RemoveAt(i);
                 if (bracketCount == 0) break;
             }
-            tableAddress.SetTableAddress(_parsingContext.Package);
+            if (extRef <= 0)
+            {
+                tableAddress.SetTableAddress(_parsingContext.Package);
+            }
             exps.Insert(i, new Token(tableAddress.WorksheetAddress, TokenType.ExcelAddress));
         }
         private void ExtractArray(IList<Token> exps, int i, out IRangeInfo range)

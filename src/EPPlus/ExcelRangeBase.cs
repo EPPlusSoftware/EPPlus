@@ -855,7 +855,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Gets or sets a formula for a range.
         /// </summary>
-        public string Formula
+        public virtual string Formula
         {
             get
             {

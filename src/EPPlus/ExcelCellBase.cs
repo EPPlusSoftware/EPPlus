@@ -18,6 +18,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -36,9 +37,17 @@ namespace OfficeOpenXml
         /// <param name="col"></param>
         static internal void SplitCellId(ulong cellId, out int sheet, out int row, out int col)
         {
-            sheet = (int)(cellId % 0x8000);
-            col = ((int)(cellId >> 15) & 0x3FF);
-            row = ((int)(cellId >> 29));
+            sheet = (short)(cellId % 0x10000);
+            col = ((int)(cellId >> 16) & 0x3FFF);
+            row = ((int)(cellId >> 30));
+        }
+        static internal int GetRowFromCellId(ulong cellId)
+        {
+            return (int)(cellId >> 30);
+        }
+        static internal int GetColFromCellId(ulong cellId)
+        {
+            return (int)(cellId >> 16) & 0x3FFF;
         }
         /// <summary>
         /// Get the cellID for the cell. 
@@ -49,7 +58,8 @@ namespace OfficeOpenXml
         /// <returns></returns>
         internal static ulong GetCellId(int sheetId, int row, int col)
         {
-            return ((ulong)sheetId) + (((ulong)col) << 15) + (((ulong)row) << 29);
+            
+            return ((ushort)sheetId) | (((ulong)col) << 16) | (((ulong)row) << 30);
         }
         #endregion
         #region "Formula Functions"

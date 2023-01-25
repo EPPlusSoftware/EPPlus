@@ -64,17 +64,21 @@ namespace OfficeOpenXml
         {
             Init(workbook);
 
-            //var dc = DependencyChainFactory.Create(workbook, options);
             var filterInfo = new FilterInfo(workbook);
             workbook.FormulaParser.InitNewCalc(filterInfo);
-            //if (workbook.FormulaParser.Logger != null)
-            //{
-            //    var msg = string.Format("Starting... number of cells to parse: {0}", dc.list.Count);
-            //    workbook.FormulaParser.Logger.Log(msg);
-            //}
+            if (workbook.FormulaParser.Logger != null)
+            {
+                var msg = string.Format("Starting formula calculation.");
+                workbook.FormulaParser.Logger.Log(msg);
+            }
 
             //CalcChain(workbook, workbook.FormulaParser, dc, options);
             var dc=RpnFormulaExecution.Execute(workbook, options);
+            if (workbook.FormulaParser.Logger != null)
+            {
+                var msg = string.Format("Calculation done...number of cells parsed: {0}", dc._formulas.Count);
+                workbook.FormulaParser.Logger.Log(msg);
+            }
         }
         /// <summary>
         /// Calculate all formulas in the current worksheet

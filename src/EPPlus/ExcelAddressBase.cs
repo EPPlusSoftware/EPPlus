@@ -1221,7 +1221,7 @@ namespace OfficeOpenXml
 
                         if (intAddress.Contains("[")) //Table reference
                         {
-                            return string.IsNullOrEmpty(wb) ? AddressType.InternalAddress : AddressType.ExternalAddress;
+                            return string.IsNullOrEmpty(wb) || wb=="0" ? AddressType.InternalAddress : AddressType.ExternalAddress;
                         }
                         if (intAddress.Contains(","))
                         {

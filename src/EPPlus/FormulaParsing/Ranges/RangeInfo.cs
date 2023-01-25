@@ -58,12 +58,13 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="toRow"></param>
         /// <param name="toCol"></param>
         /// <param name="ctx">Parsing context</param>
-        public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx)
+        public RangeInfo(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx, int extRef = -1)
         {
             _context = ctx;
             var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
             address._ws = ws.Name;
             SetAddress(ws, address);
+            _address.ExternalReferenceIx = extRef;
         }
 
         /// <summary>

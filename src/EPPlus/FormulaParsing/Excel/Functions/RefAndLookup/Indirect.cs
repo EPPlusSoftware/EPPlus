@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 adr = new FormulaRangeAddress(context, address);
                 result = context.ExcelDataProvider.GetRange(adr);
             }
-            if (ExcelAddressBase.IsTableAddress(address))
+            else if (ExcelAddressBase.IsTableAddress(address))
             {
                 adr = new FormulaTableAddress(context, address);
                 result = context.ExcelDataProvider.GetRange(adr);

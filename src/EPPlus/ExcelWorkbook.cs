@@ -326,7 +326,7 @@ namespace OfficeOpenXml
 					var addressType = ExcelAddressBase.IsValid(fullAddress);
 					ExcelNamedRange namedRange;
 
-                    if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula)    //A value or a formula
+                    if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula || addressType == ExcelAddressBase.AddressType.ExternalAddress)    //A value or a formula
                     {
 						namedRange = AddFormulaOrValueName(elem, fullAddress, nameWorksheet);
                     }
@@ -1483,7 +1483,11 @@ namespace OfficeOpenXml
 			{
 				if (string.IsNullOrEmpty(name.NameFormula))
 				{
-					if ((TypeCompat.IsPrimitive(name.NameValue) || name.NameValue is double || name.NameValue is decimal))
+					if(name.NameValue == null)
+					{
+						elem.InnerText = "";
+                    }
+					else if ((TypeCompat.IsPrimitive(name.NameValue) || name.NameValue is double || name.NameValue is decimal))
 					{
 						elem.InnerText = Convert.ToDouble(name.NameValue, CultureInfo.InvariantCulture).ToString("R15", CultureInfo.InvariantCulture);
 					}

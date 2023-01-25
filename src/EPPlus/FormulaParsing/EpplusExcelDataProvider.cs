@@ -314,7 +314,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     Name = name,
                     wsIx = -1,
-                    Value = ExcelErrorValue.Create(eErrorType.Name)
+                    Value = ExcelErrorValue.Create(eErrorType.Name),                    
                 };
             }
             else
@@ -323,11 +323,11 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     Name = name,
                     wsIx = (short)(extName.Worksheet == null ? wsIx : (short)extName.Worksheet.PositionId),
-                    Formula = extName.Formula
+                    Formula = extName.NameFormula
                 };
                 if (extName._fromRow > 0)
                 {
-                    ni.Value = new RangeInfo(extName.Worksheet ?? package.Workbook.Worksheets[extName.WorkSheetName], extName._fromRow, extName._fromCol, extName._toRow, extName._toCol, ctx);
+                    ni.Value = new RangeInfo(extName.Worksheet ?? package.Workbook.Worksheets[extName.WorkSheetName], extName._fromRow, extName._fromCol, extName._toRow, extName._toCol, ctx, extName.ExternalReferenceIndex + 1);
                 }
                 else
                 {
@@ -340,7 +340,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             ExcelExternalDefinedName nameItem=null;
 
-            int ix=-1;
+            //int ix=-1;
             if (wsIx==int.MinValue)
             {
                 nameItem = externalWorkbook.CachedNames[name];
@@ -361,7 +361,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
-                    value = new EpplusExcelExternalRangeInfo(ix, nameItem.SheetId, address._fromRow, address._fromCol, address._toRow, address._toCol, ctx);
+                    value = new EpplusExcelExternalRangeInfo(externalWorkbook.Index, externalWorkbook.CachedWorksheets.GetIndexByName(address.WorkSheetName), address._fromRow, address._fromCol, address._toRow, address._toCol, ctx);
                 }
             }
             else
@@ -748,7 +748,7 @@ namespace OfficeOpenXml.FormulaParsing
                 Id = id,
                 Name = nameItem.Name,
                 wsIx = (nameItem.Worksheet == null ? int.MinValue : nameItem.Worksheet.IndexInList),
-                Formula = nameItem.Formula
+                Formula = nameItem.NameFormula
             };
             if (nameItem._fromRow > 0)
             {

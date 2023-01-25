@@ -21,13 +21,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
     internal class RpnNamedValueExpression : RpnExpression
     {
-        short _externalReferenceIx;
-        int _worksheetIx;
+        internal short _externalReferenceIx;
+        internal int _worksheetIx;
         internal INameInfo _name;
         bool _negate = false;
         public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
         {
             _externalReferenceIx = externalReferenceIx;
+            _worksheetIx = worksheetIx;
             _name = Context.ExcelDataProvider.GetName(_externalReferenceIx, worksheetIx, name);
         }
 

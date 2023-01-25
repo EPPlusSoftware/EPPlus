@@ -55,22 +55,27 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _toCol = toCol;
             _address = new FormulaRangeAddress(ctx)
             {
+                ExternalReferenceIx = externalReferenceIx,
+                WorksheetIx = worksheetIx,
                 FromRow = fromRow,
                 FromCol = fromCol,
                 ToRow = toRow,
                 ToCol = toCol
             };
             _size = new RangeDefinition(toRow + fromCol + 1, (short)(toCol - fromCol + 1));
-            if (externalReferenceIx > 0 && ctx.Package != null && ctx.Package.Workbook.ExternalLinks.Count <= externalReferenceIx)
+            if (externalReferenceIx > 0 && ctx.Package != null && ctx.Package.Workbook.ExternalLinks.Count >= externalReferenceIx)
             {
                 var externalWb = ctx.Package.Workbook.ExternalLinks[externalReferenceIx-1].As.ExternalWorkbook;
                 if (externalWb != null)
                 {
-                    _externalWs = externalWb.CachedWorksheets[worksheetIx];
-                    if (_externalWs != null)
+                    if (worksheetIx >= 0 && worksheetIx < externalWb.CachedWorksheets.Count)
                     {
-                        _values = _externalWs.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
-                        _cell = new ExternalCellInfo(_externalWs, _values);
+                        _externalWs = externalWb.CachedWorksheets[worksheetIx];
+                        if (_externalWs != null)
+                        {
+                            _values = _externalWs.CellValues.GetCellStore(_fromRow, _fromCol, _toRow, _toCol);
+                            _cell = new ExternalCellInfo(_externalWs, _values);
+                        }
                     }
                 }
             }

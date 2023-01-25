@@ -680,7 +680,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return 0;
             }
         }
-        public FormulaRangeAddress Clone()
+        public virtual FormulaRangeAddress Clone()
         {
             return new FormulaRangeAddress(_context)
             { 
@@ -864,6 +864,24 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     ToCol = table.Address._toCol;
                     break;
             }
+        }
+        public virtual FormulaTableAddress Clone()
+        {
+            return new FormulaTableAddress(_context)
+            {
+                ExternalReferenceIx = ExternalReferenceIx,
+                WorksheetIx = WorksheetIx,
+                FixedFlag = FixedFlag,
+                FromRow = FromRow,
+                FromCol = FromCol,
+                ToRow = ToRow,
+                ToCol = ToCol,
+                TableName = TableName,
+                TablePart1 = TablePart1,
+                TablePart2 = TablePart2,
+                ColumnName1 = ColumnName1,
+                ColumnName2 = ColumnName2,
+            };
         }
     }
 }
