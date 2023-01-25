@@ -1284,16 +1284,11 @@ namespace OfficeOpenXml
             var nextElementLength = GetAttributeLength(xr);
             stream.SetWriteToBuffer();
             long end;
-            if (isZipStream)
-            {
-                end = packPart.Entry.ArchiveStream.Position;
-            }
-            else
-            {
-                end = stream.Position - nextElementLength;
-            }
+            end = GetPosition(packPart, isZipStream, stream, nextElementLength);
             LoadMergeCells(xr);
+            var dataValidationsStart = stream.Position;
             LoadDataValidations(xr);
+            var dataValidationsEnd = GetPosition(packPart, isZipStream, stream, nextElementLength);
             LoadHyperLinks(xr);
             LoadRowPageBreakes(xr);
             LoadColPageBreakes(xr);
@@ -1327,6 +1322,19 @@ namespace OfficeOpenXml
 
             _package.DoAdjustDrawings = doAdjust;
             ClearNodes();
+        }
+
+        private static long GetPosition(ZipPackagePart packPart, bool isZipStream, WorksheetZipStream stream, int nextElementLength)
+        {
+            if (isZipStream)
+            {
+                return packPart.Entry.ArchiveStream.Position;
+            }
+            else
+            {
+                return stream.Position - nextElementLength;
+            }
+
         }
 
         private void MoveEntry(ZipInputStream zip, ZipEntry entry)
@@ -3253,7 +3261,7 @@ namespace OfficeOpenXml
                 cache.Append($"type=\"{DataValidations[i].ValidationType.TypeToXmlString()}\" ");
             }
 
-            if (DataValidations[i].ErrorStyle.ToString() != null)
+            if (DataValidations[i].ErrorStyle != ExcelDataValidationWarningStyle.undefined)
             {
                 cache.Append($"errorStyle=\"{DataValidations[i].ErrorStyle.ToString()}\" ");
             }

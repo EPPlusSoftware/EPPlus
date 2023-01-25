@@ -53,13 +53,13 @@ namespace OfficeOpenXml.DataValidation
                 case null:
                     alt = new ExcelDataValidationAny(xr);
                     break;
-                //case eDataValidationType.TextLength:
+                case "textLength":
                 case "whole":
                     return new ExcelDataValidationInt(xr);
-                //case eDataValidationType.Decimal:
-                //    return new ExcelDataValidationDecimal(worksheet, uid, address, type, itemElementNode);
-                //case eDataValidationType.List:
-                //    return CreateListValidation(type, worksheet, address, itemElementNode, internalType, uid);
+                case "decimal":
+                    return new ExcelDataValidationDecimal(xr);
+                case "list":
+                    return new ExcelDataValidationList(xr);
                 //case eDataValidationType.DateTime:
                 //    return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
                 //case eDataValidationType.Time:

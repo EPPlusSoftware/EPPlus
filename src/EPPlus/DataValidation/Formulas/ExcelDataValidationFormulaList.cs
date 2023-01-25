@@ -150,14 +150,15 @@ namespace OfficeOpenXml.DataValidation.Formulas
             var values = new DataValidationList();
             values.ListChanged += new EventHandler<EventArgs>(values_ListChanged);
             Values = values;
+            _inputFormula = formula;
             SetInitialValues();
         }
 
-        //private string _formula;
+        private string _inputFormula;
 
         private void SetInitialValues()
         {
-            var @value = _formula;
+            var @value = _inputFormula;
             if (!string.IsNullOrEmpty(@value))
             {
                 if (@value.StartsWith("\"", StringComparison.OrdinalIgnoreCase) && @value.EndsWith("\"", StringComparison.OrdinalIgnoreCase))

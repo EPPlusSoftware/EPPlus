@@ -13,6 +13,7 @@
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -34,6 +35,14 @@ namespace OfficeOpenXml.DataValidation
             Formula = new ExcelDataValidationFormulaDecimal(null, uid, worksheetName, OnFormulaChanged);
             Formula2 = new ExcelDataValidationFormulaDecimal(null, uid, worksheetName, OnFormulaChanged);
         }
+
+        internal ExcelDataValidationDecimal(XmlReader xr)
+            : base(xr)
+        {
+
+        }
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Decimal);
+
 
         internal override IExcelDataValidationFormulaDecimal DefineFormulaClassType(string formulaValue, string sheetName)
         {

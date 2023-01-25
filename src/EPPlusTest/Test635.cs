@@ -4,6 +4,7 @@ using OfficeOpenXml.DataValidation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace EPPlusTest
 {
@@ -27,29 +28,81 @@ namespace EPPlusTest
     [TestClass]
     public class Test635 : TestBase
     {
+
         [TestMethod]
         public void Stuff()
         {
-            //FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\OtherSheetTest.xlsx");
+            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\ListEx.xlsx");
 
-            //ExcelPackage package = new ExcelPackage(testFile);
+            ExcelPackage package = new ExcelPackage(testFile);
 
-            //var wb = package.Workbook.Worksheets;
+            var workSheetArr = package.Workbook.Worksheets;
 
-            //string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
-            //Stream stream = File.Create(path);
-            //package.SaveAs(stream);
-            //stream.Close();
+            var workSheet = workSheetArr[0];
 
-            // SaveAndCleanup(package);
+            var validation = workSheet.DataValidations.AddListValidation("D3");
 
-            using (var P = new ExcelPackage(@"C:\Users\OssianEdström\Documents\extLstTest.xlsx"))
+            validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
+
+            validation.Formula.ExcelFormula = "$A$1:$A$7";
+
+            // workSheet.DataValidations.Remove(workSheet.DataValidations[0]);
+
+            //var validation = workSheet.DataValidations.AddIntegerValidation("B3");
+
+            //validation.PromptTitle = "This is an IntegerTest TITLE";
+            //validation.Prompt = "This is an IntegerTest";
+            //validation.Formula.Value = 1;
+            //validation.Formula2.Value = 5;
+            //validation.ShowInputMessage = true;
+
+            string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+            Stream stream = File.Create(path);
+            package.SaveAs(stream);
+            stream.Close();
+
+            SaveAndCleanup(package);
+
+        }
+
+        public void DecimalTest()
+        {
+            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\DecimalEx.xlsx");
+
+            ExcelPackage package = new ExcelPackage(testFile);
+
+            var workSheetArr = package.Workbook.Worksheets;
+
+            var workSheet = workSheetArr[0];
+
+            var validation = workSheet.DataValidations.AddDecimalValidation("B3");
+
+            validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
+
+            validation.Formula.Value = 1.5;
+            validation.Formula2.Value = 5.5;
+
+            string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+            Stream stream = File.Create(path);
+            package.SaveAs(stream);
+            stream.Close();
+
+            SaveAndCleanup(package);
+        }
+
+        [TestMethod]
+        public void ValidateExtLstANDLocalDataValidation()
+        {
+            using (var P = new ExcelPackage(@"C:\epplusTest\TestOutput\extLstTest.xlsx"))
             {
                 ExcelWorksheet sheet = P.Workbook.Worksheets.Add("NewSheet");
                 ExcelWorksheet sheet2 = P.Workbook.Worksheets.Add("ExtSheet");
 
-                var validation = sheet2.DataValidations.AddIntegerValidation("A1");
-                var validationLocal = sheet2.DataValidations.AddIntegerValidation("B1:B2");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 5;
+
+
+                var validationLocal = sheet2.DataValidations.AddIntegerValidation("B1");
 
                 validationLocal.ErrorStyle = ExcelDataValidationWarningStyle.stop;
                 validationLocal.PromptTitle = "Enter a integer value here";
@@ -60,7 +113,7 @@ namespace EPPlusTest
                 validationLocal.ShowErrorMessage = true;
                 validationLocal.Operator = ExcelDataValidationOperator.between;
                 validationLocal.Formula.Value = 6;
-                validationLocal.Formula2.ExcelFormula = "ExtSheet!A2";
+                validationLocal.Formula2.ExcelFormula = "=ExtSheet!A2";
 
                 // Alternatively:
                 //var validation = sheet.Cells["A1:A2"].DataValidation;
@@ -70,6 +123,7 @@ namespace EPPlusTest
 
                 //validation2.ErrorStyle = ExcelDataValidationWarningStyle.stop;
 
+                var validation = sheet2.DataValidations.AddIntegerValidation("A1");
 
                 validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
                 validation.PromptTitle = "Enter a integer value here";
@@ -83,36 +137,9 @@ namespace EPPlusTest
                 validation.Formula2.ExcelFormula = "NewSheet!A2";
 
                 SaveAndCleanup(P);
+
+                //TODO: Assert that sheets are valid xmls here.
             }
-
-        }
-
-        private static void AddIntegerValidation(ExcelWorksheet sheet)
-        {
-            //add a validation and set values
-            var validation = sheet.DataValidations.AddIntegerValidation("A1:A2");
-
-            // Alternatively:
-            //var validation = sheet.Cells["A1:A2"].DataValidation;
-
-            //validation.AddAnyDataValidation();
-            //var validation2 = validation.AddDateTimeDataValidation();
-
-            //validation2.ErrorStyle = ExcelDataValidationWarningStyle.stop;
-
-
-            validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
-            validation.PromptTitle = "Enter a integer value here";
-            validation.Prompt = "Value should be between 1 and 5";
-            validation.ShowInputMessage = true;
-            validation.ErrorTitle = "An invalid value was entered";
-            validation.Error = "Value must be between 1 and 5";
-            validation.ShowErrorMessage = true;
-            validation.Operator = ExcelDataValidationOperator.between;
-            validation.Formula.Value = 1;
-            validation.Formula2.Value = 5;
-            validation.Formula2.ExcelFormula = "sheet2!A1";
-
         }
 
         private void SpeedTest(Func<TestClass> function)
@@ -161,6 +188,7 @@ namespace EPPlusTest
             //Note: This is neccesary in order to "warm-up" the instantiation;
             New<TestClass>.Instance();
             SpeedTest(New<TestClass>.Instance);
+
         }
 
         [TestMethod]

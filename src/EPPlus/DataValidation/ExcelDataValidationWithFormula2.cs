@@ -52,12 +52,8 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public T Formula2
         {
-            get { return _internalFormula2; }
-            protected set
-            {
-                _internalFormula2 = value;
-                checkIfExtLst(_internalFormula2.ExcelFormula);
-            }
+            get;
+            protected set;
         }
     }
 }

@@ -11,12 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Contracts;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -121,28 +119,6 @@ namespace OfficeOpenXml.DataValidation
             return GetCount(InternalValidationType.ExtLst);
         }
 
-        //T AddValidation<T>(string address, Type type)
-        //    where T : IExcelDataValidation
-        //{
-        //    //ValidateAddress(address);
-        //    //EnsureRootElementExists();
-        //    // Object item = new ExcelDataValidationAny(_worksheet, ExcelDataValidation.NewId(), address, ValidationType);
-        //    //_validations.Add(item);
-        //    //OnValidationCountChanged();
-
-        //    //ValidateAddress(address);
-        //    //EnsureRootElementExists();
-        //    //object item = Activator.CreateInstance(type, _worksheet, ExcelDataValidation.NewId(), ValidationType);
-        //    //_validations.Add((T)item);
-        //    //OnValidationCountChanged();
-        //    ////Object item = Activator.CreateInstance(typeof(T));   
-        //    ///
-
-
-
-        //    return (T);
-        //}
-
         private void OnValidationCountChanged()
         {
 
@@ -214,46 +190,10 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
-        private bool RefersToOtherWorksheet(string address)
-        {
-            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
-            {
-                var adr = new ExcelAddress(address);
-                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _worksheet.Name;
-            }
-            else if (!string.IsNullOrEmpty(address))
-            {
-                var tokens = SourceCodeTokenizer.Default.Tokenize(address, _worksheet.Name);
-                if (!tokens.Any()) return false;
-                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
-                foreach (var token in addressTokens)
-                {
-                    var adr = new ExcelAddress(token.Value);
-                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _worksheet.Name)
-                        return true;
-                }
-
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Adds a <see cref="ExcelDataValidationAny"/> to the worksheet.
-        /// </summary>
-        /// <param name="address">The range/address to validate</param>
-        /// <returns></returns>
-        //public IExcelDataValidationAny AddAnyValidation(string address) =>
-        //    AddValidation<IExcelDataValidationAny>(address, typeof(ExcelDataValidationAny));
-
-        //public IExcelDataValidationInt AddIntegerValidation(string address) =>
-        //    AddValidation<IExcelDataValidationInt>(address, typeof(ExcelDataValidationInt));
-
         public IExcelDataValidationAny AddAnyValidation(string address)
         {
             ValidateAddress(address);
             var item = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
-            if (RefersToOtherWorksheet(address))
-                item.SetInternalValidationType(InternalValidationType.ExtLst);
             _validations.Add(item);
             return item;
         }
@@ -267,12 +207,18 @@ namespace OfficeOpenXml.DataValidation
         }
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
         {
-            return null;
+            ValidateAddress(address);
+            var item = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            _validations.Add(item);
+            return item;
         }
 
         public IExcelDataValidationList AddListValidation(string address)
         {
-            return null;
+            ValidateAddress(address);
+            var item = new ExcelDataValidationList(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            _validations.Add(item);
+            return item;
         }
 
         public IExcelDataValidationInt AddTextLengthValidation(string address)

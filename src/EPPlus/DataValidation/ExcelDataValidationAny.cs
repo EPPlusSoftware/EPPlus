@@ -21,10 +21,12 @@ namespace OfficeOpenXml.DataValidation
     public class ExcelDataValidationAny : ExcelDataValidation, IExcelDataValidationAny
     {
         internal ExcelDataValidationAny(XmlReader xr) : base(xr)
-        { }
+        {
+        }
 
         internal ExcelDataValidationAny(string uid, string address) : base(uid, address)
-        { }
+        {
+        }
 
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Any);
     }

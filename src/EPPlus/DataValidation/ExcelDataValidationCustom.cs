@@ -34,6 +34,9 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Custom);
+
+
         override internal IExcelDataValidationFormula DefineFormulaClassType(string formulaValue, string sheetName)
         {
             return new ExcelDataValidationFormulaCustom(null, Uid, sheetName, OnFormulaChanged);

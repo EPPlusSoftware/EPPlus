@@ -38,5 +38,7 @@ namespace OfficeOpenXml.DataValidation
         {
             return new ExcelDataValidationFormulaTime(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
+
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Time);
     }
 }

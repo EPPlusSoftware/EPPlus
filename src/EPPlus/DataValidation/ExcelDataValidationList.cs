@@ -36,9 +36,17 @@ namespace OfficeOpenXml.DataValidation
             Formula = new ExcelDataValidationFormulaList(null, uid, worksheetName, OnFormulaChanged);
         }
 
+        internal ExcelDataValidationList(XmlReader xr)
+            : base(xr)
+        {
+
+        }
+
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.List);
+
         internal override IExcelDataValidationFormulaList DefineFormulaClassType(string formulaValue, string sheetName)
         {
-            return new ExcelDataValidationFormulaList(null, Uid, sheetName, OnFormulaChanged);
+            return new ExcelDataValidationFormulaList(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
 
         /// <summary>
@@ -55,8 +63,15 @@ namespace OfficeOpenXml.DataValidation
         internal override void LoadXML(XmlReader xr)
         {
             base.LoadXML(xr);
-
-            HideDropDown = bool.Parse(xr.GetAttribute("showDropDown"));
+            string attribute = xr.GetAttribute("showDropDown");
+            if (string.IsNullOrEmpty(attribute))
+            {
+                HideDropDown = false;
+            }
+            else
+            {
+                HideDropDown = bool.Parse(xr.GetAttribute("showDropDown"));
+            }
         }
     }
 }
