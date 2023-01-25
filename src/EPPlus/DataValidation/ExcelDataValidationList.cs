@@ -33,12 +33,12 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationList(string uid, string address, string worksheetName)
             : base(uid, address, worksheetName)
         {
-            //Formula = new ExcelDataValidationFormulaList(IFormula1, uid);
+            Formula = new ExcelDataValidationFormulaList(null, uid, worksheetName, OnFormulaChanged);
         }
 
-        internal override IExcelDataValidationFormulaList DefineFormulaClassType(string formulaValue)
+        internal override IExcelDataValidationFormulaList DefineFormulaClassType(string formulaValue, string sheetName)
         {
-            return new ExcelDataValidationFormulaList(IFormula1, Uid);
+            return new ExcelDataValidationFormulaList(null, Uid, sheetName, OnFormulaChanged);
         }
 
         /// <summary>

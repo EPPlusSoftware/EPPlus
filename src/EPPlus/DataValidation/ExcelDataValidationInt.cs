@@ -30,7 +30,7 @@ namespace OfficeOpenXml.DataValidation
 
         internal override IExcelDataValidationFormulaInt DefineFormulaClassType(string formulaValue, string worksheetName)
         {
-            return new ExcelDataValidationFormulaInt(formulaValue, Uid, worksheetName);
+            return new ExcelDataValidationFormulaInt(formulaValue, Uid, worksheetName, OnFormulaChanged);
         }
 
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Whole);
@@ -46,8 +46,8 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationInt(string uid, string address, string worksheetName) : base(uid, address, worksheetName)
         {
             //Initilization of forumlas so they don't cause nullref
-            Formula = new ExcelDataValidationFormulaInt(null, uid, worksheetName);
-            Formula2 = new ExcelDataValidationFormulaInt(null, uid, worksheetName);
+            Formula = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
+            Formula2 = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
         }
     }
 }

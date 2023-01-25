@@ -80,6 +80,8 @@ namespace OfficeOpenXml.DataValidation
 
         abstract internal T DefineFormulaClassType(string formulaValue, string worksheetName);
 
+
+
         private T _internalFormula;
 
         /// <summary>

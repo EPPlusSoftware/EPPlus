@@ -32,12 +32,12 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationDateTime(string uid, string address, string worksheetName)
             : base(uid, address, worksheetName)
         {
-
+            Formula = new ExcelDataValidationFormulaDateTime(null, Uid, worksheetName, OnFormulaChanged);
         }
 
-        internal override IExcelDataValidationFormulaDateTime DefineFormulaClassType(string formulaValue)
+        internal override IExcelDataValidationFormulaDateTime DefineFormulaClassType(string formulaValue, string sheetName)
         {
-            return new ExcelDataValidationFormulaDateTime(formulaValue, Uid);
+            return new ExcelDataValidationFormulaDateTime(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
     }
 }

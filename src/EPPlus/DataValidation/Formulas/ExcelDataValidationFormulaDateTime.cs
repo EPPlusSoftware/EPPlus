@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using System;
 using System.Globalization;
@@ -17,8 +18,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
 {
     internal class ExcelDataValidationFormulaDateTime : ExcelDataValidationFormulaValue<DateTime?>, IExcelDataValidationFormulaDateTime
     {
-        public ExcelDataValidationFormulaDateTime(string formula, string validationUid)
-            : base(validationUid)
+        public ExcelDataValidationFormulaDateTime(string formula, string validationUid, string sheetName, Action<OnFormulaChangedEventArgs> evtHandler)
+            : base(validationUid, sheetName, evtHandler)
         {
             var value = formula;
             if (!string.IsNullOrEmpty(value))

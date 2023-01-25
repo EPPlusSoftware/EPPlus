@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.DataValidation.Events;
+using System;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -24,8 +26,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
         /// Constructor
         /// </summary>
         /// <param name="validationUid">Uid for the data validation</param>
-        public ExcelDataValidationFormulaValue(string validationUid, string worksheetName)
-            : base(validationUid, worksheetName)
+        public ExcelDataValidationFormulaValue(string validationUid, string worksheetName, Action<OnFormulaChangedEventArgs> extListHandler)
+            : base(validationUid, worksheetName, extListHandler)
         {
 
         }

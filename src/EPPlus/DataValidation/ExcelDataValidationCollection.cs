@@ -262,8 +262,6 @@ namespace OfficeOpenXml.DataValidation
         {
             ValidateAddress(address);
             var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            if (RefersToOtherWorksheet(address))
-                item.SetInternalValidationType(InternalValidationType.ExtLst);
             _validations.Add(item);
             return item;
         }

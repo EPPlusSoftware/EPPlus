@@ -101,6 +101,8 @@ namespace EPPlusTest
             validation.Operator = ExcelDataValidationOperator.between;
             validation.Formula.Value = 1;
             validation.Formula2.Value = 5;
+            validation.Formula2.ExcelFormula = "sheet2!A1";
+
         }
 
         private void SpeedTest(Func<TestClass> function)

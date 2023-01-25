@@ -3209,7 +3209,7 @@ namespace OfficeOpenXml
                 sw.Write(xml.Substring(rowBreakEnd, colBreakStart - rowBreakEnd));
                 UpdateColBreaks(sw, prefix);
 
-                if (GetNode("extLst") == null)
+                if (GetNode("d:extLst") == null)
                 {
                     sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
                 }
@@ -3218,7 +3218,6 @@ namespace OfficeOpenXml
                     int extLstStart = colBreakEnd, extLstEnd = colBreakEnd;
                     GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
                     sw.Write(xml.Substring(colBreakEnd, extLstStart - colBreakEnd));
-
                     UpdateExtLstData(sw, prefix);
 
                     sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
@@ -3430,31 +3429,31 @@ namespace OfficeOpenXml
                     case eDataValidationType.TextLength:
                     case eDataValidationType.Whole:
                         var intType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
-                        cache.Append($"<{prefix}formula1>{extNode}{intType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{intType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1><{extNode}>{intType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2><{extNode}>{intType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
                         break;
                     case eDataValidationType.Decimal:
                         var decimalType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDecimal>;
-                        cache.Append($"<{prefix}formula1>{extNode}{decimalType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{decimalType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1><{extNode}>{decimalType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2><{extNode}>{decimalType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
                         break;
                     case eDataValidationType.List:
                         var listType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaList>;
-                        cache.Append($"<{prefix}formula1>{extNode}{listType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula1><{extNode}>{listType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
                         break;
                     case eDataValidationType.Time:
                         var timeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaTime>;
-                        cache.Append($"<{prefix}formula1>{extNode}{timeType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{timeType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1><{extNode}>{timeType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2><{extNode}>{timeType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
                         break;
                     case eDataValidationType.DateTime:
                         var dateTimeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDateTime>;
-                        cache.Append($"<{prefix}formula1>{extNode}{dateTimeType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{dateTimeType.Formula2.ExcelFormula}{extNode}</{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1><{extNode}>{dateTimeType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2><{extNode}>{dateTimeType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
                         break;
                     case eDataValidationType.Custom:
                         var customType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaDateTime>;
-                        cache.Append($"<{prefix}formula1>{extNode}{customType.Formula.ExcelFormula}{extNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula1><{extNode}>{customType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
                         break;
                     default:
                         throw new Exception("UNKNOWN TYPE IN WriteDataValidation");
@@ -3462,7 +3461,7 @@ namespace OfficeOpenXml
 
                 if (DataValidations.HasValidationType(InternalValidationType.ExtLst))
                 {
-                    cache.Append($"xm:sqref>{DataValidations[i].Address}</xm:sqref>");
+                    cache.Append($"<xm:sqref>{DataValidations[i].Address}</xm:sqref>");
                 }
 
                 //var dv = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormula>;
@@ -3520,7 +3519,7 @@ namespace OfficeOpenXml
             {
                 cache.Append($"<{prefix}dataValidations {extraAttribute} count=\"{DataValidations.GetExtLstCount()}\">");
                 type = InternalValidationType.ExtLst;
-                extNode = "<xm:f>";
+                extNode = "xm:f";
             }
 
             for (int i = 0; i < DataValidations.Count; i++)
@@ -3541,11 +3540,11 @@ namespace OfficeOpenXml
         private void UpdateExtLstData(StreamWriter sw, string prefix)
         {
             sw.Write("<extLst>");
-            sw.Write($"ext xmlns:x14={ExcelPackage.schemaMainX14} uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\">");
+            sw.Write($"<ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\">");
+            prefix = "x14:";
+            UpdateDataValidation(sw, prefix, $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
 
-            UpdateDataValidation(sw, prefix, $"xlmns:xm={ExcelPackage.schemaMainXm}");
-
-            sw.Write("/ext");
+            sw.Write("</ext>");
             sw.Write("</extLst>");
         }
 

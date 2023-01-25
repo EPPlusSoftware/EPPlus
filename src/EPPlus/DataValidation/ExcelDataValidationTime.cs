@@ -30,13 +30,13 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="validationType"></param>
         internal ExcelDataValidationTime(string uid, string address, string worksheetName) : base(uid, address, worksheetName)
         {
-            Formula = new ExcelDataValidationFormulaTime(IFormula1, uid);
-            Formula2 = new ExcelDataValidationFormulaTime(IFormula2, uid);
+            Formula = new ExcelDataValidationFormulaTime(null, uid, worksheetName, OnFormulaChanged);
+            Formula2 = new ExcelDataValidationFormulaTime(null, uid, worksheetName, OnFormulaChanged);
         }
 
-        internal override IExcelDataValidationFormulaTime DefineFormulaClassType(string formulaValue)
+        internal override IExcelDataValidationFormulaTime DefineFormulaClassType(string formulaValue, string sheetName)
         {
-            return new ExcelDataValidationFormulaTime(formulaValue, Uid);
+            return new ExcelDataValidationFormulaTime(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
     }
 }

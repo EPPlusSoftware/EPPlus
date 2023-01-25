@@ -10,8 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Exceptions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
+using System;
+using System.Linq;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -35,15 +39,21 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// </summary>
     internal abstract class ExcelDataValidationFormula
     {
+
+        internal event System.EventHandler BecomesExt;
+
+        private readonly Action<OnFormulaChangedEventArgs> _handler;
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="validationUid">id of the data validation containing this formula</param>
-        public ExcelDataValidationFormula(string validationUid, string workSheetName)
+        public ExcelDataValidationFormula(string validationUid, string workSheetName, Action<OnFormulaChangedEventArgs> extListHandler)
         {
             Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
             _validationUid = validationUid;
             _workSheetName = workSheetName;
+            _handler = extListHandler;
         }
 
         private string _validationUid;
@@ -86,7 +96,36 @@ namespace OfficeOpenXml.DataValidation.Formulas
                     throw new DataValidationFormulaTooLongException("The length of a DataValidation formula cannot exceed 255 characters");
                 }
                 _formula = value;
+                if (RefersToOtherWorksheet(_formula))
+                {
+                    var e = new OnFormulaChangedEventArgs();
+                    e.isExt = true;
+                    _handler.Invoke(e);
+                }
             }
+        }
+
+        private bool RefersToOtherWorksheet(string address)
+        {
+            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
+            {
+                var adr = new ExcelAddress(address);
+                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _workSheetName;
+            }
+            else if (!string.IsNullOrEmpty(address))
+            {
+                var tokens = SourceCodeTokenizer.Default.Tokenize(address, _workSheetName);
+                if (!tokens.Any()) return false;
+                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
+                foreach (var token in addressTokens)
+                {
+                    var adr = new ExcelAddress(token.Value);
+                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _workSheetName)
+                        return true;
+                }
+
+            }
+            return false;
         }
 
         internal abstract void ResetValue();

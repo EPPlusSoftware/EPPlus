@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using System.Xml;
-
 namespace OfficeOpenXml.DataValidation
 {
     /// <summary>
