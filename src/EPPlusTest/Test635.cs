@@ -49,6 +49,18 @@ namespace EPPlusTest
                 ExcelWorksheet sheet2 = P.Workbook.Worksheets.Add("ExtSheet");
 
                 var validation = sheet2.DataValidations.AddIntegerValidation("A1");
+                var validationLocal = sheet2.DataValidations.AddIntegerValidation("B1:B2");
+
+                validationLocal.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                validationLocal.PromptTitle = "Enter a integer value here";
+                validationLocal.Prompt = "Value should be between 1 and 5";
+                validationLocal.ShowInputMessage = true;
+                validationLocal.ErrorTitle = "An invalid value was entered";
+                validationLocal.Error = "Value must be between 1 and 5";
+                validationLocal.ShowErrorMessage = true;
+                validationLocal.Operator = ExcelDataValidationOperator.between;
+                validationLocal.Formula.Value = 6;
+                validationLocal.Formula2.ExcelFormula = "ExtSheet!A2";
 
                 // Alternatively:
                 //var validation = sheet.Cells["A1:A2"].DataValidation;
@@ -69,8 +81,6 @@ namespace EPPlusTest
                 validation.Operator = ExcelDataValidationOperator.between;
                 validation.Formula.ExcelFormula = "NewSheet!A1";
                 validation.Formula2.ExcelFormula = "NewSheet!A2";
-
-                validation.Formula.Value = 5;
 
                 SaveAndCleanup(P);
             }

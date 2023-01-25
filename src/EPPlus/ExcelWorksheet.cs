@@ -3320,100 +3320,6 @@ namespace OfficeOpenXml
             cache.Append(">");
         }
 
-        //string[] GetFormulaString(ExcelDataValidation validation)
-        //{
-        //    string[] arr = new string[2];
-        //    switch (validation.ValidationType.Type)
-        //    {
-        //        case eDataValidationType.TextLength:
-        //        case eDataValidationType.Whole:
-        //            arr[0] = ((ExcelDataValidationInt)validation).Formula.ToString();
-        //            arr[1] = ((ExcelDataValidationInt)validation).Formula2.ToString();
-        //            return arr;
-        //        case eDataValidationType.Decimal:
-        //            arr[0] = ((ExcelDataValidationInt)validation).Formula.ToString();
-        //            arr[2] = ((ExcelDataValidationInt)validation).Formula2.ToString();
-        //            return arr;
-        //        case eDataValidationType.List:
-        //            arr[0] = ((ExcelDataValidationList)validation).Formula.ToString();
-        //            arr[1] = null;
-        //            return arr;
-        //        case eDataValidationType.Time:
-        //            arr[0] = ((ExcelDataValidationTime)validation).Formula.ToString();
-        //            arr[1] = ((ExcelDataValidationTime)validation).Formula2.ToString();
-        //            return arr;
-        //        case eDataValidationType.DateTime:
-        //            arr[0] = ((ExcelDataValidationDateTime)validation).Formula.ToString();
-        //            arr[1] = ((ExcelDataValidationDateTime)validation).Formula2.ToString();
-        //            return arr;
-        //        case eDataValidationType.Custom:
-        //            arr[0] = ((ExcelDataValidationCustom)validation).Formula.ToString();
-        //            arr[1] = null;
-        //            return arr;
-        //        default:
-        //            throw new Exception("UNKNOWN TYPE IN GetFormulaString");
-        //    }
-        //}
-
-        //void GetFormulaStringArr(ExcelDataValidation validation, ref string[] formulas)
-        //{
-        //    switch (validation.ValidationType.Type)
-        //    {
-        //        case eDataValidationType.TextLength:
-        //        case eDataValidationType.Whole:
-        //            var a = validation as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
-        //            formulas[0] = a.Formula.ExcelFormula;
-        //            formulas[1] = a.Formula2.ExcelFormula;
-        //            break;
-        //        case eDataValidationType.Decimal:
-        //            formulas[0] = ((ExcelDataValidationDecimal)validation).Formula.Value.Value.ToString(CultureInfo.InvariantCulture);
-        //            formulas[2] = ((ExcelDataValidationDecimal)validation).Formula2.ToString();
-        //            break;
-        //        case eDataValidationType.List:
-        //            formulas[0] = ((ExcelDataValidationList)validation).Formula.ToString();
-        //            formulas[1] = null;
-        //            break;
-        //        case eDataValidationType.Time:
-        //            formulas[0] = ((ExcelDataValidationTime)validation).Formula.ToString();
-        //            formulas[1] = ((ExcelDataValidationTime)validation).Formula2.ToString();
-        //            break;
-        //        case eDataValidationType.DateTime:
-        //            formulas[0] = ((ExcelDataValidationDateTime)validation).Formula.ToString();
-        //            formulas[1] = ((ExcelDataValidationDateTime)validation).Formula2.ToString();
-        //            break;
-        //        case eDataValidationType.Custom:
-        //            formulas[0] = ((ExcelDataValidationCustom)validation).Formula.ToString();
-        //            formulas[1] = null;
-        //            break;
-        //        default:
-        //            throw new Exception("UNKNOWN TYPE IN GetFormulaString");
-        //    }
-        //}
-
-        //Type GetValidationType(ExcelDataValidation validation)
-        //{
-        //    switch (validation.ValidationType.Type)
-        //    {
-        //        case eDataValidationType.TextLength:
-        //        case eDataValidationType.Whole:
-        //            return typeof(ExcelDataValidationInt);
-        //        case eDataValidationType.Decimal:
-        //            return typeof(ExcelDataValidationDecimal);
-        //        case eDataValidationType.List:
-        //            return typeof(ExcelDataValidationList);
-        //        case eDataValidationType.Time:
-        //            return typeof(ExcelDataValidationTime);
-        //        case eDataValidationType.DateTime:
-        //            return typeof(ExcelDataValidationDateTime);
-        //        case eDataValidationType.Custom:
-        //            return typeof(ExcelDataValidationCustom);
-        //        default:
-        //            throw new Exception("UNKNOWN TYPE IN GetFormulaString");
-        //    }
-        //}
-
-
-
         private void WriteDataValidation(ref StringBuilder cache, string prefix, int i, string extNode = "")
         {
             cache.Append($"<{prefix}dataValidation ");
@@ -3421,82 +3327,52 @@ namespace OfficeOpenXml
 
             if (DataValidations[i].ValidationType.Type != eDataValidationType.Any)
             {
-                //string formula1 = null;
-                //string formula2 = null;
+                string endExtNode = "";
+                if (extNode != "")
+                {
+                    endExtNode = $"</{extNode}>";
+                    extNode = $"<{extNode}>";
+                }
 
                 switch (DataValidations[i].ValidationType.Type)
                 {
                     case eDataValidationType.TextLength:
                     case eDataValidationType.Whole:
                         var intType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
-                        cache.Append($"<{prefix}formula1><{extNode}>{intType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2><{extNode}>{intType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1>{extNode}{intType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{intType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.Decimal:
                         var decimalType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDecimal>;
-                        cache.Append($"<{prefix}formula1><{extNode}>{decimalType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2><{extNode}>{decimalType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1>{extNode}{decimalType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{decimalType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.List:
                         var listType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaList>;
-                        cache.Append($"<{prefix}formula1><{extNode}>{listType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
+                        cache.Append($"<{prefix}formula1>{extNode}{listType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
                         break;
                     case eDataValidationType.Time:
                         var timeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaTime>;
-                        cache.Append($"<{prefix}formula1><{extNode}>{timeType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2><{extNode}>{timeType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1>{extNode}{timeType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{timeType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.DateTime:
                         var dateTimeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDateTime>;
-                        cache.Append($"<{prefix}formula1><{extNode}>{dateTimeType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2><{extNode}>{dateTimeType.Formula2.ExcelFormula}</{extNode}></{prefix}formula2>");
+                        cache.Append($"<{prefix}formula1>{extNode}{dateTimeType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{dateTimeType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.Custom:
                         var customType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaDateTime>;
-                        cache.Append($"<{prefix}formula1><{extNode}>{customType.Formula.ExcelFormula}</{extNode}></{prefix}formula1>");
+                        cache.Append($"<{prefix}formula1>{extNode}{customType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
                         break;
                     default:
                         throw new Exception("UNKNOWN TYPE IN WriteDataValidation");
                 }
 
-                if (DataValidations.HasValidationType(InternalValidationType.ExtLst))
+                if (extNode != "")
                 {
                     cache.Append($"<xm:sqref>{DataValidations[i].Address}</xm:sqref>");
                 }
-
-                //var dv = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormula>;
-                //cache.Append($"<formula1>{dv.Formula.ExcelFormula}</formula1>");
-
-
-
-                //if (DataValidations[i] is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula)
-                //{
-                //    var j = 0;
-                //}
-
-                //if (DataValidations[i].ValidationType.Type != eDataValidationType.List
-                //|| DataValidations[i].ValidationType.Type != eDataValidationType.Custom)
-                //{
-                //    var dv2 = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
-                //    cache.Append($"<formula2>{dv2.Formula2}</formula2>");
-                //}
-                //else
-                //{
-                //    if (DataValidations[i] is ExcelDataValidationWithFormula<IExcelDataValidationFormula>)
-                //    {
-                //        var custom = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormula>;
-                //        cache.Append($"<formula1>{custom.Formula.ExcelFormula}</formula1>");
-                //    }
-                //}
-
-                //string[] formulas = new string[2];
-                //GetFormulaStringArr(DataValidations[i], ref formulas);
-
-                //cache.Append($"<formula1>{dv.ExcelFormula}</formula1>");
-                //if (formulas[2] != null)
-                //{
-                //    cache.Append($"<formula2>{formulas[1]}</formula2>");
-                //}
             }
 
             //write adress if extLst
