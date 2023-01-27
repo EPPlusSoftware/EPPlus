@@ -25,6 +25,7 @@ namespace OfficeOpenXml
         private long _size;
         private long _bytesRead;
         private int _bufferEnd=0;
+        private int _prevBufferEnd = 0;
         public WorksheetZipStream(Stream zip, bool writeToBuffer, long size=-1)
         {
             _stream = zip;
@@ -48,16 +49,26 @@ namespace OfficeOpenXml
             _stream.Flush();
         }
 
-        byte[] _buffer; 
+        byte[] _buffer=null;
+        byte[] _prevBuffer, _tempBuffer = new byte[8192];
         public override int Read(byte[] buffer, int offset, int count)
         {
             if(_size>0 && _bytesRead + count > _size)
             {
                 count = (int)(_size - _bytesRead);
             }
-            var r=_stream.Read(buffer, offset, count);
+            if (_buffer != null)
+            {
+                if(_tempBuffer.Length<_bufferEnd) _tempBuffer = new byte[_bufferEnd];
+                Array.Copy(_buffer, _tempBuffer, _bufferEnd);
+            }
+
+            var r =_stream.Read(buffer, offset, count);
             if(r>0)
             {
+                _prevBuffer = _tempBuffer;
+                _prevBufferEnd = _bufferEnd;
+
                 _buffer = buffer;
                 _bytesRead += r;
                 _bufferEnd = r;
@@ -66,7 +77,6 @@ namespace OfficeOpenXml
                 {
                     Buffer.Write(buffer, 0, r);
                 }
-
             }
             return r;
         }
@@ -91,6 +101,10 @@ namespace OfficeOpenXml
             Buffer = new BinaryWriter(RecyclableMemory.GetStream());
             if (WriteToBuffer==false)
             {
+                if (_prevBuffer != null)
+                {
+                    Buffer.Write(_prevBuffer, 0, _prevBufferEnd);
+                }
                 Buffer.Write(_buffer,0, _bufferEnd);
             }
 
@@ -194,8 +208,7 @@ namespace OfficeOpenXml
             
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
-            int endElementIx = -1;
-            endElementIx = FindElementPos(xml, endElement, false);
+            var endElementIx = FindElementPos(xml, endElement, false);
 
             if (endElementIx < 0) return startXml;
             if(string.IsNullOrEmpty(readToElement))
@@ -256,7 +269,6 @@ namespace OfficeOpenXml
                                     return end + 1;
                                 }
                             }
-                            ix += element.Length;
                         }
                     }
                 }
