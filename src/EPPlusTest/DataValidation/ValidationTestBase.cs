@@ -35,7 +35,7 @@ using System.Globalization;
 
 namespace EPPlusTest.DataValidation
 {
-    public abstract class ValidationTestBase
+    public abstract class ValidationTestBase : TestBase
     {
         protected ExcelPackage _package;
         protected ExcelWorksheet _sheet;

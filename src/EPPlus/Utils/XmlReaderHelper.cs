@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace OfficeOpenXml.Utils
@@ -16,7 +17,7 @@ namespace OfficeOpenXml.Utils
                     if (xr.EOF) return false;
                 } while (xr.Depth != depth);
             }
-            return (ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
+            return xr.NodeType==XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]) ;
         }
 
         /// <summary>
@@ -35,7 +36,27 @@ namespace OfficeOpenXml.Utils
                 xr.Read();
             } while ((Array.Exists(tagName, tag => ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag))) == false);
 
-            return (ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]));
+            return xr.NodeType == XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]);
         }
+        internal static bool ReadUntil(this XmlReader xr, int depth, Dictionary<string, int> nodeOrder, string tag)
+        {
+            if(xr.EOF == false && nodeOrder.TryGetValue(tag, out int tagIx))
+            {
+                if (nodeOrder.TryGetValue(xr.LocalName, out int currentNodeIx))
+                {
+                    while ((xr.Depth == depth && currentNodeIx < tagIx))
+                    {
+                        do
+                        {
+                            xr.Read();
+                            if (xr.EOF) return false;
+                        } while (xr.Depth != depth);
+                    }
+                    return xr.NodeType == XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag);
+                }
+            }
+            return false;
+        }
+
     }
 }

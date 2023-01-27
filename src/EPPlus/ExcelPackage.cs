@@ -499,7 +499,7 @@ namespace OfficeOpenXml
                 }
                 finally
                 {
-                    ms.Dispose();
+                    //ms.Dispose(); Leave the memory stream. it's later used when reading directly from the zip stream when populating the worksheets. It's disposed later when the worksheets are loaded.
 				}
             }
             else

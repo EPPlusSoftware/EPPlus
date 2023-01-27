@@ -66,14 +66,18 @@ namespace OfficeOpenXml.DataValidation
         {
             while (xr.Read())
             {
-                if (xr.LocalName != "dataValidation") break;
+                if (xr.LocalName != "dataValidation")
+                {
+                    xr.Read(); //Read beyond the end element
+                    break;
+                }
 
                 if (xr.NodeType == XmlNodeType.Element)
                 {
                     var validation = ExcelDataValidationFactory.Create(xr);
                     _validations.Add(validation);
                 }
-            }
+            }            
         }
 
         internal bool HasValidationType(InternalValidationType type)

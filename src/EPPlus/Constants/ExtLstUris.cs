@@ -45,6 +45,8 @@ namespace OfficeOpenXml.Constants
         //Slicer styles
         internal const string SlicerStylesDxfCollectionUri = "{46F421CA-312F-682f-3DD2-61675219B42D}";
         internal const string SlicerStylesUri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}";
+
+        internal const string DataValidationsUri = "{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}";
     }
 }
 

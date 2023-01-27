@@ -377,7 +377,7 @@ namespace OfficeOpenXml.Packaging
             {
                 part.Dispose();
             }
-            _zip.Dispose();
+            _zip?.Dispose();
         }
 
         CompressionLevel _compression = CompressionLevel.Default;
