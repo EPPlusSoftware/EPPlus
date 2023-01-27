@@ -246,5 +246,14 @@ namespace EPPlusTest.DataValidation
                 Assert.AreEqual(0, wks.DataValidations.Count);
             }
         }
+        [TestMethod]
+        public void TestLoadingWorksheet()
+        {
+            using (var p = OpenTemplatePackage("DataValidationTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual(3, ws.DataValidations.Count);
+            }
+        }
     }
 }

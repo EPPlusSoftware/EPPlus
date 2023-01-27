@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
@@ -1249,20 +1250,19 @@ namespace OfficeOpenXml
             // First Columns, rows, cells, mergecells, hyperlinks and pagebreakes are loaded from a xmlstream to optimize speed...
             bool doAdjust = _package.DoAdjustDrawings;
             _package.DoAdjustDrawings = false;
-            bool isZipStream;
+            //bool isZipStream;
             WorksheetZipStream stream;
             if (packPart.Entry?.UncompressedSize > int.MaxValue)
             {
                 MoveEntry(packPart.Package._zip, packPart.Entry);
                 stream = new WorksheetZipStream(packPart.Package._zip, true, packPart.Entry.UncompressedSize);
-                isZipStream = true;
+                //isZipStream = true;
             }
             else
             {
                 stream = new WorksheetZipStream(packPart.GetStream(), true);
-                isZipStream = false;
+                //isZipStream = false;
             }
-            string startXml, endXml;
 #if Core
             var xr = XmlReader.Create(stream, new XmlReaderSettings()
             {
@@ -1279,37 +1279,32 @@ namespace OfficeOpenXml
             xr.WhitespaceHandling = WhitespaceHandling.None;
 #endif            
             LoadColumns(xr);    //columnXml
-            startXml = stream.GetBufferAsString(false);
+            var lastXmlElement = "sheetData";
+            xml = stream.GetBufferAsStringRemovingElement(false, lastXmlElement);
             long start = stream.Position;
             LoadCells(xr);
             var nextElementLength = GetAttributeLength(xr);
             stream.SetWriteToBuffer();
-            long end;
-            end = GetPosition(packPart, isZipStream, stream, nextElementLength);
             LoadMergeCells(xr);
-            var dataValidationsStart = stream.Position;
-            LoadDataValidations(xr);
-            var dataValidationsEnd = GetPosition(packPart, isZipStream, stream, nextElementLength);
+            var nextElement = "dataValidations";
+            if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, "dataValidations"))
+            {
+                xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
+                LoadDataValidations(xr);
+                stream.SetWriteToBuffer();
+                lastXmlElement = nextElement;
+            }
             LoadHyperLinks(xr);
             LoadRowPageBreakes(xr);
             LoadColPageBreakes(xr);
-            LoadExtLst(xr);
-
-            Encoding encoding;
-            if (isZipStream)
+            nextElement = "extLst";
+            if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
             {
+                LoadExtLst(xr, stream, ref xml, ref lastXmlElement);
+            }
 
-                stream.ReadToEnd();
-                endXml = stream.GetBufferAsString(false);
-                xml = GetWorkSheetXmlFromZipStream(startXml, endXml);
-                encoding = Encoding.UTF8;
-            }
-            else
-            {
-                //...then the rest of the Xml is extracted and loaded into the WorksheetXml document.
-                stream.Seek(0, SeekOrigin.Begin);
-                xml = GetWorkSheetXml(stream, start, end, out encoding);
-            }
+            Encoding encoding = Encoding.UTF8;
+            xml = stream.ReadFromEndElement(lastXmlElement, xml);
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
@@ -1793,29 +1788,30 @@ namespace OfficeOpenXml
 
         private void LoadDataValidations(XmlReader xr)
         {
-            if (xr.ReadUntil(1, "dataValidations", "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst") && !xr.EOF)
-                _dataValidations = new ExcelDataValidationCollection(xr, this);
+            _dataValidations = new ExcelDataValidationCollection(xr, this);
         }
 
-        private void LoadExtLst(XmlReader xr)
+        private void LoadExtLst(XmlReader xr, WorksheetZipStream stream, ref string xml, ref string lastXmlElement)
         {
-            if (xr.ReadUntil(1, "extLst", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
-            {
-                xr.Read();
-                string name = xr.Name;
-                string nodeType = xr.NodeType.ToString();
-
-                if (xr.GetAttribute("uri") == "{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}")
+            while (xr.ReadUntil(2, "ext"))
+            {                                
+                if (xr.GetAttribute("uri") == ExtLstUris.DataValidationsUri)
                 {
+                    var nextXmlElement = "ext";
+                    xml = stream.ReadFromEndElement(lastXmlElement, xml, "ext", false, xr.Prefix, $" uri=\"{ExtLstUris.DataValidationsUri}\"");
+
                     xr.Read();
 
                     if (_dataValidations == null)
                         _dataValidations = new ExcelDataValidationCollection(xr, this);
                     else
                         _dataValidations.ReadDataValidations(xr);
+
+                    stream.SetWriteToBuffer();
+                    lastXmlElement = nextXmlElement;
+
                 }
             }
-
         }
 
         /// <summary>
