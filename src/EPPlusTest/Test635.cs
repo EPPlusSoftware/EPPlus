@@ -32,6 +32,64 @@ namespace EPPlusTest
         [TestMethod]
         public void Stuff()
         {
+            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\TestCustom3.xlsx");
+
+            ExcelPackage package = new ExcelPackage(testFile);
+            var workSheet = package.Workbook.Worksheets[0];
+            var validation = workSheet.DataValidations.AddCustomValidation("D1");
+
+            validation.Formula.ExcelFormula = "=ISTEXT(D1)";
+
+            validation.ShowErrorMessage = true;
+
+            string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+            Stream stream = File.Create(path);
+            package.SaveAs(stream);
+            stream.Close();
+
+            SaveAndCleanup(package);
+        }
+
+        public void DateTimeTest()
+        {
+            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\DateTimeEx.xlsx");
+
+            ExcelPackage package = new ExcelPackage(testFile);
+            var workSheet = package.Workbook.Worksheets[0];
+            var validation = workSheet.DataValidations.AddDateTimeValidation("A2");
+
+            validation.Formula.Value = DateTime.Now;
+            validation.Formula2.Value = new DateTime(2022, 07, 03, 15, 00, 00);
+
+            string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+            Stream stream = File.Create(path);
+            package.SaveAs(stream);
+            stream.Close();
+
+            SaveAndCleanup(package);
+        }
+
+        public void TimeTest()
+        {
+            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\TimeExample.xlsx");
+
+            ExcelPackage package = new ExcelPackage(testFile);
+            var workSheet = package.Workbook.Worksheets[0];
+            var validation = workSheet.DataValidations.AddTimeValidation("A2");
+
+            validation.Formula.Value.Hour = 9;
+            validation.Formula2.Value.Hour = 17;
+
+            string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+            Stream stream = File.Create(path);
+            package.SaveAs(stream);
+            stream.Close();
+
+            SaveAndCleanup(package);
+        }
+
+        public void ListTest()
+        {
             FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\ListEx.xlsx");
 
             ExcelPackage package = new ExcelPackage(testFile);
@@ -44,17 +102,11 @@ namespace EPPlusTest
 
             validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
 
-            validation.Formula.ExcelFormula = "$A$1:$A$7";
+            validation.Formula.Values.Add("1");
+            validation.Formula.Values.Add("2");
+            validation.Formula.Values.Add("3");
 
-            // workSheet.DataValidations.Remove(workSheet.DataValidations[0]);
-
-            //var validation = workSheet.DataValidations.AddIntegerValidation("B3");
-
-            //validation.PromptTitle = "This is an IntegerTest TITLE";
-            //validation.Prompt = "This is an IntegerTest";
-            //validation.Formula.Value = 1;
-            //validation.Formula2.Value = 5;
-            //validation.ShowInputMessage = true;
+            validation.Formula.Values.Add("15");
 
             string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
             Stream stream = File.Create(path);
@@ -62,7 +114,6 @@ namespace EPPlusTest
             stream.Close();
 
             SaveAndCleanup(package);
-
         }
 
         public void DecimalTest()

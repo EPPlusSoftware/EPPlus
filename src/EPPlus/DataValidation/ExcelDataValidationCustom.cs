@@ -13,6 +13,7 @@
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -31,6 +32,12 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationCustom(string uid, string address, string worksheetName)
             : base(uid, address, worksheetName)
         {
+            Formula = new ExcelDataValidationFormulaCustom(null, Uid, worksheetName, OnFormulaChanged);
+        }
+
+        internal ExcelDataValidationCustom(XmlReader xr)
+            : base(xr)
+        {
 
         }
 
@@ -39,7 +46,7 @@ namespace OfficeOpenXml.DataValidation
 
         override internal IExcelDataValidationFormula DefineFormulaClassType(string formulaValue, string sheetName)
         {
-            return new ExcelDataValidationFormulaCustom(null, Uid, sheetName, OnFormulaChanged);
+            return new ExcelDataValidationFormulaCustom(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
     }
 }

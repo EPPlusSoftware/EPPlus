@@ -16,6 +16,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
@@ -3347,31 +3348,47 @@ namespace OfficeOpenXml
                     case eDataValidationType.TextLength:
                     case eDataValidationType.Whole:
                         var intType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
-                        cache.Append($"<{prefix}formula1>{extNode}{intType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{intType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
+                        string intString = ((ExcelDataValidationFormulaDecimal)intType.Formula).GetXmlValue();
+                        string intString2 = ((ExcelDataValidationFormulaDecimal)intType.Formula2).GetXmlValue();
+
+                        cache.Append($"<{prefix}formula1>{extNode}{intString}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{intString2}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.Decimal:
                         var decimalType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDecimal>;
-                        cache.Append($"<{prefix}formula1>{extNode}{decimalType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{decimalType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
+                        string decimalString = ((ExcelDataValidationFormulaDecimal)decimalType.Formula).GetXmlValue();
+                        string decimalString2 = ((ExcelDataValidationFormulaDecimal)decimalType.Formula2).GetXmlValue();
+
+                        cache.Append($"<{prefix}formula1>{extNode}{decimalString}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{decimalString2}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.List:
                         var listType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaList>;
-                        cache.Append($"<{prefix}formula1>{extNode}{listType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
+                        string listString = ((ExcelDataValidationFormulaList)listType.Formula).GetXmlValue();
+
+                        cache.Append($"<{prefix}formula1>{extNode}{listString}{endExtNode}</{prefix}formula1>");
                         break;
                     case eDataValidationType.Time:
                         var timeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaTime>;
-                        cache.Append($"<{prefix}formula1>{extNode}{timeType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{timeType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
+                        string timeString = ((ExcelDataValidationFormulaTime)timeType.Formula).GetXmlValue();
+                        string timeString2 = ((ExcelDataValidationFormulaTime)timeType.Formula2).GetXmlValue();
+
+                        cache.Append($"<{prefix}formula1>{extNode}{timeString}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{timeString2}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.DateTime:
                         var dateTimeType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDateTime>;
-                        cache.Append($"<{prefix}formula1>{extNode}{dateTimeType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
-                        cache.Append($"<{prefix}formula2>{extNode}{dateTimeType.Formula2.ExcelFormula}{endExtNode}</{prefix}formula2>");
+                        string dateTimeString = ((ExcelDataValidationFormulaDateTime)dateTimeType.Formula).GetXmlValue();
+                        string dateTimeString2 = ((ExcelDataValidationFormulaDateTime)dateTimeType.Formula2).GetXmlValue();
+
+                        cache.Append($"<{prefix}formula1>{extNode}{dateTimeString}{endExtNode}</{prefix}formula1>");
+                        cache.Append($"<{prefix}formula2>{extNode}{dateTimeString2}{endExtNode}</{prefix}formula2>");
                         break;
                     case eDataValidationType.Custom:
-                        var customType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormulaDateTime>;
-                        cache.Append($"<{prefix}formula1>{extNode}{customType.Formula.ExcelFormula}{endExtNode}</{prefix}formula1>");
+                        var customType = DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormula>;
+                        string customString = ((ExcelDataValidationFormulaCustom)customType.Formula).GetXmlValue();
+
+                        cache.Append($"<{prefix}formula1>{extNode}{customString}{endExtNode}</{prefix}formula1>");
                         break;
                     default:
                         throw new Exception("UNKNOWN TYPE IN WriteDataValidation");

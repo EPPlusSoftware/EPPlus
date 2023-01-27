@@ -60,12 +60,12 @@ namespace OfficeOpenXml.DataValidation
                     return new ExcelDataValidationDecimal(xr);
                 case "list":
                     return new ExcelDataValidationList(xr);
-                //case eDataValidationType.DateTime:
-                //    return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
-                //case eDataValidationType.Time:
-                //    return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
-                //case eDataValidationType.Custom:
-                //    return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
+                case "time":
+                    return new ExcelDataValidationTime(xr);
+                case "date":
+                    return new ExcelDataValidationDateTime(xr);
+                case "custom":
+                    return new ExcelDataValidationCustom(xr);
                 default:
                     throw new InvalidOperationException($"Non supported validationtype: {validationTypeName}");
 

@@ -185,10 +185,7 @@ namespace OfficeOpenXml.DataValidation
             _validations.Add(validation);
         }
 
-        private void EnsureRootElementExists()
-        {
 
-        }
 
         public IExcelDataValidationAny AddAnyValidation(string address)
         {
@@ -205,6 +202,12 @@ namespace OfficeOpenXml.DataValidation
             _validations.Add(item);
             return item;
         }
+
+        public IExcelDataValidationInt AddTextLengthValidation(string address)
+        {
+            return AddIntegerValidation(address);
+        }
+
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
         {
             ValidateAddress(address);
@@ -221,33 +224,27 @@ namespace OfficeOpenXml.DataValidation
             return item;
         }
 
-        public IExcelDataValidationInt AddTextLengthValidation(string address)
-        {
-            return null;
-        }
-        internal IExcelDataValidationList AddListValidation(string address, string uid)
-        {
-            return null;
-        }
-
         public IExcelDataValidationTime AddTimeValidation(string address)
         {
-            return null;
+            ValidateAddress(address);
+            var item = new ExcelDataValidationTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            _validations.Add(item);
+            return item;
         }
         public IExcelDataValidationDateTime AddDateTimeValidation(string address)
         {
-            return null;
+            ValidateAddress(address);
+            var item = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            _validations.Add(item);
+            return item;
         }
         public IExcelDataValidationCustom AddCustomValidation(string address)
         {
-            return null;
+            ValidateAddress(address);
+            var item = new ExcelDataValidationCustom(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            _validations.Add(item);
+            return item;
         }
-        internal IExcelDataValidationCustom AddCustomValidation(string address, string uid)
-        {
-            return null;
-        }
-
-
 
 
         /// <summary>
