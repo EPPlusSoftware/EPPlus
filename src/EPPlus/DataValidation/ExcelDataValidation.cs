@@ -98,7 +98,21 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        public ExcelDataValidationAsType As { get; }
+        ExcelDataValidationAsType _as = null;
+        /// <summary>
+        /// Us this property to case <see cref="IExcelDataValidation"/>s to its subtypes
+        /// </summary>
+        public ExcelDataValidationAsType As
+        {
+            get
+            {
+                if (_as == null)
+                {
+                    _as = new ExcelDataValidationAsType(this);
+                }
+                return _as;
+            }
+        }
 
         /// <summary>
         /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions

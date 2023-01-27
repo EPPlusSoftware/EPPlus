@@ -32,22 +32,22 @@ namespace EPPlusTest
         [TestMethod]
         public void Stuff()
         {
-            FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\TestCustom3.xlsx");
+            //FileInfo testFile = new FileInfo("C:\\Users\\OssianEdström\\Documents\\TestCustom3.xlsx");
 
-            ExcelPackage package = new ExcelPackage(testFile);
-            var workSheet = package.Workbook.Worksheets[0];
-            var validation = workSheet.DataValidations.AddCustomValidation("D1");
+            //ExcelPackage package = new ExcelPackage(testFile);
+            //var workSheet = package.Workbook.Worksheets[0];
+            //var validation = workSheet.DataValidations.AddCustomValidation("D1");
 
-            validation.Formula.ExcelFormula = "=ISTEXT(D1)";
+            //validation.Formula.ExcelFormula = "=ISTEXT(D1)";
 
-            validation.ShowErrorMessage = true;
+            //validation.ShowErrorMessage = true;
 
-            string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
-            Stream stream = File.Create(path);
-            package.SaveAs(stream);
-            stream.Close();
+            //string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+            //Stream stream = File.Create(path);
+            //package.SaveAs(stream);
+            //stream.Close();
 
-            SaveAndCleanup(package);
+            //SaveAndCleanup(package);
         }
 
         public void DateTimeTest()
@@ -141,7 +141,7 @@ namespace EPPlusTest
             SaveAndCleanup(package);
         }
 
-        [TestMethod]
+
         public void ValidateExtLstANDLocalDataValidation()
         {
             using (var P = new ExcelPackage(@"C:\epplusTest\TestOutput\extLstTest.xlsx"))

@@ -1,7 +1,4 @@
 ﻿using OfficeOpenXml.DataValidation.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -82,7 +79,7 @@ namespace OfficeOpenXml.DataValidation
         /// Returns the data validation object as <see cref="IExcelDataValidationDecimal"/>
         /// </summary>
         /// <returns>The data validation as an <see cref="IExcelDataValidationDecimal"/> or null if typecasting fails</returns>
-        public IExcelDataValidationDecimal DecimalValiation
+        public IExcelDataValidationDecimal DecimalValidation
         {
             get
             {

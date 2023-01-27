@@ -181,7 +181,8 @@ namespace OfficeOpenXml.DataValidation
 
         internal void AddCopyOfDataValidation(string address, ExcelDataValidation dv)
         {
-            var validation = ExcelDataValidationFactory.Create(dv.ValidationType, address, ExcelDataValidation.NewId());
+            var validation = ExcelDataValidationFactory.Create(dv, address, ExcelDataValidation.NewId(), _worksheet.Name);
+
             _validations.Add(validation);
         }
 

@@ -40,38 +40,32 @@ namespace OfficeOpenXml.DataValidation
 
         public IExcelDataValidationDecimal AddDecimalDataValidation()
         {
-            return null;
-            //return _worksheet.DataValidations.AddDecimalValidation(_address);
+            return _worksheet.DataValidations.AddDecimalValidation(_address);
         }
 
         public IExcelDataValidationDateTime AddDateTimeDataValidation()
         {
-            return null;
-            //return _worksheet.DataValidations.AddDateTimeValidation(_address);
+            return _worksheet.DataValidations.AddDateTimeValidation(_address);
         }
 
         public IExcelDataValidationList AddListDataValidation()
         {
-            return null;
-            //return _worksheet.DataValidations.AddListValidation(_address);
+            return _worksheet.DataValidations.AddListValidation(_address);
         }
 
         public IExcelDataValidationInt AddTextLengthDataValidation()
         {
-            return null;
-            //return _worksheet.DataValidations.AddTextLengthValidation(_address);
+            return _worksheet.DataValidations.AddTextLengthValidation(_address);
         }
 
         public IExcelDataValidationTime AddTimeDataValidation()
         {
-            return null;
-            //return _worksheet.DataValidations.AddTimeValidation(_address);
+            return _worksheet.DataValidations.AddTimeValidation(_address);
         }
 
         public IExcelDataValidationCustom AddCustomDataValidation()
         {
-            return null;
-            //return _worksheet.DataValidations.AddCustomValidation(_address);
+            return _worksheet.DataValidations.AddCustomValidation(_address);
         }
     }
 }
