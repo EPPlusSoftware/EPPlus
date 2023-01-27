@@ -13,6 +13,7 @@
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -32,6 +33,12 @@ namespace OfficeOpenXml.DataValidation
         {
             Formula = new ExcelDataValidationFormulaTime(null, uid, worksheetName, OnFormulaChanged);
             Formula2 = new ExcelDataValidationFormulaTime(null, uid, worksheetName, OnFormulaChanged);
+        }
+
+        internal ExcelDataValidationTime(XmlReader xr)
+            : base(xr)
+        {
+
         }
 
         internal override IExcelDataValidationFormulaTime DefineFormulaClassType(string formulaValue, string sheetName)
