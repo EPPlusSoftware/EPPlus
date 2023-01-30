@@ -775,7 +775,7 @@ namespace OfficeOpenXml.Core.Worksheet
             var tokens = ws._formulaTokens.GetValue(row, column);
             if(tokens==null)
             {
-                tokens = (List<Token>)_sct.Tokenize(formula, ws.Name);
+                tokens = _sct.Tokenize(formula, ws.Name).ToList();
                 ws._formulaTokens.SetValue(row, column, tokens);
             }
             return tokens;
