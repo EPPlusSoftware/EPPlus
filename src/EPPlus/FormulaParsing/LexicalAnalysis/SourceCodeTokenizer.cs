@@ -50,11 +50,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             return Tokenize(input, null);
         }
+
+        private readonly static IList<Token> _emptyList = (new List<Token>()).AsReadOnly();
         public IEnumerable<Token> Tokenize(string input, string worksheet)
         {
             if (string.IsNullOrEmpty(input))
             {
-                return Enumerable.Empty<Token>();
+                return _emptyList;
             }
             // MA 1401: Ignore leading plus in formula.
             input = input.TrimStart('+');
