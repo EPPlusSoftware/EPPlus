@@ -46,7 +46,6 @@ namespace OfficeOpenXml.DataValidation.Formulas
             {
                 State = FormulaState.Value;
                 _value = value;
-                _formula = GetValueAsString();
             }
         }
 

@@ -1794,7 +1794,7 @@ namespace OfficeOpenXml
         private void LoadExtLst(XmlReader xr, WorksheetZipStream stream, ref string xml, ref string lastXmlElement)
         {
             while (xr.ReadUntil(2, "ext"))
-            {                                
+            {
                 if (xr.GetAttribute("uri") == ExtLstUris.DataValidationsUri)
                 {
                     var nextXmlElement = "ext";
@@ -3344,8 +3344,8 @@ namespace OfficeOpenXml
                     case eDataValidationType.TextLength:
                     case eDataValidationType.Whole:
                         var intType = DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
-                        string intString = ((ExcelDataValidationFormulaDecimal)intType.Formula).GetXmlValue();
-                        string intString2 = ((ExcelDataValidationFormulaDecimal)intType.Formula2).GetXmlValue();
+                        string intString = ((ExcelDataValidationFormulaInt)intType.Formula).GetXmlValue();
+                        string intString2 = ((ExcelDataValidationFormulaInt)intType.Formula2).GetXmlValue();
 
                         cache.Append($"<{prefix}formula1>{extNode}{intString}{endExtNode}</{prefix}formula1>");
                         cache.Append($"<{prefix}formula2>{extNode}{intString2}{endExtNode}</{prefix}formula2>");

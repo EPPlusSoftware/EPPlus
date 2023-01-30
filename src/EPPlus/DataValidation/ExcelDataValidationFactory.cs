@@ -79,8 +79,8 @@ namespace OfficeOpenXml.DataValidation
 
                     intValidation.Formula.Value = oldValidation.As.IntegerValidation.Formula.Value;
                     intValidation.Formula.ExcelFormula = oldValidation.As.IntegerValidation.Formula.ExcelFormula;
-                    intValidation.Formula2.Value = oldValidation.As.IntegerValidation.Formula.Value;
-                    intValidation.Formula2.ExcelFormula = oldValidation.As.IntegerValidation.Formula.ExcelFormula;
+                    intValidation.Formula2.Value = oldValidation.As.IntegerValidation.Formula2.Value;
+                    intValidation.Formula2.ExcelFormula = oldValidation.As.IntegerValidation.Formula2.ExcelFormula;
 
                     return intValidation;
                 case eDataValidationType.Decimal:
@@ -89,8 +89,8 @@ namespace OfficeOpenXml.DataValidation
 
                     decimalValidation.Formula.Value = oldValidation.As.DecimalValidation.Formula.Value;
                     decimalValidation.Formula.ExcelFormula = oldValidation.As.DecimalValidation.Formula.ExcelFormula;
-                    decimalValidation.Formula2.Value = oldValidation.As.DecimalValidation.Formula.Value;
-                    decimalValidation.Formula2.ExcelFormula = oldValidation.As.DecimalValidation.Formula.ExcelFormula;
+                    decimalValidation.Formula2.Value = oldValidation.As.DecimalValidation.Formula2.Value;
+                    decimalValidation.Formula2.ExcelFormula = oldValidation.As.DecimalValidation.Formula2.ExcelFormula;
 
                     return decimalValidation;
                 case eDataValidationType.List:
@@ -107,8 +107,8 @@ namespace OfficeOpenXml.DataValidation
 
                     dateTimeValidation.Formula.Value = oldValidation.As.DateTimeValidation.Formula.Value;
                     dateTimeValidation.Formula.ExcelFormula = oldValidation.As.DateTimeValidation.Formula.ExcelFormula;
-                    dateTimeValidation.Formula2.Value = oldValidation.As.DateTimeValidation.Formula.Value;
-                    dateTimeValidation.Formula2.ExcelFormula = oldValidation.As.DateTimeValidation.Formula.ExcelFormula;
+                    dateTimeValidation.Formula2.Value = oldValidation.As.DateTimeValidation.Formula2.Value;
+                    dateTimeValidation.Formula2.ExcelFormula = oldValidation.As.DateTimeValidation.Formula2.ExcelFormula;
 
                     return dateTimeValidation;
                 case eDataValidationType.Time:
@@ -116,8 +116,8 @@ namespace OfficeOpenXml.DataValidation
 
                     timeValidation.Formula.Value = oldValidation.As.TimeValidation.Formula.Value;
                     timeValidation.Formula.ExcelFormula = oldValidation.As.TimeValidation.Formula.ExcelFormula;
-                    timeValidation.Formula2.Value = oldValidation.As.TimeValidation.Formula.Value;
-                    timeValidation.Formula2.ExcelFormula = oldValidation.As.TimeValidation.Formula.ExcelFormula;
+                    timeValidation.Formula2.Value = oldValidation.As.TimeValidation.Formula2.Value;
+                    timeValidation.Formula2.ExcelFormula = oldValidation.As.TimeValidation.Formula2.ExcelFormula;
 
                     return timeValidation;
                 case eDataValidationType.Custom:

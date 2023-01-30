@@ -242,7 +242,7 @@ namespace OfficeOpenXml.DataValidation
         internal void SetAddress(string address)
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
-            dvAddress = address;
+            Address = new ExcelAddress(address);
         }
 
 
