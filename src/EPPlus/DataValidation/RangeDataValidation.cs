@@ -33,7 +33,7 @@ namespace OfficeOpenXml.DataValidation
             return _worksheet.DataValidations.AddAnyValidation(_address);
         }
 
-        public IExcelDataValidationInt AddIntegerDataValidation()
+        public Contracts.IExcelDataValidationInt AddIntegerDataValidation()
         {
             return _worksheet.DataValidations.AddIntegerValidation(_address);
         }
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.DataValidation
             return _worksheet.DataValidations.AddListValidation(_address);
         }
 
-        public IExcelDataValidationInt AddTextLengthDataValidation()
+        public Contracts.IExcelDataValidationInt AddTextLengthDataValidation()
         {
             return _worksheet.DataValidations.AddTextLengthValidation(_address);
         }

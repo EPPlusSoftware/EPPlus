@@ -200,7 +200,7 @@ namespace OfficeOpenXml.DataValidation
             return item;
         }
 
-        public IExcelDataValidationInt AddIntegerValidation(string address)
+        public Contracts.IExcelDataValidationInt AddIntegerValidation(string address)
         {
             ValidateAddress(address);
             var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name);
@@ -208,7 +208,7 @@ namespace OfficeOpenXml.DataValidation
             return item;
         }
 
-        public IExcelDataValidationInt AddTextLengthValidation(string address)
+        public Contracts.IExcelDataValidationInt AddTextLengthValidation(string address)
         {
             ValidateAddress(address);
             var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name, true);

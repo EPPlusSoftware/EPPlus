@@ -29,10 +29,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.DataValidation.Contracts;
 using System;
 using System.IO;
-using System.Xml;
 
 namespace EPPlusTest.DataValidation
 {
@@ -60,7 +59,7 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
-        public void DataValidations_ShouldReadWriteTypes()
+        public void DataValidations_ShouldWriteReadTypes()
         {
             var P = new ExcelPackage(new MemoryStream());
             var sheet = P.Workbook.Worksheets.Add("NewSheet");
@@ -90,95 +89,88 @@ namespace EPPlusTest.DataValidation
             Assert.AreEqual(dataValidations[7].ValidationType.Type, eDataValidationType.Custom);
         }
 
-
-        [TestMethod]
-        public void DataValidations_ShouldSetOperatorFromExistingXml()
+        IExcelDataValidationInt CreateSheetWithIntegerValidation(ExcelPackage package)
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "greaterThanOrEqual", "1");
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.AreEqual(ExcelDataValidationOperator.greaterThanOrEqual, validation.Operator);
+            var sheet = package.Workbook.Worksheets.Add("NewSheet");
+            return sheet.DataValidations.AddIntegerValidation("A1");
+        }
+
+        ExcelPackage ReadPackageAsNewPackage(ExcelPackage package)
+        {
+            MemoryStream xmlStream = new MemoryStream();
+            package.SaveAs(xmlStream);
+
+            return new ExcelPackage(xmlStream);
+        }
+
+        IExcelDataValidationInt ReadIntValidation(ExcelPackage package)
+        {
+            return (IExcelDataValidationInt)ReadPackageAsNewPackage(package).Workbook.Worksheets[0].DataValidations[0];
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetShowErrorMessageFromExistingXml()
+        public void DataValidations_ShouldWriteReadOperator()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", true, false);
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.IsTrue(validation.ShowErrorMessage ?? false);
+            var P = new ExcelPackage(new MemoryStream());
+            var sheet = P.Workbook.Worksheets.Add("NewSheet");
+
+            var validation = sheet.DataValidations.AddIntegerValidation("A1");
+            validation.Operator = ExcelDataValidationOperator.greaterThanOrEqual;
+
+            MemoryStream xmlStream = new MemoryStream();
+            P.SaveAs(xmlStream);
+
+            var P2 = new ExcelPackage(xmlStream);
+            Assert.AreEqual(P2.Workbook.Worksheets[0].DataValidations[0].Operator, ExcelDataValidationOperator.greaterThanOrEqual);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetShowInputMessageFromExistingXml()
+        public void DataValidations_ShouldWriteReadShowErrorMessage()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", false, true);
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.IsTrue(validation.ShowInputMessage ?? false);
+            var P = new ExcelPackage(new MemoryStream());
+            var sheet = P.Workbook.Worksheets.Add("NewSheet");
+
+            var validation = sheet.DataValidations.AddIntegerValidation("A1");
+
+            validation.ShowErrorMessage = true;
+
+            MemoryStream xmlStream = new MemoryStream();
+            P.SaveAs(xmlStream);
+
+            var P2 = new ExcelPackage(xmlStream);
+            Assert.IsTrue(P2.Workbook.Worksheets[0].DataValidations[0].ShowErrorMessage);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetPromptFromExistingXml()
+        public void DataValidations_ShouldWriteReadShowinputMessage()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.AreEqual("Prompt", validation.Prompt);
+            var package = new ExcelPackage(new MemoryStream());
+            CreateSheetWithIntegerValidation(package).ShowInputMessage = true;
+            Assert.IsTrue(ReadIntValidation(package).ShowInputMessage);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetPromptTitleFromExistingXml()
+        public void DataValidations_ShouldWriteReadPrompt()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.AreEqual("PromptTitle", validation.PromptTitle);
+            var package = new ExcelPackage(new MemoryStream());
+            CreateSheetWithIntegerValidation(package).Prompt = "Prompt";
+            Assert.AreEqual("Prompt", ReadIntValidation(package).Prompt);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetErrorFromExistingXml()
+        public void DataValidations_ShouldWriteReadError()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.AreEqual("Error", validation.Error);
+            var package = new ExcelPackage(new MemoryStream());
+            CreateSheetWithIntegerValidation(package).Error = "Error";
+            Assert.AreEqual("Error", ReadIntValidation(package).Error);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldReadErrorFromExistingXml()
+        public void DataValidations_ShouldWriteReadErrorTitle()
         {
-            // Arrange
-            XmlReader xr = new XmlNodeReader(LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle"));
-            xr.ReadUntil("dataValidation");
-            // Act
-            var validation = new ExcelDataValidationInt(xr);
-            // Assert
-            Assert.AreEqual("Error", validation.Error);
-        }
-
-
-        [TestMethod]
-        public void DataValidations_ShouldSetErrorTitleFromExistingXml()
-        {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.AreEqual("ErrorTitle", validation.ErrorTitle);
+            var package = new ExcelPackage(new MemoryStream());
+            CreateSheetWithIntegerValidation(package).ErrorTitle = "ErrorTitle";
+            Assert.AreEqual("ErrorTitle", ReadIntValidation(package).ErrorTitle);
         }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]

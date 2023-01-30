@@ -129,8 +129,7 @@ namespace OfficeOpenXml.DataValidation
                 {
                     throw new InvalidOperationException("The current validation type does not allow operator to be set");
                 }
-                //CheckIfStale();
-                //SetXmlNodeString(_operatorPath, value.ToString());
+                operatorString = value.ToString();
             }
         }
 

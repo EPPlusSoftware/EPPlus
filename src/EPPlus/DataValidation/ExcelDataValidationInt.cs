@@ -10,7 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using System.Xml;
@@ -20,7 +19,7 @@ namespace OfficeOpenXml.DataValidation
     /// <summary>
     /// Data validation for integer values.
     /// </summary>
-    public class ExcelDataValidationInt : ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>, IExcelDataValidationInt
+    public class ExcelDataValidationInt : ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>, Contracts.IExcelDataValidationInt
     {
         bool _isTextLength = false;
 
