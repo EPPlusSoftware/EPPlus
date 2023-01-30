@@ -3142,6 +3142,7 @@ namespace OfficeOpenXml
                 CreateNode("d:rowBreaks");
                 CreateNode("d:colBreaks");
 
+                bool createNewExLst = false;
                 if (DataValidations != null && DataValidations.Count != 0)
                 {
                     WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
@@ -3149,14 +3150,17 @@ namespace OfficeOpenXml
                     {
                         var node = (XmlElement)CreateNode("d:dataValidations");
 
-                        if (DataValidations.HasValidationType(InternalValidationType.ExtLst))
+                        if (DataValidations.HasValidationType(InternalValidationType.ExtLst) &&
+                            GetNode("d:extLst") == null)
                         {
                             CreateNode("d:extLst");
+                            createNewExLst = true;
                         }
                     }
-                    else
+                    else if (GetNode("d:extLst") == null)
                     {
                         CreateNode("d:extLst");
+                        createNewExLst = true;
                     }
                 }
 
@@ -3214,18 +3218,27 @@ namespace OfficeOpenXml
                 sw.Write(xml.Substring(rowBreakEnd, colBreakStart - rowBreakEnd));
                 UpdateColBreaks(sw, prefix);
 
-                if (GetNode("d:extLst") == null)
+                if (GetNode("d:extLst") != null && DataValidations.Count() != 0)
                 {
-                    sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
+                    int extLstStart = colBreakEnd, extLstEnd = colBreakEnd;
+                    if (createNewExLst)
+                    {
+                        GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
+                        sw.Write(xml.Substring(colBreakEnd, extLstStart - colBreakEnd));
+                        UpdateExtLstData(sw, prefix, createNewExLst);
+                    }
+                    else
+                    {
+                        GetBlockPos(xml, "ext", ref extLstStart, ref extLstEnd);
+                        sw.Write(xml.Substring(extLstStart, extLstEnd - colBreakEnd - "</ext>".Length));
+                        UpdateExtLstData(sw, prefix, createNewExLst);
+                    }
+
+                    sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
                 }
                 else
                 {
-                    int extLstStart = colBreakEnd, extLstEnd = colBreakEnd;
-                    GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
-                    sw.Write(xml.Substring(colBreakEnd, extLstStart - colBreakEnd));
-                    UpdateExtLstData(sw, prefix);
-
-                    sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
+                    sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
                 }
             }
             sw.Flush();
@@ -3434,15 +3447,23 @@ namespace OfficeOpenXml
         }
 
 
-        private void UpdateExtLstData(StreamWriter sw, string prefix)
+        private void UpdateExtLstData(StreamWriter sw, string prefix, bool createNewExLst)
         {
-            sw.Write("<extLst>");
-            sw.Write($"<ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\">");
+            if (createNewExLst)
+            {
+                sw.Write("<extLst>");
+                sw.Write($"<ext>");
+            }
+
             prefix = "x14:";
-            UpdateDataValidation(sw, prefix, $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
+            UpdateDataValidation(sw, prefix,
+                $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
 
             sw.Write("</ext>");
-            sw.Write("</extLst>");
+            if (createNewExLst)
+            {
+                sw.Write("</extLst>");
+            }
         }
 
         private void UpdateColBreaks(StreamWriter sw, string prefix)

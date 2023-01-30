@@ -232,8 +232,6 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
-
-
         internal static string NewId()
         {
             return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
@@ -244,8 +242,6 @@ namespace OfficeOpenXml.DataValidation
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
             Address = new ExcelAddress(address);
         }
-
-
     }
 }
 
