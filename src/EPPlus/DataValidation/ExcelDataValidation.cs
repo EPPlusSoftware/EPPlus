@@ -133,6 +133,54 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        private string CheckAndFixRangeAddress(string address)
+        {
+            if (address.Contains(","))
+            {
+                throw new FormatException("Multiple addresses may not be commaseparated, use space instead");
+            }
+            address = ConvertUtil._invariantTextInfo.ToUpper(address);
+
+            if (IsEntireColumn(address))
+            {
+                address = AddressUtility.ParseEntireColumnSelections(address);
+            }
+            //if (Regex.IsMatch(address, @"[A-Z]+:[A-Z]+"))
+            //{
+            //    address = AddressUtility.ParseEntireColumnSelections(address);
+            //}
+            return address;
+        }
+
+        bool IsEntireColumn(string address)
+        {
+            bool hasColon = false;
+            foreach (char c in address)
+            {
+                if (((c >= 'A') && (c <= 'Z')) || c == ':')
+                {
+                    if (c == ':')
+                    {
+                        hasColon = true;
+                    }
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (hasColon)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         //virtual internal void Load(XmlReader xr)
         //{
@@ -162,7 +210,7 @@ namespace OfficeOpenXml.DataValidation
             Require.Argument(address).IsNotNullOrEmpty("address");
 
             Uid = uid;
-            Address = new ExcelAddress(address);
+            Address = new ExcelAddress(CheckAndFixRangeAddress(address));
         }
 
 
@@ -213,7 +261,7 @@ namespace OfficeOpenXml.DataValidation
                 }
             }
 
-            Address = new ExcelAddress(address);
+            Address = new ExcelAddress(CheckAndFixRangeAddress(address));
         }
 
         internal virtual void ReadClassSpecificXmlNodes(XmlReader xr)

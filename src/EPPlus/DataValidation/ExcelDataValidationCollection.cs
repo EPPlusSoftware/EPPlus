@@ -53,12 +53,14 @@ namespace OfficeOpenXml.DataValidation
 
         internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
         {
+            InternalValidationEnabled = true;
             _worksheet = worksheet;
         }
 
         internal ExcelDataValidationCollection(XmlReader xr, ExcelWorksheet worksheet)
             : this(worksheet)
         {
+            InternalValidationEnabled = true;
             ReadDataValidations(xr);
         }
 
@@ -272,7 +274,7 @@ namespace OfficeOpenXml.DataValidation
         {
             get;
             set;
-        } = false;
+        }
 
         /// <summary>
         /// Index operator, returns by 0-based index
@@ -343,14 +345,24 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public void Clear()
         {
+            _validations.Clear();
         }
 
         /// <summary>
         /// Removes the validations that matches the predicate
         /// </summary>
         /// <param name="match"></param>
-        public void RemoveAll(Predicate<IExcelDataValidation> match)
+        public void RemoveAll(Predicate<ExcelDataValidation> match)
         {
+            var matches = _validations.FindAll(match);
+            foreach (var m in matches)
+            {
+                if (!(m is ExcelDataValidation))
+                {
+                    throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
+                }
+            }
+            _validations.RemoveAll(match);
         }
 
 

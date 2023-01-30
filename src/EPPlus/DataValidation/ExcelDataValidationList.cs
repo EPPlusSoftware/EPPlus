@@ -64,11 +64,19 @@ namespace OfficeOpenXml.DataValidation
         public override void Validate()
         {
             base.Validate();
-            foreach (var value in Formula.Values)
+
+            if (Formula.Values.Count == 0 && (AllowBlank == null || AllowBlank == false))
             {
-                if (string.IsNullOrEmpty(value))
+                throw new InvalidOperationException($"Cannot leave value blank when AllowBlank set to false!");
+            }
+            else
+            {
+                foreach (var value in Formula.Values)
                 {
-                    throw new InvalidOperationException($"Validation of {Address.Address} failed: value: {value} cannot be null or empty");
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        throw new InvalidOperationException($"Validation of {Address.Address} failed: value: {value} cannot be null or empty");
+                    }
                 }
             }
         }

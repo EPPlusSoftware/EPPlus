@@ -143,7 +143,7 @@ namespace EPPlusTest.DataValidation
                 Assert.IsTrue(validation.HideDropDown.Value);
                 var v = validation as ExcelDataValidationList;
                 var attributeValue = v.HideDropDown.Value;
-                Assert.AreEqual("1", attributeValue);
+                Assert.IsTrue(attributeValue);
             }
         }
 
@@ -166,7 +166,7 @@ namespace EPPlusTest.DataValidation
                 Assert.IsTrue(validation.HideDropDown.Value);
                 var v = validation as ExcelDataValidationList;
                 var attributeValue = v.HideDropDown.Value;
-                Assert.AreEqual("1", attributeValue);
+                Assert.IsTrue(attributeValue);
             }
         }
     }
