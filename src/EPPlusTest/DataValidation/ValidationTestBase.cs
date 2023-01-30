@@ -26,12 +26,12 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
 using OfficeOpenXml;
-using System.IO;
-using System.Xml;
+using System;
 using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Xml;
 
 namespace EPPlusTest.DataValidation
 {
@@ -137,20 +137,24 @@ namespace EPPlusTest.DataValidation
             _dataValidationNode = xmlDoc.DocumentElement;
         }
 
-        protected void LoadXmlTestData(string address, string validationType, string formula1Value, string prompt, string promptTitle, string error, string errorTitle)
+        protected XmlDocument LoadXmlTestData(string address, string validationType, string formula1Value, string prompt, string promptTitle, string error, string errorTitle)
         {
             var xmlDoc = new XmlDocument();
             _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
             _namespaceManager.AddNamespace("d", "urn:a");
             _namespaceManager.AddNamespace("xr", "urn:b");
             var sb = new StringBuilder();
-            sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" sqref=\"{1}\"", validationType, address);
+            sb.AppendFormat("<worksheet xmlns=\"{0}\" xmlns:xr=\"{1}\">", ExcelPackage.schemaMain, ExcelPackage.schemaXr);
+            sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" operator=\"lessThan\" sqref=\"{1}\" xr:uid=\"{2}\"", validationType, address, $"{{1}}");
             sb.AppendFormat(" prompt=\"{0}\" promptTitle=\"{1}\"", prompt, promptTitle);
             sb.AppendFormat(" error=\"{0}\" errorTitle=\"{1}\">", error, errorTitle);
             sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
+
             sb.Append("</dataValidation>");
+            sb.Append("</worksheet>");
             xmlDoc.LoadXml(sb.ToString());
             _dataValidationNode = xmlDoc.DocumentElement;
+            return xmlDoc;
         }
 
     }

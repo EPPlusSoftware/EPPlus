@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
 using System.Xml;
 namespace OfficeOpenXml.DataValidation
 {
@@ -36,7 +37,11 @@ namespace OfficeOpenXml.DataValidation
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
         {
             base.ReadClassSpecificXmlNodes(xr);
-            Formula2 = ReadFormula(xr, "formula2");
+
+            if (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween)
+            {
+                Formula2 = ReadFormula(xr, "formula2");
+            }
         }
 
         internal ExcelDataValidationWithFormula2(XmlReader xr)
@@ -54,6 +59,20 @@ namespace OfficeOpenXml.DataValidation
         {
             get;
             protected set;
+        }
+
+        public override void Validate()
+        {
+            base.Validate();
+            if (ValidationType.Type != eDataValidationType.List
+                && ValidationType.Type != eDataValidationType.Custom
+                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
+            {
+                if (string.IsNullOrEmpty(Formula2.ToString()))
+                {
+                    throw new InvalidOperationException("Validation of " + Address.Address + " failed: Formula2 must be set if operator is 'between' or 'notBetween'");
+                }
+            }
         }
     }
 }

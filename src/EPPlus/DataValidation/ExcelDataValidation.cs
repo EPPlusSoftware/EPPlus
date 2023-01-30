@@ -79,23 +79,13 @@ namespace OfficeOpenXml.DataValidation
 
         public virtual bool AllowsOperator { get { return true; } }
 
-
-        internal string IFormula1 = null;
-        internal string IFormula2 = null;
-        string dvAddress = null;
-
         /// <summary>
         /// This method will validate the state of the validation
         /// </summary>
         /// <exception cref="InvalidOperationException">If the state breaks the rules of the validation</exception>
         public virtual void Validate()
         {
-            var address = Address.Address;
-            // validate Formula1
-            if (string.IsNullOrEmpty(IFormula1) && !(AllowBlank ?? false))
-            {
-                throw new InvalidOperationException("Validation of " + address + " failed: Formula1 cannot be empty");
-            }
+
         }
 
         ExcelDataValidationAsType _as = null;

@@ -49,6 +49,7 @@ namespace OfficeOpenXml.DataValidation
                 case "":
                     return new ExcelDataValidationAny(xr);
                 case "textLength":
+                    return new ExcelDataValidationInt(xr, true);
                 case "whole":
                     return new ExcelDataValidationInt(xr);
                 case "decimal":

@@ -77,7 +77,7 @@ namespace OfficeOpenXml.DataValidation
                     var validation = ExcelDataValidationFactory.Create(xr);
                     _validations.Add(validation);
                 }
-            }            
+            }
         }
 
         internal bool HasValidationType(InternalValidationType type)
@@ -210,7 +210,10 @@ namespace OfficeOpenXml.DataValidation
 
         public IExcelDataValidationInt AddTextLengthValidation(string address)
         {
-            return AddIntegerValidation(address);
+            ValidateAddress(address);
+            var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name, true);
+            _validations.Add(item);
+            return item;
         }
 
         public IExcelDataValidationDecimal AddDecimalValidation(string address)

@@ -29,7 +29,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Utils;
 using System;
+using System.IO;
+using System.Xml;
 
 namespace EPPlusTest.DataValidation
 {
@@ -48,6 +51,46 @@ namespace EPPlusTest.DataValidation
             CleanupTestData();
         }
 
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
+        {
+            var validations = _sheet.DataValidations.AddIntegerValidation("A1");
+            validations.Operator = ExcelDataValidationOperator.equal;
+            validations.Validate();
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldReadWriteTypes()
+        {
+            var P = new ExcelPackage(new MemoryStream());
+            var sheet = P.Workbook.Worksheets.Add("NewSheet");
+
+            sheet.DataValidations.AddAnyValidation("A1");
+            sheet.DataValidations.AddIntegerValidation("A2");
+            sheet.DataValidations.AddDecimalValidation("A3");
+            sheet.DataValidations.AddListValidation("A4");
+            sheet.DataValidations.AddTextLengthValidation("A5");
+            sheet.DataValidations.AddDateTimeValidation("A6");
+            sheet.DataValidations.AddTimeValidation("A7");
+            sheet.DataValidations.AddCustomValidation("A8");
+
+            MemoryStream xmlStream = new MemoryStream();
+            P.SaveAs(xmlStream);
+
+            var P2 = new ExcelPackage(xmlStream);
+
+            ExcelDataValidationCollection dataValidations = P2.Workbook.Worksheets[0].DataValidations;
+            Assert.AreEqual(dataValidations[0].ValidationType.Type, eDataValidationType.Any);
+            Assert.AreEqual(dataValidations[1].ValidationType.Type, eDataValidationType.Whole);
+            Assert.AreEqual(dataValidations[2].ValidationType.Type, eDataValidationType.Decimal);
+            Assert.AreEqual(dataValidations[3].ValidationType.Type, eDataValidationType.List);
+            Assert.AreEqual(dataValidations[4].ValidationType.Type, eDataValidationType.TextLength);
+            Assert.AreEqual(dataValidations[5].ValidationType.Type, eDataValidationType.DateTime);
+            Assert.AreEqual(dataValidations[6].ValidationType.Type, eDataValidationType.Time);
+            Assert.AreEqual(dataValidations[7].ValidationType.Type, eDataValidationType.Custom);
+        }
+
+
         [TestMethod]
         public void DataValidations_ShouldSetOperatorFromExistingXml()
         {
@@ -57,14 +100,6 @@ namespace EPPlusTest.DataValidation
             var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
             // Assert
             Assert.AreEqual(ExcelDataValidationOperator.greaterThanOrEqual, validation.Operator);
-        }
-
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
-        public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
-        {
-            var validations = _sheet.DataValidations.AddIntegerValidation("A1");
-            validations.Operator = ExcelDataValidationOperator.equal;
-            validations.Validate();
         }
 
         [TestMethod]
@@ -121,6 +156,19 @@ namespace EPPlusTest.DataValidation
             // Assert
             Assert.AreEqual("Error", validation.Error);
         }
+
+        [TestMethod]
+        public void DataValidations_ShouldReadErrorFromExistingXml()
+        {
+            // Arrange
+            XmlReader xr = new XmlNodeReader(LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle"));
+            xr.ReadUntil("dataValidation");
+            // Act
+            var validation = new ExcelDataValidationInt(xr);
+            // Assert
+            Assert.AreEqual("Error", validation.Error);
+        }
+
 
         [TestMethod]
         public void DataValidations_ShouldSetErrorTitleFromExistingXml()

@@ -88,7 +88,7 @@ namespace OfficeOpenXml.DataValidation
                 && ValidationType.Type != eDataValidationType.Custom
                 && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
             {
-                if (string.IsNullOrEmpty(IFormula2))
+                if (string.IsNullOrEmpty(Formula.ToString()))
                 {
                     throw new InvalidOperationException("Validation of " + Address.Address + " failed: Formula2 must be set if operator is 'between' or 'notBetween'");
                 }

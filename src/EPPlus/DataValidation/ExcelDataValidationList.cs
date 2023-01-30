@@ -13,6 +13,7 @@
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -59,6 +60,18 @@ namespace OfficeOpenXml.DataValidation
         /// renamed this property to HideDropDown since that better corresponds to the functionality.
         /// </remarks>
         public bool? HideDropDown { get; set; }
+
+        public override void Validate()
+        {
+            base.Validate();
+            foreach (var value in Formula.Values)
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new InvalidOperationException($"Validation of {Address.Address} failed: value: {value} cannot be null or empty");
+                }
+            }
+        }
 
         internal override void LoadXML(XmlReader xr)
         {
