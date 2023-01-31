@@ -27,9 +27,11 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
@@ -46,40 +48,54 @@ namespace EPPlusTest.DataValidation.Formulas
         public void Cleanup()
         {
             CleanupTestData();
-            _dataValidationNode = null;
         }
 
         [TestMethod]
-        public void ListFormula_FormulaValueIsSetFromXmlNodeInConstructor()
+        public void ValuesAreReadExcelFormula()
         {
-            // Arrange
-            LoadXmlTestData("A1", "list", "\"1,2\"");
-            // Act
-            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            Assert.AreEqual(2, validation.Formula.Values.Count);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("ListTest");
+
+            var validationOrig = sheet.DataValidations.AddListValidation("A1");
+
+            validationOrig.Formula.ExcelFormula = "\"3,42\"";
+
+            var validation = ReadTValidation<ExcelDataValidationList>(package);
+
+            Assert.AreEqual("3", validation.Formula.Values[0]);
+            Assert.AreEqual("42", validation.Formula.Values[1]);
         }
 
         [TestMethod]
-        public void ListFormula_FormulaValueIsSetFromXmlNodeInConstructorOrderIsCorrect()
+        public void ValuesAreRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "list", "\"1,2\"");
-            // Act
-            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            // Assert
-            CollectionAssert.AreEquivalent(new List<string> { "1", "2" }, (ICollection)validation.Formula.Values);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("ListTest");
+
+            var validationOrig = sheet.DataValidations.AddListValidation("A1");
+
+            validationOrig.Formula.Values.Add("5");
+            validationOrig.Formula.Values.Add("15");
+
+
+            var validation = ReadTValidation<ExcelDataValidationList>(package);
+
+            CollectionAssert.AreEquivalent(new List<string> { "5", "15" }, (ICollection)validation.Formula.Values);
         }
 
         [TestMethod]
-        public void ListFormula_FormulasExcelFormulaIsSetFromXmlNodeInConstructor()
+        public void ExcelFormulaIsRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "list", "A1");
-            // Act
-            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), "A1", _sheet.Name); ;
-            // Assert
-            Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("ListTest");
+
+            var validationOrig = sheet.DataValidations.AddListValidation("A1");
+
+            validationOrig.Formula.ExcelFormula = "D1";
+
+            var validation = ReadTValidation<ExcelDataValidationList>(package);
+
+            Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
     }
 }

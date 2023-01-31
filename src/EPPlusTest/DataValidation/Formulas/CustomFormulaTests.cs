@@ -27,7 +27,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
@@ -47,17 +49,27 @@ namespace EPPlusTest.DataValidation.Formulas
             _dataValidationNode = null;
         }
 
+
         [TestMethod]
-        public void CustomFormula_FormulasFormulaIsSetFromXmlNodeInConstructor()
+        public void FormulaIsReadInConstructor()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "A1");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("CustomTest");
 
-            // Act
-            var validation = new ExcelDataValidationCustom(ExcelDataValidation.NewId(), "A1", _sheet.Name);
+            var validationOrig = sheet.DataValidations.AddCustomValidation("A1");
+            validationOrig.Formula.ExcelFormula = "A1";
 
-            // Assert
+            var validation = ReadTValidation<ExcelDataValidationCustom>(package);
+
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+
+            //var validation = sheet.DataValidations.AddCustomValidation("A1");
+            //validation.Formula.ExcelFormula = "A1";
+            //Assert.AreEqual("A1",
+            //    ((ExcelDataValidationCustom)
+            //    ReadPackageAsNewPackage(package).
+            //    Workbook.Worksheets[0].
+            //    DataValidations[0]).Formula.ExcelFormula);
         }
     }
 }

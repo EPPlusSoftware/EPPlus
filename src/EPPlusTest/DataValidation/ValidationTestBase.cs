@@ -27,6 +27,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation.Contracts;
 using System;
 using System.Globalization;
 using System.IO;
@@ -157,5 +158,39 @@ namespace EPPlusTest.DataValidation
             return xmlDoc;
         }
 
+        protected IExcelDataValidationInt CreateSheetWithIntegerValidation(ExcelPackage package)
+        {
+            var sheet = package.Workbook.Worksheets.Add("NewSheet");
+            return sheet.DataValidations.AddIntegerValidation("A1");
+        }
+
+        protected ExcelPackage ReadPackageAsNewPackage(ExcelPackage package)
+        {
+            MemoryStream xmlStream = new MemoryStream();
+            package.SaveAs(xmlStream);
+
+            return new ExcelPackage(xmlStream);
+        }
+
+        protected IExcelDataValidationInt ReadIntValidation(ExcelPackage package)
+        {
+            return (IExcelDataValidationInt)ReadPackageAsNewPackage(package).Workbook.Worksheets[0].DataValidations[0];
+        }
+
+        protected T ReadTValidation<T>(ExcelPackage package)
+        {
+            var validation = ReadPackageAsNewPackage(package).
+                Workbook.Worksheets[0].DataValidations[0];
+
+            return (T)((Object)validation);
+
+            //switch (validation.ValidationType.Type)
+            //{
+            //    case eDataValidationType.Any:
+            //        return (IExcelDataValidationAny)validation;
+            //}
+
+            //return (T)ReadPackageAsNewPackage(package).Workbook.Worksheets[0].DataValidations[0];
+        }
     }
 }

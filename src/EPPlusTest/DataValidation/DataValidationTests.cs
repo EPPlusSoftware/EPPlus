@@ -29,7 +29,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.DataValidation.Contracts;
 using System;
 using System.IO;
 
@@ -87,25 +86,6 @@ namespace EPPlusTest.DataValidation
             Assert.AreEqual(dataValidations[5].ValidationType.Type, eDataValidationType.DateTime);
             Assert.AreEqual(dataValidations[6].ValidationType.Type, eDataValidationType.Time);
             Assert.AreEqual(dataValidations[7].ValidationType.Type, eDataValidationType.Custom);
-        }
-
-        IExcelDataValidationInt CreateSheetWithIntegerValidation(ExcelPackage package)
-        {
-            var sheet = package.Workbook.Worksheets.Add("NewSheet");
-            return sheet.DataValidations.AddIntegerValidation("A1");
-        }
-
-        ExcelPackage ReadPackageAsNewPackage(ExcelPackage package)
-        {
-            MemoryStream xmlStream = new MemoryStream();
-            package.SaveAs(xmlStream);
-
-            return new ExcelPackage(xmlStream);
-        }
-
-        IExcelDataValidationInt ReadIntValidation(ExcelPackage package)
-        {
-            return (IExcelDataValidationInt)ReadPackageAsNewPackage(package).Workbook.Worksheets[0].DataValidations[0];
         }
 
         [TestMethod]

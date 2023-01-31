@@ -27,15 +27,15 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
     [TestClass]
     public class DecimalFormulaTests : ValidationTestBase
     {
-
-
         [TestInitialize]
         public void Setup()
         {
@@ -50,26 +50,35 @@ namespace EPPlusTest.DataValidation.Formulas
         }
 
         [TestMethod]
-        public void DecimalFormula_FormulaValueIsSetFromXmlNodeInConstructor()
+        public void ValueIsRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "1.3");
-            // Act
-            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            Assert.AreEqual(1.3D, validation.Formula.Value);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DecimalTest");
+
+            var validationOrig = sheet.DataValidations.AddDecimalValidation("A1");
+
+            validationOrig.Formula.Value = 13.5d;
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationDecimal>(package);
+
+            Assert.AreEqual(13.5d, validation.Formula.Value);
         }
 
         [TestMethod]
-        public void DecimalFormula_FormulasFormulaIsSetFromXmlNodeInConstructor()
+        public void ExcelFormulaIsRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "A1");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DecimalTest");
 
-            // Act
-            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), "A1", _sheet.Name);
+            var validationOrig = sheet.DataValidations.AddDecimalValidation("A1");
 
-            // Assert
-            Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+            validationOrig.Formula.ExcelFormula = "D1";
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationDecimal>(package);
+
+            Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
     }
 }

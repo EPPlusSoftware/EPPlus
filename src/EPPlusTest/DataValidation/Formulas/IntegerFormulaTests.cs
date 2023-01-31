@@ -27,7 +27,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
@@ -44,30 +46,38 @@ namespace EPPlusTest.DataValidation.Formulas
         public void Cleanup()
         {
             CleanupTestData();
-            _dataValidationNode = null;
         }
 
         [TestMethod]
-        public void IntegerFormula_FormulaValueIsSetFromXmlNodeInConstructor()
+        public void ValueIsRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "1");
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
-            Assert.AreEqual(1, validation.Formula.Value);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
+
+            var validationOrig = sheet.DataValidations.AddIntegerValidation("A1");
+
+            validationOrig.Formula.Value = 12;
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationInt>(package);
+
+            Assert.AreEqual(12, validation.Formula.Value);
         }
 
         [TestMethod]
-        public void IntegerFormula_FormulasFormulaIsSetFromXmlNodeInConstructor()
+        public void ExcelFormulaIsRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "A1");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
 
-            // Act
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), "A1", _sheet.Name);
+            var validationOrig = sheet.DataValidations.AddIntegerValidation("A1");
 
-            // Assert
-            Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+            validationOrig.Formula.ExcelFormula = "D1";
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationInt>(package);
+
+            Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
     }
 }

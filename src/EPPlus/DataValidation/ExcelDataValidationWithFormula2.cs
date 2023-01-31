@@ -50,8 +50,6 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
-        private T _internalFormula2;
-
         /// <summary>
         /// Formula - Either a {T} value or a spreadsheet formula
         /// </summary>
