@@ -52,9 +52,9 @@ namespace EPPlusTest.DataValidation
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {
-            var validations = _sheet.DataValidations.AddIntegerValidation("A1");
-            validations.Operator = ExcelDataValidationOperator.equal;
-            validations.Validate();
+            var validation = _sheet.DataValidations.AddIntegerValidation("A1");
+            validation.Operator = ExcelDataValidationOperator.equal;
+            validation.Validate();
         }
 
         [TestMethod]
@@ -64,12 +64,12 @@ namespace EPPlusTest.DataValidation
             var sheet = P.Workbook.Worksheets.Add("NewSheet");
 
             sheet.DataValidations.AddAnyValidation("A1");
-            sheet.DataValidations.AddIntegerValidation("A2");
-            sheet.DataValidations.AddDecimalValidation("A3");
-            sheet.DataValidations.AddListValidation("A4");
-            sheet.DataValidations.AddTextLengthValidation("A5");
-            sheet.DataValidations.AddDateTimeValidation("A6");
-            sheet.DataValidations.AddTimeValidation("A7");
+            sheet.DataValidations.AddIntegerValidation("A2").AllowBlank = true;
+            sheet.DataValidations.AddDecimalValidation("A3").AllowBlank = true;
+            sheet.DataValidations.AddListValidation("A4").AllowBlank = true;
+            sheet.DataValidations.AddTextLengthValidation("A5").AllowBlank = true;
+            sheet.DataValidations.AddDateTimeValidation("A6").AllowBlank = true;
+            sheet.DataValidations.AddTimeValidation("A7").AllowBlank = true;
             sheet.DataValidations.AddCustomValidation("A8");
 
             MemoryStream xmlStream = new MemoryStream();
@@ -113,6 +113,7 @@ namespace EPPlusTest.DataValidation
             var validation = sheet.DataValidations.AddIntegerValidation("A1");
 
             validation.ShowErrorMessage = true;
+            validation.AllowBlank = true;
 
             MemoryStream xmlStream = new MemoryStream();
             P.SaveAs(xmlStream);
@@ -141,7 +142,8 @@ namespace EPPlusTest.DataValidation
         public void DataValidations_ShouldWriteReadError()
         {
             var package = new ExcelPackage(new MemoryStream());
-            CreateSheetWithIntegerValidation(package).Error = "Error";
+            var validation = CreateSheetWithIntegerValidation(package).Error = "Error";
+
             Assert.AreEqual("Error", ReadIntValidation(package).Error);
         }
 

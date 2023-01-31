@@ -60,27 +60,6 @@ namespace EPPlusTest.DataValidation
             _namespaceManager = null;
         }
 
-        protected string GetTestOutputPath(string fileName)
-        {
-            return Path.Combine(
-#if (Core)
-            Path.GetTempPath()      //In Net.Core Output to TempPath 
-#else
-            Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-#endif
-                , fileName);
-        }
-
-        protected void SaveTestOutput(string fileName)
-        {
-            var path = GetTestOutputPath(fileName);
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-            _package.SaveAs(new FileInfo(path));
-        }
-
         protected void LoadXmlTestData(string address, string validationType, string formula1Value)
         {
             var xmlDoc = new XmlDocument();
@@ -95,73 +74,12 @@ namespace EPPlusTest.DataValidation
             _dataValidationNode = xmlDoc.DocumentElement;
         }
 
-        protected void LoadXmlTestDataWithUid(string uid, string address, string validationType, string formula1Value)
-        {
-            var xmlDoc = new XmlDocument();
-            _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
-            _namespaceManager.AddNamespace("d", "urn:a");
-            _namespaceManager.AddNamespace("xr", "urn:b");
-            var sb = new StringBuilder();
-            sb.AppendFormat("<dataValidation xr:uid=\"{0}\" type=\"{1}\" sqref=\"{2}\">", uid, validationType, address);
-            sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
-            sb.Append("</dataValidation>");
-            xmlDoc.LoadXml(sb.ToString());
-            _dataValidationNode = xmlDoc.DocumentElement;
-        }
-
-        protected void LoadXmlTestData(string address, string validationType, string operatorName, string formula1Value)
-        {
-            var xmlDoc = new XmlDocument();
-            _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
-            _namespaceManager.AddNamespace("d", "urn:a");
-            _namespaceManager.AddNamespace("xr", "urn:b");
-            var sb = new StringBuilder();
-            sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" sqref=\"{1}\" operator=\"{2}\">", validationType, address, operatorName);
-            sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
-            sb.Append("</dataValidation>");
-            xmlDoc.LoadXml(sb.ToString());
-            _dataValidationNode = xmlDoc.DocumentElement;
-        }
-
-        protected void LoadXmlTestData(string address, string validationType, string formula1Value, bool showErrorMsg, bool showInputMsg)
-        {
-            var xmlDoc = new XmlDocument();
-            _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
-            _namespaceManager.AddNamespace("d", "urn:a");
-            _namespaceManager.AddNamespace("xr", "urn:b");
-            var sb = new StringBuilder();
-            sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" sqref=\"{1}\" ", validationType, address);
-            sb.AppendFormat(" showErrorMessage=\"{0}\" showInputMessage=\"{1}\">", showErrorMsg ? 1 : 0, showInputMsg ? 1 : 0);
-            sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
-            sb.Append("</dataValidation>");
-            xmlDoc.LoadXml(sb.ToString());
-            _dataValidationNode = xmlDoc.DocumentElement;
-        }
-
-        protected XmlDocument LoadXmlTestData(string address, string validationType, string formula1Value, string prompt, string promptTitle, string error, string errorTitle)
-        {
-            var xmlDoc = new XmlDocument();
-            _namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
-            _namespaceManager.AddNamespace("d", "urn:a");
-            _namespaceManager.AddNamespace("xr", "urn:b");
-            var sb = new StringBuilder();
-            sb.AppendFormat("<worksheet xmlns=\"{0}\" xmlns:xr=\"{1}\">", ExcelPackage.schemaMain, ExcelPackage.schemaXr);
-            sb.AppendFormat("<dataValidation xmlns:d=\"urn:a\" type=\"{0}\" operator=\"lessThan\" sqref=\"{1}\" xr:uid=\"{2}\"", validationType, address, $"{{1}}");
-            sb.AppendFormat(" prompt=\"{0}\" promptTitle=\"{1}\"", prompt, promptTitle);
-            sb.AppendFormat(" error=\"{0}\" errorTitle=\"{1}\">", error, errorTitle);
-            sb.AppendFormat("<d:formula1>{0}</d:formula1>", formula1Value);
-
-            sb.Append("</dataValidation>");
-            sb.Append("</worksheet>");
-            xmlDoc.LoadXml(sb.ToString());
-            _dataValidationNode = xmlDoc.DocumentElement;
-            return xmlDoc;
-        }
-
         protected IExcelDataValidationInt CreateSheetWithIntegerValidation(ExcelPackage package)
         {
             var sheet = package.Workbook.Worksheets.Add("NewSheet");
-            return sheet.DataValidations.AddIntegerValidation("A1");
+            var validation = sheet.DataValidations.AddIntegerValidation("A1");
+            validation.AllowBlank = true;
+            return validation;
         }
 
         protected ExcelPackage ReadPackageAsNewPackage(ExcelPackage package)

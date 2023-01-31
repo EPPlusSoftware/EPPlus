@@ -59,6 +59,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
         private string _validationUid;
         protected string _formula;
         private string _workSheetName;
+
+        internal virtual bool HasValue { get; set; } = false;
         /// <summary>
         /// State of the validationformula, i.e. tells if value or formula is set
         /// </summary>

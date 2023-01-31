@@ -36,18 +36,6 @@ namespace EPPlusTest.DataValidation.Formulas
     [TestClass]
     public class IntegerFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
-        {
-            SetupTestData();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-        }
-
         [TestMethod]
         public void ValueIsRead()
         {

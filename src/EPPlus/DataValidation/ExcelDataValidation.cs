@@ -23,18 +23,6 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public abstract class ExcelDataValidation : IExcelDataValidation
     {
-        /// <summary>
-        /// Xml path for Formula1
-        /// </summary>
-        private readonly string _formula1Path = "d:formula1";
-        private readonly string _formula1ExtLstPath = "x14:formula1/xm:f";
-
-        /// <summary>
-        /// Xml path for Formula2
-        /// </summary>
-        private readonly string _formula2Path = "d:formula2";
-        private readonly string _formula2ExtLstPath = "x14:formula2/xm:f";
-
         public string Uid { get; internal set; }
 
         public ExcelAddress Address { get; internal set; }

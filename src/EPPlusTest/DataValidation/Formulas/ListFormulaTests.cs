@@ -38,18 +38,6 @@ namespace EPPlusTest.DataValidation.Formulas
     [TestClass]
     public class ListFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
-        {
-            SetupTestData();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-        }
-
         [TestMethod]
         public void ValuesAreReadExcelFormula()
         {

@@ -37,18 +37,6 @@ namespace EPPlusTest.DataValidation.Formulas
     [TestClass]
     public class DateTimeFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
-        {
-            SetupTestData();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-        }
-
         [TestMethod]
         public void FormulaValueIsRead()
         {

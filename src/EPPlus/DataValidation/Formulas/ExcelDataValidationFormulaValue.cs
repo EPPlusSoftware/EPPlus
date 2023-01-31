@@ -32,6 +32,8 @@ namespace OfficeOpenXml.DataValidation.Formulas
 
         }
 
+        internal override bool HasValue => _value == null ? false : true;
+
         private T _value;
         /// <summary>
         /// Typed value

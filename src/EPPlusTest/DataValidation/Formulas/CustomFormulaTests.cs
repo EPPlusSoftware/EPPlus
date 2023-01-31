@@ -36,20 +36,6 @@ namespace EPPlusTest.DataValidation.Formulas
     [TestClass]
     public class CustomFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
-        {
-            SetupTestData();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-            _dataValidationNode = null;
-        }
-
-
         [TestMethod]
         public void FormulaIsReadInConstructor()
         {
@@ -62,14 +48,6 @@ namespace EPPlusTest.DataValidation.Formulas
             var validation = ReadTValidation<ExcelDataValidationCustom>(package);
 
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);
-
-            //var validation = sheet.DataValidations.AddCustomValidation("A1");
-            //validation.Formula.ExcelFormula = "A1";
-            //Assert.AreEqual("A1",
-            //    ((ExcelDataValidationCustom)
-            //    ReadPackageAsNewPackage(package).
-            //    Workbook.Worksheets[0].
-            //    DataValidations[0]).Formula.ExcelFormula);
         }
     }
 }

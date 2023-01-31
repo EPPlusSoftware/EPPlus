@@ -36,19 +36,6 @@ namespace EPPlusTest.DataValidation.Formulas
     [TestClass]
     public class DecimalFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
-        {
-            SetupTestData();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-            _dataValidationNode = null;
-        }
-
         [TestMethod]
         public void ValueIsRead()
         {
