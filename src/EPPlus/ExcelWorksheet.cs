@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.ExcelXMLWriter;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Packaging;
@@ -3164,48 +3165,74 @@ namespace OfficeOpenXml
                     }
                 }
 
-                var xml = _worksheetXml.OuterXml;
-                int colStart = 0, colEnd = 0;
-                GetBlockPos(xml, "cols", ref colStart, ref colEnd);
-
-                sw.Write(xml.Substring(0, colStart));
                 var prefix = GetNameSpacePrefix();
+                var xml = _worksheetXml.OuterXml;
+                int startOfNode = 0, endOfNode = 0;
 
-                UpdateColumnData(sw, prefix);
+                ExcelXmlWriter writer = new ExcelXmlWriter(this, _package);
+                writer.WriteNodes(sw, xml, ref startOfNode, ref endOfNode);
 
-                int cellStart = colEnd, cellEnd = colEnd;
-                GetBlockPos(xml, "sheetData", ref cellStart, ref cellEnd);
+                //writer.FindNodePositionAndClearItInit(sw, xml, "cols", ref startOfNode, ref endOfNode);
+                //UpdateColumnData(sw, prefix);
 
-                sw.Write(xml.Substring(colEnd, cellStart - colEnd));
-                UpdateRowCellData(sw, prefix);
+                //////var xml = _worksheetXml.OuterXml;
+                ////int colStart = 0, colEnd = 0;
+                ////GetBlockPos(xml, "cols", ref colStart, ref colEnd);
 
-                int mergeStart = cellEnd, mergeEnd = cellEnd;
+                ////sw.Write(xml.Substring(0, colStart));
+                //////var prefix = GetNameSpacePrefix();
 
-                GetBlockPos(xml, "mergeCells", ref mergeStart, ref mergeEnd);
-                sw.Write(xml.Substring(cellEnd, mergeStart - cellEnd));
+                ////UpdateColumnData(sw, prefix);
 
-                _mergedCells.CleanupMergedCells();
-                if (_mergedCells.Count > 0)
-                {
-                    UpdateMergedCells(sw, prefix);
-                }
+                ////ExcelXmlWriter
 
-                int hyperStart = mergeEnd, hyperEnd = mergeEnd;
+                ////int cellStart = endOfNode, cellEnd = endOfNode;
+                ////GetBlockPos(xml, "sheetData", ref cellStart, ref cellEnd);
 
-                if (GetNode("d:dataValidations") != null)
-                {
-                    int dataValStart = mergeEnd, dataValEnd = mergeEnd;
-                    GetBlockPos(xml, "dataValidations", ref dataValStart, ref dataValEnd);
-                    sw.Write(xml.Substring(mergeEnd, dataValStart - mergeEnd));
-                    UpdateDataValidation(sw, prefix);
+                ////sw.Write(xml.Substring(endOfNode, cellStart - endOfNode));
+                ////UpdateRowCellData(sw, prefix);
 
-                    hyperStart = dataValEnd;
-                    hyperEnd = dataValEnd;
-                    mergeEnd = dataValEnd;
-                }
+                //writer.FindNodePositionAndClearIt(sw, xml, "sheetData", ref startOfNode, ref endOfNode);
+                //UpdateRowCellData(sw, prefix);
+
+                //writer.FindNodePositionAndClearIt(sw, xml, "mergeCells", ref startOfNode, ref endOfNode);
+                //_mergedCells.CleanupMergedCells();
+                //if (_mergedCells.Count > 0)
+                //{
+                //    UpdateMergedCells(sw, prefix);
+                //}
+
+                ////int mergeStart = endOfNode, mergeEnd = endOfNode;
+
+                ////GetBlockPos(xml, "mergeCells", ref mergeStart, ref mergeEnd);
+                ////sw.Write(xml.Substring(endOfNode, mergeStart - endOfNode));
+
+                ////_mergedCells.CleanupMergedCells();
+                ////if (_mergedCells.Count > 0)
+                ////{
+                ////    UpdateMergedCells(sw, prefix);
+                ////}
+
+                ////int hyperStart = mergeEnd, hyperEnd = mergeEnd;
+
+                //if (GetNode("d:dataValidations") != null)
+                //{
+                //    writer.FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
+                //    UpdateDataValidation(sw, prefix);
+                //    //int dataValStart = mergeEnd, dataValEnd = mergeEnd;
+                //    //GetBlockPos(xml, "dataValidations", ref dataValStart, ref dataValEnd);
+                //    //sw.Write(xml.Substring(mergeEnd, dataValStart - mergeEnd));
+                //    //UpdateDataValidation(sw, prefix);
+
+                //    //hyperStart = dataValEnd;
+                //    //hyperEnd = dataValEnd;
+                //    //mergeEnd = dataValEnd;
+                //}
+
+                int hyperStart = endOfNode, hyperEnd = endOfNode;
 
                 GetBlockPos(xml, "hyperlinks", ref hyperStart, ref hyperEnd);
-                sw.Write(xml.Substring(mergeEnd, hyperStart - mergeEnd));
+                sw.Write(xml.Substring(endOfNode, hyperStart - endOfNode));
                 UpdateHyperLinks(sw, prefix);
 
                 int rowBreakStart = hyperEnd, rowBreakEnd = hyperEnd;
@@ -3244,7 +3271,7 @@ namespace OfficeOpenXml
             sw.Flush();
         }
 
-        private string GetNameSpacePrefix()
+        internal string GetNameSpacePrefix()
         {
             if (_worksheetXml.DocumentElement == null) return "";
             foreach (XmlAttribute a in _worksheetXml.DocumentElement.Attributes)
