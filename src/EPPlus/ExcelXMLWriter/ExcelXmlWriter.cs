@@ -86,29 +86,9 @@ namespace OfficeOpenXml.ExcelXMLWriter
                     {
                         sw.Write(xml.Substring(extLstStart, extLstEnd - endOfNode - "</ext>".Length));
                     }
-
-                    //GetBlockPos(xml, "ext", ref extLstStart, ref extLstEnd);
-                    //sw.Write(xml.Substring(endOfNode, extLstEnd - endOfNode - "</extLst>".Length));
-                    //sw.Write(xml.Substring(extLstStart, extLstEnd - endOfNode - "</ext>".Length));
                     UpdateExtLstData(sw, prefix, createNewExtLst);
                 }
-
-                //sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
             }
-
-            //if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.Count() != 0)
-            //{
-            //    if (createNewExtLst)
-            //    {
-            //        FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-            //        UpdateExtLstData(sw, prefix, createNewExtLst);
-            //    }
-            //    else
-            //    {
-            //        PutPostionAEndOfNode(sw, xml, "ext", ref startOfNode, ref endOfNode);
-            //        UpdateExtLstData(sw, prefix, createNewExtLst);
-            //    }
-            //}
 
             sw.Write(xml.Substring(endOfNode, xml.Length - endOfNode));
         }
