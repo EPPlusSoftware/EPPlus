@@ -3,6 +3,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using System;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using static OfficeOpenXml.ExcelWorksheet;
@@ -28,7 +30,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
             _package = package;
         }
 
-        internal void WriteNodes(StreamWriter sw, string xml, ref int startOfNode, ref int endOfNode)
+        internal void WriteNodes(StreamWriter sw, string xml, bool createNewExtLst, ref int startOfNode, ref int endOfNode)
         {
             var prefix = _ws.GetNameSpacePrefix();
             //int startOfNode = 0, endOfNode = 0;
@@ -51,6 +53,64 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
                 UpdateDataValidation(sw, prefix);
             }
+
+            FindNodePositionAndClearIt(sw, xml, "hyperlinks", ref startOfNode, ref endOfNode);
+            UpdateHyperLinks(sw, prefix);
+
+            FindNodePositionAndClearIt(sw, xml, "rowBreaks", ref startOfNode, ref endOfNode);
+            UpdateRowBreaks(sw, prefix);
+
+            FindNodePositionAndClearIt(sw, xml, "colBreaks", ref startOfNode, ref endOfNode);
+            UpdateColBreaks(sw, prefix);
+
+            if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.Count() != 0)
+            {
+                int extLstStart = endOfNode, extLstEnd = endOfNode;
+                if (createNewExtLst)
+                {
+                    GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
+                    sw.Write(xml.Substring(endOfNode, extLstStart - endOfNode));
+                    UpdateExtLstData(sw, prefix, createNewExtLst);
+                }
+                else
+                {
+                    GetBlockPos(xml, "ext", ref extLstStart, ref extLstEnd);
+
+                    //Only considered for case where a written file which has been read from has an extLst
+                    if (_ws.GetNode("d:ext") == null)
+                    {
+                        sw.Write(xml.Substring(endOfNode, extLstEnd - endOfNode - "</extLst>".Length - 2));
+                        sw.Write(">");
+                    }
+                    else
+                    {
+                        sw.Write(xml.Substring(extLstStart, extLstEnd - endOfNode - "</ext>".Length));
+                    }
+
+                    //GetBlockPos(xml, "ext", ref extLstStart, ref extLstEnd);
+                    //sw.Write(xml.Substring(endOfNode, extLstEnd - endOfNode - "</extLst>".Length));
+                    //sw.Write(xml.Substring(extLstStart, extLstEnd - endOfNode - "</ext>".Length));
+                    UpdateExtLstData(sw, prefix, createNewExtLst);
+                }
+
+                //sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
+            }
+
+            //if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.Count() != 0)
+            //{
+            //    if (createNewExtLst)
+            //    {
+            //        FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+            //        UpdateExtLstData(sw, prefix, createNewExtLst);
+            //    }
+            //    else
+            //    {
+            //        PutPostionAEndOfNode(sw, xml, "ext", ref startOfNode, ref endOfNode);
+            //        UpdateExtLstData(sw, prefix, createNewExtLst);
+            //    }
+            //}
+
+            sw.Write(xml.Substring(endOfNode, xml.Length - endOfNode));
         }
 
         internal void FindNodePositionAndClearItInit(StreamWriter sw, string xml, string nodeName,
@@ -65,22 +125,20 @@ namespace OfficeOpenXml.ExcelXMLWriter
         internal void FindNodePositionAndClearIt(StreamWriter sw, string xml, string nodeName,
             ref int start, ref int end)
         {
-            //var xml = _worksheetXml.OuterXml;
-            //int startNew = start, endNew = end;
+            int oldEnd = end;
+            GetBlockPos(xml, nodeName, ref start, ref end);
 
-            //The start of a new node is always same as end of last node
+            sw.Write(xml.Substring(oldEnd, start - oldEnd));
+        }
+
+        internal void PutPostionAEndOfNode(StreamWriter sw, string xml, string nodeName,
+            ref int start, ref int end)
+        {
+            int previousEnd = end;
             start = end;
             GetBlockPos(xml, nodeName, ref start, ref end);
 
-            //sw.Write(xml.Substring(end, start - end));
-            //write a length of zero to erase the temporary node
-            sw.Write(xml.Substring(start, 0));
-
-            //int cellStart = colEnd, cellEnd = colEnd;
-            //GetBlockPos(xml, "sheetData", ref cellStart, ref cellEnd);
-
-            //sw.Write(xml.Substring(colEnd, cellStart - colEnd));
-            //UpdateRowCellData(sw, prefix);
+            sw.Write(xml.Substring(start, end - previousEnd - $"</{nodeName}>".Length));
         }
 
         private void GetBlockPos(string xml, string tag, ref int start, ref int end)
@@ -732,6 +790,143 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             sw.Write(cache.ToString());
             sw.Flush();
+        }
+
+        /// <summary>
+        /// Update xml with hyperlinks 
+        /// </summary>
+        /// <param name="sw">The stream</param>
+        /// <param name="prefix">The namespace prefix for the main schema</param>
+        private void UpdateHyperLinks(StreamWriter sw, string prefix)
+        {
+            Dictionary<string, string> hyps = new Dictionary<string, string>();
+            var cse = new CellStoreEnumerator<Uri>(_ws._hyperLinks);
+            bool first = true;
+            while (cse.Next())
+            {
+                var uri = _ws._hyperLinks.GetValue(cse.Row, cse.Column);
+                if (first && uri != null)
+                {
+                    sw.Write($"<{prefix}hyperlinks>");
+                    first = false;
+                }
+                var hl = uri as ExcelHyperLink;
+                if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress))
+                {
+                    var address = _ws.Cells[cse.Row, cse.Column, cse.Row + hl.RowSpann, cse.Column + hl.ColSpann].Address;
+                    var location = ExcelCellBase.GetFullAddress(SecurityElement.Escape(_ws.Name), SecurityElement.Escape(hl.ReferenceAddress));
+                    var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
+                    var tooltip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
+                    sw.Write($"<{prefix}hyperlink ref=\"{address}\" location=\"{location}\"{display}{tooltip}/>");
+                }
+                else if (uri != null)
+                {
+                    string id;
+                    Uri hyp;
+                    string target = ""; ;
+                    if (hl != null)
+                    {
+                        if (hl.Target != null && hl.OriginalString.StartsWith("Invalid:Uri", StringComparison.OrdinalIgnoreCase))
+                        {
+                            target = hl.Target;
+                        }
+                        hyp = hl.OriginalUri;
+                    }
+                    else
+                    {
+                        hyp = uri;
+                    }
+                    if (hyps.ContainsKey(hyp.OriginalString) && string.IsNullOrEmpty(target))
+                    {
+                        id = hyps[hyp.OriginalString];
+                    }
+                    else
+                    {
+                        ZipPackageRelationship relationship;
+                        if (string.IsNullOrEmpty(target))
+                        {
+                            relationship = _ws.Part.CreateRelationship(hyp, Packaging.TargetMode.External, ExcelPackage.schemaHyperlink);
+                        }
+                        else
+                        {
+                            relationship = _ws.Part.CreateRelationship(target, Packaging.TargetMode.External, ExcelPackage.schemaHyperlink);
+                        }
+                        if (hl != null)
+                        {
+                            var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
+                            var toolTip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
+                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\"{display}{toolTip} r:id=\"{relationship.Id}\"/>");
+                        }
+                        else
+                        {
+                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\" r:id=\"{relationship.Id}\"/>");
+                        }
+                    }
+                }
+            }
+            if (!first)
+            {
+                sw.Write($"</{prefix}hyperlinks>");
+            }
+        }
+
+        private void UpdateRowBreaks(StreamWriter sw, string prefix)
+        {
+            StringBuilder breaks = new StringBuilder();
+            int count = 0;
+            var cse = new CellStoreEnumerator<ExcelValue>(_ws._values, 0, 0, ExcelPackage.MaxRows, 0);
+            while (cse.Next())
+            {
+                var row = cse.Value._value as RowInternal;
+                if (row != null && row.PageBreak)
+                {
+                    breaks.AppendFormat($"<{prefix}brk id=\"{cse.Row}\" max=\"1048575\" man=\"1\"/>");
+                    count++;
+                }
+            }
+            if (count > 0)
+            {
+                sw.Write(string.Format($"<{prefix}rowBreaks count=\"{count}\" manualBreakCount=\"{count}\">{breaks.ToString()}</rowBreaks>"));
+            }
+        }
+
+        private void UpdateColBreaks(StreamWriter sw, string prefix)
+        {
+            StringBuilder breaks = new StringBuilder();
+            int count = 0;
+            var cse = new CellStoreEnumerator<ExcelValue>(_ws._values, 0, 0, 0, ExcelPackage.MaxColumns);
+            while (cse.Next())
+            {
+                var col = cse.Value._value as ExcelColumn;
+                if (col != null && col.PageBreak)
+                {
+                    breaks.Append($"<{prefix}brk id=\"{cse.Column}\" max=\"16383\" man=\"1\"/>");
+                    count++;
+                }
+            }
+            if (count > 0)
+            {
+                sw.Write($"<colBreaks count=\"{count}\" manualBreakCount=\"{count}\">{breaks.ToString()}</colBreaks>");
+            }
+        }
+
+        private void UpdateExtLstData(StreamWriter sw, string prefix, bool createNewExLst)
+        {
+            if (createNewExLst)
+            {
+                sw.Write("<extLst>");
+                sw.Write($"<ext>");
+            }
+
+            prefix = "x14:";
+            UpdateDataValidation(sw, prefix,
+                $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
+
+            sw.Write("</ext>");
+            if (createNewExLst)
+            {
+                sw.Write("</extLst>");
+            }
         }
     }
 }

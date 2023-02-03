@@ -10,9 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Theme;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
 using System;
 using System.IO;
@@ -24,9 +21,9 @@ namespace OfficeOpenXml
         private Stream _stream;
         private long _size;
         private long _bytesRead;
-        private int _bufferEnd=0;
+        private int _bufferEnd = 0;
         private int _prevBufferEnd = 0;
-        public WorksheetZipStream(Stream zip, bool writeToBuffer, long size=-1)
+        public WorksheetZipStream(Stream zip, bool writeToBuffer, long size = -1)
         {
             _stream = zip;
             _size = size;
@@ -42,29 +39,29 @@ namespace OfficeOpenXml
 
         public override long Length => _stream.Length;
 
-        public override long Position { get => _stream.Position; set => _stream.Position=value; }
+        public override long Position { get => _stream.Position; set => _stream.Position = value; }
 
         public override void Flush()
         {
             _stream.Flush();
         }
 
-        byte[] _buffer=null;
+        byte[] _buffer = null;
         byte[] _prevBuffer, _tempBuffer = new byte[8192];
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if(_size>0 && _bytesRead + count > _size)
+            if (_size > 0 && _bytesRead + count > _size)
             {
                 count = (int)(_size - _bytesRead);
             }
             if (_buffer != null)
             {
-                if(_tempBuffer.Length<_bufferEnd) _tempBuffer = new byte[_bufferEnd];
+                if (_tempBuffer.Length < _bufferEnd) _tempBuffer = new byte[_bufferEnd];
                 Array.Copy(_buffer, _tempBuffer, _bufferEnd);
             }
 
-            var r =_stream.Read(buffer, offset, count);
-            if(r>0)
+            var r = _stream.Read(buffer, offset, count);
+            if (r > 0)
             {
                 _prevBuffer = _tempBuffer;
                 _prevBufferEnd = _bufferEnd;
@@ -95,17 +92,17 @@ namespace OfficeOpenXml
         {
             _stream.Write(buffer, offset, count);
         }
-        public BinaryWriter Buffer=new BinaryWriter(RecyclableMemory.GetStream());
+        public BinaryWriter Buffer = new BinaryWriter(RecyclableMemory.GetStream());
         public void SetWriteToBuffer()
         {
             Buffer = new BinaryWriter(RecyclableMemory.GetStream());
-            if (WriteToBuffer==false)
+            if (WriteToBuffer == false)
             {
                 if (_prevBuffer != null)
                 {
                     Buffer.Write(_prevBuffer, 0, _prevBufferEnd);
                 }
-                Buffer.Write(_buffer,0, _bufferEnd);
+                Buffer.Write(_buffer, 0, _bufferEnd);
             }
 
             WriteToBuffer = true;
@@ -122,10 +119,10 @@ namespace OfficeOpenXml
         {
             WriteToBuffer = writeToBufferAfter;
             Buffer.Flush();
-            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());            
+            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
             GetElementPos(xml, element, out int startIx, out int endIx);
-            if(startIx > 0)
-            {                
+            if (startIx > 0)
+            {
                 return xml.Substring(0, startIx) + GetPlaceholderTag(xml, startIx, endIx);
             }
             else
@@ -145,7 +142,7 @@ namespace OfficeOpenXml
         private int GetEndElementPos(string xml, string element, int endIx)
         {
             var ix = xml.IndexOf("/" + element + ">", endIx);
-            if(ix > 0)
+            if (ix > 0)
             {
                 return ix + element.Length + 2;
             }
@@ -170,12 +167,12 @@ namespace OfficeOpenXml
                     {
                         endIx++;
                     }
-                    if(endIx<xml.Length && xml[endIx] == '>')                       
+                    if (endIx < xml.Length && xml[endIx] == '>')
                     {
                         endIx++;
                         return;
                     }
-                    else if(endIx < xml.Length + 1 && xml.Substring(endIx, 2) == "/>")
+                    else if (endIx < xml.Length + 1 && xml.Substring(endIx, 2) == "/>")
                     {
                         endIx += 2;
                         return;
@@ -188,8 +185,8 @@ namespace OfficeOpenXml
 
         internal void ReadToEnd()
         {
-            if(_bytesRead < _size)
-            {                
+            if (_bytesRead < _size)
+            {
                 var r = _stream.Read(_buffer, 0, (int)(_size - _bytesRead));
                 if (WriteToBuffer == false)
                 {
@@ -199,29 +196,30 @@ namespace OfficeOpenXml
             }
         }
 
-        internal string ReadFromEndElement(string endElement, string startXml="", string readToElement=null, bool writeToBuffer = true, string xmlPrefix = "", string attribute="")
+        internal string ReadFromEndElement(string endElement, string startXml = "", string readToElement = null, bool writeToBuffer = true, string xmlPrefix = "", string attribute = "")
         {
-            if(string.IsNullOrEmpty(readToElement) && _stream.Position < _stream.Length)
+            if (string.IsNullOrEmpty(readToElement) && _stream.Position < _stream.Length)
             {
                 ReadToEnd();
             }
-            
+
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
             var endElementIx = FindElementPos(xml, endElement, false);
 
             if (endElementIx < 0) return startXml;
-            if(string.IsNullOrEmpty(readToElement))
+            if (string.IsNullOrEmpty(readToElement))
             {
                 xml = xml.Substring(endElementIx);
             }
             else
             {
                 var toElementIx = FindElementPos(xml, readToElement);
-                if(toElementIx>=endElementIx)
+                if (toElementIx >= endElementIx)
                 {
-                    xml =  xml.Substring(endElementIx, toElementIx - endElementIx);
+                    xml = xml.Substring(endElementIx, toElementIx - endElementIx);
                     xml += string.IsNullOrEmpty(xmlPrefix) ? $"<{readToElement}{attribute}/>" : $"<{xmlPrefix}:{readToElement}{attribute}/>";
+                    //xml += string.IsNullOrEmpty(xmlPrefix) ? $"<{readToElement}/>" : $"<{xmlPrefix}:{readToElement}/>";
                 }
                 else
                 {
@@ -245,8 +243,8 @@ namespace OfficeOpenXml
             while (true)
             {
                 ix = xml.IndexOf(element, ix);
-                if (ix > 0 && ix < xml.Length-1)
-                {                    
+                if (ix > 0 && ix < xml.Length - 1)
+                {
                     var c = xml[ix + element.Length];
                     if (c == '>' || c == ' ' || c == '/')
                     {
@@ -272,8 +270,8 @@ namespace OfficeOpenXml
                         }
                     }
                 }
-                if(ix<=0) return -1;
-                ix+=element.Length;
+                if (ix <= 0) return -1;
+                ix += element.Length;
             }
         }
     }

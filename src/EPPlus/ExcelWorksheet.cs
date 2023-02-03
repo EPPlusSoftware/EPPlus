@@ -1810,7 +1810,11 @@ namespace OfficeOpenXml
 
                     stream.SetWriteToBuffer();
                     lastXmlElement = nextXmlElement;
-
+                }
+                else
+                {
+                    //TODO: add other extLst options here. For now avoid infinite loop.
+                    xr.Read();
                 }
             }
         }
@@ -1821,7 +1825,7 @@ namespace OfficeOpenXml
         /// <param name="xr">The reader</param>
         private void LoadCells(XmlReader xr)
         {
-            xr.ReadUntil(1, "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks");
+            xr.ReadUntil(1, "sheetData", "dataValidations", "mergeCells", "hyperlinks", "rowBreaks", "colBreaks", "extLst");
             ExcelAddressBase address = null;
             string type = "";
             int style = 0;
@@ -2070,8 +2074,8 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="xr"></param>
         private void LoadMergeCells(XmlReader xr)
-        {//
-            if (xr.ReadUntil(1, "mergeCells", "dataValidations", "hyperlinks", "rowBreaks", "colBreaks") && !xr.EOF)
+        {
+            if (xr.ReadUntil(1, "mergeCells", "dataValidations", "hyperlinks", "rowBreaks", "colBreaks", "extLst") && !xr.EOF)
             {
                 while (xr.Read())
                 {
@@ -3132,6 +3136,7 @@ namespace OfficeOpenXml
             }
             else
             {
+
                 if (_autoFilter != null)
                 {
                     _autoFilter.Save();
@@ -3143,7 +3148,7 @@ namespace OfficeOpenXml
                 CreateNode("d:rowBreaks");
                 CreateNode("d:colBreaks");
 
-                bool createNewExLst = false;
+                bool createNewExtLst = false;
                 if (DataValidations != null && DataValidations.Count != 0)
                 {
                     WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
@@ -3155,13 +3160,13 @@ namespace OfficeOpenXml
                             GetNode("d:extLst") == null)
                         {
                             CreateNode("d:extLst");
-                            createNewExLst = true;
+                            createNewExtLst = true;
                         }
                     }
                     else if (GetNode("d:extLst") == null)
                     {
                         CreateNode("d:extLst");
-                        createNewExLst = true;
+                        createNewExtLst = true;
                     }
                 }
 
@@ -3170,103 +3175,7 @@ namespace OfficeOpenXml
                 int startOfNode = 0, endOfNode = 0;
 
                 ExcelXmlWriter writer = new ExcelXmlWriter(this, _package);
-                writer.WriteNodes(sw, xml, ref startOfNode, ref endOfNode);
-
-                //writer.FindNodePositionAndClearItInit(sw, xml, "cols", ref startOfNode, ref endOfNode);
-                //UpdateColumnData(sw, prefix);
-
-                //////var xml = _worksheetXml.OuterXml;
-                ////int colStart = 0, colEnd = 0;
-                ////GetBlockPos(xml, "cols", ref colStart, ref colEnd);
-
-                ////sw.Write(xml.Substring(0, colStart));
-                //////var prefix = GetNameSpacePrefix();
-
-                ////UpdateColumnData(sw, prefix);
-
-                ////ExcelXmlWriter
-
-                ////int cellStart = endOfNode, cellEnd = endOfNode;
-                ////GetBlockPos(xml, "sheetData", ref cellStart, ref cellEnd);
-
-                ////sw.Write(xml.Substring(endOfNode, cellStart - endOfNode));
-                ////UpdateRowCellData(sw, prefix);
-
-                //writer.FindNodePositionAndClearIt(sw, xml, "sheetData", ref startOfNode, ref endOfNode);
-                //UpdateRowCellData(sw, prefix);
-
-                //writer.FindNodePositionAndClearIt(sw, xml, "mergeCells", ref startOfNode, ref endOfNode);
-                //_mergedCells.CleanupMergedCells();
-                //if (_mergedCells.Count > 0)
-                //{
-                //    UpdateMergedCells(sw, prefix);
-                //}
-
-                ////int mergeStart = endOfNode, mergeEnd = endOfNode;
-
-                ////GetBlockPos(xml, "mergeCells", ref mergeStart, ref mergeEnd);
-                ////sw.Write(xml.Substring(endOfNode, mergeStart - endOfNode));
-
-                ////_mergedCells.CleanupMergedCells();
-                ////if (_mergedCells.Count > 0)
-                ////{
-                ////    UpdateMergedCells(sw, prefix);
-                ////}
-
-                ////int hyperStart = mergeEnd, hyperEnd = mergeEnd;
-
-                //if (GetNode("d:dataValidations") != null)
-                //{
-                //    writer.FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
-                //    UpdateDataValidation(sw, prefix);
-                //    //int dataValStart = mergeEnd, dataValEnd = mergeEnd;
-                //    //GetBlockPos(xml, "dataValidations", ref dataValStart, ref dataValEnd);
-                //    //sw.Write(xml.Substring(mergeEnd, dataValStart - mergeEnd));
-                //    //UpdateDataValidation(sw, prefix);
-
-                //    //hyperStart = dataValEnd;
-                //    //hyperEnd = dataValEnd;
-                //    //mergeEnd = dataValEnd;
-                //}
-
-                int hyperStart = endOfNode, hyperEnd = endOfNode;
-
-                GetBlockPos(xml, "hyperlinks", ref hyperStart, ref hyperEnd);
-                sw.Write(xml.Substring(endOfNode, hyperStart - endOfNode));
-                UpdateHyperLinks(sw, prefix);
-
-                int rowBreakStart = hyperEnd, rowBreakEnd = hyperEnd;
-                GetBlockPos(xml, "rowBreaks", ref rowBreakStart, ref rowBreakEnd);
-                sw.Write(xml.Substring(hyperEnd, rowBreakStart - hyperEnd));
-                UpdateRowBreaks(sw, prefix);
-
-                int colBreakStart = rowBreakEnd, colBreakEnd = rowBreakEnd;
-                GetBlockPos(xml, "colBreaks", ref colBreakStart, ref colBreakEnd);
-                sw.Write(xml.Substring(rowBreakEnd, colBreakStart - rowBreakEnd));
-                UpdateColBreaks(sw, prefix);
-
-                if (GetNode("d:extLst") != null && DataValidations.Count() != 0)
-                {
-                    int extLstStart = colBreakEnd, extLstEnd = colBreakEnd;
-                    if (createNewExLst)
-                    {
-                        GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
-                        sw.Write(xml.Substring(colBreakEnd, extLstStart - colBreakEnd));
-                        UpdateExtLstData(sw, prefix, createNewExLst);
-                    }
-                    else
-                    {
-                        GetBlockPos(xml, "ext", ref extLstStart, ref extLstEnd);
-                        sw.Write(xml.Substring(extLstStart, extLstEnd - colBreakEnd - "</ext>".Length));
-                        UpdateExtLstData(sw, prefix, createNewExLst);
-                    }
-
-                    sw.Write(xml.Substring(extLstEnd, xml.Length - extLstEnd));
-                }
-                else
-                {
-                    sw.Write(xml.Substring(colBreakEnd, xml.Length - colBreakEnd));
-                }
+                writer.WriteNodes(sw, xml, createNewExtLst, ref startOfNode, ref endOfNode);
             }
             sw.Flush();
         }
@@ -3487,10 +3396,7 @@ namespace OfficeOpenXml
                 $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
 
             sw.Write("</ext>");
-            if (createNewExLst)
-            {
-                sw.Write("</extLst>");
-            }
+            sw.Write("</extLst>");
         }
 
         private void UpdateColBreaks(StreamWriter sw, string prefix)

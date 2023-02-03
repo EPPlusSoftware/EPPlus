@@ -29,7 +29,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
-using System.IO;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using System.Drawing;
 
@@ -313,7 +312,7 @@ namespace EPPlusTest.ConditionalFormatting
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
-                var cf=ws.ConditionalFormatting.AddBetween(ws.Cells["A1:A3"]);
+                var cf = ws.ConditionalFormatting.AddBetween(ws.Cells["A1:A3"]);
                 cf.Formula = "1";
                 cf.Formula2 = "2";
 
@@ -331,7 +330,7 @@ namespace EPPlusTest.ConditionalFormatting
                     cf = ws.ConditionalFormatting[0].As.Between;
                     Assert.IsTrue(cf.Style.Font.Bold.Value);
                     Assert.IsTrue(cf.Style.Font.Italic.Value);
-                    Assert.AreEqual(Color.Red.ToArgb(),cf.Style.Font.Color.Color.Value.ToArgb());
+                    Assert.AreEqual(Color.Red.ToArgb(), cf.Style.Font.Color.Color.Value.ToArgb());
                     Assert.AreEqual(expectedFormat, cf.Style.NumberFormat.Format);
                 }
             }
@@ -346,7 +345,7 @@ namespace EPPlusTest.ConditionalFormatting
                 cf.Formula = "IsError(A1)";
                 cf.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 cf.Style.Fill.BackgroundColor.SetColor(Color.Red);
-                SaveAndCleanup(p); 
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
