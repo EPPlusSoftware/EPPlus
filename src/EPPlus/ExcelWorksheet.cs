@@ -1283,7 +1283,7 @@ namespace OfficeOpenXml
             stream.SetWriteToBuffer();
             LoadMergeCells(xr);
             var nextElement = "dataValidations";
-            if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, "dataValidations"))
+            if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
                 LoadDataValidations(xr);
