@@ -33,7 +33,6 @@ namespace OfficeOpenXml.ExcelXMLWriter
         internal void WriteNodes(StreamWriter sw, string xml, bool createNewExtLst, ref int startOfNode, ref int endOfNode)
         {
             var prefix = _ws.GetNameSpacePrefix();
-            //int startOfNode = 0, endOfNode = 0;
 
             FindNodePositionAndClearItInit(sw, xml, "cols", ref startOfNode, ref endOfNode);
             UpdateColumnData(sw, prefix);
@@ -65,28 +64,24 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.Count() != 0)
             {
-                int extLstStart = endOfNode, extLstEnd = endOfNode;
                 if (createNewExtLst)
                 {
-                    GetBlockPos(xml, "extLst", ref extLstStart, ref extLstEnd);
-                    sw.Write(xml.Substring(endOfNode, extLstStart - endOfNode));
+                    FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
                     UpdateExtLstData(sw, prefix, createNewExtLst);
                 }
                 else
                 {
-                    GetBlockPos(xml, "ext", ref extLstStart, ref extLstEnd);
-
                     //ExtLst != null and ext == null happens when reading file with an extLst.
                     if (_ws.GetNode("d:ext") == null)
                     {
                         //When we load an ext we write node on one line like "<ext uri={id} \>
                         //So we must remove the \> and make it a > when we want to add an endnode. Therefore -2
-                        sw.Write(xml.Substring(endOfNode, extLstEnd - endOfNode - "</extLst>".Length - 2));
+                        PutPostionAtEndOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode, -2);
                         sw.Write(">");
                     }
                     else
                     {
-                        sw.Write(xml.Substring(extLstStart, extLstEnd - endOfNode - "</ext>".Length));
+                        PutPostionAtEndOfNode(sw, xml, "ext", ref startOfNode, ref endOfNode, 0);
                     }
                     UpdateExtLstData(sw, prefix, createNewExtLst);
                 }
@@ -113,14 +108,14 @@ namespace OfficeOpenXml.ExcelXMLWriter
             sw.Write(xml.Substring(oldEnd, start - oldEnd));
         }
 
-        internal void PutPostionAEndOfNode(StreamWriter sw, string xml, string nodeName,
-            ref int start, ref int end)
+        internal void PutPostionAtEndOfNode(StreamWriter sw, string xml, string nodeName,
+            ref int start, ref int end, int startOffset)
         {
             int previousEnd = end;
             start = end;
             GetBlockPos(xml, nodeName, ref start, ref end);
 
-            sw.Write(xml.Substring(start, end - previousEnd - $"</{nodeName}>".Length));
+            sw.Write(xml.Substring(start - startOffset, end - previousEnd - $"</{nodeName}>".Length));
         }
 
         private void GetBlockPos(string xml, string tag, ref int start, ref int end)
@@ -905,10 +900,11 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
 
             sw.Write("</ext>");
-            if (createNewExLst)
-            {
-                sw.Write("</extLst>");
-            }
+            sw.Write("</extLst>");
+            //if (createNewExLst)
+            //{
+            //    sw.Write("</extLst>");
+            //}
         }
     }
 }

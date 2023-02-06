@@ -35,9 +35,11 @@ namespace EPPlusTest
             ExcelPackage package = new ExcelPackage("C:\\Users\\OssianEdström\\Documents\\Book1.xlsx");
 
             var workSheet = package.Workbook.Worksheets[0];
-            var validation = workSheet.DataValidations.AddCustomValidation("D1");
+            var extSheet = package.Workbook.Worksheets.Add("extTest");
+            extSheet.Cells["A1"].Value = "1";
+            var validation = workSheet.DataValidations.AddListValidation("D1");
 
-            validation.Formula.ExcelFormula = "=ISTEXT(D1)";
+            validation.Formula.ExcelFormula = "sheet3!$A$1";
 
             validation.ShowErrorMessage = true;
 
