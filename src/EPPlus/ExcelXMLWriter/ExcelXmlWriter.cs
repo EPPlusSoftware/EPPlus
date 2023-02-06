@@ -76,9 +76,11 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 {
                     GetBlockPos(xml, "ext", ref extLstStart, ref extLstEnd);
 
-                    //Only considered for case where a written file which has been read from has an extLst
+                    //ExtLst != null and ext == null happens when reading file with an extLst.
                     if (_ws.GetNode("d:ext") == null)
                     {
+                        //When we load an ext we write node on one line like "<ext uri={id} \>
+                        //So we must remove the \> and make it a > when we want to add an endnode. Therefore -2
                         sw.Write(xml.Substring(endOfNode, extLstEnd - endOfNode - "</extLst>".Length - 2));
                         sw.Write(">");
                     }
