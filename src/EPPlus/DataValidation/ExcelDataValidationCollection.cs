@@ -196,66 +196,76 @@ namespace OfficeOpenXml.DataValidation
 
         public IExcelDataValidationAny AddAnyValidation(string address)
         {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
-            _validations.Add(item);
-            return item;
+            var validation = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
+            return (IExcelDataValidationAny)AddValidation(address, validation);
         }
 
-        public Contracts.IExcelDataValidationInt AddIntegerValidation(string address)
+        public IExcelDataValidationInt AddIntegerValidation(string address)
         {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            _validations.Add(item);
-            return item;
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            return (IExcelDataValidationInt)AddValidation(address, validation);
         }
 
-        public Contracts.IExcelDataValidationInt AddTextLengthValidation(string address)
+        public IExcelDataValidationInt AddTextLengthValidation(string address)
         {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name, true);
-            _validations.Add(item);
-            return item;
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name, true);
+            return (IExcelDataValidationInt)AddValidation(address, validation);
         }
-
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
         {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            _validations.Add(item);
-            return item;
+            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            return (IExcelDataValidationDecimal)AddValidation(address, validation);
         }
 
         public IExcelDataValidationList AddListValidation(string address)
         {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationList(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            _validations.Add(item);
-            return item;
+            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            return (IExcelDataValidationList)AddValidation(address, validation);
         }
 
         public IExcelDataValidationTime AddTimeValidation(string address)
         {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            _validations.Add(item);
-            return item;
-        }
-        public IExcelDataValidationDateTime AddDateTimeValidation(string address)
-        {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            _validations.Add(item);
-            return item;
-        }
-        public IExcelDataValidationCustom AddCustomValidation(string address)
-        {
-            ValidateAddress(address);
-            var item = new ExcelDataValidationCustom(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            _validations.Add(item);
-            return item;
+            var validation = new ExcelDataValidationTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            return (IExcelDataValidationTime)AddValidation(address, validation);
         }
 
+        public IExcelDataValidationDateTime AddDateTimeValidation(string address)
+        {
+            var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            return (IExcelDataValidationDateTime)AddValidation(address, validation);
+        }
+
+        public IExcelDataValidationCustom AddCustomValidation(string address)
+        {
+            var validation = new ExcelDataValidationCustom(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            return (IExcelDataValidationCustom)AddValidation(address, validation);
+        }
+
+        private ExcelDataValidation AddValidation(string address, ExcelDataValidation validation)
+        {
+            var internalAddress = new ExcelAddress(address);
+
+            if (_worksheet._dataValidationsStore.Exists(internalAddress._fromRow, internalAddress._fromCol))
+            {
+                throw new InvalidOperationException($"A DataValidation already exists at {address}");
+            }
+
+            _validations.Add(validation);
+            _worksheet._dataValidationsStore.SetValue(internalAddress._fromRow, internalAddress._fromCol, _validations.Count - 1);
+
+            return validation;
+        }
+
+        public ExcelDataValidation GetDataValidationAtAddress(string address)
+        {
+            var internalAddress = new ExcelAddress(address);
+            var value = _worksheet._dataValidationsStore.GetValue(internalAddress._fromRow, internalAddress._fromCol);
+            if (value == null)
+            {
+                return null;
+            }
+            return _validations[(int)value];
+        }
 
         /// <summary>
         /// Number of validations

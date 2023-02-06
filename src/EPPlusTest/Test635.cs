@@ -39,6 +39,10 @@ namespace EPPlusTest
             extSheet.Cells["A1"].Value = "1";
             var validation = workSheet.DataValidations.AddListValidation("D1");
 
+            validation.Formula.ExcelFormula = "A1";
+            var validation2 = workSheet.DataValidations.AddIntegerValidation("A1");
+            validation2.Operator = ExcelDataValidationOperator.lessThan;
+
             validation.Formula.ExcelFormula = "sheet3!$A$1";
 
             validation.ShowErrorMessage = true;
@@ -49,6 +53,42 @@ namespace EPPlusTest
             stream.Close();
 
             SaveAndCleanup(package);
+        }
+
+        [TestMethod]
+        public void SpeedTestDataValidations()
+        {
+            Debug.WriteLine($"----Loading Package------");
+            var stopWatch = Stopwatch.StartNew();
+            using (var package = new ExcelPackage(@"c:Users\OssianEdström\Documents\speedTest.xlsx"))
+            {
+                Debug.WriteLine($"{stopWatch.Elapsed}");
+                stopWatch.Stop();
+
+                var sheet = package.Workbook.Worksheets.Add("Example");
+
+                Debug.WriteLine($"----Adding Validation to Package------");
+                stopWatch = Stopwatch.StartNew();
+                for (int i = 0; i < 1000000; i++)
+                {
+                    var validation = sheet.DataValidations.AddDateTimeValidation("AA" + i.ToString());
+
+                    validation.Formula.ExcelFormula = "2022/01/05";
+                    validation.Formula2.ExcelFormula = "2022/01/06";
+                }
+                Debug.WriteLine($"{stopWatch.Elapsed}");
+                stopWatch.Stop();
+
+                Debug.WriteLine($"----Saving Package------");
+                stopWatch = Stopwatch.StartNew();
+                string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
+                Stream stream = File.Create(path);
+                package.SaveAs(stream);
+                stream.Close();
+
+                Debug.WriteLine($"{stopWatch.Elapsed}");
+                stopWatch.Stop();
+            }
         }
 
         public void DateTimeTest()

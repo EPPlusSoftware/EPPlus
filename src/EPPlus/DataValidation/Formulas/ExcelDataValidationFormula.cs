@@ -98,11 +98,14 @@ namespace OfficeOpenXml.DataValidation.Formulas
                     throw new DataValidationFormulaTooLongException("The length of a DataValidation formula cannot exceed 255 characters");
                 }
                 _formula = value;
-                if (RefersToOtherWorksheet(_formula))
+                if (_formula.Any(x => char.IsLetter(x)))
                 {
-                    var e = new OnFormulaChangedEventArgs();
-                    e.isExt = true;
-                    _handler.Invoke(e);
+                    if (RefersToOtherWorksheet(_formula))
+                    {
+                        var e = new OnFormulaChangedEventArgs();
+                        e.isExt = true;
+                        _handler.Invoke(e);
+                    }
                 }
             }
         }

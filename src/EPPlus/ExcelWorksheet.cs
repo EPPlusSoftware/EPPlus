@@ -418,6 +418,8 @@ namespace OfficeOpenXml
         internal CellStore<Uri> _hyperLinks;
         internal CellStore<int> _commentsStore;
         internal CellStore<int> _threadedCommentsStore;
+        internal CellStore<int?> _dataValidationsStore;
+
         internal CellStore<MetaDataReference> _metadataStore;
 
         internal Dictionary<int, Formulas> _sharedFormulas = new Dictionary<int, Formulas>();
@@ -475,6 +477,7 @@ namespace OfficeOpenXml
             _threadedCommentsStore = new CellStore<int>();
             _formulaTokens = new CellStore<List<Token>>();
             _hyperLinks = new CellStore<Uri>();
+            _dataValidationsStore = new CellStore<int?>();
             _nextControlId = (PositionId + 1) * 1024 + 1;
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
