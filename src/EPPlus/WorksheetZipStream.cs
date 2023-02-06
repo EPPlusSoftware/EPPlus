@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using EPPlusTest.Utils;
 using OfficeOpenXml.Utils;
 using System;
 using System.IO;
@@ -18,6 +19,7 @@ namespace OfficeOpenXml
 {
     internal class WorksheetZipStream : Stream
     {
+        RollingBuffer _rollingBuffer = new RollingBuffer(8192);
         private Stream _stream;
         private long _size;
         private long _bytesRead;
@@ -46,34 +48,23 @@ namespace OfficeOpenXml
             _stream.Flush();
         }
 
-        byte[] _buffer = null;
-        byte[] _prevBuffer, _tempBuffer = new byte[8192];
+        //byte[] _buffer = null;
+        //byte[] _prevBuffer, _tempBuffer = new byte[8192];
         public override int Read(byte[] buffer, int offset, int count)
         {
             if (_size > 0 && _bytesRead + count > _size)
             {
                 count = (int)(_size - _bytesRead);
             }
-            if (_buffer != null)
-            {
-                if (_tempBuffer.Length < _bufferEnd) _tempBuffer = new byte[_bufferEnd];
-                Array.Copy(_buffer, _tempBuffer, _bufferEnd);
-            }
 
             var r = _stream.Read(buffer, offset, count);
             if (r > 0)
             {
-                _prevBuffer = _tempBuffer;
-                _prevBufferEnd = _bufferEnd;
-
-                _buffer = buffer;
-                _bytesRead += r;
-                _bufferEnd = r;
-
                 if (WriteToBuffer)
                 {
                     Buffer.Write(buffer, 0, r);
                 }
+                _rollingBuffer.Write(buffer, r);
             }
             return r;
         }
@@ -96,15 +87,7 @@ namespace OfficeOpenXml
         public void SetWriteToBuffer()
         {
             Buffer = new BinaryWriter(RecyclableMemory.GetStream());
-            if (WriteToBuffer == false)
-            {
-                if (_prevBuffer != null)
-                {
-                    Buffer.Write(_prevBuffer, 0, _prevBufferEnd);
-                }
-                Buffer.Write(_buffer, 0, _bufferEnd);
-            }
-
+            Buffer.Write(_rollingBuffer.GetBuffer());
             WriteToBuffer = true;
         }
         public bool WriteToBuffer { get; set; }
@@ -117,9 +100,17 @@ namespace OfficeOpenXml
         }
         internal string GetBufferAsStringRemovingElement(bool writeToBufferAfter, string element)
         {
+            string xml;
+            if (WriteToBuffer)
+            {
+                Buffer.Flush();
+                xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+            }
+            else
+            {
+                xml = System.Text.Encoding.UTF8.GetString(_rollingBuffer.GetBuffer());
+            }
             WriteToBuffer = writeToBufferAfter;
-            Buffer.Flush();
-            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
             GetElementPos(xml, element, out int startIx, out int endIx);
             if (startIx > 0)
             {
@@ -187,11 +178,10 @@ namespace OfficeOpenXml
         {
             if (_bytesRead < _size)
             {
-                var r = _stream.Read(_buffer, 0, (int)(_size - _bytesRead));
-                if (WriteToBuffer == false)
-                {
-                    Buffer.Write(_buffer, 0, _bufferEnd);
-                }
+                var sizeToEnd = (int)(_size - _bytesRead);
+                byte[] buffer = new byte[sizeToEnd];
+                var r = _stream.Read(buffer, 0, sizeToEnd);
+                Buffer.Write(buffer);
                 _bytesRead = _size;
             }
         }
