@@ -277,6 +277,37 @@ namespace EPPlusTest.Style
                 Assert.AreEqual("6", count);
             }
         }
+        [TestMethod]
+        public void VerifyStyleForLastColumns()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells.Style.Font.Size = 8;
+                ws.Cells.Style.Font.Name = "Arial";
+
+                ws.Cells["B2:D4"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws.Cells["B2:D4"].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(204, 248, 132));
+
+                Assert.AreEqual(8, ws.Cells["A1"].Style.Font.Size);
+                Assert.AreEqual(8, ws.Cells["A2"].Style.Font.Size);
+                Assert.AreEqual(8, ws.Cells["B1"].Style.Font.Size);
+                Assert.AreEqual(8, ws.Cells["E2"].Style.Font.Size);
+                Assert.AreEqual(8, ws.Cells["D5"].Style.Font.Size);
+
+                Assert.AreEqual(8, ws.Cells["B2"].Style.Font.Size);
+                Assert.AreEqual(8, ws.Cells["D2"].Style.Font.Size);
+                Assert.AreEqual(8, ws.Cells["B4"].Style.Font.Size);
+                Assert.AreEqual(8, ws.Cells["D4"].Style.Font.Size);
+
+                Assert.AreEqual("Arial", ws.Cells["B2"].Style.Font.Name);
+                Assert.AreEqual("Arial", ws.Cells["D2"].Style.Font.Name);
+                Assert.AreEqual("Arial", ws.Cells["B4"].Style.Font.Name);
+                Assert.AreEqual("Arial", ws.Cells["D4"].Style.Font.Name);
+            }
+        }
+
     }
 }
 
