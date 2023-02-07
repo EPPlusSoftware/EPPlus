@@ -88,23 +88,26 @@ namespace OfficeOpenXml.DataValidation.Formulas
             }
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    ResetValue();
-                    State = FormulaState.Formula;
-                }
                 if (value != null && MeasureFormulaLength(value) > 255)
                 {
                     throw new DataValidationFormulaTooLongException("The length of a DataValidation formula cannot exceed 255 characters");
                 }
+
                 _formula = value;
-                if (_formula.Any(x => char.IsLetter(x)))
+
+                if (!string.IsNullOrEmpty(value))
                 {
-                    if (RefersToOtherWorksheet(_formula))
+                    ResetValue();
+                    State = FormulaState.Formula;
+
+                    if (_formula.Any(x => char.IsLetter(x)))
                     {
-                        var e = new OnFormulaChangedEventArgs();
-                        e.isExt = true;
-                        _handler.Invoke(e);
+                        if (RefersToOtherWorksheet(_formula))
+                        {
+                            var e = new OnFormulaChangedEventArgs();
+                            e.isExt = true;
+                            _handler.Invoke(e);
+                        }
                     }
                 }
             }

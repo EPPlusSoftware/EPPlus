@@ -10,7 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
 using System;
 using System.Xml;
 
@@ -31,18 +30,10 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="internalType"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        /// 
-
-        //internal static ExcelDataValidation Create(XmlReader xr)
-        //{
-
-        //}
-
-
+        ///
         internal static ExcelDataValidation Create(XmlReader xr)
         {
-            string validationTypeName = xr.GetAttribute("type");
-            Require.Argument(validationTypeName).IsNotNull("validationType");
+            string validationTypeName = xr.GetAttribute("type") == null ? "" : xr.GetAttribute("type");
 
             switch (validationTypeName)
             {
@@ -131,26 +122,5 @@ namespace OfficeOpenXml.DataValidation
                     throw new InvalidOperationException("Non supported validationtype: " + oldValidation.ValidationType.Type.ToString());
             }
         }
-
-        //internal static ExcelDataValidationWithFormula<IExcelDataValidationFormulaList> CreateListValidation(string address, string uid, string workSheetName)
-        //{
-        //    //if (internalType == InternalValidationType.DataValidation)
-        //    //{
-        //    return new ExcelDataValidationList(uid, address, workSheetName);
-        //    //}
-
-        //    //// extLst
-        //    //return new ExcelDataValidationExtList(worksheet, uid, address, type, itemElementNode);
-        //}
-
-        //internal static ExcelDataValidationWithFormula<IExcelDataValidationFormula> CreateCustomValidation(string address, string uid, string workSheetName)
-        //{
-        //    //if (internalType == InternalValidationType.DataValidation)
-        //    //{
-        //    return new ExcelDataValidationCustom(uid, address, workSheetName);
-        //    // }
-        //    //// extLst
-        //    //return new ExcelDataValidationExtCustom(worksheet, uid, address, type, itemElementNode);
-        //}
     }
 }

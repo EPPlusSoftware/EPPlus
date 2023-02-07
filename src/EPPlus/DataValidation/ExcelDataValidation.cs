@@ -222,7 +222,7 @@ namespace OfficeOpenXml.DataValidation
             if (address == null)
                 InternalValidationType = InternalValidationType.ExtLst;
 
-            Uid = xr.GetAttribute("xr:uid");
+            Uid = string.IsNullOrEmpty(xr.GetAttribute("xr:uid")) ? NewId() : xr.GetAttribute("xr:uid");
 
             operatorString = xr.GetAttribute("operator");
             errorStyleString = xr.GetAttribute("errorStyle");

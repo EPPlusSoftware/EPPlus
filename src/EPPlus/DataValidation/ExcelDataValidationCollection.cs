@@ -176,13 +176,6 @@ namespace OfficeOpenXml.DataValidation
             {
                 validation.Validate();
             }
-            //if (_extLstValidations != null)
-            //{
-            //    foreach (var extValidation in _extLstValidations)
-            //    {
-            //        extValidation.Validate();
-            //    }
-            //}
         }
 
         internal void AddCopyOfDataValidation(string address, ExcelDataValidation dv)
