@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using EPPlusTest.Utils;
 using OfficeOpenXml.Utils;
-using System;
 using System.IO;
 
 namespace OfficeOpenXml
@@ -186,7 +185,7 @@ namespace OfficeOpenXml
             }
         }
 
-        internal string ReadFromEndElement(string endElement, string startXml = "", string readToElement = null, bool writeToBuffer = true, string xmlPrefix = "", string attribute = "")
+        internal string ReadFromEndElement(string endElement, string startXml = "", string readToElement = null, bool writeToBuffer = true, string xmlPrefix = "", string attribute = "", bool addEmptyNode = true)
         {
             if (string.IsNullOrEmpty(readToElement) && _stream.Position < _stream.Length)
             {
@@ -208,8 +207,10 @@ namespace OfficeOpenXml
                 if (toElementIx >= endElementIx)
                 {
                     xml = xml.Substring(endElementIx, toElementIx - endElementIx);
-                    xml += string.IsNullOrEmpty(xmlPrefix) ? $"<{readToElement}{attribute}/>" : $"<{xmlPrefix}:{readToElement}{attribute}/>";
-                    //xml += string.IsNullOrEmpty(xmlPrefix) ? $"<{readToElement}/>" : $"<{xmlPrefix}:{readToElement}/>";
+                    if (addEmptyNode)
+                    {
+                        xml += string.IsNullOrEmpty(xmlPrefix) ? $"<{readToElement}{attribute}/>" : $"<{xmlPrefix}:{readToElement}{attribute}/>";
+                    }
                 }
                 else
                 {

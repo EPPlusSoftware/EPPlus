@@ -32,27 +32,20 @@ namespace EPPlusTest
         [TestMethod]
         public void Stuff()
         {
-            ExcelPackage package = new ExcelPackage("C:\\Users\\OssianEdström\\Documents\\Book1.xlsx");
+            using (ExcelPackage package = OpenTemplatePackage("book1.xlsx"))
+            {
 
-            var workSheet = package.Workbook.Worksheets[0];
-            var extSheet = package.Workbook.Worksheets.Add("extTest");
-            extSheet.Cells["A1"].Value = "1";
-            var validation = workSheet.DataValidations.AddListValidation("D1");
+                //var workSheet = package.Workbook.Worksheets[0];
+                //var extSheet = package.Workbook.Worksheets.Add("extTest");
+                //extSheet.Cells["A1"].Value = "1";
+                //var validation = workSheet.DataValidations.AddListValidation("D1");
 
-            validation.Formula.ExcelFormula = "A1";
-            var validation2 = workSheet.DataValidations.AddIntegerValidation("A1");
-            validation2.Operator = ExcelDataValidationOperator.lessThan;
+                //validation.Formula.ExcelFormula = "sheet2!$A$1";
 
-            validation.Formula.ExcelFormula = "sheet3!$A$1";
+                //validation.ShowErrorMessage = true;
 
-            validation.ShowErrorMessage = true;
-
-            string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
-            Stream stream = File.Create(path);
-            package.SaveAs(stream);
-            stream.Close();
-
-            SaveAndCleanup(package);
+                SaveAndCleanup(package);
+            }
         }
 
         [TestMethod]

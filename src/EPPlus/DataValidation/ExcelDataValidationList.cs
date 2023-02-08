@@ -43,12 +43,16 @@ namespace OfficeOpenXml.DataValidation
 
         }
 
-        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.List);
-
         internal override IExcelDataValidationFormulaList DefineFormulaClassType(string formulaValue, string sheetName)
         {
             return new ExcelDataValidationFormulaList(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
+
+
+        public override bool AllowsOperator { get { return false; } }
+
+
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.List);
 
         /// <summary>
         /// True if an in-cell dropdown should be hidden.

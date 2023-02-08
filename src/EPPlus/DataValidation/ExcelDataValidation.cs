@@ -23,10 +23,33 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public abstract class ExcelDataValidation : IExcelDataValidation
     {
+        protected ExcelDataValidation(string uid, string address)
+        {
+            Require.Argument(uid).IsNotNullOrEmpty("uid");
+            Require.Argument(address).IsNotNullOrEmpty("address");
+
+            Uid = uid;
+            Address = new ExcelAddress(CheckAndFixRangeAddress(address));
+        }
+
+        protected ExcelDataValidation(XmlReader xr)
+        {
+            LoadXML(xr);
+        }
+
+        /// <summary>
+        /// Uid of the data validation
+        /// </summary>
         public string Uid { get; internal set; }
 
+        /// <summary>
+        /// Address of data validation
+        /// </summary>
         public ExcelAddress Address { get; internal set; }
 
+        /// <summary>
+        /// Validation type
+        /// </summary>
         public virtual ExcelDataValidationType ValidationType { get; }
 
         string errorStyleString = null;
@@ -50,21 +73,44 @@ namespace OfficeOpenXml.DataValidation
                     errorStyleString = value.ToString();
             }
         }
-
+        /// <summary>
+        /// True if blanks should be allowed
+        /// </summary>
         public bool? AllowBlank { get; set; } = null;
 
+        /// <summary>
+        /// True if input message should be shown
+        /// </summary>
         public bool? ShowInputMessage { get; set; } = null;
 
+        /// <summary>
+        /// True if error message should be shown
+        /// </summary>
         public bool? ShowErrorMessage { get; set; } = null;
 
+        /// <summary>
+        /// Title of error message box
+        /// </summary>
         public string ErrorTitle { get; set; } = null;
 
+        /// <summary>
+        /// Error message box text
+        /// </summary>
         public string Error { get; set; } = null;
 
+        /// <summary>
+        /// Title of the validation message box.
+        /// </summary>
         public string PromptTitle { get; set; } = null;
 
+        /// <summary>
+        /// Text of the validation message box.
+        /// </summary>
         public string Prompt { get; set; } = null;
 
+        /// <summary>
+        /// True if the current validation type allows operator.
+        /// </summary>
         public virtual bool AllowsOperator { get { return true; } }
 
         /// <summary>
@@ -94,8 +140,11 @@ namespace OfficeOpenXml.DataValidation
 
         /// <summary>
         /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
+        /// DEPRECATED as of TODO:insert version nr.
+        /// This as validations can no longer be stale since all attributes are always fresh and held in the system.
         /// </summary>
-        public bool IsStale { get; }
+        [Obsolete]
+        public bool IsStale { get; } = false;
 
         string operatorString = null;
         /// <summary>
@@ -133,10 +182,6 @@ namespace OfficeOpenXml.DataValidation
             {
                 address = AddressUtility.ParseEntireColumnSelections(address);
             }
-            //if (Regex.IsMatch(address, @"[A-Z]+:[A-Z]+"))
-            //{
-            //    address = AddressUtility.ParseEntireColumnSelections(address);
-            //}
             return address;
         }
 
@@ -169,22 +214,6 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-
-        //virtual internal void Load(XmlReader xr)
-        //{
-        //    while (xr.Read())
-        //    {
-        //        if (xr.LocalName != "dataValidation") break;
-
-        //        if (xr.NodeType == XmlNodeType.Element)
-        //        {
-        //            string validationType = xr.GetAttribute("type");
-        //            string address = xr.GetAttribute("sqref");
-
-        //        }
-        //    }
-        //}
-
         internal InternalValidationType InternalValidationType { get; set; } = InternalValidationType.DataValidation;
 
         internal void SetInternalValidationType(InternalValidationType type)
@@ -192,22 +221,9 @@ namespace OfficeOpenXml.DataValidation
             InternalValidationType = type;
         }
 
-        protected ExcelDataValidation(string uid, string address)
-        {
-            Require.Argument(uid).IsNotNullOrEmpty("uid");
-            Require.Argument(address).IsNotNullOrEmpty("address");
-
-            Uid = uid;
-            Address = new ExcelAddress(CheckAndFixRangeAddress(address));
-        }
-
-
-
-        protected ExcelDataValidation(XmlReader xr)
-        {
-            LoadXML(xr);
-        }
-
+        /// <summary>
+        /// Event method for changing internal type when referring to an external worksheet.
+        /// </summary>
         protected Action<OnFormulaChangedEventArgs> OnFormulaChanged => (e) =>
         {
             if (e.isExt)

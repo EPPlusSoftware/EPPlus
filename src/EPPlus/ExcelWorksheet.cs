@@ -1626,7 +1626,7 @@ namespace OfficeOpenXml
                 if (xr.GetAttribute("uri") == ExtLstUris.DataValidationsUri)
                 {
                     var nextXmlElement = "ext";
-                    xml = stream.ReadFromEndElement(lastXmlElement, xml, "ext", false, xr.Prefix, $" uri=\"{ExtLstUris.DataValidationsUri}\"");
+                    xml = stream.ReadFromEndElement(lastXmlElement, xml, "ext", false, xr.Prefix, $" uri=\"{ExtLstUris.DataValidationsUri}\"", false);
 
                     xr.Read();
 

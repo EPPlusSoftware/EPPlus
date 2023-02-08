@@ -28,6 +28,14 @@ namespace OfficeOpenXml.DataValidation
         {
         }
 
+        /// <summary>
+        /// True if the current validation type allows operator.
+        /// </summary>
+        public override bool AllowsOperator { get { return false; } }
+
+        /// <summary>
+        /// Validation type
+        /// </summary>
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Any);
     }
 }

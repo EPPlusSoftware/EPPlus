@@ -63,7 +63,9 @@ namespace OfficeOpenXml.DataValidation
             InternalValidationEnabled = true;
             ReadDataValidations(xr);
         }
-
+        /// <summary>
+        /// Read data validation from xml via xr reader
+        /// </summary>
         public void ReadDataValidations(XmlReader xr)
         {
             while (xr.Read())
@@ -158,11 +160,6 @@ namespace OfficeOpenXml.DataValidation
                     }
                 }
             }
-        }
-
-        private void ValidateAddress(string address)
-        {
-            ValidateAddress(address, null);
         }
 
         /// <summary>
@@ -262,7 +259,7 @@ namespace OfficeOpenXml.DataValidation
 
         /// <summary>
         /// Number of validations
-        /// </summary>
+        /// </summary>3
         public int Count
         {
             get { return GetValidations().Count; }

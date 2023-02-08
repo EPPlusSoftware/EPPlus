@@ -169,5 +169,19 @@ namespace EPPlusTest.DataValidation
                 Assert.IsTrue(attributeValue);
             }
         }
+
+        [TestMethod]
+        public void ListDataValidation_AllowsOperatorShouldBeFalse()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("list operator");
+
+                // add a validation and set values
+                var validation = sheet.DataValidations.AddListValidation("A1");
+
+                Assert.IsFalse(validation.AllowsOperator);
+            }
+        }
     }
 }

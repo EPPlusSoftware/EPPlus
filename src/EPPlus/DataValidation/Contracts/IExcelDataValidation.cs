@@ -10,10 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.DataValidation.Contracts
 {
@@ -37,7 +33,7 @@ namespace OfficeOpenXml.DataValidation.Contracts
         /// <summary>
         /// Controls how Excel will handle invalid values.
         /// </summary>
-        ExcelDataValidationWarningStyle ErrorStyle{ get; set; }
+        ExcelDataValidationWarningStyle ErrorStyle { get; set; }
         /// <summary>
         /// True if input message should be shown
         /// </summary>
@@ -84,7 +80,7 @@ namespace OfficeOpenXml.DataValidation.Contracts
         /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
         /// </summary>
         bool IsStale { get; }
-       
+
 
 
     }

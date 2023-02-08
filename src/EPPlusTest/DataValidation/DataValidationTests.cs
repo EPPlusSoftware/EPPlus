@@ -277,5 +277,40 @@ namespace EPPlusTest.DataValidation
                 Assert.AreEqual(3, ws.DataValidations.Count);
             }
         }
+        [TestMethod]
+        public void DataValidationAny_AllowsOperatorShouldBeFalse()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dvAddress = "A1";
+                var dv = wks.DataValidations.AddAnyValidation(dvAddress);
+
+                Assert.IsFalse(dv.AllowsOperator);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidationDefaults_AllowsOperatorShouldBeTrueOnCorrectTypes()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                var intValidation = wks.DataValidations.AddIntegerValidation("A1");
+                var decimalValidation = wks.DataValidations.AddDecimalValidation("A2");
+                var textLengthValidation = wks.DataValidations.AddTextLengthValidation("A3");
+                var dateTimeValidation = wks.DataValidations.AddDateTimeValidation("A4");
+                var timeValidation = wks.DataValidations.AddTimeValidation("A5");
+                var customValidation = wks.DataValidations.AddCustomValidation("A6");
+
+                Assert.IsTrue(intValidation.AllowsOperator);
+                Assert.IsTrue(decimalValidation.AllowsOperator);
+                Assert.IsTrue(textLengthValidation.AllowsOperator);
+                Assert.IsTrue(dateTimeValidation.AllowsOperator);
+                Assert.IsTrue(timeValidation.AllowsOperator);
+                Assert.IsTrue(customValidation.AllowsOperator);
+            }
+        }
     }
 }

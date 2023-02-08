@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
@@ -71,18 +72,16 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 }
                 else
                 {
-                    //ExtLst != null and ext == null happens when reading file with an extLst.
-                    if (_ws.GetNode("d:ext") == null)
-                    {
-                        //When we load an ext we write node on one line like "<ext uri={id} \>
-                        //So we must remove the \> and make it a > when we want to add an endnode. Therefore -2
-                        PutPostionAtEndOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode, -2);
-                        sw.Write(">");
-                    }
-                    else
-                    {
-                        PutPostionAtEndOfNode(sw, xml, "ext", ref startOfNode, ref endOfNode, 0);
-                    }
+                    PutPostionAtEndOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode, 0);
+                    ////ExtLst != null and ext == null happens when reading file with an extLst.
+                    //if (!_ws.ExistsNode($"d:ext[@uri='{ExtLstUris.DataValidationsUri}']"))
+                    //{
+                    //    FindNodePositionAndClearIt(sw, xml, $"ext[@uri='{ExtLstUris.DataValidationsUri}']", ref startOfNode, ref endOfNode);
+                    //}
+                    //else
+                    //{
+                    //    PutPostionAtEndOfNode(sw, xml, "ext", ref startOfNode, ref endOfNode, 0);
+                    //}
                     UpdateExtLstData(sw, prefix, createNewExtLst);
                 }
             }
@@ -892,8 +891,9 @@ namespace OfficeOpenXml.ExcelXMLWriter
             if (createNewExLst)
             {
                 sw.Write("<extLst>");
-                sw.Write($"<ext>");
             }
+
+            sw.Write($"<ext uri=\"{ExtLstUris.DataValidationsUri}\">");
 
             prefix = "x14:";
             UpdateDataValidation(sw, prefix,
@@ -901,10 +901,6 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             sw.Write("</ext>");
             sw.Write("</extLst>");
-            //if (createNewExLst)
-            //{
-            //    sw.Write("</extLst>");
-            //}
         }
     }
 }
