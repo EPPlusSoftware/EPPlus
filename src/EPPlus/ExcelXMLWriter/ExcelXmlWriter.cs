@@ -51,7 +51,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
             if (_ws.GetNode("d:dataValidations") != null)
             {
                 FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
-                UpdateDataValidation(sw, prefix);
+                UpdateDataValidation(prefix);
             }
 
             FindNodePositionAndClearIt(sw, xml, "hyperlinks", ref startOfNode, ref endOfNode);
@@ -68,12 +68,16 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 if (createNewExtLst)
                 {
                     FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-                    UpdateExtLstData(sw, prefix, createNewExtLst);
+                    UpdateExtLstDataValidations(prefix);
                 }
                 else
                 {
-                    InsertMethodAtTopOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode,
-                        () => UpdateExtLstData(sw, prefix, createNewExtLst));
+                    ExtLstHelper help = new ExtLstHelper(xml);
+                    help.InsertExt(ExtLstUris.DataValidationsUri, UpdateExtLstDataValidations(prefix), "");
+                    sw.Write(help.GetWholeExtLst());
+
+                    //InsertMethodAtTopOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode,
+                    //    () => UpdateExtLstData(sw, prefix));
 
                     //UpdateExtLstData(sw, prefix, createNewExtLst);
                     //WriteAllPartsOfNodeExceptInitialNode(sw, xml, "extLst", ref startOfNode, ref endOfNode);
@@ -131,12 +135,6 @@ namespace OfficeOpenXml.ExcelXMLWriter
             PutPositionAfterInitialNode(sw, xml, nodeName, ref start, ref end);
             writeXmlContent();
             WriteAllPartsOfNodeExceptInitialNode(sw, xml, nodeName, ref start, ref end);
-        }
-
-        internal void WriteWithoutStartNode(StreamWriter sw, string xml, string nodeName,
-            ref int start, ref int end)
-        {
-
         }
 
         internal string EraseStartNodeReturnString(StreamWriter sw, string xml, string nodeName,
@@ -777,7 +775,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
             cache.Append($"</{prefix}dataValidation>");
         }
 
-        private void UpdateDataValidation(StreamWriter sw, string prefix, string extraAttribute = "")
+        private StringBuilder UpdateDataValidation(string prefix, string extraAttribute = "")
         {
             var cache = new StringBuilder();
             InternalValidationType type;
@@ -806,8 +804,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             cache.Append($"</{prefix}dataValidations>");
 
-            sw.Write(cache.ToString());
-            sw.Flush();
+            return cache;
         }
 
         /// <summary>
@@ -928,21 +925,26 @@ namespace OfficeOpenXml.ExcelXMLWriter
             }
         }
 
-        private void UpdateExtLstData(StreamWriter sw, string prefix, bool createNewExLst)
+        private string UpdateExtLstDataValidations(string prefix)
         {
             //sw.Write("<extLst>");
+            var cache = new StringBuilder();
 
-            sw.Write($"<ext uri=\"{ExtLstUris.DataValidationsUri}\">");
+            cache.Append($"<ext uri=\"{ExtLstUris.DataValidationsUri}\">");
 
             prefix = "x14:";
-            UpdateDataValidation(sw, prefix,
-                $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
+            cache.Append
+            (
+            UpdateDataValidation(prefix,
+                $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"")
+            );
+            cache.Append("</ext>");
 
-            sw.Write("</ext>");
-            if (createNewExLst)
-            {
-                sw.Write("</extLst>");
-            }
+            return cache.ToString();
+            //if (createNewExLst)
+            //{
+            //    sw.Write("</extLst>");
+            //}
         }
     }
 }

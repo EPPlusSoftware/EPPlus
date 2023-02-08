@@ -48,9 +48,6 @@ namespace OfficeOpenXml.DataValidation
         private List<ExcelDataValidation> _validations = new List<ExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
 
-        private const string DataValidationPath = "//d:dataValidations";
-        private readonly string DataValidationItemsPath = string.Format("{0}/d:dataValidation", DataValidationPath);
-
         internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
         {
             InternalValidationEnabled = true;
