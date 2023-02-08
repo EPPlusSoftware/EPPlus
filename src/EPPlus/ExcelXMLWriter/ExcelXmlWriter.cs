@@ -72,17 +72,17 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 }
                 else
                 {
-                    PutPostionAtEndOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode, 0);
-                    ////ExtLst != null and ext == null happens when reading file with an extLst.
-                    //if (!_ws.ExistsNode($"d:ext[@uri='{ExtLstUris.DataValidationsUri}']"))
-                    //{
-                    //    FindNodePositionAndClearIt(sw, xml, $"ext[@uri='{ExtLstUris.DataValidationsUri}']", ref startOfNode, ref endOfNode);
-                    //}
-                    //else
-                    //{
-                    //    PutPostionAtEndOfNode(sw, xml, "ext", ref startOfNode, ref endOfNode, 0);
-                    //}
-                    UpdateExtLstData(sw, prefix, createNewExtLst);
+                    InsertMethodAtTopOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode,
+                        () => UpdateExtLstData(sw, prefix, createNewExtLst));
+
+                    //UpdateExtLstData(sw, prefix, createNewExtLst);
+                    //WriteAllPartsOfNodeExceptInitialNode(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+
+                    ////string otherData = EraseStartNodeReturnString(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+                    //PutPositionAfterInitialNode(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+                    //UpdateExtLstData(sw, prefix, createNewExtLst);
+                    //WriteAllPartsOfNodeExceptInitialNode(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+                    //// sw.Write(otherData);
                 }
             }
 
@@ -105,6 +105,48 @@ namespace OfficeOpenXml.ExcelXMLWriter
             GetBlockPos(xml, nodeName, ref start, ref end);
 
             sw.Write(xml.Substring(oldEnd, start - oldEnd));
+        }
+
+        internal void PutPositionAfterInitialNode(StreamWriter sw, string xml, string nodeName,
+            ref int start, ref int end)
+        {
+            int oldEnd = end;
+            GetBlockPos(xml, nodeName, ref start, ref end);
+            string test = xml.Substring(start, start + $"<{nodeName}>".Length - oldEnd);
+            sw.Write(test);
+            //return xml.Substring(start + $"<{nodeName}>".Length, end - start - $"<{nodeName}>".Length);
+        }
+
+        internal void WriteAllPartsOfNodeExceptInitialNode(StreamWriter sw, string xml, string nodeName,
+            ref int start, ref int end)
+        {
+            int oldEnd = end;
+            GetBlockPos(xml, nodeName, ref start, ref end);
+            sw.Write(xml.Substring(start + $"<{nodeName}>".Length, end - start - $"<{nodeName}>".Length));
+        }
+
+        internal void InsertMethodAtTopOfNode(StreamWriter sw, string xml, string nodeName,
+            ref int start, ref int end, Action writeXmlContent)
+        {
+            PutPositionAfterInitialNode(sw, xml, nodeName, ref start, ref end);
+            writeXmlContent();
+            WriteAllPartsOfNodeExceptInitialNode(sw, xml, nodeName, ref start, ref end);
+        }
+
+        internal void WriteWithoutStartNode(StreamWriter sw, string xml, string nodeName,
+            ref int start, ref int end)
+        {
+
+        }
+
+        internal string EraseStartNodeReturnString(StreamWriter sw, string xml, string nodeName,
+            ref int start, ref int end)
+        {
+            int oldEnd = end;
+            GetBlockPos(xml, nodeName, ref start, ref end);
+
+            sw.Write(xml.Substring(oldEnd, start - oldEnd));
+            return xml.Substring(start + $"<{nodeName}>".Length, end - start - $"<{nodeName}>".Length);
         }
 
         internal void PutPostionAtEndOfNode(StreamWriter sw, string xml, string nodeName,
@@ -888,10 +930,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
         private void UpdateExtLstData(StreamWriter sw, string prefix, bool createNewExLst)
         {
-            if (createNewExLst)
-            {
-                sw.Write("<extLst>");
-            }
+            //sw.Write("<extLst>");
 
             sw.Write($"<ext uri=\"{ExtLstUris.DataValidationsUri}\">");
 
@@ -900,7 +939,10 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"");
 
             sw.Write("</ext>");
-            sw.Write("</extLst>");
+            if (createNewExLst)
+            {
+                sw.Write("</extLst>");
+            }
         }
     }
 }
