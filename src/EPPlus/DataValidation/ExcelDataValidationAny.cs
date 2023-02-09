@@ -20,7 +20,11 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public class ExcelDataValidationAny : ExcelDataValidation, IExcelDataValidationAny
     {
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
+        /// <param name="address"></param>
         internal ExcelDataValidationAny(string uid, string address) : base(uid, address)
         {
         }

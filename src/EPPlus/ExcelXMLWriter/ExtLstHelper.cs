@@ -7,13 +7,11 @@ namespace OfficeOpenXml.ExcelXMLWriter
 {
     internal class ExtLstHelper
     {
-        string initalXml;
         List<string> listOfExts = new List<string>();
         Dictionary<string, int> uriToIndex = new Dictionary<string, int>();
 
         public ExtLstHelper(string xml)
         {
-            initalXml = xml;
             ParseIntialXmlToList(xml);
         }
 
@@ -103,6 +101,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
             extLstString += "</extLst>";
             return extLstString;
         }
+
 
 
         private void GetBlockPos(string xml, string tag, ref int start, ref int end)

@@ -20,24 +20,11 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     internal static class ExcelDataValidationFactory
     {
-
-        /// <summary>
-        /// Creates an instance of <see cref="ExcelDataValidation"/> out of the given parameters.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="worksheet"></param>
-        /// <param name="address"></param>
-        /// <param name="itemElementNode"></param>
-        /// <param name="internalType"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        ///
-
         /// <summary>
         /// Creates an instance of <see cref="ExcelDataValidation"/> out of the reader.
         /// </summary>
         /// <param name="xr"></param>
-        /// <returns></returns>
+        /// <returns>"</returns>
         /// <exception cref="InvalidOperationException"></exception>
         internal static ExcelDataValidation Create(XmlReader xr)
         {
@@ -67,6 +54,15 @@ namespace OfficeOpenXml.DataValidation
         }
 
         //TODO: Improve this by making formula copying internal or at least pressed lines via method call
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="oldValidation"></param>
+        /// <param name="address"></param>
+        /// <param name="uid"></param>
+        /// <param name="workSheetName"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         internal static ExcelDataValidation Create(ExcelDataValidation oldValidation, string address, string uid, string workSheetName)
         {
             switch (oldValidation.ValidationType.Type)

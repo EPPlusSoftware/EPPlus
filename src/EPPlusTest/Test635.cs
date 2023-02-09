@@ -62,7 +62,7 @@ namespace EPPlusTest
 
                 Debug.WriteLine($"----Adding Validation to Package------");
                 stopWatch = Stopwatch.StartNew();
-                for (int i = 0; i < 1000000; i++)
+                for (int i = 0; i < 100000; i++)
                 {
                     var validation = sheet.DataValidations.AddDateTimeValidation("AA" + (i + 1).ToString());
 
@@ -74,10 +74,7 @@ namespace EPPlusTest
 
                 Debug.WriteLine($"----Saving Package------");
                 stopWatch = Stopwatch.StartNew();
-                string path = @"C:\Users\OssianEdström\Documents\testNew.xlsx";
-                Stream stream = File.Create(path);
-                package.SaveAs(stream);
-                stream.Close();
+                SaveAndCleanup(package);
 
                 Debug.WriteLine($"{stopWatch.Elapsed}");
                 stopWatch.Stop();
