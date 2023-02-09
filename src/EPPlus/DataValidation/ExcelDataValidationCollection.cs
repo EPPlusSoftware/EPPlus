@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.Utils;
 using System;
@@ -47,6 +48,7 @@ namespace OfficeOpenXml.DataValidation
     {
         private List<ExcelDataValidation> _validations = new List<ExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
+        private RangeDictionary<ExcelDataValidation> _validationsRD = new RangeDictionary<ExcelDataValidation>();
 
         internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
         {
@@ -77,6 +79,8 @@ namespace OfficeOpenXml.DataValidation
                 {
                     var validation = ExcelDataValidationFactory.Create(xr);
                     _validations.Add(validation);
+                    _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol,
+                                       validation.Address._toRow, validation.Address._toCol, validation);
                 }
             }
         }
@@ -232,13 +236,15 @@ namespace OfficeOpenXml.DataValidation
         {
             var internalAddress = new ExcelAddress(address);
 
-            if (_worksheet._dataValidationsStore.Exists(internalAddress._fromRow, internalAddress._fromCol))
+            if (_validationsRD.Exists(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol))
             {
                 throw new InvalidOperationException($"A DataValidation already exists at {address}");
             }
 
             _validations.Add(validation);
-            _worksheet._dataValidationsStore.SetValue(internalAddress._fromRow, internalAddress._fromCol, _validations.Count - 1);
+            _validationsRD.Add(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol, validation);
+            //_worksheet._dataValidationsStore.
+            // _worksheet._dataValidationsStore.SetValue(internalAddress._fromRow, internalAddress._fromCol, _validations.Count - 1);
 
             return validation;
         }

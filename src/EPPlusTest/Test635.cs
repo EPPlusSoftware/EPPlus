@@ -32,7 +32,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Stuff()
         {
-            using (ExcelPackage package = OpenTemplatePackage("book1.xlsx"))
+            using (ExcelPackage package = OpenTemplatePackage("ExtLstDataValidationValidation.xlsx"))
             {
 
                 //var workSheet = package.Workbook.Worksheets[0];
@@ -53,7 +53,7 @@ namespace EPPlusTest
         {
             Debug.WriteLine($"----Loading Package------");
             var stopWatch = Stopwatch.StartNew();
-            using (var package = new ExcelPackage(@"c:Users\OssianEdström\Documents\speedTest.xlsx"))
+            using (var package = new ExcelPackage())
             {
                 Debug.WriteLine($"{stopWatch.Elapsed}");
                 stopWatch.Stop();
@@ -64,7 +64,7 @@ namespace EPPlusTest
                 stopWatch = Stopwatch.StartNew();
                 for (int i = 0; i < 1000000; i++)
                 {
-                    var validation = sheet.DataValidations.AddDateTimeValidation("AA" + i.ToString());
+                    var validation = sheet.DataValidations.AddDateTimeValidation("AA" + (i + 1).ToString());
 
                     validation.Formula.ExcelFormula = "2022/01/05";
                     validation.Formula2.ExcelFormula = "2022/01/06";

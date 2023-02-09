@@ -51,7 +51,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
             if (_ws.GetNode("d:dataValidations") != null)
             {
                 FindNodePositionAndClearIt(sw, xml, "dataValidations", ref startOfNode, ref endOfNode);
-                UpdateDataValidation(prefix);
+                sw.Write(UpdateDataValidation(prefix));
             }
 
             FindNodePositionAndClearIt(sw, xml, "hyperlinks", ref startOfNode, ref endOfNode);
@@ -65,29 +65,10 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.Count() != 0)
             {
-                if (createNewExtLst)
-                {
-                    FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-                    UpdateExtLstDataValidations(prefix);
-                }
-                else
-                {
-                    ExtLstHelper help = new ExtLstHelper(xml);
-                    help.InsertExt(ExtLstUris.DataValidationsUri, UpdateExtLstDataValidations(prefix), "");
-                    sw.Write(help.GetWholeExtLst());
-
-                    //InsertMethodAtTopOfNode(sw, xml, "extLst", ref startOfNode, ref endOfNode,
-                    //    () => UpdateExtLstData(sw, prefix));
-
-                    //UpdateExtLstData(sw, prefix, createNewExtLst);
-                    //WriteAllPartsOfNodeExceptInitialNode(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-
-                    ////string otherData = EraseStartNodeReturnString(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-                    //PutPositionAfterInitialNode(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-                    //UpdateExtLstData(sw, prefix, createNewExtLst);
-                    //WriteAllPartsOfNodeExceptInitialNode(sw, xml, "extLst", ref startOfNode, ref endOfNode);
-                    //// sw.Write(otherData);
-                }
+                ExtLstHelper extLst = new ExtLstHelper(xml);
+                FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+                extLst.InsertExt(ExtLstUris.DataValidationsUri, UpdateExtLstDataValidations(prefix), "");
+                sw.Write(extLst.GetWholeExtLst());
             }
 
             sw.Write(xml.Substring(endOfNode, xml.Length - endOfNode));

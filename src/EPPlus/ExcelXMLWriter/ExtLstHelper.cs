@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml.Constants;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,36 +8,39 @@ namespace OfficeOpenXml.ExcelXMLWriter
     internal class ExtLstHelper
     {
         string initalXml;
-        List<string> listOfExts;
+        List<string> listOfExts = new List<string>();
         Dictionary<string, int> uriToIndex = new Dictionary<string, int>();
 
         public ExtLstHelper(string xml)
         {
             initalXml = xml;
             ParseIntialXmlToList(xml);
-            string test = ExtLstUris.DataValidationsUri;
-            //InsertExt(ExtLstUris.DataValidationsUri, "Yeowch", ExtLstUris.SlicerStylesUri, () => { Debug.Write("hello"); });
         }
 
         private void ParseIntialXmlToList(string xml)
         {
             int start = 0, end = 0;
             GetBlockPos(xml, "extLst", ref start, ref end);
-            int contentStart = start + "<ExtLst>".Length;
-            string extNodesOnly = xml.Substring(contentStart, end - contentStart - "</ExtLst>".Length);
 
-            string[] strLst = { "</ext>" };
-            listOfExts = extNodesOnly.Split(strLst, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            for (int i = 0; i < listOfExts.Count; i++)
+            //If the node isn't just a placeholder
+            if (end - start > 10)
             {
-                int startOfUri = listOfExts[i].LastIndexOf("{");
-                int endOfUri = listOfExts[i].LastIndexOf("}") + 1;
+                int contentStart = start + "<ExtLst>".Length;
+                string extNodesOnly = xml.Substring(contentStart, end - contentStart - "</ExtLst>".Length);
 
-                string uri = listOfExts[i].Substring(startOfUri, endOfUri - startOfUri);
+                string[] strLst = { "</ext>" };
+                listOfExts = extNodesOnly.Split(strLst, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                uriToIndex.Add(uri, i);
-                listOfExts[i] += "</ext>";
+                for (int i = 0; i < listOfExts.Count; i++)
+                {
+                    int startOfUri = listOfExts[i].LastIndexOf("{");
+                    int endOfUri = listOfExts[i].LastIndexOf("}") + 1;
+
+                    string uri = listOfExts[i].Substring(startOfUri, endOfUri - startOfUri);
+
+                    uriToIndex.Add(uri, i);
+                    listOfExts[i] += "</ext>";
+                }
             }
         }
 
