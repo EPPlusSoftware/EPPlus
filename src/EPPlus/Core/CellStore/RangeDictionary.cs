@@ -94,12 +94,6 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return false;
         }
-        private static bool ExistsInSpan(int fromRow, int toRow, long r)
-        {
-            var fr = (int)(r >> 20) + 1;
-            var tr = (int)(r & 0xFFFFF) + 1;
-            return fr <= toRow && tr >= fromRow;
-        }
         internal T this[int row, int column]
         {
             get
@@ -154,36 +148,7 @@ namespace OfficeOpenXml.Core.CellStore
             }
             AddRowSpan(col, row,row, value);
         }
-        private void AddRowSpan(int col, int fromRow, int toRow, T value)
-        {
-            List<RangeItem> rows;
-            long rowSpan = ((fromRow - 1) << 20) | (toRow - 1);
-            if (_addresses.TryGetValue(col, out rows) == false)
-            {
-                rows = new List<RangeItem>();
-                _addresses.Add(col, rows);
-            }
-            if(rows.Count==0)
-            {
-                rows.Add(new RangeItem(rowSpan, value));
-                return;
-            }
-            var ri = new RangeItem(rowSpan, value);
-            var ix = rows.BinarySearch(ri);
-            if(ix < 0)
-            {
-                ix = ~ix;
-                if(ix < rows.Count)
-                {
-                    rows.Insert(ix, ri);
-                }
-                else
-                {
-                    rows.Add(new RangeItem(rowSpan, value));
-                }
-            }
-        }
-        internal void InsertRow(int fromRow, int noRows, int fromCol=1, int toCol=ExcelPackage.MaxRows)
+        internal void InsertRow(int fromRow, int noRows, int fromCol=1, int toCol=ExcelPackage.MaxColumns)
         {
             long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);            
             foreach(var c in _addresses.Keys)
@@ -223,7 +188,7 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
-        internal void DeleteRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxRows)
+        internal void DeleteRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
         {
             long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
             foreach (var c in _addresses.Keys)
@@ -276,5 +241,55 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
+        internal void InsertColumn(int fromCol, int noCols, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
+        {
+            //Full column
+            if(fromRow<=1 && toRow >=ExcelPackage.MaxRows)
+            {
+                AddFullColumn(fromCol, noCols);
+            }
+        }
+
+        private static void AddFullColumn(int fromCol, int noCols)
+        {
+            AddFullColumn(fromCol, noCols);
+        }
+
+        private static bool ExistsInSpan(int fromRow, int toRow, long r)
+        {
+            var fr = (int)(r >> 20) + 1;
+            var tr = (int)(r & 0xFFFFF) + 1;
+            return fr <= toRow && tr >= fromRow;
+        }
+        private void AddRowSpan(int col, int fromRow, int toRow, T value)
+        {
+            List<RangeItem> rows;
+            var rowSpan = ((long)(fromRow - 1) << 20) | (long)(toRow - 1);
+            if (_addresses.TryGetValue(col, out rows) == false)
+            {
+                rows = new List<RangeItem>(1000000);
+                _addresses.Add(col, rows);
+            }
+            if (rows.Count == 0)
+            {
+                rows.Add(new RangeItem(rowSpan, value));
+                return;
+            }
+            var ri = new RangeItem(rowSpan, value);
+            var ix = rows.BinarySearch(ri);
+            if (ix < 0)
+            {
+                ix = ~ix;
+                if (ix < rows.Count)
+                {
+                    rows.Insert(ix, ri);
+                }
+                else
+                {
+                    rows.Add(ri);
+                }
+            }
+        }
+
     }
 }
