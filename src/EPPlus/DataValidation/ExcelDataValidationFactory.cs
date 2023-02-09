@@ -20,6 +20,7 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     internal static class ExcelDataValidationFactory
     {
+
         /// <summary>
         /// Creates an instance of <see cref="ExcelDataValidation"/> out of the given parameters.
         /// </summary>
@@ -31,6 +32,13 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid"></param>
         /// <returns></returns>
         ///
+
+        /// <summary>
+        /// Creates an instance of <see cref="ExcelDataValidation"/> out of the reader.
+        /// </summary>
+        /// <param name="xr"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         internal static ExcelDataValidation Create(XmlReader xr)
         {
             string validationTypeName = xr.GetAttribute("type") == null ? "" : xr.GetAttribute("type");

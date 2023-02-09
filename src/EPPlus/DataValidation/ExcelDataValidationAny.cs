@@ -20,11 +20,16 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public class ExcelDataValidationAny : ExcelDataValidation, IExcelDataValidationAny
     {
-        internal ExcelDataValidationAny(XmlReader xr) : base(xr)
+
+        internal ExcelDataValidationAny(string uid, string address) : base(uid, address)
         {
         }
 
-        internal ExcelDataValidationAny(string uid, string address) : base(uid, address)
+        /// <summary>
+        /// Constructor for reading data
+        /// </summary>
+        /// <param name="xr">The XmlReader to read from</param>
+        internal ExcelDataValidationAny(XmlReader xr) : base(xr)
         {
         }
 

@@ -92,52 +92,6 @@ namespace OfficeOpenXml.ExcelXMLWriter
             sw.Write(xml.Substring(oldEnd, start - oldEnd));
         }
 
-        internal void PutPositionAfterInitialNode(StreamWriter sw, string xml, string nodeName,
-            ref int start, ref int end)
-        {
-            int oldEnd = end;
-            GetBlockPos(xml, nodeName, ref start, ref end);
-            string test = xml.Substring(start, start + $"<{nodeName}>".Length - oldEnd);
-            sw.Write(test);
-            //return xml.Substring(start + $"<{nodeName}>".Length, end - start - $"<{nodeName}>".Length);
-        }
-
-        internal void WriteAllPartsOfNodeExceptInitialNode(StreamWriter sw, string xml, string nodeName,
-            ref int start, ref int end)
-        {
-            int oldEnd = end;
-            GetBlockPos(xml, nodeName, ref start, ref end);
-            sw.Write(xml.Substring(start + $"<{nodeName}>".Length, end - start - $"<{nodeName}>".Length));
-        }
-
-        internal void InsertMethodAtTopOfNode(StreamWriter sw, string xml, string nodeName,
-            ref int start, ref int end, Action writeXmlContent)
-        {
-            PutPositionAfterInitialNode(sw, xml, nodeName, ref start, ref end);
-            writeXmlContent();
-            WriteAllPartsOfNodeExceptInitialNode(sw, xml, nodeName, ref start, ref end);
-        }
-
-        internal string EraseStartNodeReturnString(StreamWriter sw, string xml, string nodeName,
-            ref int start, ref int end)
-        {
-            int oldEnd = end;
-            GetBlockPos(xml, nodeName, ref start, ref end);
-
-            sw.Write(xml.Substring(oldEnd, start - oldEnd));
-            return xml.Substring(start + $"<{nodeName}>".Length, end - start - $"<{nodeName}>".Length);
-        }
-
-        internal void PutPostionAtEndOfNode(StreamWriter sw, string xml, string nodeName,
-            ref int start, ref int end, int startOffset)
-        {
-            int previousEnd = end;
-            start = end;
-            GetBlockPos(xml, nodeName, ref start, ref end);
-
-            sw.Write(xml.Substring(start - startOffset, end - previousEnd - $"</{nodeName}>".Length));
-        }
-
         private void GetBlockPos(string xml, string tag, ref int start, ref int end)
         {
             Match startmMatch, endMatch;

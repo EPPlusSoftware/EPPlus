@@ -26,10 +26,9 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
         internal ExcelDataValidationDateTime(string uid, string address, string worksheetName)
             : base(uid, address, worksheetName)
         {
@@ -37,16 +36,23 @@ namespace OfficeOpenXml.DataValidation
             Formula2 = new ExcelDataValidationFormulaDateTime(null, Uid, worksheetName, OnFormulaChanged);
         }
 
+        /// <summary>
+        /// Constructor for reading data
+        /// </summary>
+        /// <param name="xr">The XmlReader to read from</param>
         internal ExcelDataValidationDateTime(XmlReader xr)
             : base(xr)
         {
-
         }
+
+        /// <summary>
+        /// Property for determining type of validation
+        /// </summary>
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.DateTime);
 
         internal override IExcelDataValidationFormulaDateTime DefineFormulaClassType(string formulaValue, string sheetName)
         {
             return new ExcelDataValidationFormulaDateTime(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
-        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.DateTime);
     }
 }

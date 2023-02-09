@@ -25,10 +25,9 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
         internal ExcelDataValidationDecimal(string uid, string address, string worksheetName)
             : base(uid, address, worksheetName)
         {
@@ -36,11 +35,18 @@ namespace OfficeOpenXml.DataValidation
             Formula2 = new ExcelDataValidationFormulaDecimal(null, uid, worksheetName, OnFormulaChanged);
         }
 
+        /// <summary>
+        /// Constructor for reading data
+        /// </summary>
+        /// <param name="xr">The XmlReader to read from</param>
         internal ExcelDataValidationDecimal(XmlReader xr)
             : base(xr)
         {
-
         }
+
+        /// <summary>
+        /// Property for determining type of validation
+        /// </summary>
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Decimal);
 
 

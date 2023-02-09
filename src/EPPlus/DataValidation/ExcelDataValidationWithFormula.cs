@@ -30,20 +30,22 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="workSheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
         internal ExcelDataValidationWithFormula(string uid, string address, string workSheetName)
             : base(uid, address)
         {
             _workSheetName = workSheetName;
         }
 
+        /// <summary>
+        /// Constructor for reading data
+        /// </summary>
+        /// <param name="xr">The XmlReader to read from</param>
         internal ExcelDataValidationWithFormula(XmlReader xr)
             : base(xr)
         {
-
         }
 
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)

@@ -33,6 +33,17 @@ namespace OfficeOpenXml.DataValidation
         internal ExcelDataValidationWithFormula2(string uid, string address, string workSheetName)
             : base(uid, address, workSheetName)
         {
+
+        }
+
+        /// <summary>
+        /// Constructor for reading data
+        /// </summary>
+        /// <param name="xr">The XmlReader to read from</param>
+        internal ExcelDataValidationWithFormula2(XmlReader xr)
+            : base(xr)
+        {
+
         }
 
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
@@ -43,12 +54,6 @@ namespace OfficeOpenXml.DataValidation
             {
                 Formula2 = ReadFormula(xr, "formula2");
             }
-        }
-
-        internal ExcelDataValidationWithFormula2(XmlReader xr)
-            : base(xr)
-        {
-
         }
 
         /// <summary>

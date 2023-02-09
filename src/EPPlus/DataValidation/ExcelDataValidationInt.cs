@@ -23,6 +23,11 @@ namespace OfficeOpenXml.DataValidation
     {
         bool _isTextLength = false;
 
+        /// <summary>
+        /// Constructor for reading data
+        /// </summary>
+        /// <param name="xr">The XmlReader to read from</param>
+        ///  <param name="isTextLength">Bool to define type of int validation</param>
         internal ExcelDataValidationInt(XmlReader xr, bool isTextLength = false) : base(xr)
         {
             _isTextLength = isTextLength;
@@ -31,10 +36,10 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
+        /// <param name="isTextLength">Bool to define type of int validation</param>
         internal ExcelDataValidationInt(string uid, string address, string worksheetName, bool isTextLength = false) : base(uid, address, worksheetName)
         {
             //Initilization of forumlas so they don't cause nullref
@@ -43,13 +48,16 @@ namespace OfficeOpenXml.DataValidation
             _isTextLength = isTextLength;
         }
 
+        /// <summary>
+        /// Property for determining type of validation
+        /// </summary>
+        public override ExcelDataValidationType ValidationType => _isTextLength ?
+            new ExcelDataValidationType(eDataValidationType.TextLength) :
+            new ExcelDataValidationType(eDataValidationType.Whole);
+
         internal override IExcelDataValidationFormulaInt DefineFormulaClassType(string formulaValue, string worksheetName)
         {
             return new ExcelDataValidationFormulaInt(formulaValue, Uid, worksheetName, OnFormulaChanged);
         }
-
-        public override ExcelDataValidationType ValidationType => _isTextLength ?
-            new ExcelDataValidationType(eDataValidationType.TextLength) :
-            new ExcelDataValidationType(eDataValidationType.Whole);
     }
 }

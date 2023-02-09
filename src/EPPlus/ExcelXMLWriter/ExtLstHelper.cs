@@ -43,26 +43,19 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 }
             }
         }
-
         /// <summary>
         /// Inserts content after the uriNode
         /// Note that this is only intended to be done once per type of node and it will throw error
         /// if the same uri is attempted in two separate calls or if it's already been read in initally.
-        /// If <param name="uriOfNodeBefore"> is blank sets content as the first ext</param>
         /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="content"></param>
+        /// If <param name="uriOfNodeBefore"> is blank sets content as the first ext</param>
         internal void InsertExt(string uri, string content, string uriOfNodeBefore)
         {
             int indexOfNode = -1;
             if (uriOfNodeBefore != "")
             {
-                //    for (int i = 0; i < listOfExts.Count; i++)
-                //    {
-                //        if (listOfExts[i].Contains(uriOfNodeBefore))
-                //        {
-                //            indexOfNode = i;
-                //            i = listOfExts.Count;
-                //        }
-                //    }
                 indexOfNode = uriToIndex[uriOfNodeBefore];
             }
 
