@@ -22,6 +22,7 @@ using System.Xml;
 using System.Text;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -682,7 +683,7 @@ namespace OfficeOpenXml.ExternalReferences
                 {
                     if (!CachedWorksheets.ContainsKey(formulaAddress.WorkSheetName))
                     {
-                        CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = true });
+                        CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = formulaAddress.WorkSheetName, RefreshError = true });
                     }
                 }
                 else
