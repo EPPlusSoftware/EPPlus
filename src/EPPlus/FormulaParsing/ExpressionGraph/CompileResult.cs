@@ -164,7 +164,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             get 
             {
-                return DataType == DataType.Decimal || DataType == DataType.Integer || DataType == DataType.Empty || DataType == DataType.Boolean || DataType == DataType.Date; 
+                return DataType == DataType.Decimal || DataType == DataType.Integer || DataType == DataType.Empty || DataType == DataType.Boolean || DataType == DataType.Date || DataType == DataType.Time; 
             }
         }
 

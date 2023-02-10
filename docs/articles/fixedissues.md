@@ -1,5 +1,16 @@
 ﻿# Features / Fixed issues - EPPlus 6
 
+## Version 6.1.2
+### Fixed issues
+* Fixed an issue with the Roman function. Thanks to ihorbach.
+* Fixed a performance issue with calculated table columns.
+* Having hyperlinks longer than 2079 characters resulted in a corrupt workbook. EPPlus will now crop hyperlinks over 2079 characters
+* Date functions Month, Day, Hour,Second and DateDiff used InvariantCulture instead of CurrentCulture.
+* Checkboxes in the style dialog for named styles was not retained after a workbook was saved with EPPlus.Thanks to ihorbach.
+* Iterating over a range with multiple comma-separated ranges iterated the first range twice.
+* Creating Array Formulas via the ExcelRange.CreateArrayFormula did not create the formula correctly.
+* Custom row heights was not copied correctly.
+
 ## Version 6.1.1
 ### Minor features
 * Add support for linking a cell to a chart title text

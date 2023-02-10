@@ -80,7 +80,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 51
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -124,7 +124,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 63
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -161,7 +161,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 76
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -203,7 +203,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Insert
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 88
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -245,7 +245,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 185
+    startLine: 188
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -277,7 +277,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 199
+    startLine: 202
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -313,7 +313,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 209
+    startLine: 212
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -349,7 +349,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 219
+    startLine: 222
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -386,7 +386,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlText
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 253
+    startLine: 256
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -424,7 +424,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.ExcelRichText>.GetEnumerator
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 267
+    startLine: 270
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -457,7 +457,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Style/ExcelRichTextCollection.cs
-    startLine: 276
+    startLine: 279
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

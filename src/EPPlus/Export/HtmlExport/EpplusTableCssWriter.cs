@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Export.HtmlExport
                 if(styleId>0)
                 {
                     var xfs = _table.WorkSheet.Workbook.Styles.CellXfs[styleId];
-                    if(xfs.ApplyAlignment)
+                    if(xfs.ApplyAlignment??true)
                     {
                         hAlign = GetHorizontalAlignment(xfs);
                         vAlign = GetVerticalAlignment(xfs);

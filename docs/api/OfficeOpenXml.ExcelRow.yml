@@ -196,7 +196,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomHeight
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 149
+    startLine: 150
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -233,7 +233,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 175
+    startLine: 176
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -270,7 +270,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 190
+    startLine: 191
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -307,7 +307,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 205
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -344,7 +344,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 213
+    startLine: 214
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -381,7 +381,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 236
+    startLine: 237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -418,7 +418,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 274
+    startLine: 275
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -455,7 +455,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 298
+    startLine: 299
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -492,7 +492,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 308
+    startLine: 309
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -529,7 +529,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merged
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 331
+    startLine: 332
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

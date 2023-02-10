@@ -323,24 +323,28 @@ namespace OfficeOpenXml.Drawing
         }
         internal void SetPositionAndSizeFromChildren()
         {
-            double t = Drawings[0]._top, l = Drawings[0]._left, b = Drawings[0]._top + Drawings[0]._height, r=Drawings[0]._left + Drawings[0]._width;
-            for(int i=1;i<Drawings.Count;i++)
+            var pd = Drawings[0];
+            pd.GetPositionSize();
+            double t = pd._top, l = pd._left, b = pd._top + pd._height, r = pd._left + pd._width;
+            for (int i = 1; i < Drawings.Count; i++)
             {
-                if(t>Drawings[i]._top)
+                var d = Drawings[i];
+                d.GetPositionSize();
+                if (t > d._top)
                 {
-                   t = Drawings[i]._top;
+                    t = d._top;
                 }
-                if (l > Drawings[i]._left)
+                if (l > d._left)
                 {
-                    l = Drawings[i]._left;
+                    l = d._left;
                 }
-                if (r < Drawings[i]._left+Drawings[i]._width)
+                if (r < d._left + d._width)
                 {
-                    r = Drawings[i]._left + Drawings[i]._width;
+                    r = d._left + d._width;
                 }
-                if (b < Drawings[i]._top + Drawings[i]._height)
+                if (b < d._top + d._height)
                 {
-                    b = Drawings[i]._top + Drawings[i]._height;
+                    b = d._top + d._height;
                 }
             }
 

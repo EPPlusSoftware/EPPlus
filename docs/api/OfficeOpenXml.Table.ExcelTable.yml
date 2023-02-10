@@ -2192,7 +2192,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1325
+    startLine: 1326
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2229,7 +2229,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1339
+    startLine: 1340
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
