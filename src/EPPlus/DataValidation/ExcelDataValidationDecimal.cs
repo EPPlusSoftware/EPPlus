@@ -45,14 +45,33 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy"></param>
+        internal ExcelDataValidationDecimal(ExcelDataValidationDecimal copy) : base(copy)
+        {
+            Formula = copy.Formula;
+            Formula2 = copy.Formula2;
+        }
+
+        /// <summary>
         /// Property for determining type of validation
         /// </summary>
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Decimal);
 
-
         internal override IExcelDataValidationFormulaDecimal DefineFormulaClassType(string formulaValue, string sheetName)
         {
             return new ExcelDataValidationFormulaDecimal(formulaValue, Uid, sheetName, OnFormulaChanged);
+        }
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationDecimal(this);
+        }
+
+        ExcelDataValidationDecimal Clone()
+        {
+            return (ExcelDataValidationDecimal)GetClone();
         }
     }
 }

@@ -35,17 +35,43 @@ namespace OfficeOpenXml.DataValidation
             Formula2 = new ExcelDataValidationFormulaTime(null, uid, worksheetName, OnFormulaChanged);
         }
 
+        /// <summary>
+        /// Constructor for reading data
+        /// </summary>
+        /// <param name="xr">The XmlReader to read from</param>
         internal ExcelDataValidationTime(XmlReader xr)
             : base(xr)
         {
-
         }
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy"></param>
+        internal ExcelDataValidationTime(ExcelDataValidationTime copy) : base(copy)
+        {
+            Formula = copy.Formula;
+            Formula2 = copy.Formula2;
+        }
+
+        /// <summary>
+        /// Property for determining type of validation
+        /// </summary>
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Time);
 
         internal override IExcelDataValidationFormulaTime DefineFormulaClassType(string formulaValue, string sheetName)
         {
             return new ExcelDataValidationFormulaTime(formulaValue, Uid, sheetName, OnFormulaChanged);
         }
 
-        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Time);
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationTime(this);
+        }
+
+        ExcelDataValidationTime Clone()
+        {
+            return (ExcelDataValidationTime)GetClone();
+        }
     }
 }

@@ -48,6 +48,15 @@ namespace OfficeOpenXml.DataValidation
         {
         }
 
+        /// <summary>
+        /// Copy Constructor
+        /// </summary>
+        /// <param name="copy"></param>
+        internal ExcelDataValidationWithFormula(ExcelDataValidation copy)
+            : base(copy)
+        {
+        }
+
         internal override void ReadClassSpecificXmlNodes(XmlReader xr)
         {
             base.ReadClassSpecificXmlNodes(xr);

@@ -30,6 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace EPPlusTest.DataValidation
@@ -310,6 +311,63 @@ namespace EPPlusTest.DataValidation
                 Assert.IsTrue(dateTimeValidation.AllowsOperator);
                 Assert.IsTrue(timeValidation.AllowsOperator);
                 Assert.IsTrue(customValidation.AllowsOperator);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidations_CloneShouldDeepCopy()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var validation = wks.DataValidations.AddIntegerValidation("A1");
+                var clone = ((ExcelDataValidationInt)validation).GetClone();
+                clone.Address = new ExcelAddress("A2");
+
+                Assert.AreNotEqual(validation.Address, clone.Address);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldCopyAllProperties()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                List<ExcelDataValidation> validations = new List<ExcelDataValidation>
+                {
+                    (ExcelDataValidation)wks.DataValidations.AddIntegerValidation("A1"),
+                    (ExcelDataValidation)wks.DataValidations.AddDecimalValidation("A2"),
+                    (ExcelDataValidation)wks.DataValidations.AddTextLengthValidation("A3"),
+                    (ExcelDataValidation)wks.DataValidations.AddDateTimeValidation("A4"),
+                    (ExcelDataValidation)wks.DataValidations.AddTimeValidation("A5"),
+                    (ExcelDataValidation)wks.DataValidations.AddCustomValidation("A6"),
+                    (ExcelDataValidation)wks.DataValidations.AddAnyValidation("A7"),
+                    (ExcelDataValidation)wks.DataValidations.AddListValidation("A9")
+                };
+
+                foreach (var validation in validations)
+                {
+                    validation.AllowBlank = true;
+                    validation.Prompt = "prompt";
+                    validation.PromptTitle = "promptTitle";
+                    validation.Error = "error";
+                    validation.ErrorTitle = "errorTitle";
+                    validation.ShowInputMessage = true;
+                    validation.ShowErrorMessage = true;
+                    validation.ErrorStyle = ExcelDataValidationWarningStyle.information;
+
+                    var clone = validation.GetClone();
+
+                    Assert.AreEqual(validation.AllowBlank, clone.AllowBlank);
+                    Assert.AreEqual(validation.Prompt, clone.Prompt);
+                    Assert.AreEqual(validation.Error, clone.Error);
+                    Assert.AreEqual(validation.ErrorTitle, clone.ErrorTitle);
+                    Assert.AreEqual(validation.ShowInputMessage, clone.ShowInputMessage);
+                    Assert.AreEqual(validation.ShowErrorMessage, clone.ShowErrorMessage);
+                    Assert.AreEqual(validation.ErrorStyle, clone.ErrorStyle);
+                }
             }
         }
     }

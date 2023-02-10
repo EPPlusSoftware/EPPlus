@@ -38,6 +38,14 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy"></param>
+        internal ExcelDataValidationAny(ExcelDataValidationAny copy) : base(copy)
+        {
+        }
+
+        /// <summary>
         /// True if the current validation type allows operator.
         /// </summary>
         public override bool AllowsOperator { get { return false; } }
@@ -46,5 +54,15 @@ namespace OfficeOpenXml.DataValidation
         /// Validation type
         /// </summary>
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Any);
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationAny(this);
+        }
+
+        internal ExcelDataValidationAny Clone()
+        {
+            return (ExcelDataValidationAny)GetClone();
+        }
     }
 }

@@ -72,13 +72,6 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public class ExcelDataValidationType
     {
-        //private ExcelDataValidationType(eDataValidationType validationType, bool allowOperator, string schemaName)
-        //{
-        //    Type = validationType;
-        //    AllowOperator = allowOperator;
-        //    SchemaName = schemaName;
-        //}
-
         internal ExcelDataValidationType(eDataValidationType validationType) { Type = validationType; }
 
         /// <summary>

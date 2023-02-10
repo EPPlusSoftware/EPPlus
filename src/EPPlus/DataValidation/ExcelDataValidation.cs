@@ -23,6 +23,11 @@ namespace OfficeOpenXml.DataValidation
     /// </summary>
     public abstract class ExcelDataValidation : IExcelDataValidation
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="uid">Id for validation</param>
+        /// <param name="address">adress validation is applied to</param>
         protected ExcelDataValidation(string uid, string address)
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");
@@ -32,9 +37,33 @@ namespace OfficeOpenXml.DataValidation
             Address = new ExcelAddress(CheckAndFixRangeAddress(address));
         }
 
+        /// <summary>
+        /// Read-File Constructor
+        /// </summary>
+        /// <param name="xr"></param>
         protected ExcelDataValidation(XmlReader xr)
         {
             LoadXML(xr);
+        }
+
+        /// <summary>
+        /// Copy-Constructor
+        /// </summary>
+        /// <param name="validation">Validation to copy from</param>
+        protected ExcelDataValidation(ExcelDataValidation validation)
+        {
+            Uid = validation.Uid;
+            Address = validation.Address;
+            ValidationType = validation.ValidationType;
+            ErrorStyle = validation.ErrorStyle;
+            AllowBlank = validation.AllowBlank;
+            ShowInputMessage = validation.ShowInputMessage;
+            ShowErrorMessage = validation.ShowErrorMessage;
+            ErrorTitle = validation.ErrorTitle;
+            Error = validation.Error;
+            PromptTitle = validation.PromptTitle;
+            Prompt = validation.Prompt;
+            operatorString = validation.operatorString;
         }
 
         /// <summary>
@@ -141,7 +170,7 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
         /// DEPRECATED as of TODO:insert version nr.
-        /// This as validations can no longer be stale since all attributes are always fresh and held in the system.
+        /// This as validations can no longer be stale since all attributes are now always fresh and held in the system.
         /// </summary>
         [Obsolete]
         public bool IsStale { get; } = false;
@@ -214,12 +243,11 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        /// <summary>
+        /// Type to determine if extLst or not
+        /// </summary>
         internal InternalValidationType InternalValidationType { get; set; } = InternalValidationType.DataValidation;
 
-        internal void SetInternalValidationType(InternalValidationType type)
-        {
-            InternalValidationType = type;
-        }
 
         /// <summary>
         /// Event method for changing internal type when referring to an external worksheet.
@@ -283,6 +311,12 @@ namespace OfficeOpenXml.DataValidation
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
             Address = new ExcelAddress(address);
         }
+
+        /// <summary>
+        /// Create a Deep-Copy of this validation.
+        /// Note that one should also implement a separate clone() method casting to the child class
+        /// </summary>
+        internal abstract ExcelDataValidation GetClone();
     }
 }
 

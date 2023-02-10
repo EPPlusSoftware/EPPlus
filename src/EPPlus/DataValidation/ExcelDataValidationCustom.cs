@@ -44,14 +44,33 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy"></param>
+        internal ExcelDataValidationCustom(ExcelDataValidationCustom copy) : base(copy)
+        {
+            Formula = copy.Formula;
+        }
+
+        /// <summary>
         /// Property for determining type of validation
         /// </summary>
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Custom);
 
-
         override internal IExcelDataValidationFormula DefineFormulaClassType(string formulaValue, string sheetName)
         {
             return new ExcelDataValidationFormulaCustom(formulaValue, Uid, sheetName, OnFormulaChanged);
+
+        }
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationCustom(this);
+        }
+
+        ExcelDataValidationAny Clone()
+        {
+            return (ExcelDataValidationAny)GetClone();
         }
     }
 }

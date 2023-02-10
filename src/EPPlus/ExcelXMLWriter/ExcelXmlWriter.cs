@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Compatibility;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  02/10/2023       EPPlus Software AB       Initial release EPPlus 6.2
+ *************************************************************************************************/
+using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
@@ -14,7 +26,6 @@ using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
-using System.Text.RegularExpressions;
 using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.ExcelXMLWriter
@@ -25,13 +36,25 @@ namespace OfficeOpenXml.ExcelXMLWriter
         ExcelPackage _package;
         private Dictionary<int, int> columnStyles = null;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// <param name="package"></param>
         public ExcelXmlWriter(ExcelWorksheet worksheet, ExcelPackage package)
         {
             _ws = worksheet;
             _package = package;
         }
 
-        internal void WriteNodes(StreamWriter sw, string xml, bool createNewExtLst, ref int startOfNode, ref int endOfNode)
+        /// <summary>
+        /// Replaces placeholder nodes by writing the system's held information
+        /// </summary>
+        /// <param name="sw">The streamwriter file info is written to</param>
+        /// <param name="xml">The original XML</param>
+        /// <param name="startOfNode">Start position of the current node</param>
+        /// <param name="endOfNode">End position of the current node</param>
+        internal void WriteNodes(StreamWriter sw, string xml, ref int startOfNode, ref int endOfNode)
         {
             var prefix = _ws.GetNameSpacePrefix();
 
@@ -67,7 +90,9 @@ namespace OfficeOpenXml.ExcelXMLWriter
             {
                 ExtLstHelper extLst = new ExtLstHelper(xml);
                 FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
+
                 extLst.InsertExt(ExtLstUris.DataValidationsUri, UpdateExtLstDataValidations(prefix), "");
+
                 sw.Write(extLst.GetWholeExtLst());
             }
 
@@ -78,7 +103,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
             ref int start, ref int end)
         {
             start = end;
-            GetBlockPos(xml, nodeName, ref start, ref end);
+            GetBlock.Pos(xml, nodeName, ref start, ref end);
 
             sw.Write(xml.Substring(0, start));
         }
@@ -87,36 +112,9 @@ namespace OfficeOpenXml.ExcelXMLWriter
             ref int start, ref int end)
         {
             int oldEnd = end;
-            GetBlockPos(xml, nodeName, ref start, ref end);
+            GetBlock.Pos(xml, nodeName, ref start, ref end);
 
             sw.Write(xml.Substring(oldEnd, start - oldEnd));
-        }
-
-        private void GetBlockPos(string xml, string tag, ref int start, ref int end)
-        {
-            Match startmMatch, endMatch;
-            startmMatch = Regex.Match(xml.Substring(start), string.Format("(<[^>]*{0}[^>]*>)", tag)); //"<[a-zA-Z:]*" + tag + "[?]*>");
-
-            if (!startmMatch.Success) //Not found
-            {
-                start = -1;
-                end = -1;
-                return;
-            }
-            var startPos = startmMatch.Index + start;
-            if (startmMatch.Value.Substring(startmMatch.Value.Length - 2, 1) == "/")
-            {
-                end = startPos + startmMatch.Length;
-            }
-            else
-            {
-                endMatch = Regex.Match(xml.Substring(start), string.Format("(</[^>]*{0}[^>]*>)", tag));
-                if (endMatch.Success)
-                {
-                    end = endMatch.Index + endMatch.Length + start;
-                }
-            }
-            start = startPos;
         }
 
         /// <summary>
@@ -860,9 +858,13 @@ namespace OfficeOpenXml.ExcelXMLWriter
             }
         }
 
+        /// <summary>
+        /// ExtLst updater for DataValidations
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
         private string UpdateExtLstDataValidations(string prefix)
         {
-            //sw.Write("<extLst>");
             var cache = new StringBuilder();
 
             cache.Append($"<ext uri=\"{ExtLstUris.DataValidationsUri}\">");
@@ -876,10 +878,6 @@ namespace OfficeOpenXml.ExcelXMLWriter
             cache.Append("</ext>");
 
             return cache.ToString();
-            //if (createNewExLst)
-            //{
-            //    sw.Write("</extLst>");
-            //}
         }
     }
 }
