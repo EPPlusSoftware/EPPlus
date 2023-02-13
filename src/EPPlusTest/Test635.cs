@@ -2,7 +2,6 @@
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
@@ -34,7 +33,6 @@ namespace EPPlusTest
         {
             using (ExcelPackage package = OpenTemplatePackage("ExtLstDataValidationValidation.xlsx"))
             {
-
                 //var workSheet = package.Workbook.Worksheets[0];
                 //var extSheet = package.Workbook.Worksheets.Add("extTest");
                 //extSheet.Cells["A1"].Value = "1";
@@ -70,6 +68,7 @@ namespace EPPlusTest
                     validation.Formula2.ExcelFormula = "2022/01/06";
                 }
                 Debug.WriteLine($"{stopWatch.Elapsed}");
+                Assert.IsTrue(stopWatch.Elapsed.Seconds < 40);
                 stopWatch.Stop();
 
                 Debug.WriteLine($"----Saving Package------");
@@ -197,14 +196,6 @@ namespace EPPlusTest
                 validationLocal.Formula.Value = 6;
                 validationLocal.Formula2.ExcelFormula = "=ExtSheet!A2";
 
-                // Alternatively:
-                //var validation = sheet.Cells["A1:A2"].DataValidation;
-
-                //validation.AddAnyDataValidation();
-                //var validation2 = validation.AddDateTimeDataValidation();
-
-                //validation2.ErrorStyle = ExcelDataValidationWarningStyle.stop;
-
                 var validation = sheet2.DataValidations.AddIntegerValidation("A1");
 
                 validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
@@ -223,80 +214,5 @@ namespace EPPlusTest
                 //TODO: Assert that sheets are valid xmls here.
             }
         }
-
-        private void SpeedTest(Func<TestClass> function)
-        {
-            var testList = new List<TestClass>();
-            var stopWatch = Stopwatch.StartNew();
-
-            for (int i = 0; i < 100000; i++)
-            {
-                TestClass test = function();
-
-                testList.Add(test);
-            }
-
-            Debug.WriteLine($"{stopWatch.Elapsed}");
-            stopWatch.Stop();
-            testList.Clear();
-        }
-
-
-        [TestMethod]
-        public void SpeedTestNewNoArgs()
-        {
-            Debug.WriteLine("---New Start---");
-            SpeedTest(delegate { return new TestClass(); });
-        }
-
-        [TestMethod]
-        public void SpeedTestActivatorNoArgs()
-        {
-            Debug.WriteLine("---Activator Start---");
-            SpeedTest(Activator.CreateInstance<TestClass>);
-        }
-
-        [TestMethod]
-        public void SpeedTestCompiledLambdaExpressionNoArgsNoWarmUp()
-        {
-            Debug.WriteLine("---LambdaNoWarmUp Start---");
-            SpeedTest(New<TestClass>.Instance);
-        }
-
-        [TestMethod]
-        public void SpeedTestCompiledLambdaExpressionNoArgs()
-        {
-            Debug.WriteLine("---Lambda Start---");
-            //Note: This is neccesary in order to "warm-up" the instantiation;
-            New<TestClass>.Instance();
-            SpeedTest(New<TestClass>.Instance);
-
-        }
-
-        [TestMethod]
-        public void SpeedTestNewArgs()
-        {
-            Debug.WriteLine("---NewArgs Start---");
-            SpeedTest(delegate { return new TestClass("TestName", 5); });
-        }
-
-        [TestMethod]
-        public void SpeedTestActivatorArgs()
-        {
-            Debug.WriteLine("---ActivatorArgs Start---");
-            SpeedTest(
-                delegate
-                {
-                    return (TestClass)Activator.CreateInstance(typeof(TestClass), "TestName", 5);
-                }
-                );
-        }
-
-        //[TestMethod]
-        //public void SpeedTestCompiledLambdaArgs()
-        //{
-        //    Debug.WriteLine("---LambdaArgs Start---");
-        //    SpeedTest(delegate { return (TestClass)typeof(TestClass).CreateInstance("TestName", 5); });
-        //}
     }
 }

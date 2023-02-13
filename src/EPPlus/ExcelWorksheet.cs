@@ -2927,7 +2927,7 @@ namespace OfficeOpenXml
                 int startOfNode = 0, endOfNode = 0;
 
                 ExcelXmlWriter writer = new ExcelXmlWriter(this, _package);
-                writer.WriteNodes(sw, xml, createNewExtLst, ref startOfNode, ref endOfNode);
+                writer.WriteNodes(sw, xml, ref startOfNode, ref endOfNode);
             }
             sw.Flush();
         }

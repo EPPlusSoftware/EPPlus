@@ -40,12 +40,23 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="isTextLength">Bool to define type of int validation</param>
-        internal ExcelDataValidationInt(string uid, string address, string worksheetName, bool isTextLength = false) : base(uid, address, worksheetName)
+        internal ExcelDataValidationInt(string uid, string address, string worksheetName, bool isTextLength = false)
+            : base(uid, address, worksheetName)
         {
             //Initilization of forumlas so they don't cause nullref
             Formula = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
             Formula2 = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
             _isTextLength = isTextLength;
+        }
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy"></param>
+        internal ExcelDataValidationInt(ExcelDataValidationInt copy) : base(copy)
+        {
+            Formula = copy.Formula;
+            Formula2 = copy.Formula2;
         }
 
         /// <summary>
@@ -59,5 +70,20 @@ namespace OfficeOpenXml.DataValidation
         {
             return new ExcelDataValidationFormulaInt(formulaValue, Uid, worksheetName, OnFormulaChanged);
         }
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationInt(this);
+        }
+
+        /// <summary>
+        /// Return a deep-copy clone of validation
+        /// </summary>
+        /// <returns></returns>
+        public ExcelDataValidationInt Clone()
+        {
+            return (ExcelDataValidationInt)GetClone();
+        }
+
     }
 }

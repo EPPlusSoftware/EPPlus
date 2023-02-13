@@ -46,6 +46,16 @@ namespace OfficeOpenXml.DataValidation
         }
 
         /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="copy"></param>
+        internal ExcelDataValidationDateTime(ExcelDataValidationDateTime copy) : base(copy)
+        {
+            Formula = copy.Formula;
+            Formula2 = copy.Formula;
+        }
+
+        /// <summary>
         /// Property for determining type of validation
         /// </summary>
         public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.DateTime);
@@ -53,6 +63,16 @@ namespace OfficeOpenXml.DataValidation
         internal override IExcelDataValidationFormulaDateTime DefineFormulaClassType(string formulaValue, string sheetName)
         {
             return new ExcelDataValidationFormulaDateTime(formulaValue, Uid, sheetName, OnFormulaChanged);
+        }
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationDateTime(this);
+        }
+
+        ExcelDataValidationDateTime Clone()
+        {
+            return (ExcelDataValidationDateTime)GetClone();
         }
     }
 }
