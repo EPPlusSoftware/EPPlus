@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Core.CellStore
                     {
                         return true;
                     }
-                    else
+                    else if(rows.Count > 0)
                     {
                         ix = ~ix;
                         if (ix < rows.Count)
@@ -218,7 +218,7 @@ namespace OfficeOpenXml.Core.CellStore
 
                         if(fr >= fromRow)
                         {
-                            if(fr >= fromRow + noRows && tr <= fromRow + noRows)
+                            if(fr >= fromRow && tr <= fromRow + noRows)
                             { 
                                 rows.RemoveAt(ix--);
                                 continue;

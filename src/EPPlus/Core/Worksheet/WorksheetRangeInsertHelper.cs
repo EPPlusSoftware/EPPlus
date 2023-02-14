@@ -240,13 +240,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift, isTable);
                 if (newAddress == null)
                 {
-
                     delDV.Add(dv);
                 }
                 else
                 {
-                    ((ExcelDataValidation)dv).SetAddress(newAddress.Address);
+                    dv.SetAddress(newAddress.Address);
                 }
+                ws.DataValidations.InsertRangeDictionary(range, shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn);
             }
             foreach (var dv in delDV)
             {
