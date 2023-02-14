@@ -370,5 +370,19 @@ namespace EPPlusTest.DataValidation
                 }
             }
         }
+        [TestMethod]
+        public void DataValidations_ShouldWriteReadIMEmode()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                var validation = wks.DataValidations.AddListValidation("A1");
+                validation.AllowBlank = true;
+                validation.ImeMode = ExcelDataValidationImeMode.fullKatakana;
+
+                pck.SaveAs("C:/epplusTest/Workbooks/ImeTest.xlsx");
+            }
+        }
     }
 }

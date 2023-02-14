@@ -102,6 +102,26 @@ namespace OfficeOpenXml.DataValidation
                     errorStyleString = value.ToString();
             }
         }
+
+        string imeModeString = null;
+        public ExcelDataValidationImeMode ImeMode
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(imeModeString))
+                    return (ExcelDataValidationImeMode.noControl);
+
+                return (ExcelDataValidationImeMode)Enum.Parse(typeof(ExcelDataValidationImeMode), imeModeString);
+            }
+            set
+            {
+                if (value == ExcelDataValidationImeMode.noControl)
+                    imeModeString = null;
+                else
+                    imeModeString = value.ToString();
+            }
+        }
+
         /// <summary>
         /// True if blanks should be allowed
         /// </summary>
@@ -270,6 +290,8 @@ namespace OfficeOpenXml.DataValidation
 
             operatorString = xr.GetAttribute("operator");
             errorStyleString = xr.GetAttribute("errorStyle");
+
+            imeModeString = xr.GetAttribute("imeMode");
 
             AllowBlank = xr.GetAttribute("allowBlank") == "1" ? true : false;
 

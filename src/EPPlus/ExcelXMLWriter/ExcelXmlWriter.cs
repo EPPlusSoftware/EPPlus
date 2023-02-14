@@ -571,7 +571,10 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 cache.Append($"errorStyle=\"{_ws.DataValidations[i].ErrorStyle.ToString()}\" ");
             }
 
-            //support IME mode here?
+            if (_ws.DataValidations[i].ImeMode != ExcelDataValidationImeMode.noControl)
+            {
+                cache.Append($"imeMode=\"{_ws.DataValidations[i].ImeMode.ToString()}\" ");
+            }
 
             if (_ws.DataValidations[i].Operator != 0)
             {

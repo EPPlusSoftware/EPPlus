@@ -233,13 +233,14 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
-            var delDV = new List<DataValidation.ExcelDataValidation>();
+            var delDV = new List<ExcelDataValidation>();
             //Update data validation references
             foreach (var dv in ws.DataValidations)
             {
                 var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift, isTable);
                 if (newAddress == null)
                 {
+
                     delDV.Add(dv);
                 }
                 else

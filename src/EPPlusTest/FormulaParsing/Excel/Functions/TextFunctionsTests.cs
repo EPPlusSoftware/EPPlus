@@ -26,18 +26,15 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+using EPPlusTest.FormulaParsing.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 
 namespace EPPlusTest.Excel.Functions.Text
@@ -149,7 +146,7 @@ namespace EPPlusTest.Excel.Functions.Text
         {
             var func = new Concat();
             List<object> args = new List<object>();
-            for(var i = 0; i < 255;  i++)
+            for (var i = 0; i < 255; i++)
             {
                 args.Add("arg " + i);
             }
@@ -265,7 +262,7 @@ namespace EPPlusTest.Excel.Functions.Text
         public void CleanShouldRemoveNonPrintableChars()
         {
             var input = new StringBuilder();
-            for(var x = 1; x < 32; x++)
+            for (var x = 1; x < 32; x++)
             {
                 input.Append((char)x);
             }
@@ -279,7 +276,7 @@ namespace EPPlusTest.Excel.Functions.Text
         public void UnicodeShouldReturnCorrectCode()
         {
             var func = new Unicode();
-            
+
             var result = func.Execute(FunctionsHelper.CreateArgs("B"), _parsingContext);
             Assert.AreEqual(66, result.Result);
 
@@ -347,7 +344,7 @@ namespace EPPlusTest.Excel.Functions.Text
         [TestMethod]
         public void TextjoinShouldReturnCorrectResult_IgnoreEmpty()
         {
-            using(var package = new ExcelPackage())
+            using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.Cells["A1"].Value = "Hello";
@@ -379,7 +376,7 @@ namespace EPPlusTest.Excel.Functions.Text
         [TestMethod]
         public void DollarShouldReturnCorrectResult()
         {
-            var expected = 123.46.ToString("C", CultureInfo.CurrentCulture);
+            var expected = 123.46.ToString("C2", CultureInfo.CurrentCulture);
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
