@@ -2900,10 +2900,13 @@ namespace OfficeOpenXml
                 CreateNode("d:rowBreaks");
                 CreateNode("d:colBreaks");
 
-                bool createNewExtLst = false;
                 if (DataValidations != null && DataValidations.Count != 0)
                 {
                     WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
+                    WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
+                    WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+                    WorksheetXml.DocumentElement.SetAttribute("Ignorable", "xr");
+
                     if (DataValidations.HasValidationType(InternalValidationType.DataValidation))
                     {
                         var node = (XmlElement)CreateNode("d:dataValidations");
@@ -2912,13 +2915,11 @@ namespace OfficeOpenXml
                             GetNode("d:extLst") == null)
                         {
                             CreateNode("d:extLst");
-                            createNewExtLst = true;
                         }
                     }
                     else if (GetNode("d:extLst") == null)
                     {
                         CreateNode("d:extLst");
-                        createNewExtLst = true;
                     }
                 }
 
