@@ -575,7 +575,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    ((ExcelDataValidation)dv).SetAddress(address.Address);
+                    dv.SetAddress(address.Address);
                 }
             }
             deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));

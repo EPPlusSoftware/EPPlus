@@ -682,7 +682,7 @@ namespace OfficeOpenXml.ExternalReferences
                 {
                     if (!CachedWorksheets.ContainsKey(formulaAddress.WorkSheetName))
                     {
-                        CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = ws.Name, RefreshError = true });
+                        CachedWorksheets.Add(new ExcelExternalWorksheet() { Name = formulaAddress.WorkSheetName, RefreshError = true });
                     }
                 }
                 else

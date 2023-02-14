@@ -194,8 +194,130 @@ namespace EPPlusTest.Core
             Assert.AreEqual(2, rd[2, 2]);
             Assert.AreEqual(2, rd[3, 3]);
             Assert.AreEqual(0, rd[4, 4]);
-
-            //Assert.AreEqual(2, rd[6, 2]);
         }
+        [TestMethod]
+        public void VerifyInsert1FullColumn()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
+
+            rd.InsertColumn(2, 1);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(1, rd[5, 6]);
+            Assert.AreEqual(0, rd[6, 6]);
+
+            Assert.AreEqual(2, rd[5, 9]);
+            Assert.AreEqual(2, rd[5, 11]);
+        }
+        [TestMethod]
+        public void VerifyInsert3FullColumn()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
+
+            rd.InsertColumn(2, 3);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 4]);
+            Assert.AreEqual(1, rd[3, 5]);
+            Assert.AreEqual(1, rd[5, 8]);
+            Assert.AreEqual(0, rd[6, 9]);
+
+            Assert.AreEqual(2, rd[5, 11]);
+            Assert.AreEqual(2, rd[5, 13]);
+        }
+        [TestMethod]
+        public void VerifyInsertPartialColumn()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
+
+            rd.InsertColumn(2, 1, 2, 3); //Row 2 and 3 - inside
+            rd.InsertColumn(2, 1, 6, 7); //Row 6 and 7 - between
+            rd.InsertColumn(2, 1, 15, 15); // Row 15 - Above.
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(1, rd[5, 5]);
+            Assert.AreEqual(0, rd[6, 6]);
+
+            Assert.AreEqual(2, rd[3, 9]);
+            Assert.AreEqual(2, rd[3, 11]);
+        }
+        [TestMethod]
+        public void VerifyDeletePartialColumn()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 10, 10, 2);
+
+            rd.DeleteColumn(2, 1, 2, 3);   //Row 2 and 3 - inside
+            rd.DeleteColumn(2, 2, 6, 9);   //Row 6 and 7 - between
+            rd.DeleteColumn(2, 1, 15, 15); // Row 15 - Above.
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 4]);
+            Assert.AreEqual(0, rd[2, 5]);
+            Assert.AreEqual(0, rd[3, 5]);
+            Assert.AreEqual(1, rd[4, 5]);
+
+            Assert.AreEqual(0, rd[2, 6]);
+            Assert.AreEqual(2, rd[2, 7]);
+            Assert.AreEqual(2, rd[3, 8]);
+            Assert.AreEqual(2, rd[3, 9]);
+            Assert.AreEqual(0, rd[2, 10]);
+
+            Assert.AreEqual(2, rd[6, 8]);
+            Assert.AreEqual(0, rd[6, 9]);
+
+            Assert.AreEqual(2, rd[10, 8]);
+            Assert.AreEqual(2, rd[10, 10]);
+        }
+
+        [TestMethod]
+        public void VerifyDeleteFullColumn()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
+
+            rd.DeleteColumn(2, 1);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 4]);
+            Assert.AreEqual(0, rd[3, 5]);
+
+            Assert.AreEqual(2, rd[5, 7]);
+            Assert.AreEqual(2, rd[5, 9]);
+            Assert.AreEqual(0, rd[5, 10]);
+        }
+        [TestMethod]
+        public void VerifyDelete3FullColumn()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
+
+            rd.DeleteColumn(2, 3);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(0, rd[3, 3]);
+
+            Assert.AreEqual(2, rd[5, 5]);
+            Assert.AreEqual(2, rd[5, 7]);
+            Assert.AreEqual(0, rd[5, 8]);
+        }
+
     }
 }
