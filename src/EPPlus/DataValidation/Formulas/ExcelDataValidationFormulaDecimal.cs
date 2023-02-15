@@ -28,7 +28,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
             var value = formula;
             if (!string.IsNullOrEmpty(value))
             {
-                double dValue = default(double);
+                double dValue;
                 if (double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out dValue))
                 {
                     Value = dValue;

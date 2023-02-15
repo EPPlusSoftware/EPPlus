@@ -27,22 +27,34 @@ namespace EPPlusTest
     [TestClass]
     public class Test635 : TestBase
     {
+        [TestMethod]
+        public void AnyValidationTest()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                var customValidation = ws.DataValidations.AddCustomValidation("A1:A5");
+
+                customValidation.ShowErrorMessage = true;
+                customValidation.Formula.ExcelFormula = "ISNUMBER(A1)";
+                customValidation.ErrorTitle = "Input invalid in Data Validation";
+                customValidation.Error = $"Value in cell must be number!!";
+                customValidation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+
+                package.SaveAs("C:/temp/TempExample.xlsx");
+            }
+        }
 
         [TestMethod]
-        public void Stuff()
+        public void CanReadAndSaveExtLstPackageSafely()
         {
             using (ExcelPackage package = OpenTemplatePackage("ExtLstDataValidationValidation.xlsx"))
             {
-                //var workSheet = package.Workbook.Worksheets[0];
-                //var extSheet = package.Workbook.Worksheets.Add("extTest");
-                //extSheet.Cells["A1"].Value = "1";
-                //var validation = workSheet.DataValidations.AddListValidation("D1");
-
-                //validation.Formula.ExcelFormula = "sheet2!$A$1";
-
-                //validation.ShowErrorMessage = true;
-
                 SaveAndCleanup(package);
+
+                ExcelPackage p = new ExcelPackage("C:\\epplusTest\\Testoutput\\ExtLstDataValidationValidation.xlsx");
+
+                Assert.IsTrue(p.Workbook.Worksheets[0].DataValidations.Count > 0);
             }
         }
 
