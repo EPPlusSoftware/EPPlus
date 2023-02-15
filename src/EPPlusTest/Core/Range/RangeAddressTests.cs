@@ -275,8 +275,8 @@ namespace EPPlusTest.Core.Range
                 ws1.SetValue("B4", "Row 3");
 
                 var ws2 = pck.Workbook.Worksheets.Add("Formula");
-                ws2.SetFormula(1, 1, "VLOOKUP(2,FullSheet,2,FALSE)");
-                ws2.SetFormula(2, 1, "VLOOKUP(3,'FullSheet',2,FALSE)");
+                ws2.SetFormula(1, 1, "VLOOKUP(2,FullSheet!A:XFD,2,FALSE)");
+                ws2.SetFormula(2, 1, "VLOOKUP(3,'FullSheet'!A:XFD,2,FALSE)");
                 ws2.Calculate();
                 Assert.AreEqual("Row 2", ws2.Cells["A1"].Value);
                 Assert.AreEqual("Row 3", ws2.Cells["A2"].Value);

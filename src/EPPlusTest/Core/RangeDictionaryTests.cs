@@ -3,6 +3,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,314 +27,297 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
-        public void VerifyMergeAddress1()
+        public void VerifyAddAddress1()
         {
-            var rd = new RangeDictionary();
+            var rd = new RangeDictionary<int>();
 
-            var r1 = new FormulaRangeAddress() { FromRow = 1, ToRow = 5, FromCol = 1, ToCol = 5 };
-            var b1=rd.Merge(ref r1);
-            var r2=new FormulaRangeAddress() { FromRow = 6, ToRow = 10, FromCol = 1, ToCol = 3 };
-            var b2 = rd.Merge(ref r2);
-            var r3 = new FormulaRangeAddress() { FromRow = 1, ToRow = 2, FromCol = 1, ToCol = 3 };
-            var b3 = rd.Merge(ref r3);
-            var r4 = new FormulaRangeAddress() { FromRow = 7, ToRow = 8, FromCol = 1, ToCol = 3 };
-            var b4 = rd.Merge(ref r4);
-            var r5 = new FormulaRangeAddress() { FromRow = 3, ToRow = 8, FromCol = 3, ToCol = 6 };
-            var b5 = rd.Merge(ref r5);
-
-            Assert.AreEqual(9, rd._addresses[1][0]);
-            Assert.AreEqual(9, rd._addresses[2][0]);
-            Assert.AreEqual(9, rd._addresses[3][0]);
-            Assert.AreEqual(7, rd._addresses[4][0]);
-            Assert.AreEqual(7, rd._addresses[5][0]);
-            Assert.AreEqual(2097159, rd._addresses[6][0]);
+            rd.Add(1,1,5,5, 1);
 
             Assert.IsTrue(rd.Exists(1, 1));
-            Assert.IsTrue(rd.Exists(6, 3));
-            Assert.IsTrue(rd.Exists(7, 3));
-            Assert.IsFalse(rd.Exists(2, 6));
-            Assert.IsTrue(rd.Exists(3, 6));
-            Assert.IsTrue(rd.Exists(8, 6));
-            Assert.IsFalse(rd.Exists(9, 6));
+            Assert.IsTrue(rd.Exists(2, 2));
+            Assert.IsTrue(rd.Exists(5, 5));
+            Assert.IsFalse(rd.Exists(6, 5));
+            Assert.IsFalse(rd.Exists(5, 6));
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(1, rd[5, 5]);
         }
         [TestMethod]
-        public void VerifyMergeAddressBetween()
+        public void VerifyAddAddressFillGap()
         {
-            var rd = new RangeDictionary();
+            var rd = new RangeDictionary<int>();
 
-            var r1 = new FormulaRangeAddress() { FromRow = 2, ToRow = 5, FromCol = 1, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 7, ToRow = 10, FromCol = 1, ToCol = 3 };
-            var b2 = rd.Merge(ref r2);
-            var r3 = new FormulaRangeAddress() { FromRow = 6, ToRow = 6, FromCol = 1, ToCol = 3 };
-            var b3 = rd.Merge(ref r3);
-            var r4 = new FormulaRangeAddress() { FromRow = 1, ToRow = 1, FromCol = 1, ToCol = 10 };
-            var b4 = rd.Merge(ref r4);
+            rd.Add(1,1,5,5, 1);
+            rd.Add(6,1,7,5, 2);
+            rd.Add(8,1,15,5, 3);
 
             Assert.IsTrue(rd.Exists(1, 1));
+            Assert.IsTrue(rd.Exists(2, 2));
+            Assert.IsTrue(rd.Exists(5, 5));
+            Assert.IsTrue(rd.Exists(6, 4));
+            Assert.IsTrue(rd.Exists(8, 3));
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[5, 2]);
+            Assert.AreEqual(2, rd[6, 3]);
+            Assert.AreEqual(2, rd[7, 4]);
+            Assert.AreEqual(3, rd[8, 5]);
         }
         [TestMethod]
-        public void VerifyOrderIsSorted()
+        public void VerifyAddAddressWithSpan()
         {
-            var rd = new RangeDictionary();
+            var rd = new RangeDictionary<int>();
 
-            var r1 = new FormulaRangeAddress() { FromRow = 7, ToRow = 7, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 5, ToRow = 5, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r2);
-            var r3 = new FormulaRangeAddress() { FromRow = 15, ToRow = 15, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r3);
-            var r4 = new FormulaRangeAddress() { FromRow = 9, ToRow = 9, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r4);
-            var r5 = new FormulaRangeAddress() { FromRow = 11, ToRow = 11, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r5);
-            var r6 = new FormulaRangeAddress() { FromRow = 1, ToRow = 2, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r6);
-            var r7 = new FormulaRangeAddress() { FromRow = 13, ToRow = 13, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r7);
+            rd.Add(1,1,2,5, 1);
+            //var r2 = new FormulaRangeAddress() { FromRow = 6, ToRow = 7, FromCol = 1, ToCol = 5 };
+            rd.Add(6,1,7,5, 2);
+            //var r3 = new FormulaRangeAddress() { FromRow = 9, ToRow = 15, FromCol = 1, ToCol = 5 };
+            rd.Add(9, 1, 15, 5, 3);
 
-            Assert.AreEqual(1, GetFromRow(rd._addresses[1][0]));
-            Assert.AreEqual(5, GetFromRow(rd._addresses[1][1]));
-            Assert.AreEqual(7, GetFromRow(rd._addresses[1][2]));
-            Assert.AreEqual(9, GetFromRow(rd._addresses[1][3]));
-            Assert.AreEqual(11, GetFromRow(rd._addresses[1][4]));
-            Assert.AreEqual(13, GetFromRow(rd._addresses[1][5]));
-            Assert.AreEqual(15, GetFromRow(rd._addresses[1][6]));
+            //var r4 = new FormulaRangeAddress() { FromRow = 4, ToRow = 4, FromCol = 1, ToCol = 5 };
+            rd.Add(4,1,4,5, 4);
+
+            //var r5 = new FormulaRangeAddress() { FromRow = 8, ToRow = 8, FromCol = 1, ToCol = 5 };
+            rd.Add(8, 1,8, 5, 5);
 
             Assert.IsTrue(rd.Exists(1, 1));
-        }
+            Assert.IsTrue(rd.Exists(2, 2));
+            Assert.IsFalse(rd.Exists(5, 5));
+            Assert.IsTrue(rd.Exists(6, 4));
+            Assert.IsTrue(rd.Exists(9, 3));
+            Assert.IsTrue(rd.Exists(15, 3));
+            Assert.IsTrue(rd.Exists(8, 3));
 
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(4, rd[4, 2]);
+            Assert.AreEqual(0, rd[5, 2]);
+            Assert.AreEqual(2, rd[6, 3]);
+            Assert.AreEqual(5, rd[8, 4]);
+            Assert.AreEqual(3, rd[12, 5]);
+        }
 
         [TestMethod]
-        public void VerifySpillRangesMergeFrom()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void VerifyOverlapBottomRightThrowsException()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 7, ToRow = 18, FromCol = 1, ToCol = 5 };
-            rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 5, ToRow = 18, FromCol = 1, ToCol = 5 };
-            var b2=rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(5, GetFromRow(rd._addresses[1][0]));
-            Assert.AreEqual(18, GetToRow(rd._addresses[1][0]));
+            rd.Add(1,1,5,5, 1);
+            rd.Add(5,5,6,6, 2);
         }
         [TestMethod]
-        public void VerifySpillRangesMergeTo()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void VerifyOverlapTopLeftThrowsException()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 18, FromCol = 1, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 5, ToRow = 21, FromCol = 1, ToCol = 5 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(5, GetFromRow(rd._addresses[1][0]));
-            Assert.AreEqual(21, GetToRow(rd._addresses[1][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(5,5,6,6, 2);
+            rd.Add(1,1,5,5, 1);
         }
         [TestMethod]
-        public void VerifyRangesMergeInto()
+        public void VerifyInsertOnRow()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 7, ToRow = 18, FromCol = 1, ToCol = 5 };
-            var b1=rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 5, ToRow = 21, FromCol = 1, ToCol = 5 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(5, GetFromRow(rd._addresses[1][0]));
-            Assert.AreEqual(21, GetToRow(rd._addresses[1][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(8, 2, 10, 3, 2);
+            rd.InsertRow(1, 2);
+            Assert.AreEqual(0, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(1, rd[7, 1]);
+            Assert.AreEqual(0, rd[10, 1]);
+            Assert.AreEqual(2, rd[10, 2]);
+            Assert.AreEqual(0, rd[12, 1]);
+            Assert.AreEqual(2, rd[12, 2]);
         }
         [TestMethod]
-        public void VerifyMergeRangesSame()
+        public void VerifyInsertBeforeRow()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 7, ToRow = 18, FromCol = 1, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 7, ToRow = 18, FromCol = 1, ToCol = 5 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(7, GetFromRow(rd._addresses[1][0]));
-            Assert.AreEqual(18, GetToRow(rd._addresses[1][0]));
-            Assert.IsTrue(b1);
-            Assert.IsFalse(b2);
+            rd.Add(2, 1, 5, 5, 1);
+            rd.Add(8, 2, 10, 3, 2);
+            rd.InsertRow(1, 2);
+            Assert.AreEqual(0, rd[3, 3]);
+            Assert.AreEqual(1, rd[4, 4]);
+            Assert.AreEqual(1, rd[7, 1]);
+            Assert.AreEqual(0, rd[10, 1]);
+            Assert.AreEqual(2, rd[10, 2]);
+            Assert.AreEqual(0, rd[12, 1]);
+            Assert.AreEqual(2, rd[12, 2]);
         }
         [TestMethod]
-        public void VerifyMergeRangesTopLeft()
+        public void VerifyInsertRowSingleColumn()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 2, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 1, ToRow = 5, FromCol = 1, ToCol = 5 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(1, GetFromRow(rd._addresses[2][0]));
-            Assert.AreEqual(12, GetToRow(rd._addresses[2][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(2, 1, 5, 5, 1);
+            rd.Add(8, 2, 10, 3, 2);
+            rd.InsertRow(1, 2, 3, 3);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(0, rd[3, 3]);
+            Assert.AreEqual(1, rd[4, 4]);
+            Assert.AreEqual(0, rd[7, 1]);
+            Assert.AreEqual(2, rd[10, 2]);
+            Assert.AreEqual(2, rd[11, 3]);
+            Assert.AreEqual(0, rd[12, 1]);
+            Assert.AreEqual(2, rd[12, 3]);
+        }
+
+        [TestMethod]
+        public void VerifyDeleteOnRowOneRow()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(8, 2, 10, 3, 2);
+
+            rd.DeleteRow(1, 2);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(0, rd[4, 4]);
+
+            //Assert.AreEqual(2, rd[6, 2]);
         }
         [TestMethod]
-        public void VerifyMergeRangesTop()
+        public void VerifyDeleteBeforeRowWithDeleteOneRow()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 1, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 1, ToRow = 5, FromCol = 1, ToCol = 5 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(1, GetFromRow(rd._addresses[2][0]));
-            Assert.AreEqual(12, GetToRow(rd._addresses[2][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(1, 1, 1, 5, 1);
+            rd.Add(4, 1, 6, 5, 2);
 
-            //Rest A1:E4
-            Assert.AreEqual(1, r2.FromRow);
-            Assert.AreEqual(1, r2.FromCol);
-            Assert.AreEqual(4, r2.ToRow);
-            Assert.AreEqual(5, r2.ToCol);
+            rd.DeleteRow(2, 3);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(2, rd[2, 2]);
+            Assert.AreEqual(2, rd[3, 3]);
+            Assert.AreEqual(0, rd[4, 4]);
         }
         [TestMethod]
-        public void VerifyMergeRangesTopRight()
+        public void VerifyInsert1FullColumn()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 2, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 1, ToRow = 6, FromCol = 3, ToCol = 6 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(1, GetFromRow(rd._addresses[3][0]));
-            Assert.AreEqual(12, GetToRow(rd._addresses[3][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
 
-            //Full range A1:E4
-            Assert.AreEqual(1, r2.FromRow);
-            Assert.AreEqual(3, r2.FromCol);
-            Assert.AreEqual(6, r2.ToRow);
-            Assert.AreEqual(6, r2.ToCol);
+            rd.InsertColumn(2, 1);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(1, rd[5, 6]);
+            Assert.AreEqual(0, rd[6, 6]);
+
+            Assert.AreEqual(2, rd[5, 9]);
+            Assert.AreEqual(2, rd[5, 11]);
         }
         [TestMethod]
-        public void VerifyRangesTopRight()
+        public void VerifyInsert3FullColumn()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 2, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 1, ToRow = 6, FromCol = 3, ToCol = 6 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(1, GetFromRow(rd._addresses[3][0]));
-            Assert.AreEqual(12, GetToRow(rd._addresses[3][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
 
-            //Full range C1:F6
-            Assert.AreEqual(1, r2.FromRow);
-            Assert.AreEqual(3, r2.FromCol);
-            Assert.AreEqual(6, r2.ToRow);
-            Assert.AreEqual(6, r2.ToCol);
+            rd.InsertColumn(2, 3);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 4]);
+            Assert.AreEqual(1, rd[3, 5]);
+            Assert.AreEqual(1, rd[5, 8]);
+            Assert.AreEqual(0, rd[6, 9]);
+
+            Assert.AreEqual(2, rd[5, 11]);
+            Assert.AreEqual(2, rd[5, 13]);
         }
         [TestMethod]
-        public void VerifyRangesLeft()
+        public void VerifyInsertPartialColumn()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 3, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 1, ToCol = 5 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(5, GetFromRow(rd._addresses[3][0]));
-            Assert.AreEqual(12, GetToRow(rd._addresses[3][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
 
-            //Spill range A5:B12
-            Assert.AreEqual(5, r2.FromRow);
-            Assert.AreEqual(1, r2.FromCol);
-            Assert.AreEqual(12, r2.ToRow);
-            Assert.AreEqual(2, r2.ToCol);
+            rd.InsertColumn(2, 1, 2, 3); //Row 2 and 3 - inside
+            rd.InsertColumn(2, 1, 6, 7); //Row 6 and 7 - between
+            rd.InsertColumn(2, 1, 15, 15); // Row 15 - Above.
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(1, rd[3, 3]);
+            Assert.AreEqual(1, rd[5, 5]);
+            Assert.AreEqual(0, rd[6, 6]);
+
+            Assert.AreEqual(2, rd[3, 9]);
+            Assert.AreEqual(2, rd[3, 11]);
         }
         [TestMethod]
-        public void VerifyRangesRight()
+        public void VerifyDeletePartialColumn()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 13, FromCol = 3, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 5, ToRow = 13, FromCol = 4, ToCol = 12 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            Assert.AreEqual(5, GetFromRow(rd._addresses[4][0]));
-            Assert.AreEqual(13, GetToRow(rd._addresses[4][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 10, 10, 2);
 
-            //Full range A1:E4
-            Assert.AreEqual(5, r2.FromRow);
-            Assert.AreEqual(6, r2.FromCol);
-            Assert.AreEqual(13, r2.ToRow);
-            Assert.AreEqual(12, r2.ToCol);
+            rd.DeleteColumn(2, 1, 2, 3);   //Row 2 and 3 - inside
+            rd.DeleteColumn(2, 2, 6, 9);   //Row 6 and 7 - between
+            rd.DeleteColumn(2, 1, 15, 15); // Row 15 - Above.
+
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 4]);
+            Assert.AreEqual(0, rd[2, 5]);
+            Assert.AreEqual(0, rd[3, 5]);
+            Assert.AreEqual(1, rd[4, 5]);
+
+            Assert.AreEqual(0, rd[2, 6]);
+            Assert.AreEqual(2, rd[2, 7]);
+            Assert.AreEqual(2, rd[3, 8]);
+            Assert.AreEqual(2, rd[3, 9]);
+            Assert.AreEqual(0, rd[2, 10]);
+
+            Assert.AreEqual(2, rd[6, 8]);
+            Assert.AreEqual(0, rd[6, 9]);
+
+            Assert.AreEqual(2, rd[10, 8]);
+            Assert.AreEqual(2, rd[10, 10]);
+        }
+
+        [TestMethod]
+        public void VerifyDeleteFullColumn()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
+
+            rd.DeleteColumn(2, 1);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 4]);
+            Assert.AreEqual(0, rd[3, 5]);
+
+            Assert.AreEqual(2, rd[5, 7]);
+            Assert.AreEqual(2, rd[5, 9]);
+            Assert.AreEqual(0, rd[5, 10]);
         }
         [TestMethod]
-        public void VerifyRangesBottomLeft()
+        public void VerifyDelete3FullColumn()
         {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 3, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 9, ToRow = 14, FromCol = 1, ToCol = 4 };
-            var b2 = rd.Merge(ref r2);
+            var rd = new RangeDictionary<int>();
 
-            
-            Assert.AreEqual(5, GetFromRow(rd._addresses[3][0]));
-            Assert.AreEqual(14, GetToRow(rd._addresses[3][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
+            rd.Add(1, 1, 5, 5, 1);
+            rd.Add(1, 8, 5, 10, 2);
 
-            //Spill range A5:B12
-            Assert.AreEqual(9, r2.FromRow);
-            Assert.AreEqual(1, r2.FromCol);
-            Assert.AreEqual(14, r2.ToRow);
-            Assert.AreEqual(4, r2.ToCol);
+            rd.DeleteColumn(2, 3);
+            Assert.AreEqual(1, rd[1, 1]);
+            Assert.AreEqual(1, rd[2, 2]);
+            Assert.AreEqual(0, rd[3, 3]);
+
+            Assert.AreEqual(2, rd[5, 5]);
+            Assert.AreEqual(2, rd[5, 7]);
+            Assert.AreEqual(0, rd[5, 8]);
         }
-        [TestMethod]
-        public void VerifyRangesBottom()
-        {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 3, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 12, ToRow = 14, FromCol = 3, ToCol = 5 };
-            var b2 = rd.Merge(ref r2);
 
-
-            Assert.AreEqual(5, GetFromRow(rd._addresses[3][0]));
-            Assert.AreEqual(14, GetToRow(rd._addresses[3][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
-
-            //Spill range A5:B12
-            Assert.AreEqual(13, r2.FromRow);
-            Assert.AreEqual(3, r2.FromCol);
-            Assert.AreEqual(14, r2.ToRow);
-            Assert.AreEqual(5, r2.ToCol);
-        }
-        [TestMethod]
-        public void VerifyRangesBottomRight()
-        {
-            var rd = new RangeDictionary();
-            var r1 = new FormulaRangeAddress() { FromRow = 5, ToRow = 12, FromCol = 3, ToCol = 5 };
-            var b1 = rd.Merge(ref r1);
-            var r2 = new FormulaRangeAddress() { FromRow = 9, ToRow = 14, FromCol = 5, ToCol = 6 };
-            var b2 = rd.Merge(ref r2);
-
-
-            Assert.AreEqual(5, GetFromRow(rd._addresses[5][0]));
-            Assert.AreEqual(14, GetToRow(rd._addresses[5][0]));
-            Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
-
-            //Spill range A5:B12
-            Assert.AreEqual(9, r2.FromRow);
-            Assert.AreEqual(5, r2.FromCol);
-            Assert.AreEqual(14, r2.ToRow);
-            Assert.AreEqual(6, r2.ToCol);
-        }
     }
 }

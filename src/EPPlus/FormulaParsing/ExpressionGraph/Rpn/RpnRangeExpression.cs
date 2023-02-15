@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     {
 
                         var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
-                        var v = ws.GetValueInner(_addressInfo.FromRow, _addressInfo.FromCol);
+                        var v = ws.GetValue(_addressInfo.FromRow, _addressInfo.FromCol); //Use GetValue to get richtext values.
                         if (_negate)
                         {
                             v = DoNegate(v);

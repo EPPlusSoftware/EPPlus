@@ -16,6 +16,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal int StartRow, StartCol;
         internal static ISourceCodeTokenizer _tokenizer = OptimizedSourceCodeTokenizer.Default;
         internal IList<Token> Tokens;
+        internal IList<Token> RpnTokens;
         internal IExpressionCompiler _compiler;
         internal int AddressExpressionIndex;
         internal CellStoreEnumerator<object> _formulaEnumerator;
@@ -41,7 +42,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         protected void SetFormula(ExcelWorksheet ws, string formula)
         {
-            Tokens = RpnExpressionGraph.CreateRPNTokens(_tokenizer.Tokenize(formula));
+            Tokens = _tokenizer.Tokenize(formula);
+            RpnTokens = RpnExpressionGraph.CreateRPNTokens(Tokens);
         }
         internal FormulaType FormulaType { get; set; }
         public bool FirstCellDeleted { get; set; }  //del1
@@ -135,6 +137,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 FormulaType = FormulaType,
                 IsArray = IsArray,
                 Tokens = Tokens,
+                RpnTokens = RpnTokens,
                 Address = Address,
                 DataTableIsTwoDimesional = DataTableIsTwoDimesional,
                 IsDataTableRow = IsDataTableRow,
@@ -151,6 +154,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 AddressExpressionIndex = 0,
                 Tokens = Tokens,
+                RpnTokens = RpnTokens,                
                 //ExpressionTree = GetExpressionTree(row, col),
                 StartRow = row,
                 StartCol = col,
@@ -163,14 +167,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             if (_compiledExpressions == null)
             {
-                _compiledExpressions = depChain._graph.CompileExpressions(ref Tokens);
+                _compiledExpressions = depChain._graph.CompileExpressions(ref RpnTokens);
             }
             return new RpnFormula(_ws, row, col)
             {
                 _tokenIndex = 0,
                 _row = row,
                 _column = col,
-                _tokens = Tokens,
+                _tokens = RpnTokens,
                 _expressions = CloneExpressions(row, col)
             };
         }
@@ -204,7 +208,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             string f = "";
             foreach (var token in Tokens)
             {
-                if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                if (token.TokenTypeIsSet(TokenType.CellAddress))
                 {
                     var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
                     if (a.IsFullColumn)

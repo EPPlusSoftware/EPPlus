@@ -80,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             _cells[row, col] = cell;
         }
-
+        public bool IsRef => false;
         public bool IsEmpty => _cells.Length == 0;
 
         public bool IsMulti => _cells.Length > 0 && _cells.GetUpperBound(1) > 1;

@@ -303,7 +303,7 @@ namespace OfficeOpenXml
                address._fromCol > _toCol || _toCol < address._fromCol ||
                _fromRow > address._toRow || address._toRow < _fromRow ||
                _fromCol > address._toCol || address._toCol < _fromCol ||
-               address._ws != _ws)               
+               (string.IsNullOrEmpty(address._ws)==false && string.IsNullOrEmpty(_ws) == false && address._ws != _ws))
             {
                 return null;
             }

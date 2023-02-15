@@ -68,6 +68,7 @@ namespace OfficeOpenXml.ExternalReferences
                     else if (newFormula != sh.Formula)
                     {
                         sh.Tokens = null;
+                        sh.RpnTokens= null;
                         ExcelCellBase.GetRowColFromAddress(sh.Address, out int fromRow, out int fromCol, out int toRow, out int toCol);
                         ws._formulaTokens?.Clear(fromRow, fromCol, toRow - fromRow + 1, toCol - fromCol + 1);
                     }

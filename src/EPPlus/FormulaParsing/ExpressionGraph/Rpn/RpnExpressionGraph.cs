@@ -402,11 +402,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         //    }
         //    return cp;
         //}
-        Dictionary<int, RangeDictionary> _usedRanges;
+        Dictionary<int, RangeHashset> _usedRanges;
 
         internal CompileResult Execute(IList<Token> exps)
         {
-            _usedRanges = new Dictionary<int, RangeDictionary>();
+            _usedRanges = new Dictionary<int, RangeHashset>();
             var cell = new RpnFormulaCell();
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
@@ -493,10 +493,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             var a = ae.Compile().Address;
             if (a.WorksheetIx < 0) return null;
 
-            RangeDictionary rd;
+            RangeHashset rd;
             if (!_usedRanges.TryGetValue(a.WorksheetIx, out rd))
             {
-                rd = new RangeDictionary();
+                rd = new RangeHashset();
                 _usedRanges.Add(a.WorksheetIx, rd);
             }
 

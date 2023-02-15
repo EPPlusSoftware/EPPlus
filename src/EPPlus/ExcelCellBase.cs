@@ -492,7 +492,7 @@ namespace OfficeOpenXml
             columnAddress = columnAddress.ToUpper();
             for (int i = columnAddress.Length - 1; i >= 0; i--)
             {
-                c += (columnAddress[i] - startChar) * numberOfCharacters;
+                c += (columnAddress[i] - startChar) * (numberOfCharacters*i+1);
             }
             return c;
         }
@@ -1238,9 +1238,10 @@ namespace OfficeOpenXml
                     return false;
                 }
             }
-            if (value.Length==3 && (
-                (value[0]=='X' && value[1]>'F') ||
-                (value[0] == 'X' && value[1] == 'F' || value[2]>'D')))
+            if(value.Length>3 || 
+              (value.Length==3 && (
+              (value[0]=='X' && value[1]>'F') ||
+              (value[0] == 'X' && value[1] == 'F' && value[2] > 'D'))))
             {
                 return false;
             }

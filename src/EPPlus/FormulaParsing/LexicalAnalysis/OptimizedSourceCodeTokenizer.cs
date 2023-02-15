@@ -635,8 +635,17 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     return false;
                 }
             }
-            if (numPos < 1 || numPos > 3) return false;
-            var col = ExcelAddressBase.GetColumnNumber(address.Substring(0,numPos));
+            int col;
+            //if (numPos == -1) //Column reference only, for exampel A:A
+            //{
+            //    col = ExcelAddressBase.GetColumnNumber(address);
+            //    return col > 0 && col <= ExcelPackage.MaxColumns;
+            //}
+            if (numPos < 1 || numPos > 3)
+            {
+                return false;
+            }
+            col = ExcelCellBase.GetColumnNumber(address.Substring(0,numPos));
             if (col <= 0 || col > ExcelPackage.MaxColumns) return false;
             if(int.TryParse(address.Substring(numPos), out int row))
             {

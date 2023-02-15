@@ -285,7 +285,7 @@ namespace OfficeOpenXml.Core.Worksheet
             sf.SetTokens(ws.Name);
             foreach (var token in sf.Tokens)
             {
-                if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                if (token.TokenTypeIsSet(TokenType.CellAddress))
                 {
                     //Check if the address for the entire shared formula collides with the deleted address.
                     var tokenAddress = new ExcelAddressBase(token.Value);

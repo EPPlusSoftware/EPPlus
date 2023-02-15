@@ -662,10 +662,10 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         var a = new ExcelAddressBase(f.Address);
                         var c = effectedAddress.Collide(a);
-                        if(c==ExcelAddressBase.eAddressCollition.Partly && (effectedAddress._fromCol>a._fromCol || effectedAddress._toCol<a._toCol))
-                        {
-                            throw new Exception("Invalid shared formula"); //This should never happend!
-                        }
+                        //if(c==ExcelAddressBase.eAddressCollition.Partly && (effectedAddress._fromCol>a._fromCol || effectedAddress._toCol<a._toCol))
+                        //{
+                        //    throw new Exception("Invalid shared formula"); //This should never happend!
+                        //}
                         if (f.StartCol >= columnFrom && c!=ExcelAddressBase.eAddressCollition.No)
                         {
                             if (f.StartRow >= rowFrom) f.StartRow += rows;
@@ -724,18 +724,16 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         if (f.StartCol >= columnFrom)
                         {
-                            if (f.StartRow >= rowFrom) f.StartRow += rows;
-                            var a = new ExcelAddressBase(f.Address);
-                            if (a._fromRow >= rowFrom)
+                            if (f.StartRow >= rowFrom)
                             {
-                                a._fromRow += rows;
-                                a._toRow += rows;
+                                f.StartRow += rows;
+                                f.EndRow += rows;
                             }
-                            else if (a._toRow >= rowFrom)
+                            else if (f.StartRow >= rowFrom)
                             {
-                                a._toRow += rows;
+                                f.StartRow += rows;
                             }
-                            f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+
                             f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
                         }
                     }
@@ -769,18 +767,16 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (ws.Name == wsToUpdate.Name)
                     {
-                        if (f.StartCol >= columnFrom) f.StartCol += columns;
-                        var a = new ExcelAddressBase(f.Address);
-                        if (a._fromCol >= columnFrom)
+                        if (f.StartCol >= columnFrom)
                         {
-                            a._fromCol += columns;
-                            a._toCol += columns;
+                            f.StartCol += columns;
+                            f.EndCol += columns;
                         }
-                        else if (a._toCol >= columnFrom)
+                        else if (f.EndCol >= columnFrom)
                         {
-                            a._toCol += columns;
+                            f.EndCol += columns;
                         }
-                        f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
+
                         f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, 0, columns, 0, columnFrom, wsToUpdate.Name, ws.Name);
                     }
                     else if (f.Formula.Contains(ws.Name))

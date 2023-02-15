@@ -14,7 +14,7 @@ namespace OfficeOpenXml.FormulaParsing
     internal class OptimizedDependencyChain
     {
         internal List<Formula> formulas = new List<Formula>();
-        internal Dictionary<int, RangeDictionary> accessedRanges = new Dictionary<int, RangeDictionary>();
+        internal Dictionary<int, RangeHashset> accessedRanges = new Dictionary<int, RangeHashset>();
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
         internal List<ulong> _circularReferences = new List<ulong>();
         internal void Add(Formula f)
@@ -258,18 +258,18 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static bool GetProcessedAddress(OptimizedDependencyChain depChain, ref FormulaRangeAddress address)
         {
-            if (depChain.accessedRanges.TryGetValue(address.WorksheetIx, out RangeDictionary wsRd) == false)
+            if (depChain.accessedRanges.TryGetValue(address.WorksheetIx, out RangeHashset wsRd) == false)
             {
-                wsRd = new RangeDictionary();
+                wsRd = new RangeHashset();
                 depChain.accessedRanges.Add(address.WorksheetIx, wsRd);
             }
             return wsRd.Merge(ref address);
         }
         private static bool GetProcessedAddress(OptimizedDependencyChain depChain, int wsIndex, int row, int col)
         {
-            if (depChain.accessedRanges.TryGetValue(wsIndex, out RangeDictionary wsRd) == false)
+            if (depChain.accessedRanges.TryGetValue(wsIndex, out RangeHashset wsRd) == false)
             {
-                wsRd = new RangeDictionary();
+                wsRd = new RangeHashset();
                 depChain.accessedRanges.Add(wsIndex, wsRd);
             }
             return wsRd.Merge(row, col);

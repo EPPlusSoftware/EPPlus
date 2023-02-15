@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing
     {
         internal List<RpnFormula> _formulas = new List<RpnFormula>();
         internal Stack<RpnFormula> _formulaStack=new Stack<RpnFormula>();
-        internal Dictionary<int, RangeDictionary> accessedRanges = new Dictionary<int, RangeDictionary>();
+        internal Dictionary<int, RangeHashset> accessedRanges = new Dictionary<int, RangeHashset>();
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
         internal List<CircularReference> _circularReferences = new List<CircularReference>();
         internal ISourceCodeTokenizer _tokenizer;
@@ -299,7 +299,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static object AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options)
         {
                 FormulaRangeAddress address = null;
-                RangeDictionary rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);
+                RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);
                 rd?.Merge(f._row, f._column);
         ExecuteFormula:
             try
@@ -457,12 +457,12 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
-        private static RangeDictionary AddAddressToRD(RpnOptimizedDependencyChain depChain, int wsIx)
+        private static RangeHashset AddAddressToRD(RpnOptimizedDependencyChain depChain, int wsIx)
         {
             if (wsIx < 0) wsIx=-1; //Workboook names
-            if (depChain.accessedRanges.TryGetValue(wsIx, out RangeDictionary rd) == false)
+            if (depChain.accessedRanges.TryGetValue(wsIx, out RangeHashset rd) == false)
             {
-                rd = new RangeDictionary();
+                rd = new RangeHashset();
                 depChain.accessedRanges.Add(wsIx, rd);
             }
 
@@ -833,18 +833,18 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static bool GetProcessedAddress(RpnOptimizedDependencyChain depChain, ref FormulaRangeAddress address)
         {
-            if (depChain.accessedRanges.TryGetValue(address.WorksheetIx, out RangeDictionary wsRd) == false)
+            if (depChain.accessedRanges.TryGetValue(address.WorksheetIx, out RangeHashset wsRd) == false)
             {
-                wsRd = new RangeDictionary();
+                wsRd = new RangeHashset();
                 depChain.accessedRanges.Add(address.WorksheetIx, wsRd);
             }
             return wsRd.Merge(ref address);
         }
         private static bool GetProcessedAddress(RpnOptimizedDependencyChain depChain, int wsIndex, int row, int col)
         {
-            if (depChain.accessedRanges.TryGetValue(wsIndex, out RangeDictionary wsRd) == false)
+            if (depChain.accessedRanges.TryGetValue(wsIndex, out RangeHashset wsRd) == false)
             {
-                wsRd = new RangeDictionary();
+                wsRd = new RangeHashset();
                 depChain.accessedRanges.Add(wsIndex, wsRd);
             }
             return wsRd.Merge(row, col);
