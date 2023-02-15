@@ -244,9 +244,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-
-                    ((ExcelDataValidation)dv).SetAddress(newAddress.Address);
+                    dv.SetAddress(newAddress.Address);
                 }
+                ws.DataValidations.InsertRangeDictionary(range, shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn);
             }
             foreach (var dv in delDV)
             {

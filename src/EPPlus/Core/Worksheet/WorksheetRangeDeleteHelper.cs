@@ -577,6 +577,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     dv.SetAddress(address.Address);
                 }
+                ws.DataValidations.DeleteRangeDictionary(range, shift == eShiftTypeDelete.Left || shift == eShiftTypeDelete.EntireColumn);
             }
             deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
         }

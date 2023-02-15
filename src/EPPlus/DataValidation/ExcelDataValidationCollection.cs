@@ -381,5 +381,57 @@ namespace OfficeOpenXml.DataValidation
         {
             return _validations;
         }
+
+        internal void InsertRangeDictionary(ExcelAddress address, bool shiftRight)
+        {
+            if (address.Addresses == null)
+            {
+                InsertRangeIntoRangeDictionary(address, shiftRight);
+            }
+            else
+            {
+                foreach (var a in address.Addresses)
+                {
+                    InsertRangeIntoRangeDictionary(a, shiftRight);
+                }
+            }
+        }
+        private void InsertRangeIntoRangeDictionary(ExcelAddress address, bool shiftRight)
+        {
+            if (shiftRight)
+            {
+                _validationsRD.InsertColumn(address._fromCol, address.Columns, address._fromRow, address._toRow);
+            }
+            else
+            {
+                _validationsRD.InsertRow(address._fromRow, address.Rows, address._fromCol, address._toCol);
+            }
+        }
+
+        internal void DeleteRangeDictionary(ExcelAddress address, bool shiftLeft)
+        {
+            if (address.Addresses == null)
+            {
+                DeleteRangeInRangeDictionary(address, shiftLeft);
+            }
+            else
+            {
+                foreach (var a in address.Addresses)
+                {
+                    DeleteRangeInRangeDictionary(a, shiftLeft);
+                }
+            }
+        }
+        private void DeleteRangeInRangeDictionary(ExcelAddress address, bool shiftLeft)
+        {
+            if (shiftLeft)
+            {
+                _validationsRD.DeleteColumn(address._fromCol, address.Columns, address._fromRow, address._toRow);
+            }
+            else
+            {
+                _validationsRD.DeleteRow(address._fromRow, address.Rows, address._fromCol, address._toCol);
+            }
+        }
     }
 }
