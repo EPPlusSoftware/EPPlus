@@ -54,7 +54,7 @@ namespace EPPlusTest.DataValidation
         public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
-            validation.Operator = ExcelDataValidationOperator.equal;
+            validation.Operator = ExcelDataValidationOperator.Equal;
             validation.Validate();
         }
 
@@ -96,13 +96,13 @@ namespace EPPlusTest.DataValidation
             var sheet = P.Workbook.Worksheets.Add("NewSheet");
 
             var validation = sheet.DataValidations.AddIntegerValidation("A1");
-            validation.Operator = ExcelDataValidationOperator.greaterThanOrEqual;
+            validation.Operator = ExcelDataValidationOperator.GreaterThanOrEqual;
 
             MemoryStream xmlStream = new MemoryStream();
             P.SaveAs(xmlStream);
 
             var P2 = new ExcelPackage(xmlStream);
-            Assert.AreEqual(P2.Workbook.Worksheets[0].DataValidations[0].Operator, ExcelDataValidationOperator.greaterThanOrEqual);
+            Assert.AreEqual(P2.Workbook.Worksheets[0].DataValidations[0].Operator, ExcelDataValidationOperator.GreaterThanOrEqual);
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace EPPlusTest.DataValidation
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Formula.Value = 1;
-            validation.Operator = ExcelDataValidationOperator.between;
+            validation.Operator = ExcelDataValidationOperator.Between;
             validation.Validate();
         }
 
@@ -356,7 +356,7 @@ namespace EPPlusTest.DataValidation
                     validation.ErrorTitle = "errorTitle";
                     validation.ShowInputMessage = true;
                     validation.ShowErrorMessage = true;
-                    validation.ErrorStyle = ExcelDataValidationWarningStyle.information;
+                    validation.ErrorStyle = ExcelDataValidationWarningStyle.Information;
 
                     var clone = validation.GetClone();
 
@@ -377,9 +377,10 @@ namespace EPPlusTest.DataValidation
             {
                 var wks = pck.Workbook.Worksheets.Add("Sheet1");
 
-                var validation = wks.DataValidations.AddListValidation("A1");
-                validation.AllowBlank = true;
-                validation.ImeMode = ExcelDataValidationImeMode.fullKatakana;
+                var validation = wks.DataValidations.AddCustomValidation("A1");
+                validation.ShowErrorMessage = true;
+                validation.Formula.ExcelFormula = "=ISTEXT(A1)";
+                validation.ImeMode = ExcelDataValidationImeMode.FullKatakana;
 
                 pck.SaveAs("C:/epplusTest/Workbooks/ImeTest.xlsx");
             }

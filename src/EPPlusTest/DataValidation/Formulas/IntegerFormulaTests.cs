@@ -45,7 +45,7 @@ namespace EPPlusTest.DataValidation.Formulas
             var validationOrig = sheet.DataValidations.AddIntegerValidation("A1");
 
             validationOrig.Formula.Value = 12;
-            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+            validationOrig.Operator = ExcelDataValidationOperator.LessThanOrEqual;
 
             var validation = ReadTValidation<ExcelDataValidationInt>(package);
 
@@ -61,7 +61,7 @@ namespace EPPlusTest.DataValidation.Formulas
             var validationOrig = sheet.DataValidations.AddIntegerValidation("A1");
 
             validationOrig.Formula.ExcelFormula = "D1";
-            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+            validationOrig.Operator = ExcelDataValidationOperator.LessThanOrEqual;
 
             var validation = ReadTValidation<ExcelDataValidationInt>(package);
 

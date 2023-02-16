@@ -128,7 +128,7 @@ namespace EPPlusTest.Core.Range.Delete
             shape3.SetPosition(22, 0, 5, 0);
 
             var dv = ws.DataValidations.AddIntegerValidation("C1:D5");
-            dv.Operator = OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal;
+            dv.Operator = OfficeOpenXml.DataValidation.ExcelDataValidationOperator.Equal;
             dv.Formula.Value = 1;
             //Act
             ws.DeleteColumn(3, 10);

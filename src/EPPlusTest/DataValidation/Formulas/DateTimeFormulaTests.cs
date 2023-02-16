@@ -48,7 +48,7 @@ namespace EPPlusTest.DataValidation.Formulas
             var date = DateTime.Parse("2011-01-08");
 
             validationOrig.Formula.Value = date;
-            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+            validationOrig.Operator = ExcelDataValidationOperator.LessThanOrEqual;
 
             var validation = ReadTValidation<ExcelDataValidationDateTime>(package);
 
@@ -63,7 +63,7 @@ namespace EPPlusTest.DataValidation.Formulas
 
             var validationOrig = sheet.DataValidations.AddDateTimeValidation("A1");
             validationOrig.Formula.ExcelFormula = "A1";
-            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+            validationOrig.Operator = ExcelDataValidationOperator.LessThanOrEqual;
 
             var validation = ReadTValidation<ExcelDataValidationDateTime>(package);
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);
@@ -81,7 +81,7 @@ namespace EPPlusTest.DataValidation.Formulas
             var dateString = date.ToOADate().ToString();
 
             validationOrig.Formula.ExcelFormula = dateString;
-            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+            validationOrig.Operator = ExcelDataValidationOperator.LessThanOrEqual;
 
             var validation = ReadTValidation<ExcelDataValidationDateTime>(package);
 

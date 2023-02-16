@@ -181,49 +181,84 @@ namespace OfficeOpenXml.DataValidation
             _validations.Add(ExcelDataValidationFactory.CloneWithNewAdress(address, dv));
         }
 
-
-
+        /// <summary>
+        /// Adds a <see cref="ExcelDataValidationAny"/> to the worksheet.
+        /// </summary>
+        /// <param name="address">The range/address to validate</param>
+        /// <returns></returns>
         public IExcelDataValidationAny AddAnyValidation(string address)
         {
             var validation = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
             return (IExcelDataValidationAny)AddValidation(address, validation);
         }
 
+        /// <summary>
+        /// Adds an <see cref="IExcelDataValidationInt"/> to the worksheet. Whole means that the only accepted values
+        /// are integer values.
+        /// </summary>
+        /// <param name="address">the range/address to validate</param>
         public IExcelDataValidationInt AddIntegerValidation(string address)
         {
             var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name);
             return (IExcelDataValidationInt)AddValidation(address, validation);
         }
 
+        /// <summary>
+        /// Adds an <see cref="IExcelDataValidationInt"/> regarding text length to the worksheet.
+        /// </summary>
+        /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationInt AddTextLengthValidation(string address)
         {
             var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name, true);
             return (IExcelDataValidationInt)AddValidation(address, validation);
         }
+
+        /// <summary>
+        /// Addes an <see cref="IExcelDataValidationDecimal"/> to the worksheet. The only accepted values are
+        /// decimal values.
+        /// </summary>
+        /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
         {
             var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), address, _worksheet.Name);
             return (IExcelDataValidationDecimal)AddValidation(address, validation);
         }
 
+        /// <summary>
+        /// Adds an <see cref="IExcelDataValidationList"/> to the worksheet. The accepted values are defined
+        /// in a list.
+        /// </summary>
+        /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationList AddListValidation(string address)
         {
             var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), address, _worksheet.Name);
             return (IExcelDataValidationList)AddValidation(address, validation);
         }
 
-        public IExcelDataValidationTime AddTimeValidation(string address)
-        {
-            var validation = new ExcelDataValidationTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
-            return (IExcelDataValidationTime)AddValidation(address, validation);
-        }
-
+        /// <summary>
+        /// Adds an <see cref="IExcelDataValidationDateTime"/> to the worksheet.
+        /// </summary>
+        /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationDateTime AddDateTimeValidation(string address)
         {
             var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
             return (IExcelDataValidationDateTime)AddValidation(address, validation);
         }
 
+        /// <summary>
+        /// Adds an <see cref="IExcelDataValidationDateTime"/> to the worksheet.
+        /// </summary>
+        /// <param name="address">The range/address to validate</param>
+        public IExcelDataValidationTime AddTimeValidation(string address)
+        {
+            var validation = new ExcelDataValidationTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            return (IExcelDataValidationTime)AddValidation(address, validation);
+        }
+
+        /// <summary>
+        /// Adds a <see cref="ExcelDataValidationCustom"/> to the worksheet.
+        /// </summary>
+        /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationCustom AddCustomValidation(string address)
         {
             var validation = new ExcelDataValidationCustom(ExcelDataValidation.NewId(), address, _worksheet.Name);
@@ -241,21 +276,8 @@ namespace OfficeOpenXml.DataValidation
 
             _validations.Add(validation);
             _validationsRD.Add(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol, validation);
-            //_worksheet._dataValidationsStore.
-            // _worksheet._dataValidationsStore.SetValue(internalAddress._fromRow, internalAddress._fromCol, _validations.Count - 1);
 
             return validation;
-        }
-
-        public ExcelDataValidation GetDataValidationAtAddress(string address)
-        {
-            var internalAddress = new ExcelAddress(address);
-            var value = _worksheet._dataValidationsStore.GetValue(internalAddress._fromRow, internalAddress._fromCol);
-            if (value == null)
-            {
-                return null;
-            }
-            return _validations[(int)value];
         }
 
         /// <summary>
@@ -263,7 +285,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>3
         public int Count
         {
-            get { return GetValidations().Count; }
+            get { return _validations.Count; }
         }
 
         /// <summary>
@@ -284,8 +306,8 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public ExcelDataValidation this[int index]
         {
-            get { return GetValidations()[index]; }
-            set { GetValidations()[index] = value; }
+            get { return _validations[index]; }
+            set { _validations[index] = value; }
         }
 
         /// <summary>
@@ -298,7 +320,7 @@ namespace OfficeOpenXml.DataValidation
             get
             {
                 var searchedAddress = new ExcelAddress(address);
-                return GetValidations().Find(x => x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No);
+                return _validations.Find(x => x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No);
             }
         }
 
@@ -309,7 +331,7 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public IEnumerable<ExcelDataValidation> FindAll(Predicate<ExcelDataValidation> match)
         {
-            return GetValidations().FindAll(match);
+            return _validations.FindAll(match);
         }
 
         /// <summary>
@@ -338,7 +360,7 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public ExcelDataValidation Find(Predicate<ExcelDataValidation> match)
         {
-            return GetValidations().Find(match);
+            return _validations.Find(match);
         }
 
         /// <summary>
@@ -369,12 +391,12 @@ namespace OfficeOpenXml.DataValidation
 
         IEnumerator<ExcelDataValidation> IEnumerable<ExcelDataValidation>.GetEnumerator()
         {
-            return GetValidations().GetEnumerator();
+            return _validations.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetValidations().GetEnumerator();
+            return _validations.GetEnumerator();
         }
 
         private List<ExcelDataValidation> GetValidations()

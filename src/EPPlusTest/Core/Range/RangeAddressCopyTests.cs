@@ -318,7 +318,7 @@ namespace EPPlusTest.Core.Range
                 dv.Formula.Value = 1;
                 dv.Formula2.Value = 3;
                 dv.ShowErrorMessage = true;
-                dv.ErrorStyle = OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop;
+                dv.ErrorStyle = OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.Stop;
                 ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
 
                 Assert.AreEqual("B2:D5,F6:G8", dv.Address.Address);
@@ -334,7 +334,7 @@ namespace EPPlusTest.Core.Range
                 dv.Formula.Value = 1;
                 dv.Formula2.Value = 3;
                 dv.ShowErrorMessage = true;
-                dv.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                dv.ErrorStyle = ExcelDataValidationWarningStyle.Stop;
                 var ws2 = p.Workbook.Worksheets.Add("Sheet2");
                 ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
 
@@ -344,7 +344,7 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual(1, dv2.Formula.Value);
                 Assert.AreEqual(3, dv2.Formula2.Value);
                 Assert.IsTrue(dv.ShowErrorMessage.Value);
-                Assert.AreEqual(ExcelDataValidationWarningStyle.stop, dv.ErrorStyle);
+                Assert.AreEqual(ExcelDataValidationWarningStyle.Stop, dv.ErrorStyle);
 
                 SaveWorkbook("dvcopy.xlsx", p);
             }
@@ -359,7 +359,7 @@ namespace EPPlusTest.Core.Range
                 dv.Formula.Value = 1;
                 dv.Formula2.Value = 3;
                 dv.ShowErrorMessage = true;
-                dv.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+                dv.ErrorStyle = ExcelDataValidationWarningStyle.Stop;
                 using (var p2 = new ExcelPackage())
                 {
                     var ws2 = p2.Workbook.Worksheets.Add("Sheet Copy");
@@ -371,7 +371,7 @@ namespace EPPlusTest.Core.Range
                     Assert.AreEqual(1, dv2.Formula.Value);
                     Assert.AreEqual(3, dv2.Formula2.Value);
                     Assert.IsTrue(dv.ShowErrorMessage.Value);
-                    Assert.AreEqual(ExcelDataValidationWarningStyle.stop, dv.ErrorStyle);
+                    Assert.AreEqual(ExcelDataValidationWarningStyle.Stop, dv.ErrorStyle);
 
                     SaveWorkbook("dvcopy.xlsx", p2);
                 }

@@ -56,7 +56,7 @@ namespace OfficeOpenXml.DataValidation
         {
             base.ReadClassSpecificXmlNodes(xr);
 
-            if (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween)
+            if (Operator == ExcelDataValidationOperator.Between || Operator == ExcelDataValidationOperator.NotBetween)
             {
                 Formula2 = ReadFormula(xr, "formula2");
             }
@@ -76,8 +76,8 @@ namespace OfficeOpenXml.DataValidation
             base.Validate();
             if (ValidationType.Type != eDataValidationType.List
                 && ValidationType.Type != eDataValidationType.Custom
-                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween
-                || Operator == ExcelDataValidationOperator.equal))
+                && (Operator == ExcelDataValidationOperator.Between || Operator == ExcelDataValidationOperator.NotBetween
+                || Operator == ExcelDataValidationOperator.Equal))
             {
 
                 if (string.IsNullOrEmpty(Formula2.ExcelFormula) &&

@@ -73,10 +73,10 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             ws.Cells["B1"].Value = 2;
             var validation = ws.DataValidations.AddIntegerValidation("A1");
             validation.ShowErrorMessage = true;
-            validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+            validation.ErrorStyle = ExcelDataValidationWarningStyle.Stop;
             validation.ErrorTitle = "Invalid value was entered";
             validation.PromptTitle = "Enter value here";
-            validation.Operator = ExcelDataValidationOperator.greaterThan;
+            validation.Operator = ExcelDataValidationOperator.GreaterThan;
             //validation.Value.Value = 3;
             validation.Formula.ExcelFormula = "B1";
         }
@@ -86,13 +86,13 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             var ws = _package.Workbook.Worksheets.Add("AddOneValidationOfTypeDecimal");
             var validation = ws.DataValidations.AddDecimalValidation("A1");
             validation.ShowErrorMessage = true;
-            validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
+            validation.ErrorStyle = ExcelDataValidationWarningStyle.Stop;
             validation.ErrorTitle = "Invalid value was entered";
             validation.Error = "Value must be greater than 1.4";
             validation.PromptTitle = "Enter value here";
             validation.Prompt = "Enter a value that is greater than 1.4";
             validation.ShowInputMessage = true;
-            validation.Operator = ExcelDataValidationOperator.greaterThan;
+            validation.Operator = ExcelDataValidationOperator.GreaterThan;
             validation.Formula.Value = 1.4;
         }
 
@@ -118,7 +118,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             validation.ShowInputMessage = true;
             validation.Formula.Value.Hour = 14;
             validation.Formula.Value.Minute = 30;
-            validation.Operator = ExcelDataValidationOperator.greaterThan;
+            validation.Operator = ExcelDataValidationOperator.GreaterThan;
             validation.Prompt = "Enter a time greater than 14:30";
             validation.Error = "Invalid time was entered";
             validation.Validate();
@@ -133,7 +133,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             var v = sheet1.Cells["A1"].DataValidation.AddIntegerDataValidation();
             v.Formula.ExcelFormula = "extlist_sheet2!A1";
             v.Formula2.ExcelFormula = "B2";
-            v.Operator = ExcelDataValidationOperator.between;
+            v.Operator = ExcelDataValidationOperator.Between;
             v.ShowErrorMessage = true;
             v.ShowInputMessage = true;
             v.AllowBlank = true;

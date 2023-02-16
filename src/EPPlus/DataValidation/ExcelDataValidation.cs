@@ -92,11 +92,11 @@ namespace OfficeOpenXml.DataValidation
                 if (!string.IsNullOrEmpty(errorStyleString))
                     return (ExcelDataValidationWarningStyle)Enum.Parse(typeof(ExcelDataValidationWarningStyle), errorStyleString);
 
-                return ExcelDataValidationWarningStyle.undefined;
+                return ExcelDataValidationWarningStyle.Undefined;
             }
             set
             {
-                if (value == ExcelDataValidationWarningStyle.undefined)
+                if (value == ExcelDataValidationWarningStyle.Undefined)
                     errorStyleString = null;
                 else
                     errorStyleString = value.ToString();
@@ -109,13 +109,13 @@ namespace OfficeOpenXml.DataValidation
             get
             {
                 if (string.IsNullOrEmpty(imeModeString))
-                    return (ExcelDataValidationImeMode.noControl);
+                    return (ExcelDataValidationImeMode.NoControl);
 
                 return (ExcelDataValidationImeMode)Enum.Parse(typeof(ExcelDataValidationImeMode), imeModeString);
             }
             set
             {
-                if (value == ExcelDataValidationImeMode.noControl)
+                if (value == ExcelDataValidationImeMode.NoControl)
                     imeModeString = null;
                 else
                     imeModeString = value.ToString();
@@ -189,7 +189,7 @@ namespace OfficeOpenXml.DataValidation
 
         /// <summary>
         /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
-        /// DEPRECATED as of TODO:insert version nr.
+        /// DEPRECATED as of Epplus 6.2.
         /// This as validations can no longer be stale since all attributes are now always fresh and held in the system.
         /// </summary>
         [Obsolete]
@@ -205,7 +205,7 @@ namespace OfficeOpenXml.DataValidation
             {
                 if (!string.IsNullOrEmpty(operatorString))
                 {
-                    return (ExcelDataValidationOperator)Enum.Parse(typeof(ExcelDataValidationOperator), operatorString);
+                    return (ExcelDataValidationOperator)Enum.Parse(typeof(ExcelDataValidationOperator), operatorString, true);
                 }
                 return default(ExcelDataValidationOperator);
             }

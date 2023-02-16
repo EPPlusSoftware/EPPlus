@@ -10,10 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -25,34 +21,34 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// The value of the validated cell should be between two values
         /// </summary>
-        between = 0,
+        Between = 0,
         /// <summary>
         /// The value of the validated cell should be eqal to a specific value
         /// </summary>
-        equal = 2,
+        Equal = 2,
         /// <summary>
         /// The value of the validated cell should be greater than a specific value
         /// </summary>
-        greaterThan = 6,
+        GreaterThan = 6,
         /// <summary>
         /// The value of the validated cell should be greater than or equal to a specific value
         /// </summary>
-        greaterThanOrEqual = 7,
+        GreaterThanOrEqual = 7,
         /// <summary>
         /// The value of the validated cell should be less than a specific value
         /// </summary>
-        lessThan = 4,
+        LessThan = 4,
         /// <summary>
         /// The value of the validated cell should be less than or equal to a specific value
         /// </summary>
-        lessThanOrEqual = 5,
+        LessThanOrEqual = 5,
         /// <summary>
         /// The value of the validated cell should not be between two specified values
         /// </summary>
-        notBetween = 1,
+        NotBetween = 1,
         /// <summary>
         /// The value of the validated cell should not be eqal to a specific value
         /// </summary>
-        notEqual = 3
+        NotEqual = 3
     }
 }

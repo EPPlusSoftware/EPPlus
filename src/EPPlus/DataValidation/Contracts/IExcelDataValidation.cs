@@ -76,6 +76,9 @@ namespace OfficeOpenXml.DataValidation.Contracts
         /// </summary>
         ExcelDataValidationAsType As { get; }
 
+        /// <summary>
+        /// Defines mode for Input Method Editor used in east-asian languages
+        /// </summary>
         ExcelDataValidationImeMode ImeMode { get; set; }
 
         /// <summary>

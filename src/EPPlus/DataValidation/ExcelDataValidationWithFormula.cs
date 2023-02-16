@@ -98,7 +98,7 @@ namespace OfficeOpenXml.DataValidation
             base.Validate();
             if (ValidationType.Type != eDataValidationType.List
                 && ValidationType.Type != eDataValidationType.Custom
-                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
+                && (Operator == ExcelDataValidationOperator.Between || Operator == ExcelDataValidationOperator.NotBetween))
             {
                 var formula = Formula as ExcelDataValidationFormula;
 

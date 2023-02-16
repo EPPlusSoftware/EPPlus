@@ -60,7 +60,7 @@ namespace EPPlusTest.DataValidation.Formulas
             validationOrig.Formula.Value.Minute = 30;
             validationOrig.Formula.Value.Second = 42;
 
-            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+            validationOrig.Operator = ExcelDataValidationOperator.LessThanOrEqual;
 
             var validation = ReadTValidation<ExcelDataValidationTime>(package);
 
@@ -79,7 +79,7 @@ namespace EPPlusTest.DataValidation.Formulas
 
             validationOrig.Formula.ExcelFormula = "D1";
 
-            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+            validationOrig.Operator = ExcelDataValidationOperator.LessThanOrEqual;
 
             var validation = ReadTValidation<ExcelDataValidationTime>(package);
 

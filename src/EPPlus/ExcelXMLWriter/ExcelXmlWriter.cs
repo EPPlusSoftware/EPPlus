@@ -19,6 +19,7 @@ using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -566,19 +567,19 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 cache.Append($"type=\"{_ws.DataValidations[i].ValidationType.TypeToXmlString()}\" ");
             }
 
-            if (_ws.DataValidations[i].ErrorStyle != ExcelDataValidationWarningStyle.undefined)
+            if (_ws.DataValidations[i].ErrorStyle != ExcelDataValidationWarningStyle.Undefined)
             {
-                cache.Append($"errorStyle=\"{_ws.DataValidations[i].ErrorStyle.ToString()}\" ");
+                cache.Append($"errorStyle=\"{_ws.DataValidations[i].ErrorStyle.ToEnumString()}\" ");
             }
 
-            if (_ws.DataValidations[i].ImeMode != ExcelDataValidationImeMode.noControl)
+            if (_ws.DataValidations[i].ImeMode != ExcelDataValidationImeMode.NoControl)
             {
-                cache.Append($"imeMode=\"{_ws.DataValidations[i].ImeMode.ToString()}\" ");
+                cache.Append($"imeMode=\"{_ws.DataValidations[i].ImeMode.ToEnumString()}\" ");
             }
 
             if (_ws.DataValidations[i].Operator != 0)
             {
-                cache.Append($"operator=\"{_ws.DataValidations[i].Operator.ToString()}\" ");
+                cache.Append($"operator=\"{_ws.DataValidations[i].Operator.ToEnumString()}\" ");
             }
 
 
