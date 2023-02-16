@@ -370,10 +370,11 @@ namespace EPPlusTest.DataValidation
                 }
             }
         }
+
         [TestMethod]
         public void DataValidations_ShouldWriteReadIMEmode()
         {
-            using (var pck = new ExcelPackage())
+            using (var pck = OpenPackage("ImeTest.xlsx"))
             {
                 var wks = pck.Workbook.Worksheets.Add("Sheet1");
 
@@ -382,7 +383,7 @@ namespace EPPlusTest.DataValidation
                 validation.Formula.ExcelFormula = "=ISTEXT(A1)";
                 validation.ImeMode = ExcelDataValidationImeMode.FullKatakana;
 
-                pck.SaveAs("C:/epplusTest/Workbooks/ImeTest.xlsx");
+                SaveAndCleanup(pck);
             }
         }
     }
