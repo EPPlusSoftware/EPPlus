@@ -374,7 +374,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void DataValidations_ShouldWriteReadIMEmode()
         {
-            using (var pck = OpenPackage("ImeTest.xlsx"))
+            using (var pck = OpenPackage("ImeTest.xlsx", true))
             {
                 var wks = pck.Workbook.Worksheets.Add("Sheet1");
 
