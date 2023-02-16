@@ -22,6 +22,7 @@ using System.Xml;
 using System.Text;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.ExternalReferences
 {

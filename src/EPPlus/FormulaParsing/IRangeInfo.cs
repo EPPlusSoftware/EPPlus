@@ -31,6 +31,10 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         bool IsMulti { get; }
         /// <summary>
+        /// If the range is not valid and returns #REF!
+        /// </summary>
+        bool IsRef { get; }
+        /// <summary>
         /// Get number of cells
         /// </summary>
         /// <returns>Number of cells</returns>

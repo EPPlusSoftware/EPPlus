@@ -98,6 +98,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             var resultRange = _excelDataProvider.GetRange(c.Address.Worksheet, c.Address.FromRow, c.Address.FromCol, ExpressionString);
             if (resultRange == null)
             {
+                if (resultRange.IsRef)
+                {
+                    return new CompileResult(eErrorType.Ref);
+                }
                 return CompileResult.Empty;
             }
             if (this.ResolveAsRange || resultRange.Address.Rows > 1 || resultRange.Address.Columns > 1)
@@ -114,7 +118,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             var cell = result.FirstOrDefault();
             if (cell == null)
+            {
+                if (result.IsRef)
+                {
+                    return new CompileResult(eErrorType.Ref);
+                }
                 return CompileResult.Empty;
+            }
             var factory = new CompileResultFactory();
             var compileResult = factory.Create(cell.Value);
             if (_negate && compileResult.IsNumeric)

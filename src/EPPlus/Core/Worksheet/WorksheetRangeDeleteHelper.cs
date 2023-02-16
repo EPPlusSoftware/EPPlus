@@ -215,7 +215,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void ValidateRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom = 1, int columns = ExcelPackage.MaxColumns)
         {
-            if (rowFrom < 1 || rowFrom + rows > ExcelPackage.MaxRows)
+            if (rowFrom < 1 || rowFrom + rows > ExcelPackage.MaxRows + 1)
             {
                 throw (new ArgumentException("rowFrom", "Row out of range. Spans from 1 to " + ExcelPackage.MaxRows.ToString(CultureInfo.InvariantCulture)));
             }

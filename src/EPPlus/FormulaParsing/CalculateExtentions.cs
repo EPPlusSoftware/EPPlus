@@ -34,7 +34,7 @@ namespace OfficeOpenXml
         /// <param name="workbook">The workbook</param>
         public static void Calculate(this ExcelWorkbook workbook)
         {
-            Calculate(workbook, new ExcelCalculationOption(){AllowCircularReferences=false});
+            Calculate(workbook, new ExcelCalculationOption());
         }
 
         /// <summary>
