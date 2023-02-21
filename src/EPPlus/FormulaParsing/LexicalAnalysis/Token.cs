@@ -120,6 +120,17 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             return (TokenType & tokenType) == tokenType;
         }
+        public bool TokenTypeIsAddress
+        {
+            get
+            {
+                return (TokenType & TokenType.ExcelAddress) == TokenType.ExcelAddress ||
+                       (TokenType & TokenType.CellAddress) == TokenType.CellAddress ||
+                       (TokenType & TokenType.FullRowAddress) == TokenType.FullRowAddress ||
+                       (TokenType & TokenType.FullColumnAddress) == TokenType.FullColumnAddress ||
+                       (TokenType & TokenType.ExcelAddressR1C1) == TokenType.ExcelAddressR1C1;
+            }
+        }
 
         public bool AreEqualTo(Token otherToken)
         {

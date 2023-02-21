@@ -179,6 +179,20 @@ namespace OfficeOpenXml
                 ToRow = FromRow;
                 fixedToRow = fixedFromRow;
                 fixedToColumn = fixedFromColumn;
+
+                if (FromRow == 0 && ToRow == 0 && FromColumn > 0 && ToColumn > 0)
+                {
+                    FromRow = 1;
+                    ToRow = ExcelPackage.MaxRows;
+                    fixedFromRow = fixedToRow = true;
+                }
+                else if (FromColumn == 0 && ToColumn == 0 && FromRow > 0 && ToRow > 0)
+                {
+                    FromColumn = 1;
+                    ToColumn = ExcelPackage.MaxColumns;
+                    fixedFromColumn = fixedToColumn = true;
+                }
+
             }
             else
             {
@@ -476,26 +490,26 @@ namespace OfficeOpenXml
             }
         }
 
-        private static int GetColumn(string sCol)
+        internal static int GetColumn(string sCol)
         {
             int col = 0;
             int len = sCol.Length - 1;
             for (int i = len; i >= 0; i--)
             {
-                col += (((int)sCol[i]) - 64) * (int)(Math.Pow(26, len - i));
+                col += (sCol[i] - 64) * (int)(Math.Pow(26, len - i));
             }
             return col;
         }
-        internal static int GetColumnNumber(string columnAddress)
-        {
-            var c = 0;
-            columnAddress = columnAddress.ToUpper();
-            for (int i = columnAddress.Length - 1; i >= 0; i--)
-            {
-                c += (columnAddress[i] - startChar) * (numberOfCharacters*i+1);
-            }
-            return c;
-        }
+        //internal static int GetColumnNumber(string columnAddress)
+        //{
+        //    var c = 0;
+        //    columnAddress = columnAddress.ToUpper();
+        //    for (int i = columnAddress.Length - 1; i >= 0; i--)
+        //    {
+        //        c += (columnAddress[i] - startChar) * (numberOfCharacters*i+1);
+        //    }
+        //    return c;
+        //}
 
         #region GetAddress
         /// <summary>

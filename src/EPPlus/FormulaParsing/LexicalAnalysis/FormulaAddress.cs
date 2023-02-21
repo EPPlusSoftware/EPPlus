@@ -7,6 +7,7 @@ using static OfficeOpenXml.ExcelAddressBase;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
+using System.Globalization;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -206,8 +207,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
             SetTokens(worksheet);
             string f = "";
-            foreach (var token in Tokens)
+            for(int i=0;i<Tokens.Count;i++)
             {
+                var token = Tokens[i];
                 if (token.TokenTypeIsSet(TokenType.CellAddress))
                 {
                     var a = new ExcelFormulaAddress(token.Value, (ExcelWorksheet)null);
@@ -238,6 +240,52 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         }
                     }
                 }
+                else if (token.TokenTypeIsSet(TokenType.FullRowAddress))
+                {
+                    if (token.Value.StartsWith("$") == false)
+                    {
+                        if(int.TryParse(token.Value, out int r))
+                        {
+                            r += row - StartRow;
+                            if (r >= 1 && r <= ExcelPackage.MaxRows)
+                            {
+                                f += r.ToString(CultureInfo.InvariantCulture);
+                            }
+                            else
+                            {
+                                f += "#REF!";
+                            }
+                        }
+                        else
+                        {
+                            f += "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        f += token.Value;
+                    }
+                }
+                else if (token.TokenTypeIsSet(TokenType.FullColumnAddress))
+                {
+                    if (token.Value.StartsWith("$") == false)
+                    {
+                        var c = ExcelCellBase.GetColumn(token.Value);
+                        c += column - StartCol;
+                        if (c >= 1 && c <= ExcelPackage.MaxColumns)
+                        { 
+                            f += ExcelCellBase.GetColumnLetter(c);
+                        }
+                        else
+                        {
+                            f += "#REF!";
+                        }
+                    }
+                    else
+                    {
+                        f += token.Value;
+                    }
+                }
                 else
                 {
                     if (token.TokenTypeIsSet(TokenType.StringContent))
@@ -249,6 +297,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         f += token.Value;
                     }
                 }
+
             }
             return f;
         }
@@ -852,7 +901,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 case "#this row":
                     var dr = table.DataRange;
                     var r = _context.CurrentCell.Row;
-                    if (WorksheetIx != table.WorkSheet.PositionId || r < dr._fromRow || r > dr._toRow)
+                    if (WorksheetIx != table.WorkSheet.IndexInList || r < dr._fromRow || r > dr._toRow)
                     {
                         fromRow = toRow = -1;
                     }

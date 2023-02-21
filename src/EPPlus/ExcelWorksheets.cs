@@ -82,7 +82,6 @@ namespace OfficeOpenXml
                         }
                         else
                         {
-                            
                             _worksheets.Add(ix, new ExcelWorksheet(_namespaceManager, _pck, relId, uriWorksheet, name, sheetID, positionID, null));
                         }
                     }

@@ -87,6 +87,23 @@ namespace EPPlusTest.Utils
             var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
             Assert.AreEqual("SUM(A1:A2)", result);
         }
+        [TestMethod]
+        public void ShouldShiftRowInFormulaAddressesFullRow()
+        {
+            var formula = "SUM(3:4)";
+            var ws = "test";
+            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
+            Assert.AreEqual("SUM(1:2)", result);
+        }
+        [TestMethod]
+        public void ShouldShiftRowInFormulaAddressesFullColumn()
+        {
+            var formula = "SUM(C:D)";
+            var ws = "test";
+            var result = AddressUtility.ShiftAddressColumnsInFormula(ws, formula, 3, -2);
+            Assert.AreEqual("SUM(A:B)", result);
+        }
+
 
         [TestMethod]
         public void ShouldNotShiftRowInFormulaFixedAddresses()
@@ -95,6 +112,14 @@ namespace EPPlusTest.Utils
             var ws = "test";
             var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
             Assert.AreEqual("SUM(A$3:A$4)", result);
+        }
+        [TestMethod]
+        public void ShouldNotShiftRowInFormulaFixedAddressesFullRow()
+        {
+            var formula = "SUM($3:$4)";
+            var ws = "test";
+            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
+            Assert.AreEqual("SUM($3:$4)", result);
         }
     }
 }

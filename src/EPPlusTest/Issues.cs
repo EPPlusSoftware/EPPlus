@@ -55,6 +55,7 @@ using OfficeOpenXml.Drawing.Style.Coloring;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 using OfficeOpenXml.Utils.CompundDocument;
+using FakeItEasy;
 
 namespace EPPlusTest
 {
@@ -3883,6 +3884,16 @@ namespace EPPlusTest
             using (var p = OpenTemplatePackage(@"s404.xlsm"))
             {
                 p.Workbook.VbaProject.Protection.SetPassword(null);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void sf()
+        {
+            using (var p = OpenPackage(@"sf.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Test");
+                ws.Cells["A1:C3"].Formula = "SUM(A:XFD)";
                 SaveAndCleanup(p);
             }
         }

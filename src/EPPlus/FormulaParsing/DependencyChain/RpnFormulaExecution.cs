@@ -151,7 +151,6 @@ namespace OfficeOpenXml.FormulaParsing
                     var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
                     if (depChain.processedCells.Contains(id) == false)
                     {
-                        depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws.IndexInList, fs.Row, fs.Column);
                         if (GetFormula(depChain, ws, fs, ref f))
                         {
                             AddChainForFormula(depChain, f, options);
@@ -281,10 +280,24 @@ namespace OfficeOpenXml.FormulaParsing
                 //compiler
                 if (string.IsNullOrEmpty(s)) return false;
                 f = new RpnFormula(ws, fs.Row, fs.Column);
+                SetCurrentCell(depChain, f);
                 f.SetFormula(s, depChain._tokenizer, depChain._graph);
             }
             return true;
         }
+
+        private static void SetCurrentCell(RpnOptimizedDependencyChain depChain, RpnFormula f)
+        {
+            if (f._ws == null)
+            {
+                depChain._parsingContext.CurrentCell = new FormulaCellAddress(0, f._row, 0);
+            }
+            else
+            {
+                depChain._parsingContext.CurrentCell = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column);
+            }
+        }
+
         private static RpnFormula GetNameFormula(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, INameInfo name)
         {
             ExcelCellBase.SplitCellId(name.Id, out int wsIx, out int row, out int col);
@@ -293,6 +306,7 @@ namespace OfficeOpenXml.FormulaParsing
                 ws = depChain._parsingContext.Package.Workbook.Worksheets[name.wsIx];
             }
             var f = new RpnFormula(ws, row , col);
+            SetCurrentCell(depChain, f);
             f.SetFormula(name.Formula, depChain._tokenizer, depChain._graph);
             return f;
         }
@@ -304,15 +318,8 @@ namespace OfficeOpenXml.FormulaParsing
         ExecuteFormula:
             try
             {
+                SetCurrentCell(depChain, f);
                 var ws = f._ws;
-                if (ws == null)
-                {
-                    depChain._parsingContext.CurrentCell = new FormulaCellAddress(0, f._row, 0);
-                }
-                else
-                {
-                    depChain._parsingContext.CurrentCell = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column);
-                }
                 if (f._tokenIndex < f._tokens.Count)
                 {
                     address = ExecuteNextToken(depChain, f);
@@ -321,18 +328,26 @@ namespace OfficeOpenXml.FormulaParsing
                         if (address == null && f._expressions[f._tokenIndex].ExpressionType == ExpressionType.NameValue)
                         {
                             var ne = f._expressions[f._tokenIndex] as RpnNamedValueExpression;
-                            rd = AddAddressToRD(depChain, ne._worksheetIx);
-                            
-                            if (rd.Merge(ExcelCellBase.GetRowFromCellId(ne._name.Id), 0))
+                            if (ne._externalReferenceIx < 1)
                             {
-                                depChain._formulaStack.Push(f);
-                                ws = ne._worksheetIx < 0 ? null : depChain._parsingContext.Package.Workbook._worksheets[ne._worksheetIx];
-                                f = GetNameFormula(depChain, ws, ((RpnNamedValueExpression)f._expressions[f._tokenIndex])._name);
-                                goto ExecuteFormula;
+                                rd = AddAddressToRD(depChain, ne._worksheetIx);
+
+                                if (rd.Merge(ExcelCellBase.GetRowFromCellId(ne._name.Id), 0))
+                                {
+                                    depChain._formulaStack.Push(f);
+                                    ws = ne._worksheetIx < 0 ? null : depChain._parsingContext.Package.Workbook._worksheets[ne._worksheetIx];
+                                    f = GetNameFormula(depChain, ws, ((RpnNamedValueExpression)f._expressions[f._tokenIndex])._name);
+                                    goto ExecuteFormula;
+                                }
+                                else
+                                {
+                                    CheckCircularReferences(depChain, f, options);
+                                    f._tokenIndex++;
+                                    goto ExecuteFormula;
+                                }
                             }
                             else
                             {
-                                CheckCircularReferences(depChain, f, options);
                                 f._tokenIndex++;
                                 goto ExecuteFormula;
                             }

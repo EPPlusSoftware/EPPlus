@@ -40,19 +40,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 foreach (var arg in arguments)
                 {
-                    retVal += Calculate(arg, context);                    
+                    var c = Calculate(arg, context);
+                    if (c is ExcelErrorValue e)
+                    {
+                        return CreateResult(e, DataType.ExcelError) ;
+                    }
+                    else
+                    {
+                        retVal += (double)c;
+                    }
                 }
             }
             return CreateResult(retVal, DataType.Decimal);
         }
 
         
-        private double Calculate(FunctionArgument arg, ParsingContext context)
+        private object Calculate(FunctionArgument arg, ParsingContext context)
         {
             var retVal = 0d;
             if (ShouldIgnore(arg, context))
             {
                 return retVal;
+            }
+            if (arg.DataType == DataType.ExcelError)
+            {
+                return arg.Value;
             }
             if (arg.Value is IEnumerable<FunctionArgument>)
             {
@@ -60,7 +72,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 {
                     if(!ShouldIgnore(arg, context))
                     {
-                        retVal += Calculate(item, context);
+                        var c = Calculate(item, context);
+                        if (c is ExcelErrorValue e)
+                        {
+                            return e;
+                        }
+                        else
+                        {
+                            retVal += (double)c;
+                        }
                     }
                 }
             }
@@ -70,14 +90,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 {
                     if (ri.IsInMemoryRange || !ShouldIgnore(c, context))
                     {
-                        CheckForAndHandleExcelError(c);
+                        //CheckForAndHandleExcelError(c);
+                        if (c.IsExcelError) return c.Value;
                         retVal += c.ValueDouble;
                     }
                 }
             }
             else
             {
-                CheckForAndHandleExcelError(arg);
+                //CheckForAndHandleExcelError(arg);
                 retVal += ConvertUtil.GetValueDouble(arg.Value, true);
             }
             return retVal;

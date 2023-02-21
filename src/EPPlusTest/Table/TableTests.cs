@@ -63,7 +63,27 @@ namespace EPPlusTest.Table
             ws.Cells["B4"].Value = 2;
             ws.Cells["C3"].Value = 3;
             ws.Cells["C4"].Value = 4;
-            var table = ws.Tables.Add(ws.Cells["B2:C4"], "TestTableParamHeader");
+            var table = ws.Tables.Add(ws.Cells["B2:C4"], "TestTableParathesesHeader");
+            table.ShowTotal = true;
+            table.ShowHeader = true;
+            table.Columns[0].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
+            table.Columns[1].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
+            ws.Cells["B5"].Calculate();
+            Assert.AreEqual(3.0, ws.Cells["B5"].Value);
+            ws.Cells["C5"].Calculate();
+            Assert.AreEqual(7.0, ws.Cells["C5"].Value);
+        }
+        [TestMethod]
+        public void TableWithSubtotalsBracketInColumnName()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableSubtotBracketColumnName");
+            ws.Cells["B2"].Value = "Header 1 & 7";
+            ws.Cells["C2"].Value = "Header [test]";
+            ws.Cells["B3"].Value = 1;
+            ws.Cells["B4"].Value = 2;
+            ws.Cells["C3"].Value = 3;
+            ws.Cells["C4"].Value = 4;
+            var table = ws.Tables.Add(ws.Cells["B2:C4"], "TestTableBracketHeader");
             table.ShowTotal = true;
             table.ShowHeader = true;
             table.Columns[0].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;

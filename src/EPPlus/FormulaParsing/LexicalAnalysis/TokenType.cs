@@ -171,9 +171,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents a cell address.
         /// </summary>
         CellAddress = (ulong)1 << 36,
-        StartFunctionArguments = (ulong)1 << 37,
-        Array = (ulong)1 << 38,
-        NAError = (ulong)1 << 39,
-        SingleQuote = (ulong)1 << 40,
+        FullColumnAddress = (ulong)1 << 37,
+        FullRowAddress = (ulong)1 << 38,
+        StartFunctionArguments = (ulong)1 << 39,
+        Array = (ulong)1 << 40,
+        NAError = (ulong)1 << 41,
+        SingleQuote = (ulong)1 << 42,
     }
 }

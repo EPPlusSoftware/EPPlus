@@ -64,8 +64,8 @@ namespace OfficeOpenXml.FormulaParsing
 
             Assert.AreEqual("SUM(A:XFD)", fA1);
             Assert.AreEqual("SUM(A:XFD)", fA2);
-            Assert.AreEqual("SUM(A:XFD)", fB1);
-            Assert.AreEqual("SUM(A:XFD)", fB2);
+            Assert.AreEqual("SUM(B:#REF!)", fB1);
+            Assert.AreEqual("SUM(B:#REF!)", fB2);
         }
     }
 }

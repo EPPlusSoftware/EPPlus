@@ -31,9 +31,9 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FakeItEasy;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml;
 
 namespace EPPlusTest.ExcelUtilities
 {
@@ -46,9 +46,9 @@ namespace EPPlusTest.ExcelUtilities
         [TestInitialize]
         public void Setup()
         {
-            var provider = A.Fake<ExcelDataProvider>();
-            A.CallTo(() => provider.ExcelMaxRows).Returns(ExcelMaxRows);
-            _factory = new RangeAddressFactory(provider, ParsingContext.Create());
+            var p = new ExcelPackage();
+            p.Workbook.Worksheets.Add("Ws");
+            _factory = new RangeAddressFactory(new EpplusExcelDataProvider(p, p.Workbook.FormulaParser.ParsingContext), p.Workbook.FormulaParser.ParsingContext);
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentException))]

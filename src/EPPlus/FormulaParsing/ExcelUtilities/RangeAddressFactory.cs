@@ -108,10 +108,17 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 adr = new ExcelAddressBase(a.FromRow, a.FromCol, a.ToRow, a.ToCol);
                 adr._ws = a.WorksheetName;                
             }
-            short worksheetIx = -1;
-            if (!string.IsNullOrEmpty(adr._ws) && _context.Package != null && _context.Package.Workbook.Worksheets[adr._ws] != null)
+            int worksheetIx = int.MinValue;
+            if (!string.IsNullOrEmpty(adr._ws))
             {
-                worksheetIx = (short)_context.Package.Workbook.Worksheets[adr._ws].PositionId;
+                if (_context.Package != null && _context.Package.Workbook.Worksheets[adr._ws] != null)
+                {
+                    worksheetIx = (short)_context.Package.Workbook.Worksheets[adr._ws].PositionId;
+                }
+                else
+                {
+                    worksheetIx = -1;
+                }
             }
             var rangeAddress = new FormulaRangeAddress(_context)
             {

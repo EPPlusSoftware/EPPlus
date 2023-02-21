@@ -11,6 +11,7 @@
   05/7/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;

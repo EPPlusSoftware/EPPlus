@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -50,27 +51,40 @@ namespace OfficeOpenXml.Utils
             address = address.Replace(range, string.Format("{0}1:{1}", splitArr[0], splitArr[1]));
         }
 
-        internal static string ShiftAddressRowsInFormula(string worksheetName, string formula, int currentRow, int newRow)
+        internal static string ShiftAddressRowsInFormula(string worksheetName, string formula, int currentRow, int rows)
         {
             if (string.IsNullOrEmpty(formula)) return formula;
             var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
-            if (!tokens.Any(x => x.TokenTypeIsSet(TokenType.ExcelAddress))) return formula;
+            if (!tokens.Any(x => x.TokenTypeIsAddress)) return formula;
             var resultTokens = new List<Token>();
             foreach (var token in tokens)
             {
-                if (!token.TokenTypeIsSet(TokenType.ExcelAddress))
+                if (!token.TokenTypeIsAddress)
                 {
                     resultTokens.Add(token);
                 }
                 else
                 {
-                    var addresses = new List<ExcelCellAddress>();
-                    var adr = new ExcelAddressBase(token.Value);
-                    // if the formula is a table formula (relative) keep it as it is
-                    if (adr.Table == null)
+                    if (token.TokenTypeIsSet(TokenType.CellAddress) || token.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
-                        var newAdr = adr.AddRow(currentRow, newRow, true);
-                        var newToken = new Token(newAdr.FullAddress, TokenType.ExcelAddress);
+                        var addresses = new List<ExcelCellAddress>();
+                        var adr = new ExcelAddressBase(token.Value);
+                        // if the formula is a table formula (relative) keep it as it is
+                        if (adr.Table == null)
+                        {
+                            var newAdr = adr.AddRow(currentRow, rows, true);
+                            var newToken = new Token(newAdr.FullAddress, token.TokenType);
+                            resultTokens.Add(newToken);
+                        }
+                        else
+                        {
+                            resultTokens.Add(token);
+                        }
+                    }
+                    else if (token.Value.StartsWith("$") == false && token.TokenTypeIsSet(TokenType.FullRowAddress) && int.TryParse(token.Value, out int r))
+                    {
+                        r += rows;
+                        var newToken = new Token(r.ToString(CultureInfo.InvariantCulture), token.TokenType);
                         resultTokens.Add(newToken);
                     }
                     else
@@ -87,26 +101,22 @@ namespace OfficeOpenXml.Utils
             return result.ToString();
         }
 
-        internal static string ShiftAddressColumnsInFormula(string worksheetName, string formula, int currentColumn, int newColumn)
+        internal static string ShiftAddressColumnsInFormula(string worksheetName, string formula, int currentColumn, int columns)
         {
             if (string.IsNullOrEmpty(formula)) return formula;
             var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
-            if (!tokens.Any(x => x.TokenTypeIsSet(TokenType.ExcelAddress))) return formula;
+            if (tokens.Any(x => x.TokenTypeIsAddress)==false) return formula;
             var resultTokens = new List<Token>();
             foreach (var token in tokens)
             {
-                if (!token.TokenTypeIsSet(TokenType.ExcelAddress))
-                {
-                    resultTokens.Add(token);
-                }
-                else
+                if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.CellAddress))
                 {
                     var addresses = new List<ExcelCellAddress>();
                     var adr = new ExcelAddressBase(token.Value);
                     // if the formula is a table formula (relative) keep it as it is
                     if (adr.Table == null)
                     {
-                        var newAdr = adr.AddColumn(currentColumn, newColumn, true);
+                        var newAdr = adr.AddColumn(currentColumn, columns, true);
                         var newToken = new Token(newAdr.FullAddress, TokenType.ExcelAddress);
                         resultTokens.Add(newToken);
                     }
@@ -114,6 +124,17 @@ namespace OfficeOpenXml.Utils
                     {
                         resultTokens.Add(token);
                     }
+                }
+                else if (token.Value.StartsWith("$") == false && token.TokenTypeIsSet(TokenType.FullColumnAddress) && ExcelCellBase.IsColumnLetter(token.Value))
+                {                    
+                    var c=ExcelCellBase.GetColumn(token.Value);
+                    c += columns;
+                    var newToken = new Token(ExcelCellBase.GetColumnLetter(c), token.TokenType);
+                    resultTokens.Add(newToken);
+                }
+                else
+                {
+                    resultTokens.Add(token);
                 }
             }
             var result = new StringBuilder();

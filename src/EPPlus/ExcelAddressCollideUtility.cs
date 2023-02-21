@@ -58,9 +58,10 @@ namespace OfficeOpenXml
         internal eAddressCollition Collide(FormulaRangeAddress address, ParsingContext ctx, bool ignoreWs = false)
         {
             var ws = GetWsName(address, ctx);
-            if (ignoreWs == false && ws != _worksheetName &&
+            if ((ignoreWs == false && 
+                ws != _worksheetName &&
                 string.IsNullOrEmpty(ws) == false &&
-                string.IsNullOrEmpty(_worksheetName) == false)
+                string.IsNullOrEmpty(_worksheetName) == false) || address.WorksheetIx==-1)
             {
                 return eAddressCollition.No;
             }

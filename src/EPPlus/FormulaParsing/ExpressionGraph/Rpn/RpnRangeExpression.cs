@@ -133,6 +133,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         internal override void MergeAddress(string address)
         {
             ExcelCellBase.GetRowColFromAddress(address, out int fromRow, out int fromCol, out int toRow, out int toCol, out bool fixedFromRow, out bool fixedFromCol, out bool fixedToRow, out bool fixedToCol);
+
             if (_addressInfo.FromRow > fromRow)
             {
                 _addressInfo.FromRow = fromRow;
