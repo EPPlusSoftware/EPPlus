@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             if (!(function is If)) throw new ArgumentException("function must be of type If");
         }
 
-        internal override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<RpnExpression> children)
         {
             // 2 is allowed, Excel returns FALSE if false is the outcome of the expression
             if (children.Count() < 2) throw new ExcelErrorValueException(eErrorType.Value);

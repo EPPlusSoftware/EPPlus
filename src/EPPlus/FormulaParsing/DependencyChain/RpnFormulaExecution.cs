@@ -1,18 +1,11 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -776,7 +769,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, Token t, RpnFormula f)
         {
-            var func = depChain._parsingContext.Configuration.FunctionRepository.GetFunction(t.Value);
+            var funcName = t.Value;
+            if (funcName.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) funcName = funcName.Replace("_xlfn.", string.Empty);
+            var func = depChain._parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
+
             var args = GetFunctionArguments(f);
             var compiler = depChain._functionCompilerFactory.Create(func);
             CompileResult result;

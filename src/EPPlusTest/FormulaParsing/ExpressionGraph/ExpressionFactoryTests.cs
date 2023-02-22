@@ -38,50 +38,50 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {
-    [TestClass]
-    public class ExpressionFactoryTests
-    {
-        private IExpressionFactory _factory;
-        private ParsingContext _parsingContext;
-        private FormulaAddressBase _address;
-        [TestInitialize]
-        public void Setup()
-        {
-            _parsingContext = ParsingContext.Create();
-            var provider = A.Fake<ExcelDataProvider>();
-            _factory = new ExpressionFactory(provider, _parsingContext);
-        }
+    //[TestClass]
+    //public class ExpressionFactoryTests
+    //{
+    //    private IExpressionFactory _factory;
+    //    private ParsingContext _parsingContext;
+    //    private FormulaAddressBase _address;
+    //    [TestInitialize]
+    //    public void Setup()
+    //    {
+    //        _parsingContext = ParsingContext.Create();
+    //        var provider = A.Fake<ExcelDataProvider>();
+    //        _factory = new ExpressionFactory(provider, _parsingContext);
+    //    }
 
-        [TestMethod]
-        public void ShouldReturnIntegerExpressionWhenTokenIsInteger()
-        {
-            var token = new Token("2", TokenType.Integer);
-            var expression = _factory.Create(token, ref _address, null);
-            Assert.IsInstanceOfType(expression, typeof(IntegerExpression));
-        }
+    //    [TestMethod]
+    //    public void ShouldReturnIntegerExpressionWhenTokenIsInteger()
+    //    {
+    //        var token = new Token("2", TokenType.Integer);
+    //        var expression = _factory.Create(token, ref _address, null);
+    //        Assert.IsInstanceOfType(expression, typeof(IntegerExpression));
+    //    }
 
-        [TestMethod]
-        public void ShouldReturnBooleanExpressionWhenTokenIsBoolean()
-        {
-            var token = new Token("true", TokenType.Boolean);
-            var expression = _factory.Create(token, ref _address, null);
-            Assert.IsInstanceOfType(expression, typeof(BooleanExpression));
-        }
+    //    [TestMethod]
+    //    public void ShouldReturnBooleanExpressionWhenTokenIsBoolean()
+    //    {
+    //        var token = new Token("true", TokenType.Boolean);
+    //        var expression = _factory.Create(token, ref _address, null);
+    //        Assert.IsInstanceOfType(expression, typeof(BooleanExpression));
+    //    }
 
-        [TestMethod]
-        public void ShouldReturnDecimalExpressionWhenTokenIsDecimal()
-        {
-            var token = new Token("2.5", TokenType.Decimal);
-            var expression = _factory.Create(token, ref _address, null);
-            Assert.IsInstanceOfType(expression, typeof(DecimalExpression));
-        }
+    //    [TestMethod]
+    //    public void ShouldReturnDecimalExpressionWhenTokenIsDecimal()
+    //    {
+    //        var token = new Token("2.5", TokenType.Decimal);
+    //        var expression = _factory.Create(token, ref _address, null);
+    //        Assert.IsInstanceOfType(expression, typeof(DecimalExpression));
+    //    }
 
-        [TestMethod]
-        public void ShouldReturnNamedValueExpressionWhenTokenIsNamedValue()
-        {
-            var token = new Token("NamedValue", TokenType.NameValue);
-            var expression = _factory.Create(token, ref _address, null);
-            Assert.IsInstanceOfType(expression, typeof(NamedValueExpression));
-        }
-    }
+    //    [TestMethod]
+    //    public void ShouldReturnNamedValueExpressionWhenTokenIsNamedValue()
+    //    {
+    //        var token = new Token("NamedValue", TokenType.NameValue);
+    //        var expression = _factory.Create(token, ref _address, null);
+    //        Assert.IsInstanceOfType(expression, typeof(NamedValueExpression));
+    //    }
+    //}
 }

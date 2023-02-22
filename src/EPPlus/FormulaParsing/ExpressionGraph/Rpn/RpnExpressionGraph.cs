@@ -11,21 +11,14 @@
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Drawing.Drawing2D;
 using System.Globalization;
-using System.Linq.Expressions;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn

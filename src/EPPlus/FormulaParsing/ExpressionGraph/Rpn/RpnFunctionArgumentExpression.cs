@@ -10,8 +10,6 @@
  *************************************************************************************************
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.UnrecognizedFunctionsPipeline;
 using System.Linq;
 using System;
 using System.Collections;

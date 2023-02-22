@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 
         private readonly ExpressionEvaluator _evaluator;
 
-        internal override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<RpnExpression> children)
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);

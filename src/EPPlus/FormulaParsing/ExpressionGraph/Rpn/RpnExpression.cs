@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         }
         internal override RpnExpressionStatus Status { get; set; }
     }
-    internal abstract class RpnExpression
+    public abstract class RpnExpression
     {
         protected CompileResult _cachedCompileResult;
         internal Operators Operator;

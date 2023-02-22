@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             
         }
 
-        internal override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<RpnExpression> children)
         {
             if (children.Count() != 2) return new CompileResult(eErrorType.Value);
             var args = new List<FunctionArgument>();

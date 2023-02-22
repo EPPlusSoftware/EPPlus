@@ -20,7 +20,7 @@ using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 {
-    internal abstract class RpnFunctionCompiler
+    public abstract class RpnFunctionCompiler
     {
         protected ExcelFunction Function
         {
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             BuildFunctionArguments(result, result.DataType, args);
         }
 
-        internal abstract CompileResult Compile(IEnumerable<RpnExpression> children);
+        public abstract CompileResult Compile(IEnumerable<RpnExpression> children);
 
     }
 }

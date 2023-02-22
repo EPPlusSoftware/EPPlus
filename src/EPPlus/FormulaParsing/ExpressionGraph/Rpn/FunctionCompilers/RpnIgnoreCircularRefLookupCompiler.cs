@@ -11,7 +11,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
         {
         }
 
-        internal override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<RpnExpression> children)
         {
             //foreach(var child in children)
             //{

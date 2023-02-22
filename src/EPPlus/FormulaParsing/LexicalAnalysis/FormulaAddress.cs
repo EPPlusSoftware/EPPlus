@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal static ISourceCodeTokenizer _tokenizer = OptimizedSourceCodeTokenizer.Default;
         internal IList<Token> Tokens;
         internal IList<Token> RpnTokens;
-        internal IExpressionCompiler _compiler;
+        //internal IExpressionCompiler _compiler;
         internal int AddressExpressionIndex;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal ulong _id=ulong.MinValue;
@@ -159,7 +159,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 //ExpressionTree = GetExpressionTree(row, col),
                 StartRow = row,
                 StartCol = col,
-                _compiler = _compiler,
+                //_compiler = _compiler,
             };
         }
         //RpnCompiledFormula _compiledExpressions = null;

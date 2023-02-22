@@ -28,15 +28,13 @@
  *******************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
 
 namespace EPPlusTest.FormulaParsing
 {
@@ -60,10 +58,10 @@ namespace EPPlusTest.FormulaParsing
                 Functions = new Dictionary<string, ExcelFunction>();
                 Functions.Add("MyFunction", new MyFunction());
 
-                CustomCompilers = new Dictionary<Type, FunctionCompiler>();
+                CustomCompilers = new Dictionary<Type, RpnFunctionCompiler>();
             }
             public IDictionary<string, ExcelFunction> Functions { get; }
-            public IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
+            public IDictionary<Type, RpnFunctionCompiler> CustomCompilers { get; }
         }
         #endregion
 
