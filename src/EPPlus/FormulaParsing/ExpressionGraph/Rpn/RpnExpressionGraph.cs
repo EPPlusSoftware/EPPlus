@@ -581,7 +581,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             {
                 if(extRef <= _parsingContext.Package.Workbook.ExternalLinks.Count)
                 {
-                    var extWb = _parsingContext.Package.Workbook.ExternalLinks[extRef].As.ExternalWorkbook;
+                    var extWb = _parsingContext.Package.Workbook.ExternalLinks[extRef-1].As.ExternalWorkbook;
                     if(extWb != null && extWb.Package!=null)
                     {
                         tableAddress.SetTableAddress(extWb.Package);

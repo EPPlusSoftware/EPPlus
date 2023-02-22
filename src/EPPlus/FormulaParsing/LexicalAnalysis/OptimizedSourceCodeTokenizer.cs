@@ -619,11 +619,16 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
                 else
                 {
-                    var pt = GetLastToken(l);
-                    if (pt.TokenType==TokenType.WorksheetName)
-                    {
-                        l.Add(new Token(currentString, TokenType.NameValue)); //Likely an dde string
-                    }
+                    //var pt = GetLastToken(l);
+                    //if (pt.TokenType==TokenType.WorksheetName)
+                    //{
+                    //l.Add(new Token(currentString, TokenType.NameValue)); //Likely an dde string
+                    //}
+                    //else
+                    //{
+                    //    l.
+                    //}
+                    l.Add(new Token(currentString, TokenType.InvalidReference));
                 }
             }
 

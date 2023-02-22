@@ -77,7 +77,6 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidFormulaException))]
         public void ShouldHandleInvalidRef()
         {
             var sheet = _package.Workbook.Worksheets.Add("ab#k..2");

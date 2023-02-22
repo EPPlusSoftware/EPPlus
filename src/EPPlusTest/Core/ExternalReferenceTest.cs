@@ -90,7 +90,7 @@ namespace EPPlusTest.Core
             p.Workbook.ExternalLinks[0].As.ExternalWorkbook.Package.Workbook.Calculate();
             p.Workbook.ClearFormulaValues();
             p.Workbook.Calculate();
-
+            
             var ws = p.Workbook.Worksheets[0];
             Assert.AreEqual(3D, ws.Cells["D1"].Value);
             Assert.AreEqual(2D, ws.Cells["E2"].Value);

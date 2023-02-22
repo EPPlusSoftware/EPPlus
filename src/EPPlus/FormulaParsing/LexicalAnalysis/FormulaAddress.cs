@@ -817,7 +817,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 table = null;
             }
 
-            if (table != null && ExternalReferenceIx <= 0)
+            if (table != null)
             {
                 FixedFlag = FixedFlag.All;
 

@@ -18,18 +18,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 
         public override CompileResult Compile()
         {
-            if(_addressInfo.ExternalReferenceIx > 0)
+            if(_addressInfo.FromRow < 1)
             {
                 return new CompileResult(eErrorType.Ref);
             }
-            else
-            {
-                _addressInfo.SetTableAddress(Context.Package);
-                if(_addressInfo.FromRow < 1)
-                {
-                    return new CompileResult(eErrorType.Ref);
-                }
-            }
+
             var ri = Context.ExcelDataProvider.GetRange(_addressInfo);
             if (ri.IsMulti)
             {
@@ -37,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             }
             else
             {
-                return CompileResultFactory.Create(ri.GetOffset(0,0), _addressInfo);
+                return CompileResultFactory.Create(ri.GetOffset(0, 0), _addressInfo);
             }
         }
 

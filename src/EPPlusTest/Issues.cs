@@ -3887,15 +3887,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-        [TestMethod]
-        public void sf()
-        {
-            using (var p = OpenPackage(@"sf.xlsx", true))
-            {
-                var ws = p.Workbook.Worksheets.Add("Test");
-                ws.Cells["A1:C3"].Formula = "SUM(A:XFD)";
-                SaveAndCleanup(p);
-            }
-        }
     }
 }
