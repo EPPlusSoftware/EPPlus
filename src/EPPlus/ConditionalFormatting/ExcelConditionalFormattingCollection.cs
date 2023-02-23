@@ -98,7 +98,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
           // Get the @sqref attribute    
           var refAddress = conditionalFormattingNode.Attributes[ExcelConditionalFormattingConstants.Attributes.Sqref].Value.Replace(" ", ",");
-          ExcelAddress address = new ExcelAddress(refAddress);
+          ExcelAddress address = new ExcelAddress(_worksheet.Name, refAddress);
 
           // Check for all the <cfRules> nodes and load them
           var cfRuleNodes = conditionalFormattingNode.SelectNodes(

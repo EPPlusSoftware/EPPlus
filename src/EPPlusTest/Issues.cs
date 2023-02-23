@@ -4223,5 +4223,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s425()
+        {
+            using (var p = OpenTemplatePackage("s425.xlsx"))
+            {
+                Assert.AreEqual(1, p.Workbook.Worksheets[0].PivotTables.Count);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

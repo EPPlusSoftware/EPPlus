@@ -477,7 +477,11 @@ namespace OfficeOpenXml.Table.PivotTable
                     DateGrouping = (eDateGroupBy)Enum.Parse(typeof(eDateGroupBy), groupBy.Value, true);
                     Grouping = new ExcelPivotTableFieldDateGroup(NameSpaceManager, groupNode);
                 }
-                AddItems(GroupItems, groupNode.SelectSingleNode("d:groupItems", NameSpaceManager), true);
+                var groupItems = groupNode.SelectSingleNode("d:groupItems", NameSpaceManager);
+                if (groupItems != null)
+                {
+                    AddItems(GroupItems, groupItems, true);
+                }
             }
 
             var si = GetNode("d:sharedItems");
