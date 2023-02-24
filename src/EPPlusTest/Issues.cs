@@ -4232,5 +4232,19 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s803()
+        {
+            using (var p = OpenPackage("s803.xlsx",true))
+            {                
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:E100"].FillNumber(1, 1);
+                ws.Cells["A82"].Formula = "a1";
+                ws.Cells["A82"].Formula = null;
+                ws.Cells["A2:C100"].Style.Font.Bold = true;
+                ws.InsertRow(81, 1);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

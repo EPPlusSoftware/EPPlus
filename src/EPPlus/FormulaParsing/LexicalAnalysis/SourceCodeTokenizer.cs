@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             if (string.IsNullOrEmpty(input))
             {
-                return Enumerable.Empty<Token>();
+                return new List<Token>();
             }
             // MA 1401: Ignore leading plus in formula.
             input = input.TrimStart('+');
