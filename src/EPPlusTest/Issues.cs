@@ -4238,5 +4238,28 @@ namespace EPPlusTest
                 Assert.AreEqual(50d, p.Workbook.Worksheets[0].Cells["D1"].Value);
             }
         }
+        [TestMethod]
+        public void s425()
+        {
+            using (var p = OpenTemplatePackage("s425.xlsx"))
+            {
+                Assert.AreEqual(1, p.Workbook.Worksheets[0].PivotTables.Count);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s803()
+        {
+            using (var p = OpenPackage("s803.xlsx",true))
+            {                
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:E100"].FillNumber(1, 1);
+                ws.Cells["A82"].Formula = "a1";
+                ws.Cells["A82"].Formula = null;
+                ws.Cells["A2:C100"].Style.Font.Bold = true;
+                ws.InsertRow(81, 1);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

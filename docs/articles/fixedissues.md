@@ -1,5 +1,14 @@
 ﻿# Features / Fixed issues - EPPlus 6
 
+## Version 6.1.3
+### Fixed issues
+* When clearing a formula and then insert a row into the worksheet an exception was thrown.
+* Having a pivot field with string grouping caused an Exception on loading a workbook.
+* ExcelExternalWorkbook.UpdateCache() throw an NullReferenceException if a worksheet name did not exist.
+* Applying a style for a worksheet that has a style set on the column level, did not retain the style for the last columns in some cases.
+* Could not delete the last row (1048576) in a worksheet.
+* Group drawings did not update children when rows were resized.Thanks to gnoul-mah for pr.
+
 ## Version 6.1.2
 ### Fixed issues
 * Fixed an issue with the Roman function. Thanks to ihorbach.

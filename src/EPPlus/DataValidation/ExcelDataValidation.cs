@@ -101,8 +101,7 @@ namespace OfficeOpenXml.DataValidation
             TopNode = itemElementNode;
             ValidationType = validationType;
             Uid = uid;
-            Address = new ExcelAddress(address);
-            
+            Address = new ExcelAddress(worksheet.Name, address);            
         }
 
         private bool _isStale = false;

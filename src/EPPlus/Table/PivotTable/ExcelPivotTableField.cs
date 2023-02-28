@@ -670,7 +670,7 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (XmlElement node in TopNode.SelectNodes("d:items//d:item", NameSpaceManager))
             {
                 var item = new ExcelPivotTableFieldItem(node);
-                if (item.X >= 0)
+                if (item.X >= 0 && item.X < cacheItems.Count)
                 {
                     item.Value = cacheItems[item.X];
                 }
