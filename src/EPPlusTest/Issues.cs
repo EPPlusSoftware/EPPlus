@@ -4218,13 +4218,24 @@ namespace EPPlusTest
         [TestMethod]
         public void I809()
         {
-            using (var p = OpenTemplatePackage(@"I809SumIf.xlsx"))
+            using (var p = new ExcelPackage())
             {
-                p.Workbook.Worksheets[0].Cells["D1"].Formula = "SUMIF(B1:B10,A1,C1:C10)";
+                var ws = p.Workbook.Worksheets.Add("DateSheet");
+
+                ws.Cells["A1"].Value = "2022-11-25";
+
+                ws.Cells["B1"].Value = "2022-11-25";
+                ws.Cells["B2"].Value = "2022-11-30";
+                ws.Cells["B3"].Value = "2022-11-25";
+
+                ws.Cells["C1"].Formula = "=DAY(B1)";
+                ws.Cells["C2"].Formula = "=DAY(B2)";
+                ws.Cells["C3"].Formula = "=DAY(B3)";
+
+                ws.Cells["D1"].Formula = "SUMIF(B1:B3,A1,C1:C3)";
                 p.Workbook.Calculate();
 
-                Assert.AreEqual(22d, p.Workbook.Worksheets[0].Cells["D1"].Value);
-                SaveAndCleanup(p);
+                Assert.AreEqual(50d, p.Workbook.Worksheets[0].Cells["D1"].Value);
             }
         }
     }
