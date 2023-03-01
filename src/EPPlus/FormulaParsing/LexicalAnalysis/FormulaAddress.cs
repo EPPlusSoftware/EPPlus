@@ -166,6 +166,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         private Dictionary<int, RpnExpression> _compiledExpressions;
         internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, row, col);
             if (_compiledExpressions == null)
             {
                 _compiledExpressions = depChain._graph.CompileExpressions(ref RpnTokens);
@@ -181,12 +182,18 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         private Dictionary<int, RpnExpression> CloneExpressions(int row, int col)
         {
+            if (row == StartRow && col == StartCol) return _compiledExpressions;
+            
             var l=new Dictionary<int, RpnExpression>();
             foreach(var expression in _compiledExpressions)
             {
                 if(expression.Value.ExpressionType == ExpressionType.CellAddress ||
                    expression.Value.ExpressionType == ExpressionType.ExcelRange ||
                    expression.Value.ExpressionType == ExpressionType.TableAddress)
+                {
+                    l.Add(expression.Key, expression.Value.CloneWithOffset(row - StartRow, col - StartCol));
+                }
+                else if(expression.Value.ExpressionType == ExpressionType.Function)
                 {
                     l.Add(expression.Key, expression.Value.CloneWithOffset(row - StartRow, col - StartCol));
                 }

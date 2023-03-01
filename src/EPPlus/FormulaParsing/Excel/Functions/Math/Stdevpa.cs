@@ -46,10 +46,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         {
             ValidateArguments(arguments, 1);
             var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments, IgnoreHiddenValues).Select(x => (double)x);
-            return CreateResult(StandardDeviation(values), DataType.Decimal);
+            
+            return StandardDeviation(values);
         }
 
-        private double StandardDeviation(IEnumerable<double> values)
+        private CompileResult StandardDeviation(IEnumerable<double> values)
         {
             double ret = 0;
             if (values.Any())
@@ -57,10 +58,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 var nValues = values.Count();
                 if (nValues == 1) throw new ExcelErrorValueException(eErrorType.Div0);     
                 double avg = values.Average();      
-                double sum = values.Sum(d => MathObj.Pow(d - avg, 2));     
-                ret = MathObj.Sqrt(Divide(sum, (values.Count())));
+                double sum = values.Sum(d => MathObj.Pow(d - avg, 2));
+                var div = Divide(sum, (values.Count()));
+                if (div is ExcelErrorValue e) return CreateResult(e, DataType.ExcelError);
+                ret = MathObj.Sqrt((double)div);
             }
-            return ret;
+            return CreateResult(ret, DataType.Decimal);
         }
 
     }

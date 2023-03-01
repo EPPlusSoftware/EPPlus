@@ -33,7 +33,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var address = ArgToAddress(arguments, 0);
             FormulaRangeAddress adr;
             IRangeInfo result;
-            if (ExcelAddressBase.IsValidAddress(address))
+            var arg = arguments.First();
+            if(arg.DataType==DataType.ExcelError)
+            {
+                return CompileResultFactory.Create(arg.ValueAsExcelErrorValue);
+            }
+            else if (ExcelCellBase.IsValidAddress(address))
             {                
                 adr = new FormulaRangeAddress(context, address);
                 result = context.ExcelDataProvider.GetRange(adr);
@@ -46,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             else
             {
                 var n = context.ExcelDataProvider.GetName(0, context.CurrentCell.WorksheetIx, address);
-                if (n.Value is IRangeInfo ri)
+                if (n != null && n.Value is IRangeInfo ri)
                 {
                     result=ri;
                 }

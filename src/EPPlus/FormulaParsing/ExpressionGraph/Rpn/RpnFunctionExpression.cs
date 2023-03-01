@@ -16,7 +16,6 @@ using System.Collections;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
@@ -30,13 +29,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
     }
     internal class RpnFunctionExpression : RpnExpression
     {
-        private readonly RpnFunctionCompilerFactory _functionCompilerFactory;
-        internal readonly ExcelFunction _function;
+        private RpnFunctionCompilerFactory _functionCompilerFactory;
+        internal ExcelFunction _function;
         internal int _startPos, _endPos;
         internal IList<int> _arguments;
         internal int _argPos=0;
         internal ExpressionCondition _latestConitionValue = ExpressionCondition.None;
-        bool _negate = false;
+        int _negate = 0;
         internal RpnFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
 
@@ -47,53 +46,46 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             _function = ctx.Configuration.FunctionRepository.GetFunction(tokenValue);
             //var compiler = _functionCompilerFactory.Create(_function);
         }
+        private RpnFunctionExpression(ParsingContext ctx) : base(ctx)
+        {
+
+        }
         internal override ExpressionType ExpressionType => ExpressionType.Function;
         public override void Negate()
         {
-            _negate = !_negate;
+            if (_negate == 0)
+            {
+                _negate = -1;
+            }
+            else
+            {
+                _negate *= -1;
+            }
         }
         public override CompileResult Compile()
         {
             try
             {
-                // older versions of Excel (pre 2007) adds "_xlfn." in front of some function names for compatibility reasons.
-                // EPPlus implements most of these functions, so we just remove this.
-
-                //var function = Context.Configuration.FunctionRepository.GetFunction(_functionName);
-                //if (function == null)
-                //{
-                //    // Handle unrecognized func name
-                //    var pipeline = new FunctionsPipeline(Context, Children);
-                //    function = pipeline.FindFunction(_functionName);
-                //    if (function == null)
-                //    {
-                //        if (Context.Debug)
-                //        {
-                //            Context.Configuration.Logger.Log(Context, string.Format("'{0}' is not a supported function", _functionName));
-                //        }
-                //        return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
-                //    }
-                //}
                 if (Context.Debug)
                 {
                     Context.Configuration.Logger.LogFunction(_function.GetType().Name);
                 }
                 var compiler = _functionCompilerFactory.Create(_function);
                 var result = compiler.Compile(/*_arguments.Any() ? _arguments : */Enumerable.Empty<RpnExpression>());
-                //if (_isNegated)
-                //{
-                //    if (!result.IsNumeric)
-                //    {
-                //        if (_parsingContext.Debug)
-                //        {
-                //            var msg = string.Format("Trying to negate a non-numeric value ({0}) in function '{1}'",
-                //                result.Result, funcName);
-                //            _parsingContext.Configuration.Logger.Log(_parsingContext, msg);
-                //        }
-                //        return new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
-                //    }
-                //    return new CompileResult(result.ResultNumeric * -1, result.DataType);
-                //}
+                if (_negate!=0)
+                {
+                    if (result.IsNumeric==false)
+                    {
+                        if (Context.Debug)
+                        {
+                            var msg = string.Format("Trying to negate a non-numeric value ({0}) in function '{1}'",
+                                result.Result, nameof(_function));
+                            Context.Configuration.Logger.Log(Context, msg);
+                        }
+                        return new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+                    }
+                    return new CompileResult(result.ResultNumeric * _negate, result.DataType);
+                }
                 return result;
             }
             catch (ExcelErrorValueException e)
@@ -113,7 +105,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             if(i < _arguments.Count ) return _arguments[i];
             return -1;
         }
-
+        internal override RpnExpression CloneWithOffset(int row, int col)
+        {
+            if(_function==null || _function.HasNormalArguments)
+            {
+                return this;
+            }
+            return new RpnFunctionExpression(Context) { _arguments = _arguments, _function = _function, _functionCompilerFactory = _functionCompilerFactory, _startPos = _startPos, _endPos = _endPos  };
+        }
         private RpnExpressionStatus _status= RpnExpressionStatus.NoSet;
         internal override RpnExpressionStatus Status
         {

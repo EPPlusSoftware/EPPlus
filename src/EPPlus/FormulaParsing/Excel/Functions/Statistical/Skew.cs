@@ -37,7 +37,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 s += System.Math.Pow(numbers[ix] - avg, 3);
             }
-            var result = n * s / ((n - 1) * (n - 2) * System.Math.Pow(new Stdev().StandardDeviation(numbers), 3));
+            var div = new Stdev().StandardDeviation(numbers);
+            if (div.DataType==DataType.ExcelError) return div;
+            var result = n * s / ((n - 1) * (n - 2) * System.Math.Pow((double)div.Result, 3));
             return CreateResult(result, DataType.Decimal);
         }
     }

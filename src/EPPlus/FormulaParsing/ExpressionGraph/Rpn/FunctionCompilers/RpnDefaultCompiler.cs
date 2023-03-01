@@ -10,13 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 {

@@ -137,7 +137,7 @@ namespace OfficeOpenXml.FormulaParsing
         { 
             get
             {
-                if(CurrentCell.WorksheetIx>0 && CurrentCell.WorksheetIx < Package.Workbook.Worksheets.Count)
+                if(CurrentCell.WorksheetIx>=0 && CurrentCell.WorksheetIx < Package.Workbook.Worksheets.Count)
                 {
                     return Package.Workbook.Worksheets[CurrentCell.WorksheetIx];
                 }

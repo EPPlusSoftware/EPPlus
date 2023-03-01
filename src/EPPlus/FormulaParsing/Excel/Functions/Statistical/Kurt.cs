@@ -33,9 +33,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             var n = (double)numbers.Count();
             if (n < 4) return CreateResult(eErrorType.Div0);
             var stdev = new Stdev().StandardDeviation(numbers.Select(x => x.Value));
-            if(stdev == 0d)
+            if(stdev.DataType == DataType.ExcelError)
             {
-                return CreateResult(eErrorType.Div0);
+                return stdev;
             }
             var part1 = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
             var avg = numbers.Select(x => x.Value).Average();
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 part2 += System.Math.Pow((numbers.ElementAt(x) - avg), 4);
             }
-            part2 /= System.Math.Pow(stdev, 4);
+            part2 /= System.Math.Pow((double)stdev.Result, 4);
             var result = part1 * part2 - (3 * System.Math.Pow(n - 1, 2)) / ((n - 2) * (n - 3));
             return CreateResult(result, DataType.Decimal);
         }

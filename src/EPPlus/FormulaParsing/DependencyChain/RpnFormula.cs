@@ -49,11 +49,12 @@ namespace OfficeOpenXml.FormulaParsing
             return _ws.Name + "!" + ExcelCellBase.GetAddress(_row, _column);
         }
 
-        internal void SetFormula(string formula, ISourceCodeTokenizer tokenizer, RpnExpressionGraph graph)
+        internal void SetFormula(string formula, RpnOptimizedDependencyChain depChain)
         {
-            _tokens = RpnExpressionGraph.CreateRPNTokens(tokenizer.Tokenize(formula));
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
+            _tokens = RpnExpressionGraph.CreateRPNTokens(depChain._tokenizer.Tokenize(formula));
             _formula= formula;
-            _expressions = graph.CompileExpressions(ref _tokens);
+            _expressions = depChain._graph.CompileExpressions(ref _tokens);
         }
     }
 }

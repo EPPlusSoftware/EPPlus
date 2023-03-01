@@ -70,7 +70,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         {
                             var o2 = operatorStack.Peek();
                             while (o2.TokenType == TokenType.Operator &&
-                                operators[o2.Value].Precedence <= operators[token.Value].Precedence)
+                                operators[o2.Value].Precedence <= operators[token.Value].Precedence && token.TokenType != TokenType.Negator)
                             {
                                 expressions.Add(operatorStack.Pop());
                                 if (operatorStack.Count == 0) break;
@@ -125,20 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         expressions.Add(i, new RpnBooleanExpression(t.Value, _parsingContext));
                         break;
                     case TokenType.Integer:
-                        //if (i < tokens.Count - 2 && tokens[i + 1].TokenType == TokenType.Integer && tokens[i + 2].Value == ":" && tokens[i + 2].TokenType == TokenType.Operator &&
-                        //    ExcelCellBase.IsValidRowNumber(int.Parse(t.Value)) && ExcelCellBase.IsValidRowNumber(int.Parse(tokens[i + 1].Value)))
-                        //{
-                        //    //We have a full column address. Remove tokens and replace with full column address, for example A:A.
-                        //    var adr = t.Value + ":" + tokens[i + 1].Value;
-                        //    tokens.RemoveAt(i);
-                        //    tokens.RemoveAt(i);
-                        //    tokens[i] = new Token(adr, TokenType.ExcelAddress);
-                        //    expressions.Add(i, new RpnRangeExpression(adr, _parsingContext, extRefIx, wsIx));
-                        //}
-                        //else
-                        //{
                             expressions.Add(i, new RpnIntegerExpression(t.Value, _parsingContext));
-                        //}
                         break;
                     case TokenType.Decimal:
                         expressions.Add(i, new RpnDecimalExpression(t.Value, _parsingContext));
@@ -167,20 +154,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         wsIx = int.MinValue;
                         break;
                     case TokenType.NameValue:
-                        //if(i<tokens.Count-2 && tokens[i+1].TokenType==TokenType.NameValue && tokens[i + 2].Value == ":" && tokens[i + 2].TokenType == TokenType.Operator &&
-                        //    ExcelCellBase.IsColumnLetter(t.Value) && ExcelCellBase.IsColumnLetter(tokens[i + 1].Value))
-                        //{
-                        //    //We have a full column address. Remove tokens and replace with full column address, for example A:A.
-                        //    var adr = t.Value + ":" + tokens[i+1].Value;
-                        //    tokens.RemoveAt(i);
-                        //    tokens.RemoveAt(i);
-                        //    tokens[i] = new Token(adr, TokenType.ExcelAddress);
-                        //    expressions.Add(i, new RpnRangeExpression(adr, _parsingContext, extRefIx, wsIx));
-                        //}
-                        //else
-                        //{
-                            expressions.Add(i, new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
-                        //}
+                        expressions.Add(i, new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
                         break;
                     case TokenType.ExternalReference:
                         extRefIx = short.Parse(t.Value);
@@ -212,11 +186,44 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         {
                             func._arguments.Add(i);
                         }
+                        if (func._function.HasNormalArguments == false || func._function==null)
+                        {
+                            LoadArgumentPositions(func, tokens, i);
+                        }
                         break;
                 }
             }
             return expressions;
         }
+        private static void LoadArgumentPositions(RpnFunctionExpression func, IList<Token> tokens, int tokenIndex)
+        {
+            int subFunctions = 0;
+            for (int i = tokenIndex + 1; i < tokens.Count; i++)
+            {
+                if (tokens[i].TokenType == TokenType.Comma)
+                {
+                    if (subFunctions == 0)
+                    {
+                        func._arguments.Add(i);
+                    }
+                }
+                else if (tokens[i].TokenType == TokenType.StartFunctionArguments)
+                {
+                    subFunctions++;
+                }
+                else if (tokens[i].TokenType == TokenType.Function)
+                {
+                    if (subFunctions == 0)
+                    {
+                        func._endPos = i;
+                        return;
+                    }
+                    subFunctions--;
+                }
+            }
+            func._endPos = tokens.Count - 1;
+        }
+
         //public abstract class TokenResult
         //{
         //    public Token Token;
@@ -667,7 +674,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     cell._expressionStack.Push(new RpnStringExpression(result, _parsingContext));
                     break;
                 case DataType.ExcelRange:
-                    cell._expressionStack.Push(new RpnRangeExpression(result, _parsingContext, false));
+                    cell._expressionStack.Push(new RpnRangeExpression(result, _parsingContext));
                     break;
             }
         }

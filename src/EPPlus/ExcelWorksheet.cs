@@ -215,6 +215,7 @@ namespace OfficeOpenXml
         /// </summary>
         public void ClearFormulaValues()
         {
+            if(Dimension== null) return;
             var formulaCell = new CellStoreEnumerator<object>(_formulas, Dimension.Start.Row, Dimension.Start.Column, Dimension.End.Row, Dimension.End.Column);
             while (formulaCell.Next())
             {

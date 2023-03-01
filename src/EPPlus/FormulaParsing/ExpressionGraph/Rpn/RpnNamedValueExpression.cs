@@ -16,6 +16,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 {
@@ -23,8 +24,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     {
         internal short _externalReferenceIx;
         internal int _worksheetIx;
-        internal INameInfo _name;
-        bool _negate = false;
+        internal INameInfo _name;        
+        int _negate = 0; //0 if no negation is performed. -1 or 1 if the value should be negated. In this case the value is converted to a double and negated. If the value is non numeric #VALUE is returned.
         public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
         {
             _externalReferenceIx = externalReferenceIx;
@@ -35,10 +36,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         internal override ExpressionType ExpressionType => ExpressionType.NameValue;
         public override CompileResult Compile()
         {
-            //var c = Context.Scopes.Current;
-            
-            //var cache = Context.AddressCache;
-            //var cacheId = cache.GetNewId();
             if (_name == null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
             if (_name.Value == null)
@@ -73,19 +70,45 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                         return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
                     var v = range.GetOffset(0,0);
-                    return CompileResultFactory.Create(v, range.Address);
+                    return GetNegatedValue(v);
                 }
             }
             else
-            {                
-                return CompileResultFactory.Create(_name.Value);
-            }
-            
-            //return new CompileResultFactory().Create(result);
+            {
+                return GetNegatedValue(_name.Value);
+            }            
         }
+
+        private CompileResult GetNegatedValue(object value)
+        {
+            if (_negate == 0)
+            {
+                return CompileResultFactory.Create(value);
+            }
+            else
+            {
+                var d = ConvertUtil.GetValueDouble(value, false, true);
+                if (double.IsNaN(d))
+                {
+                    return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value));
+                }
+                else
+                {
+                    return CompileResultFactory.Create(d * _negate);
+                }
+            }
+        }
+
         public override void Negate()
         {
-            _negate = !_negate;
+            if(_negate==0)
+            {
+                _negate = -1;
+            }
+            else
+            {
+                _negate *= -1;
+            }
         }
         private ExcelExternalDefinedName GetExternalName()
         {

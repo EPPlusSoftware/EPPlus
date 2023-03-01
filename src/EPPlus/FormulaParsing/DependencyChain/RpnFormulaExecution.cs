@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -165,28 +166,30 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
-        private static void SetValueError(RpnOptimizedDependencyChain depChain, Exception ex)
+        private static object SetAndReturnValueError(RpnOptimizedDependencyChain depChain, Exception ex)
         {
             if (depChain._parsingContext.Parser.Logger != null)
             {
                 depChain._parsingContext.Parser.Logger.Log(depChain._parsingContext, ex);
             }
             var cc = depChain._parsingContext.CurrentCell;
+            var ret = ExcelErrorValue.Create(eErrorType.Value);
             if (depChain._parsingContext.CurrentWorksheet!=null)
             {
                 if(cc.Column>0)
                 {
-                    depChain._parsingContext.CurrentWorksheet.SetValueInner(cc.Row, cc.Column, ExcelErrorValue.Create(eErrorType.Value));
+                    depChain._parsingContext.CurrentWorksheet.SetValueInner(cc.Row, cc.Column, ret);
                 }
                 else if (cc.Row >= 0 && cc.Row < depChain._parsingContext.CurrentWorksheet.Names.Count)
                 {                    
-                    depChain._parsingContext.CurrentWorksheet.Names[cc.Row].Value = ExcelErrorValue.Create(eErrorType.Value);
+                    depChain._parsingContext.CurrentWorksheet.Names[cc.Row].Value = ret;
                 }
             }
             else if(cc.Column==0 && cc.Row >= 0 && cc.Row < depChain._parsingContext.Package.Workbook.Names.Count)
             {
-                depChain._parsingContext.Package.Workbook.Names[depChain._parsingContext.CurrentCell.Row].Value = ExcelErrorValue.Create(eErrorType.Value);
+                depChain._parsingContext.Package.Workbook.Names[depChain._parsingContext.CurrentCell.Row].Value = ret;
             }
+            return ret;
         }
 
         private static void ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelNamedRangeCollection namesCollection, ExcelCalculationOption options)
@@ -225,9 +228,8 @@ namespace OfficeOpenXml.FormulaParsing
         {
             try 
             {
-                depChain._parsingContext.CurrentCell = cell;
                 var f = new RpnFormula(ws, cell.Row, cell.Column);
-                f.SetFormula(formula, depChain._tokenizer, depChain._graph);
+                f.SetFormula(formula, depChain);
                 return AddChainForFormula(depChain, f, options);
             }
             catch (CircularReferenceException)
@@ -246,7 +248,7 @@ namespace OfficeOpenXml.FormulaParsing
             try 
             { 
                 var f = new RpnFormula(ws, 0, 0);
-                f.SetFormula(formula, depChain._tokenizer, depChain._graph);
+                f.SetFormula(formula, depChain);
                 f._row = -1;
                 return AddChainForFormula(depChain, f, options);
             }
@@ -274,7 +276,7 @@ namespace OfficeOpenXml.FormulaParsing
                 if (string.IsNullOrEmpty(s)) return false;
                 f = new RpnFormula(ws, fs.Row, fs.Column);
                 SetCurrentCell(depChain, f);
-                f.SetFormula(s, depChain._tokenizer, depChain._graph);
+                f.SetFormula(s, depChain);
             }
             return true;
         }
@@ -283,7 +285,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if (f._ws == null)
             {
-                depChain._parsingContext.CurrentCell = new FormulaCellAddress(0, f._row, 0);
+                depChain._parsingContext.CurrentCell = new FormulaCellAddress(-1, f._row, 0);
             }
             else
             {
@@ -299,8 +301,7 @@ namespace OfficeOpenXml.FormulaParsing
                 ws = depChain._parsingContext.Package.Workbook.Worksheets[name.wsIx];
             }
             var f = new RpnFormula(ws, row , col);
-            SetCurrentCell(depChain, f);
-            f.SetFormula(name.Formula, depChain._tokenizer, depChain._graph);
+            f.SetFormula(name.Formula, depChain);
             return f;
         }
         private static object AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options)
@@ -458,10 +459,14 @@ namespace OfficeOpenXml.FormulaParsing
             }
             catch (Exception ex)
             {
-                SetValueError(depChain, ex);
+                var errValue = SetAndReturnValueError(depChain, ex);
                 f._tokenIndex=f._tokens.Count-1;
-                f = depChain._formulaStack.Pop();
-                goto ExecuteFormula;
+                if(depChain._formulaStack.Count > 0)
+                {
+                    f = depChain._formulaStack.Pop();
+                    goto ExecuteFormula;
+                }
+                return errValue;
             }
         }
 
@@ -566,7 +571,7 @@ namespace OfficeOpenXml.FormulaParsing
                                     return null;
                                 }
                             }
-                            else if (f._funcStack.Count == 0)
+                            else if (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false)
                             {
                                 return address;
                             }
@@ -576,6 +581,11 @@ namespace OfficeOpenXml.FormulaParsing
                         if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
+                            if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
+                            {
+                                if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
+                                f._expressionStack.Push(new RpnEmptyExpression());                                
+                            }
                             var pi = fexp._function.GetParameterInfo(fexp._argPos++);
                             if (pi == FunctionParameterInformation.Condition)
                             {
@@ -604,7 +614,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.Function:
-                        var r=ExecFunc(depChain, t, f);
+                        var r = ExecFunc(depChain, t, f);
                         if(r.DataType==DataType.ExcelRange)
                         {
                             if (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false && r.Address!=null)
@@ -617,14 +627,9 @@ namespace OfficeOpenXml.FormulaParsing
                         var fe = (RpnFunctionExpression)f._expressions[f._tokenIndex];
                         if(fe._function==null)  //Function does not exists. Push #NAME?
                         {
-                            LoadArgumentPositions(fe, f);
                             f._tokenIndex = fe._endPos;
                             f._expressionStack.Push(new RpnErrorExpression(new CompileResult(eErrorType.Name), depChain._parsingContext));
                             break;
-                        }
-                        if(fe._function.HasNormalArguments==false && fe._arguments.Count <= 1)
-                        {
-                            LoadArgumentPositions(fe, f);
                         }
                         f._funcStack.Push(fe);
                         break;
@@ -723,35 +728,6 @@ namespace OfficeOpenXml.FormulaParsing
             return f._tokenIndex;
         }
 
-        private static void LoadArgumentPositions(RpnFunctionExpression func, RpnFormula f)
-        {
-            int subFunctions = 0;
-            for(int i=f._tokenIndex+1;i<f._tokens.Count;i++)
-            {
-                if (f._tokens[i].TokenType==TokenType.Comma)
-                {
-                    if (subFunctions == 0)
-                    {
-                        func._arguments.Add(i);
-                    }
-                }
-                else if(f._tokens[i].TokenType==TokenType.StartFunctionArguments)
-                {
-                    subFunctions++;
-                }
-                else if (f._tokens[i].TokenType==TokenType.Function)
-                {
-                    if (subFunctions == 0)
-                    {
-                        func._endPos = i;
-                        return;
-                    }
-                    subFunctions--;
-                }
-            }
-            func._endPos = f._tokens.Count - 1;
-        }
-
         private static void ApplyOperator(ParsingContext context, Token opToken, RpnFormula f)
         {
             var v1 = f._expressionStack.Pop();
@@ -811,7 +787,7 @@ namespace OfficeOpenXml.FormulaParsing
                     f._expressionStack.Push(new RpnErrorExpression(result, context));
                     break;
                 case DataType.ExcelRange:
-                    f._expressionStack.Push(new RpnRangeExpression(result, context, false));
+                    f._expressionStack.Push(new RpnRangeExpression(result, context));
                     break;
                 case DataType.Enumerable:
                     f._expressionStack.Push(new RpnEnumerableExpression(result, context));
@@ -829,6 +805,10 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var list = new List<RpnExpression>();
             var func = f._funcStack.Pop();
+            if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
+            {
+                f._expressionStack.Push(new RpnEmptyExpression());
+            }
             var s = f._expressionStack;
             for(int i=0;i<func._arguments.Count;i++)
             {

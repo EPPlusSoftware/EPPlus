@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             _expressionEvaluator = new ExpressionEvaluator(context);
             var argRange = ArgToRangeInfo(arguments, 0);
             var criteria = GetCriteraFromArg(arguments);
-            double returnValue;
+            object returnValue;
             if (argRange == null)
             {
                 var val = arguments.ElementAt(0).Value;
@@ -76,15 +76,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             {
                 var lookupRange = ArgToRangeInfo(arguments, 2);
                 returnValue = CalculateWithLookupRange(argRange, criteria, lookupRange, context);
+
             }
             else
             {
                 returnValue = CalculateSingleRange(argRange, criteria, context);
             }
+            if (returnValue is ExcelErrorValue e)
+            {
+                return CreateResult(e, DataType.ExcelError);
+            }
             return CreateResult(returnValue, DataType.Decimal);
         }
 
-        private double CalculateWithLookupRange(IRangeInfo argRange, string criteria, IRangeInfo sumRange, ParsingContext context)
+        private object CalculateWithLookupRange(IRangeInfo argRange, string criteria, IRangeInfo sumRange, ParsingContext context)
         {
             var returnValue = 0d;
             var nMatches = 0;
@@ -107,10 +112,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                     }
                 }
             }
-            return Divide(returnValue, nMatches);
+            return Divide(returnValue, nMatches);            
         }
 
-        private double CalculateSingleRange(IRangeInfo range, string expression, ParsingContext context)
+        private object CalculateSingleRange(IRangeInfo range, string expression, ParsingContext context)
         {
             var returnValue = 0d;
             var nMatches = 0;

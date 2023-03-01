@@ -192,8 +192,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {            
             return arguments.ElementAt(index).IsExcelRange ? arguments.ElementAt(index).ValueAsRangeInfo.Address.ToString() : ArgToString(arguments, index);
         }
-
-        protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
+                protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
         {
             var arg = arguments.ElementAt(index);
             
@@ -215,12 +214,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected int ArgToInt(IEnumerable<FunctionArgument> arguments, int index)
         {
             var arg = arguments.ElementAt(index);
-            if (arg.ValueIsExcelError)
+            switch (arg.DataType)
             {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                case DataType.ExcelError:
+                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                case DataType.Empty:
+                    return 0;
+                default:
+                    var val = arg.ValueFirst;
+                    return (int)_argumentParsers.GetParser(DataType.Integer).Parse(val);
             }
-            var val = arg.ValueFirst;
-            return (int)_argumentParsers.GetParser(DataType.Integer).Parse(val);
         }
 
         /// <summary>
@@ -238,6 +241,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue.Type);
             }
+            else if(arg.DataType==DataType.Empty)
+            {
+                return 0;
+            }
             return (int)_argumentParsers.GetParser(DataType.Integer).Parse(arg.ValueFirst);
         }
 
@@ -253,12 +260,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected int ArgToInt(IEnumerable<FunctionArgument> arguments, int index, RoundingMethod roundingMethod)
         {
             var arg = arguments.ElementAt(index);
-            if (arg.ValueIsExcelError)
+            switch (arg.DataType)
             {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                case DataType.ExcelError:
+                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                case DataType.Empty:
+                    return 0;
+                default:
+                    var val = arg.ValueFirst;
+                    return (int)_argumentParsers.GetParser(DataType.Integer).Parse(val, roundingMethod);
             }
-            var val = arg.ValueFirst;
-            return (int)_argumentParsers.GetParser(DataType.Integer).Parse(val, roundingMethod);
         }
 
         /// <summary>
@@ -295,31 +306,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected double ArgToDecimal(object obj, PrecisionAndRoundingStrategy precisionAndRoundingStrategy)
         {
             var result = ArgToDecimal(obj);
-            if (precisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
+            if (precisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel && result is double d)
             {
-                result = RoundingHelper.RoundToSignificantFig(result, NumberOfSignificantFigures);
+                result = RoundingHelper.RoundToSignificantFig(d, NumberOfSignificantFigures);
             }
             return result;
         }
-
-        /// <summary>
-        /// Returns the value of the argument att the position of the 0-based
-        /// <paramref name="index"/> as a <see cref="System.Double"/>.
-        /// </summary>
-        /// <param name="arguments"></param>
-        /// <param name="index"></param>
-        /// <returns>Value of the argument as an integer.</returns>
-        /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index)
-        {
-            var arg = arguments.ElementAt(index);
-            if (arg.ValueIsExcelError)
-            {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
-            }
-            return ArgToDecimal(arg.Value, PrecisionAndRoundingStrategy.DotNet);
-        }
-
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based
         /// <paramref name="index"/> as a <see cref="System.Double"/>.
@@ -329,14 +321,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy)
+        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy= PrecisionAndRoundingStrategy.DotNet)
         {
             var arg = arguments.ElementAt(index);
-            if (arg.ValueIsExcelError)
+            switch (arg.DataType)
             {
-                throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
-            }
-            return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
+                case DataType.ExcelError:
+                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                case DataType.Empty:
+                    return 0D;
+                default:
+                    return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
+            }            
         }
 
         /// <summary>
@@ -350,11 +346,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return arguments.ElementAt(index).Value as IRangeInfo;
         }
 
-        protected double Divide(double left, double right)
+        protected object Divide(double left, double right)
         {
             if (System.Math.Abs(right - 0d) < double.Epsilon)
             {
-                throw new ExcelErrorValueException(eErrorType.Div0);
+                return ExcelErrorValue.Create(eErrorType.Div0);
             }
             return left/right;
         }

@@ -15,14 +15,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
     internal class RpnRangeExpression : RpnExpression
     {
         protected FormulaRangeAddress _addressInfo;
-        protected bool _negate =false;
-        internal RpnRangeExpression(CompileResult result, ParsingContext ctx, bool negate) : base(ctx)
+        protected int _negate;
+        internal RpnRangeExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
             _addressInfo = result.Address;
-            _negate = negate;
+            _negate = 0;
         }
-        internal RpnRangeExpression(FormulaRangeAddress address, bool negate) : base(address._context)
+        internal RpnRangeExpression(FormulaRangeAddress address, int negate) : base(address._context)
         {
             _addressInfo = address;
             _negate = negate;
@@ -49,11 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 
                         var ws = Context.Package.Workbook.GetWorksheetByIndexInList(_addressInfo.WorksheetIx);
                         var v = ws.GetValue(_addressInfo.FromRow, _addressInfo.FromCol); //Use GetValue to get richtext values.
-                        if (_negate)
-                        {
-                            v = DoNegate(v);
-                        }
-                        _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
+                        _cachedCompileResult = GetNegatedValue(v, _addressInfo);                       
                         _cachedCompileResult.IsHiddenCell = ws.IsCellHidden(_addressInfo.FromRow, _addressInfo.FromCol);
                     }
                     else
@@ -82,30 +78,42 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     else
                     {
                         var v = ri.GetOffset(0, 0);
-                        if (_negate)
-                        {
-                            v = DoNegate(v);
-                        }
-
-                        _cachedCompileResult = CompileResultFactory.Create(v, _addressInfo);
+                        _cachedCompileResult = GetNegatedValue(v, _addressInfo);                        
                     }
                 }
             }
             return _cachedCompileResult;
         }
 
-        private object DoNegate(object v)
+        private CompileResult GetNegatedValue(object value, FormulaRangeAddress addressInfo)
         {
-            if(ConvertUtil.IsNumericOrDate(v))
+            if (_negate == 0)
             {
-                return ConvertUtil.GetValueDouble(v) * -1;
+                return CompileResultFactory.Create(value, addressInfo);
             }
-            return v;
+            else
+            {
+                var d = ConvertUtil.GetValueDouble(value, false, true);
+                if (double.IsNaN(d))
+                {
+                    return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value));
+                }
+                else
+                {
+                    return CompileResultFactory.Create(d * _negate, addressInfo);
+                }
+            }
         }
-
         public override void Negate()
         {
-            _negate = !_negate;
+            if (_negate == 0)
+            {
+                _negate = -1;
+            }
+            else
+            {
+                _negate *= -1;
+            }
         }
         internal override RpnExpressionStatus Status
         {
@@ -160,11 +168,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             if (setFlag)
             {
-                _addressInfo.FixedFlag &= ~flag;
+                _addressInfo.FixedFlag |= flag;
             }
             else
             {
-                _addressInfo.FixedFlag |= flag;
+                _addressInfo.FixedFlag &= ~flag;
             }
         }
     }
