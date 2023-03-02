@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                     }
                     else
                     {
-                        var address = ArgToAddress(arguments, 0, context);
+                        var address = ArgToAddress(arguments, 0);
                         var value = string.IsNullOrEmpty(address) ? ArgToString(arguments, 0) : address;
                         var worksheetNames = context.ExcelDataProvider.GetWorksheets();
                         

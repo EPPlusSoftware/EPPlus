@@ -702,7 +702,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                var wb = _package.Workbook;
+                var wb = _package.Workbook;                
                 if (wsIx == -1)
                 {
                     return new NameInfo()

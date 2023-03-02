@@ -54,12 +54,22 @@ namespace OfficeOpenXml.Core.CellStore
                 if (ix < 0)
                 {
                     ix = ~ix;
-                    if (ix > 0) ix--;
+                    if (ix >= rows.Count) ix--;
                     var fromRow = (int)(rows[ix] >> 20) + 1;
                     var toRow = (int)(rows[ix] & 0xFFFFF) + 1;
                     if (row >= fromRow && row <= toRow)
                     {
                         return true;
+                    }
+                    else if(fromRow>row && ix > 0)
+                    {
+                        ix--;
+                        fromRow = (int)(rows[ix] >> 20) + 1;
+                        toRow = (int)(rows[ix] & 0xFFFFF) + 1;
+                        if (row >= fromRow && row <= toRow)
+                        {
+                            return true;
+                        }
                     }
                 }
                 else
@@ -96,7 +106,8 @@ namespace OfficeOpenXml.Core.CellStore
                 if (ix < 0)
                 {
                     ix = ~ix;
-                    if (ix > 0) ix--;
+                    if (ix==rows.Count) ix--;
+
                     isAdded |= VerifyAndAdd(newAddress, rowSpan, rows, ix, spillRanges);
 
                     MergeWithNext(rows, ix);
@@ -145,7 +156,16 @@ namespace OfficeOpenXml.Core.CellStore
                     }
                     else
                     {
-                        rows[ix] = ((row - 1) << 20) | (row - 1);
+                        if(row > toRow)
+                        {
+                            rows.Insert(ix + 1, ((row - 1) << 20) | (row - 1));
+                            MergeWithNext(rows, ix+ 1);
+                        }
+                        else
+                        {
+                            rows.Insert(ix, ((row - 1) << 20) | (row - 1));
+                            MergeWithNext(rows, ix);
+                        }
                     }
                     return true;
                 }
@@ -236,6 +256,22 @@ namespace OfficeOpenXml.Core.CellStore
         {
             var fromRow = (int)(rows[ix] >> 20) + 1;
             var toRow = (int)(rows[ix] & 0xFFFFF) + 1;
+            if(toRow < newAddress.FromRow)
+            {
+                if (ix + 1 < rows.Count)
+                {
+                    ix++;
+                    fromRow = (int)(rows[ix] >> 20) + 1;
+                    toRow = (int)(rows[ix] & 0xFFFFF) + 1;
+                }
+            }
+            else if(fromRow> newAddress.ToRow && ix>0)
+            {
+                ix--;
+                fromRow = (int)(rows[ix] >> 20) + 1;
+                toRow = (int)(rows[ix] & 0xFFFFF) + 1;
+            }
+
             if (newAddress.FromRow > toRow)
             {
                 if (newAddress.FromRow - 1 == toRow) //Next to each other: Merge

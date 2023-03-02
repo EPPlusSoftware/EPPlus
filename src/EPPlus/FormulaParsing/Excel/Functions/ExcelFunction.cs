@@ -189,19 +189,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 }, "Expecting at least {0} arguments", minLength.ToString());
         }
         protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index)
-        {            
-            return arguments.ElementAt(index).IsExcelRange ? arguments.ElementAt(index).ValueAsRangeInfo.Address.ToString() : ArgToString(arguments, index);
-        }
-                protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
         {
             var arg = arguments.ElementAt(index);
-            
-            if(arg.Address !=null)
+
+            if (arg.Address != null)
             {
                 return arg.Address.WorksheetAddress;
             }
-            return ArgToAddress(arguments, index);
+
+            return ArgToString(arguments, index);
         }
+        //protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
+        //{
+        //    var arg = arguments.ElementAt(index);
+            
+        //    if(arg.Address !=null)
+        //    {
+        //        return arg.Address.WorksheetAddress;
+        //    }
+        //    return ArgToAddress(arguments, index);
+        //}
 
         /// <summary>
         /// Returns the value of the argument att the position of the 0-based index

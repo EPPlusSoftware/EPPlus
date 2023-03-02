@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             ValidateArguments(arguments, 2);
 
             var searchedValue = arguments.ElementAt(0).Value;
-            var address =  ArgToAddress(arguments,1, context); 
+            var address =  ArgToAddress(arguments,1); 
             var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
             var rangeAddress = rangeAddressFactory.Create(address);
             var matchType = GetMatchType(arguments);

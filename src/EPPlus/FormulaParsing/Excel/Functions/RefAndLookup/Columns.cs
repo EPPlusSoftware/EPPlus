@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                var range = ArgToAddress(arguments, 0, context);
+                var range = ArgToAddress(arguments, 0);
                 if (ExcelAddressUtil.IsValidAddress(range))
                 {
                     var factory = new RangeAddressFactory(context.ExcelDataProvider, context);

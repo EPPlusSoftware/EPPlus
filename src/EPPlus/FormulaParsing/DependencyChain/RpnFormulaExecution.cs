@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal ISourceCodeTokenizer _tokenizer;
         internal RpnExpressionGraph _graph;
         internal ParsingContext _parsingContext;
-         internal RpnFunctionCompilerFactory _functionCompilerFactory;
+        internal RpnFunctionCompilerFactory _functionCompilerFactory;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             _tokenizer = OptimizedSourceCodeTokenizer.Default;
@@ -292,7 +292,7 @@ namespace OfficeOpenXml.FormulaParsing
                 depChain._parsingContext.CurrentCell = new FormulaCellAddress(f._ws.IndexInList, f._row, f._column);
             }
         }
-
+        static bool _prevExists = false;
         private static RpnFormula GetNameFormula(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, INameInfo name)
         {
             ExcelCellBase.SplitCellId(name.Id, out int wsIx, out int row, out int col);
@@ -307,8 +307,9 @@ namespace OfficeOpenXml.FormulaParsing
         private static object AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options)
         {
                 FormulaRangeAddress address = null;
-                RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);
+                RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);                
                 rd?.Merge(f._row, f._column);
+
         ExecuteFormula:
             try
             {
@@ -373,16 +374,16 @@ namespace OfficeOpenXml.FormulaParsing
                         }
 
                         rd = AddAddressToRD(depChain, ws.IndexInList);
-
+                        
                         if (rd.Exists(address) || address.CollidesWith(ws.IndexInList, f._row, f._column))
                         {
                             CheckCircularReferences(depChain, f, address, options);
                         }
-
                         if (rd.Merge(ref address))
                         {
                             goto FollowChain;
                         }
+
                         f._tokenIndex++;
                         goto ExecuteFormula;
                     }
@@ -493,8 +494,8 @@ namespace OfficeOpenXml.FormulaParsing
 
             foreach (var sf in depChain._formulaStack)
             {
-                var toCell = ExcelCellBase.GetCellId(f._ws.IndexInList, sf._row, sf._column);
-                if(address.CollidesWith(f._ws.IndexInList, sf._row, sf._column))
+                var toCell = ExcelCellBase.GetCellId(sf._ws.IndexInList, sf._row, sf._column);
+                if(address.CollidesWith(sf._ws.IndexInList, sf._row, sf._column))
                 {
                     HandleCircularReference(depChain, f, options, toCell);
                 }
@@ -508,8 +509,8 @@ namespace OfficeOpenXml.FormulaParsing
             var address = new FormulaRangeAddress() { FromRow = cc.Row, ToRow = cc.Row, FromCol = cc.Column, ToCol = cc.Column };
             foreach (var sf in depChain._formulaStack)
             {
-                var toCell = ExcelCellBase.GetCellId(f._ws.IndexInList, sf._row, sf._column);
-                if (address.CollidesWith(f._ws.IndexInList, sf._row, sf._column))
+                var toCell = ExcelCellBase.GetCellId(sf._ws.IndexInList, sf._row, sf._column);
+                if (address.CollidesWith(sf._ws.IndexInList, sf._row, sf._column))
                 {
                     HandleCircularReference(depChain, f, options, toCell);
                 }
@@ -583,7 +584,7 @@ namespace OfficeOpenXml.FormulaParsing
                             var fexp = f._funcStack.Peek();
                             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
                             {
-                                if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
+                                //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
                                 f._expressionStack.Push(new RpnEmptyExpression());                                
                             }
                             var pi = fexp._function.GetParameterInfo(fexp._argPos++);
@@ -604,13 +605,13 @@ namespace OfficeOpenXml.FormulaParsing
                                     f._tokenIndex = GetNextTokenPosFromCondition(f, fexp);
                                 }
                             }
-                            else if(fexp._function.HasNormalArguments)
-                            {
-                                if (fexp._arguments.Count == 0 || fexp._arguments[fexp._arguments.Count - 1] < f._tokenIndex)
-                                {
-                                    fexp._arguments.Add(f._tokenIndex);
-                                }
-                            }
+                            //else if(fexp._function.HasNormalArguments)
+                            //{
+                            //    if (fexp._arguments.Count == 0 || fexp._arguments[fexp._arguments.Count - 1] < f._tokenIndex)
+                            //    {
+                            //        fexp._arguments.Add(f._tokenIndex);
+                            //    }
+                            //}
                         }
                         break;
                     case TokenType.Function:
@@ -745,16 +746,17 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, Token t, RpnFormula f)
         {
-            var funcName = t.Value;
-            if (funcName.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) funcName = funcName.Replace("_xlfn.", string.Empty);
-            var func = depChain._parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
-
-            var args = GetFunctionArguments(f);
-            var compiler = depChain._functionCompilerFactory.Create(func);
+            //var funcName = t.Value;
+            //if (funcName.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) funcName = funcName.Replace("_xlfn.", string.Empty);
+            //var func = depChain._parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
+            var funcExp = f._funcStack.Pop();
+            //var compiler = depChain._functionCompilerFactory.Create(func);
             CompileResult result;
             try
             {
-                result = compiler.Compile(args);
+                var args = GetFunctionArguments(f, funcExp);
+                funcExp.SetArguments(args);
+                result = funcExp.Compile();
                 PushResult(depChain._parsingContext, f, result);
             }
             catch(ExcelErrorValueException e)
@@ -801,10 +803,9 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
 
-        private static IList<RpnExpression> GetFunctionArguments(RpnFormula f)
+        private static IList<RpnExpression> GetFunctionArguments(RpnFormula f, RpnFunctionExpression func)
         {
             var list = new List<RpnExpression>();
-            var func = f._funcStack.Pop();
             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
             {
                 f._expressionStack.Push(new RpnEmptyExpression());

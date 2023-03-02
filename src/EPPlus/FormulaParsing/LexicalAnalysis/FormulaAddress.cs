@@ -582,10 +582,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal FormulaRangeAddress(ParsingContext ctx)
         {            
             _context = ctx;
-            if(WorksheetIx==int.MinValue && ctx!=null) 
-            {
-                WorksheetIx = ctx.CurrentCell.WorksheetIx;
-            }
         }
         internal FormulaRangeAddress(ParsingContext ctx, string address) : this(ctx)
         {
@@ -613,6 +609,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 {
                     ws = ws.Substring(1, ws.Length - 2).Replace("''", "'");
                 }
+                WorksheetIx=ctx.GetWorksheetIndex(ws);
+            }
+            else if (WorksheetIx == int.MinValue && ctx != null)
+            {                
+                WorksheetIx = ctx.CurrentCell.WorksheetIx;
             }
             ExcelCellBase.GetRowColFromAddress(address, out FromRow, out FromCol, out ToRow, out ToCol);
         }

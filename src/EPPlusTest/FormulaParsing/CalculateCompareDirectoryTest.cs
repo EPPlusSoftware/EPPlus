@@ -82,8 +82,9 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");
                 try
                 {
-                    //p.Workbook.Calculate();
-                    p.Workbook.Worksheets["T-UAP"].Cells["B10:B11"].Calculate();
+                    p.Workbook.Calculate();
+                    //p.Workbook.Worksheets["UAP SUMMARY"].Cells["O10"].Calculate();
+                    //p.Workbook.Worksheets["T-UAP"].Cells["B10:B11"].Calculate();
                     //p.Workbook.Worksheets["T-UAP"].Cells["B1"].Calculate();
                     //p.Workbook.Worksheets["ERRP"].Cells["Q198"].Calculate();
                     //p.Workbook.Worksheets["T-Input"].Cells["Q670"].Calculate();
@@ -101,7 +102,7 @@ namespace EPPlusTest.FormulaParsing
                     var ws = p.Workbook.Worksheets[wsIndex];
                     var v = ws.GetValue(row, col);
 
-                    if (!(v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
+                    if ((v==null && value.Value!=null) || !(v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
                     {
                         //Assert.Fail($"Value differs worksheet {ws.Name} Row {row}, Column  {col}");
                         logWriter.WriteLine($"{ws.Name}\t{ExcelCellBase.GetAddress(row,col)}\t{value.Value:0.00000000}\t{v:0.00000000}");

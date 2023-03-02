@@ -1261,6 +1261,32 @@ namespace OfficeOpenXml
             }
             return true;
         }
+
+        internal static void SplitAddress(ref string address, out int extRef, out int wsIx, ExcelPackage package)
+        {
+            if (address.StartsWith("[") && address.IndexOf("]") > 1)
+            {
+                extRef = package.Workbook.ExternalLinks.GetExternalLink(ExcelCellBase.GetWorkbookFromAddress(address));
+                address = address.Substring(address.IndexOf("]") + 1);
+            }
+            else
+            {
+                extRef = 0;
+            }
+
+            if (address.StartsWith("'") || address.IndexOf("!") > 0)
+            {
+                var ws = ExcelAddressBase.GetWorksheetPart(address, null);
+                wsIx = package.Workbook.Worksheets.GetPositionByToken(ws);
+                var ix = address.LastIndexOf("!", address.Length - 1); //If last is a ! it  and Error (for example #REF!)
+                address= address.Substring(ix+1);
+            }
+            else
+            {
+                wsIx = int.MinValue;
+            }
+
+        }
         #endregion
         #endregion
     }

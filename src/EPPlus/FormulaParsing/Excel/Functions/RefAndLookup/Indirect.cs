@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -50,18 +51,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                var n = context.ExcelDataProvider.GetName(0, context.CurrentCell.WorksheetIx, address);
+                //Check for external Worksbook
+                int extRef, wsIx;
+                ExcelCellBase.SplitAddress(ref address, out extRef, out wsIx, context.Package);
+                var n = context.ExcelDataProvider.GetName(extRef, wsIx, address);
                 if (n != null && n.Value is IRangeInfo ri)
                 {
                     result=ri;
                 }
                 else
                 {
-                    return CompileResult.Empty;
+                    return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError); ;
                 }
             }
-            //int wsIx = context.GetWorksheetIndex(adr.WorkSheetName);
-            if (result.IsEmpty)
+
+            if(result.IsRef)
+            {
+                return new CompileResult(ExcelErrorValue.Create(eErrorType.Ref), DataType.ExcelError);
+            }
+            else if (result.IsEmpty)
             {
                 return CompileResult.Empty;
             }

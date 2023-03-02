@@ -62,6 +62,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 _negate *= -1;
             }
         }
+        IList<RpnExpression> _args=null;
+        internal void SetArguments(IList<RpnExpression> args)
+        {
+            _args = args;
+        }
         public override CompileResult Compile()
         {
             try
@@ -70,8 +75,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 {
                     Context.Configuration.Logger.LogFunction(_function.GetType().Name);
                 }
+                
+                if(_function==null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
+
                 var compiler = _functionCompilerFactory.Create(_function);
-                var result = compiler.Compile(/*_arguments.Any() ? _arguments : */Enumerable.Empty<RpnExpression>());
+                var result = compiler.Compile(_args??Enumerable.Empty<RpnExpression>());
                 if (_negate!=0)
                 {
                     if (result.IsNumeric==false)

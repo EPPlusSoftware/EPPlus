@@ -115,6 +115,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
+            var stack = new Stack<RpnFunctionExpression>();
             var expressions = new Dictionary<int, RpnExpression>();
             for (int i = 0; i < tokens.Count; i++)
             {
@@ -125,7 +126,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         expressions.Add(i, new RpnBooleanExpression(t.Value, _parsingContext));
                         break;
                     case TokenType.Integer:
-                            expressions.Add(i, new RpnIntegerExpression(t.Value, _parsingContext));
+                        expressions.Add(i, new RpnIntegerExpression(t.Value, _parsingContext));
                         break;
                     case TokenType.Decimal:
                         expressions.Add(i, new RpnDecimalExpression(t.Value, _parsingContext));
@@ -182,14 +183,22 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     case TokenType.StartFunctionArguments:
                         var func = new RpnFunctionExpression(t.Value, _parsingContext, i);
                         expressions.Add(i, func);
-                        if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function)
+                        if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
                             func._arguments.Add(i);
                         }
-                        if (func._function.HasNormalArguments == false || func._function==null)
-                        {
-                            LoadArgumentPositions(func, tokens, i);
-                        }
+                        //if (func._function.HasNormalArguments == false || func._function==null)
+                        //{
+                        //    LoadArgumentPositions(func, tokens, i);
+                        //}
+                        stack.Push(func);
+                        break;
+                    case TokenType.Comma:
+                        stack.Peek()._arguments.Add(i);
+                        break;
+                    case TokenType.Function:
+                        var f = stack.Pop();
+                        f._endPos= i;
                         break;
                 }
             }
