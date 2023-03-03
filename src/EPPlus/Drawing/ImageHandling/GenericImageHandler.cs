@@ -41,34 +41,7 @@ namespace OfficeOpenXml.Drawing
             {
                 width = 0;
                 height = 0;
-#if(Core)
                 return ImageReader.TryGetImageBounds(type, image, ref width, ref height, out horizontalResolution, out verticalResolution);
-#else
-            if(type==ePictureType.Ico || 
-                type==ePictureType.Svg ||
-                type==ePictureType.WebP)
-            {
-                return ImageReader.TryGetImageBounds(type, image, ref width, ref height, out horizontalResolution, out verticalResolution);
-            }
-            else
-            {
-                try
-                {
-                    var img = Image.FromStream(image);
-                    width = img.Width;
-                    height = img.Height;
-                    horizontalResolution = img.HorizontalResolution;
-                    verticalResolution = img.VerticalResolution;
-                    return true;
-                }
-                catch(Exception ex)
-                {
-                    LastException = ex;
-                    //If the image fails to read, try to use the generic reader. This can happend in, for example, older Unity projects.
-                    return ImageReader.TryGetImageBounds(type, image, ref width, ref height, out horizontalResolution, out verticalResolution);
-                }
-            }
-#endif
             }
             catch (Exception ex)
             {

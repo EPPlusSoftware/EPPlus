@@ -70,31 +70,31 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                         return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
                     var v = range.GetOffset(0,0);
-                    return GetNegatedValue(v);
+                    return GetNegatedValue(v, range.Address);
                 }
             }
             else
             {
-                return GetNegatedValue(_name.Value);
+                return GetNegatedValue(_name.Value, null);
             }            
         }
 
-        private CompileResult GetNegatedValue(object value)
+        private CompileResult GetNegatedValue(object value, FormulaRangeAddress address)
         {
             if (_negate == 0)
             {
-                return CompileResultFactory.Create(value);
+                return CompileResultFactory.Create(value, address);
             }
             else
             {
                 var d = ConvertUtil.GetValueDouble(value, false, true);
                 if (double.IsNaN(d))
                 {
-                    return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value));
+                    return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value), address);
                 }
                 else
                 {
-                    return CompileResultFactory.Create(d * _negate);
+                    return CompileResultFactory.Create(d * _negate, address);
                 }
             }
         }

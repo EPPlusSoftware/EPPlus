@@ -15,21 +15,11 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
     {
         ExcelPackage _package;
         ParsingContext _parsingContext;
-        RpnExpressionGraph _graph;
-        private ISourceCodeTokenizer _tokenizer;
        [TestInitialize]
         public void Setup()
         {
             _package = new ExcelPackage();
-            _parsingContext = ParsingContext.Create(_package);
-
-            var dataProvider = new EpplusExcelDataProvider(_package, _parsingContext);
-            _parsingContext.ExcelDataProvider = dataProvider;
-            _parsingContext.NameValueProvider = new EpplusNameValueProvider(dataProvider);
-            _parsingContext.RangeAddressFactory = new RangeAddressFactory(dataProvider, _parsingContext);
-
-            _graph = new RpnExpressionGraph(_parsingContext);
-            _tokenizer = OptimizedSourceCodeTokenizer.Default;
+            _parsingContext = _package.Workbook.FormulaParser.ParsingContext;
 
             SetUpWorksheet1();
             SetUpWorksheet2();
@@ -119,9 +109,8 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         [TestMethod]
         public void Calculate_NumericExpressionMultiplyTwoRanges()
         {
-            _parsingContext.CurrentCell = new FormulaCellAddress(0, 4, 1);
             var formula = "SUM(A1:B1+A2:B2)+1";
-            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
+            var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new FormulaCellAddress(0, 4, 1), new ExcelCalculationOption());
 
             Assert.AreEqual(34D, value);
         }

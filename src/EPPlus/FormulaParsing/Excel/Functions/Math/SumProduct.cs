@@ -50,11 +50,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 else if (arg.IsExcelRange)
                 {
                     var r=arg.ValueAsRangeInfo;
-                    for (int col = r.Address.FromCol; col <= r.Address.ToCol; col++)
+                    for (int col = 0; col < r.Size.NumberOfCols; col++)
                     {
-                        for (int row = r.Address.FromRow; row <= r.Address.ToRow; row++)
+                        for (int row = 0; row < r.Size.NumberOfRows; row++)
                         {
-                            AddValue(r.GetValue(row,col), currentResult);
+                            AddValue(r.GetOffset(row, col), currentResult);
                         }
                     }
                 }

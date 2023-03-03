@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
 {
@@ -28,15 +29,52 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            if (arguments.ElementAt(0).Value == null) return CreateResult(0d, DataType.Decimal);
-            var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
+            var arg1 = arguments.ElementAt(0);
+            if (arg1.Value == null) return CreateResult(0d, DataType.Decimal);
             var nDigits = ArgToInt(arguments, 1);
             if (nDigits < 0)
             {
                 nDigits *= -1;
-                return CreateResult(System.Math.Round(number / System.Math.Pow(10, nDigits),0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, nDigits), DataType.Integer); 
             }
-            return CreateResult(System.Math.Round(number, nDigits, MidpointRounding.AwayFromZero), DataType.Decimal);
+            if (arg1.DataType==DataType.ExcelRange)
+            {
+                var ri = arg1.ValueAsRangeInfo;
+                InMemoryRange imr;
+                if (ri.IsInMemoryRange==false)
+                {
+                    imr = InMemoryRange.CloneRange(ri);                    
+                }
+                else
+                {
+                    imr = (InMemoryRange)ri;
+                }
+                for (int r = 0; r < imr.Size.NumberOfRows; r++)
+                {
+                    for (int c = 0; c < imr.Size.NumberOfCols; c++)
+                    {
+                        var number = ArgToDecimal(ri.GetValue(r, c), context.Configuration.PrecisionAndRoundingStrategy);
+                        if (nDigits < 0)
+                        {
+                            number = System.Math.Round(number / System.Math.Pow(10, nDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, nDigits);
+                        }
+                        else
+                        {
+                            number = System.Math.Round(number, nDigits, MidpointRounding.AwayFromZero);
+                        }
+                        imr.SetValue(r, c, number);
+                    }
+                }
+                return CreateResult(imr, DataType.ExcelRange);
+            }
+            else
+            {
+                var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
+                if (nDigits < 0)
+                {
+                    return CreateResult(System.Math.Round(number / System.Math.Pow(10, nDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, nDigits), DataType.Integer);
+                }
+                return CreateResult(System.Math.Round(number, nDigits, MidpointRounding.AwayFromZero), DataType.Decimal);
+            }
         }
     }
 }

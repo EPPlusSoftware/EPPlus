@@ -96,7 +96,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 var d = ConvertUtil.GetValueDouble(value, false, true);
                 if (double.IsNaN(d))
                 {
-                    return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value));
+                    return CompileResultFactory.Create(ExcelErrorValue.Create(eErrorType.Value), addressInfo);
                 }
                 else
                 {

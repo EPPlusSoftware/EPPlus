@@ -178,5 +178,18 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _rowIndex = 0;
             return this;
         }
+
+        internal static InMemoryRange CloneRange(IRangeInfo ri)
+        {
+            var ret = new InMemoryRange(ri.Size);
+            for(int r=0;r < ri.Size.NumberOfRows;r++)
+            {
+                for (int c = 0; c < ri.Size.NumberOfCols;c++)
+                {
+                    ret.SetValue(r,c,ri.GetOffset(r,c));
+                }
+            }
+            return ret;
+        }
     }
 }
