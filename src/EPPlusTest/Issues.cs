@@ -26,37 +26,28 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System.Data;
-using OfficeOpenXml.Table;
-using System.Collections.Generic;
-using OfficeOpenXml.Table.PivotTable;
-using System.Text;
-using System.Globalization;
-using OfficeOpenXml.Drawing;
-using System.Threading;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Threading.Tasks;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.CompundDocument;
-using System.Security.AccessControl;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -3961,7 +3952,7 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets[0];
                 ws.Cells["C5"].Value = 15;
                 var pc = ws.Drawings[0].As.Chart.PieChart;
-                pc.Series[0].CreateCache( );
+                pc.Series[0].CreateCache();
 
                 SaveAndCleanup(p);
             }
@@ -3982,7 +3973,7 @@ namespace EPPlusTest
                 sheet.Cells["A8"].Value = 4;
                 sheet.Cells["A9"].Value = 1;
 
-                foreach(var c in sheet.Cells["A1:A3,A5,A6,A7"])
+                foreach (var c in sheet.Cells["A1:A3,A5,A6,A7"])
                 {
                     Console.WriteLine($"{c.Address}");
                 }
@@ -4221,6 +4212,30 @@ namespace EPPlusTest
                 ws.Cells["A3"].Style.Numberformat.Format = "#,##0.00;(#,##0.00)";
                 ws.Cells["A4"].Style.Numberformat.Format = "#,##0.00;[Red](#,##0.00)";
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void I809()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("DateSheet");
+
+                ws.Cells["A1"].Value = "2022-11-25";
+
+                ws.Cells["B1"].Value = "2022-11-25";
+                ws.Cells["B2"].Value = "2022-11-30";
+                ws.Cells["B3"].Value = "2022-11-25";
+
+                ws.Cells["C1"].Formula = "=DAY(B1)";
+                ws.Cells["C2"].Formula = "=DAY(B2)";
+                ws.Cells["C3"].Formula = "=DAY(B3)";
+
+                ws.Cells["D1"].Formula = "SUMIF(B1:B3,A1,C1:C3)";
+                p.Workbook.Calculate();
+
+                Assert.AreEqual(50d, p.Workbook.Worksheets[0].Cells["D1"].Value);
             }
         }
         [TestMethod]

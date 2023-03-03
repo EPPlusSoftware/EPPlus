@@ -10,11 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.FormulaParsing;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
@@ -35,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 return CompareStringToString(searchedValue.ToString().ToLower(), candidate.ToString().ToLower());
             }
-            else if(searchedValue.GetType() == typeof(string))
+            else if (searchedValue.GetType() == typeof(string))
             {
                 return CompareStringToObject(searchedValue.ToString(), candidate);
             }
@@ -43,15 +40,15 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 return CompareObjectToString(searchedValue, candidate.ToString());
             }
-            else if(candidate is DateTime && searchedValue is DateTime)
+            else if (candidate is DateTime && searchedValue is DateTime)
             {
                 return ((DateTime)candidate).CompareTo(((DateTime)searchedValue));
             }
-            else if(candidate is DateTime)
+            else if (candidate is DateTime)
             {
                 return ((DateTime)candidate).ToOADate().CompareTo(Convert.ToDouble(searchedValue));
             }
-            else if(searchedValue is DateTime)
+            else if (searchedValue is DateTime)
             {
                 return Convert.ToDouble(candidate).CompareTo(((DateTime)searchedValue).ToOADate());
             }
@@ -86,15 +83,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             if (double.TryParse(searchedValue, out double dsv))
             {
-                return Convert.ToDouble(candidate).CompareTo(dsv);
+                return ConvertUtil.GetValueDouble(candidate).CompareTo(dsv);
             }
             if (bool.TryParse(searchedValue, out bool bsv))
             {
-                return Convert.ToBoolean(candidate).CompareTo(bsv);
+                return (ConvertUtil.GetValueDouble(candidate) == 1).CompareTo(bsv);
             }
             if (DateTime.TryParse(searchedValue, out DateTime dtsv))
             {
-                return Convert.ToDateTime(candidate).CompareTo(dtsv);
+                DateTime? date = ConvertUtil.GetValueDate(candidate);
+                if (date.HasValue == false)
+                    return -1;
+                return date.Value.CompareTo(dtsv);
             }
             return IncompatibleOperands;
         }
