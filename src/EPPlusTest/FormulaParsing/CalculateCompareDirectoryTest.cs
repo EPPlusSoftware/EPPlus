@@ -83,7 +83,11 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate();
-                    //p.Workbook.Worksheets["ERRP"].Cells["Q176"].Calculate();    // 1 891 446
+                    //p.Workbook.Worksheets["T-UAP"].Cells["M3"].Calculate();
+                    //p.Workbook.Worksheets["T-UAP"].Cells["F66"].Calculate();
+                    //p.Workbook.Worksheets["UAP Summary"].Cells["J53"].Calculate(); //#Ref! in And
+                    //p.Workbook.Worksheets["ERRP"].Cells["K723"].Calculate();
+                    //p.Workbook.Worksheets["ERRP"].Cells["Q176"].Calculate();   
                     //p.Workbook.Worksheets["UAP SUMMARY"].Cells["O10"].Calculate();
                     //p.Workbook.Worksheets["T-UAP"].Cells["B10:B11"].Calculate();
                     //p.Workbook.Worksheets["T-UAP"].Cells["B1"].Calculate();
@@ -96,6 +100,7 @@ namespace EPPlusTest.FormulaParsing
                 }
                 logWriter.WriteLine($"Calculating {xlFile} end. Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 logWriter.WriteLine($"Differences:");
+                logWriter.WriteLine($"Forumla values to compare: {values.Count}");
                 logWriter.WriteLine($"Worksheet\tRow\tColumn\tValue Excel\tValue EPPlus");
                 foreach (var value in values)
                 {

@@ -30,8 +30,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             ValidateArguments(arguments, 1);
             for (var x = 0; x < arguments.Count(); x++)
             {
+                var arg = arguments.ElementAt(x);
+                if (arg.DataType == DataType.ExcelError) return new CompileResult(arg.Value, arg.DataType);
                 if (!ArgToBool(arguments, x))
-                {
+               {
                     return new CompileResult(false, DataType.Boolean);
                 }
             }

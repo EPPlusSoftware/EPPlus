@@ -56,5 +56,16 @@ namespace OfficeOpenXml.FormulaParsing
             _formula= formula;
             _expressions = depChain._graph.CompileExpressions(ref _tokens);
         }
+        public override string ToString()
+        {
+            if(_ws==null)
+            {
+                return ExcelCellBase.GetAddress(_row, _column);
+            }
+            else
+            {
+                return _ws.Name + "!" + ExcelCellBase.GetAddress(_row, _column);
+            }
+        }
     }
 }

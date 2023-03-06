@@ -45,6 +45,46 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return false;
         }
+        internal bool ExistsGetSpill(ref FormulaRangeAddress newAddress)
+        {
+            var spillRanges = new List<long>();
+            byte isAdded = 0;
+            for (int c = newAddress.FromCol; c <= newAddress.ToCol; c++)
+            {
+                var rowSpan = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
+                if (!_addresses.TryGetValue(c, out List<long> rows))
+                {
+                    rows = new List<long>
+                    {
+                        rowSpan
+                    };
+                    spillRanges.Add(rowSpan);
+                    //_addresses.Add(c, rows);
+                    isAdded = 1;
+                    continue;
+                }
+                var ix = rows.BinarySearch(rowSpan);
+                if (ix < 0)
+                {
+                    ix = ~ix;
+                    if (ix == rows.Count) ix--;
+
+                    isAdded |= VerifyAndAdd(newAddress, rowSpan, rows, ix, spillRanges);
+
+                    //MergeWithNext(rows, ix);
+                }
+                else
+                {
+                    spillRanges.Add(-1);
+                }
+            }
+            if (isAdded == 1)
+            {
+                GetSpillRanges(spillRanges, ref newAddress);
+            }
+            return isAdded != 0;
+        }
+
         internal bool Exists(int row, int col)
         {
             if (_addresses.TryGetValue(col, out List<long> rows))
@@ -274,27 +314,27 @@ namespace OfficeOpenXml.Core.CellStore
 
             if (newAddress.FromRow > toRow)
             {
-                if (newAddress.FromRow - 1 == toRow) //Next to each other: Merge
-                {
-                    rows[ix] = ((long)fromRow - 1 << 20) | (long)(newAddress.ToRow - 1);
-                }
-                else
-                {
-                    rows.Insert(ix + 1, rowSpan);
-                }
+                //if (newAddress.FromRow - 1 == toRow) //Next to each other: Merge
+                //{
+                //    rows[ix] = ((long)fromRow - 1 << 20) | (long)(newAddress.ToRow - 1);
+                //}
+                //else
+                //{
+                //    rows.Insert(ix + 1, rowSpan);
+                //}
                 spillRanges.Add(rowSpan);
                 return 1;
             }
             else if (newAddress.ToRow < fromRow)
             {
-                if (newAddress.ToRow + 1 == fromRow)   //Next to each other: Merge
-                {
-                    rows[ix] = ((long)newAddress.FromRow - 1 << 20) | ((long)toRow - 1);
-                }
-                else
-                {
-                    rows.Insert(ix, rowSpan);
-                }
+                //if (newAddress.ToRow + 1 == fromRow)   //Next to each other: Merge
+                //{
+                //    rows[ix] = ((long)newAddress.FromRow - 1 << 20) | ((long)toRow - 1);
+                //}
+                //else
+                //{
+                //    rows.Insert(ix, rowSpan);
+                //}
                 spillRanges.Add(rowSpan);
                 return 1;
             }
@@ -310,7 +350,7 @@ namespace OfficeOpenXml.Core.CellStore
                     if (newAddress.FromRow < fromRow && newAddress.ToRow <= toRow)
                     {
                         spillRanges.Add(((newAddress.FromRow - 1) << 20) | (fromRow - 2));
-                        rows[ix] = (((long)newAddress.FromRow - 1) << 20) | ((long)toRow - 1);
+                        //rows[ix] = (((long)newAddress.FromRow - 1) << 20) | ((long)toRow - 1);
                     }
                     if (newAddress.FromRow >= fromRow && newAddress.ToRow > toRow)
                     {
@@ -321,13 +361,13 @@ namespace OfficeOpenXml.Core.CellStore
                         else
                         {
                             spillRanges.Add((toRow << 20) | (newAddress.ToRow - 1));
-                            rows[ix] = (((long)fromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
+                            //rows[ix] = (((long)fromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
                         }
                     }
                     if (newAddress.FromRow < fromRow && newAddress.ToRow > toRow)
                     {
                         spillRanges.Add(-2);
-                        rows[ix] = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
+                        //rows[ix] = (((long)newAddress.FromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
                     }
                     return 1;
                 }

@@ -306,10 +306,10 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static object AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options)
         {
-                FormulaRangeAddress address = null;
-                RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);                
-                rd?.Merge(f._row, f._column);
+            FormulaRangeAddress address = null;
+            RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);
 
+            rd?.Merge(f._row, f._column);
         ExecuteFormula:
             try
             {
@@ -379,7 +379,8 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             CheckCircularReferences(depChain, f, address, options);
                         }
-                        if (rd.Merge(ref address))
+
+                        if (rd.ExistsGetSpill(ref address))
                         {
                             goto FollowChain;
                         }
@@ -443,6 +444,7 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._formulaStack.Push(f);
                     if (GetFormula(depChain, ws, f._formulaEnumerator, ref f))
                     {
+                        rd?.Merge(f._row, f._column);
                         goto ExecuteFormula;
                     }
                     else

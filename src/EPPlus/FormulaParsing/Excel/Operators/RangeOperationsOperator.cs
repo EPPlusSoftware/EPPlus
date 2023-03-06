@@ -185,17 +185,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static void SetValue(Operators op, InMemoryRange resultRange, int row, int col, object leftVal, object rightVal)
         {
-            if (!IsNumeric(leftVal) || !IsNumeric(rightVal))
-            {
-                var sResult = ApplyOperator(leftVal?.ToString(), rightVal?.ToString(), op, out bool error);
-                SetValue(resultRange, row, col, sResult, error);
-            }
-            else
+            if (IsNumeric(leftVal??0D) && IsNumeric(rightVal??0))
             {
                 var l = ConvertUtil.GetValueDouble(leftVal, false, false, true);
                 var r = ConvertUtil.GetValueDouble(rightVal, false, false, true);
                 var result = ApplyOperator(l, r, op, out bool error);
                 SetValue(resultRange, row, col, result, error);
+            }
+            else
+            {
+                var sResult = ApplyOperator(leftVal?.ToString(), rightVal?.ToString(), op, out bool error);
+                SetValue(resultRange, row, col, sResult, error);
             }
         }
 
