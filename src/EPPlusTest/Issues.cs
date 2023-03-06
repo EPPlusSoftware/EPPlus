@@ -4261,5 +4261,39 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s431()
+        {
+            using (var package = OpenTemplatePackage("template-not-working.xlsx"))
+            {
+                var pics = package.Workbook.Worksheets.SelectMany(p => p.Drawings).Where(p => p is ExcelPicture)
+                    .Select(p => p as ExcelPicture).ToList();
+
+                var pic = pics.First(p => p.Name == "Image_ExistingInventoryImg");
+                var image = File.ReadAllBytes("c:\\temp\\img1.png");
+                pic.Image.SetImage(image, ePictureType.Png);
+                image = File.ReadAllBytes("c:\\temp\\img2.png");
+                pics[1].Image.SetImage(image, ePictureType.Png);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s430()
+        {
+            using (var package = OpenTemplatePackage("s430.xlsx"))
+            {
+                var SheetName = "Error_Sheet";
+                var InSheet = package.Workbook.Worksheets[SheetName];
+
+                using (var outPackage = OpenPackage("s430_out.xlsx", true))
+                {
+                    var xlSheet = outPackage.Workbook.Worksheets.Add(SheetName, InSheet);
+
+                    SaveAndCleanup(outPackage);
+                }
+            }
+        }
+
     }
 }

@@ -369,19 +369,11 @@ namespace OfficeOpenXml
         /// <param name="added">The worksheet where the copy will be created</param>
         internal void Clone(ExcelWorksheet added)
         {
-            ExcelRow newRow = added.Row(Row);
-            newRow.Collapsed = Collapsed;
-            if (CustomHeight)
+            var rowSource = _worksheet.GetValue(Row, 0) as RowInternal;
+            if(rowSource != null)
             {
-                newRow.Height = Height;
+                added.SetValueInner(Row, 0, rowSource.Clone());
             }
-            newRow.CustomHeight = CustomHeight;
-            newRow.Hidden = Hidden;
-            newRow.OutlineLevel = OutlineLevel;
-            newRow.PageBreak = PageBreak;
-            newRow.Phonetic = Phonetic;
-            newRow._styleName = _styleName;
-            newRow.StyleID = StyleID;
         }
     }
 }
