@@ -103,7 +103,14 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var depChain = new RpnOptimizedDependencyChain(cells._workbook, options);
 
-            ExecuteChain(depChain, cells, options);
+            if (cells is ExcelNamedRange name)
+            {
+                ExecuteName(depChain, name, options);
+            }
+            else
+            {
+                ExecuteChain(depChain, cells, options);
+            }
 
             return depChain;
         }
@@ -145,7 +152,7 @@ namespace OfficeOpenXml.FormulaParsing
                     var id = ExcelCellBase.GetCellId(ws.IndexInList, fs.Row, fs.Column);
                     if (depChain.processedCells.Contains(id) == false)
                     {
-                        if (GetFormula(depChain, ws, fs, ref f))
+                        if (GetFormula(depChain, ws, fs.Row, fs.Column, fs.Value, ref f))
                         {
                             AddChainForFormula(depChain, f, options);
                         }
@@ -196,22 +203,9 @@ namespace OfficeOpenXml.FormulaParsing
         {
             try 
             { 
-                var ws = namesCollection._ws;
-                RpnFormula f = null;
-                var hasWs = ws != null;
                 foreach (ExcelNamedRange name in namesCollection)
                 {
-                    depChain._parsingContext.CurrentCell = new FormulaCellAddress(ws==null ? -1 : ws.IndexInList, name.Index, 0);
-                    var wsIx = (short)(hasWs ? ws.IndexInList : -1);
-                    var id = ExcelCellBase.GetCellId(wsIx, name.Index, 0);
-                    if (depChain.processedCells.Contains(id) == false)
-                    {
-                        if (string.IsNullOrEmpty(name.NameFormula) == false)
-                        {
-                            f = GetNameFormula(depChain, ws, depChain._parsingContext.ExcelDataProvider.GetName(name));
-                            AddChainForFormula(depChain, f, options);
-                        }
-                    }
+                    ExecuteName(depChain, name, options);
                 }
             }
             catch (CircularReferenceException)
@@ -224,6 +218,23 @@ namespace OfficeOpenXml.FormulaParsing
                 throw;
             }
         }
+
+        private static void ExecuteName(RpnOptimizedDependencyChain depChain, ExcelNamedRange name, ExcelCalculationOption options)
+        {
+            var ws = name._worksheet;
+            var wsIx = ws == null ? -1 : ws.IndexInList;
+            depChain._parsingContext.CurrentCell = new FormulaCellAddress(wsIx, name.Index, 0);
+            var id = ExcelCellBase.GetCellId(wsIx, name.Index, 0);
+            if (depChain.processedCells.Contains(id) == false)
+            {
+                if (string.IsNullOrEmpty(name.NameFormula) == false)
+                {
+                    var f = GetNameFormula(depChain, ws, depChain._parsingContext.ExcelDataProvider.GetName(name));
+                    AddChainForFormula(depChain, f, options);
+                }
+            }
+        }
+
         private static object ExecuteChain(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, string formula, FormulaCellAddress cell, ExcelCalculationOption options)
         {
             try 
@@ -262,19 +273,19 @@ namespace OfficeOpenXml.FormulaParsing
                 throw;
             }
         }
-        private static bool GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, CellStoreEnumerator<object> fs, ref RpnFormula f)
+        private static bool GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, int row, int column, object value, ref RpnFormula f)
         {
-            if (fs.Value is int ix)
+            if (value is int ix)
             {
                 var sf = ws._sharedFormulas[ix];
-                f = ws._sharedFormulas[ix].GetRpnFormula(depChain, fs.Row, fs.Column);
+                f = ws._sharedFormulas[ix].GetRpnFormula(depChain, row, column);
             }
             else
             {
-                var s = fs.Value.ToString();
+                var s = value.ToString();
                 //compiler
                 if (string.IsNullOrEmpty(s)) return false;
-                f = new RpnFormula(ws, fs.Row, fs.Column);
+                f = new RpnFormula(ws, row, column);
                 SetCurrentCell(depChain, f);
                 f.SetFormula(s, depChain);
             }
@@ -308,6 +319,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             FormulaRangeAddress address = null;
             RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);
+            object v=null;
 
             rd?.Merge(f._row, f._column);
         ExecuteFormula:
@@ -432,26 +444,50 @@ namespace OfficeOpenXml.FormulaParsing
                 if (depChain._formulaStack.Count > 0)
                 {
                     f = depChain._formulaStack.Pop();
+                    if(f._formulaEnumerator==null)
+                    {
+                        f._tokenIndex++;
+                        goto ExecuteFormula;
+                    }
                     goto NextFormula;
                 }
                 return value;
             FollowChain:
                 ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
-                f._formulaEnumerator = new CellStoreEnumerator<object>(ws._formulas, address.FromRow, address.FromCol, address.ToRow, address.ToCol);
-            NextFormula:
-                if (f._formulaEnumerator!=null && f._formulaEnumerator.Next())
+                if(address.IsSingleCell)
                 {
+                    if (depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, address.FromRow, address.FromCol)) == false)
+                    {                        
+                        rd?.Merge(address.FromRow, address.FromCol);
+                        if (ws._formulas.Exists(address.FromRow, address.FromCol, ref v))
+                        {
+                            depChain._formulaStack.Push(f);
+                            GetFormula(depChain, ws, address.FromRow, address.FromCol, v, ref f);
+                            goto ExecuteFormula;
+                        }
+                    }
+                    f._tokenIndex++;
+                    goto ExecuteFormula;
+                }
+                else
+                {
+                    f._formulaEnumerator = new CellStoreEnumerator<object>(ws._formulas, address.FromRow, address.FromCol, address.ToRow, address.ToCol);
+                }
+            NextFormula:
+                var fe = f._formulaEnumerator;
+                if (fe!=null && fe.Next())
+                {
+                    if (fe.Value==null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, fe.Row, fe.Column))) goto NextFormula;
                     depChain._formulaStack.Push(f);
-                    if (GetFormula(depChain, ws, f._formulaEnumerator, ref f))
+                    rd?.Merge(f._row, f._column);
+                    if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
                     {
-                        rd?.Merge(f._row, f._column);
                         goto ExecuteFormula;
                     }
                     else
                     {
                         goto NextFormula;
                     }
-
                 }
                 f._tokenIndex++;
                 goto ExecuteFormula;

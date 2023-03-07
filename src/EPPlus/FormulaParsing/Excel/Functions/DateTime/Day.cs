@@ -31,6 +31,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             var dateObj = GetFirstValue(arguments);
             var date = ParseDate(arguments, dateObj);
 
+            var aoDate = date.ToOADate();
+            if (aoDate < 0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Num);
+            }
+            else if (aoDate < 2)
+            {
+                return CreateResult(Convert.ToInt32(aoDate)-1, DataType.Integer);
+            }
             return CreateResult(date.Day, DataType.Integer);
         }
     }

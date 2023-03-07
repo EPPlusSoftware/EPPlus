@@ -705,6 +705,23 @@ namespace OfficeOpenXml.Utils
                 return Convert.ToInt32(System.Math.Floor((decimal)obj));
             }
         }
+        /// <summary>
+        /// Handles the issue with Excel having the incorrect values before 1900-03-01. Excel has 1900-02-29 as a valid value, but it does not exists in the calendar. Dates between 1900-02-28 and 1900-01-01 shuld be subtracted added 1 to the value. 0 in Excel is 1900-01-00 which is not valid in .NET. 
+        /// </summary>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        internal static DateTime FromOADateExcel(double d)
+        {
+            if(d<0)
+            {
+                return DateTime.MinValue;
+            }
+            else if (d < 60)
+            {
+                d++;
+            }
+            return DateTime.FromOADate(d);
+        }
 
         #region internal cache objects
         internal static TextInfo _invariantTextInfo = CultureInfo.InvariantCulture.TextInfo;

@@ -30,6 +30,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             ValidateArguments(arguments, 1);
             var dateObj = arguments.ElementAt(0).Value;
             var date = ParseDate(arguments, dateObj);
+
+            var aoDate = date.ToOADate();
+            if (aoDate < 0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Num);
+            }
+            else if (aoDate <= 2)
+            {
+                return CreateResult(1, DataType.Integer);
+            }
             return CreateResult(date.Month, DataType.Integer);
         }
     }

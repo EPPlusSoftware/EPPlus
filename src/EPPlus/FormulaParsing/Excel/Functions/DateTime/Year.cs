@@ -17,7 +17,8 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
     [FunctionMetadata(
@@ -30,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         {
             ValidateArguments(arguments, 1);
             var dateObj = arguments.ElementAt(0).Value;
-            System.DateTime date = System.DateTime.MinValue;
+            System.DateTime date;
             if (dateObj is string)
             {
                 date = System.DateTime.Parse(dateObj.ToString());
@@ -38,7 +39,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             else
             {
                 var d = ArgToDecimal(arguments, 0);
-                date = System.DateTime.FromOADate(d);
+                date = ConvertUtil.FromOADateExcel(d);
+            }
+            var aoDate = date.ToOADate();
+            if (aoDate<0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Num);
+            }
+            else if(aoDate <= 1)
+            {
+                return CreateResult(1900, DataType.Integer);
             }
             return CreateResult(date.Year, DataType.Integer);
         }

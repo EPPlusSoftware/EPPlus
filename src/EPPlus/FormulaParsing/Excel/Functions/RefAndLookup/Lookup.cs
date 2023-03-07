@@ -69,9 +69,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private CompileResult HandleTwoRanges(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            var searchedValue = arguments.ElementAt(0).Value;
-            Require.That(arguments.ElementAt(1).Value).Named("firstAddress").IsNotNull();
-            Require.That(arguments.ElementAt(2).Value).Named("secondAddress").IsNotNull();
+            var arg0 = arguments.ElementAt(0);
+            var arg1 = arguments.ElementAt(1);
+            var arg2 = arguments.ElementAt(2);
+            Require.That(arg1.Value).Named("firstAddress").IsNotNull();
+            Require.That(arg2.Value).Named("secondAddress").IsNotNull();
+            if (arg0.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg0.Value).Type);
+            if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
+            if (arg2.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg2.Value).Type);
+
             var firstAddress = ArgToAddress(arguments, 1);
             var secondAddress = ArgToAddress(arguments, 2);
             var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
@@ -85,7 +91,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 lookupIndex = (address2.FromRow - address1.FromRow) + 1;
                 lookupOffset = address2.FromCol - address1.FromCol;
             }
-            var lookupArgs = new LookupArguments(searchedValue, firstAddress, lookupIndex, lookupOffset,  true, arguments.ElementAt(1).ValueAsRangeInfo);
+            var lookupArgs = new LookupArguments(arg0.Value, firstAddress, lookupIndex, lookupOffset,  true, arguments.ElementAt(1).ValueAsRangeInfo);
             var navigator = LookupNavigatorFactory.Create(lookupDirection, lookupArgs, context);
             return Lookup(navigator, lookupArgs);
         }

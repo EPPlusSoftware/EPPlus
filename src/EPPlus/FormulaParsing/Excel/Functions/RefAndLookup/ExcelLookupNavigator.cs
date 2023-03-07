@@ -108,7 +108,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 row += Arguments.LookupIndex - 1;
                 col += Arguments.LookupOffset;
             }
-            return ParsingContext.ExcelDataProvider.GetCellValue(_rangeAddress.WorksheetName, row, col); 
+            if (row > 0 && col > 0)
+            {
+                return ParsingContext.ExcelDataProvider.GetCellValue(_rangeAddress.WorksheetName, row, col);
+            }
+            return null;
         }
     }
 }

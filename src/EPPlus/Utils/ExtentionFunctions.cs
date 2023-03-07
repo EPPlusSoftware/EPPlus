@@ -45,7 +45,6 @@ namespace OfficeOpenXml.Utils.Extensions
             }
         }
 
-
         internal static T ToEnum<T>(this string s, T defaultValue) where T : struct
         {
             try

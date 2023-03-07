@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,7 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             else
             {
                 var d = ArgToDecimal(arguments, argIndex);
-                date = System.DateTime.FromOADate(d);
+                if (d >= 0)
+                {
+                    date = ConvertUtil.FromOADateExcel(d);
+                }
             }
             return date;
         }

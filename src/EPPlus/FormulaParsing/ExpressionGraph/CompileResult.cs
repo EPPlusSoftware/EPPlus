@@ -29,6 +29,16 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private static CompileResult _zeroDecimal = new CompileResult(0d, DataType.Decimal);
         private static CompileResult _zeroInt = new CompileResult(0d, DataType.Integer);
 
+
+        private static CompileResult _errorRef = new CompileResult(ExcelErrorValue.Create(eErrorType.Ref), DataType.ExcelError);
+        private static CompileResult _errorValue = new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+        private static CompileResult _errorNA = new CompileResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+        private static CompileResult _errorDiv0 = new CompileResult(ExcelErrorValue.Create(eErrorType.Div0), DataType.ExcelError);
+        private static CompileResult _errorNull = new CompileResult(ExcelErrorValue.Create(eErrorType.Null), DataType.ExcelError);
+        private static CompileResult _errorName = new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
+        private static CompileResult _errorNum = new CompileResult(ExcelErrorValue.Create(eErrorType.Num), DataType.ExcelError);
+
+
         /// <summary>
         /// Returns a CompileResult with a null value and data type set to DataType.Empty
         /// </summary>
@@ -80,6 +90,27 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             {
                 _resultNumeric *= -1;
                 Result = _resultNumeric;
+            }
+        }
+
+        internal static CompileResult GetErrorResult(eErrorType errorType)
+        {
+            switch(errorType)
+            {
+                case eErrorType.Ref:
+                    return _errorRef;
+                case eErrorType.Name:
+                    return _errorName;
+                case eErrorType.Null:
+                    return _errorNull;
+                case eErrorType.Div0:
+                    return _errorDiv0;
+                case eErrorType.NA:
+                    return _errorNA;
+                case eErrorType.Num:
+                    return _errorNum;
+                default: //#Value!
+                    return _errorValue;
             }
         }
 

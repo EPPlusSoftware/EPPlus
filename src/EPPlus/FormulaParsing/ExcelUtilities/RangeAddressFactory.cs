@@ -72,9 +72,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         public FormulaRangeAddress Create(int wsIx, string address)
         {
             Require.That(address).Named("range").IsNotNullOrEmpty();
-            //var addressInfo = ExcelAddressInfo.Parse(address);
             var adr = new ExcelAddressBase(address);  
-            var worksheetIx = string.IsNullOrEmpty(adr.WorkSheetName) ? wsIx : _context.GetWorksheetIndex(adr.WorkSheetName);
+            var worksheetIx = string.IsNullOrEmpty(adr.WorkSheetName) ? wsIx : _context.GetWorksheetIndex(adr.WorkSheetName);            
             var dim = _excelDataProvider.GetDimensionEnd((int)wsIx);
             var rangeAddress = new FormulaRangeAddress(_context)
             {

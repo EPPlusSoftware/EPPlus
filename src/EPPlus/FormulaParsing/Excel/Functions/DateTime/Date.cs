@@ -35,7 +35,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             month -= 1;
             date = date.AddMonths(month);
             date = date.AddDays((double)(day - 1));
-            return CreateResult(date.ToOADate(), DataType.Date);
+            var ret = date.ToOADate();
+            if (ret > 0 && ret < 60) ret--;
+            return CreateResult(ret, DataType.Date);
         }
     }
 }

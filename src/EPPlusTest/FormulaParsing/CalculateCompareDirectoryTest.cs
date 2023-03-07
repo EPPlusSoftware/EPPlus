@@ -4,6 +4,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -77,12 +78,25 @@ namespace EPPlusTest.FormulaParsing
                         var id = ExcelCellBase.GetCellId(ws.IndexInList, cse.Row, cse.Column);
                         values.Add(id, ws.GetValue(cse.Row,cse.Column));
                     }
+                    foreach(var name in ws.Names)
+                    {
+                        var id = ExcelCellBase.GetCellId(ws.IndexInList, name.Index, 0);
+                        values.Add(id, name.Value);
+                    }
                 }
+                foreach (var name in p.Workbook.Names)
+                {
+                    var id = ExcelCellBase.GetCellId(-1, name.Index, 0);
+                    values.Add(id, name.Value);
+                }
+
                 p.Workbook.ClearFormulaValues();
-                logWriter.WriteLine($"Calculating {xlFile} starting. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");
+                logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
                     p.Workbook.Calculate();
+                    //p.Workbook.Worksheets["Stacked Logs"].Cells["N3"].Calculate();  //#REF! not hanlded in lookup
+                    //p.Workbook.Names[0].Calculate();  //#REF! not hanlded in lookup
                     //p.Workbook.Worksheets["T-UAP"].Cells["M3"].Calculate();
                     //p.Workbook.Worksheets["T-UAP"].Cells["F66"].Calculate();
                     //p.Workbook.Worksheets["UAP Summary"].Cells["J53"].Calculate(); //#Ref! in And
@@ -100,21 +114,46 @@ namespace EPPlusTest.FormulaParsing
                 }
                 logWriter.WriteLine($"Calculating {xlFile} end. Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 logWriter.WriteLine($"Differences:");
-                logWriter.WriteLine($"Forumla values to compare: {values.Count}");
-                logWriter.WriteLine($"Worksheet\tRow\tColumn\tValue Excel\tValue EPPlus");
+                logWriter.WriteLine($"Formula values to compare: {values.Count}");
+                logWriter.WriteLine($"Worksheet\tCell\tValue Excel\tValue EPPlus");
                 foreach (var value in values)
                 {
                     ExcelCellBase.SplitCellId(value.Key, out int wsIndex, out int row, out int col);
-                    var ws = p.Workbook.Worksheets[wsIndex];
-                    var v = ws.GetValue(row, col);
+                    object v;
+                    ExcelWorksheet ws;
+                    if (wsIndex < 0)
+                    {
+                        ws = null;
+                        v = p.Workbook.Names[row].Value;
+                    }
+                    else
+                    {
+                        ws = p.Workbook.Worksheets[wsIndex];
+                        if (col == 0)
+                        {
+                            v = p.Workbook.Names[row].Value;
+                        }
+                        else
+                        { 
+                            v = ws.GetValue(row, col);
+                        }
+                    }
 
                     if ((v==null && value.Value!=null) || !(v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
                     {
-                        //Assert.Fail($"Value differs worksheet {ws.Name} Row {row}, Column  {col}");
-                        logWriter.WriteLine($"{ws.Name}\t{ExcelCellBase.GetAddress(row,col)}\t{value.Value:0.00000000}\t{v:0.00000000}");
+                        //Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");
+                        var diff = ConvertUtil.GetValueDouble(v) - ConvertUtil.GetValueDouble(value.Value);
+                        if(col==0)
+                        {
+                            logWriter.WriteLine($"{ws?.Name}\t{row}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
+                        }
+                        else
+                        {
+                            logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
+                        }
                     }
                 }
-                logWriter.WriteLine($"File end processing. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");
+                logWriter.WriteLine($"File end processing {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");
                 logWriter.Close();
                 logWriter.Dispose();
             }

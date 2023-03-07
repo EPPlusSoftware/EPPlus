@@ -29,6 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);
+            var arg0 = arguments.ElementAt(0);
+            var arg1 = arguments.ElementAt(1);
+            if (arg0.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg0.Value).Type);
+            if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
+
             var lookupArgs = new LookupArguments(arguments, context);
             if (lookupArgs.LookupIndex < 1) return CreateResult(eErrorType.Value);
             var navigator = LookupNavigatorFactory.Create(LookupDirection.Horizontal, lookupArgs, context);

@@ -546,10 +546,11 @@ namespace OfficeOpenXml.FormulaParsing
 
         public override ExcelCellAddress GetDimensionEnd(int wsIx)
         {
+            if (wsIx < 0 || wsIx >= _package.Workbook.Worksheets.Count) return null;
             ExcelCellAddress address = null;
             try
             {
-                address = _package.Workbook.Worksheets[wsIx].Dimension.End;
+                address = _package.Workbook.Worksheets[wsIx].Dimension?.End;
             }
             catch{}
             
