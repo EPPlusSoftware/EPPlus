@@ -795,6 +795,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 }
             }
             TransformColorFill(chartPart.Fill, section.FillReference.Color, indexForColor, numberOfItems);
+            chartPart.Fill.UpdateFillTypeNode();
         }
 
         private void ApplyStyleBorder(ExcelDrawingBorder chartBorder, ExcelChartStyleEntry section, int indexForColor,int numberOfItems)
@@ -885,6 +886,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
         private void TransformColorBorder(ExcelDrawingBorder border, ExcelChartStyleColorManager color, int colorIndex, int numberOfItems)
         {
             TransformColorFillBasic(border.Fill, color, colorIndex, numberOfItems);
+            border.Fill.UpdateFillTypeNode();
         }
         private void TransformColorFill(ExcelDrawingFill fill, ExcelChartStyleColorManager color, int colorIndex, int numberOfItems)
         {

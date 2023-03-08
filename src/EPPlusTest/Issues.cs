@@ -4294,6 +4294,96 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void s435()
+        {
+            using (var package = OpenTemplatePackage("s435.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
 
+
+                var start = 2;
+                worksheet.Cells["A" + start].Value = "Month";
+                worksheet.Cells["B" + start].Value = "Serie1";
+                worksheet.Cells["C" + start].Value = "Serie2";
+                worksheet.Cells["D" + start].Value = "Serie3";
+                start++;
+                var randomData = Data();
+                foreach (DataRow row in randomData.Rows)
+                {
+                    worksheet.Cells["A" + start].Value = row[0];
+                    worksheet.Cells["B" + start].Value = row[1];
+                    worksheet.Cells["C" + start].Value = row[2];
+                    worksheet.Cells["D" + start].Value = row[3];
+                    start++;
+                }
+                var end = start - 1;
+                var metroChart = (ExcelChart)worksheet.Drawings.Where(p => p is ExcelChart).First();
+                if (metroChart != null)
+                {
+                    metroChart.YAxis.MinValue = 0.5;
+                    metroChart.YAxis.MaxValue = 4.5;
+
+
+                    var serieColors = new Dictionary<string, string>()
+                    {
+                        { "Serie1", "#CBB54C" },
+                        { "Serie2", "#00A7CE" },
+                        { "Serie3", "#950000" }
+                    };
+
+
+                    AddLineSeries(metroChart, $"B3:B{end}", $"A3:A{end}", "Serie1");
+                    AddLineSeries(metroChart, $"C3:C{end}", $"A3:A{end}", "Serie2");
+                    AddLineSeries(metroChart, $"D3:D{end}", $"A3:A{end}", "Serie3");
+
+
+                    foreach (ExcelLineChartSerie serie in metroChart.Series)
+                    {
+                        var serieColor = serieColors[serie.Header];
+                        serie.Smooth = true;
+                        serie.Border.Fill.Color = ColorTranslator.FromHtml(serieColor);
+                        serie.Marker.Style = eMarkerStyle.None;
+                        serie.Border.Width = 2;
+                        serie.Border.Fill.Style = eFillStyle.SolidFill;
+                        serie.Border.LineStyle = eLineStyle.Solid;
+                        serie.Border.LineCap = eLineCap.Round;
+                        serie.Fill.Style = eFillStyle.SolidFill;
+                        serie.Fill.Color = ColorTranslator.FromHtml(serieColor);
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+            private void AddLineSeries(ExcelChart chart, string seriesAddress, string xSeriesAddress, string seriesName)
+            {
+                var lineSeries = chart.Series.Add(seriesAddress, xSeriesAddress);
+                lineSeries.Header = seriesName;
+            }
+
+
+            private DataTable Data()
+            {
+                var toReturn = new DataTable();
+                toReturn.Columns.Add("Month");
+                toReturn.Columns.Add("Serie1", typeof(decimal));
+                toReturn.Columns.Add("Serie2", typeof(decimal));
+                toReturn.Columns.Add("Serie3", typeof(decimal));
+
+
+                toReturn.Rows.Add("01/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("02/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("03/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("04/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("05/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("06/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("07/2022", 1.9, 2.9, 3.9);
+                toReturn.Rows.Add("08/2022", 1.9, 2.9, 3.9);
+
+
+                return toReturn;
+            }
+        }
     }
-}
+
