@@ -94,7 +94,9 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate();
+                    //p.Workbook.Calculate();
+                    //p.Workbook.Worksheets["CELP"].Cells["O128"].Calculate();
+                    p.Workbook.Worksheets["Risk Report"].Cells["D103"].Calculate();
                     //p.Workbook.Worksheets["Stacked Logs"].Cells["N3"].Calculate();  //#REF! not hanlded in lookup
                     //p.Workbook.Names[0].Calculate();  //#REF! not hanlded in lookup
                     //p.Workbook.Worksheets["T-UAP"].Cells["M3"].Calculate();

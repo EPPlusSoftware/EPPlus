@@ -57,7 +57,7 @@ namespace OfficeOpenXml
     /// Represents an Excel error.
     /// </summary>
     /// <seealso cref="eErrorType"/>
-    public class ExcelErrorValue
+    public class ExcelErrorValue 
     {
         /// <summary>
         /// Handles the convertion between <see cref="eErrorType"/> and the string values

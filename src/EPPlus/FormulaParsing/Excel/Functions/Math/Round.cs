@@ -32,10 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             var arg1 = arguments.ElementAt(0);
             if (arg1.Value == null) return CreateResult(0d, DataType.Decimal);
             var nDigits = ArgToInt(arguments, 1);
-            if (nDigits < 0)
-            {
-                nDigits *= -1;
-            }
+            var positivDigits = nDigits * -1;
             if (arg1.DataType==DataType.ExcelRange)
             {
                 var ri = arg1.ValueAsRangeInfo;
@@ -55,7 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                         var number = ArgToDecimal(ri.GetValue(r, c), context.Configuration.PrecisionAndRoundingStrategy);
                         if (nDigits < 0)
                         {
-                            number = System.Math.Round(number / System.Math.Pow(10, nDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, nDigits);
+                            number = System.Math.Round(number / System.Math.Pow(10, positivDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, positivDigits);
                         }
                         else
                         {
@@ -71,7 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
                 if (nDigits < 0)
                 {
-                    return CreateResult(System.Math.Round(number / System.Math.Pow(10, nDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, nDigits), DataType.Integer);
+                    return CreateResult(System.Math.Round(number / System.Math.Pow(10, positivDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, positivDigits), DataType.Integer);
                 }
                 return CreateResult(System.Math.Round(number, nDigits, MidpointRounding.AwayFromZero), DataType.Decimal);
             }

@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Core.CellStore
         CellStore<T> _cellStore;
         int row, colPos;
         int[] pagePos, cellPos;
-        int _startRow, _startCol, _endRow, _endCol;
+        internal int _startRow, _startCol, _endRow, _endCol;
         int minRow, minColPos, maxRow, maxColPos;
         public CellStoreEnumerator(CellStore<T> cellStore) :
             this(cellStore, 0, 0, ExcelPackage.MaxRows, ExcelPackage.MaxColumns)

@@ -55,7 +55,14 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 return Convert.ToDouble(candidate).CompareTo(((DateTime)searchedValue).ToOADate());
             }
-            return Convert.ToDouble(candidate).CompareTo(Convert.ToDouble(searchedValue));
+            else if (candidate is IConvertible && searchedValue is IConvertible)
+            {
+                return Convert.ToDouble(candidate).CompareTo(Convert.ToDouble(searchedValue));
+            }
+            else
+            {
+                return IncompatibleOperands;
+            }
         }
 
         private static object CheckGetRange(object v)

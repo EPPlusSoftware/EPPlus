@@ -441,6 +441,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
                 depChain._formulas.Add(f);
+            CheckFormulaStack:
                 if (depChain._formulaStack.Count > 0)
                 {
                     f = depChain._formulaStack.Pop();
@@ -449,6 +450,16 @@ namespace OfficeOpenXml.FormulaParsing
                         f._tokenIndex++;
                         goto ExecuteFormula;
                     }
+                    if(f._expressions.ContainsKey(f._tokenIndex))
+                    {
+                        address = f._expressions[f._tokenIndex].GetAddress();
+                    }
+                    else
+                    {
+                        address = f._expressionStack.Peek().GetAddress();
+                    }
+                    var wsIx = address?.WorksheetIx ??-1;
+                    rd = AddAddressToRD(depChain, wsIx<0?f._ws.IndexInList:wsIx);
                     goto NextFormula;
                 }
                 return value;
@@ -475,11 +486,13 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             NextFormula:
                 var fe = f._formulaEnumerator;
+                var row = fe.Row;
+                var col = fe.Column < fe._startCol ? fe._startCol: fe.Column;
                 if (fe!=null && fe.Next())
                 {
                     if (fe.Value==null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, fe.Row, fe.Column))) goto NextFormula;
                     depChain._formulaStack.Push(f);
-                    rd?.Merge(f._row, f._column);
+                    MergeToRd(rd, row, col, fe);
                     if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
                     {
                         goto ExecuteFormula;
@@ -489,6 +502,7 @@ namespace OfficeOpenXml.FormulaParsing
                         goto NextFormula;
                     }
                 }
+                MergeToRd(rd, row, col, fe);
                 f._tokenIndex++;
                 goto ExecuteFormula;
             }
@@ -505,8 +519,49 @@ namespace OfficeOpenXml.FormulaParsing
                     f = depChain._formulaStack.Pop();
                     goto ExecuteFormula;
                 }
+                //goto CheckFormulaStack;
                 return errValue;
             }
+
+        }
+        private static void MergeToRd(RangeHashset rd, int fromRow, int fromCol, CellStoreEnumerator<object> fe)
+        {
+            var startRow = fe._startRow;
+            var startCol = fe._startCol;
+            var endRow = fe._endRow;
+            var endCol = fe._endCol;
+            int toRow, toCol;
+            if (fe.Column < 0 || endRow < fe.Row || endCol < fe.Column)
+            {
+                toRow = endRow;
+                toCol = endCol;
+            }
+            else
+            {
+                toRow = fe.Row;
+                toCol = fe.Column;
+            }
+
+
+            if(fromCol!=toCol)
+            {
+                var fa = new FormulaRangeAddress() { FromRow = fromRow, FromCol = fromCol, ToRow = fromRow, ToCol = endCol };
+                rd.Merge(ref fa);
+                fromRow++;
+            }
+            if(toRow >= fromRow && endCol == toCol)
+            {
+                var fa = new FormulaRangeAddress() { FromRow = fromRow, FromCol = startCol, ToRow = toRow, ToCol = toCol };
+                rd.Merge(ref fa);
+            }
+            else if(toRow > fromRow)
+            {
+                var fa = new FormulaRangeAddress() { FromRow = fromRow, FromCol = startCol, ToRow = toRow-1, ToCol = endCol };
+                rd.Merge(ref fa);
+                fa = new FormulaRangeAddress() { FromRow = toRow, FromCol = startCol, ToRow = toRow, ToCol = toCol };
+                rd.Merge(ref fa);
+            }
+
         }
 
         private static RangeHashset AddAddressToRD(RpnOptimizedDependencyChain depChain, int wsIx)
@@ -801,6 +856,11 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 result = new CompileResult(e.ErrorValue, DataType.ExcelError);
                 f._expressionStack.Push(new RpnErrorExpression(result, depChain._parsingContext));
+            }
+            catch
+            {
+                result = CompileResult.GetErrorResult(eErrorType.Value);
+                f._expressionStack.Push(RpnErrorExpression.ValueError);
             }
             return result;
         }
