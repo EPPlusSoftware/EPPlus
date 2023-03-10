@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
                 {
                     for (int c = 0; c < imr.Size.NumberOfCols; c++)
                     {
-                        var number = ArgToDecimal(ri.GetValue(r, c), context.Configuration.PrecisionAndRoundingStrategy);
+                        var number = ArgToDecimal(imr.GetValue(r, c) ?? 0, context.Configuration.PrecisionAndRoundingStrategy);
                         if (nDigits < 0)
                         {
                             number = System.Math.Round(number / System.Math.Pow(10, positivDigits), 0, MidpointRounding.AwayFromZero) * System.Math.Pow(10, positivDigits);

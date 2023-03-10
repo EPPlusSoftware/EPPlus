@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(((ExcelErrorValue)_ws.Cells["G20"].Value).Type, eErrorType.NA);
         }
         [TestMethod]
-        public void ArrayFormulaTranspose()
+        public void ArrayFormula_Transpose()
         {
             _ws.Cells["G1"].Formula = "G10";
             _ws.Cells["H5:P5"].CreateArrayFormula("Transpose(C2:C10)");
@@ -66,6 +67,32 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual("Value 2", _ws.Cells["H5"].Value);
             Assert.AreEqual("Value 3", _ws.Cells["I5"].Value);
             Assert.AreEqual("Value 10", _ws.Cells["P5"].Value);
+        }
+        [TestMethod]
+        public void ArrayFormula_Round()
+        {
+            _ws.Cells["F15:F20"].CreateArrayFormula("Round(D2:D10,-1)");
+            _ws.Calculate();
+
+            Assert.AreEqual(70D, _ws.Cells["F15"].Value);
+            Assert.AreEqual(100D, _ws.Cells["F16"].Value);
+            Assert.AreEqual(130D, _ws.Cells["F17"].Value);
+            Assert.AreEqual(170D, _ws.Cells["F18"].Value);
+            Assert.AreEqual(200D, _ws.Cells["F19"].Value);
+            Assert.AreEqual(230D, _ws.Cells["F20"].Value);
+            Assert.IsNull(_ws.Cells["F21"].Value);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CircularReferenceException))]
+        public void ArrayFormulaCircularRefererence()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws= p.Workbook.Worksheets.Add("CircularRef");
+                ws.Cells["T1:T10"].CreateArrayFormula("Transpose(Q5:Z5)");
+                ws.Calculate();
+            }
         }
 
     }
