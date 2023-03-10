@@ -25,6 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         IntroducedInExcelVersion = "2013")]
     internal class Unicode : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

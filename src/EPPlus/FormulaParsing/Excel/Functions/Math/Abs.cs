@@ -25,6 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the absolute value (i.e. the modulus) of a supplied number")]
     internal class Abs : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();

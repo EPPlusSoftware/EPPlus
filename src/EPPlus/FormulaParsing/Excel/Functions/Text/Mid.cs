@@ -25,6 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Returns a specified number of characters from the middle of a supplied text string")]
     internal class Mid : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);

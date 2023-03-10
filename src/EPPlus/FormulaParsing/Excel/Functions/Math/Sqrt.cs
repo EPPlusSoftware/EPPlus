@@ -25,6 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the positive square root of a given number")]
     internal class Sqrt : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

@@ -31,12 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         Other = 1,
         /// <summary>
-        /// The function supports arrays and has one single argument which could be a range.
+        /// The function supports arrays and the first argument could be a range.
         /// </summary>
-        SingleArg = 2,
-        /// <summary>
-        /// The function supports arrays - the first argument could be a range and the second is numeric
-        /// </summary>
-        FirstArgPlusOneNumeric = 4
+        FirstArgCouldBeARange = 2
     }
 }

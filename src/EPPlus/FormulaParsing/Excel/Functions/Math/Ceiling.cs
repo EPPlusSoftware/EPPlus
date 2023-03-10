@@ -25,6 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Rounds a number away from zero (i.e. rounds a positive number up and a negative number down), to a multiple of significance")]
     internal class Ceiling : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);

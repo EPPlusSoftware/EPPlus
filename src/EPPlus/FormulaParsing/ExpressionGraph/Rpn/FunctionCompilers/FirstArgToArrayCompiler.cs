@@ -20,9 +20,9 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 {
-    internal class SingleArgToArrayCompiler : RpnFunctionCompiler
+    internal class FirstArgToArrayCompiler : RpnFunctionCompiler
     {
-        internal SingleArgToArrayCompiler(ExcelFunction function, ParsingContext context)
+        internal FirstArgToArrayCompiler(ExcelFunction function, ParsingContext context)
             : base(function, context)
         {
 
@@ -37,6 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             var compileResult = firstChild.Compile();
             if(compileResult.DataType == DataType.ExcelRange)
             {
+                var remainingChildren = children.Skip(1).ToList();
                 var range = compileResult.Result as IRangeInfo;
                 if(range.IsMulti)
                 {
@@ -49,6 +50,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
                             var argAsCompileResult = CompileResultFactory.Create(range.GetOffset(row, col));
                             var arg = new FunctionArgument(argAsCompileResult.ResultValue, argAsCompileResult.DataType);
                             var argList = new List<FunctionArgument> { arg };
+                            argList.AddRange(remainingChildren.Select(x =>
+                            {
+                                var cr = x.Compile();
+                                return new FunctionArgument(cr.ResultValue, cr.DataType);
+                            }));
+
                             var result = Function.Execute(argList, Context);
                             inMemoryRange.SetValue(row, col, result.Result);
                         }
@@ -57,18 +64,15 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
                 }
                 else
                 {
-                    var argAsCompileResult = CompileResultFactory.Create(range.GetValue(0, 0));
-                    var arg = new FunctionArgument(argAsCompileResult.ResultValue, argAsCompileResult.DataType);
-                    var argList = new List<FunctionArgument> { arg };
-                    return Function.Execute(argList, Context);
+                    var defaultCompiler = new RpnDefaultCompiler(Function, Context);
+                    return defaultCompiler.Compile(children);
                 }
                 
             }
             else
             {
-                var arg = new FunctionArgument(compileResult.Result, compileResult.DataType);
-                var argList = new List<FunctionArgument> { arg };
-                return Function.Execute(argList, Context);
+                var defaultCompiler = new RpnDefaultCompiler(Function, Context);
+                return defaultCompiler.Compile(children);
             }
         }
     }

@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Converts all characters in a supplied text string to lower case")]
     internal class Lower : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.SingleArg;
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
