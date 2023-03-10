@@ -37,6 +37,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
+using OfficeOpenXml.Metadata;
 
 namespace OfficeOpenXml
 {
@@ -1818,6 +1819,19 @@ namespace OfficeOpenXml
 					}
 				}
 			}
+		}
+		ExcelMetadata _metadata = null;
+
+        internal ExcelMetadata Metadata
+		{
+			get
+			{
+				if(_metadata==null)
+				{
+                    _metadata=new ExcelMetadata(this, NameSpaceManager);
+                }
+                return _metadata;
+            }
 		}
 	} // end Workbook
 }

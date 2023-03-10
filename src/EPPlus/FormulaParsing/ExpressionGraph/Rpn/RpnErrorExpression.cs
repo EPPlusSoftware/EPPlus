@@ -16,12 +16,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 {
     internal class RpnErrorExpression : RpnExpression
     {
-        internal static RpnErrorExpression RefError => new RpnErrorExpression(new CompileResult(eErrorType.Ref), null);
-        internal static RpnErrorExpression ValueError => new RpnErrorExpression(new CompileResult(eErrorType.Value), null);
-        internal static RpnErrorExpression NaError => new RpnErrorExpression(new CompileResult(eErrorType.NA), null);
-        internal static RpnErrorExpression NameError => new RpnErrorExpression(new CompileResult(eErrorType.Name), null);
-        internal static RpnErrorExpression NumError => new RpnErrorExpression(new CompileResult(eErrorType.Num), null);
-        internal static RpnErrorExpression Div0Error => new RpnErrorExpression(new CompileResult(eErrorType.Div0), null);
+        internal static RpnErrorExpression RefError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Ref), null);
+        internal static RpnErrorExpression ValueError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Value), null);
+        internal static RpnErrorExpression NaError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.NA), null);
+        internal static RpnErrorExpression NameError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Name), null);
+        internal static RpnErrorExpression NumError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Num), null);
+        internal static RpnErrorExpression Div0Error => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Div0), null);
         internal RpnErrorExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
             var value = ExcelErrorValue.Parse(tokenValue);

@@ -1917,7 +1917,7 @@ namespace OfficeOpenXml
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
 
-                        _sharedFormulas.Add(afIndex, new SharedFormula(this, refAddress, formula) { Index = afIndex, IsArray = true, FormulaType = FormulaType.Array });
+                        _sharedFormulas.Add(afIndex, new SharedFormula(this, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });
                     }
                     else if (t=="dataTable") 
                     {

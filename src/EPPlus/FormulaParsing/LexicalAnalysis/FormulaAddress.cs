@@ -136,7 +136,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 Index = Index,
                 FormulaType = FormulaType,
-                IsArray = IsArray,
                 Tokens = Tokens,
                 RpnTokens = RpnTokens,
                 Address = Address,

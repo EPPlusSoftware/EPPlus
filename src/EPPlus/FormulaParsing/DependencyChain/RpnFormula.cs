@@ -30,6 +30,8 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _tokenIndex = 0;
         internal Stack<RpnExpression> _expressionStack;
         internal Stack<RpnFunctionExpression> _funcStack;
+        internal int _arrayIndex = -1;
+        internal bool _isDynamic = false;
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
         {
             _ws = ws;

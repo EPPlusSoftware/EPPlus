@@ -46,6 +46,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// This argument is a condition returning a boolean expression
         /// </summary>
         Condition,
+        /// <summary>
+        /// 
+        /// </summary>
         UseIfConditionIsTrue,
         UseIfConditionIsFalse
     }

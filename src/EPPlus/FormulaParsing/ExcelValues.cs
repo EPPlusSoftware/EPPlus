@@ -53,6 +53,16 @@ namespace OfficeOpenXml
         Value
     }
 
+    internal static class ErrorValues
+    {
+        public static ExcelErrorValue ValueError = ExcelErrorValue.Create(eErrorType.Value);
+        public static ExcelErrorValue NameError = ExcelErrorValue.Create(eErrorType.Name);
+        public static ExcelErrorValue NAError = ExcelErrorValue.Create(eErrorType.NA);
+        public static ExcelErrorValue NumError = ExcelErrorValue.Create(eErrorType.Num);
+        public static ExcelErrorValue NullError = ExcelErrorValue.Create(eErrorType.Null);
+        public static ExcelErrorValue Div0Error = ExcelErrorValue.Create(eErrorType.Div0);
+        public static ExcelErrorValue RefError = ExcelErrorValue.Create(eErrorType.Ref);
+    }
     /// <summary>
     /// Represents an Excel error.
     /// </summary>

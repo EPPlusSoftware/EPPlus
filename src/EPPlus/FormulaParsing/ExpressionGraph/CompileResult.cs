@@ -30,13 +30,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private static CompileResult _zeroInt = new CompileResult(0d, DataType.Integer);
 
 
-        private static CompileResult _errorRef = new CompileResult(ExcelErrorValue.Create(eErrorType.Ref), DataType.ExcelError);
-        private static CompileResult _errorValue = new CompileResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
-        private static CompileResult _errorNA = new CompileResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
-        private static CompileResult _errorDiv0 = new CompileResult(ExcelErrorValue.Create(eErrorType.Div0), DataType.ExcelError);
-        private static CompileResult _errorNull = new CompileResult(ExcelErrorValue.Create(eErrorType.Null), DataType.ExcelError);
-        private static CompileResult _errorName = new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
-        private static CompileResult _errorNum = new CompileResult(ExcelErrorValue.Create(eErrorType.Num), DataType.ExcelError);
+        private static CompileResult _errorRef = new CompileResult(ErrorValues.RefError, DataType.ExcelError);
+        private static CompileResult _errorValue = new CompileResult(ErrorValues.ValueError, DataType.ExcelError);
+        private static CompileResult _errorNA = new CompileResult(ErrorValues.NAError, DataType.ExcelError);
+        private static CompileResult _errorDiv0 = new CompileResult(ErrorValues.Div0Error, DataType.ExcelError);
+        private static CompileResult _errorNull = new CompileResult(ErrorValues.NullError, DataType.ExcelError);
+        private static CompileResult _errorName = new CompileResult(ErrorValues.NameError, DataType.ExcelError);
+        private static CompileResult _errorNum = new CompileResult(ErrorValues.NumError, DataType.ExcelError);
 
 
         /// <summary>

@@ -173,7 +173,7 @@ namespace OfficeOpenXml
         internal const string schemaComment = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments";
         internal const string schemaImage = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
         internal const string schemaThemeRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme";
-
+        internal const string schemaMetadata = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata";
         internal const string schemaChartStyle = "http://schemas.microsoft.com/office/drawing/2012/chartStyle";
 
         //Chart styling
@@ -1213,7 +1213,7 @@ namespace OfficeOpenXml
             }
 
             Stream.Seek(pos, SeekOrigin.Begin);
-            Stream.Close();
+            CloseStream();
             return byRet;
         }
 

@@ -83,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public bool IsRef => false;
         public bool IsEmpty => _cells.Length == 0;
 
-        public bool IsMulti => _cells.Length > 0 && _cells.GetUpperBound(1) > 1;
+        public bool IsMulti => _nRows * _nCols > 1;
 
         public bool IsInMemoryRange => true;
 

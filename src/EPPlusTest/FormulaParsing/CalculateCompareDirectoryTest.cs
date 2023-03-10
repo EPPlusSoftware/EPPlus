@@ -96,7 +96,7 @@ namespace EPPlusTest.FormulaParsing
                 {
                     //p.Workbook.Calculate();
                     //p.Workbook.Worksheets["CELP"].Cells["O128"].Calculate();
-                    p.Workbook.Worksheets["Risk Report"].Cells["D103"].Calculate();
+                    p.Workbook.Worksheets["CELP"].Cells["N9"].Calculate();
                     //p.Workbook.Worksheets["Stacked Logs"].Cells["N3"].Calculate();  //#REF! not hanlded in lookup
                     //p.Workbook.Names[0].Calculate();  //#REF! not hanlded in lookup
                     //p.Workbook.Worksheets["T-UAP"].Cells["M3"].Calculate();
