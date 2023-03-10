@@ -186,6 +186,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["degrees"] = new Degrees();
             Functions["odd"] = new Odd();
             Functions["even"] = new Even();
+            Functions["sequence"] = new Sequence();
             // Statistical
             Functions["confidence.norm"] = new ConfidenceNorm();
             Functions["confidence"] = new Confidence();

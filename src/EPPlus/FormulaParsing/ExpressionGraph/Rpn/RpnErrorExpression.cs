@@ -21,7 +21,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         internal static RpnErrorExpression NaError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.NA), null);
         internal static RpnErrorExpression NameError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Name), null);
         internal static RpnErrorExpression NumError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Num), null);
+        internal static RpnErrorExpression NullError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Null), null);
         internal static RpnErrorExpression Div0Error => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Div0), null);
+        internal static RpnErrorExpression CalcError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Calc), null);
+
         internal RpnErrorExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
             var value = ExcelErrorValue.Parse(tokenValue);
