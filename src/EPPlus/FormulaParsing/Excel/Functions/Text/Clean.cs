@@ -24,6 +24,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Removes all non-printable characters from a supplied text string")]
     internal class Clean : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.SingleTextArg;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

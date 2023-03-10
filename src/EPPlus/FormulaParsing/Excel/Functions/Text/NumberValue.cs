@@ -33,6 +33,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         private string _arg = string.Empty;
         private int _nPercentage = 0;
 
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.SingleTextArg;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

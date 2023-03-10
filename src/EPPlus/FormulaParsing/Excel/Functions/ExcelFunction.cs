@@ -107,7 +107,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return false;
             }
         }
-        
+
+        internal virtual ExcelFunctionArrayBehaviour ArrayBehaviour
+        {
+            get
+            {
+                return ExcelFunctionArrayBehaviour.None;
+            }
+        }
+
         /// <summary>
         /// Used for some Lookupfunctions to indicate that function arguments should
         /// not be compiled before the function is called.

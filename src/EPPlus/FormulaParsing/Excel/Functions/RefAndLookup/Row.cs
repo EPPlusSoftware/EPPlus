@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             var rangeAddress = ArgToAddress(arguments, 0);
             if (!ExcelAddressUtil.IsValidAddress(rangeAddress))
-                throw new ArgumentException("An invalid argument was supplied");
+                return new CompileResult(eErrorType.Name);
             var factory = new RangeAddressFactory(context.ExcelDataProvider, context);
             var address = factory.Create(rangeAddress);
             return CreateResult(address.FromRow, DataType.Integer);
