@@ -9,7 +9,7 @@ namespace OfficeOpenXml.FormulaParsing
 {
     internal class ArrayFormulaOutput
     {
-        internal static void FillArrayRange(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
+        internal static void FillFixedArrayFromRangeInfo(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
         {
             var nr = array.Size.NumberOfRows;
             var nc = array.Size.NumberOfCols;
@@ -20,6 +20,7 @@ namespace OfficeOpenXml.FormulaParsing
             var rows = sf.EndRow - sf.StartRow + 1;
             var cols = sf.EndCol - sf.StartCol + 1;
             var wsIx = ws.IndexInList;
+
             for (int r=0;r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
@@ -39,9 +40,8 @@ namespace OfficeOpenXml.FormulaParsing
                 }
             }
 
-            var a=new FormulaRangeAddress() { FromRow=sr, ToRow=sf.EndRow, FromCol=sc, ToCol=sf.EndCol };
-            
-            rd.Merge(ref a);            
+            var formulaAddress = new FormulaRangeAddress(depChain._parsingContext) { WorksheetIx = wsIx, FromRow = sr, ToRow = sf.EndRow, FromCol = sc, ToCol = sf.EndCol };
+            rd.Merge(ref formulaAddress);            
         }
     }
 }

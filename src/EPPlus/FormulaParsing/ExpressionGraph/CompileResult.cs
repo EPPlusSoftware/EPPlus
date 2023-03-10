@@ -37,6 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         private static CompileResult _errorNull = new CompileResult(ErrorValues.NullError, DataType.ExcelError);
         private static CompileResult _errorName = new CompileResult(ErrorValues.NameError, DataType.ExcelError);
         private static CompileResult _errorNum = new CompileResult(ErrorValues.NumError, DataType.ExcelError);
+        private static CompileResult _errorCalc = new CompileResult(ErrorValues.CalcError, DataType.ExcelError);
 
 
         /// <summary>
@@ -109,6 +110,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                     return _errorNA;
                 case eErrorType.Num:
                     return _errorNum;
+                case eErrorType.Calc:
+                    return _errorCalc;
                 default: //#Value!
                     return _errorValue;
             }

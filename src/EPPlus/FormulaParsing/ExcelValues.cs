@@ -50,7 +50,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Value error
         /// </summary>
-        Value
+        Value,
+        /// <summary>
+        /// Calc error
+        /// </summary>
+        Calc
     }
 
     internal static class ErrorValues
@@ -62,6 +66,7 @@ namespace OfficeOpenXml
         public static ExcelErrorValue NullError = ExcelErrorValue.Create(eErrorType.Null);
         public static ExcelErrorValue Div0Error = ExcelErrorValue.Create(eErrorType.Div0);
         public static ExcelErrorValue RefError = ExcelErrorValue.Create(eErrorType.Ref);
+        public static ExcelErrorValue CalcError = ExcelErrorValue.Create(eErrorType.Calc);
     }
     /// <summary>
     /// Represents an Excel error.

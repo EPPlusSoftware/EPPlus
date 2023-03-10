@@ -22,8 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "4",
-        Description = "Returns a reference to a range of cells that is a specified number of rows and columns from an initial supplied range")]
+        EPPlusVersion = "7",        
+        Description = "Converts a vertical range/array to a horizontal or vice versa.")]
     internal class Transpose : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
