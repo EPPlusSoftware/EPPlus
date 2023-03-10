@@ -20,9 +20,9 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 {
-    internal class SingleTextArgToArrayCompiler : RpnFunctionCompiler
+    internal class SingleArgToArrayCompiler : RpnFunctionCompiler
     {
-        internal SingleTextArgToArrayCompiler(ExcelFunction function, ParsingContext context)
+        internal SingleArgToArrayCompiler(ExcelFunction function, ParsingContext context)
             : base(function, context)
         {
 

@@ -31,16 +31,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         Other = 1,
         /// <summary>
-        /// The function supports arrays and has one single numeric argument
+        /// The function supports arrays and has one single argument which could be a range.
         /// </summary>
-        SingleNumericArg = 2,
+        SingleArg = 2,
         /// <summary>
-        /// The function supports arrays and has one single text argument
+        /// The function supports arrays - the first argument could be a range and the second is numeric
         /// </summary>
-        SingleTextArg = 4,
-        /// <summary>
-        /// The function supports arrays and has one single date time argument
-        /// </summary>
-        SingleDateTimeArg = 8
+        FirstArgPlusOneNumeric = 4
     }
 }

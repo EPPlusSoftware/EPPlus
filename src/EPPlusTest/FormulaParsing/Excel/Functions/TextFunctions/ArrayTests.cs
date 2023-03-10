@@ -65,6 +65,42 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             }
         }
 
+        //[TestMethod]
+        //public void LeftShouldReturnVerticalArray()
+        //{
+        //    using (var package = new ExcelPackage())
+        //    {
+        //        var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+        //        sheet.Cells["A1"].Value = "data";
+        //        sheet.Cells["A2"].Value = "data2";
+        //        sheet.Cells["A3"].Value = "daTa3";
+        //        sheet.Cells["B1:B3"].CreateArrayFormula("LEFT(A1:A3)");
+        //        sheet.Calculate();
+        //        Assert.AreEqual("DATA", sheet.Cells["B1"].Value);
+        //        Assert.AreEqual("DATA2", sheet.Cells["B2"].Value);
+        //        Assert.AreEqual("DATA3", sheet.Cells["B3"].Value);
+        //    }
+        //}
+
+        //[TestMethod]
+        //public void RightShouldReturnVerticalArray()
+        //{
+        //    using (var package = new ExcelPackage())
+        //    {
+        //        var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+        //        sheet.Cells["A1"].Value = "data";
+        //        sheet.Cells["A2"].Value = "data2";
+        //        sheet.Cells["A3"].Value = "daTa3";
+        //        sheet.Cells["B1:B3"].CreateArrayFormula("RIGHT(A1:A3)");
+        //        sheet.Calculate();
+        //        Assert.AreEqual("DATA", sheet.Cells["B1"].Value);
+        //        Assert.AreEqual("DATA2", sheet.Cells["B2"].Value);
+        //        Assert.AreEqual("DATA3", sheet.Cells["B3"].Value);
+        //    }
+        //}
+
         [TestMethod]
         public void NumberValueShouldReturnHorizontalArray()
         {
