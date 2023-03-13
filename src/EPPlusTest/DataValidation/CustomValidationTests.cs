@@ -26,12 +26,9 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.DataValidation.Exceptions;
 
 namespace EPPlusTest.DataValidation
 {
@@ -66,7 +63,7 @@ namespace EPPlusTest.DataValidation
             // Arrange
             var sb = new StringBuilder();
             for (var x = 0; x < 257; x++) sb.Append("x");
-            
+
             // Act
             var validation = _sheet.DataValidations.AddCustomValidation("A1");
             validation.Formula.ExcelFormula = sb.ToString();

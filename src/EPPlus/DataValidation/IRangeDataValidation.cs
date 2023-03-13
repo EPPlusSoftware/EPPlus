@@ -28,10 +28,10 @@ namespace OfficeOpenXml.DataValidation
         /// <returns>A <see cref="ExcelDataValidationAny"/> that can be configured for any validation</returns>
         IExcelDataValidationAny AddAnyDataValidation();
         /// <summary>
-        /// Adds a <see cref="IExcelDataValidationInt"/> to the range
+        /// Adds a <see cref="ExcelDataValidationInt"/> to the range
         /// </summary>
         /// <returns>A <see cref="ExcelDataValidationInt"/> that can be configured for integer data validation</returns>
-        IExcelDataValidationInt AddIntegerDataValidation();
+        Contracts.IExcelDataValidationInt AddIntegerDataValidation();
         /// <summary>
         /// Adds a <see cref="ExcelDataValidationDecimal"/> to the range
         /// </summary>
@@ -48,10 +48,10 @@ namespace OfficeOpenXml.DataValidation
         /// <returns>A <see cref="ExcelDataValidationList"/> that can be configured for datetime data validation</returns>
         IExcelDataValidationList AddListDataValidation();
         /// <summary>
-        /// Adds a <see cref="IExcelDataValidationInt"/> regarding text length validation to the range.
+        /// Adds a <see cref="ExcelDataValidationInt"/> regarding text length validation to the range.
         /// </summary>
         /// <returns></returns>
-        IExcelDataValidationInt AddTextLengthDataValidation();
+        Contracts.IExcelDataValidationInt AddTextLengthDataValidation();
         /// <summary>
         /// Adds a <see cref="IExcelDataValidationTime"/> to the range.
         /// </summary>

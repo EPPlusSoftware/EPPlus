@@ -26,13 +26,11 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using System.Drawing;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace EPPlusTest.Core.Range
 {
@@ -323,7 +321,7 @@ namespace EPPlusTest.Core.Range
                 dv.ErrorStyle = OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop;
                 ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
 
-                Assert.AreEqual("B2:D5,F6:G8", dv.Address.Address);                
+                Assert.AreEqual("B2:D5,F6:G8", dv.Address.Address);
             }
         }
         [TestMethod]
@@ -389,7 +387,7 @@ namespace EPPlusTest.Core.Range
 
                 ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
 
-                Assert.AreEqual("B2:D5,F6:G8",cf1.Address.Address);
+                Assert.AreEqual("B2:D5,F6:G8", cf1.Address.Address);
             }
         }
 
@@ -406,7 +404,7 @@ namespace EPPlusTest.Core.Range
                 cf1.Style.Fill.BackgroundColor.SetColor(Color.Red);
                 var ws2 = p.Workbook.Worksheets.Add("Sheet2");
                 ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
-                
+
                 Assert.AreEqual(1, ws2.ConditionalFormatting.Count);
                 var cf2 = ws2.ConditionalFormatting[0].As.Between;
                 Assert.AreEqual("F6:G8", cf2.Address.Address);
@@ -556,7 +554,7 @@ namespace EPPlusTest.Core.Range
                 ExcelWorksheet ws = SetupCopyRange(p);
 
                 string nf = "#,##0";
-                ws.Cells["B1"].Style.Font.UnderLineType=ExcelUnderLineType.Double;
+                ws.Cells["B1"].Style.Font.UnderLineType = ExcelUnderLineType.Double;
                 ws.Cells["B2"].Style.Numberformat.Format = nf;
                 ws.Cells["A1:B2"].CopyStyles(ws.Cells["C5:F8"]);
 

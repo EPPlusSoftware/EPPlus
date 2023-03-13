@@ -26,12 +26,10 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
@@ -51,45 +49,41 @@ namespace EPPlusTest.DataValidation.Formulas
         }
 
         [TestMethod]
-        public void TimeFormula_ValueIsSetFromConstructorValidateHour()
+        public void ValueIsRead()
         {
-            // Arrange
-            var time = new ExcelTime(0.675M);
-            LoadXmlTestData("A1", "time", "0.675");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("TimeTest");
 
-            // Act
-            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
-            
-            // Assert
-            Assert.AreEqual(time.Hour, formula.Formula.Value.Hour);
+            var validationOrig = sheet.DataValidations.AddTimeValidation("A1");
+
+            validationOrig.Formula.Value.Hour = 14;
+            validationOrig.Formula.Value.Minute = 30;
+            validationOrig.Formula.Value.Second = 42;
+
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationTime>(package);
+
+            Assert.AreEqual(validationOrig.Formula.Value.Hour, validation.Formula.Value.Hour);
+            Assert.AreEqual(validationOrig.Formula.Value.Minute, validation.Formula.Value.Minute);
+            Assert.AreEqual(validationOrig.Formula.Value.Second, validation.Formula.Value.Second);
         }
 
         [TestMethod]
-        public void TimeFormula_ValueIsSetFromConstructorValidateMinute()
+        public void ExcelFormulaIsRead()
         {
-            // Arrange
-            var time = new ExcelTime(0.395M);
-            LoadXmlTestData("A1", "time", "0.395");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("TimeTest");
 
-            // Act
-            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
+            var validationOrig = sheet.DataValidations.AddTimeValidation("A1");
 
-            // Assert
-            Assert.AreEqual(time.Minute, formula.Formula.Value.Minute);
-        }
+            validationOrig.Formula.ExcelFormula = "D1";
 
-        [TestMethod]
-        public void TimeFormula_ValueIsSetFromConstructorValidateSecond()
-        {
-            // Arrange
-            var time = new ExcelTime(0.812M);
-            LoadXmlTestData("A1", "time", "0.812");
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
 
-            // Act
-            var formula = new ExcelDataValidationTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Time, _dataValidationNode, _namespaceManager);
+            var validation = ReadTValidation<ExcelDataValidationTime>(package);
 
-            // Assert
-            Assert.AreEqual(time.Second.Value, formula.Formula.Value.Second.Value);
+            Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
     }
 }

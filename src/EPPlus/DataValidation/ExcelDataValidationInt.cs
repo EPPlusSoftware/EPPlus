@@ -10,65 +10,80 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using System.Xml;
-using OfficeOpenXml.DataValidation.Contracts;
 
 namespace OfficeOpenXml.DataValidation
 {
     /// <summary>
     /// Data validation for integer values.
     /// </summary>
-    public class ExcelDataValidationInt : ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>, IExcelDataValidationInt
+    public class ExcelDataValidationInt : ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>, Contracts.IExcelDataValidationInt
     {
+        bool _isTextLength = false;
+
         /// <summary>
-        /// Constructor
+        /// Constructor for reading data
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        internal ExcelDataValidationInt(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
-            : base(worksheet, uid, address, validationType)
+        /// <param name="xr">The XmlReader to read from</param>
+        ///  <param name="isTextLength">Bool to define type of int validation</param>
+        internal ExcelDataValidationInt(XmlReader xr, bool isTextLength = false) : base(xr)
         {
-            Formula = new ExcelDataValidationFormulaInt(worksheet.NameSpaceManager, TopNode, GetFormula1Path(), uid);
-            Formula2 = new ExcelDataValidationFormulaInt(worksheet.NameSpaceManager, TopNode, GetFormula2Path(), uid);
+            _isTextLength = isTextLength;
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        internal ExcelDataValidationInt(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, uid, address, validationType, itemElementNode)
+        /// <param name="isTextLength">Bool to define type of int validation</param>
+        internal ExcelDataValidationInt(string uid, string address, string worksheetName, bool isTextLength = false)
+            : base(uid, address, worksheetName)
         {
-            Formula = new ExcelDataValidationFormulaInt(worksheet.NameSpaceManager, TopNode, GetFormula1Path(), uid);
-            Formula2 = new ExcelDataValidationFormulaInt(worksheet.NameSpaceManager, TopNode, GetFormula2Path(), uid);
+            //Initilization of forumlas so they don't cause nullref
+            Formula = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
+            Formula2 = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
+            _isTextLength = isTextLength;
         }
 
         /// <summary>
-        /// Constructor
+        /// Copy constructor
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        /// <param name="namespaceManager">For test purposes</param>
-        internal ExcelDataValidationInt(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
+        /// <param name="copy"></param>
+        internal ExcelDataValidationInt(ExcelDataValidationInt copy) : base(copy)
         {
-            Formula = new ExcelDataValidationFormulaInt(NameSpaceManager, TopNode, GetFormula1Path(), uid);
-            Formula2 = new ExcelDataValidationFormulaInt(NameSpaceManager, TopNode, GetFormula2Path(), uid);
+            Formula = copy.Formula;
+            Formula2 = copy.Formula2;
         }
+
+        /// <summary>
+        /// Property for determining type of validation
+        /// </summary>
+        public override ExcelDataValidationType ValidationType => _isTextLength ?
+            new ExcelDataValidationType(eDataValidationType.TextLength) :
+            new ExcelDataValidationType(eDataValidationType.Whole);
+
+        internal override IExcelDataValidationFormulaInt DefineFormulaClassType(string formulaValue, string worksheetName)
+        {
+            return new ExcelDataValidationFormulaInt(formulaValue, Uid, worksheetName, OnFormulaChanged);
+        }
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationInt(this);
+        }
+
+        /// <summary>
+        /// Return a deep-copy clone of validation
+        /// </summary>
+        /// <returns></returns>
+        public ExcelDataValidationInt Clone()
+        {
+            return (ExcelDataValidationInt)GetClone();
+        }
+
     }
 }

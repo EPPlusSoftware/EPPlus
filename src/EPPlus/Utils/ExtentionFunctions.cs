@@ -45,7 +45,6 @@ namespace OfficeOpenXml.Utils.Extensions
             }
         }
 
-
         internal static T ToEnum<T>(this string s, T defaultValue) where T : struct
         {
             try
@@ -54,7 +53,7 @@ namespace OfficeOpenXml.Utils.Extensions
                 return (T)Enum.Parse(typeof(T), s, true);
             }
             catch
-            {                
+            {
                 return defaultValue;
             }
         }

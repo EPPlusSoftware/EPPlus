@@ -14,7 +14,6 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -566,7 +565,7 @@ namespace OfficeOpenXml.Core.Worksheet
         private static void DeleteDataValidations(ExcelRangeBase range, eShiftTypeDelete shift, ExcelWorksheet ws, ExcelAddressBase effectedAddress)
         {
             //Update data validation references
-            var deletedDV = new List<IExcelDataValidation>();
+            var deletedDV = new List<ExcelDataValidation>();
             foreach (var dv in ws.DataValidations)
             {
                 var address = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
@@ -576,8 +575,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    ((ExcelDataValidation)dv).SetAddress(address.Address);
+                    dv.SetAddress(address.Address);
                 }
+                ws.DataValidations.DeleteRangeDictionary(range, shift == eShiftTypeDelete.Left || shift == eShiftTypeDelete.EntireColumn);
             }
             deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
         }

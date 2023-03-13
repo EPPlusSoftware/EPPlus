@@ -10,15 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using System.Text.RegularExpressions;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -147,29 +144,27 @@ namespace OfficeOpenXml.DataValidation.Formulas
         }
         #endregion
 
-        public ExcelDataValidationFormulaList(XmlNamespaceManager namespaceManager, XmlNode itemNode, string formulaPath, string uid)
-            : base(namespaceManager, itemNode, formulaPath, uid)
+        public ExcelDataValidationFormulaList(string formula, string uid, string sheetName, Action<OnFormulaChangedEventArgs> extListHandler)
+            : base(uid, sheetName, extListHandler)
         {
-            SchemaNodeOrder = new string[] {  "formula1", "sqref" };
-            Require.Argument(formulaPath).IsNotNullOrEmpty("formulaPath");
-            _formulaPath = formulaPath;
             var values = new DataValidationList();
             values.ListChanged += new EventHandler<EventArgs>(values_ListChanged);
             Values = values;
+            _inputFormula = formula;
             SetInitialValues();
         }
 
-        private string _formulaPath;
+        private string _inputFormula;
 
         private void SetInitialValues()
         {
-            var @value = GetXmlNodeString(_formulaPath);
+            var @value = _inputFormula;
             if (!string.IsNullOrEmpty(@value))
             {
                 if (@value.StartsWith("\"", StringComparison.OrdinalIgnoreCase) && @value.EndsWith("\"", StringComparison.OrdinalIgnoreCase))
                 {
                     @value = @value.TrimStart('"').TrimEnd('"');
-                    var items = @value.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = @value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var item in items)
                     {
                         Values.Add(item);
@@ -194,7 +189,6 @@ namespace OfficeOpenXml.DataValidation.Formulas
             {
                 throw new InvalidOperationException("The total length of a DataValidation list cannot exceed 255 characters");
             }
-            SetXmlNodeString(_formulaPath, valuesAsString);
         }
         public IList<string> Values
         {
@@ -202,7 +196,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
             private set;
         }
 
-        protected override string  GetValueAsString()
+        protected override string GetValueAsString()
         {
             var sb = new StringBuilder();
             foreach (var val in Values)
