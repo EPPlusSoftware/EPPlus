@@ -23,9 +23,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.1",
         Description = "Rounds a number down, to the nearest integer or to the nearest multiple of significance",
-        IntroducedInExcelVersion = "2013")]
+        IntroducedInExcelVersion = "2013",
+        SupportsArrays = true)]
     internal class FloorMath : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

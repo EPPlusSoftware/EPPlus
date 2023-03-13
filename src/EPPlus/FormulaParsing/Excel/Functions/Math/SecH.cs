@@ -22,9 +22,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.1",
         Description = "Returns the hyperbolic secant of an angle",
-        IntroducedInExcelVersion = "2013")]
+        IntroducedInExcelVersion = "2013",
+        SupportsArrays = true)]
     internal class SecH : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

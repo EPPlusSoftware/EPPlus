@@ -102,6 +102,24 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         }
 
         [TestMethod]
+        public void CeilingPreciseShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1.9;
+                sheet.Cells["A2"].Value = 2.9;
+                sheet.Cells["A3"].Value = 3.3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("CEILING.PRECISE(A1:A3,2)");
+                sheet.Calculate();
+                Assert.AreEqual(2d, sheet.Cells["B1"].Value);
+                Assert.AreEqual(4d, sheet.Cells["B2"].Value);
+                Assert.AreEqual(4d, sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
         public void CeilingMathShouldReturnVerticalArray()
         {
             using (var package = new ExcelPackage())
@@ -338,6 +356,354 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 Assert.AreEqual(0d, v1);
                 Assert.AreEqual(1.317, v2);
                 Assert.AreEqual(1.7627, v3);
+            }
+        }
+
+        [TestMethod]
+        public void SecShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("SEC(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 4);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 4);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 4);
+                Assert.AreEqual(1.8508d, v1);
+                Assert.AreEqual(-2.403, v2);
+                Assert.AreEqual(-1.0101, v3);
+            }
+        }
+
+        [TestMethod]
+        public void SechShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("SECH(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 4);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 4);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 4);
+                Assert.AreEqual(0.6481d, v1);
+                Assert.AreEqual(0.2658, v2);
+                Assert.AreEqual(0.0993, v3);
+            }
+        }
+
+        [TestMethod]
+        public void SinShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("SIN(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 4);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 4);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 4);
+                Assert.AreEqual(0.8415, v1);
+                Assert.AreEqual(0.9093, v2);
+                Assert.AreEqual(0.1411, v3);
+            }
+        }
+
+        [TestMethod]
+        public void AsinShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = -0.5;
+                sheet.Cells["A2"].Value = 0.1;
+                sheet.Cells["A3"].Value = 0.9;
+                sheet.Cells["B1:B3"].CreateArrayFormula("ASIN(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 4);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 4);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 4);
+                Assert.AreEqual(-0.5236, v1);
+                Assert.AreEqual(0.1002, v2);
+                Assert.AreEqual(1.1198, v3);
+            }
+        }
+
+        [TestMethod]
+        public void AcotShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("ACOT(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(0.79, v1);
+                Assert.AreEqual(0.46, v2);
+                Assert.AreEqual(0.32, v3);
+            }
+        }
+
+        [TestMethod]
+        public void AcothShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1.9135;
+                sheet.Cells["A2"].Value = 2.5999;
+                sheet.Cells["A3"].Value = 3.1015;
+                sheet.Cells["B1:B3"].CreateArrayFormula("ACOTH(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(0.58, v1);
+                Assert.AreEqual(0.41, v2);
+                Assert.AreEqual(0.33, v3);
+            }
+        }
+
+        [TestMethod]
+        public void AsinhShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("ASINH(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(0.88, v1);
+                Assert.AreEqual(1.44, v2);
+                Assert.AreEqual(1.82, v3);
+            }
+        }
+
+        [TestMethod]
+        public void AtanShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("ATAN(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(0.79, v1);
+                Assert.AreEqual(1.11, v2);
+                Assert.AreEqual(1.25, v3);
+            }
+        }
+
+        [TestMethod]
+        public void AtanhShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("S47heet1");
+
+                sheet.Cells["A1"].Value = -0.5;
+                sheet.Cells["A2"].Value = 0.1;
+                sheet.Cells["A3"].Value = 0.9;
+                sheet.Cells["B1:B3"].CreateArrayFormula("ATANH(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(-0.55, v1);
+                Assert.AreEqual(0.1, v2);
+                Assert.AreEqual(1.47, v3);
+            }
+        }
+
+        [TestMethod]
+        public void CotShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("COT(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(0.64, v1);
+                Assert.AreEqual(-0.46, v2);
+                Assert.AreEqual(-7.02, v3);
+            }
+        }
+
+        [TestMethod]
+        public void CothShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("COTH(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(1.31, v1);
+                Assert.AreEqual(1.04, v2);
+                Assert.AreEqual(1.0, v3);
+            }
+        }
+
+        [TestMethod]
+        public void CscShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("CSC(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(1.19, v1);
+                Assert.AreEqual(1.1, v2);
+                Assert.AreEqual(7.09, v3);
+            }
+        }
+
+        [TestMethod]
+        public void CschShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("CSCH(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(0.85, v1);
+                Assert.AreEqual(0.28, v2);
+                Assert.AreEqual(0.1, v3);
+            }
+        }
+
+        [TestMethod]
+        public void ExpShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("EXP(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(2.72, v1);
+                Assert.AreEqual(7.39, v2);
+                Assert.AreEqual(20.09, v3);
+            }
+        }
+
+        [TestMethod]
+        public void FloorShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1.9135;
+                sheet.Cells["A2"].Value = 2.5999;
+                sheet.Cells["A3"].Value = 3.1015;
+                sheet.Cells["B1:B3"].CreateArrayFormula("FLOOR(A1:A3,1)");
+                sheet.Calculate();
+                Assert.AreEqual(1d, sheet.Cells["B1"].Value);
+                Assert.AreEqual(2d, sheet.Cells["B2"].Value);
+                Assert.AreEqual(3d, sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void FloorPreciseShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1.9135;
+                sheet.Cells["A2"].Value = 2.5999;
+                sheet.Cells["A3"].Value = 3.1015;
+                sheet.Cells["B1:B3"].CreateArrayFormula("FLOOR.PRECISE(A1:A3,1)");
+                sheet.Calculate();
+                Assert.AreEqual(1d, sheet.Cells["B1"].Value);
+                Assert.AreEqual(2d, sheet.Cells["B2"].Value);
+                Assert.AreEqual(3d, sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void FloorMathShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1.9135;
+                sheet.Cells["A2"].Value = 2.5999;
+                sheet.Cells["A3"].Value = 3.1015;
+                sheet.Cells["B1:B3"].CreateArrayFormula("FLOOR.MATH(A1:A3,1)");
+                sheet.Calculate();
+                Assert.AreEqual(1d, sheet.Cells["B1"].Value);
+                Assert.AreEqual(2d, sheet.Cells["B2"].Value);
+                Assert.AreEqual(3d, sheet.Cells["B3"].Value);
             }
         }
     }
