@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             }
             else if(arguments.Count() > 254)
             {
-                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelAddress);
+                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
             }
             var sb = new StringBuilder();
             foreach (var arg in arguments)
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var result = sb.ToString();
             if(!string.IsNullOrEmpty(result) && result.Length > 32767)
             {
-                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelAddress);
+                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
             }
             return CreateResult(sb.ToString(), DataType.String);
         }

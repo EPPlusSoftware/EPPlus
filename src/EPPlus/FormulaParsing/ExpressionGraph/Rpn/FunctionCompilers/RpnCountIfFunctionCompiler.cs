@@ -33,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             }
             if (args.Count < 2) return new CompileResult(eErrorType.Value);
             var arg2 = args.ElementAt(1);
-            if((arg2.DataType == DataType.Enumerable || arg2.DataType == DataType.ExcelRange) && arg2.IsExcelRange)
+            if((arg2.DataType == DataType.ExcelRange) && arg2.IsExcelRange)
             {
                 var arg1 = args.First();
                 var result = new List<object>();
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
                     var r = Function.Execute(arguments, Context);
                     result.Add(r.Result);
                 }
-                return new CompileResult(result, DataType.Enumerable);
+                return new CompileResult(result, DataType.ExcelRange);
             }
             return Function.Execute(args, Context);
         }

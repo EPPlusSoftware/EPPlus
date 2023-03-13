@@ -679,13 +679,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             if (ExcelErrorValue.Values.IsErrorValue(result))
             {
-                return CreateResult(result, DataType.ExcelAddress);
+                return CreateResult(result, DataType.ExcelError);
             }
             if (result == null)
             {
                 return CompileResult.Empty;
             }
-            return CreateResult(result, DataType.Enumerable);
+            return CreateResult(result, DataType.ExcelRange);
         }
         /// <summary>
         /// If the function returns a different value with the same parameters.

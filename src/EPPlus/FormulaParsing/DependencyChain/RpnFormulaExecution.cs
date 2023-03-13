@@ -462,7 +462,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else
                             {
-                                f._ws.SetValueInner(f._row, f._column, cr.Result ?? 0D);
+                                f._ws.SetValueInner(f._row, f._column, cr.ResultValue ?? 0D);
                             }
                         }
                         var id = ExcelCellBase.GetCellId(ws.IndexInList, f._row, f._column);
@@ -910,7 +910,6 @@ namespace OfficeOpenXml.FormulaParsing
                     f._expressionStack.Push(new RpnDecimalExpression(result, context));
                     break;
                 case DataType.String:
-                case DataType.ExcelAddress:
                     f._expressionStack.Push(new RpnStringExpression(result, context));
                     break;
                 case DataType.ExcelError:
@@ -919,9 +918,9 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.ExcelRange:
                     f._expressionStack.Push(new RpnRangeExpression(result, context));
                     break;
-                case DataType.Enumerable:
-                    f._expressionStack.Push(new RpnEnumerableExpression(result, context));
-                    break;
+                //case DataType.Enumerable:
+                //    f._expressionStack.Push(new RpnEnumerableExpression(result, context));
+                //    break;
                 case DataType.Empty:
                     f._expressionStack.Push(RpnExpression.Empty);
                     break;

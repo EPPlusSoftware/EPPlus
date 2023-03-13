@@ -32,13 +32,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var maxArgs = arguments.Count() < (127 * 2) ? arguments.Count() : 127 * 2; 
             if(maxArgs % 2 != 0) 
             {
-                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+                return CreateResult(ErrorValues.ValueError, DataType.ExcelError);
             }
             for(var x = 0; x < maxArgs; x += 2)
             {
-                if (System.Math.Round(ArgToDecimal(arguments, x), 15) != 0d) return CompileResultFactory.Create(arguments.ElementAt(x + 1).Value);
+                if (System.Math.Round(ArgToDecimal(arguments, x), 15) != 0d)
+                {
+                    var arg = arguments.ElementAt(x + 1);
+                    if(arg.DataType==DataType.ExcelRange)
+                    {
+                        return CompileResultFactory.Create(arg, arg.ValueAsRangeInfo.Address);
+                    }
+                    else
+                    {
+                        return CompileResultFactory.Create(arg.Value);
+                    }
+                }
             }
-            return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+            return CreateResult(ErrorValues.NAError, DataType.ExcelError);
         }
         public override bool ReturnsReference => true;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)

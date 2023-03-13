@@ -41,11 +41,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 var candidate = arguments.ElementAt(x).Value;
                 if(IsMatch(expression, candidate))
                 {
-                    return CompileResultFactory.Create(arguments.ElementAt(x + 1).Value);
+                    return GetResult(arguments.ElementAt(x + 1));
                 }
             }
-            if (arguments.Count() % 2 == 0) return CompileResultFactory.Create(arguments.Last().Value);
+            if (arguments.Count() % 2 == 0)
+            {
+                return GetResult(arguments.Last());
+            }
             return new CompileResult(eErrorType.NA);
+        }
+
+        private static CompileResult GetResult(FunctionArgument arg)
+        {
+            if (arg.DataType == DataType.ExcelRange)
+            {
+                var ri = arg.ValueAsRangeInfo;
+                return CompileResultFactory.Create(ri, ri.Address);
+            }
+            else
+            {
+                return CompileResultFactory.Create(arg.Value);
+            }
         }
 
         private bool IsMatch(object right, object left)

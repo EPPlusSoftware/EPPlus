@@ -25,62 +25,58 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         /// <summary>
         /// An integer 
         /// </summary>
-        Integer,
+        Integer = 0,
         /// <summary>
         /// A decimal or floating point
         /// </summary>
-        Decimal,
+        Decimal = 1,
         /// <summary>
         /// A string 
         /// </summary>
-        String,
+        String = 2,
         /// <summary>
         /// A boolean
         /// </summary>
-        Boolean,
+        Boolean = 3,
         /// <summary>
         /// A date or date/time
         /// </summary>
-        Date,
+        Date = 4,
         /// <summary>
         /// A time
         /// </summary>
-        Time,
-        /// <summary>
-        /// A range or a collection
-        /// </summary>
-        Enumerable,
+        Time = 5,
+        ///// <summary>
+        ///// A range or a collection
+        ///// </summary>
+        //Enumerable = 6,
         /// <summary>
         /// A lookup array
         /// </summary>
-        LookupArray,
-        /// <summary>
-        /// A range reference
-        /// </summary>
-        ExcelAddress,
-        /// <summary>
-        /// Single cell address, e.g A1
-        /// </summary>
-        ExcelCellAddress,
+        LookupArray = 7,
+        ///// <summary>
+        ///// A range reference
+        ///// </summary>
+        //ExcelAddress = 8,
+        ///// <summary>
+        ///// Single cell address, e.g A1
+        ///// </summary>
+        //ExcelCellAddress = 9,
         /// <summary>
         /// An address range, e.g A1:B2
         /// </summary>
-        ExcelRange,
+        ExcelRange = 10,
         /// <summary>
         /// An error code
         /// </summary>
-        ExcelError,
+        ExcelError = 11,
         /// <summary>
         /// Null or empty string
         /// </summary>
-        Empty,
+        Empty = 12,
         /// <summary>
         /// An unknown data type
         /// </summary>
-        Unknown,
-        /// <summary>
-        /// Worksheet name
-        /// </summary>
-        WorksheetName,
+        Unknown = 13,
     }
 }

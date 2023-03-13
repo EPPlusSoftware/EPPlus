@@ -27,9 +27,9 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
             _package = new ExcelPackage();
 
             _ws = _package.Workbook.Worksheets.Add("Sheet1");
-            LoadTestdata(_ws);
-            var tbl = _ws.Tables.Add(_ws.Cells["A1:E101"], "MyTable");
-            tbl.ShowTotal = true;
+            //LoadTestdata(_ws);
+            //var tbl = _ws.Tables.Add(_ws.Cells["A1:E101"], "MyTable");
+            //tbl.ShowTotal = true;
             //var parsingContext = ParsingContext.Create(_package);
             //_excelDataProvider = new EpplusExcelDataProvider(_package, parsingContext);
             //_compiler = new ExpressionCompiler(parsingContext);

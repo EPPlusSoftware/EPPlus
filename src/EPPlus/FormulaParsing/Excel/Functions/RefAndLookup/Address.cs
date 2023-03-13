@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
             var translator = new IndexToAddressTranslator(context.ExcelDataProvider, referenceType);
-            return CreateResult(worksheetSpec + translator.ToAddress(col, row), DataType.ExcelAddress);
+            return CreateResult(worksheetSpec + translator.ToAddress(col, row), DataType.String);
         }
     }
 }

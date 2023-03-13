@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             ValidateArguments(arguments, 2);
             var indexArg = arguments.ElementAt(0);
-            if (indexArg.DataType==DataType.Enumerable || indexArg.DataType==DataType.ExcelRange)
+            if (indexArg.DataType==DataType.ExcelRange)
             {
                 var ri = indexArg.ValueAsRangeInfo;
                 var rowFrom = ri.Address?.FromRow ?? 0;
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                         var ix = ConvertUtil.ParseInt(ri.GetValue(rowFrom + r, colFrom + c), RoundingMethod.Convert);
                         if(ix<0 && ix >= arguments.Count())
                         {
-                            values.SetValue(r, c, ExcelErrorValue.Create(eErrorType.Value));
+                            values.SetValue(r, c, ErrorValues.ValueError);
                         }
                         else
                         {
@@ -53,15 +53,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                         }
                     }
                 }
+
                 return CreateResult(values, DataType.ExcelRange);
             }
             else
             {
                 var index = ArgToInt(arguments, 0);
                 var choosedValue = arguments.ElementAt(index).Value;
-                if(choosedValue is IRangeInfo)
+                if(choosedValue is IRangeInfo ri)
                 {
-                    return CreateResult(choosedValue, DataType.Enumerable);
+                    return CreateAddressResult(ri, DataType.ExcelRange);
                 }
                 return CompileResultFactory.Create(choosedValue);
             }

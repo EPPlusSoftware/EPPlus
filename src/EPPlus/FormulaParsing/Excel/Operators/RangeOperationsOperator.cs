@@ -10,6 +10,7 @@
  *************************************************************************************************
   05/30/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -272,25 +273,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         public static InMemoryRange ApplySingleValueRight(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
             var lr = left.Result as IRangeInfo;
-            object rightVal = default;
-            if(right.DataType == DataType.ExcelCellAddress)
-            {
-                if(right.Result is IRangeInfo rri && rri.Size.NumberOfCols > 0 && rri.Size.NumberOfRows > 0)
-                {
-                    rightVal = rri.GetValue(0, 0);
-                }
-            }
-            else
-            {
-                rightVal = right.Result;
-            }
+
             var resultRange = CreateRange(lr, InMemoryRange.Empty);
             for (var row = 0; row < resultRange.Size.NumberOfRows; row++)
             {
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
                     var leftVal = GetCellValue(lr, row, col);
-                    SetValue(op, resultRange, row, col, leftVal, rightVal);
+                    SetValue(op, resultRange, row, col, leftVal, right.Result);
                 }
             }
             return resultRange;

@@ -34,13 +34,13 @@ namespace OfficeOpenXml.Metadata
                 Part = p.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
                 ReadMetadata();
             }
-            TopNode = MetadataXml.DocumentElement;
         }
 
         private void ReadMetadata()
         {
             MetadataXml = new XmlDocument();
             LoadXmlSafe(MetadataXml, Part.GetStream());
+            TopNode = MetadataXml.DocumentElement;
             LoadTypes();
         }
 
@@ -49,28 +49,35 @@ namespace OfficeOpenXml.Metadata
         internal List<ExcelCellMetadata> CellMetadata { get; } = new List<ExcelCellMetadata>();
         private void LoadTypes()
         {
-            foreach (XmlElement mdNode in GetNodes("d:metadataTypes"))
+            const string MetadataTypesPath = "d:metadataTypes/d:metadataType";
+            if (ExistsNode(MetadataTypesPath))
             {
-                MetadataTypes.Add(new ExcelMetadataType(NameSpaceManager, mdNode));
+                foreach (XmlElement mdNode in GetNodes(MetadataTypesPath))
+                {
+                    MetadataTypes.Add(new ExcelMetadataType(NameSpaceManager, mdNode));
+                }
             }
 
-            foreach (XmlElement cellFmdNode in GetNodes("d:futureMetadata[Name='XLDAPR']/d:bk/d:extLst/d:ext[uri='{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}']/xda:dynamicArrayProperties"))
+            const string FutureMetadataTypesPath = "d:futureMetadata[@name='XLDAPR']/d:bk/d:extLst/d:ext[@uri='{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}']/xda:dynamicArrayProperties";
+            if (ExistsNode(FutureMetadataTypesPath))
             {
-                FutureMetadataTypes.Add(new ExcelFutureMetadataType(NameSpaceManager, cellFmdNode));
+                foreach (XmlElement cellFmdNode in GetNodes(FutureMetadataTypesPath))
+                {
+                    FutureMetadataTypes.Add(new ExcelFutureMetadataType(NameSpaceManager, cellFmdNode));
+                } 
             }
-
-            foreach (XmlElement cellMdNode in GetNodes("d:cellMetadata"))
+            const string CellMetaDataPath = "d:cellMetadata/d:bk/d:rc";
+            foreach (XmlElement cellMdNode in GetNodes(CellMetaDataPath))
             {
                 CellMetadata.Add(new ExcelCellMetadata(NameSpaceManager, cellMdNode));
             }
         }
-
         internal bool IsFormulaDynamic(int cm)
         {
             if(cm <= CellMetadata.Count)
             {
-                var cellMetadata = CellMetadata[cm-1];
-                var metadataType = MetadataTypes[cellMetadata.MetadataRecordTypeIndex];
+                var cellMetadata = CellMetadata[cm - 1];
+                var metadataType = MetadataTypes[cellMetadata.MetadataRecordTypeIndex - 1];
                 if(metadataType.Name == "XLDAPR")
                 {
                     return FutureMetadataTypes[cellMetadata.MetadataValueTypeIndex].IsDynamicArray;
@@ -78,7 +85,6 @@ namespace OfficeOpenXml.Metadata
             }
             return false;
         }
-
         public XmlDocument MetadataXml { get; private set; }
         public ZipPackagePart Part { get; set; }
     }

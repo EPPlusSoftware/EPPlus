@@ -62,16 +62,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             var indexVal = arguments.ElementAt(2);
 
-            if (indexVal.DataType == DataType.ExcelAddress)
-            {
-                var address = new ExcelAddress(indexVal.Value.ToString());
-                var indexObj = context.ExcelDataProvider.GetRangeValue(address.WorkSheetName, address._fromRow, address._fromCol);
-                LookupIndex = (int) _argumentParsers.GetParser(DataType.Integer).Parse(indexObj);
-            }
-            else
-            {
+            //if (indexVal.DataType == DataType.ExcelAddress)
+            //{
+            //    var address = new ExcelAddress(indexVal.Value.ToString());
+            //    var indexObj = context.ExcelDataProvider.GetRangeValue(address.WorkSheetName, address._fromRow, address._fromCol);
+            //    LookupIndex = (int) _argumentParsers.GetParser(DataType.Integer).Parse(indexObj);
+            //}
+            //else
+            //{
                 LookupIndex = (int)_argumentParsers.GetParser(DataType.Integer).Parse(arguments.ElementAt(2).Value);
-            }
+            //}
             
             if (arguments.Count() > 3)
             {

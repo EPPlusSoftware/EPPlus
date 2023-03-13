@@ -140,14 +140,21 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
         {
             get
             {
-                var r = Result as IRangeInfo;
-                if (r == null || r.Address == null)
+                if(DataType==DataType.ExcelRange)
                 {
-                    return Result;
+                    var r = Result as IRangeInfo;
+                    if (r == null || r.Address == null)
+                    {
+                        return Result;
+                    }
+                    else
+                    {
+                        return r.GetValue(r.Address.FromRow, r.Address.FromCol);
+                    }
                 }
                 else
                 {
-                    return r.GetValue(r.Address.FromRow, r.Address.FromCol);
+                    return Result;
                 }
             }
         }

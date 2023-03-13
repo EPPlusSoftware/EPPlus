@@ -220,6 +220,8 @@ namespace OfficeOpenXml
         // Richdata (used in worksheet.sortstate)
         internal const string schemaRichData2 = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2";
 
+        internal const string schemaDynamicArrays = "http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray";
+
         //Package reference
         private Packaging.ZipPackage _zipPackage;
 		internal ExcelWorkbook _workbook;
@@ -779,6 +781,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("tc", schemaThreadedComments);
             ns.AddNamespace("a14", schemaDrawings2010);
             ns.AddNamespace("xdr", schemaSheetDrawings);
+            ns.AddNamespace("xda", schemaDynamicArrays);
             return ns;
         }
 		
