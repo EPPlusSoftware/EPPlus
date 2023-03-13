@@ -22,18 +22,18 @@ namespace OfficeOpenXml.DataValidation
         /// warning style will be excluded.
         /// Excel will default this to Stop warning style.
         /// </summary>
-        Undefined,
+        undefined,
         /// <summary>
         /// stop warning style, invalid changes will not be accepted
         /// </summary>
-        Stop,
+        stop,
         /// <summary>
         /// warning will be presented when an attempt to an invalid change is done, but the change will be accepted.
         /// </summary>
-        Warning,
+        warning,
         /// <summary>
         /// information warning style.
         /// </summary>
-        Information
+        information
     }
 }

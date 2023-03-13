@@ -92,11 +92,11 @@ namespace OfficeOpenXml.DataValidation
                 if (!string.IsNullOrEmpty(errorStyleString))
                     return (ExcelDataValidationWarningStyle)Enum.Parse(typeof(ExcelDataValidationWarningStyle), errorStyleString, true);
 
-                return ExcelDataValidationWarningStyle.Undefined;
+                return ExcelDataValidationWarningStyle.undefined;
             }
             set
             {
-                if (value == ExcelDataValidationWarningStyle.Undefined)
+                if (value == ExcelDataValidationWarningStyle.undefined)
                     errorStyleString = null;
                 else
                     errorStyleString = value.ToString();

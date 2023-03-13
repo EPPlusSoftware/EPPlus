@@ -21,34 +21,34 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// The value of the validated cell should be between two values
         /// </summary>
-        Between = 0,
+        between = 0,
         /// <summary>
         /// The value of the validated cell should be eqal to a specific value
         /// </summary>
-        Equal = 2,
+        equal = 2,
         /// <summary>
         /// The value of the validated cell should be greater than a specific value
         /// </summary>
-        GreaterThan = 6,
+        greaterThan = 6,
         /// <summary>
         /// The value of the validated cell should be greater than or equal to a specific value
         /// </summary>
-        GreaterThanOrEqual = 7,
+        greaterThanOrEqual = 7,
         /// <summary>
         /// The value of the validated cell should be less than a specific value
         /// </summary>
-        LessThan = 4,
+        lessThan = 4,
         /// <summary>
         /// The value of the validated cell should be less than or equal to a specific value
         /// </summary>
-        LessThanOrEqual = 5,
+        lessThanOrEqual = 5,
         /// <summary>
         /// The value of the validated cell should not be between two specified values
         /// </summary>
-        NotBetween = 1,
+        notBetween = 1,
         /// <summary>
         /// The value of the validated cell should not be eqal to a specific value
         /// </summary>
-        NotEqual = 3
+        notEqual = 3
     }
 }
