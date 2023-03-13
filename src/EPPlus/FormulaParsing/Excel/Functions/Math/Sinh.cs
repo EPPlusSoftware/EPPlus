@@ -22,9 +22,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
-        Description = "Returns the Hyperbolic Sine of a number")]
+        Description = "Returns the Hyperbolic Sine of a number",
+        SupportsArrays = true)]
     internal class Sinh : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

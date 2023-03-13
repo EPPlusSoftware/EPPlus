@@ -22,9 +22,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
-        Description = "Returns the remainder from a division between two supplied numbers")]
+        Description = "Returns the remainder from a division between two supplied numbers",
+        SupportsArrays = true)]
     internal class Mod : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);

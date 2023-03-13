@@ -22,9 +22,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
-        Description = "Returns the base 10 logarithm of a given number")]
+        Description = "Returns the base 10 logarithm of a given number",
+        SupportsArrays = true)]
     internal class Log10 : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

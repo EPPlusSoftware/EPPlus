@@ -24,9 +24,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.1",
-        Description = "Returns a text string depicting the roman numeral for a given number")]
+        Description = "Returns a text string depicting the roman numeral for a given number",
+        SupportsArrays = true)]
     internal class Roman : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
