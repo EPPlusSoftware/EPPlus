@@ -90,7 +90,7 @@ namespace OfficeOpenXml.DataValidation
             get
             {
                 if (!string.IsNullOrEmpty(errorStyleString))
-                    return (ExcelDataValidationWarningStyle)Enum.Parse(typeof(ExcelDataValidationWarningStyle), errorStyleString);
+                    return (ExcelDataValidationWarningStyle)Enum.Parse(typeof(ExcelDataValidationWarningStyle), errorStyleString, true);
 
                 return ExcelDataValidationWarningStyle.Undefined;
             }
