@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "5.0",
         Description = "Returns the number (code point) corresponding to the first character of a supplied text string",
-        IntroducedInExcelVersion = "2013")]
+        IntroducedInExcelVersion = "2013",
+        SupportsArrays = true)]
     internal class Unicode : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;

@@ -23,9 +23,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
-        Description = "Truncates a number towards zero (i.e. rounds a positive number down and a negative number up), to the next integer.")]
+        Description = "Truncates a number towards zero (i.e. rounds a positive number down and a negative number up), to the next integer.",
+        SupportsArrays = true)]
     internal class Trunc : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

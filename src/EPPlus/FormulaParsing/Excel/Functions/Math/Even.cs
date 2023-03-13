@@ -23,9 +23,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.0",
-        Description = "Rounds a number away from zero (i.e. rounds a positive number up and a negative number down), to the next even number")]
+        Description = "Rounds a number away from zero (i.e. rounds a positive number up and a negative number down), to the next even number",
+        SupportsArrays = true)]
     internal class Even : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

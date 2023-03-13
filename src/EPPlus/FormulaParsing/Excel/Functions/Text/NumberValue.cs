@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "5.0",
         Description = "Converts text to a number, in a locale-independent way",
-        IntroducedInExcelVersion = "2013")]
+        IntroducedInExcelVersion = "2013",
+        SupportsArrays = true)]
     internal class NumberValue : ExcelFunction
     {
         private string _decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;

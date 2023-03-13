@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
-        Description = "Removes duplicate spaces, and spaces at the start and end of a text string")]
+        Description = "Removes duplicate spaces, and spaces at the start and end of a text string",
+        SupportsArrays = true)]
     internal class Trim : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
