@@ -614,13 +614,19 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             if (address.CollideFullRowOrColumn(range))
             {
-                if (range.CollideFullColumn(address._fromCol, address._toCol))
+                if (range.IsFullColumn)
                 {
-                    return address.DeleteColumn(range._fromCol, range.Columns);
+                    if (address.IsFullRow == false)
+                    {
+                        return address.DeleteColumn(range._fromCol, range.Columns);
+                    }
                 }
                 else
                 {
-                    return address.DeleteRow(range._fromRow, range.Rows);
+                    if (address.IsFullColumn == false)
+                    {
+                        return address.DeleteRow(range._fromRow, range.Rows);
+                    }
                 }
             }
             else

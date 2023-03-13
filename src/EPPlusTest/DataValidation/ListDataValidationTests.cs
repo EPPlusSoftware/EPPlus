@@ -105,7 +105,7 @@ namespace EPPlusTest.DataValidation
                 // Alternatively:
                 // var validation = sheet.Cells["A1"].DataValidation.AddListDataValidation();
                 validation.ShowErrorMessage = true;
-                validation.ErrorStyle = ExcelDataValidationWarningStyle.Warning;
+                validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
                 validation.ErrorTitle = "An invalid value was entered";
                 validation.Error = "Select a value from the list";
                 validation.Formula.ExcelFormula = "Sheet2!A1:A3";
@@ -132,7 +132,7 @@ namespace EPPlusTest.DataValidation
                 // var validation = sheet.Cells["A1"].DataValidation.AddListDataValidation();
                 validation.HideDropDown = true;
                 validation.ShowErrorMessage = true;
-                validation.ErrorStyle = ExcelDataValidationWarningStyle.Warning;
+                validation.ErrorStyle = ExcelDataValidationWarningStyle.warning;
                 validation.ErrorTitle = "An invalid value was entered";
                 validation.Error = "Select a value from the list";
                 validation.Formula.ExcelFormula = "Sheet2!A1:A3";

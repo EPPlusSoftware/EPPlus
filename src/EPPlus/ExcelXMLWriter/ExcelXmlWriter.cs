@@ -567,7 +567,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 cache.Append($"type=\"{_ws.DataValidations[i].ValidationType.TypeToXmlString()}\" ");
             }
 
-            if (_ws.DataValidations[i].ErrorStyle != ExcelDataValidationWarningStyle.Undefined)
+            if (_ws.DataValidations[i].ErrorStyle != ExcelDataValidationWarningStyle.undefined)
             {
                 cache.Append($"errorStyle=\"{_ws.DataValidations[i].ErrorStyle.ToEnumString()}\" ");
             }

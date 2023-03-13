@@ -63,9 +63,18 @@ namespace OfficeOpenXml.Drawing
 
                 byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
                 Image = new ExcelImage(this);
-                Image.SetImage(iby, PictureStore.GetPictureType(extension));
-
+                Image.Type = PictureStore.GetPictureType(extension);
+                Image.ImageBytes=iby;
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
+                var pd = (IPictureRelationDocument)_drawings;
+                if (pd.Hashes.ContainsKey(ii.Hash))
+                {
+                    pd.Hashes[ii.Hash].RefCount++;
+                }
+                else
+                {
+                    pd.Hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1 });
+                }
                 container.ImageHash = ii.Hash;
             }
         }
@@ -353,9 +362,19 @@ namespace OfficeOpenXml.Drawing
         {
             IPictureContainer container = this;
             var relDoc = (IPictureRelationDocument)_drawings;
-            relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
-            relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
-            relDoc.Hashes.Remove(container.ImageHash);
+            if (relDoc.Hashes.TryGetValue(container.ImageHash, out HashInfo hi))
+            {
+                if (hi.RefCount <= 1)
+                {
+                    relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
+                    relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+                    relDoc.Hashes.Remove(container.ImageHash);
+                }
+                else
+                {
+                    hi.RefCount--;
+                }
+            }
         }
 
         void IPictureContainer.SetNewImage()

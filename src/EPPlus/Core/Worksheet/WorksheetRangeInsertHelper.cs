@@ -768,6 +768,7 @@ namespace OfficeOpenXml.Core.Worksheet
         private static SourceCodeTokenizer _sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
         private static IEnumerable<Token> GetTokens(ExcelWorksheet ws, int row, int column, string formula)
         {
+            if(string.IsNullOrEmpty(formula)) return new List<Token>();
             var tokens = ws._formulaTokens.GetValue(row, column);
             if (tokens == null)
             {

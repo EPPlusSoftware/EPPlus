@@ -1140,7 +1140,7 @@ namespace OfficeOpenXml
         #region GetAsByteArray
         /// <summary>
         /// Saves and returns the Excel files as a bytearray.
-        /// Note that the package is closed upon save
+        /// Note that the package is closed upon save.
         /// </summary>
         /// <example>      
         /// Example how to return a document from a Webserver...
@@ -1213,7 +1213,7 @@ namespace OfficeOpenXml
             }
 
             Stream.Seek(pos, SeekOrigin.Begin);
-            Stream.Close();
+            CloseStream();
             return byRet;
         }
 

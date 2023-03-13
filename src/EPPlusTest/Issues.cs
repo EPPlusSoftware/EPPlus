@@ -26,37 +26,28 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System.Data;
-using OfficeOpenXml.Table;
-using System.Collections.Generic;
-using OfficeOpenXml.Table.PivotTable;
-using System.Text;
-using System.Globalization;
-using OfficeOpenXml.Drawing;
-using System.Threading;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Threading.Tasks;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.CompundDocument;
-using System.Security.AccessControl;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -3961,7 +3952,7 @@ namespace EPPlusTest
                 var ws = p.Workbook.Worksheets[0];
                 ws.Cells["C5"].Value = 15;
                 var pc = ws.Drawings[0].As.Chart.PieChart;
-                pc.Series[0].CreateCache( );
+                pc.Series[0].CreateCache();
 
                 SaveAndCleanup(p);
             }
@@ -3982,7 +3973,7 @@ namespace EPPlusTest
                 sheet.Cells["A8"].Value = 4;
                 sheet.Cells["A9"].Value = 1;
 
-                foreach(var c in sheet.Cells["A1:A3,A5,A6,A7"])
+                foreach (var c in sheet.Cells["A1:A3,A5,A6,A7"])
                 {
                     Console.WriteLine($"{c.Address}");
                 }
@@ -4223,5 +4214,176 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void I809()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("DateSheet");
+
+                ws.Cells["A1"].Value = "2022-11-25";
+
+                ws.Cells["B1"].Value = "2022-11-25";
+                ws.Cells["B2"].Value = "2022-11-30";
+                ws.Cells["B3"].Value = "2022-11-25";
+
+                ws.Cells["C1"].Formula = "=DAY(B1)";
+                ws.Cells["C2"].Formula = "=DAY(B2)";
+                ws.Cells["C3"].Formula = "=DAY(B3)";
+
+                ws.Cells["D1"].Formula = "SUMIF(B1:B3,A1,C1:C3)";
+                p.Workbook.Calculate();
+
+                Assert.AreEqual(50d, p.Workbook.Worksheets[0].Cells["D1"].Value);
+            }
+        }
+        [TestMethod]
+        public void s425()
+        {
+            using (var p = OpenTemplatePackage("s425.xlsx"))
+            {
+                Assert.AreEqual(1, p.Workbook.Worksheets[0].PivotTables.Count);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s803()
+        {
+            using (var p = OpenPackage("s803.xlsx",true))
+            {                
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:E100"].FillNumber(1, 1);
+                ws.Cells["A82"].Formula = "a1";
+                ws.Cells["A82"].Formula = null;
+                ws.Cells["A2:C100"].Style.Font.Bold = true;
+                ws.InsertRow(81, 1);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s431()
+        {
+            using (var package = OpenTemplatePackage("template-not-working.xlsx"))
+            {
+                var pics = package.Workbook.Worksheets.SelectMany(p => p.Drawings).Where(p => p is ExcelPicture)
+                    .Select(p => p as ExcelPicture).ToList();
+
+                var pic = pics.First(p => p.Name == "Image_ExistingInventoryImg");
+                var image = File.ReadAllBytes("c:\\temp\\img1.png");
+                pic.Image.SetImage(image, ePictureType.Png);
+                image = File.ReadAllBytes("c:\\temp\\img2.png");
+                pics[1].Image.SetImage(image, ePictureType.Png);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s430()
+        {
+            using (var package = OpenTemplatePackage("s430.xlsx"))
+            {
+                var SheetName = "Error_Sheet";
+                var InSheet = package.Workbook.Worksheets[SheetName];
+
+                using (var outPackage = OpenPackage("s430_out.xlsx", true))
+                {
+                    var xlSheet = outPackage.Workbook.Worksheets.Add(SheetName, InSheet);
+
+                    SaveAndCleanup(outPackage);
+                }
+            }
+        }
+        [TestMethod]
+        public void s435()
+        {
+            using (var package = OpenTemplatePackage("s435.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+
+
+                var start = 2;
+                worksheet.Cells["A" + start].Value = "Month";
+                worksheet.Cells["B" + start].Value = "Serie1";
+                worksheet.Cells["C" + start].Value = "Serie2";
+                worksheet.Cells["D" + start].Value = "Serie3";
+                start++;
+                var randomData = Data();
+                foreach (DataRow row in randomData.Rows)
+                {
+                    worksheet.Cells["A" + start].Value = row[0];
+                    worksheet.Cells["B" + start].Value = row[1];
+                    worksheet.Cells["C" + start].Value = row[2];
+                    worksheet.Cells["D" + start].Value = row[3];
+                    start++;
+                }
+                var end = start - 1;
+                var metroChart = (ExcelChart)worksheet.Drawings.Where(p => p is ExcelChart).First();
+                if (metroChart != null)
+                {
+                    metroChart.YAxis.MinValue = 0.5;
+                    metroChart.YAxis.MaxValue = 4.5;
+
+
+                    var serieColors = new Dictionary<string, string>()
+                    {
+                        { "Serie1", "#CBB54C" },
+                        { "Serie2", "#00A7CE" },
+                        { "Serie3", "#950000" }
+                    };
+
+
+                    AddLineSeries(metroChart, $"B3:B{end}", $"A3:A{end}", "Serie1");
+                    AddLineSeries(metroChart, $"C3:C{end}", $"A3:A{end}", "Serie2");
+                    AddLineSeries(metroChart, $"D3:D{end}", $"A3:A{end}", "Serie3");
+
+
+                    foreach (ExcelLineChartSerie serie in metroChart.Series)
+                    {
+                        var serieColor = serieColors[serie.Header];
+                        serie.Smooth = true;
+                        serie.Border.Fill.Color = ColorTranslator.FromHtml(serieColor);
+                        serie.Marker.Style = eMarkerStyle.None;
+                        serie.Border.Width = 2;
+                        serie.Border.Fill.Style = eFillStyle.SolidFill;
+                        serie.Border.LineStyle = eLineStyle.Solid;
+                        serie.Border.LineCap = eLineCap.Round;
+                        serie.Fill.Style = eFillStyle.SolidFill;
+                        serie.Fill.Color = ColorTranslator.FromHtml(serieColor);
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+            private void AddLineSeries(ExcelChart chart, string seriesAddress, string xSeriesAddress, string seriesName)
+            {
+                var lineSeries = chart.Series.Add(seriesAddress, xSeriesAddress);
+                lineSeries.Header = seriesName;
+            }
+
+
+            private DataTable Data()
+            {
+                var toReturn = new DataTable();
+                toReturn.Columns.Add("Month");
+                toReturn.Columns.Add("Serie1", typeof(decimal));
+                toReturn.Columns.Add("Serie2", typeof(decimal));
+                toReturn.Columns.Add("Serie3", typeof(decimal));
+
+
+                toReturn.Rows.Add("01/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("02/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("03/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("04/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("05/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("06/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("07/2022", 1.9, 2.9, 3.9);
+                toReturn.Rows.Add("08/2022", 1.9, 2.9, 3.9);
+
+
+                return toReturn;
+            }
+        }
     }
-}
+

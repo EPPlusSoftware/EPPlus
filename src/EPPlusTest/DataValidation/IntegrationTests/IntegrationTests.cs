@@ -73,10 +73,10 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             ws.Cells["B1"].Value = 2;
             var validation = ws.DataValidations.AddIntegerValidation("A1");
             validation.ShowErrorMessage = true;
-            validation.ErrorStyle = ExcelDataValidationWarningStyle.Stop;
+            validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
             validation.ErrorTitle = "Invalid value was entered";
             validation.PromptTitle = "Enter value here";
-            validation.Operator = ExcelDataValidationOperator.GreaterThan;
+            validation.Operator = ExcelDataValidationOperator.greaterThan;
             //validation.Value.Value = 3;
             validation.Formula.ExcelFormula = "B1";
         }
@@ -86,13 +86,13 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             var ws = _package.Workbook.Worksheets.Add("AddOneValidationOfTypeDecimal");
             var validation = ws.DataValidations.AddDecimalValidation("A1");
             validation.ShowErrorMessage = true;
-            validation.ErrorStyle = ExcelDataValidationWarningStyle.Stop;
+            validation.ErrorStyle = ExcelDataValidationWarningStyle.stop;
             validation.ErrorTitle = "Invalid value was entered";
             validation.Error = "Value must be greater than 1.4";
             validation.PromptTitle = "Enter value here";
             validation.Prompt = "Enter a value that is greater than 1.4";
             validation.ShowInputMessage = true;
-            validation.Operator = ExcelDataValidationOperator.GreaterThan;
+            validation.Operator = ExcelDataValidationOperator.greaterThan;
             validation.Formula.Value = 1.4;
         }
 
@@ -118,7 +118,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             validation.ShowInputMessage = true;
             validation.Formula.Value.Hour = 14;
             validation.Formula.Value.Minute = 30;
-            validation.Operator = ExcelDataValidationOperator.GreaterThan;
+            validation.Operator = ExcelDataValidationOperator.greaterThan;
             validation.Prompt = "Enter a time greater than 14:30";
             validation.Error = "Invalid time was entered";
             validation.Validate();
@@ -133,7 +133,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             var v = sheet1.Cells["A1"].DataValidation.AddIntegerDataValidation();
             v.Formula.ExcelFormula = "extlist_sheet2!A1";
             v.Formula2.ExcelFormula = "B2";
-            v.Operator = ExcelDataValidationOperator.Between;
+            v.Operator = ExcelDataValidationOperator.between;
             v.ShowErrorMessage = true;
             v.ShowInputMessage = true;
             v.AllowBlank = true;
@@ -228,12 +228,6 @@ namespace EPPlusTest.DataValidation.IntegrationTests
                 validation.ShowErrorMessage = true;
                 validation.Error = "Error!";
 
-                //var validation2 = sheet.DataValidations.AddIntegerValidation("B1");
-                //validation2.Formula.Value = 1;
-                //validation2.Formula2.Value = 2;
-                //validation2.ShowErrorMessage = true;
-                //validation2.Error = "Error!";
-
                 p1.Save();
                 using (var p2 = new ExcelPackage(p1.Stream))
                 {
@@ -244,41 +238,5 @@ namespace EPPlusTest.DataValidation.IntegrationTests
                 }
             }
         }
-
-        //[TestMethod]
-        //public void Bug_OpenOffice()
-        //{
-        //    var xlsPath = GetTestOutputPath("OpenOffice.xlsx");
-        //    var newFile = new FileInfo(xlsPath);
-        //    if( newFile.Exists)
-        //    {
-        //        newFile.Delete();
-        //        //ensures we create a new workbook
-        //        newFile = new FileInfo(xlsPath);
-
-        //    }
-        //    using(var package = new ExcelPackage(newFile))
-        //    {
-        //        // add a new worksheet to the empty workbook
-        //        var worksheet = package.Workbook.Worksheets.Add("Inventory");
-        //        // Add the headers
-        //        worksheet.Cells[1, 1].Value = "ID";
-        //        worksheet.Cells[1, 2].Value = "Product";
-        ////        worksheet.Cells[1, 3].Value = "Quantity";
-        //        worksheet.Cells[1, 4].Value = "Price";
-
-        //        worksheet.Cells[1, 5].Value = "Value";
-
-        //        worksheet.Column(1).Width = 15;
-        //        worksheet.Column(2).Width = 12;
-        //        worksheet.Column(3).Width = 12;
-
-        //        worksheet.View.PageLayoutView = true;
-
-        //        package.Workbook.Properties.Title = "Invertory";
-        //        package.Workbook.Properties.Author = "Jan Källman";
-        //        package.Save();
-        //    }
-
     }
 }

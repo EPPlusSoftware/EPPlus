@@ -413,5 +413,53 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(0, wks.ConditionalFormatting.Count);
             }
         }
+        [TestMethod]
+        public void CFWholeSheetRangeDeleteRowShouldNotRemoveCF()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Test");
+                var cf = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("$1:$1048576"));
+                cf.Formula = "Pizza";
+                cf.Style.Font.Color.SetColor(Color.Red);
+
+                Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
+                sheet.DeleteRow(3);
+                Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
+            }
+        }
+
+
+        [TestMethod]
+        public void CFColumnsRangeDeleteRowShouldNotRemoveCF()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Test");
+                var cf = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("$A:$P"));
+                cf.Formula = "Pizza";
+                cf.Style.Font.Color.SetColor(Color.Red);
+
+                Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
+                sheet.DeleteRow(3);
+                Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
+            }
+        }
+        [TestMethod]
+        public void CFWholeSheetRange2DeleteRowShouldNotRemoveCF()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Test");
+                var cf = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("A1:XFD1048576"));
+                cf.Formula = "Pizza";
+                cf.Style.Font.Color.SetColor(Color.Red);
+
+                Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
+                sheet.DeleteRow(3);
+                Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
+            }
+        }
+
     }
 }
