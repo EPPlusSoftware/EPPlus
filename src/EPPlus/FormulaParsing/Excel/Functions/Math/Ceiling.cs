@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
-        Description = "Rounds a number away from zero (i.e. rounds a positive number up and a negative number down), to a multiple of significance")]
+        Description = "Rounds a number away from zero (i.e. rounds a positive number up and a negative number down), to a multiple of significance",
+        SupportsArrays = true)]
     internal class Ceiling : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;

@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "4",
-        Description = "Returns the sign (+1, -1 or 0) of a supplied number")]
+        Description = "Returns the sign (+1, -1 or 0) of a supplied number",
+        SupportsArrays = true)]
     internal class Sign : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;

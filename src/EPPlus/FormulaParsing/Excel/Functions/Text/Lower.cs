@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
-        Description = "Converts all characters in a supplied text string to lower case")]
+        Description = "Converts all characters in a supplied text string to lower case",
+        SupportsArrays = true)]
     internal class Lower : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;

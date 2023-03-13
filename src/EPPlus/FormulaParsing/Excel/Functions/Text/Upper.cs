@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
-        Description = "Converts all characters in a supplied text string to upper case")]
+        Description = "Converts all characters in a supplied text string to upper case",
+        SupportsArrays = true)]
     internal class Upper : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;

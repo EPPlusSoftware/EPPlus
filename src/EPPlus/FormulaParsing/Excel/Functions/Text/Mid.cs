@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
-        Description = "Returns a specified number of characters from the middle of a supplied text string")]
+        Description = "Returns a specified number of characters from the middle of a supplied text string",
+        SupportsArrays = true)]
     internal class Mid : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;

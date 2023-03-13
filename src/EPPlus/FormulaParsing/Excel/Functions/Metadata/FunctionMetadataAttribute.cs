@@ -26,7 +26,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
         /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// A string describing in which Excel version the function was introduced.
+        /// </summary>
         public string IntroducedInExcelVersion { get; set; }
+
+        /// <summary>
+        /// Returns true if the function can return an array if called with a multicell range as the argument.
+        /// </summary>
+        public bool SupportsArrays { get; set; }
 
     }
 }
