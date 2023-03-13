@@ -54,7 +54,7 @@ namespace EPPlusTest.DataValidation
         public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
-            validation.Operator = ExcelDataValidationOperator.Equal;
+            validation.Operator = ExcelDataValidationOperator.equal;
             validation.Validate();
         }
 
@@ -96,13 +96,13 @@ namespace EPPlusTest.DataValidation
             var sheet = P.Workbook.Worksheets.Add("NewSheet");
 
             var validation = sheet.DataValidations.AddIntegerValidation("A1");
-            validation.Operator = ExcelDataValidationOperator.GreaterThanOrEqual;
+            validation.Operator = ExcelDataValidationOperator.greaterThanOrEqual;
 
             MemoryStream xmlStream = new MemoryStream();
             P.SaveAs(xmlStream);
 
             var P2 = new ExcelPackage(xmlStream);
-            Assert.AreEqual(P2.Workbook.Worksheets[0].DataValidations[0].Operator, ExcelDataValidationOperator.GreaterThanOrEqual);
+            Assert.AreEqual(P2.Workbook.Worksheets[0].DataValidations[0].Operator, ExcelDataValidationOperator.greaterThanOrEqual);
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace EPPlusTest.DataValidation
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Formula.Value = 1;
-            validation.Operator = ExcelDataValidationOperator.Between;
+            validation.Operator = ExcelDataValidationOperator.between;
             validation.Validate();
         }
 
@@ -356,7 +356,7 @@ namespace EPPlusTest.DataValidation
                     validation.ErrorTitle = "errorTitle";
                     validation.ShowInputMessage = true;
                     validation.ShowErrorMessage = true;
-                    validation.ErrorStyle = ExcelDataValidationWarningStyle.Information;
+                    validation.ErrorStyle = ExcelDataValidationWarningStyle.information;
 
                     var clone = validation.GetClone();
 
