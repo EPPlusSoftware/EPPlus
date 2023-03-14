@@ -51,7 +51,7 @@ namespace EPPlusTest.DataValidation.Formulas
 
             Assert.AreEqual(12, validation.Formula.Value);
         }
-
+        //Test comment
         [TestMethod]
         public void ExcelFormulaIsRead()
         {
