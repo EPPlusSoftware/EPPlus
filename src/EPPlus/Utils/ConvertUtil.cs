@@ -238,6 +238,7 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelEscapeString(string s)
         {
+            //string stuff = "AA\0";
             return s.Replace("&", "&amp;").
                      Replace("<", "&lt;").
                      Replace(">", "&gt;");

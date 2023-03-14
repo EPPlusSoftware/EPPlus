@@ -67,5 +67,39 @@ namespace EPPlusTest.DataValidation.Formulas
 
             Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
+
+        [TestMethod]
+        public void FormulaIsValidlyParsed()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
+
+            var validationAmpersand = sheet.DataValidations.AddCustomValidation("A1");
+
+            sheet.Cells["B1"].Value = "EP";
+            sheet.Cells["C1"].Value = "Plus";
+
+            validationAmpersand.Formula.ExcelFormula = "=B1&C1=A1";
+            validationAmpersand.ShowErrorMessage= true;
+
+            var lessThan = sheet.DataValidations.AddCustomValidation("A2");
+
+            sheet.Cells["B2"].Value = 1;
+            sheet.Cells["C2"].Value = 2;
+
+            lessThan.Formula.ExcelFormula = "B2<C2";
+            lessThan.ShowErrorMessage= true;
+
+            var largerThan = sheet.DataValidations.AddCustomValidation("A3");
+            largerThan.Formula.ExcelFormula = "C2>B2";
+            largerThan.ShowErrorMessage= true;
+
+            //validationOrig.Formula2.ExcelFormula = "B1 & C1";
+
+            //validationAmpersand.Operator = ExcelDataValidationOperator.equal;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs("C:\\epplusTest\\Workbooks/escapeTest.xlsx");
+        }
     }
 }

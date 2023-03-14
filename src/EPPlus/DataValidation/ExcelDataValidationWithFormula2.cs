@@ -76,8 +76,7 @@ namespace OfficeOpenXml.DataValidation
             base.Validate();
             if (ValidationType.Type != eDataValidationType.List
                 && ValidationType.Type != eDataValidationType.Custom
-                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween
-                || Operator == ExcelDataValidationOperator.equal))
+                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
             {
 
                 if (string.IsNullOrEmpty(Formula2.ExcelFormula) &&
