@@ -51,10 +51,10 @@ namespace EPPlusTest.DataValidation.Formulas
         }
 
         [TestMethod]
-        public void FormulaIsValidlyParsed()
+        public void FormulaSpecialSignsAreWrittenAndRead()
         {
             var package = new ExcelPackage(new MemoryStream());
-            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
+            var sheet = package.Workbook.Worksheets.Add("CustomTest");
 
             var validationAmpersand = sheet.DataValidations.AddCustomValidation("A1");
 
@@ -77,7 +77,16 @@ namespace EPPlusTest.DataValidation.Formulas
             largerThan.ShowErrorMessage = true;
 
             MemoryStream stream = new MemoryStream();
-            package.SaveAs("C:\\epplusTest\\Workbooks/escapeTest.xlsx");
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationCustom)validations[0]).Formula.ExcelFormula, "=B1&C1=A1");
+            Assert.AreEqual(((ExcelDataValidationCustom)validations[1]).Formula.ExcelFormula, "B2<C2");
+            Assert.AreEqual(((ExcelDataValidationCustom)validations[2]).Formula.ExcelFormula, "C2>B2");
         }
     }
 }

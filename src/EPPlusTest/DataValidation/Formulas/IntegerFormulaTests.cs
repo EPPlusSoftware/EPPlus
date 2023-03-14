@@ -69,37 +69,39 @@ namespace EPPlusTest.DataValidation.Formulas
         }
 
         [TestMethod]
-        public void FormulaIsValidlyParsed()
+        public void FormulaSpecialSignsAreWrittenAndRead()
         {
             var package = new ExcelPackage(new MemoryStream());
             var sheet = package.Workbook.Worksheets.Add("IntegerTest");
 
-            var validationAmpersand = sheet.DataValidations.AddCustomValidation("A1");
+            var lessThan = sheet.DataValidations.AddIntegerValidation("A1");
+            lessThan.Operator = ExcelDataValidationOperator.equal;
 
-            sheet.Cells["B1"].Value = "EP";
-            sheet.Cells["C1"].Value = "Plus";
+            sheet.Cells["B1"].Value = 1;
 
-            validationAmpersand.Formula.ExcelFormula = "=B1&C1=A1";
-            validationAmpersand.ShowErrorMessage= true;
-
-            var lessThan = sheet.DataValidations.AddCustomValidation("A2");
-
-            sheet.Cells["B2"].Value = 1;
-            sheet.Cells["C2"].Value = 2;
-
-            lessThan.Formula.ExcelFormula = "B2<C2";
+            lessThan.Formula.ExcelFormula = "=B1<5";
             lessThan.ShowErrorMessage= true;
 
-            var largerThan = sheet.DataValidations.AddCustomValidation("A3");
-            largerThan.Formula.ExcelFormula = "C2>B2";
-            largerThan.ShowErrorMessage= true;
 
-            //validationOrig.Formula2.ExcelFormula = "B1 & C1";
+            var greaterThan = sheet.DataValidations.AddIntegerValidation("A2");
 
-            //validationAmpersand.Operator = ExcelDataValidationOperator.equal;
+            sheet.Cells["B2"].Value = 6;
+
+            greaterThan.Formula.ExcelFormula = "=B1>5";
+            greaterThan.ShowErrorMessage = true;
+
+            greaterThan.Operator = ExcelDataValidationOperator.equal;
 
             MemoryStream stream = new MemoryStream();
-            package.SaveAs("C:\\epplusTest\\Workbooks/escapeTest.xlsx");
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationInt)validations[0]).Formula.ExcelFormula, "=B1<5");
+            Assert.AreEqual(((ExcelDataValidationInt)validations[1]).Formula.ExcelFormula, "=B1>5");
         }
     }
 }
