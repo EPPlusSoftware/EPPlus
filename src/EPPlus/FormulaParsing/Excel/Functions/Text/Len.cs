@@ -23,9 +23,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
-        Description = "Returns the length of a supplied text string")]
+        Description = "Returns the length of a supplied text string",
+        SupportsArrays = true)]
     internal class Len : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

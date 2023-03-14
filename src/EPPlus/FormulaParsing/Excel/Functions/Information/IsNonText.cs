@@ -22,14 +22,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Information,
         EPPlusVersion = "4",
-        Description = "Tests if an initial supplied value (or expression) returns the Excel #N/A error and if so, returns TRUE; Otherwise returns FALSE")]
+        Description = "Tests if an initial supplied value (or expression) returns the Excel #N/A error and if so, returns TRUE; Otherwise returns FALSE",
+        SupportsArrays = true)]
     internal class IsNonText : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var firstArg = arguments.ElementAt(0);
-            if (firstArg.Value == null || firstArg.ValueIsExcelError) return CreateResult(false, DataType.Boolean);
+            if (firstArg.Value == null || firstArg.ValueIsExcelError) return CreateResult(true, DataType.Boolean);
             return CreateResult(!(firstArg.Value is string), DataType.Boolean);
         }
     }

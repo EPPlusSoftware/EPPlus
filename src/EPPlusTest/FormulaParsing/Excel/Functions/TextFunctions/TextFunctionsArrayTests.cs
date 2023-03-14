@@ -154,5 +154,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 Assert.AreEqual(3d, sheet.Cells["C2"].Value);
             }
         }
+
+        [TestMethod]
+        public void LenReturnHorizontalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = "test";
+                sheet.Cells["B1"].Value = "zest";
+                sheet.Cells["C1"].Value = "testing";
+                sheet.Cells["A2:C2"].CreateArrayFormula("LEN(A1:C1)");
+                sheet.Calculate();
+                Assert.AreEqual(4d, sheet.Cells["A2"].Value);
+                Assert.AreEqual(4d, sheet.Cells["B2"].Value);
+                Assert.AreEqual(7d, sheet.Cells["C2"].Value);
+            }
+        }
     }
 }

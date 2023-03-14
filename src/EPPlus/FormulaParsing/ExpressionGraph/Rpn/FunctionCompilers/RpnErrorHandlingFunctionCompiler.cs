@@ -31,6 +31,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);
+            if(Function.ArrayBehaviour == ExcelFunctionArrayBehaviour.FirstArgCouldBeARange)
+            {
+                var arrayCompiler = new FirstArgToArrayCompiler(Function, Context, true);
+                return arrayCompiler.Compile(children);
+            }
             foreach (var child in children)
             {
                 try

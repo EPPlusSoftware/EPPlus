@@ -847,5 +847,47 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 Assert.AreEqual(10.02, v3);
             }
         }
+
+        [TestMethod]
+        public void TanShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("TAN(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(1.56d, v1);
+                Assert.AreEqual(-2.19, v2);
+                Assert.AreEqual(-0.14, v3);
+            }
+        }
+
+        [TestMethod]
+        public void TanhShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1:B3"].CreateArrayFormula("TANH(A1:A3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["B1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["B2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
+                Assert.AreEqual(0.76d, v1);
+                Assert.AreEqual(0.96, v2);
+                Assert.AreEqual(1d, v3);
+            }
+        }
     }
 }

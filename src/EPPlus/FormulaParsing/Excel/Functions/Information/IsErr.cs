@@ -23,9 +23,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Information,
         EPPlusVersion = "4",
-        Description = "Tests if an initial supplied value (or expression) returns an error (EXCEPT for the #N/A error) and if so, returns TRUE; Otherwise returns FALSE")]
+        Description = "Tests if an initial supplied value (or expression) returns an error (EXCEPT for the #N/A error) and if so, returns TRUE; Otherwise returns FALSE",
+        SupportsArrays = true)]
     internal class IsErr : ErrorHandlingFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             var isError = new IsError();

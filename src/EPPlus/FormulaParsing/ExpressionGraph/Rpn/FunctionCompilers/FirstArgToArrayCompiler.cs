@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,18 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
     internal class FirstArgToArrayCompiler : RpnFunctionCompiler
     {
         internal FirstArgToArrayCompiler(ExcelFunction function, ParsingContext context)
-            : base(function, context)
+            : this(function, context, false)
         {
 
         }
+
+        internal FirstArgToArrayCompiler(ExcelFunction function, ParsingContext context, bool handleErrors)
+            : base(function, context)
+        {
+            _handleErrors = handleErrors;
+        }
+
+        private readonly bool _handleErrors;
 
         public override CompileResult Compile(IEnumerable<RpnExpression> children)
         {
@@ -43,21 +52,51 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
                 {
                     var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
                     var inMemoryRange = new InMemoryRange(rangeDef);
+                    var errorCompileResult = default(CompileResult);
                     for(var row = 0; row < rangeDef.NumberOfRows; row++)
                     {
-                        for(var col = 0; col < rangeDef.NumberOfCols; col++)
+                        errorCompileResult = default(CompileResult);
+                        for (var col = 0; col < rangeDef.NumberOfCols; col++)
                         {
+                            errorCompileResult = default(CompileResult);
                             var argAsCompileResult = CompileResultFactory.Create(range.GetOffset(row, col));
                             var arg = new FunctionArgument(argAsCompileResult.ResultValue, argAsCompileResult.DataType);
                             var argList = new List<FunctionArgument> { arg };
                             argList.AddRange(remainingChildren.Select(x =>
                             {
-                                var cr = x.Compile();
-                                return new FunctionArgument(cr.ResultValue, cr.DataType);
+                                if(_handleErrors)
+                                {
+                                    try
+                                    {
+                                        var cr = x.Compile();
+                                        return new FunctionArgument(cr.ResultValue, cr.DataType);
+                                    }
+                                    catch (ExcelErrorValueException efe)
+                                    {
+                                        errorCompileResult = ((ErrorHandlingFunction)Function).HandleError(efe.ErrorValue.ToString());
+                                        return null;
+                                    }
+                                    catch// (Exception e)
+                                    {
+                                        errorCompileResult = ((ErrorHandlingFunction)Function).HandleError(ExcelErrorValue.Values.Value);
+                                        return null;
+                                    }
+                                }
+                                else
+                                {
+                                    var cr = x.Compile();
+                                    return new FunctionArgument(cr.ResultValue, cr.DataType);
+                                }
                             }));
-
-                            var result = Function.Execute(argList, Context);
-                            inMemoryRange.SetValue(row, col, result.Result);
+                            if(errorCompileResult != null)
+                            {
+                                inMemoryRange.SetValue(row, col, errorCompileResult.Result);
+                            }
+                            else
+                            {
+                                var result = Function.Execute(argList, Context);
+                                inMemoryRange.SetValue(row, col, result.Result);
+                            }
                         }
                     }
                     return new CompileResult(inMemoryRange, DataType.ExcelRange);

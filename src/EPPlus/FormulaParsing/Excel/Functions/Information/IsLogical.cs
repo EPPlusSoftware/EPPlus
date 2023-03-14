@@ -22,9 +22,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Information,
         EPPlusVersion = "4",
-        Description = "Tests if a supplied value is a logical value, and if so, returns TRUE; Otherwise, returns FALSE")]
+        Description = "Tests if a supplied value is a logical value, and if so, returns TRUE; Otherwise, returns FALSE",
+        SupportsArrays = true)]
     internal class IsLogical : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();

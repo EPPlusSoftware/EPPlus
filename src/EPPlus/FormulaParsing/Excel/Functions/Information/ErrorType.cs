@@ -22,9 +22,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Information,
         EPPlusVersion = "4",
-        Description = "Tests a supplied value and returns an integer relating to the supplied value's error type")]
+        Description = "Tests a supplied value and returns an integer relating to the supplied value's error type",
+        SupportsArrays = true)]
     internal class ErrorType : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
@@ -33,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             var isErrorResult = isErrorFunc.Execute(arguments, context);
             if (!(bool) isErrorResult.Result)
             {
-                return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
             var errorType = error.ValueAsExcelErrorValue;
             switch (errorType.Type)
