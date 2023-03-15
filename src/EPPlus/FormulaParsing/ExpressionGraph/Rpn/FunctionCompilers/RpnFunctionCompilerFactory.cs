@@ -37,11 +37,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             _specialCompilers.Add(typeof(CountIfs), new RpnCountIfsCompiler(repository.GetFunction("countifs"), context));
             _specialCompilers.Add(typeof(IfError), new RpnIfErrorFunctionCompiler(repository.GetFunction("iferror"), context));
             _specialCompilers.Add(typeof(IfNa), new RpnIfNaFunctionCompiler(repository.GetFunction("ifna"), context));
-            _specialCompilers.Add(typeof(Row), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("row"), context));
-            _specialCompilers.Add(typeof(Rows), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("rows"), context));
-            _specialCompilers.Add(typeof(Column), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("column"), context));
-            _specialCompilers.Add(typeof(Columns), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("columns"), context));
-            _specialCompilers.Add(typeof(IndexFunc), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("index"), context));
+            //_specialCompilers.Add(typeof(Row), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("row"), context));
+            //_specialCompilers.Add(typeof(Rows), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("rows"), context));
+            //_specialCompilers.Add(typeof(Column), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("column"), context));
+            //_specialCompilers.Add(typeof(Columns), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("columns"), context));
+            //_specialCompilers.Add(typeof(IndexFunc), new RpnIgnoreCircularRefLookupCompiler(repository.GetFunction("index"), context));
             foreach (var key in repository.RpnCustomCompilers.Keys)
             {
               _specialCompilers.Add(key, repository.RpnCustomCompilers[key]);

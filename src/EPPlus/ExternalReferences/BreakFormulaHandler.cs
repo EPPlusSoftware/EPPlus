@@ -1,7 +1,9 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -37,7 +39,7 @@ namespace OfficeOpenXml.ExternalReferences
                         IEnumerable<Token> t = ws._formulaTokens?.GetValue(enumerator.Row, enumerator.Column);
                         if (t == null)
                         {
-                            t = SourceCodeTokenizer.Default.Tokenize(formula, ws.Name);
+                            t = OptimizedSourceCodeTokenizer.Default.Tokenize(formula, ws.Name);
                         }
                         if (HasFormulaExternalReference(t))
                         {
@@ -84,7 +86,7 @@ namespace OfficeOpenXml.ExternalReferences
                         IEnumerable<Token> t = ws._formulaTokens?.GetValue(enumerator.Row, enumerator.Column);
                         if (t == null)
                         {
-                            t = SourceCodeTokenizer.Default.Tokenize(formula, ws.Name);
+                            t = OptimizedSourceCodeTokenizer.Default.Tokenize(formula, ws.Name);
                         }
                         if (HasFormulaExternalReference(wb, ix, t, out string newFormula, false))
                         {
@@ -122,7 +124,6 @@ namespace OfficeOpenXml.ExternalReferences
                                 var extRefIx = wb.ExternalLinks.GetExternalLink(extRef);
                                 if ((extRefIx == ix || ix==-1) && extRef!="0") //-1 means delete all external references. extRef=="0" is the current workbook
                                 {
-                                    //deletedNames.Add(n);
                                     n.Address = "#REF!";
                                 }
                                 else if (extRefIx > ix)
@@ -135,37 +136,28 @@ namespace OfficeOpenXml.ExternalReferences
                 }
                 else
                 {
-                    var t = SourceCodeTokenizer.Default.Tokenize(n.Formula, wsName);
-                    //if (ix == -1 && HasFormulaExternalReference(t))
-                    //{
-                    //    //deletedNames.Add(n);
-                    //}
-                    //else
-                    //{
-                        if (HasFormulaExternalReference(wb, ix, t, out string newFormula, true))
-                        {
-                            //deletedNames.Add(n);
-                            if(newFormula!="")
-                            {
-                                n.Formula = newFormula;
-                            }                            
-                        }
-                        else if (newFormula != n.Formula)
+                    var t = OptimizedSourceCodeTokenizer.Default.Tokenize(n.Formula, wsName);
+                    if (HasFormulaExternalReference(wb, ix, t, out string newFormula, true))
+                    {
+                        if(newFormula!="")
                         {
                             n.Formula = newFormula;
-                        }
-                    //}
+                        }                            
+                    }
+                    else if (newFormula != n.Formula)
+                    {
+                        n.Formula = newFormula;
+                    }
                 }
             }
-            //deletedNames.ForEach(x => names.Remove(x.Name));
         }
         private static bool HasFormulaExternalReference(IEnumerable<Token> tokens)
         {
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress) ||
-                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.NameValue) ||
-                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.InvalidReference))
+                if (t.TokenTypeIsSet(TokenType.ExcelAddress) ||
+                    t.TokenTypeIsSet(TokenType.NameValue) ||
+                    t.TokenTypeIsSet(TokenType.InvalidReference))
                 {
                     var address = t.Value;
                     if (address.StartsWith("[") || address.StartsWith("'["))
@@ -179,57 +171,91 @@ namespace OfficeOpenXml.ExternalReferences
         private static bool HasFormulaExternalReference(ExcelWorkbook wb, int ix, IEnumerable<Token> tokens, out string newFormula, bool setRefError)
         {
             newFormula = "";
+            var address = "";
+            int extRefIx = 0;
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress) ||
-                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.NameValue) ||
-                    t.TokenTypeIsSet(FormulaParsing.LexicalAnalysis.TokenType.InvalidReference))
+                if(string.IsNullOrEmpty(address) && (t.TokenTypeIsSet(TokenType.OpeningBracket)))
                 {
-                    var address = t.Value;
-                    if (address.StartsWith("[") || address.StartsWith("'["))
+                    if(newFormula.EndsWith("'"))
                     {
-                        var startIx = address.IndexOf('[');
-                        var endIx = address.IndexOf(']');
-                        var extRef = address.Substring(startIx+1, endIx - startIx - 1);
-                        if (extRef == "0") //Current workbook
+                        newFormula = newFormula.Substring(0, newFormula.Length - 1);
+                        address = "'[";
+                    }
+                    else
+                    {
+                        address = "[";
+                    }
+                }
+                else if (t.TokenTypeIsSet(TokenType.ExternalReference))
+                {
+                    extRefIx = wb.ExternalLinks.GetExternalLink(t.Value);
+                    if(extRefIx == ix && setRefError==false)
+                    {
+                        newFormula = "";
+                        return true;
+                    }
+                    if (extRefIx > ix)
+                    {
+                        address += extRefIx.ToString(CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        address += t.Value;
+                    }
+                }
+                else if (extRefIx >= 0 && (t.TokenTypeIsAddress || t.TokenType==TokenType.NameValue || t.TokenType == TokenType.TableName))
+                {
+                    if (extRefIx < 0) //Current workbook
+                    {
+                        newFormula += address + t.Value;
+                        address = "";
+                    }
+                    else if (extRefIx == ix)
+                    {
+                        if (setRefError)
                         {
-                            newFormula += address;
+                            address = "#REF!";
                         }
                         else
                         {
-                            var extRefIx = wb.ExternalLinks.GetExternalLink(extRef);
-                            if (extRefIx == ix || ix==-1)
-                            {
-                                if (setRefError)
-                                {
-                                    newFormula += "#REF!";
-                                }
-                                else
-                                {
-                                    return true;
-                                }
-                            }
-                            else if (extRefIx > ix)
-                            {
-                                newFormula += address.Substring(0, startIx + 1) + (extRefIx.ToString(CultureInfo.InvariantCulture)) + address.Substring(endIx);
-                            }
-                            else
-                            {
-                                newFormula += address;
-                            }
+                            return true;
                         }
                     }
                     else
                     {
-                        newFormula += address;
+                        address += t.Value;
                     }
                 }
                 else
                 {
-                    newFormula += t.Value;
+                    if(t.TokenTypeIsSet(TokenType.Comma) || (t.TokenTypeIsSet(TokenType.Operator) && t.Value!=":") || t.TokenTypeIsSet(TokenType.Percent))
+                    {
+                        newFormula += address + t.Value;
+                        address = "";
+                    }
+                    else
+                    {
+                        var v= t.TokenTypeIsSet(TokenType.StringContent) ? "\"" + t.Value.Replace("\"", "\"\"") + "\"" : t.Value;
+                        if(string.IsNullOrEmpty(address))
+                        {
+                            newFormula += v;
+                        }
+                        else if(address!="#REF!")
+                        {
+                            address += v;
+                        }
+                    }
+
                 }
             }
+            newFormula += address;
             return false;
+        }
+
+        private static string AddApostrophes(string address, bool needsApostrophes)
+        {
+            return needsApostrophes ? "'" + address + "'" : address;
         }
     }
 }

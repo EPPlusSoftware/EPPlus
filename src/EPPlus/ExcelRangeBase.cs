@@ -964,11 +964,11 @@ namespace OfficeOpenXml
 
         private bool HasOffSheetReference(string value)
         {
-            var tokenizer = SourceCodeTokenizer.Default;
+            var tokenizer = OptimizedSourceCodeTokenizer.Default;
             var tokens = tokenizer.Tokenize(value, WorkSheetName);
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(TokenType.ExcelAddress))
+                if (t.TokenTypeIsSet(TokenType.WorksheetNameContent))
                 {
                     var a = new ExcelAddressBase(t.Value);
                     if (string.IsNullOrEmpty(a.WorkSheetName) == false && a.WorkSheetName.Equals(WorkSheetName) == false)

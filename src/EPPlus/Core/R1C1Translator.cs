@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Linq;
@@ -39,21 +40,49 @@ namespace OfficeOpenXml.Core
         /// <returns>The formula in A1 notation</returns>
         public static string FromR1C1Formula(string formula, int row, int col)
         {
-            var lexer = new Lexer(SourceCodeTokenizer.R1C1, new SyntacticAnalyzer());
-            var tokens = lexer.Tokenize(formula, null).ToArray();
-            for(var ix = 0; ix < tokens.Length; ix++)
+            var tokens = OptimizedSourceCodeTokenizer.R1C1.Tokenize(formula);
+            for(var ix = 0; ix < tokens.Count; ix++)
             {
                 var token = tokens[ix];
-                if (token.TokenTypeIsSet(TokenType.ExcelAddress) /*|| token.TokenTypeIsSet(TokenType.NameValue)*/ || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
+                if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1) || token.TokenTypeIsSet(TokenType.CellAddress))
                 {
                     var part = FromR1C1(token.Value, row, col);
-                    tokens[ix] = tokens[ix].CloneWithNewValue(part);
+                    if (ix+2 <tokens.Count && tokens[ix+1].TokenType==TokenType.Operator && tokens[ix+1].Value==":" && IsFullRowOrColumn(part))
+                    {
+                        part = part.Substring(0, part.IndexOf(":"));
+                        tokens[ix] = tokens[ix].CloneWithNewValue(part);
+                        part = FromR1C1(tokens[ix + 2].Value, row, col);
+                        if (IsFullRowOrColumn(part))
+                        {
+                            part = part.Substring(0, part.IndexOf(":"));
+                        }
+                        tokens[ix + 2] = tokens[ix].CloneWithNewValue(part); 
+                        ix+= 2;
+                    }
+                    else
+                    {
+                        tokens[ix] = tokens[ix].CloneWithNewValue(part);
+                    }
                 }
 
             }
-            var ret = string.Join("", tokens.Select(x => x.TokenTypeIsSet(TokenType.StringContent) ? x.Value.Replace("\"", "\"\"") :  x.Value).ToArray());
+            var ret = string.Join("", tokens.Select(x => x.TokenTypeIsSet(TokenType.StringContent) ? "\"" + x.Value.Replace("\"", "\"\"") + "\"" :  x.Value).ToArray());
             return ret;
         }
+
+        private static bool IsFullRowOrColumn(string address)
+        {
+            var ixColon = address.IndexOf(":");
+            if(ixColon>0)
+            {
+                var firstAddress = address.Substring(0, ixColon);
+                var anyNumber = firstAddress.Any(x => x >= '0' && x <= '9');
+                var anyAlpha = firstAddress.ToLower().Any(x => x >= 'a' && x <= 'z');
+                return anyNumber != anyAlpha;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Translate addresses in a formula from A1 to R1C1
         /// </summary>
@@ -63,19 +92,43 @@ namespace OfficeOpenXml.Core
         /// <returns>The formula in R1C1 notation</returns>        
         public static string ToR1C1Formula(string formula, int row, int col)
         {
-            var lexer = new Lexer(SourceCodeTokenizer.Default, new SyntacticAnalyzer());
-            var tokens = lexer.Tokenize(formula, null).ToArray();
-            for (var ix = 0; ix < tokens.Length; ix++)
+            //var lexer = new Lexer(SourceCodeTokenizer.Default, new SyntacticAnalyzer());
+            //var tokens = lexer.Tokenize(formula, null).ToArray();
+            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula);
+            for (var ix = 0; ix < tokens.Count; ix++)
             {
                 var token = tokens[ix];
-                if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1))
+                if(token.TokenTypeIsSet(TokenType.FullColumnAddress))
+                {
+                    if(tokens[ix + 1].TokenTypeIsSet(TokenType.Operator) && tokens[ix + 1].Value==":" &&
+                       tokens[ix + 2].TokenTypeIsSet(TokenType.FullColumnAddress))
+                    {
+                        var part = ToR1C1(new ExcelAddressBase(token.Value + ":" + tokens[ix + 2].Value), row, col);
+                        tokens[ix] = tokens[ix].CloneWithNewValue(part);
+                        tokens.RemoveAt(ix + 1);
+                        tokens.RemoveAt(ix + 1);
+                    }
+
+                }
+                else if(token.TokenTypeIsSet(TokenType.FullRowAddress))
+                {
+                    if (tokens[ix + 1].TokenTypeIsSet(TokenType.Operator) && tokens[ix + 1].Value == ":" &&
+                       tokens[ix + 2].TokenTypeIsSet(TokenType.FullRowAddress))
+                    {
+                        var part = ToR1C1(new ExcelAddressBase(token.Value + ":" + tokens[ix + 2].Value), row, col);
+                        tokens[ix] = tokens[ix].CloneWithNewValue(part);
+                        tokens.RemoveAt(ix + 1);
+                        tokens.RemoveAt(ix + 1);
+                    }
+                }
+                else if (token.TokenTypeIsSet(TokenType.ExcelAddress) || token.TokenTypeIsSet(TokenType.ExcelAddressR1C1) || token.TokenTypeIsSet(TokenType.CellAddress))
                 {
                     var part = ToR1C1(new ExcelAddressBase(token.Value), row, col);
                     tokens[ix] = tokens[ix].CloneWithNewValue(part);
                 }
 
             }
-            var ret = string.Join("", tokens.Select(x => x.TokenTypeIsSet(TokenType.StringContent) ? x.Value.Replace("\"", "\"\"") : x.Value).ToArray());
+            var ret = string.Join("", tokens.Select(x => x.TokenTypeIsSet(TokenType.StringContent) ? "\"" + x.Value.Replace("\"", "\"\"") + "\"" : x.Value).ToArray());
             return ret;
         }
         /// <summary>

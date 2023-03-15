@@ -23,6 +23,30 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             SaveAndCleanup(_pck);
         }
+        [TestMethod]
+        public void VerifyTokensExternalRefWithApostrophes()
+        {
+            var f = @"'[1]This ''Sheet'!$A$1";
+            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+
+            Assert.AreEqual(8, tokens.Count);
+        }
+        [TestMethod]
+        public void VerifyExponentialNumericValue()
+        {
+            var f = @"4.165468498E-06";
+            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+
+            Assert.AreEqual(1, tokens.Count);
+        }
+        [TestMethod]
+        public void VerifyTokensExternalRefWithOutApostrophes()
+        {
+            var f = @"[1]ThisSheet!$A$1";
+            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+
+            Assert.AreEqual(6, tokens.Count);
+        }
         //[TestMethod]
         //public void VerifyFormulaTokensTable_Performance()
         //{

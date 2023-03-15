@@ -187,18 +187,20 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         {
                             func._arguments.Add(i);
                         }
-                        //if (func._function.HasNormalArguments == false || func._function==null)
-                        //{
-                        //    LoadArgumentPositions(func, tokens, i);
-                        //}
                         stack.Push(func);
                         break;
                     case TokenType.Comma:
-                        stack.Peek()._arguments.Add(i);
+                        if (stack.Count > 0)
+                        {
+                            stack.Peek()._arguments.Add(i);
+                        }
                         break;
                     case TokenType.Function:
                         var f = stack.Pop();
                         f._endPos= i;
+                        break;
+                    case TokenType.InvalidReference:
+                        expressions.Add(i, RpnErrorExpression.RefError);
                         break;
                 }
             }

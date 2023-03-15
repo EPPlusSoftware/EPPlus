@@ -34,14 +34,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);
-            //if(children.Count() == 3 && children.ElementAt(2).HasChildren)
-            //{
-            //    var lastExp = children.ElementAt(2).Children.First();
-            //    lastExp.IgnoreCircularReference = true;
-            //    var currentAdr = Context.Scopes.Current.Address;
-            //    var sumRangeAdr = new ExcelAddress(lastExp.ExpressionString);
-            //    var sumRangeWs = string.IsNullOrEmpty(sumRangeAdr.WorkSheetName) ? currentAdr.WorksheetName : sumRangeAdr.WorkSheetName;
-            //}
             foreach (var child in children)
             {
                 var compileResult = child.Compile();

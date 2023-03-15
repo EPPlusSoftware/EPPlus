@@ -87,10 +87,7 @@ namespace OfficeOpenXml
         public static string TranslateToR1C1(string value, int row, int col)
         {
             return R1C1Translator.ToR1C1Formula(value, row, col);
-            //return Translate(value, ToR1C1, row, col);
         }
-        //    //    return part;
-        //    if (rStart != 0 && cStart != 0)
         #endregion
         #region "Address Functions"
         #region GetColumnLetter

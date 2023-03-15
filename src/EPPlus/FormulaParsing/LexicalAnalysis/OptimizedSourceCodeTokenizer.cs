@@ -37,7 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {' ', new Token(" ", TokenType.WhiteSpace) },
             {'[', new Token("[", TokenType.OpeningBracket)},
             {']', new Token("]", TokenType.ClosingBracket) },
-            {'!', new Token("!", TokenType.WorksheetName) }
+            {'!', new Token("!", TokenType.WorksheetName) },
+            {'\'',  new Token("\'", TokenType.SingleQuote) }
         };
         private static readonly Dictionary<string, Token> _stringTokens = new Dictionary<string, Token>
         {
@@ -128,6 +129,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             var current =new StringBuilder();
             var pc = '\0';
             var separatorTokens = TokenSeparatorProvider.Instance.Tokens;
+            var isR1C1 = false;
             while (ix < length)
             {
                 var c = input[ix];
@@ -147,7 +149,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 {
                     if (bracketCount == 0)
                     {
-                        current.Append(c);
+                        if (current.Length == 0)
+                        {
+                            l.Add(_charTokens['\'']);
+                        }
+                        else
+                        {
+                            current.Append(c);
+                        }                        
                         isInString ^= 2;
                     }
                     else if(pc=='\'')
@@ -192,6 +201,16 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         else if ((((c != '[' && c != ']' && c != '\'')) || ((c=='[' || c==']' || c=='\'') && pc=='\'')) && !(c == ',' && pc == ']' && current.Length == 0) && bracketCount > 0 )
                         {
                             current.Append(c);
+                        }
+                        else if(_r1c1 && (c == '[' && (pc=='R' || pc=='C' || pc == 'r' || pc == 'c')) || ((c=='-' || c==']' || c==':' || (c >= '0' && c <= '9')) && isR1C1)) //Handel [-1]
+                        {
+                            isR1C1 = c!= ']';
+                            current.Append(c);
+                            if (ix == input.Length - 1)
+                            {
+                                l.Add(new Token(current.ToString(), TokenType.ExcelAddressR1C1));
+                                return l;
+                            }
                         }
                         else
                         {
@@ -459,12 +478,12 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             else if (c == '!')
             {
-                if(currentString.StartsWith("'["))
+                if(GetLastToken(l).TokenType==TokenType.SingleQuote)
                 {
-                    var ix = currentString.IndexOf(']', 2);
-                    if(ix>2)
+                    var ix = currentString.IndexOf(']', 1);
+                    if(ix>1)
                     {
-                        var extId = currentString.Substring(2, ix - 2);
+                        var extId = currentString.Substring(1, ix - 1);
                         l.Add(_charTokens['[']);
                         l.Add(new Token(extId, TokenType.ExternalReference));
                         l.Add(_charTokens[']']);
@@ -474,7 +493,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     {
                         ix = 0;
                     }
-                    l.Add(new Token("'" + currentString.Substring(ix), TokenType.WorksheetNameContent));
+                    l.Add(new Token(currentString.Substring(ix, currentString.Length-ix-1), TokenType.WorksheetNameContent));
+                    l.Add(_charTokens['\'']);
                 }
                 else
                 {
@@ -619,15 +639,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
                 else
                 {
-                    //var pt = GetLastToken(l);
-                    //if (pt.TokenType==TokenType.WorksheetName)
-                    //{
-                    //l.Add(new Token(currentString, TokenType.NameValue)); //Likely an dde string
-                    //}
-                    //else
-                    //{
-                    //    l.
-                    //}
                     l.Add(new Token(currentString, TokenType.InvalidReference));
                 }
             }

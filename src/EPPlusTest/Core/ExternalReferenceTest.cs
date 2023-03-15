@@ -32,7 +32,7 @@ namespace EPPlusTest.Core
             //SaveAndCleanup(_pck);
 
             //if (File.Exists(fileName)) File.Copy(fileName, dirName + "\\ExternalReferencesRead.xlsx", true);
-            }
+        }
         [TestMethod]
         public void OpenAndReadExternalLink()
         {
