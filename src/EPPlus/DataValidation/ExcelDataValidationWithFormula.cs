@@ -16,6 +16,7 @@ using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Utils;
 using System;
 using System.Xml;
+using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -68,10 +69,10 @@ namespace OfficeOpenXml.DataValidation
         {
             xr.ReadUntil(formulaIdentifier, "dataValidation", "extLst");
 
-            if (xr.LocalName != formulaIdentifier)
-                throw new NullReferenceException("CANNOT FIND FORMULA");
+            if (xr.LocalName != formulaIdentifier && formulaIdentifier != "formula2")
+                throw new NullReferenceException($"Cannot find DataValidation formula for {Uid}. " +
+                    $"Missing node name: {formulaIdentifier}");
 
-            
             bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
             if (InternalValidationType == InternalValidationType.ExtLst || isExt)
@@ -100,11 +101,16 @@ namespace OfficeOpenXml.DataValidation
         public override void Validate()
         {
             base.Validate();
-            if (ValidationType.Type != eDataValidationType.List
+
+            var formula = Formula as ExcelDataValidationFormula;
+            if ((formula.HasValue == false) && string.IsNullOrEmpty(formula.ExcelFormula) && ExcelDataValidationOperator.equal == Operator) 
+            {
+                throw new InvalidOperationException("Formula MUST be assigned to when Operator is Equal");
+            }
+            else if (ValidationType.Type != eDataValidationType.List
                 && ValidationType.Type != eDataValidationType.Custom
                 && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
             {
-                var formula = Formula as ExcelDataValidationFormula;
 
                 if (formula.HasValue == false && string.IsNullOrEmpty(Formula.ExcelFormula) && !(AllowBlank ?? false))
                 {

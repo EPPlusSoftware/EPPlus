@@ -168,7 +168,6 @@ namespace OfficeOpenXml.DataValidation
         /// <exception cref="InvalidOperationException">If the state breaks the rules of the validation</exception>
         public virtual void Validate()
         {
-
         }
 
         ExcelDataValidationAsType _as = null;
