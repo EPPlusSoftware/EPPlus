@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Utils;
@@ -70,7 +71,10 @@ namespace OfficeOpenXml.DataValidation
             if (xr.LocalName != formulaIdentifier)
                 throw new NullReferenceException("CANNOT FIND FORMULA");
 
-            if (InternalValidationType == InternalValidationType.ExtLst)
+            
+            bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
+
+            if (InternalValidationType == InternalValidationType.ExtLst || isExt)
                 xr.Read();
 
             return DefineFormulaClassType(xr.ReadString(), _workSheetName);

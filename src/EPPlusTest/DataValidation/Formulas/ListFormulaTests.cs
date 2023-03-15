@@ -85,5 +85,47 @@ namespace EPPlusTest.DataValidation.Formulas
 
             Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
+
+        [TestMethod]
+        public void FormulaSpecialSignsAreWrittenAndRead()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DecimalTest");
+
+            var lessThan = sheet.DataValidations.AddListValidation("A1");
+
+            sheet.Cells["B1"].Value = "EP";
+            sheet.Cells["B2"].Value = "Plus";
+
+            lessThan.Formula.ExcelFormula = "\"1<5,B1&B2,2>4\"";
+            lessThan.HideDropDown = false;
+
+            lessThan.ShowErrorMessage = true;
+
+
+            var greaterThan = sheet.DataValidations.AddListValidation("A2");
+
+            sheet.Cells["B2"].Value = 6;
+            greaterThan.Formula.ExcelFormula = "\"HulaBal00,-?53&<>/\\\'#¤$%||,123456789\"";
+
+            greaterThan.ShowErrorMessage = true;
+            greaterThan.HideDropDown = false;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationList)validations[0]).Formula.Values[0], "1<5");
+            Assert.AreEqual(((ExcelDataValidationList)validations[0]).Formula.Values[1], "B1&B2");
+            Assert.AreEqual(((ExcelDataValidationList)validations[0]).Formula.Values[2], "2>4");
+
+            Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[0], "HulaBal00");
+            Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[1], "-?53&<>/\\'#¤$%||");
+            Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[2], "123456789");
+        }
     }
 }

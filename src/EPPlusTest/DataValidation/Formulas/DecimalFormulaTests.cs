@@ -72,7 +72,7 @@ namespace EPPlusTest.DataValidation.Formulas
         public void FormulaSpecialSignsAreWrittenAndRead()
         {
             var package = new ExcelPackage(new MemoryStream());
-            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
+            var sheet = package.Workbook.Worksheets.Add("DecimalTest");
 
             var lessThan = sheet.DataValidations.AddDecimalValidation("A1");
             lessThan.Operator = ExcelDataValidationOperator.equal;

@@ -698,7 +698,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
                         timeString2 = ConvertUtil.ExcelEscapeAndEncodeString(timeString2);
 
                         cache.Append($"<{prefix}formula1>{extNode}{timeString}{endExtNode}</{prefix}formula1>");
-                        if (!string.IsNullOrEmpty(timeString2))
+                        if (!string.IsNullOrEmpty(timeString2) && timeString2 != "0")
                         {
                             cache.Append($"<{prefix}formula2>{extNode}{timeString2}{endExtNode}</{prefix}formula2>");
                         }

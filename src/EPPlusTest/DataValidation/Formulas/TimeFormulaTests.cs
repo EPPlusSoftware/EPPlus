@@ -29,6 +29,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Style;
 using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
@@ -84,6 +85,50 @@ namespace EPPlusTest.DataValidation.Formulas
             var validation = ReadTValidation<ExcelDataValidationTime>(package);
 
             Assert.AreEqual("D1", validation.Formula.ExcelFormula);
+        }
+
+        [TestMethod]
+        public void FormulaSpecialSignsAreWrittenAndRead()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("TimeTest");
+
+            var lessThan = sheet.DataValidations.AddTimeValidation("A1");
+            lessThan.Operator = ExcelDataValidationOperator.equal;
+
+            lessThan.Formula.Value.Hour = 10;
+
+            ExcelTime time = new ExcelTime();
+            time.Hour = 9;
+
+            sheet.Cells["B1"].Value = time.ToExcelString();
+            sheet.Cells["B1"].Style.Numberformat.Format = "HH:MM:SS";
+
+            string timeString = lessThan.Formula.Value.ToExcelString();
+
+            lessThan.Formula.ExcelFormula = $"=IF(B1<\"{timeString}\"," +
+                $"\"{time.ToExcelString()}\",\"{timeString}\")";
+            lessThan.ShowErrorMessage = true;
+
+            var greaterThan = sheet.DataValidations.AddTimeValidation("A2");
+
+            greaterThan.Formula.ExcelFormula = $"=B1>\"{time.ToExcelString()}\"";
+            greaterThan.ShowErrorMessage = true;
+
+            greaterThan.Operator = ExcelDataValidationOperator.equal;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationTime)validations[0]).Formula.ExcelFormula, 
+                $"=IF(B1<\"{timeString}\"," +
+                $"\"{time.ToExcelString()}\",\"{timeString}\")");
+            Assert.AreEqual(((ExcelDataValidationTime)validations[1]).Formula.ExcelFormula, $"=B1>\"{time.ToExcelString()}\"");
         }
     }
 }
