@@ -24,9 +24,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     [FunctionMetadata(
         Category = ExcelFunctionCategory.DateAndTime,
         EPPlusVersion = "4",
-        Description = "Returns the year from a user-supplied date")]
+        Description = "Returns the year from a user-supplied date",
+        SupportsArrays = true)]
     internal class Year : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

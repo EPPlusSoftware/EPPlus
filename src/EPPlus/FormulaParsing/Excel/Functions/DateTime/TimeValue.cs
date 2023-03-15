@@ -26,9 +26,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     [FunctionMetadata(
         Category = ExcelFunctionCategory.DateAndTime,
         EPPlusVersion = "4",
-        Description = "Converts a text string showing a time, to a decimal that represents the time in Excel")]
+        Description = "Converts a text string showing a time, to a decimal that represents the time in Excel",
+        SupportsArrays = true)]
     internal class TimeValue : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

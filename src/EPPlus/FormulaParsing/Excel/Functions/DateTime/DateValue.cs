@@ -27,9 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     [FunctionMetadata(
         Category = ExcelFunctionCategory.DateAndTime,
         EPPlusVersion = "4",
-        Description = "Converts a text string showing a date, to an integer that represents the date in Excel's date-time code")]
+        Description = "Converts a text string showing a date, to an integer that represents the date in Excel's date-time code",
+        SupportsArrays = true)]
     internal class DateValue : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

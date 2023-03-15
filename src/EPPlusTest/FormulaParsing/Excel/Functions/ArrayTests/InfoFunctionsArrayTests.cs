@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
+namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
 {
     [TestClass]
     public class InfoFunctionsArrayTests
@@ -135,7 +135,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         }
 
         [TestMethod]
-        public void IsNumberTextShouldReturnVerticalArray()
+        public void IsNumberShouldReturnVerticalArray()
         {
             using (var package = new ExcelPackage())
             {
@@ -144,6 +144,23 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
                 sheet.Cells["A2"].Value = ErrorValues.NAError;
                 sheet.Cells["A3"].Value = 3;
                 sheet.Cells["B1:B3"].CreateArrayFormula("ISNUMBER(A1:A3)");
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["B1"].Value);
+                Assert.IsFalse((bool)sheet.Cells["B2"].Value);
+                Assert.IsTrue((bool)sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void IsTextShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].Value = "abc";
+                sheet.Cells["A2"].Value = ErrorValues.NAError;
+                sheet.Cells["A3"].Value = "def";
+                sheet.Cells["B1:B3"].CreateArrayFormula("ISTEXT(A1:A3)");
                 sheet.Calculate();
                 Assert.IsTrue((bool)sheet.Cells["B1"].Value);
                 Assert.IsFalse((bool)sheet.Cells["B2"].Value);

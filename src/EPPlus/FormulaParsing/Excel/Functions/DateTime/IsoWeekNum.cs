@@ -23,9 +23,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         Category = ExcelFunctionCategory.DateAndTime,
         EPPlusVersion = "4",
         Description = "Returns the ISO week number of the year for a given date",
-        IntroducedInExcelVersion = "2013")]
+        IntroducedInExcelVersion = "2013",
+        SupportsArrays = true)]
     internal class IsoWeekNum : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

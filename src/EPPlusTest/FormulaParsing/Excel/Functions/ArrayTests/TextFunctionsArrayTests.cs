@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
+namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
 {
     [TestClass]
     public class TextFunctionsArrayTests
     {
-        
+
         [TestMethod]
         public void TrimShouldReturnVerticalArray()
         {

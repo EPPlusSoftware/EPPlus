@@ -23,9 +23,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     [FunctionMetadata(
         Category = ExcelFunctionCategory.DateAndTime,
         EPPlusVersion = "4",
-        Description = "Returns an integer representing the day of the week for a supplied date")]
+        Description = "Returns an integer representing the day of the week for a supplied date",
+        SupportsArrays = true)]
     internal class Weekday : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
@@ -46,6 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
                 case 1:
                     return _oneBasedStartOnSunday[dayIx];
                 case 2:
+                case 11:
                     return _oneBasedStartOnMonday[dayIx];
                 case 3:
                     return _zeroBasedStartOnSunday[dayIx];
