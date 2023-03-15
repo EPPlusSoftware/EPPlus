@@ -87,5 +87,42 @@ namespace EPPlusTest.DataValidation.Formulas
 
             Assert.AreEqual(date, validation.Formula.Value);
         }
+
+        [TestMethod]
+        public void FormulaSpecialSignsAreWrittenAndRead()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DateTest");
+
+            var lessThan = sheet.DataValidations.AddDateTimeValidation("A1");
+            lessThan.Operator = ExcelDataValidationOperator.equal;
+
+            DateTime dateTime = DateTime.Parse("5/1/2008 8:30:52 AM", System.Globalization.CultureInfo.InvariantCulture);
+
+            lessThan.Formula.Value = dateTime;
+
+            sheet.Cells["B1"].Value = DateTime.Parse("3/15/2023 12:01:51", System.Globalization.CultureInfo.InvariantCulture);
+
+            lessThan.Formula.ExcelFormula = $"B1<{lessThan.Formula.Value}";
+            lessThan.ShowErrorMessage = true;
+
+            var greaterThan = sheet.DataValidations.AddDateTimeValidation("A2");
+
+            greaterThan.Formula.ExcelFormula = $"=B1>\"{dateTime}\"";
+            greaterThan.ShowErrorMessage = true;
+
+            greaterThan.Operator = ExcelDataValidationOperator.equal;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationDateTime)validations[0]).Formula.ExcelFormula, $"B1<{dateTime}");
+            Assert.AreEqual(((ExcelDataValidationDateTime)validations[1]).Formula.ExcelFormula, $"=B1>\"{dateTime}\"");
+        }
     }
 }

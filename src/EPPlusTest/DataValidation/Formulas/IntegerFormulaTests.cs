@@ -67,5 +67,41 @@ namespace EPPlusTest.DataValidation.Formulas
 
             Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
+
+        [TestMethod]
+        public void FormulaSpecialSignsAreWrittenAndRead()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
+
+            var lessThan = sheet.DataValidations.AddIntegerValidation("A1");
+            lessThan.Operator = ExcelDataValidationOperator.equal;
+
+            sheet.Cells["B1"].Value = 1;
+
+            lessThan.Formula.ExcelFormula = "=B1<5";
+            lessThan.ShowErrorMessage= true;
+
+
+            var greaterThan = sheet.DataValidations.AddIntegerValidation("A2");
+
+            sheet.Cells["B2"].Value = 6;
+
+            greaterThan.Formula.ExcelFormula = "=B1>5";
+            greaterThan.ShowErrorMessage = true;
+
+            greaterThan.Operator = ExcelDataValidationOperator.equal;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationInt)validations[0]).Formula.ExcelFormula, "=B1<5");
+            Assert.AreEqual(((ExcelDataValidationInt)validations[1]).Formula.ExcelFormula, "=B1>5");
+        }
     }
 }
