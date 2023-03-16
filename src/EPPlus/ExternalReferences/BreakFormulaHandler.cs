@@ -155,7 +155,11 @@ namespace OfficeOpenXml.ExternalReferences
         {
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(TokenType.ExcelAddress) ||
+                if(t.TokenTypeIsSet(TokenType.ExternalReference))
+                {
+                    return true;
+                }
+                else if (t.TokenTypeIsSet(TokenType.ExcelAddress) ||
                     t.TokenTypeIsSet(TokenType.NameValue) ||
                     t.TokenTypeIsSet(TokenType.InvalidReference))
                 {
@@ -190,12 +194,19 @@ namespace OfficeOpenXml.ExternalReferences
                 else if (t.TokenTypeIsSet(TokenType.ExternalReference))
                 {
                     extRefIx = wb.ExternalLinks.GetExternalLink(t.Value);
-                    if(extRefIx == ix && setRefError==false)
+                    if(ix==-1 || extRefIx == ix)
                     {
-                        newFormula = "";
-                        return true;
+                        if (setRefError)
+                        {
+                            address = "#REF!";
+                        }
+                        else
+                        {
+                            newFormula = "";
+                            return true;
+                        }
                     }
-                    if (extRefIx > ix)
+                    else if (extRefIx > ix)
                     {
                         address += extRefIx.ToString(CultureInfo.InvariantCulture);
                     }
@@ -211,7 +222,7 @@ namespace OfficeOpenXml.ExternalReferences
                         newFormula += address + t.Value;
                         address = "";
                     }
-                    else if (extRefIx == ix)
+                    else if (extRefIx == ix || ix == -1)
                     {
                         if (setRefError)
                         {

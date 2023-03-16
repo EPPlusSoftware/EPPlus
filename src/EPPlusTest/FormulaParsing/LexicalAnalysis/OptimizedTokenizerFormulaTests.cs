@@ -32,9 +32,21 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             Assert.AreEqual(8, tokens.Count);
         }
         [TestMethod]
-        public void VerifyExponentialNumericValue()
+        public void VerifyExponentialNegativeNumericValue()
         {
-            var f = @"4.165468498E-06";
+            var f = @"4.165468498E-06+-8E+20";
+            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+
+            Assert.AreEqual(3, tokens.Count);
+            Assert.AreEqual(TokenType.Decimal, tokens[0].TokenType);
+            Assert.AreEqual(TokenType.Operator, tokens[1].TokenType);
+            Assert.AreEqual(TokenType.Decimal, tokens[2].TokenType);
+            Assert.AreEqual("-8E+20", tokens[2].Value);
+        }
+        [TestMethod]
+        public void VerifyExponentialPositiveNumericValue()
+        {
+            var f = @"4.165468498e+06";
             var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
 
             Assert.AreEqual(1, tokens.Count);

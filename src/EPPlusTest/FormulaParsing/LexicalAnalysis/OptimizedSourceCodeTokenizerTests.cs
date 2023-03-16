@@ -177,6 +177,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "\"\"\"\"\"\"";
             var tokens = _tokenizer.Tokenize(input);
             Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.StringContent));
+            Assert.AreEqual(input, tokens[0].Value);
         }
 
         [TestMethod]
@@ -185,6 +186,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "\"*\"";
             var tokens = _tokenizer.Tokenize(input);
             Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.StringContent));
+            Assert.AreEqual(input, tokens[0].Value);
         }
 
         [TestMethod]
