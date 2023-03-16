@@ -58,6 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             else if (function.IsLookupFuction) return new RpnLookupFunctionCompiler(function, _context);
             else if (function.IsErrorHandlingFunction) return new RpnErrorHandlingFunctionCompiler(function, _context);
             else if (function.ArrayBehaviour == ExcelFunctionArrayBehaviour.FirstArgCouldBeARange) return new FirstArgToArrayCompiler(function, _context);
+            else if(function.ArrayBehaviour == ExcelFunctionArrayBehaviour.Custom) return new CustomArrayBehaviourCompiler(function, _context);
             return new RpnDefaultCompiler(function, _context);
         }
         internal virtual RpnFunctionCompiler Create(ExcelFunction function)

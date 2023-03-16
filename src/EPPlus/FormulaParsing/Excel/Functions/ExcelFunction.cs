@@ -108,12 +108,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
 
+        /// <summary>
+        /// Describes how the function works with input ranges and returning arrays.
+        /// </summary>
         internal virtual ExcelFunctionArrayBehaviour ArrayBehaviour
         {
             get
             {
                 return ExcelFunctionArrayBehaviour.None;
             }
+        }
+
+        internal virtual ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return null;
         }
 
         /// <summary>
