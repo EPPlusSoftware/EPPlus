@@ -546,6 +546,32 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
         }
 
         [TestMethod]
+        public void Atan2ShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 4;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 6;
+                sheet.Cells["D1:D4"].CreateArrayFormula("ATAN2(A1:A3, B1:B3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["D1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["D2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["D3"].Value, 2);
+                var v4 = sheet.Cells["D4"].Value;
+                Assert.AreEqual(1.33, v1);
+                Assert.AreEqual(1.19, v2);
+                Assert.AreEqual(1.11, v3);
+                Assert.AreEqual(ErrorValues.NAError, v4);
+            }
+        }
+
+        [TestMethod]
         public void AtanhShouldReturnVerticalArray()
         {
             using (var package = new ExcelPackage())

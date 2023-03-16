@@ -17,23 +17,8 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    /// <summary>
-    /// Used to indicate if a function can return an array of values.
-    /// </summary>
-    internal enum ExcelFunctionArrayBehaviour
+    internal class ArrayBehaviourConfig
     {
-        /// <summary>
-        /// The function does not support arrays
-        /// </summary>
-        None = 0,
-        /// <summary>
-        /// The function supports arrays, but not according to any of the options in this enum. If a function returns this value
-        /// it should also implement the <see cref="ExcelFunction.GetArrayBehaviourConfig"/> function.
-        /// </summary>
-        Custom = 1,
-        /// <summary>
-        /// The function supports arrays and the first argument could be a range.
-        /// </summary>
-        FirstArgCouldBeARange = 2
+        public List<int> ArrayParameterIndexes { get; set; }
     }
 }
