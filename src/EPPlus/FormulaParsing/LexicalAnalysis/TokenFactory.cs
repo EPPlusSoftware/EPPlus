@@ -164,14 +164,30 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
         public static bool IsNumeric(string value, bool allowDecimal)
         {
+            var nExp = 0;
+            var nDot = 0;
+            var nMinus = 0;
+            var nPlus = 0;
             foreach(var c in value)
             {
-                if ((c < '0' || c > '9') && (allowDecimal == false || c != '.'))
+                if ((c < '0' || c > '9') && (allowDecimal == false || c != '.') && c != 'E' && (c != '-' && c != '+'))
                 {
                     return false;
                 }
+                if (c == 'E') nExp++;
+                if (c == '.') nDot++;
+                if (c == '-') nMinus++;
+                if (c == '+') nPlus ++;
             }
-            return true;
+            if(nExp == 0 && nMinus == 0)
+            {
+                return true;
+            }
+            else if(nExp == 1 && nDot == 1 && (nMinus == 1 || nPlus == 1))
+            {
+                return double.TryParse(value, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out double r);
+            }
+            return false;
         }
 
         public Token Create(string token, TokenType explicitTokenType)
