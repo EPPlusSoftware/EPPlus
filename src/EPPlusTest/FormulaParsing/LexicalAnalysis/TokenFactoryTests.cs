@@ -34,6 +34,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using FakeItEasy;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
@@ -195,6 +196,34 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var token = _tokenFactory.Create(Enumerable.Empty<Token>(), input);
             Assert.IsTrue(token.TokenTypeIsSet(TokenType.NameValue));
             Assert.AreEqual("NamedValue", token.Value);
+        }
+
+        [TestMethod]
+        public void TokenFactory_IsNumericTests()
+        {
+            var tokens = new List<Token>();
+            
+            var t = _tokenFactory.Create(tokens, "1");
+            Assert.IsTrue(t.TokenTypeIsSet(TokenType.Integer), "Failed to recognize integer");
+
+            t = _tokenFactory.Create(tokens, "1.01");
+            Assert.IsTrue(t.TokenTypeIsSet(TokenType.Decimal), "Failed to recognize decimal");
+
+            t = _tokenFactory.Create(tokens, "1.01345E-05");
+            Assert.IsTrue(t.TokenTypeIsSet(TokenType.Decimal), "Failed to recognize low exponential");
+
+            t = _tokenFactory.Create(tokens, "1.01345E+05");
+            Assert.IsTrue(t.TokenTypeIsSet(TokenType.Decimal), "Failed to recognize high exponential");
+
+            t = _tokenFactory.Create(tokens, "ABC-E0");
+            Assert.IsFalse(t.TokenTypeIsSet(TokenType.Integer | TokenType.Decimal), "Invalid low exponential number was still numeric 1");
+
+            t = _tokenFactory.Create(tokens, "ABC-E0");
+            Assert.IsFalse(t.TokenTypeIsSet(TokenType.Integer | TokenType.Decimal), "Invalid high exponential number was still numeric 1");
+
+            t = _tokenFactory.Create(tokens, "E1");
+            Assert.IsFalse(t.TokenTypeIsSet(TokenType.Integer | TokenType.Decimal), "Invalid exponential number was still numeric 2");
+
         }
     }
 }

@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var matchResult = IsMatch(searchedValue, navigator.CurrentValue);
 
                 // For all match types, if the match result indicated equality, return the index (1 based)
-                if (matchResult == 0)
+                if (searchedValue != null && matchResult == 0)
                 {
                     return CreateResult(navigator.Index + 1, DataType.Integer);
                 }
