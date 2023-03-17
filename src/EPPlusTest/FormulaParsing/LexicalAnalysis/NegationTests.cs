@@ -40,13 +40,13 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
     [TestClass]
     public class NegationTests
     {
-        private SourceCodeTokenizer _tokenizer;
+        private OptimizedSourceCodeTokenizer _tokenizer;
 
         [TestInitialize]
         public void Setup()
         {
             var context = ParsingContext.Create();
-            _tokenizer = new SourceCodeTokenizer(context.Configuration.FunctionRepository, null);
+            _tokenizer = new OptimizedSourceCodeTokenizer(context.Configuration.FunctionRepository, null);
         }
 
         [TestCleanup]

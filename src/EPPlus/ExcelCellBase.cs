@@ -922,12 +922,12 @@ namespace OfficeOpenXml
         {
             try
             {
-                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+                var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var tokens = sct.Tokenize(formula);
                 var f = "";
                 foreach (var t in tokens)
                 {
-                    if (t.TokenTypeIsSet(TokenType.ExcelAddress))
+                    if (t.TokenTypeIsAddress)
                     {
                         var address = new ExcelAddressBase(t.Value);
                         if ((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
@@ -1082,12 +1082,12 @@ namespace OfficeOpenXml
             {
                 var afterRow = range._fromRow;
                 var afterColumn = range._fromCol;
-                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+                var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var tokens = sct.Tokenize(formula);
                 var f = "";
                 foreach (var t in tokens)
                 {
-                    if (t.TokenTypeIsSet(TokenType.ExcelAddress))
+                    if (t.TokenTypeIsAddress)
                     {
                         var address = new ExcelAddressBase(t.Value);
                         if (((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed) ||
@@ -1197,11 +1197,11 @@ namespace OfficeOpenXml
 
             try
             {
-                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+                var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var retFormula = "";
                 foreach (var token in sct.Tokenize(formula))
                 {
-                    if (token.TokenTypeIsSet(TokenType.ExcelAddress)) //Address
+                    if (token.TokenTypeIsAddress) //Address
                     {
                         var address = new ExcelAddressBase(token.Value);
                         if (address == null || !address.IsValidRowCol())

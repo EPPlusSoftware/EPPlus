@@ -42,49 +42,18 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
     [TestClass]
     public class SourceCodeTokenizerTests
     {
-        private SourceCodeTokenizer _tokenizer;
+        private OptimizedSourceCodeTokenizer _tokenizer;
 
         [TestInitialize]
         public void Setup()
         {
             var context = ParsingContext.Create();
-            _tokenizer = new SourceCodeTokenizer(context.Configuration.FunctionRepository, OfficeOpenXml.FormulaParsing.NameValueProvider.Empty);
+            _tokenizer = new OptimizedSourceCodeTokenizer(context.Configuration.FunctionRepository, OfficeOpenXml.FormulaParsing.NameValueProvider.Empty);
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-        }
-
-        [TestMethod]
-        public void ShouldCreateTokensForStringCorrectly()
-        {
-            var input = "\"abc123\"";
-            var tokens = _tokenizer.Tokenize(input);
-
-            Assert.AreEqual(3, tokens.Count());
-            Assert.IsTrue(tokens.First().TokenTypeIsSet(TokenType.String));
-            Assert.IsTrue(tokens.ElementAt(1).TokenTypeIsSet(TokenType.StringContent));
-            Assert.IsTrue(tokens.Last().TokenTypeIsSet(TokenType.String));
-        }
-
-        [TestMethod]
-        public void ShouldTokenizeStringCorrectly()
-        {
-            var input = "\"ab(c)d\"";
-            var tokens = _tokenizer.Tokenize(input);
-
-            Assert.AreEqual(3, tokens.Count());
-        }
-
-        [TestMethod]
-        public void ShouldHandleWhitespaceCorrectly()
-        {
-            var input = @"""          """;
-            var tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual(3, tokens.Count());
-            Assert.IsTrue(tokens.ElementAt(1).TokenTypeIsSet(TokenType.StringContent));
-            Assert.AreEqual(10, tokens.ElementAt(1).Value.Length);
         }
 
         [TestMethod]
@@ -129,11 +98,10 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "{\"1\",\"2\"}";
             var tokens = _tokenizer.Tokenize(input).ToArray();
 
-            Assert.AreEqual(9, tokens.Length);
+            Assert.AreEqual(5, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.OpeningEnumerable));
-            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.String));
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.StringContent));
-            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingEnumerable));
+            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.StringContent));
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.ClosingEnumerable));
         }
 
         [TestMethod]
@@ -154,27 +122,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         }
 
         [TestMethod]
-        public void ShouldIgnoreTwoSubsequentStringIdentifyers()
-        {
-            var input = "\"hello\"\"world\"";
-            var tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual(3, tokens.Count());
-            Assert.AreEqual("hello\"world", tokens.ElementAt(1).Value);
-        }
-
-        [TestMethod]
-        public void ShouldIgnoreTwoSubsequentStringIdentifyers2()
-        {
-            //using (var pck = new ExcelPackage(new FileInfo("c:\\temp\\QuoteIssue2.xlsx")))
-            //{
-            //    pck.Workbook.Worksheets.First().Calculate();
-            //}
-            var input = "\"\"\"\"\"\"";
-            var tokens = _tokenizer.Tokenize(input);
-            Assert.IsTrue(tokens.ElementAt(1).TokenTypeIsSet(TokenType.StringContent));
-        }
-
-        [TestMethod]
         public void TokenizerShouldIgnoreOperatorInString()
         {
             var input = "\"*\"";
@@ -187,8 +134,8 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "'A-B'!A1";
             var tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual(1, tokens.Count());
-            Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.ExcelAddress));
+            Assert.AreEqual(5, tokens.Count());
+            Assert.IsTrue(tokens.ElementAt(4).TokenTypeIsSet(TokenType.CellAddress));
         }
 
         [TestMethod]

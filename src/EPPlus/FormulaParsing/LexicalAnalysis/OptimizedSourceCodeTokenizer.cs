@@ -75,12 +75,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             _r1c1 = r1c1;
             _keepWhitespace = keepWhitespace;
         }
-        public OptimizedSourceCodeTokenizer(ITokenFactory tokenFactory)
-        {
-            _tokenFactory = tokenFactory;
-        }
-
-        private readonly ITokenFactory _tokenFactory;
 
         /// <summary>
         /// Split the input string into tokens used by the formula parser
@@ -129,7 +123,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             short bracketCount = 0, paranthesesCount=0;
             var current =new StringBuilder();
             var pc = '\0';
-            var separatorTokens = TokenSeparatorProvider.Instance.Tokens;
+            //var separatorTokens = TokenSeparatorProvider.Instance.Tokens;
             var isR1C1 = false;
             while (ix < length)
             {
