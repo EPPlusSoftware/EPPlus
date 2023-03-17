@@ -18,7 +18,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
     {
         internal RpnStringExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
-            _cachedCompileResult = new CompileResult(tokenValue.Substring(1,tokenValue.Length-2).Replace("\"\"\"", "\""), DataType.String);
+            _cachedCompileResult = new CompileResult(tokenValue.Substring(1,tokenValue.Length-2).Replace("\"\"", "\""), DataType.String); //Remove double quotes and 
         }
         internal RpnStringExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {

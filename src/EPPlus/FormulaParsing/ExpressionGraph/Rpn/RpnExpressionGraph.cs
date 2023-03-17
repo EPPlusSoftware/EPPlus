@@ -623,7 +623,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         array.Add(double.Parse(t.Value, System.Globalization.NumberStyles.Number, CultureInfo.InvariantCulture));
                         break;
                     case TokenType.StringContent:
-                        array.Add(t.Value);
+                        array.Add(t.Value.Substring(1, t.Value.Length-2).Replace("\"\"","\"")); //Remove double quotes.
                         break;
                     case TokenType.SemiColon:
                         array = new List<object>();
