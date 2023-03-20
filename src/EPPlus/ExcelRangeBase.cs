@@ -970,8 +970,7 @@ namespace OfficeOpenXml
             {
                 if (t.TokenTypeIsSet(TokenType.WorksheetNameContent))
                 {
-                    var a = new ExcelAddressBase(t.Value);
-                    if (string.IsNullOrEmpty(a.WorkSheetName) == false && a.WorkSheetName.Equals(WorkSheetName) == false)
+                    if (string.IsNullOrEmpty(t.Value) == false && Worksheet.Name.Equals(t.Value, StringComparison.OrdinalIgnoreCase) == false)
                     {
                         return true;
                     }

@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Core
                 }
 
             }
-            var ret = string.Join("", tokens.Select(x => x.TokenTypeIsSet(TokenType.StringContent) ? "\"" + x.Value.Replace("\"", "\"\"") + "\"" :  x.Value).ToArray());
+            var ret = string.Join("", tokens.Select(x=>x.Value).ToArray());
             return ret;
         }
 
@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Core
                 }
 
             }
-            var ret = string.Join("", tokens.Select(x => x.TokenTypeIsSet(TokenType.StringContent) ? "\"" + x.Value.Replace("\"", "\"\"") + "\"" : x.Value).ToArray());
+            var ret = string.Join("", tokens.Select(x => x.Value).ToArray());
             return ret;
         }
         /// <summary>

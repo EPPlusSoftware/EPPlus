@@ -294,14 +294,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
                 else
                 {
-                    if (token.TokenTypeIsSet(TokenType.StringContent))
-                    {
-                        f += "\"" + token.Value.Replace("\"", "\"\"") + "\"";
-                    }
-                    else
-                    {
-                        f += token.Value;
-                    }
+                    f += token.Value;
                 }
 
             }

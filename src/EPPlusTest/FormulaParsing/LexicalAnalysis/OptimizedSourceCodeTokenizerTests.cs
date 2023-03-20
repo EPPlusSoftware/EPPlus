@@ -82,7 +82,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var tokens = _tokenizer.Tokenize(input);
             Assert.AreEqual(1, tokens.Count());
             Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.StringContent));
-            Assert.AreEqual(10, tokens.ElementAt(0).Value.Length);
+            Assert.AreEqual(12, tokens.ElementAt(0).Value.Length);
         }
 
         [TestMethod]
@@ -163,12 +163,12 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         }
 
         [TestMethod]
-        public void ShouldIgnoreTwoSubsequentStringIdentifyers()
+        public void ShouldPreserveStringQuotes()
         {
             var input = "\"hello\"\"world\"";
             var tokens = _tokenizer.Tokenize(input);
             Assert.AreEqual(1, tokens.Count());
-            Assert.AreEqual("hello\"world", tokens.ElementAt(0).Value);
+            Assert.AreEqual(input, tokens.ElementAt(0).Value);
         }
 
         [TestMethod]
@@ -177,6 +177,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "\"\"\"\"\"\"";
             var tokens = _tokenizer.Tokenize(input);
             Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.StringContent));
+            Assert.AreEqual(input, tokens[0].Value);
         }
 
         [TestMethod]
@@ -185,6 +186,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "\"*\"";
             var tokens = _tokenizer.Tokenize(input);
             Assert.IsTrue(tokens.ElementAt(0).TokenTypeIsSet(TokenType.StringContent));
+            Assert.AreEqual(input, tokens[0].Value);
         }
 
         [TestMethod]
@@ -192,8 +194,8 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "'A-B'!A1";
             var tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual(3, tokens.Count);
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.CellAddress));
+            Assert.AreEqual(5, tokens.Count);
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.CellAddress));
         }
         [TestMethod]
         public void OffsetInAddressTokensFirst()
@@ -420,8 +422,8 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"'sheetname'!name";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(3, tokens.Count());
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.NameValue));
+            Assert.AreEqual(5, tokens.Count());
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.NameValue));
         }
         [TestMethod]
         public void TokenizeExternalWorksheetName()
@@ -437,8 +439,8 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"[3]'sheetname'!name";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(6, tokens.Count());
-            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.NameValue));
+            Assert.AreEqual(8, tokens.Count());
+            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.NameValue));
         }
         [TestMethod]
         public void TokenizeExternalWorkbookName()
@@ -468,19 +470,19 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         [TestMethod]
         public void TokenizeShouldHandleWorksheetNameWithSingleQuote()
         {
-            var input = @"=VLOOKUP(J7;'Sheet 1''21'!$Q$4:$R$28;2;0)";
+            var input = @"=VLOOKUP(J7,'Sheet 1''21'!$Q$4:$R$28,2,0)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(15, tokens.Count());
+            Assert.AreEqual(17, tokens.Count());
             Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.CellAddress));
-            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.CellAddress));
             Assert.IsTrue(tokens[9].TokenTypeIsSet(TokenType.CellAddress));
+            Assert.IsTrue(tokens[11].TokenTypeIsSet(TokenType.CellAddress));
         }
         [TestMethod]
         public void TokenizeWorksheetAddress()
         {
             var input = @"='Sheet''1'!A1:Name2";
             var tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual(6, tokens.Count);
+            Assert.AreEqual(8, tokens.Count);
         }
         [TestMethod]
         public void TokenizeTableAddress()
@@ -558,13 +560,13 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "'[1]Sheet''&1'!$B$8:$N$38";
             var tokens = _tokenizer.Tokenize(input);
-            Assert.AreEqual(8, tokens.Count);
+            Assert.AreEqual(10, tokens.Count);
 
-            Assert.AreEqual(TokenType.OpeningBracket, tokens[0].TokenType);
-            Assert.AreEqual(TokenType.ExternalReference, tokens[1].TokenType);
-            Assert.AreEqual(TokenType.ClosingBracket, tokens[2].TokenType);
-            Assert.AreEqual(TokenType.WorksheetNameContent, tokens[3].TokenType);
-            Assert.AreEqual(TokenType.WorksheetName, tokens[4].TokenType);
+            Assert.AreEqual(TokenType.OpeningBracket, tokens[1].TokenType);
+            Assert.AreEqual(TokenType.ExternalReference, tokens[2].TokenType);
+            Assert.AreEqual(TokenType.ClosingBracket, tokens[3].TokenType);
+            Assert.AreEqual(TokenType.WorksheetNameContent, tokens[4].TokenType);
+            Assert.AreEqual(TokenType.WorksheetName, tokens[6].TokenType);
         }
         [TestMethod]
         public void TokenizeMultipleAddressesOnFirstLevel()

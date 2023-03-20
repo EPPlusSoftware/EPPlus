@@ -3887,6 +3887,5 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-
     }
 }

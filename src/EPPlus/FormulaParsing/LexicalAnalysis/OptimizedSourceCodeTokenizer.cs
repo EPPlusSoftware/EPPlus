@@ -106,7 +106,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
            isTableRef= 0x200,
            isExtRef =  0x400,
            isIntersect= 0x800,
-           isError    = 0x1000
+           isError    = 0x1000,
+           isExponential = 0x2000
         }
         public IList<Token> Tokenize(string input, string worksheet)
         {
@@ -135,14 +136,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 var c = input[ix];
                 if(c == '\"' && isInString != 2)
                 {
-                    if (pc == c && isInString == 0)
-                    {
+                    //if (pc == c && isInString == 0)
+                    //{
                         current.Append(c);
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         flags |= statFlags.isString;
-                    }
+                    //}
                     isInString ^= 1;
                 }
                 else if (c == '\'' && isInString !=1)
@@ -166,7 +167,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
                 else
                 { 
-                    if(isInString==0 && _charTokens.ContainsKey(c))
+                    if(isInString==0 && _charTokens.ContainsKey(c) && (flags & statFlags.isExponential) == 0)
                     {
                         if(c=='!' && current.Length > 0 && current[0]=='#')
                         {
@@ -323,6 +324,17 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                                 SetRangeOffsetToken(l);
                                 flags |= statFlags.isColon;
                             }
+                            else if ((flags & statFlags.isNumeric) == statFlags.isNumeric && (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric && (c == 'E' || c == 'e')) //Handle exponential values in a formula.
+                            {
+                                current.Append(c);
+                                flags |= statFlags.isExponential;
+                            }
+                            else if ((flags & statFlags.isExponential) == statFlags.isExponential && (c == '+' || c == '-'))
+                            {
+                                current.Append(c);
+                                flags &= ~statFlags.isExponential;
+                                flags |= statFlags.isDecimal;
+                            }
                             else
                             {
                                 if (_charAddressTokens.ContainsKey(c)) //handel :
@@ -420,11 +432,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 else
                 {
                     var pt = GetLastToken(l);
-                    if((pt.TokenTypeIsSet(TokenType.Operator) && pt.Value == "+"))  //Replace + by -
-                    {
-                        l[l.Count - 1] = _charTokens['-'];
-                    }
-                    else if (pt.TokenType==TokenType.Operator
+                    //if((pt.TokenTypeIsSet(TokenType.Operator) && pt.Value == "+"))  //Replace + by -
+                    //{
+                    //    l[l.Count - 1] = _charTokens['-'];
+                    //}
+                    if (pt.TokenType==TokenType.Operator
                         ||
                         pt.TokenType == TokenType.Negator
                         ||
@@ -432,7 +444,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         ||
                         pt.TokenType == TokenType.Comma
                         ||
-                     pt.TokenType == TokenType.SemiColon
+                        pt.TokenType == TokenType.SemiColon
                         ||
                         pt.TokenType == TokenType.OpeningEnumerable)
                     {

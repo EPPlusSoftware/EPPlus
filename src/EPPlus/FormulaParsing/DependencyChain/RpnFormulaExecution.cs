@@ -869,11 +869,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, Token t, RpnFormula f)
         {
-            //var funcName = t.Value;
-            //if (funcName.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) funcName = funcName.Replace("_xlfn.", string.Empty);
-            //var func = depChain._parsingContext.Configuration.FunctionRepository.GetFunction(funcName);
             var funcExp = f._funcStack.Pop();
-            //var compiler = depChain._functionCompilerFactory.Create(func);
             CompileResult result;
             try
             {

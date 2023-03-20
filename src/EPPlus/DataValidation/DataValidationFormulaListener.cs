@@ -112,8 +112,7 @@ namespace OfficeOpenXml.DataValidation
                 var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.WorksheetNameContent));
                 foreach(var token in addressTokens)
                 {
-                    var adr = new ExcelAddress(token.Value);
-                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _worksheet.Name)
+                    if (!string.IsNullOrEmpty(token.Value) && token.Value.Equals(_worksheet.Name,StringComparison.OrdinalIgnoreCase))
                         return true;
                 }
 
