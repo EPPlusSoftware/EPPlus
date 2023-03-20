@@ -238,9 +238,9 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelEscapeString(string s)
         {
-            return s.Replace("&", "&amp;").
-                     Replace("<", "&lt;").
-                     Replace(">", "&gt;");
+                return s.Replace("&", "&amp;").
+                         Replace("<", "&lt;").
+                         Replace(">", "&gt;");
         }
         /// <summary>
         /// Return true if preserve space attribute is set.
@@ -317,6 +317,10 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelEscapeAndEncodeString(string t)
         {
+            if (string.IsNullOrEmpty(t))
+            {
+                return t;
+            }
             return ExcelEncodeString(ExcelEscapeString(t));
         }
         /// <summary>

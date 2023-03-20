@@ -89,5 +89,20 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), _worksheet.Cells["A4"].Value);
         }
+
+        [TestMethod]
+        public void Match_With_ExactMatch_ShouldNotTreatNullValuesAsAMatch()
+        {
+            _worksheet.Cells["A1"].Value = "test";
+            _worksheet.Cells["A2"].Value = "value_to_match";
+            _worksheet.Cells["A3"].Value = "test";
+
+            //_worksheet.Cells["A4"].Value 
+            _worksheet.Cells["A4"].Formula = "MATCH(B1, C1:C2, 0)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), _worksheet.Cells["A4"].Value);
+        }
     }
 }

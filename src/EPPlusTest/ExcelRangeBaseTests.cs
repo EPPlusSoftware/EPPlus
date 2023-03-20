@@ -143,7 +143,7 @@ namespace EPPlusTest
         [TestMethod]
         public void ClearFormulaValuesTest()
         {
-            using(ExcelPackage package = new ExcelPackage())
+            using (ExcelPackage package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Sheet1");
                 worksheet.Cells["A1"].Value = 1;

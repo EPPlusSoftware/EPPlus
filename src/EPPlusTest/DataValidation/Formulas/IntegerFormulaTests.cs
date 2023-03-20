@@ -26,52 +26,82 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
     [TestClass]
     public class IntegerFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
+        [TestMethod]
+        public void ValueIsRead()
         {
-            SetupTestData();
-        }
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
 
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-            _dataValidationNode = null;
+            var validationOrig = sheet.DataValidations.AddIntegerValidation("A1");
+
+            validationOrig.Formula.Value = 12;
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationInt>(package);
+
+            Assert.AreEqual(12, validation.Formula.Value);
         }
 
         [TestMethod]
-        public void IntegerFormula_FormulaValueIsSetFromXmlNodeInConstructor()
+        public void ExcelFormulaIsRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "1");
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            Assert.AreEqual(1, validation.Formula.Value);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
+
+            var validationOrig = sheet.DataValidations.AddIntegerValidation("A1");
+
+            validationOrig.Formula.ExcelFormula = "D1";
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationInt>(package);
+
+            Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
 
         [TestMethod]
-        public void IntegerFormula_FormulasFormulaIsSetFromXmlNodeInConstructor()
+        public void FormulaSpecialSignsAreWrittenAndRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "A1");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("IntegerTest");
 
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
+            var lessThan = sheet.DataValidations.AddIntegerValidation("A1");
+            lessThan.Operator = ExcelDataValidationOperator.equal;
 
-            // Assert
-            Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+            sheet.Cells["B1"].Value = 1;
+
+            lessThan.Formula.ExcelFormula = "=B1<5";
+            lessThan.ShowErrorMessage= true;
+
+
+            var greaterThan = sheet.DataValidations.AddIntegerValidation("A2");
+
+            sheet.Cells["B2"].Value = 6;
+
+            greaterThan.Formula.ExcelFormula = "=B1>5";
+            greaterThan.ShowErrorMessage = true;
+
+            greaterThan.Operator = ExcelDataValidationOperator.equal;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationInt)validations[0]).Formula.ExcelFormula, "=B1<5");
+            Assert.AreEqual(((ExcelDataValidationInt)validations[1]).Formula.ExcelFormula, "=B1>5");
         }
     }
 }

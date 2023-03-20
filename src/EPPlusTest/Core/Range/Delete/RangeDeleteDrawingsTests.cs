@@ -1,11 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.Core.Range.Delete
 {
@@ -19,7 +14,7 @@ namespace EPPlusTest.Core.Range.Delete
             InitBase();
             _pck = OpenPackage("WorksheetRangeInsertDeleteDrawings.xlsx", true);
         }
-        [ClassCleanup] 
+        [ClassCleanup]
         public static void Cleanup()
         {
             SaveAndCleanup(_pck);
@@ -31,7 +26,7 @@ namespace EPPlusTest.Core.Range.Delete
             //Setup
             var ws = _pck.Workbook.Worksheets.Add("DrawingsDeleteEntireRow");
             var shape1 = ws.Drawings.AddShape("Shape1", OfficeOpenXml.Drawing.eShapeStyle.Rect);
-            
+
             var shape2 = ws.Drawings.AddShape("DeletedShape", OfficeOpenXml.Drawing.eShapeStyle.Rect);
             shape2.SetPosition(2, 0, 11, 0);
 
@@ -39,7 +34,7 @@ namespace EPPlusTest.Core.Range.Delete
             shape3.SetPosition(5, 0, 22, 0);
 
             //Act
-            ws.DeleteRow(3, 10);  
+            ws.DeleteRow(3, 10);
 
             //Assert
             Assert.AreEqual(2, ws.Drawings.Count);
@@ -78,7 +73,7 @@ namespace EPPlusTest.Core.Range.Delete
             Assert.AreEqual(2, shape2.From.Row);
             Assert.AreEqual(0, shape2.From.RowOff);
             Assert.AreEqual(2, shape2.To.Row);
-            Assert.AreEqual(5, shape2.To.RowOff/ExcelDrawing.EMU_PER_PIXEL);
+            Assert.AreEqual(5, shape2.To.RowOff / ExcelDrawing.EMU_PER_PIXEL);
 
             Assert.AreEqual(2, shape3.From.Row);
             Assert.AreEqual(0, shape3.From.RowOff);
@@ -278,7 +273,7 @@ namespace EPPlusTest.Core.Range.Delete
             ws.Cells["A1:X1"].Delete(eShiftTypeDelete.Up);
 
             Assert.AreEqual(4, shape.From.Row);
-            Assert.AreEqual(5*ExcelDrawing.EMU_PER_PIXEL, shape.From.RowOff);
+            Assert.AreEqual(5 * ExcelDrawing.EMU_PER_PIXEL, shape.From.RowOff);
 
             ws.Cells["A5:X5"].Delete(eShiftTypeDelete.Up);
             Assert.AreEqual(4, shape.From.Row);

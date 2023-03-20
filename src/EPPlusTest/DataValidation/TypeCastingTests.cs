@@ -42,7 +42,7 @@ namespace EPPlusTest.DataValidation
             {
                 var sheet = package.Workbook.Worksheets.Add("test");
                 sheet.DataValidations.AddDecimalValidation("A1");
-                var dv = sheet.DataValidations.First().As.DecimalValiation;
+                var dv = sheet.DataValidations.First().As.DecimalValidation;
                 Assert.IsNotNull(dv);
             }
         }

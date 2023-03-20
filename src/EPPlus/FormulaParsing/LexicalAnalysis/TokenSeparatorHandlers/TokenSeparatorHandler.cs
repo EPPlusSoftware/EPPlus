@@ -30,7 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
                     new BracketHandler(),
                     new SheetnameHandler(),
                     new MultipleCharSeparatorHandler(tokenSeparatorProvider, nameValueProvider),
-                    new DefinedNameAddressHandler(nameValueProvider)
+                    new DefinedNameAddressHandler(nameValueProvider),
+                    new ExponentialNumberHandler()
                 }){}
 
         public TokenSeparatorHandler(params SeparatorHandler[] handlers)

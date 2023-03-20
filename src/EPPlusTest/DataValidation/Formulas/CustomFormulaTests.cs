@@ -27,37 +27,66 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
     [TestClass]
     public class CustomFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
+        [TestMethod]
+        public void FormulaIsReadInConstructor()
         {
-            SetupTestData();
-        }
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("CustomTest");
 
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-            _dataValidationNode = null;
+            var validationOrig = sheet.DataValidations.AddCustomValidation("A1");
+            validationOrig.Formula.ExcelFormula = "A1";
+
+            var validation = ReadTValidation<ExcelDataValidationCustom>(package);
+
+            Assert.AreEqual("A1", validation.Formula.ExcelFormula);
         }
 
         [TestMethod]
-        public void CustomFormula_FormulasFormulaIsSetFromXmlNodeInConstructor()
+        public void FormulaSpecialSignsAreWrittenAndRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "decimal", "A1");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("CustomTest");
 
-            // Act
-            var validation = new ExcelDataValidationCustom(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Custom, _dataValidationNode, _namespaceManager);
+            var validationAmpersand = sheet.DataValidations.AddCustomValidation("A1");
 
-            // Assert
-            Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+            sheet.Cells["B1"].Value = "EP";
+            sheet.Cells["C1"].Value = "Plus";
+
+            validationAmpersand.Formula.ExcelFormula = "=B1&C1=A1";
+            validationAmpersand.ShowErrorMessage = true;
+
+            var lessThan = sheet.DataValidations.AddCustomValidation("A2");
+
+            sheet.Cells["B2"].Value = 1;
+            sheet.Cells["C2"].Value = 2;
+
+            lessThan.Formula.ExcelFormula = "B2<C2";
+            lessThan.ShowErrorMessage = true;
+
+            var largerThan = sheet.DataValidations.AddCustomValidation("A3");
+            largerThan.Formula.ExcelFormula = "C2>B2";
+            largerThan.ShowErrorMessage = true;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationCustom)validations[0]).Formula.ExcelFormula, "=B1&C1=A1");
+            Assert.AreEqual(((ExcelDataValidationCustom)validations[1]).Formula.ExcelFormula, "B2<C2");
+            Assert.AreEqual(((ExcelDataValidationCustom)validations[2]).Formula.ExcelFormula, "C2>B2");
         }
     }
 }
