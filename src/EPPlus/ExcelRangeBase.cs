@@ -208,7 +208,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    if (valueMethod != Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
+                    if (valueMethod != Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false, false, false);   //Clear the range before overwriting, but not merged cells.
                     for (int col = address.Start.Column; col <= address.End.Column; col++)
                     {
                         for (int row = address.Start.Row; row <= address.End.Row; row++)
@@ -1995,7 +1995,7 @@ namespace OfficeOpenXml
             }
             Set_SharedFormula(this, ArrayFormula, this, true);
         }
-        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true)
+        internal void DeleteMe(ExcelAddressBase Range, bool shift, bool clearValues = true, bool clearFormulas = true, bool clearFlags = true, bool clearMergedCells = true, bool clearHyperLinks = true, bool clearComments = true, bool clearThreadedComments=true, bool clearStyles=true)
         {
 
             //First find the start cell
@@ -2027,10 +2027,19 @@ namespace OfficeOpenXml
             if (clearMergedCells)
                 _worksheet.MergedCells.Clear(Range);
 
-            if (clearValues)
+            if (clearValues && clearStyles)
             {
                 _worksheet._values.Delete(fromRow, fromCol, rows, cols, shift);
             }
+            else if(clearValues)
+            {
+                ClearValue(_worksheet._values, true, fromRow, fromCol, rows, cols);
+            }
+            else if(clearStyles)
+            {
+                ClearValue(_worksheet._values, false, fromRow, fromCol, rows, cols);
+            }
+
             if (clearFormulas)
             {
                 _worksheet._formulas.Delete(fromRow, fromCol, rows, cols, shift);
@@ -2059,7 +2068,34 @@ namespace OfficeOpenXml
             {
                 foreach (var sub in Range.Addresses)
                 {
-                    DeleteMe(sub, shift, clearValues, clearFormulas, clearFlags, clearMergedCells, clearHyperLinks, clearComments, clearThreadedComments);
+                    DeleteMe(sub, shift, clearValues, clearFormulas, clearFlags, clearMergedCells, clearHyperLinks, clearComments, clearThreadedComments, clearStyles);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clears either value or style for a range from the cellstore.
+        /// </summary>
+        /// <param name="values"></param>
+        /// <param name="clearValue"></param>
+        /// <param name="fromRow"></param>
+        /// <param name="fromCol"></param>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        private void ClearValue(CellStoreValue values, bool clearValue, int fromRow, int fromCol, int rows, int cols)
+        {
+            var toRow = fromRow + rows - 1;
+            var toCol = fromCol + cols - 1;
+            var cse = new CellStoreEnumerator<ExcelValue>(values, fromRow, fromCol, toRow, toCol);
+            while (cse.Next())
+            {
+                if(clearValue)
+                {
+                    cse.Value = new ExcelValue() { _value = null, _styleId = cse.Value._styleId };
+                }
+                else
+                {
+                    cse.Value = new ExcelValue() { _value = cse.Value, _styleId = 0 };
                 }
             }
         }
