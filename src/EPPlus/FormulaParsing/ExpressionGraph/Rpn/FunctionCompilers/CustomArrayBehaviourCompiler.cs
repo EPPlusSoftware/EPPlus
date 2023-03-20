@@ -96,20 +96,32 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             {
                 for(var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
+                    bool isError = false;
                     var argList = new List<FunctionArgument>();
                     for(var argIx = 0; argIx < nArgs; argIx++)
                     {
                         if(rangeArgs.ContainsKey(argIx))
                         {
                             var range = rangeArgs[argIx];
-                            if(col < range.Size.NumberOfCols && row < range.Size.NumberOfRows)
+                            var r = row;
+                            var c = col;
+                            if(range.Size.NumberOfCols == 1 && range.Size.NumberOfRows == resultRange.Size.NumberOfRows)
                             {
-                                var argAsCompileResult = CompileResultFactory.Create(range.GetOffset(row, col));
+                                c = 0;
+                            }
+                            if(range.Size.NumberOfRows == 1 && range.Size.NumberOfCols == resultRange.Size.NumberOfCols)
+                            {
+                                r = 0;
+                            }
+                            if (col < range.Size.NumberOfCols && row < range.Size.NumberOfRows || (c != col) || (r != row))
+                            {
+                                var argAsCompileResult = CompileResultFactory.Create(range.GetOffset(r, c));
                                 argList.Add(new FunctionArgument(argAsCompileResult.ResultValue, argAsCompileResult.DataType));
                             }
                             else
                             {
                                 resultRange.SetValue(row, col, ErrorValues.NAError);
+                                isError = true;
                                 continue;
                             }
                             
@@ -120,8 +132,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
                             argList.Add(new FunctionArgument(arg.ResultValue, arg.DataType));
                         }
                     }
-                    var result = Function.Execute(argList, Context);
-                    resultRange.SetValue(row, col, result.Result);
+                    if (!isError)
+                    {
+                        var result = Function.Execute(argList, Context);
+                        resultRange.SetValue(row, col, result.Result);
+                    }
                 }
             }
             return new CompileResult(resultRange, DataType.ExcelRange);

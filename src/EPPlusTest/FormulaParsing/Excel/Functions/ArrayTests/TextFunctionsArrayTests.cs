@@ -172,5 +172,92 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 Assert.AreEqual(7d, sheet.Cells["C2"].Value);
             }
         }
+
+        [TestMethod]
+        public void MidReturnHorizontalArray_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = "test";
+                sheet.Cells["B1"].Value = "zest";
+                sheet.Cells["C1"].Value = "testing";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = 2;
+                sheet.Cells["C2"].Value = 3;
+                sheet.Cells["A3:C3"].CreateArrayFormula("MID(A1:C1,A2:C2,2)");
+                sheet.Calculate();
+                Assert.AreEqual("te", sheet.Cells["A3"].Value);
+                Assert.AreEqual("es", sheet.Cells["B3"].Value);
+                Assert.AreEqual("st", sheet.Cells["C3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void MidReturnHorizontalArray_2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = "test";
+                sheet.Cells["B1"].Value = "zest";
+                sheet.Cells["C1"].Value = "testing";
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["B2"].Value = 2;
+                sheet.Cells["C2"].Value = 3;
+                sheet.Cells["A3"].Value = 2;
+                sheet.Cells["B3"].Value = 3;
+                sheet.Cells["C3"].Value = 4;
+                sheet.Cells["A4:C4"].CreateArrayFormula("MID(A1:C1,A2:C2,A3:C3)");
+                sheet.Calculate();
+                Assert.AreEqual("te", sheet.Cells["A4"].Value);
+                Assert.AreEqual("est", sheet.Cells["B4"].Value);
+                Assert.AreEqual("stin", sheet.Cells["C4"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ExactReturnHorizontalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = "test";
+                sheet.Cells["B1"].Value = "zest";
+                sheet.Cells["C1"].Value = "testing";
+                sheet.Cells["A2"].Value = "test";
+                sheet.Cells["B2"].Value = "sest";
+                sheet.Cells["C2"].Value = "testing";
+                sheet.Cells["A3:C3"].CreateArrayFormula("EXACT(A1:C1,A2:C2)");
+                sheet.Calculate();
+                Assert.IsTrue((bool)sheet.Cells["A3"].Value);
+                Assert.IsFalse((bool)sheet.Cells["B3"].Value);
+                Assert.IsTrue((bool)sheet.Cells["C3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void SearchReturnHorizontalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = "s";
+                sheet.Cells["B1"].Value = "z";
+                sheet.Cells["C1"].Value = "ing";
+                sheet.Cells["A2"].Value = "test";
+                sheet.Cells["B2"].Value = "zest";
+                sheet.Cells["C2"].Value = "testing";
+                sheet.Cells["A3:C3"].CreateArrayFormula("SEARCH(A1:C1,A2:C2)");
+                sheet.Calculate();
+                Assert.AreEqual(3, (int)sheet.Cells["A3"].Value);
+                Assert.AreEqual(1, (int)sheet.Cells["B3"].Value);
+                Assert.AreEqual(5, (int)sheet.Cells["C3"].Value);
+            }
+        }
     }
 }

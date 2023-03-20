@@ -22,9 +22,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.1",
         Description = "Returns the number of combinations (with repetitions) for a given number of items",
-        IntroducedInExcelVersion = "2013")]
+        IntroducedInExcelVersion = "2013",
+        SupportsArrays = true)]
     internal class Combina : ExcelFunction
     {
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1 }
+        };
+
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);

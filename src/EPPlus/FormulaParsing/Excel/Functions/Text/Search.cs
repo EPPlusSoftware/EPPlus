@@ -22,9 +22,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Text,
         EPPlusVersion = "4",
-        Description = "Returns the position of a supplied character or text string from within a supplied text string (non-case-sensitive)")]
+        Description = "Returns the position of a supplied character or text string from within a supplied text string (non-case-sensitive)",
+        SupportsArrays = true)]
     internal class Search : ExcelFunction
     {
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1 }
+        };
+
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();

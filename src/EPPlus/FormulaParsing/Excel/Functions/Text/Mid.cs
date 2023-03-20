@@ -26,7 +26,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         SupportsArrays = true)]
     internal class Mid : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
+        };
+
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
 
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
