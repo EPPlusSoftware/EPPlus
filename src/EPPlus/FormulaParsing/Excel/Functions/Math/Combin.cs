@@ -21,16 +21,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
     [FunctionMetadata(
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "5.1",
-        Description = "Returns the number of combinations (without repititions) for a given number of objects")]
+        Description = "Returns the number of combinations (without repititions) for a given number of objects", 
+        SupportsArrays = true)]
     internal class Combin : ExcelFunction
     {
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1 }
+        };
+
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var number = ArgToDecimal(arguments, 0);
             number = System.Math.Floor(number);
             var numberChosen = ArgToDecimal(arguments, 1);
-            if (number <= 0d || numberChosen <= 0) return CreateResult(eErrorType.Num);
+            if (number <= 0d || numberChosen <= 0 || number < numberChosen) return CreateResult(eErrorType.Num);
             var result = MathHelper.Factorial(number, number - numberChosen) / MathHelper.Factorial(numberChosen);
             return CreateResult(result, DataType.Decimal);
         }

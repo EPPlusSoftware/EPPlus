@@ -572,6 +572,229 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
         }
 
         [TestMethod]
+        public void Atan2ShouldReturnVerticalArrayWith1Arr()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 4;
+                sheet.Cells["D1:D4"].CreateArrayFormula("ATAN2(A1:A3, B1)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["D1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["D2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["D3"].Value, 2);
+                var v4 = sheet.Cells["D4"].Value;
+                Assert.AreEqual(1.33, v1);
+                Assert.AreEqual(1.11, v2);
+                Assert.AreEqual(0.93, v3);
+                Assert.AreEqual(ErrorValues.NAError, v4);
+            }
+        }
+
+        [TestMethod]
+        public void Atan2ShouldReturnVerticalArrayWith2ArrsOfDifferentWidth()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 4;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["D1:D4"].CreateArrayFormula("ATAN2(A1:A3, B1:B2)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["D1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["D2"].Value, 2);
+                var v4 = sheet.Cells["D4"].Value;
+                Assert.AreEqual(1.33, v1);
+                Assert.AreEqual(1.19, v2);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["D3"].Value);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["D4"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Atan2ShouldReturnVerticalArrayWith2ArrsOfSameHeightDifferentWidth_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 4;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 6;
+                sheet.Cells["C1"].Value = 7;
+                sheet.Cells["C2"].Value = 8;
+                sheet.Cells["C3"].Value = 9;
+                sheet.Cells["D1:E3"].CreateArrayFormula("ATAN2(A1:B3, C1:C3)");
+                sheet.Calculate();
+                var d1 = System.Math.Round((double)sheet.Cells["D1"].Value, 2);
+                var d2 = System.Math.Round((double)sheet.Cells["D2"].Value, 2);
+                var d3 = System.Math.Round((double)sheet.Cells["D3"].Value, 2);
+                var e1 = System.Math.Round((double)sheet.Cells["E1"].Value, 2);
+                var e2 = System.Math.Round((double)sheet.Cells["E2"].Value, 2);
+                var e3 = System.Math.Round((double)sheet.Cells["E3"].Value, 2);
+                var v4 = sheet.Cells["D4"].Value;
+                Assert.AreEqual(1.43, d1);
+                Assert.AreEqual(1.33, d2);
+                Assert.AreEqual(1.25, d3);
+                Assert.AreEqual(1.05, e1);
+                Assert.AreEqual(1.01, e2);
+                Assert.AreEqual(0.98, e3);
+            }
+        }
+
+        [TestMethod]
+        public void Atan2ShouldReturnVerticalArrayWith2ArrsOfSameHeightDifferentWidth_2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 4;
+                sheet.Cells["B2"].Value = 5;
+                sheet.Cells["B3"].Value = 6;
+                sheet.Cells["C1"].Value = 7;
+                sheet.Cells["C2"].Value = 8;
+                sheet.Cells["C3"].Value = 9;
+                sheet.Cells["D1:E3"].CreateArrayFormula("ATAN2(A1:A3, B1:C3)");
+                sheet.Calculate();
+                var d1 = System.Math.Round((double)sheet.Cells["D1"].Value, 2);
+                var d2 = System.Math.Round((double)sheet.Cells["D2"].Value, 2);
+                var d3 = System.Math.Round((double)sheet.Cells["D3"].Value, 2);
+                var e1 = System.Math.Round((double)sheet.Cells["E1"].Value, 2);
+                var e2 = System.Math.Round((double)sheet.Cells["E2"].Value, 2);
+                var e3 = System.Math.Round((double)sheet.Cells["E3"].Value, 2);
+                var v4 = sheet.Cells["D4"].Value;
+                Assert.AreEqual(1.33, d1);
+                Assert.AreEqual(1.19, d2);
+                Assert.AreEqual(1.11, d3);
+                Assert.AreEqual(1.43, e1);
+                Assert.AreEqual(1.33, e2);
+                Assert.AreEqual(1.25, e3);
+            }
+        }
+
+        [TestMethod]
+        public void Atan2ShouldReturnVerticalArrayWith2ArrsOfSameWidthDifferentHeight_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["B2"].Value = 2;
+                sheet.Cells["B3"].Value = 3;
+                sheet.Cells["C1"].Value = 1;
+                sheet.Cells["C2"].Value = 2;
+                sheet.Cells["C3"].Value = 3;
+                sheet.Cells["D1"].Value = 1;
+                sheet.Cells["D2"].Value = 2;
+                sheet.Cells["D3"].Value = 3;
+                sheet.Cells["D10:E13"].CreateArrayFormula("ATAN2(A1:C3, B1:D2)");
+                sheet.Calculate();
+                var d10 = System.Math.Round((double)sheet.Cells["D10"].Value, 2);
+                var d11 = System.Math.Round((double)sheet.Cells["D11"].Value, 2);
+                var e10 = System.Math.Round((double)sheet.Cells["E10"].Value, 2);
+                var e11 = System.Math.Round((double)sheet.Cells["E11"].Value, 2);
+                Assert.AreEqual(0.79, d10);
+                Assert.AreEqual(0.79, d11);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["D12"].Value);
+                Assert.AreEqual(0.79, e10);
+                Assert.AreEqual(0.79, e11);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["E12"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Atan2ShouldReturnVerticalArrayWith2ArrsOfSameWidthDifferentHeight_2()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["B2"].Value = 2;
+                sheet.Cells["B3"].Value = 3;
+                sheet.Cells["C1"].Value = 1;
+                sheet.Cells["C2"].Value = 2;
+                sheet.Cells["C3"].Value = 3;
+                sheet.Cells["D1"].Value = 1;
+                sheet.Cells["D2"].Value = 2;
+                sheet.Cells["D3"].Value = 3;
+                sheet.Cells["D10:E13"].CreateArrayFormula("ATAN2(A1:C3, B1:D1)");
+                sheet.Calculate();
+                var d10 = System.Math.Round((double)sheet.Cells["D10"].Value, 2);
+                var d11 = System.Math.Round((double)sheet.Cells["D11"].Value, 2);
+                var d12 = System.Math.Round((double)sheet.Cells["D12"].Value, 2);
+                var e10 = System.Math.Round((double)sheet.Cells["E10"].Value, 2);
+                var e11 = System.Math.Round((double)sheet.Cells["E11"].Value, 2);
+                var e12 = System.Math.Round((double)sheet.Cells["E12"].Value, 2);
+                Assert.AreEqual(0.79, d10);
+                Assert.AreEqual(0.46, d11);
+                Assert.AreEqual(0.32, d12);
+                Assert.AreEqual(0.79, e10);
+                Assert.AreEqual(0.46, e11);
+                Assert.AreEqual(0.32, e12);
+            }
+        }
+
+        [TestMethod]
+        public void Atan2ShouldReturnVerticalArrayWith2ArrsOfDifferentHeightAndWidth()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["B2"].Value = 2;
+                sheet.Cells["B3"].Value = 3;
+                sheet.Cells["C1"].Value = 1;
+                sheet.Cells["C2"].Value = 2;
+                sheet.Cells["C3"].Value = 3;
+                sheet.Cells["D1"].Value = 1;
+                sheet.Cells["D2"].Value = 2;
+                sheet.Cells["D3"].Value = 3;
+                sheet.Cells["D10:F13"].CreateArrayFormula("ATAN2(A1:C3, B1:C2)");
+                sheet.Calculate();
+                var d10 = System.Math.Round((double)sheet.Cells["D10"].Value, 2);
+                var d11 = System.Math.Round((double)sheet.Cells["D11"].Value, 2);
+                var e10 = System.Math.Round((double)sheet.Cells["E10"].Value, 2);
+                var e11 = System.Math.Round((double)sheet.Cells["E11"].Value, 2);
+                Assert.AreEqual(0.79, d10);
+                Assert.AreEqual(0.79, d11);
+                Assert.AreEqual(0.79, e10);
+                Assert.AreEqual(0.79, e11);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["D12"].Value);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["E12"].Value);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["F10"].Value);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["F11"].Value);
+                Assert.AreEqual(ErrorValues.NAError, sheet.Cells["F12"].Value);
+            }
+        }
+
+        [TestMethod]
         public void AtanhShouldReturnVerticalArray()
         {
             using (var package = new ExcelPackage())
@@ -652,6 +875,53 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 Assert.AreEqual(1.19, v1);
                 Assert.AreEqual(1.1, v2);
                 Assert.AreEqual(7.09, v3);
+            }
+        }
+
+        [TestMethod]
+        public void CombinShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["B2"].Value = 3;
+                sheet.Cells["B3"].Value = 3;
+                sheet.Cells["C1:C3"].CreateArrayFormula("COMBIN(A1:A3, B1:B3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["C1"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["C3"].Value, 2);
+                Assert.AreEqual(1d, v1);
+                Assert.AreEqual(ErrorValues.NumError, sheet.Cells["C2"].Value);
+                Assert.AreEqual(1d, v3);
+            }
+        }
+
+        [TestMethod]
+        public void CombinaShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["A3"].Value = 3;
+                sheet.Cells["B1"].Value = 1;
+                sheet.Cells["B2"].Value = 3;
+                sheet.Cells["B3"].Value = 3;
+                sheet.Cells["C1:C3"].CreateArrayFormula("COMBINA(A1:A3, B1:B3)");
+                sheet.Calculate();
+                var v1 = System.Math.Round((double)sheet.Cells["C1"].Value, 2);
+                var v2 = System.Math.Round((double)sheet.Cells["C2"].Value, 2);
+                var v3 = System.Math.Round((double)sheet.Cells["C3"].Value, 2);
+                Assert.AreEqual(1d, v1);
+                Assert.AreEqual(4d, v2);
+                Assert.AreEqual(10d, v3);
             }
         }
 

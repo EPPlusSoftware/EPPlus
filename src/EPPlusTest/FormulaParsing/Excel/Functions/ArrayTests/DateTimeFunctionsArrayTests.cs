@@ -41,8 +41,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
 
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 10);
-                sheet.Cells["A2"].Value = new DateTime(2022, 3, 10); ;
-                sheet.Cells["A3"].Value = new DateTime(2021, 3, 10); ;
+                sheet.Cells["A2"].Value = new DateTime(2022, 3, 10);
+                sheet.Cells["A3"].Value = new DateTime(2021, 3, 10);
                 sheet.Cells["B1:B3"].CreateArrayFormula("YEAR(A1:A3)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(2023, sheet.Cells["B1"].Value);
@@ -59,8 +59,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
 
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 10);
-                sheet.Cells["A2"].Value = new DateTime(2022, 4, 10); ;
-                sheet.Cells["A3"].Value = new DateTime(2021, 5, 10); ;
+                sheet.Cells["A2"].Value = new DateTime(2022, 4, 10);
+                sheet.Cells["A3"].Value = new DateTime(2021, 5, 10);
                 sheet.Cells["B1:B3"].CreateArrayFormula("MONTH(A1:A3)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(3, sheet.Cells["B1"].Value);
@@ -77,8 +77,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
 
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 10);
-                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11); ;
-                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12); ;
+                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11);
+                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12);
                 sheet.Cells["B1:B3"].CreateArrayFormula("DAY(A1:A3)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(10, sheet.Cells["B1"].Value);
@@ -95,8 +95,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
 
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 10, 11, 30, 0);
-                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11, 12, 30, 0); ;
-                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12, 13, 30, 0); ;
+                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11, 12, 30, 0);
+                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12, 13, 30, 0);
                 sheet.Cells["B1:B3"].CreateArrayFormula("HOUR(A1:A3)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(11, sheet.Cells["B1"].Value);
@@ -113,8 +113,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
 
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 10, 11, 31, 0);
-                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11, 12, 32, 0); ;
-                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12, 13, 33, 0); ;
+                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11, 12, 32, 0);
+                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12, 13, 33, 0);
                 sheet.Cells["B1:B3"].CreateArrayFormula("MINUTE(A1:A3)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(31, sheet.Cells["B1"].Value);
@@ -131,8 +131,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
 
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 10, 11, 31, 31);
-                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11, 12, 32, 32); ;
-                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12, 13, 33, 33); ;
+                sheet.Cells["A2"].Value = new DateTime(2022, 4, 11, 12, 32, 32);
+                sheet.Cells["A3"].Value = new DateTime(2021, 5, 12, 13, 33, 33);
                 sheet.Cells["B1:B3"].CreateArrayFormula("SECOND(A1:A3)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(31, sheet.Cells["B1"].Value);
@@ -148,8 +148,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
             {
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 9, 1, 1, 1).ToOADate();
-                sheet.Cells["A2"].Value = new DateTime(2023, 3, 10, 1, 1, 1).ToOADate(); ;
-                sheet.Cells["A3"].Value = new DateTime(2023, 3, 11, 1, 1, 1).ToOADate(); ;
+                sheet.Cells["A2"].Value = new DateTime(2023, 3, 10, 1, 1, 1).ToOADate();
+                sheet.Cells["A3"].Value = new DateTime(2023, 3, 11, 1, 1, 1).ToOADate();
                 sheet.Cells["B1:B3"].CreateArrayFormula("WEEKDAY(A1:A3,11)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(4, sheet.Cells["B1"].Value);
@@ -165,8 +165,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
             {
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 9, 1, 1, 1).ToOADate();
-                sheet.Cells["A2"].Value = new DateTime(2023, 4, 10, 1, 1, 1).ToOADate(); ;
-                sheet.Cells["A3"].Value = new DateTime(2023, 7, 11, 1, 1, 1).ToOADate(); ;
+                sheet.Cells["A2"].Value = new DateTime(2023, 4, 10, 1, 1, 1).ToOADate();
+                sheet.Cells["A3"].Value = new DateTime(2023, 7, 11, 1, 1, 1).ToOADate();
                 sheet.Cells["B1:B3"].CreateArrayFormula("ISOWEEKNUM(A1:A3,11)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(10, sheet.Cells["B1"].Value);
@@ -182,13 +182,77 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
             {
                 var sheet = package.Workbook.Worksheets.Add("Sheet1");
                 sheet.Cells["A1"].Value = new DateTime(2023, 3, 15).ToString();
-                sheet.Cells["A2"].Value = new DateTime(2023, 4, 15).ToString(); ;
-                sheet.Cells["A3"].Value = new DateTime(2023, 5, 15).ToString(); ;
+                sheet.Cells["A2"].Value = new DateTime(2023, 4, 15).ToString();
+                sheet.Cells["A3"].Value = new DateTime(2023, 5, 15).ToString();
                 sheet.Cells["B1:B3"].CreateArrayFormula("DATEVALUE(A1:A3)");
                 sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
                 Assert.AreEqual(45000d, sheet.Cells["B1"].Value);
                 Assert.AreEqual(45031d, sheet.Cells["B2"].Value);
                 Assert.AreEqual(45061d, sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void DaysShouldReturnVerticalArray_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].Value = new DateTime(2023, 3, 15).ToString();
+                sheet.Cells["A2"].Value = new DateTime(2023, 4, 15).ToString();
+                sheet.Cells["A3"].Value = new DateTime(2023, 5, 15).ToString();
+                sheet.Cells["B1"].Value = new DateTime(2023, 3, 16).ToString();
+                sheet.Cells["B2"].Value = new DateTime(2023, 4, 17).ToString();
+                sheet.Cells["B3"].Value = new DateTime(2023, 5, 18).ToString();
+                sheet.Cells["C1:C3"].CreateArrayFormula("DAYS(A1:A3,B1:B3)");
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+                Assert.AreEqual(-1d, sheet.Cells["C1"].Value);
+                Assert.AreEqual(-2d, sheet.Cells["C2"].Value);
+                Assert.AreEqual(-3d, sheet.Cells["C3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Days360ShouldReturnVerticalArray_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].Value = new DateTime(2023, 3, 9).ToString();
+                sheet.Cells["A2"].Value = new DateTime(2023, 4, 10).ToString();
+                sheet.Cells["A3"].Value = new DateTime(2023, 7, 11).ToString();
+                sheet.Cells["B1"].Value = new DateTime(2023, 3, 10).ToString();
+                sheet.Cells["B2"].Value = new DateTime(2023, 4, 15).ToString();
+                sheet.Cells["B3"].Value = new DateTime(2023, 8, 12).ToString();
+                sheet.Cells["C1:C3"].CreateArrayFormula("DAYS360(A1:A3,B1:B3)");
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+                Assert.AreEqual(1, sheet.Cells["C1"].Value);
+                Assert.AreEqual(5, sheet.Cells["C2"].Value);
+                Assert.AreEqual(31, sheet.Cells["C3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void DateDifShouldReturnVerticalArray_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].Value = new DateTime(2023, 3, 9).ToString();
+                sheet.Cells["A2"].Value = new DateTime(2023, 4, 10).ToString();
+                sheet.Cells["A3"].Value = new DateTime(2023, 7, 11).ToString();
+                sheet.Cells["B1"].Value = new DateTime(2023, 3, 10).ToString();
+                sheet.Cells["B2"].Value = new DateTime(2023, 4, 15).ToString();
+                sheet.Cells["B3"].Value = new DateTime(2023, 8, 12).ToString();
+                sheet.Cells["C1"].Value = "d";
+                sheet.Cells["C2"].Value = "d";
+                sheet.Cells["C3"].Value = "d";
+                sheet.Cells["D1:D3"].CreateArrayFormula("DATEDIF(A1:A3,B1:B3,C1:C3)");
+
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+                Assert.AreEqual(1d, sheet.Cells["D1"].Value);
+                Assert.AreEqual(5d, sheet.Cells["D2"].Value);
+                Assert.AreEqual(32d, sheet.Cells["D3"].Value);
             }
         }
     }
