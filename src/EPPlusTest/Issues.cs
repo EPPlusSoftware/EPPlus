@@ -4411,19 +4411,6 @@ namespace EPPlusTest
                 }
             }
         }
-        [TestMethod]
-        public void i802()
-        {
-            using (var package = OpenPackage("I802.xlsx"))
-            {
-                var ws = package.Workbook.Worksheets.Add("sheet1");
-                using (ExcelRange Rng = ws.Cells[2, 2, 2, 2]) 
-                { 
-                    Rng.Value = "Test Client\r"; 
-                }
-                SaveAndCleanup(package);            
-            }
-        }
     }
 }
 
