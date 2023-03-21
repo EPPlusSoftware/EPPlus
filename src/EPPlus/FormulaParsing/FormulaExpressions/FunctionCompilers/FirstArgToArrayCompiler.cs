@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    internal class FirstArgToArrayCompiler : RpnFunctionCompiler
+    internal class FirstArgToArrayCompiler : FunctionCompiler
     {
         internal FirstArgToArrayCompiler(ExcelFunction function, ParsingContext context)
             : this(function, context, false)
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 
         private readonly bool _handleErrors;
 
-        public override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);
@@ -103,14 +103,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
                 }
                 else
                 {
-                    var defaultCompiler = new RpnDefaultCompiler(Function, Context);
+                    var defaultCompiler = new DefaultCompiler(Function, Context);
                     return defaultCompiler.Compile(children);
                 }
                 
             }
             else
             {
-                var defaultCompiler = new RpnDefaultCompiler(Function, Context);
+                var defaultCompiler = new DefaultCompiler(Function, Context);
                 return defaultCompiler.Compile(children);
             }
         }

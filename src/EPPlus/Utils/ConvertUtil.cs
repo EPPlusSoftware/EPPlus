@@ -17,7 +17,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.IO;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Utils.TypeConversion;

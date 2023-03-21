@@ -2,15 +2,15 @@
 using System;
 using System.Diagnostics;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     [DebuggerDisplay("TableAddressExpression: {_addressInfo}")]
-    internal class RpnTableAddressExpression : RpnExpression
+    internal class TableAddressExpression : Expression
     {
         readonly FormulaTableAddress _addressInfo;
         private bool _negate;
 
-        public RpnTableAddressExpression(FormulaTableAddress addressInfo, ParsingContext ctx) : base(ctx)
+        public TableAddressExpression(FormulaTableAddress addressInfo, ParsingContext ctx) : base(ctx)
         {
             _addressInfo = addressInfo;
         }
@@ -38,11 +38,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         {
             _negate = !_negate;
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.CanCompile;
+        } = ExpressionStatus.CanCompile;
         public override FormulaRangeAddress GetAddress() 
         { 
             return _addressInfo.Clone();

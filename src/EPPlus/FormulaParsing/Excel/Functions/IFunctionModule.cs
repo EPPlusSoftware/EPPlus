@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -32,6 +32,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// is created, it should be given a reference to the same function instance that exists
         /// in the Functions collection of this module.
         /// </summary>
-        IDictionary<Type, RpnFunctionCompiler> CustomCompilers { get; }
+        IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
   }
 }

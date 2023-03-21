@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+﻿using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -6,8 +6,8 @@ using System.Text;
 using static OfficeOpenXml.ExcelAddressBase;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         protected void SetFormula(ExcelWorksheet ws, string formula)
         {
             Tokens = _tokenizer.Tokenize(formula);
-            RpnTokens = RpnExpressionGraph.CreateRPNTokens(Tokens);
+            RpnTokens = FormulaExecutor.CreateRPNTokens(Tokens);
         }
         internal FormulaType FormulaType { get; set; }
         public bool FirstCellDeleted { get; set; }  //del1
@@ -162,13 +162,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             };
         }
         //RpnCompiledFormula _compiledExpressions = null;
-        private Dictionary<int, RpnExpression> _compiledExpressions;
+        private Dictionary<int, Expression> _compiledExpressions;
         internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, row, col);
             if (_compiledExpressions == null)
             {
-                _compiledExpressions = RpnExpressionGraph.CompileExpressions(ref RpnTokens, depChain._parsingContext);
+                _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
             }
             return new RpnFormula(_ws, row, col)
             {
@@ -179,11 +179,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 _expressions = CloneExpressions(row, col)
             };
         }
-        private Dictionary<int, RpnExpression> CloneExpressions(int row, int col)
+        private Dictionary<int, Expression> CloneExpressions(int row, int col)
         {
             if (row == StartRow && col == StartCol) return _compiledExpressions;
             
-            var l=new Dictionary<int, RpnExpression>();
+            var l=new Dictionary<int, Expression>();
             foreach(var expression in _compiledExpressions)
             {
                 if(expression.Value.ExpressionType == ExpressionType.CellAddress ||

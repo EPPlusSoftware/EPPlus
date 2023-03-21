@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using Newtonsoft.Json.Linq;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 {
@@ -572,7 +572,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "a1:a2,b:b,1:1";
             var tokens = _tokenizer.Tokenize(input);
-            var rpnTokens = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
             Assert.AreEqual(11, tokens.Count);
             //Assert.AreEqual(TokenType.ExternalReference, tokens[1].TokenType);
             //Assert.AreEqual(TokenType.ClosingBracket, tokens[2].TokenType);

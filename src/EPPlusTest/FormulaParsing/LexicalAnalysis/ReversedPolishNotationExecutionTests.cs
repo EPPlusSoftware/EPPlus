@@ -1,10 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Diagnostics;
@@ -16,7 +14,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
     {
         ExcelPackage _package;
         ParsingContext _parsingContext;
-        RpnExpressionGraph _graph;
+        FormulaExecutor _formulaExecutor;
         private ISourceCodeTokenizer _tokenizer;
        [TestInitialize]
         public void Setup()
@@ -29,7 +27,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             _parsingContext.NameValueProvider = new EpplusNameValueProvider(dataProvider);
             _parsingContext.RangeAddressFactory = new RangeAddressFactory(dataProvider, _parsingContext);
 
-            _graph = new RpnExpressionGraph(_parsingContext);
+            _formulaExecutor = new FormulaExecutor(_parsingContext);
             _tokenizer = OptimizedSourceCodeTokenizer.Default;
             
             

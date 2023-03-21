@@ -12,16 +12,16 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Globalization;
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class RpnIntegerExpression : RpnExpression
+    internal class IntegerExpression : Expression
     {
-        internal RpnIntegerExpression(string tokenValue, ParsingContext ctx) : base(ctx)
+        internal IntegerExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
             var value = double.Parse(tokenValue, CultureInfo.InvariantCulture);
             _cachedCompileResult = new CompileResult(value, DataType.Integer);
         }
-        internal RpnIntegerExpression(CompileResult result, ParsingContext ctx) : base(ctx)
+        internal IntegerExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
         }
@@ -36,11 +36,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         {
             _cachedCompileResult.Negate();
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.CanCompile;
+        } = ExpressionStatus.CanCompile;
     }
 
 }

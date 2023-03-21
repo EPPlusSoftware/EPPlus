@@ -18,23 +18,23 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     /// <summary>
     /// This expression represents a literal array where rows and cols are separated with comma and semicolon.
     /// </summary>
-    internal class RpnEnumerableExpression : RpnExpression
+    internal class EnumerableExpression : Expression
     {
         
         private readonly IRangeInfo _range;
         private bool _isNegated;
 
-        internal RpnEnumerableExpression(CompileResult result, ParsingContext ctx)
+        internal EnumerableExpression(CompileResult result, ParsingContext ctx)
             : base(ctx)
         {
             _cachedCompileResult = result;
         }
-        internal RpnEnumerableExpression(IRangeInfo range, ParsingContext ctx)
+        internal EnumerableExpression(IRangeInfo range, ParsingContext ctx)
             : base(ctx)
         {
             _range = range;
@@ -57,10 +57,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         {
             _isNegated = !_isNegated;
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.CanCompile;
+        } = ExpressionStatus.CanCompile;
     }
 }

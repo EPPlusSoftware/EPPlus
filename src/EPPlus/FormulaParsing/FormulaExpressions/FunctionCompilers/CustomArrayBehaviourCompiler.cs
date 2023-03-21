@@ -18,9 +18,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    internal class CustomArrayBehaviourCompiler : RpnFunctionCompiler
+    internal class CustomArrayBehaviourCompiler : FunctionCompiler
     {
         internal CustomArrayBehaviourCompiler(ExcelFunction function, ParsingContext context)
             : this(function, context, false)
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 
         private readonly bool _handleErrors;
 
-        public override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);
@@ -71,7 +71,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
 
             if(rangeArgs.Count == 0)
             {
-                var defaultCompiler = new RpnDefaultCompiler(Function, Context);
+                var defaultCompiler = new DefaultCompiler(Function, Context);
                 return defaultCompiler.Compile(children);
             }
 
@@ -143,7 +143,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
         }
 
         #region Starting code
-        private CompileResult StartingCode(IEnumerable<RpnExpression> children)
+        private CompileResult StartingCode(IEnumerable<Expression> children)
         {
             var firstChild = children.First();
             var compileResult = firstChild.Compile();
@@ -206,14 +206,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
                 }
                 else
                 {
-                    var defaultCompiler = new RpnDefaultCompiler(Function, Context);
+                    var defaultCompiler = new DefaultCompiler(Function, Context);
                     return defaultCompiler.Compile(children);
                 }
 
             }
             else
             {
-                var defaultCompiler = new RpnDefaultCompiler(Function, Context);
+                var defaultCompiler = new DefaultCompiler(Function, Context);
                 return defaultCompiler.Compile(children);
             }
         }

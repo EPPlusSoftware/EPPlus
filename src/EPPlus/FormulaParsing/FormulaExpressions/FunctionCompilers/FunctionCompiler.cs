@@ -18,9 +18,9 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Collections;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    public abstract class RpnFunctionCompiler
+    public abstract class FunctionCompiler
     {
         protected ExcelFunction Function
         {
@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             private set;
         }
 
-        public RpnFunctionCompiler(ExcelFunction function, ParsingContext context)
+        public FunctionCompiler(ExcelFunction function, ParsingContext context)
         {
             Require.That(function).Named("function").IsNotNull();
             Require.That(context).Named("context").IsNotNull();
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             BuildFunctionArguments(result, result.DataType, args);
         }
 
-        public abstract CompileResult Compile(IEnumerable<RpnExpression> children);
+        public abstract CompileResult Compile(IEnumerable<Expression> children);
 
     }
 }

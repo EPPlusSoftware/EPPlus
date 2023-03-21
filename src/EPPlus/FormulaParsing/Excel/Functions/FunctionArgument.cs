@@ -14,8 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -118,7 +117,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             get
             {
                 var v = ValueFirst;
-                if (v == null) return default(string);
+                if (v == null) return default;
                 return ValueFirst.ToString();
             }
         }

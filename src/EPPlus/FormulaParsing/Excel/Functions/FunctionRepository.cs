@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -23,22 +23,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// </summary>
     public class FunctionRepository : IFunctionNameProvider
     {
-        //private Dictionary<Type, FunctionCompiler> _customCompilers = new Dictionary<Type, FunctionCompiler>();
-        private Dictionary<Type, RpnFunctionCompiler> _rpnCustomCompilers = new Dictionary<Type, RpnFunctionCompiler>();
+        private Dictionary<Type, FunctionCompiler> _customCompilers = new Dictionary<Type, FunctionCompiler>();
 
         private Dictionary<string, ExcelFunction> _functions = new Dictionary<string, ExcelFunction>(StringComparer.Ordinal);
         
-        /// <summary>
-        /// Gets a <see cref="Dictionary{Type, FunctionCompiler}" /> of custom <see cref="FunctionCompiler"/>s.
-        /// </summary>
-        //public Dictionary<Type, FunctionCompiler> CustomCompilers
-        //{
-        //    get { return _customCompilers; }
-        //}
 
-        internal Dictionary<Type, RpnFunctionCompiler> RpnCustomCompilers
+        internal Dictionary<Type, FunctionCompiler> CustomCompilers
         {
-            get { return _rpnCustomCompilers; }
+            get { return _customCompilers; }
         }
 
         private FunctionRepository()
@@ -66,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             foreach (var key in module.CustomCompilers.Keys)
             {
-                RpnCustomCompilers[key] = module.CustomCompilers[key];
+                CustomCompilers[key] = module.CustomCompilers[key];
             }
         }
 

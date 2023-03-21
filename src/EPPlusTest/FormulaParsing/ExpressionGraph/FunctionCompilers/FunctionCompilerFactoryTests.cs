@@ -38,9 +38,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
 {
@@ -59,10 +58,10 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
         public void CreateHandlesStandardFunctionCompiler()
         {
             var functionRepository = FunctionRepository.Create();
-            var functionCompilerFactory = new RpnFunctionCompilerFactory(functionRepository, _context);
+            var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
             var function = new Sum();
             var functionCompiler = functionCompilerFactory.Create(function);
-            Assert.IsInstanceOfType(functionCompiler, typeof(RpnDefaultCompiler));
+            Assert.IsInstanceOfType(functionCompiler, typeof(DefaultCompiler));
         }
 
         //[TestMethod]
@@ -79,40 +78,40 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
         public void CreateHandlesSpecialIfErrorCompiler()
         {
             var functionRepository = FunctionRepository.Create();
-            var functionCompilerFactory = new RpnFunctionCompilerFactory(functionRepository, _context);
+            var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
             var function = new IfError();
             var functionCompiler = functionCompilerFactory.Create(function);
-            Assert.IsInstanceOfType(functionCompiler, typeof(RpnIfErrorFunctionCompiler));
+            Assert.IsInstanceOfType(functionCompiler, typeof(IfErrorFunctionCompiler));
         }
 
         [TestMethod]
         public void CreateHandlesSpecialIfNaCompiler()
         {
             var functionRepository = FunctionRepository.Create();
-            var functionCompilerFactory = new RpnFunctionCompilerFactory(functionRepository, _context);
+            var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
             var function = new IfNa();
             var functionCompiler = functionCompilerFactory.Create(function);
-            Assert.IsInstanceOfType(functionCompiler, typeof(RpnIfNaFunctionCompiler));
+            Assert.IsInstanceOfType(functionCompiler, typeof(IfNaFunctionCompiler));
         }
 
         [TestMethod]
         public void CreateHandlesLookupFunctionCompiler()
         {
             var functionRepository = FunctionRepository.Create();
-            var functionCompilerFactory = new RpnFunctionCompilerFactory(functionRepository, _context);
+            var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
             var function = new Column();
             var functionCompiler = functionCompilerFactory.Create(function);
-            Assert.IsInstanceOfType(functionCompiler, typeof(RpnLookupFunctionCompiler));
+            Assert.IsInstanceOfType(functionCompiler, typeof(LookupFunctionCompiler));
         }
 
         [TestMethod]
         public void CreateHandlesErrorFunctionCompiler()
         {
             var functionRepository = FunctionRepository.Create();
-            var functionCompilerFactory = new RpnFunctionCompilerFactory(functionRepository, _context);
+            var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
             var function = new IsError();
             var functionCompiler = functionCompilerFactory.Create(function);
-            Assert.IsInstanceOfType(functionCompiler, typeof(RpnErrorHandlingFunctionCompiler));
+            Assert.IsInstanceOfType(functionCompiler, typeof(ErrorHandlingFunctionCompiler));
         }
 
         [TestMethod]
@@ -120,7 +119,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
         {
             var functionRepository = FunctionRepository.Create();
             functionRepository.LoadModule(new TestFunctionModule(_context));
-            var functionCompilerFactory = new RpnFunctionCompilerFactory(functionRepository, _context);
+            var functionCompilerFactory = new FunctionCompilerFactory(functionRepository, _context);
             var function = new MyFunction();
             var functionCompiler = functionCompilerFactory.Create(function);
             Assert.IsInstanceOfType(functionCompiler, typeof(MyFunctionCompiler));
@@ -148,10 +147,10 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph.FunctionCompilers
             }
         }
 
-        public class MyFunctionCompiler : RpnFunctionCompiler
+        public class MyFunctionCompiler : FunctionCompiler
         {
             public MyFunctionCompiler(MyFunction function, ParsingContext context) : base(function, context) { }
-            public override CompileResult Compile(IEnumerable<RpnExpression> children)
+            public override CompileResult Compile(IEnumerable<Expression> children)
             {
                 throw new NotImplementedException();
             }

@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    internal class RpnCountIfFunctionCompiler : RpnFunctionCompiler
+    internal class CountIfFunctionCompiler : FunctionCompiler
     {
-        public RpnCountIfFunctionCompiler(ExcelFunction function, ParsingContext context) : base(function, context)
+        public CountIfFunctionCompiler(ExcelFunction function, ParsingContext context) : base(function, context)
         {
         }
 
-        public override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);

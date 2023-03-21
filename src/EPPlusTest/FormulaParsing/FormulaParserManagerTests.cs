@@ -33,8 +33,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 
 namespace EPPlusTest.FormulaParsing
 {
@@ -58,10 +58,10 @@ namespace EPPlusTest.FormulaParsing
                 Functions = new Dictionary<string, ExcelFunction>();
                 Functions.Add("MyFunction", new MyFunction());
 
-                CustomCompilers = new Dictionary<Type, RpnFunctionCompiler>();
+                CustomCompilers = new Dictionary<Type, FunctionCompiler>();
             }
             public IDictionary<string, ExcelFunction> Functions { get; }
-            public IDictionary<Type, RpnFunctionCompiler> CustomCompilers { get; }
+            public IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
         }
         #endregion
 

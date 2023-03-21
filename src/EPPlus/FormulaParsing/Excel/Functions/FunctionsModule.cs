@@ -10,7 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using System;
 using System.Collections.Generic;
 
@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     public abstract class FunctionsModule : IFunctionModule
     {
         private readonly Dictionary<string, ExcelFunction> _functions = new Dictionary<string, ExcelFunction>();
-        private readonly Dictionary<Type, RpnFunctionCompiler> _customCompilers = new Dictionary<Type, RpnFunctionCompiler>();
+        private readonly Dictionary<Type, FunctionCompiler> _customCompilers = new Dictionary<Type, FunctionCompiler>();
 
         /// <summary>
         /// Gets a dictionary of custom function implementations.
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// is created, it should be given a reference to the same function instance that exists
         /// in the Functions collection of this module.
         /// </summary>
-        public IDictionary<Type, RpnFunctionCompiler> CustomCompilers
+        public IDictionary<Type, FunctionCompiler> CustomCompilers
         {
             get { return _customCompilers; }
         }

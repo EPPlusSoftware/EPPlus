@@ -15,10 +15,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal enum ExpressionCondition : byte
     {
@@ -27,26 +27,26 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         True = 1,
         Both = 2
     }
-    internal class RpnFunctionExpression : RpnExpression
+    internal class FunctionExpression : Expression
     {
-        private RpnFunctionCompilerFactory _functionCompilerFactory;
+        private FunctionCompilerFactory _functionCompilerFactory;
         internal ExcelFunction _function;
         internal int _startPos, _endPos;
         internal IList<int> _arguments;
         internal int _argPos=0;
         internal ExpressionCondition _latestConitionValue = ExpressionCondition.None;
         int _negate = 0;
-        internal RpnFunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
+        internal FunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
 
             if (tokenValue.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) tokenValue = tokenValue.Replace("_xlfn.", string.Empty);
             _arguments = new List<int>();
             _startPos = pos;
-            _functionCompilerFactory = new RpnFunctionCompilerFactory(ctx.Configuration.FunctionRepository, ctx);
+            _functionCompilerFactory = new FunctionCompilerFactory(ctx.Configuration.FunctionRepository, ctx);
             _function = ctx.Configuration.FunctionRepository.GetFunction(tokenValue);
             //var compiler = _functionCompilerFactory.Create(_function);
         }
-        private RpnFunctionExpression(ParsingContext ctx) : base(ctx)
+        private FunctionExpression(ParsingContext ctx) : base(ctx)
         {
 
         }
@@ -62,8 +62,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 _negate *= -1;
             }
         }
-        IList<RpnExpression> _args=null;
-        internal void SetArguments(IList<RpnExpression> args)
+        IList<Expression> _args=null;
+        internal void SetArguments(IList<Expression> args)
         {
             _args = args;
         }
@@ -79,7 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 if(_function==null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
                 var compiler = _functionCompilerFactory.Create(_function);
-                var result = compiler.Compile(_args??Enumerable.Empty<RpnExpression>());
+                var result = compiler.Compile(_args??Enumerable.Empty<Expression>());
                 if (_negate!=0)
                 {
                     if (result.IsNumeric==false)
@@ -113,20 +113,20 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             if(i < _arguments.Count ) return _arguments[i];
             return -1;
         }
-        internal override RpnExpression CloneWithOffset(int row, int col)
+        internal override Expression CloneWithOffset(int row, int col)
         {
             if(_function==null || _function.HasNormalArguments)
             {
                 return this;
             }
-            return new RpnFunctionExpression(Context) { _arguments = _arguments, _function = _function, _functionCompilerFactory = _functionCompilerFactory, _startPos = _startPos, _endPos = _endPos  };
+            return new FunctionExpression(Context) { _arguments = _arguments, _function = _function, _functionCompilerFactory = _functionCompilerFactory, _startPos = _startPos, _endPos = _endPos  };
         }
-        private RpnExpressionStatus _status= RpnExpressionStatus.NoSet;
-        internal override RpnExpressionStatus Status
+        private ExpressionStatus _status= ExpressionStatus.NoSet;
+        internal override ExpressionStatus Status
         {
             get
             {
-                if(_status==RpnExpressionStatus.NoSet)
+                if(_status==ExpressionStatus.NoSet)
                 {
                     //foreach(var a in _arguments)
                     //{
@@ -136,7 +136,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     //        return _status;
                     //    }
                     //}
-                    _status= RpnExpressionStatus.CanCompile;
+                    _status= ExpressionStatus.CanCompile;
                 }
                 return _status;
             }

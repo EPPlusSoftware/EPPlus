@@ -12,25 +12,25 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Globalization;
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class RpnErrorExpression : RpnExpression
+    internal class ErrorExpression : Expression
     {
-        internal static RpnErrorExpression RefError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Ref), null);
-        internal static RpnErrorExpression ValueError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Value), null);
-        internal static RpnErrorExpression NaError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.NA), null);
-        internal static RpnErrorExpression NameError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Name), null);
-        internal static RpnErrorExpression NumError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Num), null);
-        internal static RpnErrorExpression NullError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Null), null);
-        internal static RpnErrorExpression Div0Error => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Div0), null);
-        internal static RpnErrorExpression CalcError => new RpnErrorExpression(CompileResult.GetErrorResult(eErrorType.Calc), null);
+        internal static ErrorExpression RefError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Ref), null);
+        internal static ErrorExpression ValueError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Value), null);
+        internal static ErrorExpression NaError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.NA), null);
+        internal static ErrorExpression NameError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Name), null);
+        internal static ErrorExpression NumError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Num), null);
+        internal static ErrorExpression NullError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Null), null);
+        internal static ErrorExpression Div0Error => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Div0), null);
+        internal static ErrorExpression CalcError => new ErrorExpression(CompileResult.GetErrorResult(eErrorType.Calc), null);
 
-        internal RpnErrorExpression(string tokenValue, ParsingContext ctx) : base(ctx)
+        internal ErrorExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
             var value = ExcelErrorValue.Parse(tokenValue);
             _cachedCompileResult = new CompileResult(value, DataType.ExcelError);
         }
-        internal RpnErrorExpression(CompileResult result, ParsingContext ctx) : base(ctx)
+        internal ErrorExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
         }
@@ -45,10 +45,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         {
             _cachedCompileResult.Negate();
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.CanCompile;
+        } = ExpressionStatus.CanCompile;
     }
 }

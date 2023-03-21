@@ -31,9 +31,9 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions
 {
@@ -46,10 +46,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
         {
             var functionRepository = FunctionRepository.Create();
             Assert.IsFalse(functionRepository.IsFunctionName(MyFunction.Name));
-            Assert.IsFalse(functionRepository.RpnCustomCompilers.ContainsKey(typeof(MyFunction)));
+            Assert.IsFalse(functionRepository.CustomCompilers.ContainsKey(typeof(MyFunction)));
             functionRepository.LoadModule(new TestFunctionModule());
             Assert.IsTrue(functionRepository.IsFunctionName(MyFunction.Name));
-            Assert.IsTrue(functionRepository.RpnCustomCompilers.ContainsKey(typeof(MyFunction)));
+            Assert.IsTrue(functionRepository.CustomCompilers.ContainsKey(typeof(MyFunction)));
             // Make sure reloading the module overwrites previous functions and compilers
             functionRepository.LoadModule(new TestFunctionModule());
         }
@@ -76,10 +76,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             }
         }
 
-        public class MyFunctionCompiler : RpnFunctionCompiler
+        public class MyFunctionCompiler : FunctionCompiler
         {
             public MyFunctionCompiler(MyFunction function, ParsingContext context) : base(function, context) { }
-            public override CompileResult Compile(IEnumerable<RpnExpression> children)
+            public override CompileResult Compile(IEnumerable<Expression> children)
             {
                 throw new NotImplementedException();
             }

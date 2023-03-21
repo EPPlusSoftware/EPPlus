@@ -15,37 +15,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    internal class RpnLookupFunctionCompiler : RpnFunctionCompiler
+    internal class IfErrorFunctionCompiler : FunctionCompiler
     {
-        internal RpnLookupFunctionCompiler(ExcelFunction function, ParsingContext context)
+        internal IfErrorFunctionCompiler(ExcelFunction function, ParsingContext context)
             : base(function, context)
         {
-
+            Require.That(function).Named("function").IsNotNull();
+          
         }
 
-        public override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children)
         {
+            if (children.Count() != 2) throw new ExcelErrorValueException(eErrorType.Value);
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);
-            for(var x = 0; x < children.Count(); x++)
+            var firstChild = children.First();
+            var lastChild = children.ElementAt(1);
+            try
             {
-                var child = children.ElementAt(x);
-                //if (x > 0 || Function.SkipArgumentEvaluation)
-                //{
-                //    child.ParentIsLookupFunction = Function.IsLookupFuction;
-                //}
-                var arg = child.Compile();
-                if (arg != null)
+                var result = firstChild.Compile();
+                if (result.DataType == DataType.ExcelError)
                 {
-                    BuildFunctionArguments(arg, arg.DataType, args);
+                    args.Add(new FunctionArgument(lastChild.Compile().Result));
                 }
                 else
                 {
-                    BuildFunctionArguments(null, DataType.Unknown, args);
-                } 
+                    args.Add(new FunctionArgument(result.Result)); 
+                }
+                
+            }
+            catch (ExcelErrorValueException)
+            {
+                args.Add(new FunctionArgument(lastChild.Compile().Result));
             }
             return Function.Execute(args, Context);
         }

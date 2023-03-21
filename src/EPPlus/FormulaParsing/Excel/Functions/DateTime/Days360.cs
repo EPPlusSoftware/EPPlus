@@ -16,7 +16,7 @@ using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime.Implementations;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {

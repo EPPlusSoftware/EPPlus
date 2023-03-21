@@ -12,21 +12,20 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Globalization;
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class RpnDecimalExpression : RpnExpression
+    internal class StringExpression : Expression
     {
-        internal RpnDecimalExpression(string tokenValue, ParsingContext ctx) : base(ctx)
+        internal StringExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
-            var value = double.Parse(tokenValue, CultureInfo.InvariantCulture);
-            _cachedCompileResult = new CompileResult(value, DataType.Decimal);
+            _cachedCompileResult = new CompileResult(tokenValue.Substring(1,tokenValue.Length-2).Replace("\"\"", "\""), DataType.String); //Remove double quotes and 
         }
-        internal RpnDecimalExpression(CompileResult result, ParsingContext ctx) : base(ctx)
+        internal StringExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
         }
 
-        internal override ExpressionType ExpressionType => ExpressionType.Decimal;
+        internal override ExpressionType ExpressionType => ExpressionType.String;
 
         public override CompileResult Compile()
         {
@@ -36,10 +35,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         {
             _cachedCompileResult.Negate();
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.CanCompile;
+        } = ExpressionStatus.CanCompile;
     }
 }
+
+

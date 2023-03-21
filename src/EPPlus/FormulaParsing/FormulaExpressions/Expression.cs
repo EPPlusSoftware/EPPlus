@@ -17,12 +17,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using static OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.RpnExpressionGraph;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     [Flags]
-    internal enum RpnExpressionStatus : short
+    internal enum ExpressionStatus : short
     {
         NoSet = 0,
         CanCompile = 1,
@@ -30,27 +29,27 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         OnExpressionList = 4,
         FunctionArgument = 8
     }
-    internal class RpnEmptyExpression : RpnExpression
+    internal class EmptyExpression : Expression
     {
         internal override ExpressionType ExpressionType => ExpressionType.Empty;
         public override CompileResult Compile()
         {
             return CompileResult.Empty;
         }
-        internal override RpnExpressionStatus Status { get; set; }
+        internal override ExpressionStatus Status { get; set; }
     }
-    public abstract class RpnExpression
+    public abstract class Expression
     {
         protected CompileResult _cachedCompileResult;
         internal Operators Operator;
-        internal static RpnEmptyExpression Empty=new RpnEmptyExpression();
+        internal static EmptyExpression Empty=new EmptyExpression();
 
         protected ParsingContext Context { get; private set; }
         internal abstract ExpressionType ExpressionType { get; }
-        internal RpnExpression()
+        internal Expression()
         {
         }
-        public RpnExpression(ParsingContext ctx)
+        public Expression(ParsingContext ctx)
         {
             Context = ctx;
         }
@@ -60,12 +59,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 
         }
 
-        internal virtual RpnExpression CloneWithOffset(int row, int col)
+        internal virtual Expression CloneWithOffset(int row, int col)
         {
             return this;
         }
 
-        internal abstract RpnExpressionStatus Status { get; set; }
+        internal abstract ExpressionStatus Status { get; set; }
         public virtual FormulaRangeAddress GetAddress() { return null; }
 
         internal virtual void MergeAddress(string address)

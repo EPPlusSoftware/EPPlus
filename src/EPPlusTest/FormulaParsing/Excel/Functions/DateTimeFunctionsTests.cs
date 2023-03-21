@@ -37,7 +37,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using EPPlusTest.FormulaParsing.TestHelpers;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace EPPlusTest.Excel.Functions

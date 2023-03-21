@@ -16,18 +16,17 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    internal class RpnErrorHandlingFunctionCompiler : RpnFunctionCompiler
+    internal class ErrorHandlingFunctionCompiler : FunctionCompiler
     {
-        internal RpnErrorHandlingFunctionCompiler(ExcelFunction function, ParsingContext context)
+        internal ErrorHandlingFunctionCompiler(ExcelFunction function, ParsingContext context)
             : base(function, context)
         {
 
         }
-        public override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);

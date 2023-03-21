@@ -23,10 +23,9 @@ using System.Text;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Xml.Linq;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -568,8 +567,8 @@ namespace OfficeOpenXml.ExternalReferences
         {
             var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula);
 
-            IList<Token> rpnTokens = RpnExpressionGraph.CreateRPNTokens(tokens);
-            var expressions = RpnExpressionGraph.CompileExpressions(ref rpnTokens, wb.FormulaParser.ParsingContext);
+            IList<Token> rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
+            var expressions = FormulaExecutor.CompileExpressions(ref rpnTokens, wb.FormulaParser.ParsingContext);
 
             foreach(var e in expressions.Values)
             {
@@ -588,7 +587,7 @@ namespace OfficeOpenXml.ExternalReferences
                 }
                 else if (e.ExpressionType == ExpressionType.NameValue)
                 {                    
-                    var ne = (RpnNamedValueExpression)e;
+                    var ne = (NamedValueExpression)e;
                     if (ne._externalReferenceIx > 0)
                     {
                         if (_wb.ExternalLinks[ne._externalReferenceIx-1] == this)

@@ -10,41 +10,42 @@
  *************************************************************************************************
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System.Data;
+using System.Linq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class RpnBooleanExpression : RpnExpression
+    internal class FunctionArgumentExpression : Expression
     {
-        internal RpnBooleanExpression(string tokenValue, ParsingContext ctx) : base(ctx)
+        bool _negate=false;
+        internal int _startPos, _endPos;
+        internal FunctionArgumentExpression(ParsingContext ctx, int startPos) : base(ctx)
         {
-            var value = bool.Parse(tokenValue);
-            _cachedCompileResult = new CompileResult(value, DataType.Boolean);
+            _startPos = startPos;
         }
-        internal RpnBooleanExpression(CompileResult result, ParsingContext ctx) : base(ctx)
-        {
-            _cachedCompileResult = result;
-        }
-
-        public RpnBooleanExpression(ParsingContext ctx) : base(ctx)
-        {
-        }
-
-        internal override ExpressionType ExpressionType => ExpressionType.Boolean;
-
-        public override CompileResult Compile()
-        {
-            return _cachedCompileResult;
-        }
+        internal override ExpressionType ExpressionType => ExpressionType.Function;
         public override void Negate()
         {
-            _cachedCompileResult.Negate();
+            _negate = !_negate;
         }
-        internal override RpnExpressionStatus Status
+        public override CompileResult Compile()
         {
-            get;
-            set;
-        } = RpnExpressionStatus.CanCompile;
+            return new CompileResult(0, DataType.Empty);
+        }
+        private ExpressionStatus _status= ExpressionStatus.FunctionArgument;
+        internal override ExpressionStatus Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                _status = value;
+            }
+        }
     }
+
 }

@@ -7,18 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    internal class RpnCountIfsCompiler : RpnFunctionCompiler
+    internal class CountIfsCompiler : FunctionCompiler
     {
-        public RpnCountIfsCompiler(ExcelFunction function, ParsingContext context) : base(function, context)
+        public CountIfsCompiler(ExcelFunction function, ParsingContext context) : base(function, context)
         {
             _evaluator =  new ExpressionEvaluator(context);
         }
 
         private readonly ExpressionEvaluator _evaluator;
 
-        public override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);

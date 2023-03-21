@@ -29,7 +29,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace EPPlusTest.FormulaParsing.ExpressionGraph
 {

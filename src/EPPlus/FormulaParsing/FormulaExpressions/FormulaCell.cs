@@ -12,17 +12,17 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class RpnFormulaCell
+    internal class FormulaCell
     {
-        public RpnFormulaCell()
+        public FormulaCell()
         {
-            _expressionStack = new Stack<RpnExpression>();
-            _funcStackPosition = new Stack<RpnFunctionExpression>();
+            _expressionStack = new Stack<Expression>();
+            _funcStackPosition = new Stack<FunctionExpression>();
         }
-        internal Stack<RpnExpression> _expressionStack;
-        internal Stack<RpnFunctionExpression> _funcStackPosition;
+        internal Stack<Expression> _expressionStack;
+        internal Stack<FunctionExpression> _funcStackPosition;
 
     }
 }

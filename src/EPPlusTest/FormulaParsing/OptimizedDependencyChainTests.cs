@@ -2,7 +2,7 @@
 //using OfficeOpenXml;
 //using OfficeOpenXml.FormulaParsing;
 //using OfficeOpenXml.FormulaParsing.Exceptions;
-//using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+//using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 //using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 //namespace EPPlusTest.FormulaParsing

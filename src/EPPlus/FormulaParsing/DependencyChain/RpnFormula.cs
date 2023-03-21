@@ -1,23 +1,10 @@
 ﻿using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing
 {
-    internal class RpnFunction        
-    {
-        public RpnFunction(int startPos, string function)
-        {
-            _startPos = startPos;
-            _function = function;
-        }
-        internal int _startPos;
-        internal string _function;
-        internal List<short> _arguments;
-    }
     internal class RpnFormula
     {
         internal ExcelWorksheet _ws;
@@ -25,11 +12,11 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _column;
         internal string _formula;
         internal IList<Token> _tokens;
-        internal Dictionary<int, RpnExpression> _expressions;
+        internal Dictionary<int, Expression> _expressions;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal int _tokenIndex = 0;
-        internal Stack<RpnExpression> _expressionStack;
-        internal Stack<RpnFunctionExpression> _funcStack;
+        internal Stack<Expression> _expressionStack;
+        internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
         internal bool _isDynamic = false;
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
@@ -37,8 +24,8 @@ namespace OfficeOpenXml.FormulaParsing
             _ws = ws;
             _row = row;
             _column = column;
-            _expressionStack = new Stack<RpnExpression>();
-            _funcStack = new Stack<RpnFunctionExpression>();
+            _expressionStack = new Stack<Expression>();
+            _funcStack = new Stack<FunctionExpression>();
         }
 
         internal string GetAddress()
@@ -54,9 +41,9 @@ namespace OfficeOpenXml.FormulaParsing
         internal void SetFormula(string formula, RpnOptimizedDependencyChain depChain)
         {
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
-            _tokens = RpnExpressionGraph.CreateRPNTokens(depChain._tokenizer.Tokenize(formula));
+            _tokens = FormulaExecutor.CreateRPNTokens(depChain._tokenizer.Tokenize(formula));
             _formula= formula;
-            _expressions = RpnExpressionGraph.CompileExpressions(ref _tokens, depChain._parsingContext);
+            _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
         }
         public override string ToString()
         {

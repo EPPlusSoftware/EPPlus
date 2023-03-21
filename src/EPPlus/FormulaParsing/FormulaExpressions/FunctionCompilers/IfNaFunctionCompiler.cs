@@ -15,24 +15,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.Utilities;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
 {
-    internal class RpnIfErrorFunctionCompiler : RpnFunctionCompiler
+    internal class IfNaFunctionCompiler : FunctionCompiler
     {
-        internal RpnIfErrorFunctionCompiler(ExcelFunction function, ParsingContext context)
-            : base(function, context)
+        internal IfNaFunctionCompiler(ExcelFunction function, ParsingContext context)
+            :base(function, context)
         {
-            Require.That(function).Named("function").IsNotNull();
-          
+            
         }
 
-        public override CompileResult Compile(IEnumerable<RpnExpression> children)
+        public override CompileResult Compile(IEnumerable<Expression> children)
         {
-            if (children.Count() != 2) throw new ExcelErrorValueException(eErrorType.Value);
+            if (children.Count() != 2) return new CompileResult(eErrorType.Value);
             var args = new List<FunctionArgument>();
             Function.BeforeInvoke(Context);
             var firstChild = children.First();
@@ -40,15 +37,16 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             try
             {
                 var result = firstChild.Compile();
-                if (result.DataType == DataType.ExcelError)
+                if (result.DataType == DataType.ExcelError && (Equals(result.Result,
+                    ExcelErrorValue.Create(eErrorType.NA))))
                 {
                     args.Add(new FunctionArgument(lastChild.Compile().Result));
                 }
                 else
                 {
-                    args.Add(new FunctionArgument(result.Result)); 
+                    args.Add(new FunctionArgument(result.Result));
                 }
-                
+
             }
             catch (ExcelErrorValueException)
             {

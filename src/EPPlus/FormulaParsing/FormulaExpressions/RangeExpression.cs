@@ -1,33 +1,27 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using OfficeOpenXml.Packaging.Ionic;
 using OfficeOpenXml.Utils;
-using System;
 using System.Diagnostics;
-using System.Threading;
-using Operators = OfficeOpenXml.FormulaParsing.Excel.Operators.Operators;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     [DebuggerDisplay("RpnRangeExpression: {_addressInfo.Address}")]
-    internal class RpnRangeExpression : RpnExpression
+    internal class RangeExpression : Expression
     {
         protected FormulaRangeAddress _addressInfo;
         protected int _negate;
-        internal RpnRangeExpression(CompileResult result, ParsingContext ctx) : base(ctx)
+        internal RangeExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
             _addressInfo = result.Address;
             _negate = 0;
         }
-        internal RpnRangeExpression(FormulaRangeAddress address, int negate) : base(address._context)
+        internal RangeExpression(FormulaRangeAddress address, int negate) : base(address._context)
         {
             _addressInfo = address;
             _negate = negate;
         }
-        public RpnRangeExpression(string address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
+        public RangeExpression(string address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
         {
             _addressInfo = new FormulaRangeAddress(ctx) { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx < 0 ? ctx.CurrentCell.WorksheetIx : worksheetIx };
             ExcelCellBase.GetRowColFromAddress(address, out int fromRow, out int fromCol, out int toRow, out int toCol, out bool fixedFromRow, out bool fixedFromCol, out bool fixedToRow, out bool fixedToCol);
@@ -115,12 +109,12 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 _negate *= -1;
             }
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.IsAddress;
-        internal override RpnExpression CloneWithOffset(int row, int col)
+        } = ExpressionStatus.IsAddress;
+        internal override Expression CloneWithOffset(int row, int col)
         {
             var fa = new FormulaRangeAddress(Context)
             {
@@ -131,7 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 FromCol = (_addressInfo.FixedFlag & FixedFlag.FromColFixed) == FixedFlag.FromColFixed ? _addressInfo.FromCol : _addressInfo.FromCol + col,
                 ToCol = (_addressInfo.FixedFlag & FixedFlag.ToColFixed) == FixedFlag.ToColFixed ? _addressInfo.ToCol : _addressInfo.ToCol + col,
             };
-            return new RpnRangeExpression(fa, _negate)
+            return new RangeExpression(fa, _negate)
             {
                 Status = Status,                
                 Operator= Operator

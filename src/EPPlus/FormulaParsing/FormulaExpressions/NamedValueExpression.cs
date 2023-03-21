@@ -15,18 +15,17 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
 using OfficeOpenXml.Utils;
 
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class RpnNamedValueExpression : RpnExpression
+    internal class NamedValueExpression : Expression
     {
         internal short _externalReferenceIx;
         internal int _worksheetIx;
         internal INameInfo _name;        
         int _negate = 0; //0 if no negation is performed. -1 or 1 if the value should be negated. In this case the value is converted to a double and negated. If the value is non numeric #VALUE is returned.
-        public RpnNamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
+        public NamedValueExpression(string name, ParsingContext parsingContext, short externalReferenceIx, int worksheetIx) : base(parsingContext)
         {
             _externalReferenceIx = externalReferenceIx;
             _worksheetIx = worksheetIx;
@@ -135,10 +134,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
             }
             return null;
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.CanCompile;
+        } = ExpressionStatus.CanCompile;
     }
 }

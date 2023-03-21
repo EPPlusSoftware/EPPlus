@@ -1,13 +1,10 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
-using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using System;
@@ -36,21 +33,21 @@ namespace OfficeOpenXml.FormulaParsing
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
         internal List<CircularReference> _circularReferences = new List<CircularReference>();
         internal ISourceCodeTokenizer _tokenizer;
-        internal RpnExpressionGraph _graph;
+        internal FormulaExecutor _formulaExecutor;
         internal ParsingContext _parsingContext;
-        internal RpnFunctionCompilerFactory _functionCompilerFactory;
+        internal FunctionCompilerFactory _functionCompilerFactory;
         internal bool HasDynamicArrayFormula=false;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             _tokenizer = OptimizedSourceCodeTokenizer.Default;
             _parsingContext = wb.FormulaParser.ParsingContext;
-            _graph = new RpnExpressionGraph(_parsingContext);
+            _formulaExecutor = new FormulaExecutor(_parsingContext);
 
             var parser = wb.FormulaParser;
             var filterInfo = new FilterInfo(wb);
             parser.InitNewCalc(filterInfo);
 
-            _functionCompilerFactory = new RpnFunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
+            _functionCompilerFactory = new FunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
             
             wb.FormulaParser.Configure(config =>
             {
@@ -356,7 +353,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         if (address == null && f._expressions.ContainsKey(f._tokenIndex) &&  f._expressions[f._tokenIndex].ExpressionType == ExpressionType.NameValue)
                         {
-                            var ne = f._expressions[f._tokenIndex] as RpnNamedValueExpression;
+                            var ne = f._expressions[f._tokenIndex] as NamedValueExpression;
                             if (ne._externalReferenceIx < 1)
                             {
                                 rd = AddAddressToRD(depChain, ne._worksheetIx);
@@ -365,7 +362,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     depChain._formulaStack.Push(f);
                                     ws = ne._worksheetIx < 0 ? null : depChain._parsingContext.Package.Workbook._worksheets[ne._worksheetIx];
-                                    f = GetNameFormula(depChain, ws, ((RpnNamedValueExpression)f._expressions[f._tokenIndex])._name);
+                                    f = GetNameFormula(depChain, ws, ((NamedValueExpression)f._expressions[f._tokenIndex])._name);
                                     goto ExecuteFormula;
                                 }
                                 else
@@ -692,7 +689,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.NameValue:
-                        var ne = (RpnNamedValueExpression)f._expressions[f._tokenIndex];
+                        var ne = (NamedValueExpression)f._expressions[f._tokenIndex];
                         s.Push(ne);
                         if (ne._name != null)
                         {
@@ -717,7 +714,7 @@ namespace OfficeOpenXml.FormulaParsing
                             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
                             {
                                 //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
-                                f._expressionStack.Push(new RpnEmptyExpression());                                
+                                f._expressionStack.Push(new EmptyExpression());                                
                             }
                             var pi = fexp._function.GetParameterInfo(fexp._argPos++);
                             if (pi == FunctionParameterInformation.Condition)
@@ -750,11 +747,11 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.StartFunctionArguments:
-                        var fe = (RpnFunctionExpression)f._expressions[f._tokenIndex];
+                        var fe = (FunctionExpression)f._expressions[f._tokenIndex];
                         if(fe._function==null)  //Function does not exists. Push #NAME?
                         {
                             f._tokenIndex = fe._endPos;
-                            f._expressionStack.Push(new RpnErrorExpression(new CompileResult(eErrorType.Name), depChain._parsingContext));
+                            f._expressionStack.Push(new ErrorExpression(new CompileResult(eErrorType.Name), depChain._parsingContext));
                             break;
                         }
                         f._funcStack.Push(fe);
@@ -766,16 +763,16 @@ namespace OfficeOpenXml.FormulaParsing
                         ApplyPercent(depChain._parsingContext, f);
                         break;
                     case TokenType.InvalidReference:
-                        s.Push(RpnErrorExpression.RefError);
+                        s.Push(ErrorExpression.RefError);
                         break;
                     case TokenType.ValueDataTypeError:
-                        s.Push(RpnErrorExpression.ValueError);
+                        s.Push(ErrorExpression.ValueError);
                         break;
                     case TokenType.NumericError:
-                        s.Push(RpnErrorExpression.NumError);
+                        s.Push(ErrorExpression.NumError);
                         break;
                     case TokenType.NAError:
-                        s.Push(RpnErrorExpression.NaError);
+                        s.Push(ErrorExpression.NaError);
                         break;
                 }
                 f._tokenIndex++;
@@ -820,15 +817,15 @@ namespace OfficeOpenXml.FormulaParsing
             var e = f._expressionStack.Pop();
             var v=e.Compile().ResultNumeric;
             v /= 100;
-            f._expressionStack.Push(new RpnDecimalExpression(new CompileResult(v, DataType.Decimal), context));
+            f._expressionStack.Push(new DecimalExpression(new CompileResult(v, DataType.Decimal), context));
         }
 
-        private static bool ShouldIgnoreAddress(RpnFunctionExpression fe)
+        private static bool ShouldIgnoreAddress(FunctionExpression fe)
         {
             return !(fe._function.HasNormalArguments || fe._function.GetParameterInfo(fe._argPos)!=FunctionParameterInformation.IgnoreAddress);
         }
 
-        private static int GetNextTokenPosFromCondition(RpnFormula f, RpnFunctionExpression fexp)
+        private static int GetNextTokenPosFromCondition(RpnFormula f, FunctionExpression fexp)
         {
             if(fexp._argPos < fexp._arguments.Count)
             {
@@ -839,7 +836,7 @@ namespace OfficeOpenXml.FormulaParsing
                     ))
                 {
                     fexp._argPos++;
-                    f._expressionStack.Push(RpnExpression.Empty);  //This expression is not used.
+                    f._expressionStack.Push(Expression.Empty);  //This expression is not used.
                     fe = fexp._function.GetParameterInfo(fexp._argPos);
                 }
                 if(fexp._argPos < fexp._arguments.Count)
@@ -883,12 +880,12 @@ namespace OfficeOpenXml.FormulaParsing
             catch(ExcelErrorValueException e)
             {
                 result = new CompileResult(e.ErrorValue, DataType.ExcelError);
-                f._expressionStack.Push(new RpnErrorExpression(result, depChain._parsingContext));
+                f._expressionStack.Push(new ErrorExpression(result, depChain._parsingContext));
             }
             catch
             {
                 result = CompileResult.GetErrorResult(eErrorType.Value);
-                f._expressionStack.Push(RpnErrorExpression.ValueError);
+                f._expressionStack.Push(ErrorExpression.ValueError);
             }
             return result;
         }
@@ -897,30 +894,30 @@ namespace OfficeOpenXml.FormulaParsing
             switch (result.DataType)
             {
                 case DataType.Boolean:
-                    f._expressionStack.Push(new RpnBooleanExpression(result, context));
+                    f._expressionStack.Push(new BooleanExpression(result, context));
                     break;
                 case DataType.Integer:
-                    f._expressionStack.Push(new RpnDecimalExpression(result, context));
+                    f._expressionStack.Push(new DecimalExpression(result, context));
                     break;
                 case DataType.Decimal:
                 case DataType.Date:
                 case DataType.Time:
-                    f._expressionStack.Push(new RpnDecimalExpression(result, context));
+                    f._expressionStack.Push(new DecimalExpression(result, context));
                     break;
                 case DataType.String:
-                    f._expressionStack.Push(new RpnStringExpression(result, context));
+                    f._expressionStack.Push(new StringExpression(result, context));
                     break;
                 case DataType.ExcelError:
-                    f._expressionStack.Push(new RpnErrorExpression(result, context));
+                    f._expressionStack.Push(new ErrorExpression(result, context));
                     break;
                 case DataType.ExcelRange:
-                    f._expressionStack.Push(new RpnRangeExpression(result, context));
+                    f._expressionStack.Push(new RangeExpression(result, context));
                     break;
                 //case DataType.Enumerable:
                 //    f._expressionStack.Push(new RpnEnumerableExpression(result, context));
                 //    break;
                 case DataType.Empty:
-                    f._expressionStack.Push(RpnExpression.Empty);
+                    f._expressionStack.Push(Expression.Empty);
                     break;
                 default:
                     throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");
@@ -928,12 +925,12 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
 
-        private static IList<RpnExpression> GetFunctionArguments(RpnFormula f, RpnFunctionExpression func)
+        private static IList<Expression> GetFunctionArguments(RpnFormula f, FunctionExpression func)
         {
-            var list = new List<RpnExpression>();
+            var list = new List<Expression>();
             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
             {
-                f._expressionStack.Push(new RpnEmptyExpression());
+                f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
             for(int i=0;i<func._arguments.Count;i++)
@@ -941,7 +938,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var si = s.Pop();
                 if(si.ExpressionType!=ExpressionType.Empty)
                 {
-                    si.Status |= RpnExpressionStatus.FunctionArgument;
+                    si.Status |= ExpressionStatus.FunctionArgument;
                 }
                 list.Insert(0, si);
             }

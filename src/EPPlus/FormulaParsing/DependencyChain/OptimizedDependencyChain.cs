@@ -1,8 +1,8 @@
 ﻿//using OfficeOpenXml.Core.CellStore;
 //using OfficeOpenXml.FormulaParsing.Excel.Functions;
 //using OfficeOpenXml.FormulaParsing.Exceptions;
-//using OfficeOpenXml.FormulaParsing.ExpressionGraph;
-//using OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers;
+//using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+//using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 //using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 //using System;
 //using System.Collections.Generic;

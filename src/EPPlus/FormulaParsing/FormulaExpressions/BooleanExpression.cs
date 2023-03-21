@@ -11,21 +11,27 @@
   11/07/2022         EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System.Globalization;
-namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
+using System.Data;
+
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class RpnStringExpression : RpnExpression
+    internal class BooleanExpression : Expression
     {
-        internal RpnStringExpression(string tokenValue, ParsingContext ctx) : base(ctx)
+        internal BooleanExpression(string tokenValue, ParsingContext ctx) : base(ctx)
         {
-            _cachedCompileResult = new CompileResult(tokenValue.Substring(1,tokenValue.Length-2).Replace("\"\"", "\""), DataType.String); //Remove double quotes and 
+            var value = bool.Parse(tokenValue);
+            _cachedCompileResult = new CompileResult(value, DataType.Boolean);
         }
-        internal RpnStringExpression(CompileResult result, ParsingContext ctx) : base(ctx)
+        internal BooleanExpression(CompileResult result, ParsingContext ctx) : base(ctx)
         {
             _cachedCompileResult = result;
         }
 
-        internal override ExpressionType ExpressionType => ExpressionType.String;
+        public BooleanExpression(ParsingContext ctx) : base(ctx)
+        {
+        }
+
+        internal override ExpressionType ExpressionType => ExpressionType.Boolean;
 
         public override CompileResult Compile()
         {
@@ -35,12 +41,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
         {
             _cachedCompileResult.Negate();
         }
-        internal override RpnExpressionStatus Status
+        internal override ExpressionStatus Status
         {
             get;
             set;
-        } = RpnExpressionStatus.CanCompile;
+        } = ExpressionStatus.CanCompile;
     }
 }
-
-
