@@ -161,13 +161,11 @@ namespace OfficeOpenXml.FormulaParsing
             var filterInfo = new FilterInfo(range.Worksheet.Workbook);
             _parser.InitNewCalc(filterInfo);
             var opt = options != null ? options : new ExcelCalculationOption();
-            var dc = DependencyChainFactory.Create(range, opt);
+            var dc=RpnFormulaExecution.Execute(range, opt);
             var result = new List<IFormulaCellInfo>();
-            foreach(var co in dc.CalcOrder)
+            foreach(var f in dc._formulas)
             {
-                var fc = dc.list[co];
-                var adr = new ExcelAddress(fc.Row, fc.Column, fc.Row, fc.Column);
-                var fi = new FormulaCellInfo(fc.ws.Name, adr.Address, fc.Formula);
+                var fi = new FormulaCellInfo(f._ws.Name, ExcelCellBase.GetAddress(f._row, f._column), f._formula);
                 result.Add(fi);
             }
             return result;

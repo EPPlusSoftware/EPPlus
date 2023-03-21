@@ -100,7 +100,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
-        public void ShouldReturnCalcChain()
+       public void ShouldReturnCalcChain()
         {
             using(var package = new ExcelPackage())
             {

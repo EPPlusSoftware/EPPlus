@@ -257,11 +257,10 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"+-3-3";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(4, tokens.Count());
-            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Integer));
+            Assert.AreEqual(3, tokens.Count());
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
         }
 
         [TestMethod]

@@ -79,21 +79,13 @@ namespace OfficeOpenXml.Table
 
         private string ReplaceTableName(string formula, string prevName, string name)
         {
-            var tokens = _tbl.WorkSheet.Workbook.FormulaParser.Lexer.Tokenize(formula);
+            var tokens = _tbl.WorkSheet.Workbook.FormulaParser.Tokenizer.Tokenize(formula);
             var f = "";
             foreach (var t in tokens)
             {
-                if (t.TokenTypeIsSet(TokenType.ExcelAddress))
+                if (t.TokenTypeIsSet(TokenType.TableName) && t.Value.Equals(prevName))
                 {
-                    var a = new ExcelAddressBase(t.Value);
-                    if (a.Table == null)
-                    {
-                        f += t.Value;
-                    }
-                    else
-                    {
-                        f += a.ChangeTableName(prevName, name);
-                    }
+                    f += name;
                 }
                 else
                 {
@@ -105,3 +97,4 @@ namespace OfficeOpenXml.Table
         }
     }
 }
+

@@ -168,7 +168,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, row, col);
             if (_compiledExpressions == null)
             {
-                _compiledExpressions = depChain._graph.CompileExpressions(ref RpnTokens);
+                _compiledExpressions = RpnExpressionGraph.CompileExpressions(ref RpnTokens, depChain._parsingContext);
             }
             return new RpnFormula(_ws, row, col)
             {

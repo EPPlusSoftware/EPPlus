@@ -39,6 +39,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal RpnExpressionGraph _graph;
         internal ParsingContext _parsingContext;
         internal RpnFunctionCompilerFactory _functionCompilerFactory;
+        internal bool HasDynamicArrayFormula=false;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             _tokenizer = OptimizedSourceCodeTokenizer.Default;
@@ -449,14 +450,15 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             if (cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).IsMulti) //A range. When we add support for dynamic array formulas we will alter this.
                             {
-                                if (f._arrayIndex >= 0 && f._isDynamic == false) //A legacy array formula, Fill the refenenced range.
+                                var ri = (IRangeInfo)cr.Result;
+                                if (f._arrayIndex >= 0 && f._isDynamic == false) //A legacy array formula, Fill the referenced range.
                                 {
-                                    var ri = (IRangeInfo)cr.Result;
                                     ArrayFormulaOutput.FillFixedArrayFromRangeInfo(f, ri, rd, depChain);
                                 }
                                 else
                                 {
                                     //Add dynamic array formula support here.
+                                    DynamicArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
                                     f._ws.SetValueInner(f._row, f._column, ExcelErrorValue.Create(eErrorType.Value));
                                 }
                             }

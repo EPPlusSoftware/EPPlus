@@ -38,7 +38,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {'[', new Token("[", TokenType.OpeningBracket)},
             {']', new Token("]", TokenType.ClosingBracket) },
             {'!', new Token("!", TokenType.WorksheetName) },
-            {'\'',  new Token("\'", TokenType.SingleQuote) }
+            {'\'',  new Token("\'", TokenType.SingleQuote) },
+            {'#',  new Token("#'", TokenType.HashMark) },
         };
         private static readonly Dictionary<string, Token> _stringTokens = new Dictionary<string, Token>
         {
@@ -421,7 +422,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 if (l.Count == 0)
                 {
-                    l.Add(new Token("-", TokenType.Negator));
+                    if ((flags & statFlags.isNonNumeric) == 0 && (flags & statFlags.isNumeric) == statFlags.isNumeric)
+                    {
+                        current.Insert(0, '-');
+                    }
+                    else
+                    {
+                        l.Add(new Token("-", TokenType.Negator));
+                    }
                 }
                 else
                 {

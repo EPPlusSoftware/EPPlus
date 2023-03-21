@@ -16,9 +16,11 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
@@ -111,7 +113,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
 
             return expressions;
         }
-        public Dictionary<int, RpnExpression> CompileExpressions(ref IList<Token> tokens)
+        public static Dictionary<int, RpnExpression> CompileExpressions(ref IList<Token> tokens, ParsingContext parsingContext)
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
@@ -123,16 +125,16 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
-                        expressions.Add(i, new RpnBooleanExpression(t.Value, _parsingContext));
+                        expressions.Add(i, new RpnBooleanExpression(t.Value, parsingContext));
                         break;
                     case TokenType.Integer:
-                        expressions.Add(i, new RpnIntegerExpression(t.Value, _parsingContext));
+                        expressions.Add(i, new RpnIntegerExpression(t.Value, parsingContext));
                         break;
                     case TokenType.Decimal:
-                        expressions.Add(i, new RpnDecimalExpression(t.Value, _parsingContext));
+                        expressions.Add(i, new RpnDecimalExpression(t.Value, parsingContext));
                         break;
                     case TokenType.StringContent:
-                        expressions.Add(i, new RpnStringExpression(t.Value, _parsingContext));
+                        expressions.Add(i, new RpnStringExpression(t.Value, parsingContext));
                         break;
                     case TokenType.CellAddress:
                     case TokenType.FullColumnAddress:
@@ -149,39 +151,46 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         }
                         else
                         {
-                            expressions.Add(i, new RpnRangeExpression(t.Value, _parsingContext, extRefIx, wsIx));
+                            expressions.Add(i, new RpnRangeExpression(t.Value, parsingContext, extRefIx, wsIx));
                         }
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
                         break;
                     case TokenType.NameValue:
-                        expressions.Add(i, new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
+                        expressions.Add(i, new RpnNamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
                         break;
                     case TokenType.ExternalReference:
-                        extRefIx = short.Parse(t.Value);
+                        if (t.Value.All(c => c >= '0' && c <= '9'))
+                        {
+                            extRefIx = short.Parse(t.Value);
+                        }
+                        else
+                        {
+                            extRefIx = (short)(parsingContext.Package.Workbook.ExternalLinks.GetExternalLink(t.Value)+1);
+                        }
                         wsIx = int.MinValue;
                         break;
                     case TokenType.WorksheetNameContent:
                         if (extRefIx <= 0)
                         {
-                            wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
+                            wsIx = parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
                         }
                         else
                         {
-                            wsIx = _parsingContext.Package.Workbook.ExternalLinks.GetPositionByToken(extRefIx, t.Value);
+                            wsIx = parsingContext.Package.Workbook.ExternalLinks.GetPositionByToken(extRefIx, t.Value);
                         }
                         break;
                     case TokenType.TableName:
-                        ExtractTableAddress(extRefIx, tokens, i, out FormulaTableAddress tableAddress);                        
+                        ExtractTableAddress(extRefIx, tokens, i, out FormulaTableAddress tableAddress, parsingContext);
                         
-                        expressions.Add(i, new RpnTableAddressExpression(tableAddress, _parsingContext));
+                        expressions.Add(i, new RpnTableAddressExpression(tableAddress, parsingContext));
                         break;
                     case TokenType.OpeningEnumerable:
-                        ExtractArray(tokens, i , out IRangeInfo rangInfo);
-                        expressions.Add(i, new RpnEnumerableExpression(rangInfo, _parsingContext));
+                        ExtractArray(tokens, i , out IRangeInfo rangInfo, parsingContext);
+                        expressions.Add(i, new RpnEnumerableExpression(rangInfo, parsingContext));
                         break;
                     case TokenType.StartFunctionArguments:
-                        var func = new RpnFunctionExpression(t.Value, _parsingContext, i);
+                        var func = new RpnFunctionExpression(t.Value, parsingContext, i);
                         expressions.Add(i, func);
                         if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
@@ -234,188 +243,6 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             }
             func._endPos = tokens.Count - 1;
         }
-
-        //public abstract class TokenResult
-        //{
-        //    public Token Token;
-        //    public abstract void Negate();
-        //    public abstract object Value { get; }
-        //    public abstract void ApplyOperator(Token op, TokenResult tr);
-        //}
-        //public class FunctionArgumentTokenResult : TokenResult
-        //{
-        //    public override void ApplyOperator(Token op, TokenResult tr)
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //    public override void Negate()
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //    public override object Value => throw new NotImplementedException();
-        //}
-        //public class TokenResultDouble : TokenResult
-        //{
-        //    public TokenResultDouble(Token t, double v)
-        //    {
-        //        Token = t;
-        //        ValueDouble = v;
-        //    }
-        //    public double ValueDouble;
-        //    public override object Value
-        //    {
-        //        get
-        //        {
-        //            return ValueDouble;
-        //        }
-        //    }
-        //    public override void Negate()
-        //    {
-        //        ValueDouble = -ValueDouble;
-        //    }
-        //    public override void ApplyOperator(Token op, TokenResult tr)
-        //    {
-        //        double v = 0;
-        //        if (tr.Token.TokenType == TokenType.Decimal ||
-        //           tr.Token.TokenType == TokenType.Integer)
-        //        {
-        //            v = ((TokenResultDouble)tr).ValueDouble;
-        //        }
-        //        else if (tr.Token.TokenType == TokenType.Boolean)
-        //        {
-
-        //        }
-        //        else if (tr.Token.TokenType == TokenType.CellAddress ||
-        //                tr.Token.TokenType == TokenType.ExcelAddress)
-        //        {
-
-        //        }
-
-        //        switch (op.Value)
-        //        {
-        //            case "+":
-        //                ValueDouble += v;
-        //                break;
-        //            case "-":
-        //                ValueDouble -= v;
-        //                break;
-        //            case "*":
-        //                ValueDouble *= v;
-        //                break;
-        //            case "/":
-        //                ValueDouble /= v;
-        //                break;
-        //            case "^":
-        //                ValueDouble = Math.Pow(ValueDouble, v);
-        //                break;
-        //        }
-        //    }
-        //}
-        //public class TokenResultRange : TokenResult
-        //{
-        //    public TokenResultRange(Token t, FormulaRangeAddress v)
-        //    {
-        //        Token = t;
-        //        Address = v;
-        //    }
-        //    public override void Negate()
-        //    {
-
-        //    }
-        //    public override object Value
-        //    {
-        //        get
-        //        {
-        //            return Address;
-        //        }
-        //    }
-        //    public FormulaRangeAddress Address;
-        //    public override void ApplyOperator(Token op, TokenResult tr)
-        //    {
-        //        if (op.Value == ":")
-        //        {
-        //            if (tr.Token.TokenType == TokenType.CellAddress)
-        //            {
-        //                var a = ((TokenResultRange)tr).Address;
-        //                Address.FromRow = Address.FromRow < a.FromRow ? Address.FromRow : a.FromRow;
-        //                Address.ToRow = Address.ToRow > a.ToRow ? Address.ToRow : a.ToRow;
-        //                Address.FromCol = Address.FromCol < a.FromCol ? Address.FromCol : a.FromCol;
-        //                Address.ToCol = Address.ToCol > a.ToCol ? Address.ToCol : a.ToCol;
-        //            }
-        //        }
-        //    }
-        //}
-        //internal RpnCompiledFormula CompileExpressions(IList<Token> exps)
-        //{
-        //    var cp = new RpnCompiledFormula();
-        //    var precompiledExps = cp._expressions;
-        //    var cell = new RpnFormulaCell();
-        //    short extRefIx = short.MinValue;
-        //    int wsIx = int.MinValue;
-        //    var s = cell._expressionStack;
-        //    for (int i = 0; i < exps.Count; i++)
-        //    {
-        //        var t = exps[i];
-        //        switch (t.TokenType)
-        //        {
-        //            case TokenType.Boolean:
-        //                s.Push(new RpnBooleanExpression(t.Value, _parsingContext));
-        //                break;
-        //            case TokenType.Integer:
-        //                s.Push(new RpnIntegerExpression(t.Value, _parsingContext));
-        //                break;
-        //            case TokenType.Decimal:
-        //                s.Push(new RpnDecimalExpression(t.Value, _parsingContext));
-        //                break;
-        //            case TokenType.StringContent:
-        //                s.Push(new RpnStringExpression(t.Value, _parsingContext));
-        //                break;
-        //            case TokenType.Negator:
-        //                s.Peek().Negate();
-        //                break;
-        //            case TokenType.CellAddress:
-        //                s.Push(new RpnRangeExpression(t.Value, _parsingContext, extRefIx, wsIx));
-        //                extRefIx = wsIx = int.MinValue;
-        //                break;
-        //            case TokenType.NameValue:
-        //                s.Push(new RpnNamedValueExpression(t.Value, _parsingContext, extRefIx, wsIx));
-        //                break;
-        //            case TokenType.ExternalReference:
-        //                extRefIx = short.Parse(t.Value);
-        //                break;
-        //            case TokenType.WorksheetNameContent:
-        //                wsIx = _parsingContext.Package.Workbook.Worksheets.GetPositionByToken(t.Value);
-        //                break;
-        //            case TokenType.Function:
-        //                //var args = GetFunctionArguments(cell);
-        //                s.Push(new RpnFunctionExpression(t.Value, _parsingContext, i));
-        //                break;
-        //            case TokenType.StartFunctionArguments:
-        //                cell._funcStackPosition.Push(s.Count);
-        //                break;
-        //            case TokenType.TableName:
-        //                ExtractTableAddress(exps, i, out FormulaTableAddress tableAddress);
-        //                s.Push(new RpnTableAddressExpression(tableAddress, _parsingContext));
-        //                break;
-        //            case TokenType.OpeningEnumerable:
-        //                ExtractArray(exps, i, out List<List<object>> array);
-        //                s.Push(new RpnEnumerableExpression(array, _parsingContext));
-        //                break;
-        //            case TokenType.Operator:
-        //                AddExpressionOrApplyOperator(precompiledExps, t, cell);
-        //                break;
-        //        }
-        //    }
-        //    while (s.Count > 0)
-        //    {
-        //        var e = s.Pop();
-        //        if (e.Status != RpnExpressionStatus.OnExpressionList)
-        //        {
-        //            precompiledExps.Add(e);
-        //        }
-        //    }
-        //    return cp;
-        //}
         Dictionary<int, RangeHashset> _usedRanges;
 
         internal CompileResult Execute(IList<Token> exps)
@@ -487,11 +314,11 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         }
                         break;
                     case TokenType.TableName:
-                        ExtractTableAddress(extRefIx, exps, i, out FormulaTableAddress tableAddress);
+                        ExtractTableAddress(extRefIx, exps, i, out FormulaTableAddress tableAddress, _parsingContext);
                         s.Push(new RpnTableAddressExpression(tableAddress, _parsingContext));
                         break;
                     case TokenType.OpeningEnumerable:
-                        ExtractArray(exps, i, out IRangeInfo range);
+                        ExtractArray(exps, i, out IRangeInfo range, _parsingContext);
                         s.Push(new RpnEnumerableExpression(range, _parsingContext));
                         break;
                     case TokenType.Operator:
@@ -537,10 +364,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             return null;
         }
 
-        private void ExtractTableAddress(int extRef, IList<Token> exps, int i, out FormulaTableAddress tableAddress)
+        private static void ExtractTableAddress(int extRef, IList<Token> exps, int i, out FormulaTableAddress tableAddress, ParsingContext parsingContext)
         {
             //var adr = exps[i].Value;
-            tableAddress = new FormulaTableAddress(_parsingContext) {ExternalReferenceIx = extRef, TableName = exps[i].Value };
+            tableAddress = new FormulaTableAddress(parsingContext) {ExternalReferenceIx = extRef, TableName = exps[i].Value };
             exps.RemoveAt(i);
             int bracketCount=0;
             while (i < exps.Count)
@@ -578,7 +405,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                     case TokenType.Comma:
                         break;
                     default:
-                        throw new InvalidFormulaException($"Invalid Table Formula in cell {_parsingContext.CurrentCell.Address}");
+                        throw new InvalidFormulaException($"Invalid Table Formula in cell {parsingContext.CurrentCell.Address}");
                 }
                 //adr += exps[i];
                 exps.RemoveAt(i);
@@ -586,13 +413,13 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             }
             if (extRef <= 0)
             {
-                tableAddress.SetTableAddress(_parsingContext.Package);
+                tableAddress.SetTableAddress(parsingContext.Package);
             }
             else
             {
-                if(extRef <= _parsingContext.Package.Workbook.ExternalLinks.Count)
+                if(extRef <= parsingContext.Package.Workbook.ExternalLinks.Count)
                 {
-                    var extWb = _parsingContext.Package.Workbook.ExternalLinks[extRef-1].As.ExternalWorkbook;
+                    var extWb = parsingContext.Package.Workbook.ExternalLinks[extRef-1].As.ExternalWorkbook;
                     if(extWb != null && extWb.Package!=null)
                     {
                         tableAddress.SetTableAddress(extWb.Package);
@@ -601,7 +428,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
             }
             exps.Insert(i, new Token(tableAddress.WorksheetAddress, TokenType.ExcelAddress));
         }
-        private void ExtractArray(IList<Token> exps, int i, out IRangeInfo range)
+        private static void ExtractArray(IList<Token> exps, int i, out IRangeInfo range, ParsingContext parsingContext)
         {
             exps.RemoveAt(i);
             var matrix = new List<List<object>>();   
@@ -620,7 +447,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         array.Add(int.Parse(t.Value));
                         break;
                     case TokenType.Decimal:
-                        array.Add(double.Parse(t.Value, System.Globalization.NumberStyles.Number, CultureInfo.InvariantCulture));
+                        array.Add(double.Parse(t.Value, NumberStyles.Number, CultureInfo.InvariantCulture));
                         break;
                     case TokenType.StringContent:
                         array.Add(t.Value.Substring(1, t.Value.Length-2).Replace("\"\"","\"")); //Remove double quotes.
@@ -645,14 +472,14 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn
                         array.Add(ExcelErrorValue.Create(eErrorType.Value));
                         break;
                     default:
-                        throw new InvalidFormulaException("Array contains invalid tokens. Cell "+ _parsingContext.CurrentCell.WorksheetIx);
+                        throw new InvalidFormulaException("Array contains invalid tokens. Cell "+ parsingContext.CurrentCell.WorksheetIx);
                 }
                 arrayStr.Append(t.Value);
                 exps.RemoveAt(i);
             }
             if(i==exps.Count || exps[i].TokenType != TokenType.ClosingEnumerable)
             {
-                throw new InvalidFormulaException("Array is not closed. Cell " + _parsingContext.CurrentCell.WorksheetIx);
+                throw new InvalidFormulaException("Array is not closed. Cell " + parsingContext.CurrentCell.WorksheetIx);
             }
             exps.RemoveAt(i);
             exps.Insert(i, new Token(arrayStr.ToString(), TokenType.Array));

@@ -286,7 +286,7 @@ namespace EPPlusTest.Core
                 if(epplusCache.ContainsKey(key))
                 {
                     //We remove any single quotes as excel adds seems to add ' to all worksheet names.
-                    //We also remove any prefixing equal sign in teh GetExternalCache method.
+                    //We also remove any prefixing equal sign in the GetExternalCache method.
                     Assert.AreEqual(excelCache[key].ToString().Replace("\'","").ToString(), epplusCache[key].ToString().Replace("\'",""));
                 }
                 else

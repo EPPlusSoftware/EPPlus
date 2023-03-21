@@ -177,5 +177,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         Array = (ulong)1 << 40,
         NAError = (ulong)1 << 41,
         SingleQuote = (ulong)1 << 42,
+        HashMark = (ulong)1 << 43,
     }
 }

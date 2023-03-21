@@ -28,9 +28,9 @@ namespace OfficeOpenXml
         FunctionArgument,
         NameValue,
         CellAddress,
-        RangeAddress,
+        //RangeAddress,
         TableAddress,
-        RangeDefinition,
+        //RangeDefinition,
         Empty
     }
 }

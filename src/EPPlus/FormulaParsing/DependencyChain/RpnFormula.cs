@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws==null ? -1 : _ws.IndexInList, _row, _column);
             _tokens = RpnExpressionGraph.CreateRPNTokens(depChain._tokenizer.Tokenize(formula));
             _formula= formula;
-            _expressions = depChain._graph.CompileExpressions(ref _tokens);
+            _expressions = RpnExpressionGraph.CompileExpressions(ref _tokens, depChain._parsingContext);
         }
         public override string ToString()
         {

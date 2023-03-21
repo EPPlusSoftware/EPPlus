@@ -22,6 +22,11 @@ using System.Xml;
 using System.Text;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.ExternalReferences
 {
@@ -456,7 +461,6 @@ namespace OfficeOpenXml.ExternalReferences
                 }
             }
 
-            var lexer = _wb.FormulaParser.Lexer;
             CachedWorksheets.Clear();
             CachedNames.Clear();
             _definedNamesValues.Clear();
@@ -562,66 +566,102 @@ namespace OfficeOpenXml.ExternalReferences
         public eExternalWorkbookCacheStatus CacheStatus { get; private set; }
         private void UpdateCacheForFormula(ExcelWorkbook wb, string formula, string address)
         {
-            var tokens = wb.FormulaParser.Lexer.Tokenize(formula);
+            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula);
 
-            foreach (var t in tokens)
+            IList<Token> rpnTokens = RpnExpressionGraph.CreateRPNTokens(tokens);
+            var expressions = RpnExpressionGraph.CompileExpressions(ref rpnTokens, wb.FormulaParser.ParsingContext);
+
+            foreach(var e in expressions.Values)
             {
-                if (t.TokenTypeIsSet(TokenType.ExcelAddress) || t.TokenTypeIsSet(TokenType.NameValue))
+                if(e.ExpressionType == ExpressionType.CellAddress)
                 {
-                    if (ExcelCellBase.IsExternalAddress(t.Value))
+                    var adr = e.GetAddress();
+                    if(adr.ExternalReferenceIx>0)
                     {
-                        if(t.TokenTypeIsSet(TokenType.ExcelAddress))
+                        //ExcelAddressBase a = new ExcelAddressBase(t.Value);
+                        //var ix = _wb.ExternalLinks.GetExternalLink(a._wb);
+                        if (_wb.ExternalLinks[adr.ExternalReferenceIx-1] == this)
                         {
-                            ExcelAddressBase a = new ExcelAddressBase(t.Value);
-                            var ix = _wb.ExternalLinks.GetExternalLink(a._wb);
-                            if (ix >= 0 && _wb.ExternalLinks[ix] == this)
-                            {
-                                UpdateCacheForAddress(a, address);
-                            }
+                            UpdateCacheForAddress(adr.ToExcelAddressBase(), address);
                         }
-                        else
+                    }
+                }
+                else if (e.ExpressionType == ExpressionType.NameValue)
+                {                    
+                    var ne = (RpnNamedValueExpression)e;
+                    if (ne._externalReferenceIx > 0)
+                    {
+                        if (_wb.ExternalLinks[ne._externalReferenceIx-1] == this)
                         {
-                            ExcelAddressBase.SplitAddress(t.Value, out string wbRef, out string wsRef, out string nameRef);
-                            if (!string.IsNullOrEmpty(wbRef))
-                            {
-                                var ix = _wb.ExternalLinks.GetExternalLink(wbRef);
-                                if (ix >= 0 && _wb.ExternalLinks[ix] == this)
-                                {
-                                    string name;
-                                    if(string.IsNullOrEmpty(wsRef))
-                                    {
-                                        name = nameRef;
-                                    }
-                                    else
-                                    {
-                                        name = ExcelCellBase.GetQuotedWorksheetName(wsRef)+"!"+nameRef;
-                                    }
-                                    UpdateCacheForName(name);
-                                }
-                            }
+                            UpdateCacheForName(ne._worksheetIx, ne._name.Name);
                         }
                     }
                 }
             }
+            //new RpnFormula()
+            //var currentAddress = "";
+            //var isExternal = false;
+            //var isNameValue = false;
+            //foreach (var t in tokens)
+            //{
+            //    if(t.TokenTypeIsAddressToken)
+            //    {
+            //        currentAddress += t.Value;
+            //        if(t.TokenTypeIsSet(TokenType.ExternalReference))
+            //        {
+            //            isExternal = true;
+            //        }
+            //        else if(t.TokenTypeIsSet(TokenType.NameValue))
+            //        {
+            //            isNameValue = true; ;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (isExternal)
+            //        {
+            //            if(isNameValue)
+            //            {
+            //                ExcelAddressBase.SplitAddress(t.Value, out string wbRef, out string wsRef, out string nameRef);
+            //                if (!string.IsNullOrEmpty(wbRef))
+            //                {
+            //                    var ix = _wb.ExternalLinks.GetExternalLink(wbRef);
+            //                    if (ix >= 0 && _wb.ExternalLinks[ix] == this)
+            //                    {
+            //                        string name;
+            //                        if (string.IsNullOrEmpty(wsRef))
+            //                        {
+            //                            name = nameRef;
+            //                        }
+            //                        else
+            //                        {
+            //                            name = ExcelCellBase.GetQuotedWorksheetName(wsRef) + "!" + nameRef;
+            //                        }
+            //                        UpdateCacheForName(name);
+            //                    }
+            //                }
+            //            }
+            //            else
+            //            {
+            //            }
+            //        }
+            //        isExternal= false;
+            //        isNameValue = false;
+            //        currentAddress = "";
+            //    }
+            //}
         }
 
-        private void UpdateCacheForName(string name)
+        private void UpdateCacheForName(int wsIx, string name)
         {
-            int ix = 0;
-            var wsName = ExcelAddressBase.GetWorksheetPart(name, "", ref ix);
-            if (!string.IsNullOrEmpty(wsName))
-            {
-                name = name.Substring(ix);
-            }
-
             ExcelNamedRange namedRange;
-            if (string.IsNullOrEmpty(wsName))
+            if (wsIx<0)
             {
                 namedRange = _package.Workbook.Names.ContainsKey(name) ? _package.Workbook.Names[name] : null;
             }
             else
             {
-                var ws = _package.Workbook.Worksheets[wsName];
+                var ws = _package.Workbook.Worksheets[wsIx];
                 if (ws == null)
                 {
                     namedRange = null;

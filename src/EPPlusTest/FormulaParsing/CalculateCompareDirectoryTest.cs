@@ -140,7 +140,7 @@ namespace EPPlusTest.FormulaParsing
                         }
                     }
 
-                    if ((v==null && value.Value!=null) || !(v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
+                    if ((v==null && value.Value!=null) || !(v!=null && v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
                     {
                         //Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");
                         var diff = ConvertUtil.GetValueDouble(v) - ConvertUtil.GetValueDouble(value.Value);

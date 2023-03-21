@@ -120,6 +120,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             return (TokenType & tokenType) == tokenType;
         }
+        /// <summary>
+        /// Returns true if the token contains a address token that should be updated in insert/delete operations.
+        /// </summary>
         public bool TokenTypeIsAddress
         {
             get
@@ -129,6 +132,30 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                        (TokenType & TokenType.FullRowAddress) == TokenType.FullRowAddress ||
                        (TokenType & TokenType.FullColumnAddress) == TokenType.FullColumnAddress ||
                        (TokenType & TokenType.ExcelAddressR1C1) == TokenType.ExcelAddressR1C1;
+            }
+        }
+        /// <summary>
+        /// Returns true if the token is a token building an address.
+        /// </summary>
+        public bool TokenTypeIsAddressToken 
+        {
+            get
+            {
+                return (TokenType & TokenType.OpeningBracket) == TokenType.OpeningBracket ||
+                       (TokenType & TokenType.ClosingBracket) == TokenType.ClosingBracket ||
+                       (TokenType & TokenType.ExternalReference) == TokenType.ExternalReference ||
+                       (TokenType & TokenType.SingleQuote) == TokenType.SingleQuote ||
+                       (TokenType & TokenType.WorksheetName) == TokenType.WorksheetName ||
+                       (TokenType & TokenType.WorksheetNameContent) == TokenType.WorksheetNameContent ||
+                       (TokenType & TokenType.ExcelAddress) == TokenType.ExcelAddress ||
+                       (TokenType & TokenType.CellAddress) == TokenType.CellAddress ||
+                       (TokenType & TokenType.FullRowAddress) == TokenType.FullRowAddress ||
+                       (TokenType & TokenType.FullColumnAddress) == TokenType.FullColumnAddress ||
+                       (TokenType & TokenType.ExcelAddressR1C1) == TokenType.ExcelAddressR1C1 ||
+                       (TokenType & TokenType.TableName) == TokenType.TableName ||
+                       (TokenType & TokenType.TablePart) == TokenType.TablePart ||
+                       (TokenType & TokenType.TableColumn) == TokenType.TableColumn ||
+                       ((TokenType & TokenType.Operator) == TokenType.Operator && Value == ":");
             }
         }
 

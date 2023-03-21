@@ -169,6 +169,7 @@ namespace EPPlusTest.Drawing.Control
             Assert.IsInstanceOfType(_ws.Drawings[7], typeof(ExcelControlRadioButton));
             Assert.AreEqual(eControlType.RadioButton, _ws.Drawings[7].As.Control.RadioButton.ControlType);
             var radioButton = _ws.Drawings[7].As.Control.RadioButton;
+            
             Assert.IsTrue(radioButton.LockedText);
             Assert.IsTrue(radioButton.FirstButton);
             Assert.IsTrue(radioButton.Checked);

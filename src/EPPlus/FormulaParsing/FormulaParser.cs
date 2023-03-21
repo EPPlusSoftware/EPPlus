@@ -51,10 +51,10 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <param name="excelDataProvider">An instance of <see cref="ExcelDataProvider"/> which provides access to a workbook</param>
         /// <param name="package">The package to calculate</param>
-        internal FormulaParser(ExcelDataProvider excelDataProvider, ExcelPackage package=null)
+        internal FormulaParser(ExcelDataProvider excelDataProvider, ExcelPackage package = null)
             : this(excelDataProvider, ParsingContext.Create(package))
         {
-           
+
         }
 
         /// <summary>
@@ -79,6 +79,7 @@ namespace OfficeOpenXml.FormulaParsing
                     //.SetExpresionCompiler(new ExpressionCompiler(parsingContext))
                     .FunctionRepository.LoadModule(new BuiltInFunctions());
             });
+            Tokenizer = new OptimizedSourceCodeTokenizer(parsingContext.Configuration.FunctionRepository, parsingContext.NameValueProvider);
         }
 
         /// <summary>
@@ -88,19 +89,20 @@ namespace OfficeOpenXml.FormulaParsing
         internal void Configure(Action<ParsingConfiguration> configMethod)
         {
             configMethod.Invoke(_parsingContext.Configuration);
-            _lexer = _parsingContext.Configuration.Lexer ?? _lexer;
+            //_lexer = _parsingContext.Configuration.Lexer ?? _lexer;
             //_graphBuilder = _parsingContext.Configuration.GraphBuilder ?? _graphBuilder;
             //_compiler = _parsingContext.Configuration.ExpressionCompiler ?? _compiler;
         }
 
-        private ILexer _lexer;
+        //private ILexer _lexer;
         //private IExpressionGraphBuilder _graphBuilder;
         //private IExpressionCompiler _compiler;
         //internal IExpressionGraphBuilder GraphBuilder => _graphBuilder;
         internal ParsingContext ParsingContext => _parsingContext;
         //internal IExpressionCompiler Compiler => _compiler;
 
-        internal ILexer Lexer { get { return _lexer; } }
+        //internal ILexer Lexer { get { return _lexer; } }
+        internal ISourceCodeTokenizer Tokenizer { get; private set; }
         internal IEnumerable<string> FunctionNames { get { return _parsingContext.Configuration.FunctionRepository.FunctionNames; } } 
 
         /// <summary>
@@ -112,62 +114,6 @@ namespace OfficeOpenXml.FormulaParsing
         {            
             return RpnFormulaExecution.ExecuteFormula(_parsingContext.Package?.Workbook, formula, cell, new ExcelCalculationOption());
         }
-
-        //internal virtual object ParseCell(IEnumerable<Token> tokens, string worksheet, int row, int column)
-        //{
-        //    _parsingContext.CurrentCell = new FormulaCellAddress(_parsingContext.Package.Workbook.Worksheets.GetPositionByToken(worksheet), row, column);
-        //    //using (var scope = _parsingContext.Scopes.NewScope(rangeAddress))
-        //    //{
-                
-        //        //    _parsingContext.Dependencies.AddFormulaScope(scope);
-        //        var graph = _graphBuilder.Build(tokens);
-        //        if (graph.Expressions.Count() == 0)
-        //        {
-        //            return 0d;
-        //        }
-        //        try
-        //        {
-        //            var compileResult = _compiler.Compile(graph.Expressions);
-        //            // quick solution for the fact that an excelrange can be returned.
-        //            var rangeInfo = compileResult.Result as IRangeInfo;
-        //            if (rangeInfo == null)
-        //            {
-        //                return compileResult.Result ?? 0d;
-        //            }
-        //            else
-        //            {
-        //                if (rangeInfo.IsEmpty)
-        //                {
-        //                    return 0d;
-        //                }
-        //                if (!rangeInfo.IsMulti)
-        //                {
-        //                    return rangeInfo.First().Value ?? 0d;
-        //                }
-        //                // ok to return multicell if it is a workbook scoped name.
-        //                if (string.IsNullOrEmpty(worksheet))
-        //                {
-        //                    return rangeInfo;
-        //                }
-        //                if (_parsingContext.Debug)
-        //                {
-        //                    var msg = string.Format("A range with multiple cell was returned at row {0}, column {1}",
-        //                        row, column);
-        //                    _parsingContext.Configuration.Logger.Log(_parsingContext, msg);
-        //                }
-        //                return ExcelErrorValue.Create(eErrorType.Value);
-        //            }
-        //        }
-        //        catch(ExcelErrorValueException ex)
-        //        {
-        //            if (_parsingContext.Debug)
-        //            {
-        //                _parsingContext.Configuration.Logger.Log(_parsingContext, ex);
-        //            }
-        //            return ex.ErrorValue;
-        //        }
-        //    //}
-        //}
 
         /// <summary>
         /// Parses a formula at a specific address

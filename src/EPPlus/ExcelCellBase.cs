@@ -19,6 +19,8 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn;
+using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -925,12 +927,14 @@ namespace OfficeOpenXml
                 var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var tokens = sct.Tokenize(formula);
                 var f = "";
-                foreach (var t in tokens)
+                string wsName = "";
+                for(int i=0;i<tokens.Count;i++) 
                 {
-                    if (t.TokenTypeIsAddress)
+                    var t = tokens[i];
+                    if (t.TokenTypeIsAddressToken)
                     {
-                        var address = new ExcelAddressBase(t.Value);
-                        if ((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
+                        var address = GetFullAddressFromToken(tokens, ref i);
+                        if ((address.IsExternal || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
                         {
                             f += address.Address;
                             continue;
@@ -938,7 +942,7 @@ namespace OfficeOpenXml
 
                         if (!string.IsNullOrEmpty(address._ws)) //The address has worksheet.
                         {
-                            if(t.Value.IndexOf("'!", StringComparison.OrdinalIgnoreCase) >=0)
+                            if (address.Address.IndexOf("'!", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
                                 f += $"'{address._ws}'!";
                             }
@@ -1029,6 +1033,23 @@ namespace OfficeOpenXml
                 return formula;
             }
         }
+
+        private static ExcelAddressBase GetFullAddressFromToken(IList<Token> tokens, ref int i)
+        {
+            var sb = new StringBuilder();
+            while (tokens.Count > i && tokens[i].TokenTypeIsAddressToken)
+            {
+                sb.Append(tokens[i].Value);
+                i++;
+            }
+            i--;
+            if (sb.Length > 0 && sb[sb.Length-1]==':')
+            {
+                return new ExcelAddressBase(sb.ToString(0,sb.Length-1));
+            }
+            return new ExcelAddressBase(sb.ToString());
+        }
+
         /// <summary>
         /// Updates the Excel formula so that all the cellAddresses are incremented by the row and column increments
         /// if they fall after the afterRow and afterColumn.
@@ -1201,23 +1222,38 @@ namespace OfficeOpenXml
                 var retFormula = "";
                 foreach (var token in sct.Tokenize(formula))
                 {
-                    if (token.TokenTypeIsAddress) //Address
+                    if(token.TokenTypeIsSet(TokenType.WorksheetNameContent))
                     {
-                        var address = new ExcelAddressBase(token.Value);
-                        if (address == null || !address.IsValidRowCol())
+                        if(token.Value.Equals(oldName, StringComparison.OrdinalIgnoreCase))
                         {
-                            retFormula += "#REF!";
+                            retFormula += newName;
                         }
                         else
                         {
-                            address.ChangeWorksheet(oldName, newName);
-                            retFormula += address.Address;
+                            retFormula += token.Value;
                         }
                     }
                     else
                     {
                         retFormula += token.Value;
                     }
+                    //if (token.TokenTypeIsAddress) //Address
+                    //{
+                    //    var address = new ExcelAddressBase(token.Value);
+                    //    if (address == null || !address.IsValidRowCol())
+                    //    {
+                    //        retFormula += "#REF!";
+                    //    }
+                    //    else
+                    //    {
+                    //        address.ChangeWorksheet(oldName, newName);
+                    //        retFormula += address.Address;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    retFormula += token.Value;
+                    //}
                 }
                 return retFormula;
             }
