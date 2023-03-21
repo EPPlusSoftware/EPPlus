@@ -21,9 +21,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     [FunctionMetadata(
         Category = ExcelFunctionCategory.DateAndTime,
         EPPlusVersion = "5.5",
-        Description = "Get days, months, or years between two dates")]
+        Description = "Get days, months, or years between two dates",
+        SupportsArrays = true)]
     internal class DateDif : DateParsingFunction
     {
+        private readonly ArrayBehaviourConfig _arrayConfig = new ArrayBehaviourConfig
+        {
+            ArrayParameterIndexes = new List<int> { 0, 1, 2 }
+        };
+
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+
+        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return _arrayConfig;
+        }
+
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);

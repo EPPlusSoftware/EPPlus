@@ -19,14 +19,16 @@ using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Returns the row number of a supplied range, or of the current cell")]
-    internal class Row : LookupFunction
+        Description = "Returns the row number of a supplied range, or of the current cell",
+        SupportsArrays = true)]
+    internal class Row : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -34,13 +36,38 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 return CreateResult(context.CurrentCell.Row, DataType.Integer);
             }
-            var rangeAddress = ArgToAddress(arguments, 0);
-            if (!ExcelAddressUtil.IsValidAddress(rangeAddress))
-                return new CompileResult(eErrorType.Name);
-            var factory = new RangeAddressFactory(context.ExcelDataProvider, context);
-            var address = factory.Create(rangeAddress);
-            return CreateResult(address.FromRow, DataType.Integer);
+            var arg1 = arguments.First();
+            if(arg1.IsExcelRange)
+            {
+                var range = arg1.ValueAsRangeInfo;
+                if (range.IsInMemoryRange) return CreateResult(eErrorType.Value);
+                if (range.Size.NumberOfRows > 1)
+                {
+                    var rangeDef = new RangeDefinition(range.Size.NumberOfRows, 1);
+                    var returnRange = new InMemoryRange(rangeDef);
+                    var returnRangeRow = 0;
+                    for (var row = range.Address.FromRow; row <= range.Address.ToRow; row++)
+                    {
+                        returnRange.SetValue(returnRangeRow++, 0, row);
+                    }
+                    return CreateResult(returnRange, DataType.ExcelRange);
+                }
+                else
+                {
+                    return CreateResult(range.Address.FromRow, DataType.Integer);
+                }
+            }
+            else
+            {
+                var rangeAddress = ArgToAddress(arguments, 0);
+                if (!ExcelAddressUtil.IsValidAddress(rangeAddress))
+                    return new CompileResult(eErrorType.Name);
+                var factory = new RangeAddressFactory(context.ExcelDataProvider, context);
+                var address = factory.Create(rangeAddress);
+                return CreateResult(address.FromRow, DataType.Integer);
+            }
         }
+
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {
             return FunctionParameterInformation.IgnoreAddress;

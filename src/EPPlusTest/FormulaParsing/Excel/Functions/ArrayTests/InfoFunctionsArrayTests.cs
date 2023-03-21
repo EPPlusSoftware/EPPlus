@@ -167,5 +167,33 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 Assert.IsTrue((bool)sheet.Cells["B3"].Value);
             }
         }
+
+        [TestMethod]
+        public void RowShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["B1:B3"].CreateArrayFormula("ROW(A2:C4)");
+                sheet.Calculate();
+                Assert.AreEqual(2, sheet.Cells["B1"].Value);
+                Assert.AreEqual(3, sheet.Cells["B2"].Value);
+                Assert.AreEqual(4, sheet.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void ColumnShouldReturnVerticalArray()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["B2:D2"].CreateArrayFormula("COLUMN(A2:C4)");
+                sheet.Calculate();
+                Assert.AreEqual(1, sheet.Cells["B2"].Value);
+                Assert.AreEqual(2, sheet.Cells["C2"].Value);
+                Assert.AreEqual(3, sheet.Cells["D2"].Value);
+            }
+        }
     }
 }

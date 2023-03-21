@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.Rpn.FunctionCompilers
             {
                 var remainingChildren = children.Skip(1).ToList();
                 var range = compileResult.Result as IRangeInfo;
-                if(range.IsMulti)
+                if(range.Size.NumberOfCols > 1 || range.Size.NumberOfRows > 1)
                 {
                     var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
                     var inMemoryRange = new InMemoryRange(rangeDef);

@@ -211,5 +211,49 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.ArrayTests
                 Assert.AreEqual(-3d, sheet.Cells["C3"].Value);
             }
         }
+
+        [TestMethod]
+        public void Days360ShouldReturnVerticalArray_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].Value = new DateTime(2023, 3, 9).ToString();
+                sheet.Cells["A2"].Value = new DateTime(2023, 4, 10).ToString();
+                sheet.Cells["A3"].Value = new DateTime(2023, 7, 11).ToString();
+                sheet.Cells["B1"].Value = new DateTime(2023, 3, 10).ToString();
+                sheet.Cells["B2"].Value = new DateTime(2023, 4, 15).ToString();
+                sheet.Cells["B3"].Value = new DateTime(2023, 8, 12).ToString();
+                sheet.Cells["C1:C3"].CreateArrayFormula("DAYS360(A1:A3,B1:B3)");
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+                Assert.AreEqual(1, sheet.Cells["C1"].Value);
+                Assert.AreEqual(5, sheet.Cells["C2"].Value);
+                Assert.AreEqual(31, sheet.Cells["C3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void DateDifShouldReturnVerticalArray_1()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].Value = new DateTime(2023, 3, 9).ToString();
+                sheet.Cells["A2"].Value = new DateTime(2023, 4, 10).ToString();
+                sheet.Cells["A3"].Value = new DateTime(2023, 7, 11).ToString();
+                sheet.Cells["B1"].Value = new DateTime(2023, 3, 10).ToString();
+                sheet.Cells["B2"].Value = new DateTime(2023, 4, 15).ToString();
+                sheet.Cells["B3"].Value = new DateTime(2023, 8, 12).ToString();
+                sheet.Cells["C1"].Value = "d";
+                sheet.Cells["C2"].Value = "d";
+                sheet.Cells["C3"].Value = "d";
+                sheet.Cells["D1:D3"].CreateArrayFormula("DATEDIF(A1:A3,B1:B3,C1:C3)");
+
+                sheet.Calculate(x => x.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);
+                Assert.AreEqual(1d, sheet.Cells["D1"].Value);
+                Assert.AreEqual(5d, sheet.Cells["D2"].Value);
+                Assert.AreEqual(32d, sheet.Cells["D3"].Value);
+            }
+        }
     }
 }
