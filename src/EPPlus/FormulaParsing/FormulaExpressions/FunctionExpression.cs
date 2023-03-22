@@ -40,6 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
 
             if (tokenValue.StartsWith("_xlfn.", StringComparison.OrdinalIgnoreCase)) tokenValue = tokenValue.Replace("_xlfn.", string.Empty);
+            if (tokenValue.StartsWith("_xlws.", StringComparison.OrdinalIgnoreCase)) tokenValue = tokenValue.Replace("_xlws.", string.Empty);
             _arguments = new List<int>();
             _startPos = pos;
             _functionCompilerFactory = new FunctionCompilerFactory(ctx.Configuration.FunctionRepository, ctx);
