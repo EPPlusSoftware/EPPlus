@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {']', new Token("]", TokenType.ClosingBracket) },
             {'!', new Token("!", TokenType.WorksheetName) },
             {'\'',  new Token("\'", TokenType.SingleQuote) },
-            {'#',  new Token("#'", TokenType.HashMark) },
+            //{'#',  new Token("#'", TokenType.HashMark) },
         };
         private static readonly Dictionary<string, Token> _stringTokens = new Dictionary<string, Token>
         {
