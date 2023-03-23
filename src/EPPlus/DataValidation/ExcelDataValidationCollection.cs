@@ -16,6 +16,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -44,7 +45,7 @@ namespace OfficeOpenXml.DataValidation
     /// validation.Operator = ExcelDataValidationOperator.between;
     /// </code>
     /// </summary>
-    public class ExcelDataValidationCollection : IEnumerable<ExcelDataValidation>
+    public class ExcelDataValidationCollection : IEnumerable<IExcelDataValidation>
     {
         private List<ExcelDataValidation> _validations = new List<ExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
@@ -340,7 +341,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="item">The item to remove</param>
         /// <returns>True if remove succeeds, otherwise false</returns>
         /// <exception cref="ArgumentNullException">if <paramref name="item"/> is null</exception>
-        public bool Remove(ExcelDataValidation item)
+        public bool Remove(IExcelDataValidation item)
         {
             Require.Argument(item).IsNotNull("item");
             if (!(item is ExcelDataValidation))
@@ -348,7 +349,7 @@ namespace OfficeOpenXml.DataValidation
                 throw new InvalidCastException("The supplied item must inherit OfficeOpenXml.DataValidation.ExcelDataValidation");
             }
 
-            var retVal = _validations.Remove(item);
+            var retVal = _validations.Remove((ExcelDataValidation)item);
             if (retVal) OnValidationCountChanged();
             return retVal;
         }
@@ -388,20 +389,17 @@ namespace OfficeOpenXml.DataValidation
             _validations.RemoveAll(match);
         }
 
-
-        IEnumerator<ExcelDataValidation> IEnumerable<ExcelDataValidation>.GetEnumerator()
+        IEnumerator<IExcelDataValidation> IEnumerable<IExcelDataValidation>.GetEnumerator()
         {
-            return _validations.GetEnumerator();
+            for(int i = 0; i < _validations.Count; i++)
+            {
+                yield return _validations[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _validations.GetEnumerator();
-        }
-
-        private List<ExcelDataValidation> GetValidations()
-        {
-            return _validations;
         }
 
         internal void InsertRangeDictionary(ExcelAddress address, bool shiftRight)

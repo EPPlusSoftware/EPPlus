@@ -235,7 +235,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             var delDV = new List<ExcelDataValidation>();
             //Update data validation references
-            foreach (var dv in ws.DataValidations)
+            foreach (ExcelDataValidation dv in ws.DataValidations)
             {
                 var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift, isTable);
                 if (newAddress == null)
