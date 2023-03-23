@@ -72,7 +72,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
-        public void GetNCellsSholdReturnCorrectResult2_2()
+        public void GetNCellsShouldReturnCorrectResult2_2()
         {
             var rangeDef = new RangeDefinition(2, 2);
             var range = new InMemoryRange(rangeDef);
@@ -84,7 +84,7 @@ namespace EPPlusTest.FormulaParsing
         }
 
         [TestMethod]
-        public void GetNCellsSholdReturnCorrectResult2_1()
+        public void GetNCellsShouldReturnCorrectResult2_1()
         {
             var rangeDef = new RangeDefinition(3, 1);
             var range = new InMemoryRange(rangeDef);
@@ -93,6 +93,80 @@ namespace EPPlusTest.FormulaParsing
             range.SetValue(2, 0, 3);
             var nCells = range.GetNCells();
             Assert.AreEqual(3, nCells);
+        }
+
+        [TestMethod]
+        public void GetOffsetMultiRangeShouldReturnCorrectResult()
+        {
+            var rangeDef = new RangeDefinition(3, 3);
+            var range = new InMemoryRange(rangeDef);
+            range.SetValue(0, 0, 1);
+            range.SetValue(1, 0, 2);
+            range.SetValue(2, 0, 3);
+            
+            range.SetValue(0, 1, 4);
+            range.SetValue(1, 1, 5);
+            range.SetValue(2, 1, 6);
+            
+            range.SetValue(0, 2, 7);
+            range.SetValue(1, 2, 8);
+            range.SetValue(2, 2, 9);
+
+            var newRange = range.GetOffset(1, 1, 2, 2);
+            var topLeft = newRange.GetOffset(0, 0);
+            var bottomRight = newRange.GetOffset(1, 1);
+            Assert.AreEqual(5, topLeft);
+            Assert.AreEqual(9, bottomRight);
+            Assert.AreEqual(2, newRange.Size.NumberOfRows);
+            Assert.AreEqual(2, newRange.Size.NumberOfCols);
+        }
+
+        [TestMethod]
+        public void GetOffsetSingleRangeShouldReturnCorrectResult()
+        {
+            var rangeDef = new RangeDefinition(3, 3);
+            var range = new InMemoryRange(rangeDef);
+            range.SetValue(0, 0, 1);
+
+            var newRange = range.GetOffset(0, 0, 0, 0);
+            var topLeft = newRange.GetOffset(0, 0);
+            Assert.AreEqual(1, topLeft);
+            Assert.AreEqual(1, newRange.Size.NumberOfRows);
+            Assert.AreEqual(1, newRange.Size.NumberOfCols);
+        }
+
+        [TestMethod]
+        public void GetOffsetSingleColShouldReturnCorrectResult()
+        {
+            var rangeDef = new RangeDefinition(3, 3);
+            var range = new InMemoryRange(rangeDef);
+            range.SetValue(0, 0, 1);
+            range.SetValue(1, 0, 2);
+
+            var newRange = range.GetOffset(0, 0, 1, 0);
+            var top = newRange.GetOffset(0, 0);
+            Assert.AreEqual(1, top);
+            var bottom = newRange.GetOffset(1, 0);
+            Assert.AreEqual(2, bottom);
+            Assert.AreEqual(2, newRange.Size.NumberOfRows);
+            Assert.AreEqual(1, newRange.Size.NumberOfCols);
+        }
+
+        [TestMethod]
+        public void GetOffsetSingleRowShouldReturnCorrectResult()
+        {
+            var rangeDef = new RangeDefinition(3, 3);
+            var range = new InMemoryRange(rangeDef);
+            range.SetValue(0, 0, 1);
+            range.SetValue(0, 1, 2);
+
+            var newRange = range.GetOffset(0, 0, 0, 1);
+            var left = newRange.GetOffset(0, 0);
+            Assert.AreEqual(1, left);
+            var right = newRange.GetOffset(0, 1);
+            Assert.AreEqual(2, right);
+            Assert.AreEqual(1, newRange.Size.NumberOfRows);
+            Assert.AreEqual(2, newRange.Size.NumberOfCols);
         }
     }
 }

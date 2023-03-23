@@ -313,6 +313,32 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return _ws.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
             }
         }
+
+        /// <summary>
+        /// Returns a subrange
+        /// </summary>
+        /// <param name="rowOffsetStart"></param>
+        /// <param name="colOffsetStart"></param>
+        /// <param name="rowOffsetEnd"></param>
+        /// <param name="colOffsetEnd"></param>
+        /// <returns></returns>
+        public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
+        {
+            if (_values == null) return null;
+            if (_values.Row < _address.FromRow || _values.Column < _address.FromCol)
+            {
+                var sr = _address.FromRow;
+                var sc = _address.FromCol;
+                return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _context, _address.ExternalReferenceIx);
+            }
+            else
+            {
+                var sr = _values.Row;
+                var sc = _values.Column;
+                return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _context, _address.ExternalReferenceIx);
+            }
+        }
+
         public bool IsHidden(int rowOffset, int colOffset)
         {
             var row = _ws.GetValueInner(_address.FromRow + rowOffset, 0) as RowInternal;

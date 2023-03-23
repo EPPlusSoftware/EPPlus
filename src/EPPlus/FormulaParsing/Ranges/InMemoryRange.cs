@@ -135,6 +135,27 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             return c.Value;
         }
+
+        public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
+        {
+            var nRows = Math.Abs(rowOffsetEnd - rowOffsetStart);
+            var nCols = (short)Math.Abs(colOffsetEnd- colOffsetStart);
+            nRows++;
+            nCols++;
+            var rangeDef = new RangeDefinition(nRows, nCols);
+            var result = new InMemoryRange(rangeDef);
+            var rowIx = 0;
+            for(var row = rowOffsetStart; row <= rowOffsetEnd; row++)
+            {
+                var colIx = 0;
+                for (var col = colOffsetStart; col <= colOffsetEnd; col++)
+                {
+                    result.SetValue(rowIx, colIx++, _cells[row, col].Value);
+                }
+                rowIx++;
+            }
+            return result;
+        }
         public bool IsHidden(int rowOffset, int colOffset)
         {
             return false;

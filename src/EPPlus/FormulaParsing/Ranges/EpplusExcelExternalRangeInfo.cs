@@ -294,6 +294,34 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return _externalWs?.CellValues.GetValue(_values.Row + rowOffset, _values.Column + colOffset);
             }
         }
+
+        public IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
+        {
+            if (_values == null) return null;
+            if (_values.Row < _fromRow || _values.Column < _fromCol)
+            {
+                return new EpplusExcelExternalRangeInfo(
+                    _address.ExternalReferenceIx,
+                    _address.WorksheetIx,
+                    _fromRow + rowOffsetStart,
+                    _fromCol + colOffsetStart,
+                    _fromRow + rowOffsetEnd, 
+                    _fromCol + colOffsetEnd, 
+                    _address._context);
+            }
+            else
+            {
+                return new EpplusExcelExternalRangeInfo(
+                    _address.ExternalReferenceIx,
+                    _address.WorksheetIx,
+                    _values.Row + rowOffsetStart,
+                    _values.Column + colOffsetStart,
+                    _values.Row + rowOffsetEnd,
+                    _values.Column + colOffsetEnd,
+                    _address._context);
+            }
+        }
+
         public bool IsHidden(int rowOffset, int colOffset)
         {
             return false;
