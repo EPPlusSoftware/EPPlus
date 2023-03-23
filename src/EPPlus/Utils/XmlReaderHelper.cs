@@ -49,8 +49,16 @@ namespace OfficeOpenXml.Utils
                         do
                         {
                             xr.Read();
-                            if (xr.EOF) return false;
+
+                            if (xr.EOF)
+                            {
+                                return false;
+                            }
                         } while (xr.Depth != depth);
+                        if (!nodeOrder.TryGetValue(xr.LocalName, out currentNodeIx))
+                        {
+                            return false;
+                        }
                     }
                     return xr.NodeType == XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tag);
                 }

@@ -2904,8 +2904,21 @@ namespace OfficeOpenXml
                 {
                     WorksheetXml.DocumentElement.SetAttribute("xmlns:xr", ExcelPackage.schemaXr);
                     WorksheetXml.DocumentElement.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
-                    WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
-                    WorksheetXml.DocumentElement.SetAttribute("Ignorable", "xr");
+
+                    var ignorables = WorksheetXml.DocumentElement.GetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+                    if (ignorables != null)
+                    {
+                        var namespaces = ignorables.Split(' ');
+                        if(!namespaces.Any(x => x == "xr"))
+                        {
+                            WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, ignorables + " xr");
+                        }
+                    }
+                    else
+                    {
+                        WorksheetXml.DocumentElement.SetAttributeNode("Ignorable", ExcelPackage.schemaMarkupCompatibility);
+                        WorksheetXml.DocumentElement.SetAttribute("Ignorable", ExcelPackage.schemaMarkupCompatibility, "xr");
+                    }
 
                     if (DataValidations.HasValidationType(InternalValidationType.DataValidation))
                     {

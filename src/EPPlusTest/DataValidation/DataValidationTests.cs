@@ -51,6 +51,18 @@ namespace EPPlusTest.DataValidation
             CleanupTestData();
         }
 
+        [TestMethod]    
+        public void testStuff()
+        {
+            ExcelPackage package = new ExcelPackage("C:\\Users\\OssianEdström\\Documents\\HelloEmpty.xlsx");
+            {
+               var ws = package.Workbook.Worksheets[0];
+               ws.Name= "Test";
+                var test = new MemoryStream();
+                package.Save();
+            }
+        }
+
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {

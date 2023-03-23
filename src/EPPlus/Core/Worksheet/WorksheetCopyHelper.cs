@@ -99,6 +99,13 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopySheetNames(copy, added);
             }
+            if(copy.DataValidations.Count > 0) 
+            {
+                foreach(var dv in copy.DataValidations)
+                {
+                    added.DataValidations.AddCopyOfDataValidation(dv);
+                }
+            }
 
             //Copy all cells and styles if the worksheet is from another workbook.
             CloneCellsAndStyles(copy, added);
