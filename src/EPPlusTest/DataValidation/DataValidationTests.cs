@@ -29,6 +29,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -65,20 +66,45 @@ namespace EPPlusTest.DataValidation
             var sheet = P.Workbook.Worksheets.Add("NewSheet");
 
             sheet.DataValidations.AddAnyValidation("A1");
-            sheet.DataValidations.AddIntegerValidation("A2").AllowBlank = true;
-            sheet.DataValidations.AddDecimalValidation("A3").AllowBlank = true;
-            sheet.DataValidations.AddListValidation("A4").AllowBlank = true;
-            sheet.DataValidations.AddTextLengthValidation("A5").AllowBlank = true;
-            sheet.DataValidations.AddDateTimeValidation("A6").AllowBlank = true;
-            sheet.DataValidations.AddTimeValidation("A7").AllowBlank = true;
-            sheet.DataValidations.AddCustomValidation("A8");
+            var intDV = sheet.DataValidations.AddIntegerValidation("A2");
+            intDV.Formula.Value = 1;
+            intDV.Formula2.Value = 1;
+
+            var decimalDV = sheet.DataValidations.AddDecimalValidation("A3");
+
+            decimalDV.Formula.Value = 1;
+            decimalDV.Formula2.Value = 1;
+
+            var listDV = sheet.DataValidations.AddListValidation("A4");
+
+            listDV.Formula.Values.Add("5");
+            listDV.Formula.Values.Add("Option");
+
+
+            var textDV = sheet.DataValidations.AddTextLengthValidation("A5");
+
+            textDV.Formula.Value = 1;
+            textDV.Formula2.Value = 1;
+
+            var dateTimeDV = sheet.DataValidations.AddDateTimeValidation("A6");
+
+            dateTimeDV.Formula.Value = DateTime.MaxValue;
+            dateTimeDV.Formula2.Value = DateTime.MinValue;
+
+            var timeDV = sheet.DataValidations.AddTimeValidation("A7");
+
+            timeDV.Formula.Value.Hour = 1;
+            timeDV.Formula2.Value.Hour = 2;
+
+            var customValidation = sheet.DataValidations.AddCustomValidation("A8");
+            customValidation.Formula.ExcelFormula = "A1+A2";
 
             MemoryStream xmlStream = new MemoryStream();
             P.SaveAs(xmlStream);
 
             var P2 = new ExcelPackage(xmlStream);
-
             ExcelDataValidationCollection dataValidations = P2.Workbook.Worksheets[0].DataValidations;
+
             Assert.AreEqual(dataValidations[0].ValidationType.Type, eDataValidationType.Any);
             Assert.AreEqual(dataValidations[1].ValidationType.Type, eDataValidationType.Whole);
             Assert.AreEqual(dataValidations[2].ValidationType.Type, eDataValidationType.Decimal);
@@ -97,6 +123,8 @@ namespace EPPlusTest.DataValidation
 
             var validation = sheet.DataValidations.AddIntegerValidation("A1");
             validation.Operator = ExcelDataValidationOperator.greaterThanOrEqual;
+            validation.Formula.Value = 1;
+            validation.Formula2.Value = 1;
 
             MemoryStream xmlStream = new MemoryStream();
             P.SaveAs(xmlStream);
@@ -114,7 +142,8 @@ namespace EPPlusTest.DataValidation
             var validation = sheet.DataValidations.AddIntegerValidation("A1");
 
             validation.ShowErrorMessage = true;
-            validation.AllowBlank = true;
+            validation.Formula.Value = 1;
+            validation.Formula2.Value = 1;
 
             MemoryStream xmlStream = new MemoryStream();
             P.SaveAs(xmlStream);
@@ -170,14 +199,6 @@ namespace EPPlusTest.DataValidation
         {
             var validation = _sheet.DataValidations.AddListValidation("A1");
             validation.Formula.Values.Add("1");
-            validation.Validate();
-        }
-
-        [TestMethod]
-        public void DataValidations_ShouldNotThrowIfAllowBlankIsSet()
-        {
-            var validation = _sheet.DataValidations.AddListValidation("A1");
-            validation.AllowBlank = true;
             validation.Validate();
         }
 

@@ -103,19 +103,20 @@ namespace OfficeOpenXml.DataValidation
             base.Validate();
 
             var formula = Formula as ExcelDataValidationFormula;
-            if ((formula.HasValue == false) && string.IsNullOrEmpty(formula.ExcelFormula) && ExcelDataValidationOperator.equal == Operator) 
-            {
-                throw new InvalidOperationException("Formula MUST be assigned to when Operator is Equal");
-            }
-            else if (ValidationType.Type != eDataValidationType.List
-                && ValidationType.Type != eDataValidationType.Custom
-                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
-            {
 
-                if (formula.HasValue == false && string.IsNullOrEmpty(Formula.ExcelFormula) && !(AllowBlank ?? false))
+            if(ValidationType.Type == eDataValidationType.List)
+            {
+                if(((ExcelDataValidationFormulaList)formula).Values.Count == 0 && string.IsNullOrEmpty(formula.ExcelFormula))
                 {
-                    throw new InvalidOperationException("Validation of " + Address.Address + " failed: Formula must be set if AllowBlank is false");
+                    throw new InvalidOperationException($"Formula in Datavalidation of type:{ValidationType} with {Uid} must have a Value or ExcelFormula");
                 }
+                return;
+            }
+
+            if (ValidationType.Type != eDataValidationType.Any && 
+                (formula.HasValue == false) && string.IsNullOrEmpty(formula.ExcelFormula))
+            {
+                throw new InvalidOperationException($"Formula in Datavalidation of type:{ValidationType} with {Uid} must have a Value or ExcelFormula");
             }
         }
     }

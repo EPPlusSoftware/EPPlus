@@ -78,7 +78,9 @@ namespace EPPlusTest.DataValidation
         {
             var sheet = package.Workbook.Worksheets.Add("NewSheet");
             var validation = sheet.DataValidations.AddIntegerValidation("A1");
-            validation.AllowBlank = true;
+            validation.Formula.Value = 1;
+            validation.Formula2.Value = 1;
+
             return validation;
         }
 
@@ -101,14 +103,6 @@ namespace EPPlusTest.DataValidation
                 Workbook.Worksheets[0].DataValidations[0];
 
             return (T)((Object)validation);
-
-            //switch (validation.ValidationType.Type)
-            //{
-            //    case eDataValidationType.Any:
-            //        return (IExcelDataValidationAny)validation;
-            //}
-
-            //return (T)ReadPackageAsNewPackage(package).Workbook.Worksheets[0].DataValidations[0];
         }
     }
 }
