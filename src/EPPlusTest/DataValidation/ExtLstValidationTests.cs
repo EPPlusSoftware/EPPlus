@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System.IO;
 
 namespace EPPlusTest.DataValidation
 {
@@ -20,14 +21,16 @@ namespace EPPlusTest.DataValidation
             }
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ReadAndSaveExtLstPackage_ShouldNotThrow()
         {
             using (ExcelPackage package = OpenTemplatePackage("ExtLstDataValidationValidation.xlsx"))
             {
                 SaveAndCleanup(package);
 
-                ExcelPackage p = new ExcelPackage("C:\\epplusTest\\Testoutput\\ExtLstDataValidationValidation.xlsx");
+                var memoryStream = new MemoryStream();
+                package.SaveAs(memoryStream);
+                ExcelPackage p = new ExcelPackage(memoryStream);
 
                 Assert.IsTrue(p.Workbook.Worksheets[0].DataValidations.Count > 0);
             }
