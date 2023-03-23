@@ -184,7 +184,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells[3, 2].Value = 5;
             _sheet.Cells[3, 3].Value = 6;
 
-            _sheet.Cells["D4:D5"].CreateArrayFormula("XLOOKUP(\"Sweden\",A1:C1,A2:C3)");
+            _sheet.Cells["D4"].Formula = "XLOOKUP(\"Sweden\",A1:C1,A2:C3)";
             _sheet.Calculate();
 
             Assert.AreEqual(3, _sheet.Cells["D4"].Value);
