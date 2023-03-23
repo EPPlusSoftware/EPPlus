@@ -450,13 +450,13 @@ namespace OfficeOpenXml.FormulaParsing
                                 var ri = (IRangeInfo)cr.Result;
                                 if (f._arrayIndex >= 0 && f._isDynamic == false) //A legacy array formula, Fill the referenced range.
                                 {
-                                    ArrayFormulaOutput.FillFixedArrayFromRangeInfo(f, ri, rd, depChain);
+                                    ArrayFormulaOutput.FillArrayFromRangeInfo(f, ri, rd, depChain);
                                 }
                                 else
                                 {
                                     //Add dynamic array formula support here.
-                                    DynamicArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
-                                    f._ws.SetValueInner(f._row, f._column, ExcelErrorValue.Create(eErrorType.Value));
+                                    ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
+                                    //f._ws.SetValueInner(f._row, f._column, ExcelErrorValue.Create(eErrorType.Value));
                                 }
                             }
                             else

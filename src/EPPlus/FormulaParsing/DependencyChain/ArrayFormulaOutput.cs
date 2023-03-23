@@ -9,7 +9,7 @@ namespace OfficeOpenXml.FormulaParsing
 {
     internal class ArrayFormulaOutput
     {
-        internal static void FillFixedArrayFromRangeInfo(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
+        internal static void FillArrayFromRangeInfo(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
         {
             var nr = array.Size.NumberOfRows;
             var nc = array.Size.NumberOfCols;
@@ -42,6 +42,17 @@ namespace OfficeOpenXml.FormulaParsing
 
             var formulaAddress = new FormulaRangeAddress(depChain._parsingContext) { WorksheetIx = wsIx, FromRow = sr, ToRow = sf.EndRow, FromCol = sc, ToCol = sf.EndCol };
             rd.Merge(ref formulaAddress);            
+        }
+        internal static void FillDynamicArrayFromRangeInfo(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
+        {
+            f._isDynamic = true;
+            var md = depChain._parsingContext.Package.Workbook.Metadata;
+            md.GetDynamicArrayIndex(out int cm);
+            f._ws._metadataStore.SetValue(f._row, f._column, new ExcelWorksheet.MetaDataReference() { cm = cm });
+            f._ws._flags.SetFlagValue(f._row, f._column, true, CellFlags.ArrayFormula);
+            f._ws.Cells[f._row, f._column, f._row+array.Size.NumberOfRows-1, f._column+array.Size.NumberOfCols-1].CreateArrayFormula(f._formula);
+            f._arrayIndex = f._ws.GetMaxShareFunctionIndex(true) - 1;
+            FillArrayFromRangeInfo(f, array, rd, depChain);
         }
     }
 }
