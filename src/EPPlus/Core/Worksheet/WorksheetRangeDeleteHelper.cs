@@ -566,7 +566,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             //Update data validation references
             var deletedDV = new List<ExcelDataValidation>();
-            foreach (var dv in ws.DataValidations)
+            foreach (ExcelDataValidation dv in ws.DataValidations)
             {
                 var address = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
                 if (address == null)
