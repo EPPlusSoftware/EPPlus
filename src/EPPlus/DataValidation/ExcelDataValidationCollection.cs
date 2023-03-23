@@ -177,9 +177,21 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        internal void AddCopyOfDataValidation(string address, ExcelDataValidation dv)
+        /// <summary>
+        /// Optionally add address at end for new copy with address in range
+        /// </summary>
+        /// <param name="dv"></param>
+        /// <param name="address"></param>
+        internal void AddCopyOfDataValidation(ExcelDataValidation dv, string address = null)
         {
-            _validations.Add(ExcelDataValidationFactory.CloneWithNewAdress(address, dv));
+            if(address == null)
+            {
+                _validations.Add(dv.GetClone());
+            }
+            else
+            {
+                _validations.Add(ExcelDataValidationFactory.CloneWithNewAdress(address, dv));
+            }
         }
 
         /// <summary>

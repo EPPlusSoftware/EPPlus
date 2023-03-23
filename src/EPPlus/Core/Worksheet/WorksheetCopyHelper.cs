@@ -28,6 +28,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.DataValidation;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -98,6 +99,13 @@ namespace OfficeOpenXml.Core.Worksheet
             if (copy.Names.Count > 0)
             {
                 CopySheetNames(copy, added);
+            }
+            if(copy.DataValidations.Count > 0) 
+            {
+                foreach(ExcelDataValidation dv in copy.DataValidations)
+                {
+                    added.DataValidations.AddCopyOfDataValidation(dv);
+                }
             }
 
             //Copy all cells and styles if the worksheet is from another workbook.
