@@ -1,4 +1,16 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.0
+### Features
+* Improved performance and better support for cross-worksheet references in data validations.
+### Fixed issues
+* ExcelRange.RichText.Clear method is cleared all cell style properties.
+* Match functions compares null values as exact match.
+* ExcelChartSerie.Border.Fill.Color throws an exception on set, if a chart style has applied a border style.
+* Cloning rows when copying a worksheet now clones the RowInternal class.
+* Switched to internal image handler instead of System.Drawing.Common for .NET framework.
+* Deleting rows deleted conditional formatting and data validatio9ns for full rows/columns
+* The stream was closed but not disposed when calling ExcelPackage.GetAsByteArray().
+* The formula parser did not handle exponential numbers in calculation correctly.
 
 ## Version 6.1.3
 ### Fixed issues

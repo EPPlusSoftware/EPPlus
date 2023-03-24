@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>6.1.3.0</AssemblyVersion>
-    <FileVersion>6.1.3.0</FileVersion>
-    <Version>6.1.3</Version>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
+    <FileVersion>6.2.0.0</FileVersion>
+    <Version>6.2.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.1.3
+		EPPlus 6.2.0
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,8 +26,12 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
-		## Version 6.1.3
+		## Version 6.2.0
+		* Improved performance and better support for cross-worksheet references in data validations.
 		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+
+		## Version 6.1.3
+		* Bug fixes. 
 
 		## Version 6.1.2
 		* Bug fixes.
@@ -273,6 +277,7 @@
 		* Insert/Delete in ranges and tables.
 
 		Breaking Changes
+		* From version 6.2, updating data validations via the XML DOM will not work as read and write is performed on load/save. ExcelDataValidation.IsStale is deprecated and will always return false.
 		* LoadFromCollection changes the data type of parameter 'TableStyle' from 'TableStyles' to 'TableStyles?'. The default value, if omitted, changes from 'TableStyles.None' to null. 'TableStyles.None', if supplied will create a table with style None.
 		* The default behavior for the Worksheet collection base in .NET Framework has changed from 1 to 0. This is the same default behavior as in .NET core today.
 		* Pictures have changed the behavior as the oneCellAnchor tag is used instead of the twoCellAnchor tag with the editAs="oneCell".
@@ -287,8 +292,9 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.1.3	20230224 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-		6.1.2	20230119 Minor bug fixes. 
+		6.2.0	20230324 Performance update to data validation. Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.1.3	20230224 Minor bug fixes. 
+		6.1.2	20230119 Minor bug fixes.
 		6.1.1	20221121 Minor bug fixes.
 		6.1.0	20221103 Newer types of VBA signatures, ToCollection method, Methods for Grouping rows and columns.
 		6.0.8	20220921 Minor bug fixes.
