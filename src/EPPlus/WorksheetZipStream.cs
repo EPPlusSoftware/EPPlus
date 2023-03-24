@@ -20,15 +20,15 @@ namespace OfficeOpenXml
     {
         RollingBuffer _rollingBuffer = new RollingBuffer(8192);
         private Stream _stream;
-        private long _size;
-        private long _bytesRead;
-        private int _bufferEnd = 0;
-        private int _prevBufferEnd = 0;
+        //private long _size;
+        //private long _bytesRead;
+        //private int _bufferEnd = 0;
+        //private int _prevBufferEnd = 0;
         public WorksheetZipStream(Stream zip, bool writeToBuffer, long size = -1)
         {
             _stream = zip;
-            _size = size;
-            _bytesRead = 0;
+            //_size = size;
+            //_bytesRead = 0;
             WriteToBuffer = writeToBuffer;
         }
 
@@ -51,9 +51,9 @@ namespace OfficeOpenXml
         //byte[] _prevBuffer, _tempBuffer = new byte[8192];
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (_size > 0 && _bytesRead + count > _size)
+            if(_stream.Length > 0 && _stream.Position + count > _stream.Length)
             {
-                count = (int)(_size - _bytesRead);
+                count = (int)(_stream.Length - _stream.Position);
             }
 
             var r = _stream.Read(buffer, offset, count);
@@ -175,13 +175,12 @@ namespace OfficeOpenXml
 
         internal void ReadToEnd()
         {
-            if (_bytesRead < _size)
+            if (_stream.Position < _stream.Length)
             {
-                var sizeToEnd = (int)(_size - _bytesRead);
+                var sizeToEnd = (int)(_stream.Length - _stream.Position);
                 byte[] buffer = new byte[sizeToEnd];
                 var r = _stream.Read(buffer, 0, sizeToEnd);
                 Buffer.Write(buffer);
-                _bytesRead = _size;
             }
         }
 
