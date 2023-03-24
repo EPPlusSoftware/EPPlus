@@ -31,7 +31,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             Category = ExcelFunctionCategory.LookupAndReference,
             EPPlusVersion = "6.0",
             IntroducedInExcelVersion = "2016",
-            Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds. Will return a VALUE error if the functions returns an array (EPPlus does not support dynamic arrayformulas)")]
+            Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds. Will return a VALUE error if the functions returns an array (EPPlus does not support dynamic arrayformulas)", 
+            SupportsArrays = true)]
     internal class Xlookup : LookupFunction
     {
         private enum XlookupRangeDirection
@@ -131,45 +132,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return ret;
         }
 
-        //private static object GetReturnValue(IRangeInfo returnArray, Dictionary<object, List<int>> origIndexes, object candidate, SearchMode searchMode)
-        //{
-        //    if (searchMode == SearchMode.ReverseStartingAtLast)
-        //    {
-        //        return returnArray[origIndexes[candidate].Last()];
-        //    }
-        //    else
-        //    {
-        //        return returnArray[origIndexes[candidate].First()];
-        //    }
-        //}
-
-        private Dictionary<object, List<int>> CreateIndexes(List<object> lookupArray)
-        {
-            var origIndexes = new Dictionary<object, List<int>>();
-            for (var i = 0; i < lookupArray.Count; i++)
-            {
-                if (!origIndexes.ContainsKey(lookupArray[i]))
-                {
-                    origIndexes.Add(lookupArray[i], new List<int>());
-                }
-                origIndexes[lookupArray[i]].Add(i);
-            }
-            return origIndexes;
-        }
-
-        //private IRangeInfo GetSearchedValue(object lookupValue, List<object> lookupArray, IRangeInfo returnRange, XLookupMatchMode matchMode, XLookupSearchMode searchMode)
-        //{
-        //    /*************************************
-        //     * Logic to implement:
-        //     * 
-        //     * 1. Sort the lookupArray and returnArray top-bottom
-        //     * 2. Stop on the first larger
-        //     * 3. Return according to match mode
-        //     */
-
-        //    return null;
-        //}
-
         private List<object> GetLookupArray(IRangeInfo lookupRange, XlookupRangeDirection direction)
         {
             var arr = new List<object>();
@@ -190,6 +152,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return arr;
         }
 
+        private int GetMatchIndex(object lookupValue, IRangeInfo lookupRange, XLookupSearchMode searchMode, XLookupMatchMode matchMode)
+        {
+            var ix = -1;
+            var comparer = new XlookupObjectComparer(matchMode);
+            if (searchMode == XLookupSearchMode.BinarySearchAscending)
+            {
+                ix = XLookupBinarySearch.Search(lookupValue, lookupRange, comparer);
+            }
+            else if (searchMode == XLookupSearchMode.BinarySearchDescending)
+            {
+                //searchItems.Sort((a, b) => comparer.Compare(b.Value, a.Value));
+                ix = XLookupBinarySearch.SearchDesc(lookupValue, lookupRange, comparer);
+            }
+            return ix;
+        }
+
         private int GetMatchIndex(object lookupValue, List<XlookupSearchItem> searchItems, XLookupSearchMode searchMode, XLookupMatchMode matchMode)
         {
             var saf = searchMode == XLookupSearchMode.StartingAtFirst;
@@ -197,16 +175,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var endIx = saf ? searchItems.Count - 1 : 0;
             var incrementor = saf ? 1 : -1;
             var comparer = new XlookupObjectComparer(matchMode);
-            //var itemComparer = new XlookupObjectComparer(matchMode);
-            if(searchMode == XLookupSearchMode.BinarySearchAscending)
-            {
-                var ix = XLookupBinarySearch.Search(lookupValue, searchItems.ToArray(), comparer);
-            }
-            else if(searchMode == XLookupSearchMode.BinarySearchDescending)
-            {
-                searchItems.Sort((a, b) => comparer.Compare(b.Value, a.Value));
-                var ix = XLookupBinarySearch.Search(lookupValue, searchItems.ToArray(), comparer);
-            }
             for (var ix = startIx; saf ? ix <= endIx : ix > endIx; ix += incrementor)
             {
                 var item = searchItems[ix];
@@ -273,10 +241,35 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var sm = ArgToInt(arguments, 5);
                 searchMode = GetSearchMode(sm);
             }
-            var lookupArray = GetLookupArray(lookupRange, lookupDirection);
-            var sortedLookupArray = GetSortedArray(lookupArray);
-            var ix = GetMatchIndex(lookupValue, sortedLookupArray, searchMode, matchMode);
-            if (ix == -1)
+            int ix;
+            if(searchMode == XLookupSearchMode.BinarySearchAscending || searchMode == XLookupSearchMode.BinarySearchDescending)
+            {
+                ix = GetMatchIndex(lookupValue, lookupRange, searchMode, matchMode);
+                if(ix < 0)
+                {
+                    var ix1 = ~ix;
+                    if (matchMode == XLookupMatchMode.ExactMatchReturnNextSmaller)
+                    { 
+                        ix = ix1 - 1;
+                    }
+                    else if(matchMode == XLookupMatchMode.ExactMatchReturnNextLarger)
+                    {
+                        var adjustment = (searchMode == XLookupSearchMode.BinarySearchDescending) ? -1 : 1;
+                        var max = returnArray.Size.NumberOfRows > returnArray.Size.NumberOfCols ?
+                            returnArray.Size.NumberOfRows : returnArray.Size.NumberOfCols;
+                        ix = ix1 >= max ? ix1 : ix1 + adjustment;
+                    }
+                    
+                }
+            }
+            else
+            {
+                var lookupArray = GetLookupArray(lookupRange, lookupDirection);
+                var sortedLookupArray = GetSortedArray(lookupArray);
+                ix = GetMatchIndex(lookupValue, sortedLookupArray, searchMode, matchMode);
+            }
+            
+            if (ix < 0 || ix > ((lookupDirection == XlookupRangeDirection.Vertical) ? returnArray.Size.NumberOfRows - 1 : returnArray.Size.NumberOfCols - 1))
             {
                 return string.IsNullOrEmpty(notFoundText) ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
             }

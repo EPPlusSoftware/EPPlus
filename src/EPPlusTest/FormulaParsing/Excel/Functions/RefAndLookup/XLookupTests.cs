@@ -234,11 +234,13 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
         }
 
-        [DataTestMethod, Ignore]
-        [DataRow(11d, 2d, -1, -2)]
-        public void BinarySearchAsc(double lookupValue, double expected, int matchMode, int searchMode)
+        [DataTestMethod]
+        [DataRow(11d, 2d, -1, 2)]
+        [DataRow(21d, 3d, -1, 2)]
+        [DataRow(0d, "Not found", -1, 2)]
+        public void BinarySearchAscNextSmaller(double lookupValue, object expected, int matchMode, int searchMode)
         {
-            _sheet.Cells[1, 1].Value = 0;
+            _sheet.Cells[1, 1].Value = 1;
             _sheet.Cells[1, 2].Value = 10;
             _sheet.Cells[1, 3].Value = 20;
             _sheet.Cells[2, 1].Value = 1d;
@@ -246,7 +248,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells[2, 3].Value = 3d;
 
             _sheet.Cells["E2"].Value = lookupValue;
-            _sheet.Cells["F2"].Formula = $"XLOOKUP({lookupValue},A1:C1,A2:C2, \"Not found\", {matchMode}, {searchMode})";
+            _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A1:C1,A2:C2, \"Not found\", {matchMode}, {searchMode})";
 
 
             _sheet.Calculate();
@@ -254,7 +256,29 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
         }
 
-        [DataTestMethod, Ignore]
+        [DataTestMethod]
+        //[DataRow(11d, 3d, 1, 2)]
+        [DataRow(21d, "Not found", 1, 2)]
+        //[DataRow(0d, 1d, 1, 2)]
+        public void BinarySearchAscNextLarger(double lookupValue, object expected, int matchMode, int searchMode)
+        {
+            _sheet.Cells[1, 1].Value = 1;
+            _sheet.Cells[1, 2].Value = 10;
+            _sheet.Cells[1, 3].Value = 20;
+            _sheet.Cells[2, 1].Value = 1d;
+            _sheet.Cells[2, 2].Value = 2d;
+            _sheet.Cells[2, 3].Value = 3d;
+
+            _sheet.Cells["E2"].Value = lookupValue;
+            _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A1:C1,A2:C2, \"Not found\", {matchMode}, {searchMode})";
+
+
+            _sheet.Calculate();
+
+            Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
+        }
+
+        [DataTestMethod]
         [DataRow(0d, 1d, 0, -2)]
         [DataRow(11d, 3d, 1, -2)]
         public void BinarySearchDesc(double lookupValue, double expected, int matchMode, int searchMode)

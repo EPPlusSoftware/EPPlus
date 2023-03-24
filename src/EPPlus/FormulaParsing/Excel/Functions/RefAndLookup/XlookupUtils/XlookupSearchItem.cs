@@ -12,11 +12,13 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
 {
+    [DebuggerDisplay("Value: {Value}, org ix: {OriginalIndex}")]
     internal class XlookupSearchItem
     {
         public XlookupSearchItem(object val, int originalIndex)

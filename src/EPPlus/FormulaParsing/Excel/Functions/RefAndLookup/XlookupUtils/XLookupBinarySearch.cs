@@ -19,6 +19,64 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
 {
     internal static class XLookupBinarySearch
     {
+        internal static int Search(object s, IRangeInfo lookupRange, IComparer<object> comparer)
+        {
+            var nRows = lookupRange.Size.NumberOfRows;
+            var nCols = lookupRange.Size.NumberOfCols;
+            if (nRows == 0 && nCols == 0) return -1;
+            int low = 0, high = nRows > nCols ? nRows : nCols, mid;
+
+            while (low <= high)
+            {
+                mid = (low + high) >> 1;
+
+                var col = nRows > nCols ? 0 : mid;
+                var row = nRows > nCols ? mid : 0;
+                var val = lookupRange.GetOffset(row, col);
+
+                var result = comparer.Compare(s, val);
+
+                if (result < 0)
+                    high = mid - 1;
+
+                else if (result > 0)
+                    low = mid + 1;
+
+                else
+                    return mid;
+            }
+            return ~low;
+        }
+
+        internal static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)
+        {
+            var nRows = lookupRange.Size.NumberOfRows;
+            var nCols = lookupRange.Size.NumberOfCols;
+            if (nRows == 0 && nCols == 0) return -1;
+            int low = 0, high = nRows > nCols ? nRows : nCols, mid;
+
+            while (high >= low)
+            {
+                mid = (high + low) >> 1;
+
+                var col = nRows > nCols ? 0 : mid;
+                var row = nRows > nCols ? mid : 0;
+                var val = lookupRange.GetOffset(row, col);
+
+                var result = comparer.Compare(s, val);
+
+                if (result < 0)
+                    low = mid + 1;
+
+                else if (result > 0)
+                    high = mid - 1;
+
+                else
+                    return mid;
+            }
+            return ~low;
+        }
+
         internal static int Search(object s, XlookupSearchItem[] items, IComparer<object> comparer)
         {
             if (items.Length == 0) return -1;
