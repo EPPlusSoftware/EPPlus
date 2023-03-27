@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -213,6 +213,27 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [DataTestMethod]
+        [DataRow("*A*", "1", 1)]
+        [DataRow("*A*", "3", -1)]
+        public void ReverseSearchTestWildcardLargeRange(string lookupValue, string expected, int searchMode)
+        {
+            _sheet.Cells[1, 1].Value = "ABC";
+            _sheet.Cells[1, 2].Value = "1";
+            _sheet.Cells[2, 1].Value = "DDD";
+            _sheet.Cells[2, 2].Value = "2";
+            _sheet.Cells[3, 1].Value = "ABC";
+            _sheet.Cells[3, 2].Value = "3";
+
+            _sheet.Cells["E2"].Value = lookupValue;
+            _sheet.Cells["F2"].Formula = $"XLOOKUP(\"{lookupValue}\",A1:A30000,B1:B30000, \"Not found\", 2, {searchMode})";
+
+
+            _sheet.Calculate();
+
+            Assert.AreEqual(expected, _sheet.Cells["F2"].Value.ToString());
+        }
+
+        [DataTestMethod]
         [DataRow(0d, 1d, 0, 1)]
         [DataRow(11d, 2d, -1, 1)]
         [DataRow(11d, 3d, 1, 1)]
@@ -232,6 +253,28 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Calculate();
 
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
+        }
+
+        [DataTestMethod, Ignore]
+        //[DataRow(0d, 1d, 0, 1)]
+        //[DataRow(11d, 2d, -1, 1)]
+        //[DataRow(11d, 3d, 1, 1)]
+        public void HorizontalNumericLarge(double lookupValue, double expected, int matchMode, int searchMode)
+        {
+            _sheet.Cells[1, 1].Value = 0;
+            _sheet.Cells[1, 2].Value = 10;
+            _sheet.Cells[1, 3].Value = 20;
+            _sheet.Cells[2, 1].Value = 1d;
+            _sheet.Cells[2, 2].Value = 2d;
+            _sheet.Cells[2, 3].Value = 3d;
+
+            _sheet.Cells["E3"].Value = lookupValue;
+            _sheet.Cells["F3"].Formula = $"XLOOKUP({lookupValue},A1:XFC1,A2:XFC2, \"Not found\", {matchMode}, {searchMode})";
+
+
+            _sheet.Calculate();
+
+            Assert.AreEqual(expected, _sheet.Cells["F3"].Value);
         }
 
         [DataTestMethod]
@@ -257,9 +300,9 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [DataTestMethod]
-        //[DataRow(11d, 3d, 1, 2)]
+        [DataRow(11d, 3d, 1, 2)]
         [DataRow(21d, "Not found", 1, 2)]
-        //[DataRow(0d, 1d, 1, 2)]
+        [DataRow(0d, 1d, 1, 2)]
         public void BinarySearchAscNextLarger(double lookupValue, object expected, int matchMode, int searchMode)
         {
             _sheet.Cells[1, 1].Value = 1;
@@ -281,7 +324,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         [DataTestMethod]
         [DataRow(0d, 1d, 0, -2)]
         [DataRow(11d, 3d, 1, -2)]
-        public void BinarySearchDesc(double lookupValue, double expected, int matchMode, int searchMode)
+        [DataRow(21d, "Not found", 1, -2)]
+        public void BinarySearchDesc(double lookupValue, object expected, int matchMode, int searchMode)
         {
             _sheet.Cells[1, 1].Value = 20;
             _sheet.Cells[1, 2].Value = 10;
@@ -296,71 +340,71 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             _sheet.Calculate();
 
-            Assert.AreEqual(expected, (double)_sheet.Cells["F2"].Value);
+            Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
         }
 
         [TestMethod]
         public void TestBinarySearchUtilDesc()
         {
-            var comparer = new XlookupObjectComparer(XLookupMatchMode.ExactMatch);
-            var list = new List<XlookupSearchItem>
+            var comparer = new LookupComparer(LookupMatchMode.ExactMatch);
+            var list = new List<LookupSearchItem>
             {
-                new XlookupSearchItem(20, 0),
-                new XlookupSearchItem(17, 2),
-                new XlookupSearchItem(15, 1),
-                new XlookupSearchItem(14, 2),
-                new XlookupSearchItem(13, 2),
-                new XlookupSearchItem(12, 2),
-                new XlookupSearchItem(10, 2),
-                new XlookupSearchItem(9, 2),
-                new XlookupSearchItem(8, 2),
-                new XlookupSearchItem(5, 3),
-                new XlookupSearchItem(1, 4)
+                new LookupSearchItem(20, 0),
+                new LookupSearchItem(17, 2),
+                new LookupSearchItem(15, 1),
+                new LookupSearchItem(14, 2),
+                new LookupSearchItem(13, 2),
+                new LookupSearchItem(12, 2),
+                new LookupSearchItem(10, 2),
+                new LookupSearchItem(9, 2),
+                new LookupSearchItem(8, 2),
+                new LookupSearchItem(5, 3),
+                new LookupSearchItem(1, 4)
             };
-            var ix = XLookupBinarySearch.SearchDesc(10, list.ToArray(), comparer);
+            var ix = LookupBinarySearch.SearchDesc(10, list.ToArray(), comparer);
             Assert.AreEqual(6, ix);
-            ix = XLookupBinarySearch.SearchDesc(20, list.ToArray(), comparer);
+            ix = LookupBinarySearch.SearchDesc(20, list.ToArray(), comparer);
             Assert.AreEqual(0, ix);
-            ix = XLookupBinarySearch.SearchDesc(1, list.ToArray(), comparer);
+            ix = LookupBinarySearch.SearchDesc(1, list.ToArray(), comparer);
             Assert.AreEqual(10, ix);
-            ix = XLookupBinarySearch.SearchDesc(5, list.ToArray(), comparer);
+            ix = LookupBinarySearch.SearchDesc(5, list.ToArray(), comparer);
             Assert.AreEqual(9, ix);
-            ix = XLookupBinarySearch.SearchDesc(0, list.ToArray(), comparer);
+            ix = LookupBinarySearch.SearchDesc(0, list.ToArray(), comparer);
             Assert.AreEqual(-12, ix);
-            ix = XLookupBinarySearch.SearchDesc(7, list.ToArray(), comparer);
+            ix = LookupBinarySearch.SearchDesc(7, list.ToArray(), comparer);
             Assert.AreEqual(-10, ix);
-            ix = XLookupBinarySearch.SearchDesc(21, list.ToArray(), comparer);
+            ix = LookupBinarySearch.SearchDesc(21, list.ToArray(), comparer);
             Assert.AreEqual(-1, ix);
         }
 
         [TestMethod]
         public void TestBinarySearchUtilAsc()
         {
-            var comparer = new XlookupObjectComparer(XLookupMatchMode.ExactMatch);
-            var list = new List<XlookupSearchItem>
+            var comparer = new LookupComparer(LookupMatchMode.ExactMatch);
+            var list = new List<LookupSearchItem>
             {
-                new XlookupSearchItem(1, 0),
-                new XlookupSearchItem(5, 2),
-                new XlookupSearchItem(8, 1),
-                new XlookupSearchItem(9, 2),
-                new XlookupSearchItem(10, 2),
-                new XlookupSearchItem(12, 2),
-                new XlookupSearchItem(13, 2),
-                new XlookupSearchItem(14, 2),
-                new XlookupSearchItem(15, 2),
-                new XlookupSearchItem(17, 3),
-                new XlookupSearchItem(20, 4)
+                new LookupSearchItem(1, 0),
+                new LookupSearchItem(5, 2),
+                new LookupSearchItem(8, 1),
+                new LookupSearchItem(9, 2),
+                new LookupSearchItem(10, 2),
+                new LookupSearchItem(12, 2),
+                new LookupSearchItem(13, 2),
+                new LookupSearchItem(14, 2),
+                new LookupSearchItem(15, 2),
+                new LookupSearchItem(17, 3),
+                new LookupSearchItem(20, 4)
             };
             var arr = list.ToArray();
-            var ix = XLookupBinarySearch.Search(10, arr, comparer);
+            var ix = LookupBinarySearch.SearchAsc(10, arr, comparer);
             Assert.AreEqual(4, ix);
-            ix = XLookupBinarySearch.Search(20, arr, comparer);
+            ix = LookupBinarySearch.SearchAsc(20, arr, comparer);
             Assert.AreEqual(10, ix);
-            ix = XLookupBinarySearch.Search(1, arr, comparer);
+            ix = LookupBinarySearch.SearchAsc(1, arr, comparer);
             Assert.AreEqual(0, ix);
-            ix = XLookupBinarySearch.Search(5, arr, comparer);
+            ix = LookupBinarySearch.SearchAsc(5, arr, comparer);
             Assert.AreEqual(1, ix);
-            ix = XLookupBinarySearch.Search(7, list.ToArray(), comparer);
+            ix = LookupBinarySearch.SearchAsc(7, list.ToArray(), comparer);
             Assert.AreEqual(-3, ix);
         }
     }

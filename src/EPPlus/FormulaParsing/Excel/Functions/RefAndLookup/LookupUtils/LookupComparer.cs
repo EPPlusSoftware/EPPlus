@@ -17,22 +17,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
-    internal class XlookupObjectComparer : IComparer<object>
+    internal class LookupComparer : IComparer<object>
     {
-        public XlookupObjectComparer(XLookupMatchMode matchMode)
+        public LookupComparer(LookupMatchMode matchMode)
         {
             _matchMode = matchMode;
         }
 
-        private readonly XLookupMatchMode _matchMode;
+        private readonly LookupMatchMode _matchMode;
         private readonly ValueMatcher _vm = new WildCardValueMatcher();
 
         public virtual int Compare(object x, object y)
         {
             int v = 0;
-            if (_matchMode == XLookupMatchMode.Wildcard)
+            if (_matchMode == LookupMatchMode.Wildcard)
             {
                 v = _vm.IsMatch(x, y);
             }

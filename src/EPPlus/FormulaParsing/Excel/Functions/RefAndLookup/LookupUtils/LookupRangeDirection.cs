@@ -15,13 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
-    internal enum XLookupMatchMode : int
+    internal enum LookupRangeDirection
     {
-        ExactMatch = 0,
-        ExactMatchReturnNextSmaller = -1,
-        ExactMatchReturnNextLarger = 1,
-        Wildcard = 2
+        Vertical,
+        Horizontal
     }
 }

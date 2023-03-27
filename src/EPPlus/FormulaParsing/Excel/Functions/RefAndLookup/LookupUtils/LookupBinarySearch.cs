@@ -15,11 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
-    internal static class XLookupBinarySearch
+    internal static class LookupBinarySearch
     {
-        internal static int Search(object s, IRangeInfo lookupRange, IComparer<object> comparer)
+        private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer)
         {
             var nRows = lookupRange.Size.NumberOfRows;
             var nCols = lookupRange.Size.NumberOfCols;
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
             return ~low;
         }
 
-        internal static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)
+        private static int SearchDesc(object s, IRangeInfo lookupRange, IComparer<object> comparer)
         {
             var nRows = lookupRange.Size.NumberOfRows;
             var nCols = lookupRange.Size.NumberOfCols;
@@ -77,7 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
             return ~low;
         }
 
-        internal static int Search(object s, XlookupSearchItem[] items, IComparer<object> comparer)
+        internal static int SearchAsc(object s, LookupSearchItem[] items, IComparer<object> comparer)
         {
             if (items.Length == 0) return -1;
             int low = 0, high = items.Length - 1, mid;
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
             return ~low;
         }
 
-        internal static int SearchDesc(object s, XlookupSearchItem[] items, IComparer<object> comparer)
+        internal static int SearchDesc(object s, LookupSearchItem[] items, IComparer<object> comparer)
         {
             if (items.Length == 0) return -1;
             int low = 0, high = items.Length - 1, mid;
@@ -121,6 +121,59 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
                     return mid;
             }
             return ~low;
+        }
+
+        internal static int BinarySearch(object lookupValue, IRangeInfo lookupRange, bool asc, IComparer<object> comparer)
+        {
+            return asc ? SearchAsc(lookupValue, lookupRange, comparer) : SearchDesc(lookupValue, lookupRange, comparer);
+        }
+
+        internal static int GetMatchIndex(int ix, IRangeInfo returnArray, LookupMatchMode matchMode, bool asc)
+        {
+            var result = ix < 0 ? ~ix : ix;
+            if (matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
+            {
+                result = result - 1;
+            }
+            else if (matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
+            {
+                var adjustment = asc ? 0 : -1;
+                var max = returnArray.Size.NumberOfRows > returnArray.Size.NumberOfCols ?
+                    returnArray.Size.NumberOfRows : returnArray.Size.NumberOfCols;
+                result = result >= max ? result : result + adjustment;
+            }
+            return result;
+        }
+
+        internal static int GetMatchIndex(object lookupValue, List<LookupSearchItem> searchItems, LookupSearchMode searchMode, LookupMatchMode matchMode)
+        {
+            var saf = searchMode == LookupSearchMode.StartingAtFirst;
+            var startIx = saf ? 0 : searchItems.Count - 1;
+            var endIx = saf ? searchItems.Count - 1 : 0;
+            var incrementor = saf ? 1 : -1;
+
+            var comparer = new LookupComparer(matchMode);
+            for (var ix = startIx; saf ? ix <= endIx : ix > endIx; ix += incrementor)
+            {
+                var item = searchItems[ix];
+                var cr = comparer.Compare(lookupValue, item.Value);
+                if (cr == 0)
+                {
+                    return item.OriginalIndex;
+                }
+                else if (cr < 0)
+                {
+                    if (matchMode == LookupMatchMode.ExactMatchReturnNextSmaller && ix > 0)
+                    {
+                        return searchItems[ix - 1].OriginalIndex;
+                    }
+                    else if (matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
+                    {
+                        return ix < searchItems.Count - 1 ? searchItems[ix + 1].OriginalIndex : searchItems[ix].OriginalIndex;
+                    }
+                }
+            }
+            return -1;
         }
     }
 }

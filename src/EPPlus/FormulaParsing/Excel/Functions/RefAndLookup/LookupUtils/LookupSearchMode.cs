@@ -12,23 +12,16 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.XlookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
-    [DebuggerDisplay("Value: {Value}, org ix: {OriginalIndex}")]
-    internal class XlookupSearchItem
+    internal enum LookupSearchMode : int
     {
-        public XlookupSearchItem(object val, int originalIndex)
-        {
-            Value = val;
-            OriginalIndex = originalIndex;
-        }
-
-        public int OriginalIndex { get; set; }
-
-        public object Value { get; set; }
+        StartingAtFirst = 1,
+        ReverseStartingAtLast = -1,
+        BinarySearchAscending = 2,
+        BinarySearchDescending = 3
     }
 }
