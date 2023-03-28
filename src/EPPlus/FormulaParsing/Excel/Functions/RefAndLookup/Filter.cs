@@ -34,7 +34,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var arg1 = GetAsRangeInfo(arguments, 0);
             var arg2 = GetAsRangeInfo(arguments, 1);
 
-
             FunctionArgument arg3;
             if(arguments.Count() > 2)
             {

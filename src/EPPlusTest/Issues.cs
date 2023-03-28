@@ -3887,5 +3887,101 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s425()
+        {
+            using (var p = OpenTemplatePackage("s425.xlsx"))
+            {
+                Assert.AreEqual(1, p.Workbook.Worksheets[0].PivotTables.Count);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s803()
+        {
+            using (var p = OpenPackage("s803.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:E100"].FillNumber(1, 1);
+                ws.Cells["A82"].Formula = "a1";
+                ws.Cells["A82"].Formula = null;
+                ws.Cells["A2:C100"].Style.Font.Bold = true;
+                ws.InsertRow(81, 1);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s431()
+        {
+            using (var package = OpenTemplatePackage("template-not-working.xlsx"))
+            {
+                var pics = package.Workbook.Worksheets.SelectMany(p => p.Drawings).Where(p => p is ExcelPicture)
+                    .Select(p => p as ExcelPicture).ToList();
+
+                var pic = pics.First(p => p.Name == "Image_ExistingInventoryImg");
+                var image = System.IO.File.ReadAllBytes("c:\\temp\\img1.png");
+                pic.Image.SetImage(image, ePictureType.Png);
+                image = System.IO.File.ReadAllBytes("c:\\temp\\img2.png");
+                pics[1].Image.SetImage(image, ePictureType.Png);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s430()
+        {
+            using (var package = OpenTemplatePackage("s430.xlsx"))
+            {
+                var SheetName = "Error_Sheet";
+                var InSheet = package.Workbook.Worksheets[SheetName];
+
+                using (var outPackage = OpenPackage("s430_out.xlsx", true))
+                {
+                    var xlSheet = outPackage.Workbook.Worksheets.Add(SheetName, InSheet);
+
+                    SaveAndCleanup(outPackage);
+                }
+            }
+        }
+        [TestMethod]
+        public void s437()
+        {
+            using (var package = OpenTemplatePackage("s437.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+
+
+                var metroChart = (ExcelChart)worksheet.Drawings.Where(p => p is ExcelChart).First();
+                if (metroChart != null)
+                {
+                    metroChart.YAxis.MinValue = 0d;
+                    metroChart.YAxis.MajorUnit = 0.05d;
+
+
+                    foreach (var ct in metroChart.PlotArea.ChartTypes)
+                    {
+                        ///The "Series" being returned in this is only the bar series
+                        ///while the other two line series are not being returned.
+                        foreach (var serie in ct.Series)
+                        {
+
+                        }
+                    }
+                }
+            }
+        }
+        [TestMethod]
+        public void i802()
+        {
+            using (var package = OpenPackage("I802.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets.Add("sheet1");
+                using (ExcelRange Rng = ws.Cells[2, 2, 2, 2])
+                {
+                    Rng.Value = "Test Client\r";
+                }
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

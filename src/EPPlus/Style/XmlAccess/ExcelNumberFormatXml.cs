@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 }
                 else if (format.Equals("general",StringComparison.OrdinalIgnoreCase))
                 {
-                    f.NetFormat = f.NetFormatForWidth = "0.#####";
+                    f.NetFormat = f.NetFormatForWidth = "0.#########";
                     DataType = eFormatType.Number;
                 }
                 else

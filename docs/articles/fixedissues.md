@@ -1,4 +1,36 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.0
+### Features
+* Improved performance and better support for cross-worksheet references in data validations.
+### Fixed issues
+* ExcelRange.RichText.Clear method is cleared all cell style properties.
+* Match functions compares null values as exact match.
+* ExcelChartSerie.Border.Fill.Color throws an exception on set, if a chart style has applied a border style.
+* Cloning rows when copying a worksheet now clones the RowInternal class.
+* Switched to internal image handler instead of System.Drawing.Common for .NET framework.
+* Deleting rows deleted conditional formatting and data validatio9ns for full rows/columns
+* The stream was closed but not disposed when calling ExcelPackage.GetAsByteArray().
+* The formula parser did not handle exponential numbers in calculation correctly.
+
+## Version 6.1.3
+### Fixed issues
+* When clearing a formula and then insert a row into the worksheet an exception was thrown.
+* Having a pivot field with string grouping caused an Exception on loading a workbook.
+* ExcelExternalWorkbook.UpdateCache() throw an NullReferenceException if a worksheet name did not exist.
+* Applying a style for a worksheet that has a style set on the column level, did not retain the style for the last columns in some cases.
+* Could not delete the last row (1048576) in a worksheet.
+* Group drawings did not update children when rows were resized.Thanks to gnoul-mah for pr.
+
+## Version 6.1.2
+### Fixed issues
+* Fixed an issue with the Roman function. Thanks to ihorbach.
+* Fixed a performance issue with calculated table columns.
+* Having hyperlinks longer than 2079 characters resulted in a corrupt workbook. EPPlus will now crop hyperlinks over 2079 characters
+* Date functions Month, Day, Hour,Second and DateDiff used InvariantCulture instead of CurrentCulture.
+* Checkboxes in the style dialog for named styles was not retained after a workbook was saved with EPPlus.Thanks to ihorbach.
+* Iterating over a range with multiple comma-separated ranges iterated the first range twice.
+* Creating Array Formulas via the ExcelRange.CreateArrayFormula did not create the formula correctly.
+* Custom row heights was not copied correctly.
 
 ## Version 6.1.1
 ### Minor features

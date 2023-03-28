@@ -26,57 +26,103 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.DataValidation;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation;
+using System;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
     [TestClass]
     public class DateTimeFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
-        {
-            SetupTestData();
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-            _dataValidationNode = null;
-        }
-
         [TestMethod]
-        public void DateTimeFormula_FormulaValueIsSetFromXmlNodeInConstructor()
+        public void FormulaValueIsRead()
         {
-            // Arrange
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DateTest");
+
+            var validationOrig = sheet.DataValidations.AddDateTimeValidation("A1");
+
             var date = DateTime.Parse("2011-01-08");
-            var dateAsString = date.ToOADate().ToString(_cultureInfo);
-            LoadXmlTestData("A1", "decimal", dateAsString);
-            // Act
-            var validation = new ExcelDataValidationDateTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Decimal, _dataValidationNode, _namespaceManager);
-            // Assert
+
+            validationOrig.Formula.Value = date;
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationDateTime>(package);
+
             Assert.AreEqual(date, validation.Formula.Value);
         }
 
         [TestMethod]
-        public void DateTimeFormula_FormulasFormulaIsSetFromXmlNodeInConstructor()
+        public void ExcelFormulaValueIsRead()
         {
-            // Arrange
-            var date = DateTime.Parse("2011-01-08");
-            LoadXmlTestData("A1", "decimal", "A1");
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DateTest");
 
-            // Act
-            var validation = new ExcelDataValidationDateTime(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Decimal, _dataValidationNode, _namespaceManager);
+            var validationOrig = sheet.DataValidations.AddDateTimeValidation("A1");
+            validationOrig.Formula.ExcelFormula = "A1";
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
 
-            // Assert
+            var validation = ReadTValidation<ExcelDataValidationDateTime>(package);
             Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+        }
+
+        [TestMethod]
+        public void ExcelFormulaSetToValueInsteadOfAddressIsRead()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DateTest");
+
+            var validationOrig = sheet.DataValidations.AddDateTimeValidation("A1");
+
+            var date = DateTime.Parse("2011-01-08");
+            var dateString = date.ToOADate().ToString();
+
+            validationOrig.Formula.ExcelFormula = dateString;
+            validationOrig.Operator = ExcelDataValidationOperator.lessThanOrEqual;
+
+            var validation = ReadTValidation<ExcelDataValidationDateTime>(package);
+
+            Assert.AreEqual(date, validation.Formula.Value);
+        }
+
+        [TestMethod]
+        public void FormulaSpecialSignsAreWrittenAndRead()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DateTest");
+
+            var lessThan = sheet.DataValidations.AddDateTimeValidation("A1");
+            lessThan.Operator = ExcelDataValidationOperator.equal;
+
+            DateTime dateTime = DateTime.Parse("5/1/2008 8:30:52 AM", System.Globalization.CultureInfo.InvariantCulture);
+
+            lessThan.Formula.Value = dateTime;
+
+            sheet.Cells["B1"].Value = DateTime.Parse("3/15/2023 12:01:51", System.Globalization.CultureInfo.InvariantCulture);
+
+            lessThan.Formula.ExcelFormula = $"B1<{lessThan.Formula.Value}";
+            lessThan.ShowErrorMessage = true;
+
+            var greaterThan = sheet.DataValidations.AddDateTimeValidation("A2");
+
+            greaterThan.Formula.ExcelFormula = $"=B1>\"{dateTime}\"";
+            greaterThan.ShowErrorMessage = true;
+
+            greaterThan.Operator = ExcelDataValidationOperator.equal;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationDateTime)validations[0]).Formula.ExcelFormula, $"B1<{dateTime}");
+            Assert.AreEqual(((ExcelDataValidationDateTime)validations[1]).Formula.ExcelFormula, $"=B1>\"{dateTime}\"");
         }
     }
 }

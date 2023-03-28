@@ -323,6 +323,7 @@ namespace EPPlusTest.Core
             ws1.Cells["E3"].Formula = "Table1[[#This Row],[a]]+[1]Sheet1!$A3";
             ws1.Cells["F3"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B3";
             ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
+            ws1.Cells["G4"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet8888'!$C3";
             var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
             
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
@@ -331,6 +332,7 @@ namespace EPPlusTest.Core
             ws1.Calculate();
             p.Workbook.ExternalLinks.UpdateCaches();
 
+            Assert.IsInstanceOfType(ws1.Cells["G4"].Value, typeof(ExcelErrorValue));
             Assert.AreEqual(2220D, ws1.Cells["G5"].Value);
             SaveAndCleanup(p);
         }
@@ -427,6 +429,19 @@ namespace EPPlusTest.Core
                 }
             }
             return d;
+        }
+        [TestMethod]
+        public void RichTextClear()
+        {
+            using (var p = OpenPackage("RichText.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("SheetWithChart");
+                ws.Cells["A1:A5"].FillNumber(1, 1);
+                ws.Cells["A1:A5"].Style.Font.Bold = true;
+                ws.Cells["A1:A5"].RichText.Clear();
+                ws.Cells["A1:A5"].FillNumber(1, 1);
+                SaveAndCleanup(p);
+            }
         }
     }
 }

@@ -10,14 +10,10 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.DataValidation.Formulas;
-using System.Xml;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Formulas;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -29,48 +25,52 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        internal ExcelDataValidationCustom(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
-            : base(worksheet, uid, address, validationType)
+        internal ExcelDataValidationCustom(string uid, string address, string worksheetName)
+            : base(uid, address, worksheetName)
         {
-            Formula = new ExcelDataValidationFormulaCustom(NameSpaceManager, TopNode, GetFormula1Path(), uid);
+            Formula = new ExcelDataValidationFormulaCustom(null, Uid, worksheetName, OnFormulaChanged);
         }
 
         /// <summary>
-        /// Constructor
+        /// Constructor for reading data
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        internal ExcelDataValidationCustom(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, uid, address, validationType, itemElementNode)
+        /// <param name="xr">The XmlReader to read from</param>
+        internal ExcelDataValidationCustom(XmlReader xr)
+            : base(xr)
         {
-            Formula = new ExcelDataValidationFormulaCustom(NameSpaceManager, TopNode, GetFormula1Path(), uid);
         }
 
         /// <summary>
-        /// Constructor
+        /// Copy constructor
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        /// <param name="namespaceManager"></param>
-        internal ExcelDataValidationCustom(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
+        /// <param name="copy"></param>
+        internal ExcelDataValidationCustom(ExcelDataValidationCustom copy) : base(copy)
         {
-            Formula = new ExcelDataValidationFormulaCustom(NameSpaceManager, TopNode, GetFormula1Path(), uid);
+            Formula = copy.Formula;
         }
 
-        internal override void RegisterFormulaListener(DataValidationFormulaListener listener)
+        /// <summary>
+        /// Property for determining type of validation
+        /// </summary>
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.Custom);
+
+        override internal IExcelDataValidationFormula DefineFormulaClassType(string formulaValue, string sheetName)
         {
-            ((ExcelDataValidationFormulaCustom)Formula).RegisterFormulaListener(listener);
+            return new ExcelDataValidationFormulaCustom(formulaValue, Uid, sheetName, OnFormulaChanged);
+
+        }
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationCustom(this);
+        }
+
+        ExcelDataValidationAny Clone()
+        {
+            return (ExcelDataValidationAny)GetClone();
         }
     }
 }

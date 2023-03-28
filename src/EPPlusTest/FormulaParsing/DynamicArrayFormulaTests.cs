@@ -55,10 +55,11 @@ namespace EPPlusTest.FormulaParsing
             _ws.Cells["F19:I19"].Style.Font.Color.SetColor(Color.White);
             _ws.Cells["F19:I59"].Style.Font.Name = "Arial";
             _ws.Cells["F19:I59"].Style.Font.Size = 12;
-            _ws.Cells["F20"].Formula = "_xlfn._xlws.Filter(A2:D100,D2:D100>F17)";
+            _ws.Cells["F20"].Formula = "_xlfn._xlws.Filter(A2:D100,D2:D100 > F17)";
             _ws.Cells["F19:I59"].AutoFitColumns();
             _ws.Calculate();
-            //Assert.AreEqual(10D, _ws.GetValue(2, 6));
+
+             //Assert.AreEqual(10D, _ws.GetValue(2, 6));
             //Assert.AreEqual(_ws.GetValue(2, 1), _ws.GetValue(3, 6));
             //Assert.AreEqual(_ws.GetValue(9, 1), _ws.GetValue(10, 6));
 

@@ -76,6 +76,7 @@ namespace OfficeOpenXml.Packaging
                     while (e != null)
                     {
                         GetDirSeparator(e);
+                        
                         if (e.UncompressedSize > 0)
                         {
                             if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
@@ -84,13 +85,14 @@ namespace OfficeOpenXml.Packaging
                                 hasContentTypeXml = true;
                             }
 
-                            else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
+                            else if (e.FileName.Equals($"_rels{_dirSeparator}.ss", StringComparison.OrdinalIgnoreCase))
                             {
                                 ReadRelation(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)), "");
                             }
                             else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                             {
-                                rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
+                                var ba = GetZipEntryAsByteArray(_zip, e);
+                                rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(ba));
                             }
                             else
                             {
@@ -375,7 +377,7 @@ namespace OfficeOpenXml.Packaging
             {
                 part.Dispose();
             }
-            _zip.Dispose();
+            _zip?.Dispose();
         }
 
         CompressionLevel _compression = CompressionLevel.Default;

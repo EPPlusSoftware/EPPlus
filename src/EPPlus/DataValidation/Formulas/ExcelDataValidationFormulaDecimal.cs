@@ -10,12 +10,9 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
+using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
 using System.Globalization;
 
 namespace OfficeOpenXml.DataValidation.Formulas
@@ -25,13 +22,13 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// </summary>
     internal class ExcelDataValidationFormulaDecimal : ExcelDataValidationFormulaValue<double?>, IExcelDataValidationFormulaDecimal
     {
-        public ExcelDataValidationFormulaDecimal(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
-            : base(namespaceManager, topNode, formulaPath, validationUid)
+        public ExcelDataValidationFormulaDecimal(string formula, string validationUid, string sheetName, Action<OnFormulaChangedEventArgs> extHandler)
+            : base(validationUid, sheetName, extHandler)
         {
-            var value = GetXmlNodeString(formulaPath);
+            var value = formula;
             if (!string.IsNullOrEmpty(value))
             {
-                double dValue = default(double);
+                double dValue;
                 if (double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out dValue))
                 {
                     Value = dValue;

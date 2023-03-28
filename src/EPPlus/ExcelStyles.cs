@@ -356,8 +356,12 @@ namespace OfficeOpenXml
                                 var v = ws._values.GetValue(0, col);
                                 if (v._value == null)
                                 {
-                                    if (GetFromCache(colCache, col, ref s) == false)
+                                    if(colCache.TryGetValue(col, out ExcelValue ev))
                                     {
+                                        s = ev._styleId;
+                                    }
+                                    else
+                                    { 
                                         int r = 0, c = col;
                                         if (ws._values.PrevCell(ref r, ref c))
                                         {
@@ -373,10 +377,6 @@ namespace OfficeOpenXml
                                         {
                                             colCache.Add(col, new ExcelValue() { _styleId = 0 });
                                         }
-                                    }
-                                    else
-                                    {
-                                        colCache.Add(col, new ExcelValue() { _styleId = s });
                                     }
                                 }
                                 else

@@ -10,15 +10,12 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Exceptions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Utils;
+using System;
+using System.Linq;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -40,53 +37,27 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// <summary>
     /// Base class for a formula
     /// </summary>
-    internal abstract class ExcelDataValidationFormula : XmlHelper
+    internal abstract class ExcelDataValidationFormula
     {
+        private readonly Action<OnFormulaChangedEventArgs> _handler;
+
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="namespaceManager">Namespacemanger of the worksheet</param>
-        /// <param name="topNode">validation top node</param>
-        /// <param name="formulaPath">xml path of the current formula</param>
         /// <param name="validationUid">id of the data validation containing this formula</param>
-        public ExcelDataValidationFormula(XmlNamespaceManager namespaceManager, XmlNode topNode, string formulaPath, string validationUid)
-            : base(namespaceManager, topNode)
+        public ExcelDataValidationFormula(string validationUid, string workSheetName, Action<OnFormulaChangedEventArgs> extListHandler)
         {
-            Require.Argument(formulaPath).IsNotNullOrEmpty("formulaPath");
             Require.Argument(validationUid).IsNotNullOrEmpty("validationUid");
-            FormulaPath = formulaPath;
             _validationUid = validationUid;
+            _workSheetName = workSheetName;
+            _handler = extListHandler;
         }
 
         private string _validationUid;
-        private string _formula;
-        private List<IFormulaListener> _formulaListeners = new List<IFormulaListener>();
+        protected string _formula;
+        private string _workSheetName;
 
-
-        protected string FormulaPath
-        {
-            get;
-            private set;
-        }
-
-        internal void RegisterFormulaListener(IFormulaListener listener)
-        {
-            _formulaListeners.Add(listener);
-        }
-
-        internal void DetachFormulaListener(IFormulaListener listener)
-        {
-            _formulaListeners.Remove(listener);
-        }
-
-        private void OnFormulaChanged(string uid, string oldValue, string newValue) 
-        { 
-            foreach(var listener in _formulaListeners)
-            {
-                listener.Notify(new ValidationFormulaChangedArgs { ValidationUid = uid, OldValue = oldValue, NewValue = newValue });
-            }
-        }
-
+        internal virtual bool HasValue { get; set; } = false;
         /// <summary>
         /// State of the validationformula, i.e. tells if value or formula is set
         /// </summary>
@@ -114,22 +85,54 @@ namespace OfficeOpenXml.DataValidation.Formulas
             }
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    ResetValue();
-                    State = FormulaState.Formula;
-                }
                 if (value != null && MeasureFormulaLength(value) > 255)
                 {
                     throw new DataValidationFormulaTooLongException("The length of a DataValidation formula cannot exceed 255 characters");
                 }
-                var oldValue = _formula;
+
                 _formula = value;
-                SetXmlNodeString(FormulaPath, value);
-                OnFormulaChanged(_validationUid, oldValue, value);
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    ResetValue();
+                    State = FormulaState.Formula;
+
+                    if (_formula.Any(x => char.IsLetter(x)))
+                    {
+                        if (RefersToOtherWorksheet(_formula))
+                        {
+                            var e = new OnFormulaChangedEventArgs();
+                            e.isExt = true;
+                            _handler.Invoke(e);
+                        }
+                    }
+                }
             }
         }
 
+
+
+        private bool RefersToOtherWorksheet(string address)
+        {
+            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
+            {
+                var adr = new ExcelAddress(address);
+                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _workSheetName;
+            }
+            else if (!string.IsNullOrEmpty(address))
+            {
+                var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(address, _workSheetName);
+                if (!tokens.Any()) return false;
+                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.WorksheetNameContent));
+                foreach (var token in addressTokens)
+                {
+                    if (!string.IsNullOrEmpty(token.Value) && token.Value.Equals(_workSheetName, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+
+            }
+            return false;
+        }
         internal abstract void ResetValue();
 
         /// <summary>

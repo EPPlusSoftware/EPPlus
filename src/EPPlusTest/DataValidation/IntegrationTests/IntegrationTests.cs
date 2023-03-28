@@ -26,12 +26,10 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.DataValidation;
-using System.IO;
 using OfficeOpenXml;
-using OfficeOpenXml.DataValidation.Exceptions;
+using OfficeOpenXml.DataValidation;
+using System.Linq;
 
 namespace EPPlusTest.DataValidation.IntegrationTests
 {
@@ -164,17 +162,6 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             SaveWorkbook("MoveToExtLst.xlsx", _unitTestPackage);
         }
 
-        [TestMethod, ExpectedException(typeof(DataValidationStaleException))]
-        public void ShoulThrowExceptionIfValidationInStaleState()
-        {
-            var sheet1 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet1");
-            var sheet2 = _unitTestPackage.Workbook.Worksheets.Add("extlist_sheet2");
-
-            var v = sheet1.Cells["A1"].DataValidation.AddListDataValidation();
-            v.Formula.ExcelFormula = "extlist_sheet2!A1:A2";
-            v.AllowBlank = true;
-        }
-
         [TestMethod]
         public void ShouldMoveCustomValidationToExtListWhenReferringOtherWorksheet()
         {
@@ -188,7 +175,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
             v.ShowInputMessage = true;
             v.AllowBlank = false;
             v.Formula.ExcelFormula = "IF(AND(Sheet2!A1=\"Foo\",A1=\"Bar\"),TRUE,FALSE)";
-            
+
 
             SaveWorkbook("MoveToExtLst_Custom.xlsx", _unitTestPackage);
         }
@@ -241,12 +228,6 @@ namespace EPPlusTest.DataValidation.IntegrationTests
                 validation.ShowErrorMessage = true;
                 validation.Error = "Error!";
 
-                //var validation2 = sheet.DataValidations.AddIntegerValidation("B1");
-                //validation2.Formula.Value = 1;
-                //validation2.Formula2.Value = 2;
-                //validation2.ShowErrorMessage = true;
-                //validation2.Error = "Error!";
-
                 p1.Save();
                 using (var p2 = new ExcelPackage(p1.Stream))
                 {
@@ -255,44 +236,7 @@ namespace EPPlusTest.DataValidation.IntegrationTests
                     sheet.DataValidations.Remove(dv);
                     SaveWorkbook("RemoveDataValidation.xlsx", p2);
                 }
-
             }
         }
-
-        //[TestMethod]
-        //public void Bug_OpenOffice()
-        //{
-        //    var xlsPath = GetTestOutputPath("OpenOffice.xlsx");
-        //    var newFile = new FileInfo(xlsPath);
-        //    if( newFile.Exists)
-        //    {
-        //        newFile.Delete();
-        //        //ensures we create a new workbook
-        //        newFile = new FileInfo(xlsPath);
-
-        //    }
-        //    using(var package = new ExcelPackage(newFile))
-        //    {
-        //        // add a new worksheet to the empty workbook
-        //        var worksheet = package.Workbook.Worksheets.Add("Inventory");
-        //        // Add the headers
-        //        worksheet.Cells[1, 1].Value = "ID";
-        //        worksheet.Cells[1, 2].Value = "Product";
-        ////        worksheet.Cells[1, 3].Value = "Quantity";
-        //        worksheet.Cells[1, 4].Value = "Price";
-
-        //        worksheet.Cells[1, 5].Value = "Value";
-
-        //        worksheet.Column(1).Width = 15;
-        //        worksheet.Column(2).Width = 12;
-        //        worksheet.Column(3).Width = 12;
-
-        //        worksheet.View.PageLayoutView = true;
-
-        //        package.Workbook.Properties.Title = "Invertory";
-        //        package.Workbook.Properties.Author = "Jan Källman";
-        //        package.Save();
-        //    }
-
     }
 }

@@ -244,6 +244,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //Store
             ws._values.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._formulas.Delete(rowFrom, columnFrom, rows, columns, true);
+            ws._formulaTokens.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._flags.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._metadataStore.Delete(rowFrom, columnFrom, rows, columns, true);
             ws._commentsStore.Delete(rowFrom, columnFrom, rows, columns, true);
@@ -276,6 +277,7 @@ namespace OfficeOpenXml.Core.Worksheet
             //Store
             ws._values.DeleteShiftLeft(fromAddress);
             ws._formulas.DeleteShiftLeft(fromAddress);
+            ws._formulaTokens.DeleteShiftLeft(fromAddress);
             ws._flags.DeleteShiftLeft(fromAddress);
             ws._metadataStore.DeleteShiftLeft(fromAddress);
             ws._commentsStore.DeleteShiftLeft(fromAddress);
@@ -569,7 +571,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             //Update data validation references
             var deletedDV = new List<IExcelDataValidation>();
-            foreach (var dv in ws.DataValidations)
+            foreach (ExcelDataValidation dv in ws.DataValidations)
             {
                 var address = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
                 if (address == null)
@@ -578,7 +580,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    ((ExcelDataValidation)dv).SetAddress(address.Address);
+                    dv.SetAddress(address.Address);
                 }
             }
             deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));

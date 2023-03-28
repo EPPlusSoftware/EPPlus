@@ -451,7 +451,33 @@ namespace EPPlusTest.Excel.Functions
             result = func.Execute(args, _parsingContext).Result;
             Assert.AreEqual("IM", result, "999 was not IM");
         }
+        [TestMethod]
+        public void Roman_should_work_correctly_with_all_possible_arguments_issue_770()
+        {
+            // This unit test was supplied via Github issue 
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.Worksheets.Add("first");
 
+                var sheet = p.Workbook.Worksheets.First();
+
+                sheet.Cells["A1"].Formula = "=Roman(9.99)";
+                sheet.Cells["A2"].Formula = "=Roman(999,1)";
+                sheet.Cells["A3"].Formula = "=Roman(45,true)";
+                sheet.Cells["A4"].Formula = "=Roman(499,false)";
+
+                sheet.Calculate();
+
+                // incorrect rounding method - have to be floor
+                Assert.AreEqual("IX", sheet.Cells["A1"].Value.ToString());
+                // incorrect cornversion by 1 scenario
+                Assert.AreEqual("LMVLIV", sheet.Cells["A2"].Value.ToString());
+                // incorrect interpretation of true - should be "0" instead of "1"
+                Assert.AreEqual("XLV", sheet.Cells["A3"].Value.ToString());
+                // incorrect interpretation of false - should be "4" instead of "0"
+                Assert.AreEqual("ID", sheet.Cells["A4"].Value.ToString());
+            }
+        }
         [TestMethod]
         public void GcdShouldReturnCorrectResult()
         {

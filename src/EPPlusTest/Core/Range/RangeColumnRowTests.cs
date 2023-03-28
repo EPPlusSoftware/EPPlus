@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace EPPlusTest.Core.Range
 {
@@ -430,6 +431,14 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(1, ws.Cells["G15"].EntireRow.OutlineLevel);
             Assert.AreEqual(1, ws.Cells["H16"].EntireRow.OutlineLevel);
             Assert.AreEqual(1, ws.Cells["K19"].EntireRow.OutlineLevel);
+        }
+        [TestMethod]
+        public void VerifyRowHeightIsCopied()
+        {
+            var sheet1 = _pck.Workbook.Worksheets.Add("row_height");
+            sheet1.Rows[1].Height = 30D;
+            var sheet2 = _pck.Workbook.Worksheets.Add("copy", sheet1);
+            Assert.AreEqual(30D, sheet2.Rows[1].Height);
         }
 
         private static void SetupColumnOutlineRight(ExcelWorksheet ws)

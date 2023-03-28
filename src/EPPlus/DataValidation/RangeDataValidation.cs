@@ -10,12 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -37,7 +33,7 @@ namespace OfficeOpenXml.DataValidation
             return _worksheet.DataValidations.AddAnyValidation(_address);
         }
 
-        public IExcelDataValidationInt AddIntegerDataValidation()
+        public Contracts.IExcelDataValidationInt AddIntegerDataValidation()
         {
             return _worksheet.DataValidations.AddIntegerValidation(_address);
         }
@@ -57,7 +53,7 @@ namespace OfficeOpenXml.DataValidation
             return _worksheet.DataValidations.AddListValidation(_address);
         }
 
-        public IExcelDataValidationInt AddTextLengthDataValidation()
+        public Contracts.IExcelDataValidationInt AddTextLengthDataValidation()
         {
             return _worksheet.DataValidations.AddTextLengthValidation(_address);
         }

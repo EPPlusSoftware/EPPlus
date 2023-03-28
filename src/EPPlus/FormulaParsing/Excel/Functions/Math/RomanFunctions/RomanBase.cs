@@ -111,6 +111,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RomanFunctions
             if(type == 1)
             {
                 roman = roman.Replace("XLIX", "VLIV");
+                roman = roman.Replace("CMXCIX", "LMVLIV");
                 roman = roman.Replace("XCIX", "VCIV");
                 roman = roman.Replace("CMXC", "LMXL");
                 roman = roman.Replace("CDVC", "LDVL");

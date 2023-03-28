@@ -85,6 +85,7 @@ namespace OfficeOpenXml.Table
             }
             foreach (var mc in _ws.MergedCells)
             {
+                if (mc == null) continue; // Issue 780: this happens if a merged cell has been removed
                 if (new ExcelAddressBase(mc).Collide(Range) != ExcelAddressBase.eAddressCollition.No)
                 {
                     throw (new ArgumentException($"Table range collides with merged range {mc}"));

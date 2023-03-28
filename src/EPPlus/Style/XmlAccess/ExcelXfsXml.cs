@@ -52,6 +52,12 @@ namespace OfficeOpenXml.Style.XmlAccess
             Locked = GetXmlNodeBool(lockedPath,true);
             QuotePrefix = GetXmlNodeBool(quotePrefixPath);
             JustifyLastLine = GetXmlNodeBool(justifyLastLine);
+            ApplyAlignment = GetXmlNodeBoolNullable("@applyAlignment");
+            ApplyBorder = GetXmlNodeBoolNullable("@applyBorder");
+            ApplyFill = GetXmlNodeBoolNullable("@applyFill");
+            ApplyFont = GetXmlNodeBoolNullable("@applyFont");
+            ApplyNumberFormat = GetXmlNodeBoolNullable("@applyNumberFormat");
+            ApplyProtection = GetXmlNodeBoolNullable("@applyProtection");
         }
 
         private ExcelReadingOrder GetReadingOrder(string value)
@@ -121,32 +127,32 @@ namespace OfficeOpenXml.Style.XmlAccess
             get;
             set;
         }
-        internal bool ApplyNumberFormat
+        internal bool? ApplyNumberFormat
         {
             get;
             set;
         }
-        internal bool ApplyFont
+        internal bool? ApplyFont
         {
             get;
             set;
         }
-        internal bool ApplyFill
+        internal bool? ApplyFill
         {
             get;
             set;
         }
-        internal bool ApplyBorder
+        internal bool? ApplyBorder
         {
             get;
             set;
         }
-        internal bool ApplyAlignment
+        internal bool? ApplyAlignment
         {
             get;
             set;
-        }
-        internal bool ApplyProtection
+        } = true;
+        internal bool? ApplyProtection
         {
             get;
             set;
@@ -325,6 +331,12 @@ namespace OfficeOpenXml.Style.XmlAccess
             newXF.Hidden = Hidden;
             newXF.QuotePrefix = QuotePrefix;
             newXF.JustifyLastLine = JustifyLastLine;
+            newXF.ApplyAlignment = ApplyAlignment;
+            newXF.ApplyBorder = ApplyBorder;
+            newXF.ApplyFill = ApplyFill;
+            newXF.ApplyFont = ApplyFont;
+            newXF.ApplyNumberFormat= ApplyNumberFormat;
+            newXF.ApplyProtection = ApplyProtection;            
             return newXF;
         }
 
@@ -759,22 +771,34 @@ namespace OfficeOpenXml.Style.XmlAccess
             if (_numFmtId >= 0)
             {
                 SetXmlNodeString("@numFmtId", _numFmtId.ToString());
-                if(_numFmtId > 0) SetXmlNodeString("@applyNumberFormat", "1");
+                if(_numFmtId > 0 || ApplyNumberFormat.HasValue)
+                {
+                    SetXmlNodeBool("@applyNumberFormat", ApplyNumberFormat??true);
+                }
             }
             if (FontId >= 0)
             {
                 SetXmlNodeString("@fontId", _styles.Fonts[FontId].newID.ToString());
-                if(FontId > 0) SetXmlNodeString("@applyFont", "1");
+                if (FontId > 0 || ApplyFont.HasValue)
+                {
+                    SetXmlNodeBool("@applyFont", ApplyFont ?? true);
+                }
             }
             if (FillId >= 0)
             {
                 SetXmlNodeString("@fillId", _styles.Fills[FillId].newID.ToString());
-                if(FillId > 0) SetXmlNodeString("@applyFill", "1");
+                if (FillId > 0 || ApplyFill.HasValue)
+                {
+                    SetXmlNodeBool("@applyFill", ApplyFill ?? true);
+                }
             }
             if (BorderId >= 0)
             {
                 SetXmlNodeString("@borderId", _styles.Borders[BorderId].newID.ToString());
-                if(BorderId > 0) SetXmlNodeString("@applyBorder", "1");
+                if (BorderId > 0 || ApplyBorder.HasValue)
+                {
+                    SetXmlNodeBool("@applyBorder", ApplyBorder ?? true);
+                }
             }
             if(HorizontalAlignment != ExcelHorizontalAlignment.General) SetXmlNodeString(horizontalAlignPath, SetAlignString(HorizontalAlignment));
             if (doSetXfId)
@@ -793,14 +817,14 @@ namespace OfficeOpenXml.Style.XmlAccess
             if(QuotePrefix) SetXmlNodeString(quotePrefixPath, "1");
             if(JustifyLastLine) SetXmlNodeString(justifyLastLine, "1");
 
-            if ((Locked == false || Hidden == false))
+            if ((Locked == false || Hidden == true || ApplyProtection.HasValue)) //Not default values, apply protection.
             {
-                SetXmlNodeString("@applyProtection", "1");
+                SetXmlNodeBool("@applyProtection", ApplyProtection??true);
             }
 
-            if ((HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom))
+            if (HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom || ApplyProtection.HasValue)
             {
-                SetXmlNodeString("@applyAlignment", "1");
+                SetXmlNodeBool("@applyAlignment", ApplyProtection??true);
             }
 
             return TopNode;

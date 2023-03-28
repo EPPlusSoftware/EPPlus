@@ -305,7 +305,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         }
 
         [TestMethod]
-        public void OffsetDirectReferenceToMultiRangeShouldSetValueError()
+        public void OffsetDirectReferenceToMultiRangeShouldSpillValues()
         {
             using (var package = new ExcelPackage())
             {
@@ -316,7 +316,9 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
                 s1.Cells["A5"].Formula = "OFFSET(A1:A3, 0, 1)";
                 s1.Calculate();
                 var result = s1.Cells["A5"].Value;
-                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), result);
+                Assert.AreEqual(1d, s1.Cells["A5"].Value);
+                Assert.AreEqual(1d, s1.Cells["A6"].Value);
+                Assert.AreEqual(1d, s1.Cells["A7"].Value);
             }
         }
 

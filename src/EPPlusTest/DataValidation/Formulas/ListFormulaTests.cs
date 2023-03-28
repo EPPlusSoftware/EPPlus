@@ -26,63 +26,106 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 namespace EPPlusTest.DataValidation.Formulas
 {
     [TestClass]
     public class ListFormulaTests : ValidationTestBase
     {
-        [TestInitialize]
-        public void Setup()
+        [TestMethod]
+        public void ValuesAreReadExcelFormula()
         {
-            SetupTestData();
-        }
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("ListTest");
 
-        [TestCleanup]
-        public void Cleanup()
-        {
-            CleanupTestData();
-            _dataValidationNode = null;
+            var validationOrig = sheet.DataValidations.AddListValidation("A1");
+
+            validationOrig.Formula.ExcelFormula = "\"3,42\"";
+
+            var validation = ReadTValidation<ExcelDataValidationList>(package);
+
+            Assert.AreEqual("3", validation.Formula.Values[0]);
+            Assert.AreEqual("42", validation.Formula.Values[1]);
         }
 
         [TestMethod]
-        public void ListFormula_FormulaValueIsSetFromXmlNodeInConstructor()
+        public void ValuesAreRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "list", "\"1,2\"");
-            // Act
-            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.AreEqual(2, validation.Formula.Values.Count);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("ListTest");
+
+            var validationOrig = sheet.DataValidations.AddListValidation("A1");
+
+            validationOrig.Formula.Values.Add("5");
+            validationOrig.Formula.Values.Add("15");
+
+
+            var validation = ReadTValidation<ExcelDataValidationList>(package);
+
+            CollectionAssert.AreEquivalent(new List<string> { "5", "15" }, (ICollection)validation.Formula.Values);
         }
 
         [TestMethod]
-        public void ListFormula_FormulaValueIsSetFromXmlNodeInConstructorOrderIsCorrect()
+        public void ExcelFormulaIsRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "list", "\"1,2\"");
-            // Act
-            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
-            // Assert
-            CollectionAssert.AreEquivalent(new List<string>{ "1", "2"}, (ICollection)validation.Formula.Values);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("ListTest");
+
+            var validationOrig = sheet.DataValidations.AddListValidation("A1");
+
+            validationOrig.Formula.ExcelFormula = "D1";
+
+            var validation = ReadTValidation<ExcelDataValidationList>(package);
+
+            Assert.AreEqual("D1", validation.Formula.ExcelFormula);
         }
 
         [TestMethod]
-        public void ListFormula_FormulasExcelFormulaIsSetFromXmlNodeInConstructor()
+        public void FormulaSpecialSignsAreWrittenAndRead()
         {
-            // Arrange
-            LoadXmlTestData("A1", "list", "A1");
-            // Act
-            var validation = new ExcelDataValidationList(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.List, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.AreEqual("A1", validation.Formula.ExcelFormula);
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("DecimalTest");
+
+            var lessThan = sheet.DataValidations.AddListValidation("A1");
+
+            sheet.Cells["B1"].Value = "EP";
+            sheet.Cells["B2"].Value = "Plus";
+
+            lessThan.Formula.ExcelFormula = "\"1<5,B1&B2,2>4\"";
+            lessThan.HideDropDown = false;
+
+            lessThan.ShowErrorMessage = true;
+
+
+            var greaterThan = sheet.DataValidations.AddListValidation("A2");
+
+            sheet.Cells["B2"].Value = 6;
+            greaterThan.Formula.ExcelFormula = "\"HulaBal00,-?53&<>/\\\'#¤$%||,123456789\"";
+
+            greaterThan.ShowErrorMessage = true;
+            greaterThan.HideDropDown = false;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+            var loadedSheet = loadedpkg.Workbook.Worksheets[0];
+
+            var validations = loadedSheet.DataValidations;
+
+            Assert.AreEqual(((ExcelDataValidationList)validations[0]).Formula.Values[0], "1<5");
+            Assert.AreEqual(((ExcelDataValidationList)validations[0]).Formula.Values[1], "B1&B2");
+            Assert.AreEqual(((ExcelDataValidationList)validations[0]).Formula.Values[2], "2>4");
+
+            Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[0], "HulaBal00");
+            Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[1], "-?53&<>/\\'#¤$%||");
+            Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[2], "123456789");
         }
     }
 }
