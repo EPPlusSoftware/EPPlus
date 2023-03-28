@@ -268,6 +268,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["xlookup"] = new Xlookup();
             Functions["lookup"] = new Lookup();
             Functions["match"] = new Match();
+            Functions["xmatch"] = new XMatch();
             Functions["row"] = new Row();
             Functions["rows"] = new Rows();
             Functions["column"] = new Column();
