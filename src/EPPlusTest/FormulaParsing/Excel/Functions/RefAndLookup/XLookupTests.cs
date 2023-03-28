@@ -73,7 +73,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         [DataRow("Brasil", "Not found", "Not found", 0)]
         [DataRow("Bazil", "#N/A", null, 0)]
         [DataRow("Bazil", "+880", "Not found", -1)]
-        [DataRow("Bsazil", "+62", "Not found", 1)]
+        [DataRow("Bsazil", "+86", "Not found", 1)]
         public void SearchModeTest(string country, string expected, string notFoundText = null, int searchMode = 0)
         {
             _sheet.Cells[1, 1].Value = "China";
@@ -101,11 +101,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells["E2"].Value = country;
             if (notFoundText == null)
             {
-                _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A2:A11,C2:C11,, {searchMode})";
+                _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A1:A11,C1:C11,, {searchMode})";
             }
             else
             {
-                _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A2:A11,C2:C11,\"{notFoundText}\", {searchMode})";
+                _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A1:A11,C1:C11,\"{notFoundText}\", {searchMode})";
             }
 
             _sheet.Calculate();
@@ -172,7 +172,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-        public void ShouldReturnArray()
+        public void ShouldReturnVerticalArray()
         {
             _sheet.Cells[1, 1].Value = "Brazil";
             _sheet.Cells[1, 2].Value = "Indonesia";

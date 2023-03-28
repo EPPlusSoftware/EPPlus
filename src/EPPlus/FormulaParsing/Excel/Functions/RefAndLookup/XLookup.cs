@@ -96,9 +96,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                var lookupArray = XlookupUtil.GetLookupArray(lookupRange, lookupDirection);
-                var sortedLookupArray = XlookupUtil.GetSortedArray(lookupArray);
-                ix = LookupBinarySearch.GetMatchIndex(lookupValue, sortedLookupArray, searchMode, matchMode);
+                var scanner = new XlookupScanner(lookupValue, lookupRange, searchMode, matchMode);
+                ix = scanner.FindIndex();
             }
             if (context.Debug)
             {

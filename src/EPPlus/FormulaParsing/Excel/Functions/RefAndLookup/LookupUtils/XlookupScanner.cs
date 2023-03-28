@@ -9,7 +9,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
     internal class XlookupScanner
     {
-        public XlookupScanner(object lookupValue, IRangeInfo lookupRange, LookupSearchMode searchMode, LookupMatchMode matchMode, LookupRangeDirection direction)
+        public XlookupScanner(object lookupValue, IRangeInfo lookupRange, LookupSearchMode searchMode, LookupMatchMode matchMode)
         {
             _lookupValue= lookupValue;
             _lookupRange= lookupRange;
@@ -36,56 +36,81 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
         public int FindIndex()
         {
-            var direction = GetLookupDirection();
-            if(direction == LookupRangeDirection.Vertical)
+            if(_searchMode != LookupSearchMode.StartingAtFirst && _searchMode != LookupSearchMode.ReverseStartingAtLast)
             {
-                return FindVertical();
+                return -1;
             }
-            else
-            {
-                return FindHorizontal();
-            }
+            return FindIndexInternal();
         }
 
-        private int FindVertical()
+        private int FindIndexInternal()
         {
-            var dimensionRows = _lookupRange.Worksheet.Dimension.Rows;
-            var maxRows = _lookupRange.Size.NumberOfRows > dimensionRows ? dimensionRows : _lookupRange.Size.NumberOfRows;
+            var direction = GetLookupDirection();
+            int dimensionRows, maxItems;
+            if(direction == LookupRangeDirection.Vertical)
+            {
+                dimensionRows = _lookupRange.Worksheet.Dimension.Rows;
+                maxItems = _lookupRange.Size.NumberOfRows > dimensionRows ? dimensionRows : _lookupRange.Size.NumberOfRows;
+            } 
+            else
+            {
+                dimensionRows = _lookupRange.Worksheet.Dimension.Columns;
+                maxItems = _lookupRange.Size.NumberOfCols > dimensionRows ? dimensionRows : _lookupRange.Size.NumberOfCols;
+            }
             int closestBelowIx = -1;
             int closestAboveIx = -1;
             object closestBelow = null;
             object closestAbove = null;
+            var ix = _searchMode == LookupSearchMode.ReverseStartingAtLast ? maxItems - 1 : 0;
 
-            for (var rowIx = 0; rowIx < maxRows; rowIx++)
+            while (ix >= 0)
             {
-                var value = _lookupRange.GetOffset(rowIx, 0);
+                object value = direction == LookupRangeDirection.Vertical ?
+                    _lookupRange.GetOffset(ix, 0) :
+                    _lookupRange.GetOffset(0, ix);
                 var cr = _comparer.Compare(_lookupValue, value);
                 if(cr == 0)
                 {
-                    return rowIx;
+                    return ix;
                 }
                 else if(cr < 0)
                 {
-                    if(closestBelow == null || _comparer.Compare(closestBelow, value) < 0)
-                    {
-                        closestBelow = value;
-                        closestBelowIx = rowIx;
-                    }
-                    if(closestAbove == null || _comparer.Compare(closestAbove, value) < 0)
+                    if(closestAbove == null || _comparer.Compare(closestAbove, value) > 0)
                     {
                         closestAbove = value;
-                        closestAboveIx = rowIx;
+                        closestAboveIx = ix;
                     }
+                }
+                else
+                {
+                    if (closestBelow == null || _comparer.Compare(closestBelow, value) < 0)
+                    {
+                        closestBelow = value;
+                        closestBelowIx = ix;
+                    }
+                }
+                if(_searchMode == LookupSearchMode.StartingAtFirst)
+                {
+                    ix++;
+                    if(ix >= maxItems)
+                    {
+                        ix = -1;
+                    }
+                }
+                else
+                {
+                    ix--;
                 }
             }
             if (_matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
             {
                 return closestAboveIx;
             }  
-            else
+            else if(_matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
             {
                 return closestBelowIx;
             }
+            return -1;
         }
 
         private int FindHorizontal()
