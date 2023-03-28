@@ -16,6 +16,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
@@ -27,6 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
+using System.Xml.Linq;
 using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.ExcelXMLWriter
@@ -660,29 +662,46 @@ namespace OfficeOpenXml.ExcelXMLWriter
                     case eDataValidationType.Whole:
                         var intType = _ws.DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaInt>;
                         string intString = ((ExcelDataValidationFormulaInt)intType.Formula).GetXmlValue();
-                        string intString2 = ((ExcelDataValidationFormulaInt)intType.Formula2).GetXmlValue();
 
                         intString = ConvertUtil.ExcelEscapeAndEncodeString(intString);
-                        intString2 = ConvertUtil.ExcelEscapeAndEncodeString(intString2);
+
+                        //intType = _ws.DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormula>;
 
                         cache.Append($"<{prefix}formula1>{extNode}{intString}{endExtNode}</{prefix}formula1>");
-                        if(!string.IsNullOrEmpty(intString2))
+
+
+                        DataValidationGetFormula2<ExcelDataValidationFormulaInt>(intType);
+
+                        //string intString2 = DataValidationGetFormula2<ExcelDataValidationFormulaInt>((ExcelDataValidationFormulaInt)intType);
+
+                        if (intType.Formula2 != null)
                         {
-                            cache.Append($"<{prefix}formula2>{extNode}{intString2}{endExtNode}</{prefix}formula2>");
+                            string intString2 = ((ExcelDataValidationFormulaInt)intType.Formula2).GetXmlValue();
+
+                            if(!string.IsNullOrEmpty(intString2))
+                            {
+                                intString2 = ConvertUtil.ExcelEscapeAndEncodeString(intString2);
+                                cache.Append($"<{prefix}formula2>{extNode}{intString2}{endExtNode}</{prefix}formula2>");
+                            }
                         }
+
                         break;
                     case eDataValidationType.Decimal:
                         var decimalType = _ws.DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDecimal>;
                         string decimalString = ((ExcelDataValidationFormulaDecimal)decimalType.Formula).GetXmlValue();
-                        string decimalString2 = ((ExcelDataValidationFormulaDecimal)decimalType.Formula2).GetXmlValue();
 
                         decimalString = ConvertUtil.ExcelEscapeAndEncodeString(decimalString);
-                        decimalString2 = ConvertUtil.ExcelEscapeAndEncodeString(decimalString2);
-
                         cache.Append($"<{prefix}formula1>{extNode}{decimalString}{endExtNode}</{prefix}formula1>");
-                        if (!string.IsNullOrEmpty(decimalString2))
+
+                        if (decimalType.Formula2 != null)
                         {
-                            cache.Append($"<{prefix}formula2>{extNode}{decimalString2}{endExtNode}</{prefix}formula2>");
+                            string decimalString2 = ((ExcelDataValidationFormulaDecimal)decimalType.Formula2).GetXmlValue();
+
+                            if (!string.IsNullOrEmpty(decimalString2))
+                            {
+                                decimalString2 = ConvertUtil.ExcelEscapeAndEncodeString(decimalString2);
+                                cache.Append($"<{prefix}formula2>{extNode}{decimalString2}{endExtNode}</{prefix}formula2>");
+                            }
                         }
                         break;
                     case eDataValidationType.List:
@@ -696,16 +715,22 @@ namespace OfficeOpenXml.ExcelXMLWriter
                     case eDataValidationType.Time:
                         var timeType = _ws.DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaTime>;
                         string timeString = ((ExcelDataValidationFormulaTime)timeType.Formula).GetXmlValue();
-                        string timeString2 = ((ExcelDataValidationFormulaTime)timeType.Formula2).GetXmlValue();
 
                         timeString = ConvertUtil.ExcelEscapeAndEncodeString(timeString);
-                        timeString2 = ConvertUtil.ExcelEscapeAndEncodeString(timeString2);
 
                         cache.Append($"<{prefix}formula1>{extNode}{timeString}{endExtNode}</{prefix}formula1>");
-                        if (!string.IsNullOrEmpty(timeString2) && timeString2 != "0")
+
+                        if (timeType.Formula2 != null)
                         {
-                            cache.Append($"<{prefix}formula2>{extNode}{timeString2}{endExtNode}</{prefix}formula2>");
+                            string timeString2 = ((ExcelDataValidationFormulaDecimal)timeType.Formula2).GetXmlValue();
+
+                            if (!string.IsNullOrEmpty(timeString2))
+                            {
+                                timeString2 = ConvertUtil.ExcelEscapeAndEncodeString(timeString2);
+                                cache.Append($"<{prefix}formula2>{extNode}{timeString2}{endExtNode}</{prefix}formula2>");
+                            }
                         }
+
                         break;
                     case eDataValidationType.DateTime:
                         var dateTimeType = _ws.DataValidations[i] as ExcelDataValidationWithFormula2<IExcelDataValidationFormulaDateTime>;
@@ -741,6 +766,39 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             //write adress if extLst
             cache.Append($"</{prefix}dataValidation>");
+        }
+
+        //string DataValidationGetFormula2<U>(ExcelDataValidationWithFormula2<U> type) where U : IExcelDataValidationFormula
+        //{
+        //    var formulaType = type as ExcelDataValidationWithFormula2<U>;
+
+        //    if (type.Formula2 != null)
+        //    {
+        //        string typeString = ((ExcelDataValidationFormula)(formulaType)).GetXmlValue();
+
+        //        if (!string.IsNullOrEmpty(typeString))
+        //        {
+        //            typeString = ConvertUtil.ExcelEscapeAndEncodeString(typeString);
+        //            return typeString;
+        //        }
+        //    }
+        //    return "";
+        //}
+
+        string DataValidationGetFormula2<T>(ExcelDataValidationWithFormula2<IExcelDataValidationFormula> type)
+            where T : ExcelDataValidationFormula
+        {
+            if (type.Formula2 != null)
+            {
+                string typeString = ((T)type.Formula2).GetXmlValue();
+
+                if (!string.IsNullOrEmpty(typeString))
+                {
+                    typeString = ConvertUtil.ExcelEscapeAndEncodeString(typeString);
+                    return typeString;
+                }
+            }
+            return "";
         }
 
         private StringBuilder UpdateDataValidation(string prefix, string extraAttribute = "")

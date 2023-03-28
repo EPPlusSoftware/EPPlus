@@ -21,7 +21,7 @@ namespace EPPlusTest.DataValidation
             }
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void ReadAndSaveExtLstPackage_ShouldNotThrow()
         {
             using (ExcelPackage package = OpenTemplatePackage("ExtLstDataValidationValidation.xlsx"))

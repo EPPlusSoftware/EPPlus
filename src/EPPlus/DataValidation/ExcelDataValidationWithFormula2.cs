@@ -71,6 +71,11 @@ namespace OfficeOpenXml.DataValidation
             protected set;
         }
 
+        //internal override string GetXmlValue()
+        //{
+        //    base.get
+        //}
+
         public override void Validate()
         {
             base.Validate();
