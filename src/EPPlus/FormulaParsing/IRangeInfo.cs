@@ -65,6 +65,15 @@ namespace OfficeOpenXml.FormulaParsing
         /// <returns></returns>
         object GetOffset(int rowOffset, int colOffset);
         /// <summary>
+        /// Get a subrange
+        /// </summary>
+        /// <param name="rowOffsetStart">row start index from top left</param>
+        /// <param name="colOffsetStart">col start index from top left</param>
+        /// <param name="rowOffsetEnd">row end index from top left</param>
+        /// <param name="colOffsetEnd">col end index from top left</param>
+        /// <returns>A new range with the requested cell data</returns>
+        IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd);
+        /// <summary>
         /// Returns true if the cell is hidden
         /// </summary>
         /// <param name="rowOffset"></param>

@@ -81,9 +81,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             get { return ExcelErrorValue.Parse(Value.ToString()); }
         }
 
+        /// <summary>
+        /// If <see cref="Value"/> is an instance of <see cref="IRangeInfo"/> this will return a typed instance. If not null will be returned.
+        /// </summary>
         public IRangeInfo ValueAsRangeInfo
         {
-            get { return Value as IRangeInfo; }
+            get { return Value is IRangeInfo ? Value as IRangeInfo : null; }
         }
         public object ValueFirst
         {
