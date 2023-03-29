@@ -95,7 +95,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
   example: []
   syntax:
     content: IExcelDataValidationInt AddIntegerDataValidation()
@@ -219,7 +219,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> regarding text length validation to the range.\n"
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> regarding text length validation to the range.\n"
   example: []
   syntax:
     content: IExcelDataValidationInt AddTextLengthDataValidation()
@@ -328,14 +328,9 @@ references:
   name: OfficeOpenXml.DataValidation.Contracts
   nameWithType: OfficeOpenXml.DataValidation.Contracts
   fullName: OfficeOpenXml.DataValidation.Contracts
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
-  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
-  parent: OfficeOpenXml.DataValidation.Contracts
-  name: IExcelDataValidationInt
-  nameWithType: IExcelDataValidationInt
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
   commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation
   name: ExcelDataValidationInt
   nameWithType: ExcelDataValidationInt
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidationInt
@@ -344,6 +339,12 @@ references:
   name: AddIntegerDataValidation
   nameWithType: IRangeDataValidation.AddIntegerDataValidation
   fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationInt
+  nameWithType: IExcelDataValidationInt
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
   commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
   name: ExcelDataValidationDecimal

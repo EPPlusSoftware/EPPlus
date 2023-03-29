@@ -473,10 +473,8 @@
     name: ExcelDataValidationDateTime
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
     name: ExcelDataValidationDecimal
-  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
-    name: ExcelDataValidationExtCustom
-  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtList
-    name: ExcelDataValidationExtList
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+    name: ExcelDataValidationImeMode
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
     name: ExcelDataValidationInt
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationList
@@ -495,8 +493,6 @@
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
     name: ExcelDataValidationWithFormula2<T>
     name.vb: ExcelDataValidationWithFormula2(Of T)
-  - uid: OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
-    name: ExcelExLstDataValidationCollection
   - uid: OfficeOpenXml.DataValidation.ExcelTime
     name: ExcelTime
   - uid: OfficeOpenXml.DataValidation.IRangeDataValidation
@@ -528,6 +524,11 @@
     name.vb: IExcelDataValidationWithFormula2(Of T)
   - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
     name: IExcelDataValidationWithOperator
+- uid: OfficeOpenXml.DataValidation.Events
+  name: OfficeOpenXml.DataValidation.Events
+  items:
+  - uid: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+    name: OnFormulaChangedEventArgs
 - uid: OfficeOpenXml.DataValidation.Exceptions
   name: OfficeOpenXml.DataValidation.Exceptions
   items:

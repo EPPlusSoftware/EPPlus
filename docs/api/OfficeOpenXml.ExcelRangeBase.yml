@@ -2060,7 +2060,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2101
+    startLine: 2137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2094,7 +2094,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2113
+    startLine: 2149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2132,7 +2132,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2119
+    startLine: 2155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2164,7 +2164,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2128
+    startLine: 2164
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2204,7 +2204,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2143
+    startLine: 2179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2243,7 +2243,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2162
+    startLine: 2198
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2280,7 +2280,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2195
+    startLine: 2231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2314,7 +2314,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2205
+    startLine: 2241
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2346,7 +2346,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2214
+    startLine: 2250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2383,7 +2383,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2225
+    startLine: 2261
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2431,7 +2431,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2309
+    startLine: 2345
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2471,7 +2471,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2330
+    startLine: 2366
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2508,7 +2508,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireColumn
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2365
+    startLine: 2401
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2545,7 +2545,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireRow
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2381
+    startLine: 2417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2582,7 +2582,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2397
+    startLine: 2433
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2623,7 +2623,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2406
+    startLine: 2442
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2667,7 +2667,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2416
+    startLine: 2452
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2714,7 +2714,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2451
+    startLine: 2487
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

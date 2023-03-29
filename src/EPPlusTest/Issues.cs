@@ -4411,6 +4411,16 @@ namespace EPPlusTest
                 }
             }
         }
+        [TestMethod]
+        public void Issue829()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("dvmany.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
 

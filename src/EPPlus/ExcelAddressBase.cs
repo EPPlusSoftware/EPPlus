@@ -293,6 +293,48 @@ namespace OfficeOpenXml
 
             return new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
         }
+        /// <summary>
+        /// Returns the parts of this address that not intersects with <paramref name="address"/>
+        /// </summary>
+        /// <param name="address">The address to intersect with</param>
+        /// <returns>The addresses not intersecting with <paramref name="address"/></returns>
+        internal ExcelAddressBase IntersectReversed(ExcelAddressBase address)
+        {
+            if (address._fromRow > _toRow || _toRow < address._fromRow ||
+               address._fromCol > _toCol || _toCol < address._fromCol ||
+               _fromRow > address._toRow || address._toRow < _fromRow ||
+               _fromCol > address._toCol || address._toCol < _fromCol ||
+               (string.IsNullOrEmpty(address._ws) == false && string.IsNullOrEmpty(_ws) == false && address._ws != _ws))
+            {
+                return this;
+            }
+            string retAddress = "";
+            int fromRow = _fromRow, fromCol = _fromCol, toCol = _toCol;
+
+            if (_fromCol < address._fromCol)
+            {
+                retAddress = GetAddress(fromRow, fromCol, _toRow, address._fromCol - 1) + ",";
+                fromCol = address._fromCol;
+            }
+
+            if (_fromRow < address._fromRow)
+            {
+                retAddress += GetAddress(fromRow, fromCol, address._fromRow - 1, toCol) + ",";
+                fromRow = address._fromRow;
+            }
+
+            if (_toCol > address._toCol)
+            {
+                retAddress += GetAddress(fromRow, address._toCol + 1, _toRow, toCol) + ",";
+                toCol = address._toCol;
+            }
+
+            if (_toRow > address._toRow)
+            {
+                retAddress += GetAddress(address._toRow + 1, fromCol, _toRow, toCol) + ",";
+            }
+            return string.IsNullOrEmpty(retAddress) ? null : new ExcelAddressBase(retAddress.Substring(0, retAddress.Length - 1));
+        }
 
         internal bool IsInside(ExcelAddressBase effectedAddress)
         {

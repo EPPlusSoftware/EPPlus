@@ -1483,7 +1483,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nSaves and returns the Excel files as a bytearray.\nNote that the package is closed upon save\n"
+  summary: "\nSaves and returns the Excel files as a bytearray.\nNote that the package is closed upon save.\n"
   example:
   - "\nExample how to return a document from a Webserver...\n<pre><code> \n ExcelPackage package=new ExcelPackage();\n /**** ... Create the document ****/\n Byte[] bin = package.GetAsByteArray();\n Response.ContentType = &quot;Application/vnd.ms-Excel&quot;;\n Response.AddHeader(&quot;content-disposition&quot;, &quot;attachment;  filename=TheFile.xlsx&quot;);\n Response.BinaryWrite(bin);</code></pre>\n"
   syntax:

@@ -8,7 +8,7 @@ items:
   - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.AnyValidation
   - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.CustomValidation
   - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DateTimeValidation
-  - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation
+  - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation
   - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.IntegerValidation
   - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.ListValidation
   - OfficeOpenXml.DataValidation.ExcelDataValidationAsType.TimeValidation
@@ -27,7 +27,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationAsType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 10
+    startLine: 7
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -70,7 +70,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 23
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -113,7 +113,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ListValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 36
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -151,7 +151,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IntegerValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 48
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -189,7 +189,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateTimeValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 60
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -227,7 +227,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TimeValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 72
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -247,38 +247,38 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation
-  id: DecimalValiation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation
+  id: DecimalValidation
   parent: OfficeOpenXml.DataValidation.ExcelDataValidationAsType
   langs:
   - csharp
   - vb
-  name: DecimalValiation
-  nameWithType: ExcelDataValidationAsType.DecimalValiation
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation
+  name: DecimalValidation
+  nameWithType: ExcelDataValidationAsType.DecimalValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation
   type: Property
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: DecimalValiation
+    id: DecimalValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 84
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
   summary: "\nReturns the data validation object as <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public IExcelDataValidationDecimal DecimalValiation { get; }
+    content: public IExcelDataValidationDecimal DecimalValidation { get; }
     parameters: []
     return:
       type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
       description: The data validation as an <xref href="OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal" data-throw-if-not-resolved="false"></xref> or null if typecasting fails
-    content.vb: Public ReadOnly Property DecimalValiation As IExcelDataValidationDecimal
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation*
+    content.vb: Public ReadOnly Property DecimalValidation As IExcelDataValidationDecimal
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation*
   modifiers.csharp:
   - public
   - get
@@ -303,7 +303,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AnyValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 96
+    startLine: 93
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -341,7 +341,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationAsType.cs
-    startLine: 108
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -735,11 +735,11 @@ references:
   name: IExcelDataValidationDecimal
   nameWithType: IExcelDataValidationDecimal
   fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation
-  name: DecimalValiation
-  nameWithType: ExcelDataValidationAsType.DecimalValiation
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValiation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation
+  name: DecimalValidation
+  nameWithType: ExcelDataValidationAsType.DecimalValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAsType.DecimalValidation
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
   commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
   parent: OfficeOpenXml.DataValidation.Contracts

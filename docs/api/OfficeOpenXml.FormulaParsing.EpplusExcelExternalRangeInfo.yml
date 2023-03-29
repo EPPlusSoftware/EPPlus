@@ -180,6 +180,8 @@ items:
       type: System.Boolean
     content.vb: Public ReadOnly Property IsRef As Boolean
   overload: OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo.IsRef*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
   modifiers.csharp:
   - public
   - get
@@ -1294,6 +1296,12 @@ references:
   name: IsRef
   nameWithType: EpplusExcelExternalRangeInfo.IsRef
   fullName: OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo.IsRef
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  name: IsRef
+  nameWithType: IRangeInfo.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System

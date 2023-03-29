@@ -24,7 +24,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueMatcher
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 20
+    startLine: 17
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -68,7 +68,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncompatibleOperands
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 22
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -101,7 +101,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMatch
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 24
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -140,7 +140,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 79
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -179,7 +179,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToObject
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 84
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities

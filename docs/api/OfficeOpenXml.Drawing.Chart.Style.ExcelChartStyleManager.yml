@@ -825,7 +825,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1144
+    startLine: 1146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -862,7 +862,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorsManager
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1152
+    startLine: 1154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -899,7 +899,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeOverride
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1160
+    startLine: 1162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -936,7 +936,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1168
+    startLine: 1170
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -973,7 +973,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorsXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1172
+    startLine: 1174
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
@@ -1010,7 +1010,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeOverrideXml
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleManager.cs
-    startLine: 1176
+    startLine: 1178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style

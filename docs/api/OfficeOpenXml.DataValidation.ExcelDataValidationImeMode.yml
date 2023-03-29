@@ -1,0 +1,433 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  id: ExcelDataValidationImeMode
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Disabled
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullAlpha
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullHangul
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullKatakana
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfAlpha
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfHangul
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfKatakana
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Hiragana
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.NoControl
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Off
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.On
+  langs:
+  - csharp
+  - vb
+  name: ExcelDataValidationImeMode
+  nameWithType: ExcelDataValidationImeMode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDataValidationImeMode
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 5
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nMode for east-asian languages who use Input Method Editors(IME)\n"
+  example: []
+  syntax:
+    content: public enum ExcelDataValidationImeMode
+    content.vb: Public Enum ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.NoControl
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.NoControl
+  id: NoControl
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: NoControl
+  nameWithType: ExcelDataValidationImeMode.NoControl
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.NoControl
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoControl
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nDefault. Has no effect on IME\n"
+  example: []
+  syntax:
+    content: NoControl = 0
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Off
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Off
+  id: Off
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: Off
+  nameWithType: ExcelDataValidationImeMode.Off
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Off
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Off
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces IME mode to OFF\n"
+  example: []
+  syntax:
+    content: Off = 1
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.On
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.On
+  id: On
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: On
+  nameWithType: ExcelDataValidationImeMode.On
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.On
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: On
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces the IMEmode to be on when first selecting the cell\n"
+  example: []
+  syntax:
+    content: On = 2
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Disabled
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Disabled
+  id: Disabled
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: Disabled
+  nameWithType: ExcelDataValidationImeMode.Disabled
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Disabled
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Disabled
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nIME mode is disabled when cell is selected\n"
+  example: []
+  syntax:
+    content: Disabled = 3
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Hiragana
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Hiragana
+  id: Hiragana
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: Hiragana
+  nameWithType: ExcelDataValidationImeMode.Hiragana
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.Hiragana
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hiragana
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces on and Hiragana (only applies if Japanese IME)\n"
+  example: []
+  syntax:
+    content: Hiragana = 4
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullKatakana
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullKatakana
+  id: FullKatakana
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: FullKatakana
+  nameWithType: ExcelDataValidationImeMode.FullKatakana
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullKatakana
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FullKatakana
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces on and full-width katakana\n"
+  example: []
+  syntax:
+    content: FullKatakana = 5
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfKatakana
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfKatakana
+  id: HalfKatakana
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: HalfKatakana
+  nameWithType: ExcelDataValidationImeMode.HalfKatakana
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfKatakana
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HalfKatakana
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces on and half-width katakana\n"
+  example: []
+  syntax:
+    content: HalfKatakana = 6
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullAlpha
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullAlpha
+  id: FullAlpha
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: FullAlpha
+  nameWithType: ExcelDataValidationImeMode.FullAlpha
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullAlpha
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FullAlpha
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces on and Alpha-Numeric IME\n"
+  example: []
+  syntax:
+    content: FullAlpha = 7
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfAlpha
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfAlpha
+  id: HalfAlpha
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: HalfAlpha
+  nameWithType: ExcelDataValidationImeMode.HalfAlpha
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfAlpha
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HalfAlpha
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces on and half-width alpha-numeric\n"
+  example: []
+  syntax:
+    content: HalfAlpha = 8
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullHangul
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullHangul
+  id: FullHangul
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: FullHangul
+  nameWithType: ExcelDataValidationImeMode.FullHangul
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.FullHangul
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FullHangul
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces on and Full-width Hangul if Korean IME\n"
+  example: []
+  syntax:
+    content: FullHangul = 9
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfHangul
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfHangul
+  id: HalfHangul
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  langs:
+  - csharp
+  - vb
+  name: HalfHangul
+  nameWithType: ExcelDataValidationImeMode.HalfHangul
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode.HalfHangul
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HalfHangul
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nForces on and half-width Hangul\n"
+  example: []
+  syntax:
+    content: HalfHangul = 10
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationImeMode
+  nameWithType: ExcelDataValidationImeMode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
