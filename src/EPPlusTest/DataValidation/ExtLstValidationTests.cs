@@ -22,6 +22,61 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        public void CanReadWriteSimpleExtLst()
+        {
+            using (ExcelPackage package = new ExcelPackage(new MemoryStream()))
+            {
+                var ws1 = package.Workbook.Worksheets.Add("ExtTest");
+                var ws2 = package.Workbook.Worksheets.Add("ExternalAdresses");
+
+                var validation = ws1.DataValidations.AddIntegerValidation("A1");
+                validation.Operator = ExcelDataValidationOperator.equal;
+                ws2.Cells["A1"].Value = 5;
+
+                validation.Formula.ExcelFormula = "sheet2!A1";
+
+                Assert.AreEqual(((ExcelDataValidationInt)validation).InternalValidationType, InternalValidationType.ExtLst);
+
+                var stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                ExcelPackage package2 = new ExcelPackage(stream);
+
+                var readingValidation = package2.Workbook.Worksheets[0].DataValidations[0];
+
+                Assert.AreEqual("sheet2!A1", readingValidation.As.IntegerValidation.Formula.ExcelFormula);
+                Assert.AreEqual(((ExcelDataValidationInt)readingValidation).InternalValidationType, InternalValidationType.ExtLst);
+            }
+        }
+
+        [TestMethod]
+        public void EnsureIsNotExtLstWhenRegularReadWrite()
+        {
+            using (ExcelPackage package = new ExcelPackage(new MemoryStream()))
+            {
+                var ws1 = package.Workbook.Worksheets.Add("ExtTest");
+                var ws2 = package.Workbook.Worksheets.Add("ExternalAdresses");
+
+                var validation = ws1.DataValidations.AddIntegerValidation("A1");
+                validation.Operator = ExcelDataValidationOperator.equal;
+
+                validation.Formula.ExcelFormula = "IF(A2=\"red\"";
+
+                Assert.AreNotEqual(((ExcelDataValidationInt)validation).InternalValidationType, InternalValidationType.ExtLst);
+
+                var stream = new MemoryStream();
+                package.SaveAs(stream);
+
+                ExcelPackage package2 = new ExcelPackage(stream);
+
+                var readingValidation = package2.Workbook.Worksheets[0].DataValidations[0];
+
+                Assert.AreEqual("IF(A2=\"red\"", readingValidation.As.IntegerValidation.Formula.ExcelFormula);
+                Assert.AreNotEqual(((ExcelDataValidationInt)readingValidation).InternalValidationType, InternalValidationType.ExtLst);
+            }
+        }
+
+        [TestMethod]
         public void ReadAndSaveExtLstPackage_ShouldNotThrow()
         {
             using (ExcelPackage package = OpenTemplatePackage("ExtLstDataValidationValidation.xlsx"))

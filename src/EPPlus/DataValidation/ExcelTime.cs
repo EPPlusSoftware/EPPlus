@@ -114,6 +114,10 @@ namespace OfficeOpenXml.DataValidation
             {
                 Hour = 0;
             }
+            else
+            {
+                Hour = value;
+            }
         }
 
         internal event EventHandler TimeChanged

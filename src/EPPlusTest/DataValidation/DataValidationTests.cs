@@ -60,6 +60,17 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        public void DataValidations_ShouldWriteReadAllValidOperatorsOnAllTypes()
+        {
+
+        }
+
+        public void TestTypeOperator(ExcelDataValidation type)
+        {
+
+        }
+
+        [TestMethod]
         public void DataValidations_ShouldWriteReadTypes()
         {
             var P = new ExcelPackage(new MemoryStream());

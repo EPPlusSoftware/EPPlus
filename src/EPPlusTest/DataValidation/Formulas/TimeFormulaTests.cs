@@ -130,5 +130,77 @@ namespace EPPlusTest.DataValidation.Formulas
                 $"\"{time.ToExcelString()}\",\"{timeString}\")");
             Assert.AreEqual(((ExcelDataValidationTime)validations[1]).Formula.ExcelFormula, $"=B1>\"{time.ToExcelString()}\"");
         }
+
+        [TestMethod]
+        public void Formula2EmptyWhenReadOnIrrelevantOperator()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("TimeTest");
+
+            var equals = sheet.DataValidations.AddTimeValidation("A1");
+            equals.Operator = ExcelDataValidationOperator.equal;
+
+            equals.Formula.Value.Hour = 5;
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+
+            var time = new ExcelTime();
+
+            Assert.IsNull(equals.Formula2.ExcelFormula);
+            //Formula2 has default value instead of null so users do not have to assign "new Exceltime()"
+            Assert.AreEqual(time.Hour, equals.Formula2.Value.Hour);
+            Assert.AreEqual(time.Minute, equals.Formula2.Value.Minute);
+            Assert.AreEqual(time.Second, equals.Formula2.Value.Second);
+        }
+
+        [TestMethod]
+        public void Formula2WrittenAndRead()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            var sheet = package.Workbook.Worksheets.Add("TimeTest");
+
+            var between = sheet.DataValidations.AddTimeValidation("A1");
+            between.Operator = ExcelDataValidationOperator.between;
+
+            between.Formula.Value.Hour = 10;
+            between.Formula2.Value.Hour = 11;
+
+            between.ShowInputMessage = true;
+
+            between.PromptTitle = $"Time between 10 and 11";
+            between.Prompt = $"Test for read-write";
+
+
+            var notBetween = sheet.DataValidations.AddTimeValidation("A2");
+            notBetween.Operator = ExcelDataValidationOperator.notBetween;
+
+            notBetween.Formula.Value.Hour = 12;
+            notBetween.Formula2.Value.Hour = 13;
+
+            notBetween.ShowInputMessage = true;
+
+            notBetween.PromptTitle = $"Time NOT between 10 and 11";
+            notBetween.Prompt = $"Test for read-write";
+
+            MemoryStream stream = new MemoryStream();
+            package.SaveAs(stream);
+
+            var loadedpkg = new ExcelPackage(stream);
+
+            var dataValidations = loadedpkg.Workbook.Worksheets[0].DataValidations;
+
+            Assert.AreEqual(dataValidations[0].As.TimeValidation.Formula.Value.Hour, 10);
+            Assert.AreEqual(dataValidations[0].As.TimeValidation.Formula2.Value.Hour, 11);
+            Assert.AreEqual(dataValidations[0].As.TimeValidation.PromptTitle, "Time between 10 and 11");
+            Assert.AreEqual(dataValidations[0].As.TimeValidation.Prompt, "Test for read-write");
+
+            Assert.AreEqual(dataValidations[1].As.TimeValidation.Formula.Value.Hour, 12);
+            Assert.AreEqual(dataValidations[1].As.TimeValidation.Formula2.Value.Hour, 13);
+            Assert.AreEqual(dataValidations[1].As.TimeValidation.PromptTitle, "Time NOT between 10 and 11");
+            Assert.AreEqual(dataValidations[1].As.TimeValidation.Prompt, "Test for read-write");
+        }
     }
 }
