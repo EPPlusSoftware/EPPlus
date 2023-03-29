@@ -39,7 +39,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// <summary>
     /// Base class for a formula
     /// </summary>
-    internal abstract class ExcelDataValidationFormula : IExcelDataValidationFormula
+    internal abstract class ExcelDataValidationFormula :IExcelDataValidationFormula
     {
 
         internal event System.EventHandler BecomesExt;

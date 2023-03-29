@@ -26,8 +26,6 @@ namespace EPPlusTest.DataValidation
         {
             using (ExcelPackage package = OpenTemplatePackage("ExtLstDataValidationValidation.xlsx"))
             {
-                SaveAndCleanup(package);
-
                 var memoryStream = new MemoryStream();
                 package.SaveAs(memoryStream);
                 ExcelPackage p = new ExcelPackage(memoryStream);

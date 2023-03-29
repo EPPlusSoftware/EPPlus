@@ -670,9 +670,22 @@ namespace OfficeOpenXml.ExcelXMLWriter
                         cache.Append($"<{prefix}formula1>{extNode}{intString}{endExtNode}</{prefix}formula1>");
 
 
-                        DataValidationGetFormula2<ExcelDataValidationFormulaInt>(intType);
+                        //DataValidationGetFormula2<ExcelDataValidationFormulaInt, IExcelDataValidationFormulaInt>(intType);
 
                         //string intString2 = DataValidationGetFormula2<ExcelDataValidationFormulaInt>((ExcelDataValidationFormulaInt)intType);
+
+                        //string intString2 = DataValidationGetFormula2;
+                        //if (string.IsNullOrEmpty(intString2))
+                        //{
+                        //    cache.Append($"<{prefix}formula2>{extNode}{intString2}{endExtNode}</{prefix}formula2>");
+
+                        //}
+
+                        //string intString2 = DataValidationGetFormula2<ExcelDataValidationFormulaInt, IExcelDataValidationFormulaInt, int?>(intType);
+
+                       // ((ExcelDataValidationInt)_ws.DataValidations[i]).Formula2.ExcelFormula = "Stuff";
+
+                        DataValidationGetFormula2(intType.Formula2);
 
                         if (intType.Formula2 != null)
                         {
@@ -768,13 +781,12 @@ namespace OfficeOpenXml.ExcelXMLWriter
             cache.Append($"</{prefix}dataValidation>");
         }
 
-        //string DataValidationGetFormula2<U>(ExcelDataValidationWithFormula2<U> type) where U : IExcelDataValidationFormula
+        //string DataValidationGetFormula2<ClassType, ValueType>(IExcelDataValidationFormula type)
+        //    where ClassType : ExcelDataValidationFormulaValue<ValueType>
         //{
-        //    var formulaType = type as ExcelDataValidationWithFormula2<U>;
-
-        //    if (type.Formula2 != null)
+        //    if (type != null && type is ClassType F2)
         //    {
-        //        string typeString = ((ExcelDataValidationFormula)(formulaType)).GetXmlValue();
+        //        string typeString = F2.GetXmlValue();
 
         //        if (!string.IsNullOrEmpty(typeString))
         //        {
@@ -785,12 +797,11 @@ namespace OfficeOpenXml.ExcelXMLWriter
         //    return "";
         //}
 
-        string DataValidationGetFormula2<T>(ExcelDataValidationWithFormula2<IExcelDataValidationFormula> type)
-            where T : ExcelDataValidationFormula
+        string DataValidationGetFormula2(IExcelDataValidationFormula type)
         {
-            if (type.Formula2 != null)
+            if (type != null && type is ExcelDataValidationFormula f2)
             {
-                string typeString = ((T)type.Formula2).GetXmlValue();
+                string typeString = f2.GetXmlValue();
 
                 if (!string.IsNullOrEmpty(typeString))
                 {
