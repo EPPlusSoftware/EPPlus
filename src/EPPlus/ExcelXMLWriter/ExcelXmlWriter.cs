@@ -642,40 +642,6 @@ namespace OfficeOpenXml.ExcelXMLWriter
             cache.Append(">");
         }
 
-        //private void WriteDataValidation(ref StringBuilder cache, string prefix, int i, string extNode = "")
-        //{
-        //    cache.Append($"<{prefix}dataValidation ");
-        //    WriteDataValidationAttributes(ref cache, i);
-
-        //    if (_ws.DataValidations[i].ValidationType.Type != eDataValidationType.Any)
-        //    {
-        //        string endExtNode = "";
-        //        if (extNode != "")
-        //        {
-        //            endExtNode = $"</{extNode}>";
-        //            extNode = $"<{extNode}>";
-        //        }
-
-        //        if (_ws.DataValidations[i] is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> f2)
-        //        {
-        //            WriteDataValidationFormulas(f2, cache, prefix, extNode, endExtNode);
-        //        }
-        //        else
-        //        {
-        //            var formula = (_ws.DataValidations[i] as ExcelDataValidationWithFormula<IExcelDataValidationFormula>).Formula;
-        //            WriteDataValidationFormula(formula, cache, prefix, extNode, endExtNode);
-        //        }
-
-        //        if (extNode != "")
-        //        {
-        //            cache.Append($"<xm:sqref>{_ws.DataValidations[i].Address}</xm:sqref>");
-        //        }
-        //    }
-
-        //    //write adress if extLst
-        //    cache.Append($"</{prefix}dataValidation>");
-        //}
-
         private void WriteDataValidation(ref StringBuilder cache, string prefix, int i, string extNode = "")
         {
             cache.Append($"<{prefix}dataValidation ");
@@ -733,27 +699,12 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
                 if (extNode != "")
                 {
+                    //write adress if extLst
                     cache.Append($"<xm:sqref>{_ws.DataValidations[i].Address}</xm:sqref>");
                 }
             }
 
-            //write adress if extLst
             cache.Append($"</{prefix}dataValidation>");
-        }
-
-        void WriteDataValidationFormulas(ExcelDataValidationWithFormula2<IExcelDataValidationFormula> formulas,
-        in StringBuilder cache, string prefix, string extNode, string endExtNode)
-        {
-            //Note that formula1 must be written even when it is empty
-            WriteDataValidationFormulaSingle(formulas.Formula, cache, prefix, extNode, endExtNode);
-
-            string string2 = ((ExcelDataValidationFormula)formulas.Formula2).GetXmlValue();
-
-            if (!string.IsNullOrEmpty(string2))
-            {
-                string2 = ConvertUtil.ExcelEscapeAndEncodeString(string2);
-                cache.Append($"<{prefix}formula2>{extNode}{string2}{endExtNode}</{prefix}formula2>");
-            }
         }
 
         void WriteDataValidationFormulaSingle(IExcelDataValidationFormula formula,
