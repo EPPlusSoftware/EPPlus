@@ -26,36 +26,28 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System.Data;
-using OfficeOpenXml.Table;
-using System.Collections.Generic;
-using OfficeOpenXml.Table.PivotTable;
-using System.Text;
-using System.Globalization;
-using OfficeOpenXml.Drawing;
-using System.Threading;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Threading.Tasks;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using Newtonsoft.Json;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
-using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.CompundDocument;
-using FakeItEasy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
 
 namespace EPPlusTest
 {
@@ -3606,7 +3598,7 @@ namespace EPPlusTest
                     ws.Column(colNum).Collapsed = true;
                     ws.Column(colNum).Hidden = true;
                 }
-                ws.Cells["A1"].Formula = "sum({1,2,3;3,4,5}+A1:C2)";
+
                 SaveAndCleanup(p);
             }
         }
@@ -3733,7 +3725,7 @@ namespace EPPlusTest
                 Directory.CreateDirectory($"{path}{dir}{key}\\");
                 WriteStorage(storage.SubStorage[key], sb, path, dir + $"{key}\\");
             }
-            foreach(var key in storage.DataStreams.Keys)
+            foreach (var key in storage.DataStreams.Keys)
             {
                 sb.WriteLine($"{path}{dir}\\" + key);
                 System.IO.File.WriteAllBytes($"{path}{dir}\\" + GetFileName(key) + ".bin", storage.DataStreams[key]);
@@ -3746,7 +3738,7 @@ namespace EPPlusTest
             var ic = Path.GetInvalidFileNameChars();
             foreach (var c in key)
             {
-                if(ic.Contains(c))
+                if (ic.Contains(c))
                 {
                     sb.Append($"0x{(int)c}");
                 }
@@ -3764,7 +3756,7 @@ namespace EPPlusTest
         [TestMethod]
         public void i740()
         {
-            using (var package = OpenPackage($"i738.xlsx",true))
+            using (var package = OpenPackage($"i738.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
                 var tableRange = sheet.Cells["A1:C5"];
@@ -3888,6 +3880,365 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void i751()
+        {
+            using (var p = OpenTemplatePackage(@"i751-Normal.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.DeleteColumn(3);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i752()
+        {
+            using (var p = OpenTemplatePackage(@"i752.xlsx"))
+            {
+                for (int row = 1; row <= p.Workbook.Worksheets[0].Dimension.End.Row; row++)
+                {
+                    if (p.Workbook.Worksheets[0].Cells[row, 1].Text == "") continue;
+
+                    var cell = p.Workbook.Worksheets[0].Cells[row, 3];
+
+                    Debug.WriteLine($"\n--> {p.Workbook.Worksheets[0].Cells[row, 1].Text}");
+                    Debug.Write($"Cell Font: [{cell.Style.Font.Name}], Size: [{cell.Style.Font.Size}]");
+                    if (cell.Style.Font.Bold) Console.Write(", Bold");
+                    Debug.WriteLine("");
+
+                    foreach (var richText in cell.RichText)
+                    {
+                        Debug.Write($"RichText {richText.Text} Font: [{richText.FontName}], Size: [{richText.Size}]");
+                        if (richText.Bold) Console.Write(", Bold");
+                        Debug.WriteLine("");
+                    }
+                }
+            }
+        }
+        [TestMethod]
+        public void s407()
+        {
+            using (var p = OpenTemplatePackage(@"s407.xlsx"))
+            {
+                var sheet1 = p.Workbook.Worksheets.First();
+                var sheet2 = p.Workbook.Worksheets.Add("copy", sheet1);
+                p.Save();
+
+            }
+        }
+        [TestMethod]
+        public void i761()
+        {
+            using (var package = OpenPackage("i761.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Page1");
+                sheet.Cells["A1"].Value = 0;
+                sheet.Cells["B1"].Value = 5;
+                sheet.Cells["A2"].Value = 0;
+                sheet.Cells["B2"].Value = 1;
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["B3"].Value = 1;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["B4"].Value = 4;
+                sheet.Cells["F1"].Value = 1;
+                sheet.Cells["G1"].CreateArrayFormula($"MIN(IF(A1:A4=F1,B1:B4))");
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i762()
+        {
+            using (var p = OpenTemplatePackage(@"i762.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["C5"].Value = 15;
+                var pc = ws.Drawings[0].As.Chart.PieChart;
+                pc.Series[0].CreateCache();
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i763()
+        {
+            using (var package = OpenPackage("i761.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Page1");
+                sheet.Cells["A1"].Value = 0;
+                sheet.Cells["A2"].Value = 5;
+                sheet.Cells["A3"].Value = 0;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["A6"].Value = 1;
+                sheet.Cells["A7"].Value = 1;
+                sheet.Cells["A8"].Value = 4;
+                sheet.Cells["A9"].Value = 1;
+
+                foreach (var c in sheet.Cells["A1:A3,A5,A6,A7"])
+                {
+                    Console.WriteLine($"{c.Address}");
+                }
+            }
+        }
+        [TestMethod]
+        public void ExcelRangeBase_Counts_Periods_Twice_763_1()
+        {
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.Worksheets.Add("first");
+
+                var sheet = p.Workbook.Worksheets.First();
+
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = 1;
+                sheet.Cells["A3"].Value = 1;
+                sheet.Cells["A4"].Value = 1;
+                sheet.Cells["A5"].Value = 1;
+                sheet.Cells["A6"].Value = 1;
+                sheet.Cells["A7"].Value = 1;
+                sheet.Cells["A8"].Value = 1;
+                sheet.Cells["A9"].Value = 1;
+                sheet.Cells["A10"].Value = 1;
+                sheet.Cells["A11"].Value = 1;
+                sheet.Cells["A12"].Formula = "SUM(A1:A3,A5,A6,A7,A8,A10,A9,A11)";
+
+                int counterFirstIteration = 0;
+                int counterSecondIteration = 0;
+
+
+                int CounterSingleAdress = 0;
+                int CounterMultipleRanges = 0;
+                int CounterRangesFirst = 0;
+                int CounterRangesLast = 0;
+                int counterNoRanges = 0;
+                int counterOneRange = 0;
+                int counterMixed = 0;
+                var cellsFirstIteration = string.Empty;
+                var cellsSecondIteration = string.Empty;
+                var cellsSingleAdress = string.Empty;
+                var cellsMultipleRanges = string.Empty;
+                var cellsRangesFirst = string.Empty;
+                var cellsRangesLast = string.Empty;
+                var cellsNoRanges = string.Empty;
+                var cellsOneRange = string.Empty;
+                var cellsMixed = string.Empty;
+
+                //------------------
+                var cellsInRange = string.Empty;
+
+                var rangeWithPeriod = sheet.Cells["A1:A3,A5,A6,A7,A8,A10,A9,A11"];
+                foreach (var cell in rangeWithPeriod)
+                    cellsInRange = $"{cellsInRange};{cell.Address}";
+
+                Assert.AreEqual(";A1;A2;A3;A5;A6;A7;A8;A10;A9;A11", cellsInRange);
+
+                //------------------
+
+                var range = sheet.Cells["A1:A3,A5,A6,A7,A8,A10,A9,A11"];
+                foreach (var cell in range)
+                {
+                    counterFirstIteration++;
+                    cellsFirstIteration = $"{cellsFirstIteration};{cell.Address}";
+                }
+
+                foreach (var cell in range)
+                {
+                    counterSecondIteration++;
+                    cellsSecondIteration = $"{cellsSecondIteration};{cell.Address}";
+                }
+
+                Assert.AreEqual(cellsFirstIteration, cellsSecondIteration);
+                Assert.AreEqual(";A1;A2;A3;A5;A6;A7;A8;A10;A9;A11", cellsFirstIteration);
+
+                Assert.AreEqual(counterFirstIteration, counterSecondIteration);
+                Assert.AreEqual(10, counterFirstIteration);
+
+
+                var rangeSingleAdress = sheet.Cells["A1"];
+                foreach (var cell in rangeSingleAdress)
+                {
+                    CounterSingleAdress++;
+                    cellsSingleAdress = $"{cellsSingleAdress};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1", cellsSingleAdress);
+                Assert.AreEqual(1, CounterSingleAdress);
+
+                cellsSingleAdress = String.Empty;
+                CounterSingleAdress = 0;
+                foreach (var cell in rangeSingleAdress)
+                {
+                    CounterSingleAdress++;
+                    cellsSingleAdress = $"{cellsSingleAdress};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1", cellsSingleAdress);
+                Assert.AreEqual(1, CounterSingleAdress);
+
+
+                var rangeMultipleRanges = sheet.Cells["A1:A4,A5:A7,A8:A11"];
+                foreach (var cell in rangeMultipleRanges)
+                {
+                    CounterMultipleRanges++;
+                    cellsMultipleRanges = $"{cellsMultipleRanges};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7;A8;A9;A10;A11", cellsMultipleRanges);
+                Assert.AreEqual(11, CounterMultipleRanges);
+
+                CounterMultipleRanges = 0;
+                cellsMultipleRanges = String.Empty;
+                foreach (var cell in rangeMultipleRanges)
+                {
+                    CounterMultipleRanges++;
+                    cellsMultipleRanges = $"{cellsMultipleRanges};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7;A8;A9;A10;A11", cellsMultipleRanges);
+                Assert.AreEqual(11, CounterMultipleRanges);
+
+                var rangeRangeFirst = sheet.Cells["A1:A4,A5,A6,A7"];
+                foreach (var cell in rangeRangeFirst)
+                {
+                    CounterRangesFirst++;
+                    cellsRangesFirst = $"{cellsRangesFirst};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesFirst);
+                Assert.AreEqual(7, CounterRangesFirst);
+
+                CounterRangesFirst = 0;
+                cellsRangesFirst = String.Empty;
+                foreach (var cell in rangeRangeFirst)
+                {
+                    CounterRangesFirst++;
+                    cellsRangesFirst = $"{cellsRangesFirst};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesFirst);
+                Assert.AreEqual(7, CounterRangesFirst);
+
+                var rangeRangeLast = sheet.Cells["A1,A2,A3,A4:A7"];
+                foreach (var cell in rangeRangeLast)
+                {
+                    CounterRangesLast++;
+                    cellsRangesLast = $"{cellsRangesLast};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesLast);
+                Assert.AreEqual(7, CounterRangesLast);
+
+                CounterRangesLast = 0;
+                cellsRangesLast = String.Empty;
+                foreach (var cell in rangeRangeLast)
+                {
+                    CounterRangesLast++;
+                    cellsRangesLast = $"{cellsRangesLast};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsRangesLast);
+                Assert.AreEqual(7, CounterRangesLast);
+
+                var rangeOneRange = sheet.Cells["A1:A7"];
+                foreach (var cell in rangeOneRange)
+                {
+                    counterOneRange++;
+                    cellsOneRange = $"{cellsOneRange};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsOneRange);
+                Assert.AreEqual(7, counterOneRange);
+
+
+                var rangeNoRange = sheet.Cells["A1,A2,A3,A4"];
+                foreach (var cell in rangeNoRange)
+                {
+                    counterNoRanges++;
+                    cellsNoRanges = $"{cellsNoRanges};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4", cellsNoRanges);
+                Assert.AreEqual(4, counterNoRanges);
+
+
+                var rangeMixed = sheet.Cells["A1,A2,A3:A5,A6,A7"];
+                foreach (var cell in rangeMixed)
+                {
+                    counterMixed++;
+                    cellsMixed = $"{cellsMixed};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7", cellsMixed);
+                Assert.AreEqual(7, counterMixed);
+
+
+                int counter = 0;
+                String cells = String.Empty;
+                foreach (var cell in sheet.Cells)
+                {
+                    counter++;
+                    cells = $"{cells};{cell.Address}";
+                }
+
+                Assert.AreEqual(";A1;A2;A3;A4;A5;A6;A7;A8;A9;A10;A11;A12", cells);
+                Assert.AreEqual(12, counter);
+            }
+        }
+        [TestMethod]
+        public void I778()
+        {
+            using (var package = OpenTemplatePackage("i778.xlsx"))
+            {
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void StyleKeepBoxes()
+        {
+            using (var p = OpenTemplatePackage("XfsStyles.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void BuildInStylesRegional()
+        {
+            using (var p = OpenPackage("BuildinStylesRegional.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1:A4"].FillNumber(1);
+                ws.Cells["A1"].Style.Numberformat.Format = "#,##0 ;(#,##0)";
+                ws.Cells["A2"].Style.Numberformat.Format = "#,##0 ;[Red](#,##0)";
+                ws.Cells["A3"].Style.Numberformat.Format = "#,##0.00;(#,##0.00)";
+                ws.Cells["A4"].Style.Numberformat.Format = "#,##0.00;[Red](#,##0.00)";
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void I809()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("DateSheet");
+
+                ws.Cells["A1"].Value = "2022-11-25";
+
+                ws.Cells["B1"].Value = "2022-11-25";
+                ws.Cells["B2"].Value = "2022-11-30";
+                ws.Cells["B3"].Value = "2022-11-25";
+
+                ws.Cells["C1"].Formula = "=DAY(B1)";
+                ws.Cells["C2"].Formula = "=DAY(B2)";
+                ws.Cells["C3"].Formula = "=DAY(B3)";
+
+                ws.Cells["D1"].Formula = "SUMIF(B1:B3,A1,C1:C3)";
+                p.Workbook.Calculate();
+
+                Assert.AreEqual(50d, p.Workbook.Worksheets[0].Cells["D1"].Value);
+            }
+        }
+        [TestMethod]
         public void s425()
         {
             using (var p = OpenTemplatePackage("s425.xlsx"))
@@ -3899,8 +4250,8 @@ namespace EPPlusTest
         [TestMethod]
         public void s803()
         {
-            using (var p = OpenPackage("s803.xlsx", true))
-            {
+            using (var p = OpenPackage("s803.xlsx",true))
+            {                
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1:E100"].FillNumber(1, 1);
                 ws.Cells["A82"].Formula = "a1";
@@ -3919,9 +4270,9 @@ namespace EPPlusTest
                     .Select(p => p as ExcelPicture).ToList();
 
                 var pic = pics.First(p => p.Name == "Image_ExistingInventoryImg");
-                var image = System.IO.File.ReadAllBytes("c:\\temp\\img1.png");
+                var image = File.ReadAllBytes("c:\\temp\\img1.png");
                 pic.Image.SetImage(image, ePictureType.Png);
-                image = System.IO.File.ReadAllBytes("c:\\temp\\img2.png");
+                image = File.ReadAllBytes("c:\\temp\\img2.png");
                 pics[1].Image.SetImage(image, ePictureType.Png);
 
                 SaveAndCleanup(package);
@@ -3944,6 +4295,96 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void s435()
+        {
+            using (var package = OpenTemplatePackage("s435.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets[0];
+
+
+                var start = 2;
+                worksheet.Cells["A" + start].Value = "Month";
+                worksheet.Cells["B" + start].Value = "Serie1";
+                worksheet.Cells["C" + start].Value = "Serie2";
+                worksheet.Cells["D" + start].Value = "Serie3";
+                start++;
+                var randomData = Data();
+                foreach (DataRow row in randomData.Rows)
+                {
+                    worksheet.Cells["A" + start].Value = row[0];
+                    worksheet.Cells["B" + start].Value = row[1];
+                    worksheet.Cells["C" + start].Value = row[2];
+                    worksheet.Cells["D" + start].Value = row[3];
+                    start++;
+                }
+                var end = start - 1;
+                var metroChart = (ExcelChart)worksheet.Drawings.Where(p => p is ExcelChart).First();
+                if (metroChart != null)
+                {
+                    metroChart.YAxis.MinValue = 0.5;
+                    metroChart.YAxis.MaxValue = 4.5;
+
+
+                    var serieColors = new Dictionary<string, string>()
+                    {
+                        { "Serie1", "#CBB54C" },
+                        { "Serie2", "#00A7CE" },
+                        { "Serie3", "#950000" }
+                    };
+
+
+                    AddLineSeries(metroChart, $"B3:B{end}", $"A3:A{end}", "Serie1");
+                    AddLineSeries(metroChart, $"C3:C{end}", $"A3:A{end}", "Serie2");
+                    AddLineSeries(metroChart, $"D3:D{end}", $"A3:A{end}", "Serie3");
+
+
+                    foreach (ExcelLineChartSerie serie in metroChart.Series)
+                    {
+                        var serieColor = serieColors[serie.Header];
+                        serie.Smooth = true;
+                        serie.Border.Fill.Color = ColorTranslator.FromHtml(serieColor);
+                        serie.Marker.Style = eMarkerStyle.None;
+                        serie.Border.Width = 2;
+                        serie.Border.Fill.Style = eFillStyle.SolidFill;
+                        serie.Border.LineStyle = eLineStyle.Solid;
+                        serie.Border.LineCap = eLineCap.Round;
+                        serie.Fill.Style = eFillStyle.SolidFill;
+                        serie.Fill.Color = ColorTranslator.FromHtml(serieColor);
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+            private void AddLineSeries(ExcelChart chart, string seriesAddress, string xSeriesAddress, string seriesName)
+            {
+                var lineSeries = chart.Series.Add(seriesAddress, xSeriesAddress);
+                lineSeries.Header = seriesName;
+            }
+
+
+            private DataTable Data()
+            {
+                var toReturn = new DataTable();
+                toReturn.Columns.Add("Month");
+                toReturn.Columns.Add("Serie1", typeof(decimal));
+                toReturn.Columns.Add("Serie2", typeof(decimal));
+                toReturn.Columns.Add("Serie3", typeof(decimal));
+
+
+                toReturn.Rows.Add("01/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("02/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("03/2022", 1.4, 2.4, 3.4);
+                toReturn.Rows.Add("04/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("05/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("06/2022", 1.7, 2.7, 3.7);
+                toReturn.Rows.Add("07/2022", 1.9, 2.9, 3.9);
+                toReturn.Rows.Add("08/2022", 1.9, 2.9, 3.9);
+
+
+                return toReturn;
+            }
+        [TestMethod]
         public void s437()
         {
             using (var package = OpenTemplatePackage("s437.xlsx"))
@@ -3957,12 +4398,12 @@ namespace EPPlusTest
                     metroChart.YAxis.MinValue = 0d;
                     metroChart.YAxis.MajorUnit = 0.05d;
 
-
+                    
                     foreach (var ct in metroChart.PlotArea.ChartTypes)
                     {
                         ///The "Series" being returned in this is only the bar series
                         ///while the other two line series are not being returned.
-                        foreach (var serie in ct.Series)
+                        foreach(var serie in ct.Series)
                         {
 
                         }
@@ -3970,18 +4411,6 @@ namespace EPPlusTest
                 }
             }
         }
-        [TestMethod]
-        public void i802()
-        {
-            using (var package = OpenPackage("I802.xlsx"))
-            {
-                var ws = package.Workbook.Worksheets.Add("sheet1");
-                using (ExcelRange Rng = ws.Cells[2, 2, 2, 2])
-                {
-                    Rng.Value = "Test Client\r";
-                }
-                SaveAndCleanup(package);
-            }
-        }
     }
 }
+

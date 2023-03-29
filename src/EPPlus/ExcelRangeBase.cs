@@ -208,7 +208,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    if (valueMethod != Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false);   //Clear the range before overwriting, but not merged cells.
+                    if (valueMethod != Set_IsRichText) DeleteMe(address, false, false, true, true, false, false, false, false, false);   //Clear the range before overwriting, but not merged cells.
                     for (int col = address.Start.Column; col <= address.End.Column; col++)
                     {
                         for (int row = address.Start.Row; row <= address.End.Row; row++)

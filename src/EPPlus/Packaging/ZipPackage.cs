@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Packaging
                                 hasContentTypeXml = true;
                             }
 
-                            else if (e.FileName.Equals($"_rels{_dirSeparator}.ss", StringComparison.OrdinalIgnoreCase))
+                            else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
                             {
                                 ReadRelation(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)), "");
                             }
