@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -25,16 +26,16 @@ using System.Linq;
 using System.Text;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RoundingHelper;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DynamicArray
 {
     [FunctionMetadata(
             Category = ExcelFunctionCategory.LookupAndReference,
             EPPlusVersion = "6.0",
             IntroducedInExcelVersion = "2016",
-            Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds.", 
+            Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds.",
             SupportsArrays = true)]
     internal class Xlookup : LookupFunction
-    { 
+    {
         private Stopwatch _stopwatch = null;
 
         private int GetMatchIndex(object lookupValue, IRangeInfo lookupRange, IRangeInfo returnArray, bool asc, LookupMatchMode matchMode)
@@ -89,7 +90,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             int ix;
             if (searchMode == LookupSearchMode.BinarySearchAscending || searchMode == LookupSearchMode.BinarySearchDescending)
             {
-                var asc = (searchMode == LookupSearchMode.BinarySearchAscending);
+                var asc = searchMode == LookupSearchMode.BinarySearchAscending;
                 ix = GetMatchIndex(lookupValue, lookupRange, returnArray, asc, matchMode);
             }
             else
@@ -107,7 +108,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         private CompileResult BuildCompileResult(LookupRangeDirection lookupDirection, IRangeInfo returnArray, string notFoundText, int ix)
         {
-            if (ix < 0 || ix > ((lookupDirection == LookupRangeDirection.Vertical) ? returnArray.Size.NumberOfRows - 1 : returnArray.Size.NumberOfCols - 1))
+            if (ix < 0 || ix > (lookupDirection == LookupRangeDirection.Vertical ? returnArray.Size.NumberOfRows - 1 : returnArray.Size.NumberOfCols - 1))
             {
                 return string.IsNullOrEmpty(notFoundText) ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
             }

@@ -19,7 +19,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DynamicArray
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
@@ -33,16 +33,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             var comparer = new LookupComparer(matchMode);
             var ix = LookupBinarySearch.BinarySearch(lookupValue, lookupRange, asc, comparer);
-            if(ix == 0)
+            if (ix == 0)
             {
                 return ix;
             }
             var result = ix < 0 ? ~ix : ix;
-            if(matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
+            if (matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
             {
                 return result - 1;
             }
-            if(matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
+            if (matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
             {
                 return result;
             }
@@ -83,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             int ix;
             if (searchMode == LookupSearchMode.BinarySearchAscending || searchMode == LookupSearchMode.BinarySearchDescending)
             {
-                var asc = (searchMode == LookupSearchMode.BinarySearchAscending);
+                var asc = searchMode == LookupSearchMode.BinarySearchAscending;
                 ix = GetMatchIndex(lookupValue, lookupRange, asc, matchMode);
             }
             else
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 _stopwatch.Stop();
                 context.Configuration.Logger.LogFunction("XMATCH", _stopwatch.ElapsedMilliseconds);
             }
-            if(ix < 0)
+            if (ix < 0)
             {
                 return CreateResult(eErrorType.NA);
             }

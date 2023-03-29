@@ -15,13 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DynamicArray.LookupUtils
 {
-    internal enum LookupSearchMode : int
+    internal enum LookupRangeDirection
     {
-        StartingAtFirst = 1,
-        ReverseStartingAtLast = -1,
-        BinarySearchAscending = 2,
-        BinarySearchDescending = 3
+        Vertical,
+        Horizontal
     }
 }
