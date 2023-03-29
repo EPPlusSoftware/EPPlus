@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
             while (low <= high)
             {
-                mid = (low + high) >> 1;
+                mid = low + high >> 1;
 
                 var col = nRows > nCols ? 0 : mid;
                 var row = nRows > nCols ? mid : 0;
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
             while (high >= low)
             {
-                mid = (high + low) >> 1;
+                mid = high + low >> 1;
 
                 var col = nRows > nCols ? 0 : mid;
                 var row = nRows > nCols ? mid : 0;
@@ -84,7 +84,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
             while (low <= high)
             {
-                mid = (low + high) >> 1;
+                mid = low + high >> 1;
 
                 var result = comparer.Compare(s, items[mid].Value);
 
@@ -107,7 +107,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
             while (high >= low)
             {
-                mid = (high + low) >> 1;
+                mid = high + low >> 1;
 
                 var result = comparer.Compare(s, items[mid].Value);
 

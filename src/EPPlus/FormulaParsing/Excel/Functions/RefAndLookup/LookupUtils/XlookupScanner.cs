@@ -11,10 +11,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         public XlookupScanner(object lookupValue, IRangeInfo lookupRange, LookupSearchMode searchMode, LookupMatchMode matchMode)
         {
-            _lookupValue= lookupValue;
-            _lookupRange= lookupRange;
-            _searchMode= searchMode;
-            _matchMode= matchMode;
+            _lookupValue = lookupValue;
+            _lookupRange = lookupRange;
+            _searchMode = searchMode;
+            _matchMode = matchMode;
             _comparer = new LookupComparer(matchMode);
         }
 
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
         public int FindIndex()
         {
-            if(_searchMode != LookupSearchMode.StartingAtFirst && _searchMode != LookupSearchMode.ReverseStartingAtLast)
+            if (_searchMode != LookupSearchMode.StartingAtFirst && _searchMode != LookupSearchMode.ReverseStartingAtLast)
             {
                 return -1;
             }
@@ -47,11 +47,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         {
             var direction = GetLookupDirection();
             int dimensionRows, maxItems;
-            if(direction == LookupRangeDirection.Vertical)
+            if (direction == LookupRangeDirection.Vertical)
             {
                 dimensionRows = _lookupRange.Worksheet.Dimension.Rows;
                 maxItems = _lookupRange.Size.NumberOfRows > dimensionRows ? dimensionRows : _lookupRange.Size.NumberOfRows;
-            } 
+            }
             else
             {
                 dimensionRows = _lookupRange.Worksheet.Dimension.Columns;
@@ -69,13 +69,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     _lookupRange.GetOffset(ix, 0) :
                     _lookupRange.GetOffset(0, ix);
                 var cr = _comparer.Compare(_lookupValue, value);
-                if(cr == 0)
+                if (cr == 0)
                 {
                     return ix;
                 }
-                else if(cr < 0)
+                else if (cr < 0)
                 {
-                    if(closestAbove == null || _comparer.Compare(closestAbove, value) > 0)
+                    if (closestAbove == null || _comparer.Compare(closestAbove, value) > 0)
                     {
                         closestAbove = value;
                         closestAboveIx = ix;
@@ -89,10 +89,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                         closestBelowIx = ix;
                     }
                 }
-                if(_searchMode == LookupSearchMode.StartingAtFirst)
+                if (_searchMode == LookupSearchMode.StartingAtFirst)
                 {
                     ix++;
-                    if(ix >= maxItems)
+                    if (ix >= maxItems)
                     {
                         ix = -1;
                     }
@@ -105,8 +105,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             if (_matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
             {
                 return closestAboveIx;
-            }  
-            else if(_matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
+            }
+            else if (_matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
             {
                 return closestBelowIx;
             }

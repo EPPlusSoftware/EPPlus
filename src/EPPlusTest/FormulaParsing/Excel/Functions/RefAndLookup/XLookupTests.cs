@@ -255,10 +255,10 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(expected, _sheet.Cells["F2"].Value);
         }
 
-        [DataTestMethod, Ignore]
-        //[DataRow(0d, 1d, 0, 1)]
-        //[DataRow(11d, 2d, -1, 1)]
-        //[DataRow(11d, 3d, 1, 1)]
+        [DataTestMethod]
+        [DataRow(0d, 1d, 0, 1)]
+        [DataRow(11d, 2d, -1, 1)]
+        [DataRow(11d, 3d, 1, 1)]
         public void HorizontalNumericLarge(double lookupValue, double expected, int matchMode, int searchMode)
         {
             _sheet.Cells[1, 1].Value = 0;

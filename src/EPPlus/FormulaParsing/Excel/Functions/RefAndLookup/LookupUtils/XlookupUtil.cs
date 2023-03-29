@@ -120,7 +120,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 {
                     d2 = double.MaxValue;
                 }
-                ret = d1 < d2 ? -1 : (d1 > d2 ? 1 : 0);
+                ret = d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
             }
             else if (isNumX == false && isNumY == false)   //String Compare
             {

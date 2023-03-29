@@ -23,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "4",
+        EPPlusVersion = "7",
         Description = "Looks up a supplied value in the first column of a table, and returns the corresponding value from another column")]
     internal class VLookup : LookupFunction
     {
