@@ -38,7 +38,7 @@ namespace EPPlusTest.FormulaParsing
             _ws.Cells["F2"].Formula = "DateDif(A2:A11,A12:A17,\"d\")";
             _ws.Calculate();
 
-            //Assert.AreEqual(10D, _ws.GetValue(2, 6));
+            Assert.AreEqual(10D, _ws.GetValue(2, 6));
             //Assert.AreEqual(_ws.GetValue(2, 1), _ws.GetValue(3, 6));
             //Assert.AreEqual(_ws.GetValue(9, 1), _ws.GetValue(10, 6));
 
