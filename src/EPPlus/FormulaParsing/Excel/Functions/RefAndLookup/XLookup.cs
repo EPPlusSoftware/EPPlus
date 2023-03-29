@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -26,7 +25,7 @@ using System.Linq;
 using System.Text;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RoundingHelper;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DynamicArray
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
             Category = ExcelFunctionCategory.LookupAndReference,

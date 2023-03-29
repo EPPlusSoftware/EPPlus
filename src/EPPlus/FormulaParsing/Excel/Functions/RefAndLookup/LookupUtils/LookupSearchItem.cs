@@ -16,7 +16,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DynamicArray.LookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
     [DebuggerDisplay("Value: {Value}, org ix: {OriginalIndex}")]
     internal class LookupSearchItem

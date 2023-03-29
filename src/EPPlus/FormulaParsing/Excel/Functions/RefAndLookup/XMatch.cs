@@ -19,7 +19,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DynamicArray
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,

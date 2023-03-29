@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DynamicArray.LookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
     internal enum LookupMatchMode : int
     {
