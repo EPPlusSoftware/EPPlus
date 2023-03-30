@@ -33,6 +33,7 @@ using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace EPPlusTest.DataValidation
 {
@@ -68,6 +69,45 @@ namespace EPPlusTest.DataValidation
         public void TestTypeOperator(ExcelDataValidation type)
         {
 
+        }
+
+
+
+        [TestMethod]
+        public void TestRangeAddsSingularInstance()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTest.xlsx");
+
+            //pck.Workbook.Worksheets.Add("RangeTest");
+
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            StringBuilder sb = new StringBuilder();
+
+            for(int i = 0; i< validations.Count; i++) 
+            {
+                if(validations[i].Address.Addresses != null)
+                {
+                    var addresses = validations[i].Address.Addresses;
+
+                    for (int j = 0; j < validations[i].Address.Addresses.Count; j++)
+                    {
+                        if(validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
+                        {
+                            sb.Append(addresses[i]);
+                        }
+                    }
+                }
+                else
+                {
+                    if (validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
+                    {
+                        sb.Append(validations[i].Address);
+                    }
+                }
+            }
+
+            Assert.AreEqual("",sb.ToString());
         }
 
         [TestMethod]
