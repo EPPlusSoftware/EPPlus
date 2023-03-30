@@ -302,9 +302,18 @@ namespace OfficeOpenXml.Table
             string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
             bool needsTranslation = r1c1Formula != CalculatedColumnFormula;
 
+            var ws = _tbl.WorkSheet;
             for (int row = fromRow; row <= toRow; row++)
             {
-                _tbl.WorkSheet.SetFormula(row, colNum, needsTranslation ? ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum) : r1c1Formula);
+                if(needsTranslation)
+                {
+                    var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
+                    ws.SetFormula(row, colNum, f);
+                }
+                else if(ws._formulas.Exists(row, colNum)==false)
+                {
+                    ws.SetFormula(row, colNum, CalculatedColumnFormula);
+                }
             }
         }
     }

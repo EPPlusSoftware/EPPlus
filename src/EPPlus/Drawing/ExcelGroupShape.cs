@@ -325,14 +325,14 @@ namespace OfficeOpenXml.Drawing
         {
             var pd = Drawings[0];
             pd.GetPositionSize();
-            double t = pd._top, l = pd._left, b = pd._top + pd._height, r= pd._left + pd._width;
-            for(int i=1;i<Drawings.Count;i++)
+            double t = pd._top, l = pd._left, b = pd._top + pd._height, r = pd._left + pd._width;
+            for (int i = 1; i < Drawings.Count; i++)
             {
                 var d = Drawings[i];
                 d.GetPositionSize();
-                if (t>d._top)
+                if (t > d._top)
                 {
-                   t = d._top;
+                    t = d._top;
                 }
                 if (l > d._left)
                 {

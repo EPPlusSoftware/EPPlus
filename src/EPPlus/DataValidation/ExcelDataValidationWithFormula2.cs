@@ -10,63 +10,58 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
 using System.Xml;
-
 namespace OfficeOpenXml.DataValidation
 {
     /// <summary>
     /// Represents a data validation with two formulas
     /// </summary>
     /// <typeparam name="T">An instance implementing the <see cref="IExcelDataValidationFormula"></see></typeparam>
-    public class ExcelDataValidationWithFormula2<T> : ExcelDataValidationWithFormula<T>
+    public abstract class ExcelDataValidationWithFormula2<T> : ExcelDataValidationWithFormula<T>
         where T : IExcelDataValidationFormula
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="workSheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
-            : this(worksheet, uid, address, validationType, null)
+        internal ExcelDataValidationWithFormula2(string uid, string address, string workSheetName)
+            : base(uid, address, workSheetName)
         {
-
         }
 
         /// <summary>
-        /// Constructor
+        /// Constructor for reading data
         /// </summary>
-        /// <param name="worksheet">Worksheet that owns the validation</param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="itemElementNode">Xml top node (dataValidations)</param>
-        /// <param name="validationType">Data validation type</param>
-        /// <param name="address">address for data validation</param>
-        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, uid, address, validationType, itemElementNode)
+        /// <param name="xr">The XmlReader to read from</param>
+        internal ExcelDataValidationWithFormula2(XmlReader xr)
+            : base(xr)
         {
-            
         }
 
         /// <summary>
-        /// Constructor
+        /// Copy Constructor
         /// </summary>
-        /// <param name="worksheet">Worksheet that owns the validation</param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="itemElementNode">Xml top node (dataValidations)</param>
-        /// <param name="validationType">Data validation type</param>
-        /// <param name="address">address for data validation</param>
-        /// <param name="namespaceManager">for test purposes</param>
-        internal ExcelDataValidationWithFormula2(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
+        /// <param name="copy"></param>
+        internal ExcelDataValidationWithFormula2(ExcelDataValidation copy)
+            : base(copy)
         {
-
         }
+
+        internal override void ReadClassSpecificXmlNodes(XmlReader xr)
+        {
+            base.ReadClassSpecificXmlNodes(xr);
+
+            if (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween)
+            {
+                Formula2 = ReadFormula(xr, "formula2");
+            }
+        }
+
         /// <summary>
         /// Formula - Either a {T} value or a spreadsheet formula
         /// </summary>
@@ -74,6 +69,22 @@ namespace OfficeOpenXml.DataValidation
         {
             get;
             protected set;
+        }
+
+        public override void Validate()
+        {
+            base.Validate();
+            if (ValidationType.Type != eDataValidationType.List
+                && ValidationType.Type != eDataValidationType.Custom
+                && (Operator == ExcelDataValidationOperator.between || Operator == ExcelDataValidationOperator.notBetween))
+            {
+                if (string.IsNullOrEmpty(Formula2.ExcelFormula) &&
+                    (Formula2 as ExcelDataValidationFormula).HasValue == false &&
+                    !(AllowBlank ?? false))
+                {
+                    throw new InvalidOperationException("Validation of " + Address.Address + " failed: Formula2 must be set if operator is 'between' or 'notBetween'");
+                }
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
@@ -93,15 +94,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             if (double.TryParse(searchedValue, out double dsv))
             {
-                return Convert.ToDouble(candidate).CompareTo(dsv);
+                return ConvertUtil.GetValueDouble(candidate).CompareTo(dsv);
             }
             if (bool.TryParse(searchedValue, out bool bsv))
             {
-                return Convert.ToBoolean(candidate).CompareTo(bsv);
+                return (ConvertUtil.GetValueDouble(candidate) == 1).CompareTo(bsv);
             }
             if (DateTime.TryParse(searchedValue, out DateTime dtsv))
             {
-                return Convert.ToDateTime(candidate).CompareTo(dtsv);
+                DateTime? date = ConvertUtil.GetValueDate(candidate);
+                if (date.HasValue == false)
+                    return -1;
+                return date.Value.CompareTo(dtsv);
             }
             return IncompatibleOperands;
         }

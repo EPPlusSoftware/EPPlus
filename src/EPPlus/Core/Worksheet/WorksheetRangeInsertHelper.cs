@@ -16,6 +16,8 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -238,7 +240,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             var delDV = new List<DataValidation.Contracts.IExcelDataValidation>();
             //Update data validation references
-            foreach (var dv in ws.DataValidations)
+            foreach (ExcelDataValidation dv in ws.DataValidations)
             {
                 var newAddress = InsertSplitAddress(dv.Address, range, effectedAddress, shift, isTable);
                 if (newAddress == null)
@@ -247,7 +249,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    ((ExcelDataValidation)dv).SetAddress(newAddress.Address);
+                    dv.SetAddress(newAddress.Address);
                 }
             }
             foreach (var dv in delDV)
@@ -715,6 +717,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void FixFormulasInsertRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom=0, int columnTo=ExcelPackage.MaxColumns)
         {
+            var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
             //Adjust formulas
             foreach (var wsToUpdate in ws.Workbook.Worksheets)
             {
@@ -750,15 +753,32 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         if (ws.Name == wsToUpdate.Name)
                         {
-                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
+                            var tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
                         else if (v.Contains(ws.Name))
                         {
-                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
+                            var tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
+                            cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
                     }
                 }
-}        }
+}
+        }
+
+        private static OptimizedSourceCodeTokenizer _sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+        private static IList<Token> GetTokens(ExcelWorksheet ws, int row, int column, string formula)
+        {
+            if (string.IsNullOrEmpty(formula)) return new List<Token>();
+            var tokens = ws._formulaTokens.GetValue(row, column);
+            if(tokens==null)
+            {
+                tokens = (List<Token>) _sct.Tokenize(formula, ws.Name);
+                ws._formulaTokens.SetValue(row, column, tokens);
+            }
+            return tokens;
+        }
+
         private static void FixFormulasInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             foreach (var wsToUpdate in ws.Workbook.Worksheets)
@@ -845,6 +865,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             ws._values.Insert(rowFrom, columnFrom, rows, columns);
             ws._formulas.Insert(rowFrom, columnFrom, rows, columns);
+            ws._formulaTokens.Insert(rowFrom, columnFrom, rows, columns);
             ws._commentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._threadedCommentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
@@ -871,6 +892,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             ws._values.InsertShiftRight(fromAddress);
             ws._formulas.InsertShiftRight(fromAddress);
+            ws._formulaTokens.InsertShiftRight(fromAddress);
             ws._commentsStore.InsertShiftRight(fromAddress);
             ws._threadedCommentsStore.InsertShiftRight(fromAddress);
             ws._hyperLinks.InsertShiftRight(fromAddress);

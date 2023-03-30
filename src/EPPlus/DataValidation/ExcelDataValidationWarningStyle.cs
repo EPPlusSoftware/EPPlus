@@ -10,10 +10,6 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -23,7 +19,8 @@ namespace OfficeOpenXml.DataValidation
     public enum ExcelDataValidationWarningStyle
     {
         /// <summary>
-        /// warning style will be excluded
+        /// warning style will be excluded.
+        /// Excel will default this to Stop warning style.
         /// </summary>
         undefined,
         /// <summary>

@@ -36,6 +36,9 @@ using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace EPPlusTest.Excel
 {
@@ -211,11 +214,12 @@ namespace EPPlusTest.Excel
 			Assert.IsFalse((bool)operatorResult.Result);
 			operatorResult = Operator.LessThanOrEqual.Apply(result1, result2, ctx);
 			Assert.IsFalse((bool)operatorResult.Result);
-		}
-
-		[TestMethod]
+        }
+        [TestMethod]
 		public void OperatorsActingOnDateStrings()
 		{
+            var culture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             var ctx = ParsingContext.Create();
             const string dateFormat = "M-dd-yyyy";
             DateTime date1 = new DateTime(2015, 2, 20);
@@ -251,6 +255,7 @@ namespace EPPlusTest.Excel
 			Assert.IsFalse((bool)operatorResult.Result);
 			operatorResult = Operator.LessThanOrEqual.Apply(result1, result2, ctx);
 			Assert.IsFalse((bool)operatorResult.Result);
-		}
+            Thread.CurrentThread.CurrentCulture = culture;
+        }
 	}
 }

@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Core;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -448,7 +449,8 @@ namespace OfficeOpenXml
                     row += c - startNum;
                     if (row > ExcelPackage.MaxRows)
                     {
-                        ThrowAddressException(address, out row, out col, throwException);
+                        ThrowAddressExceptionOutOfRange(address, row, throwException);
+                        //ThrowAddressException(address, out row, out col, throwException);
                         break;  
                     }
                 }
@@ -469,6 +471,18 @@ namespace OfficeOpenXml
                 }
             }
             return row != 0 || col != 0;
+        }
+        private static bool ThrowAddressExceptionOutOfRange(string address, int row, bool throwException)
+        {
+            if (throwException)
+            {
+                throw (new ArgumentException(string.Format(
+                    "Invalid Address format {0}. Row: {1} is out of range. Maxvalue for row is {2}", address, row, ExcelPackage.MaxRows)));
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private static bool ThrowAddressException(string address, out int row, out int col, bool throwException)
@@ -915,15 +929,18 @@ namespace OfficeOpenXml
         /// <param name="modifiedSheet">The sheet where cells are being inserted or deleted.</param>
         /// <param name="setFixed">Fixed address</param>
         /// <param name="copy">If a copy operation is performed, fully fixed cells should be untoughe.</param>
+        /// <param name="tokens">Tokens, if a cache exists</param>
         /// <returns>The updated version of the <paramref name="formula"/>.</returns>
-        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false, bool copy=false)
+        internal static string UpdateFormulaReferences(string formula, int rowIncrement, int colIncrement, int afterRow, int afterColumn, string currentSheet, string modifiedSheet, bool setFixed = false, bool copy = false, IList<Token> tokens = null)
         {
             try
             {
-                var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
-                var tokens = sct.Tokenize(formula);
+                if (tokens == null)
+                {
+                    tokens = tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula);
+                }
                 var f = "";
-                string wsName = "";
+                //string wsName = "";
                 for(int i=0;i<tokens.Count;i++) 
                 {
                     var t = tokens[i];

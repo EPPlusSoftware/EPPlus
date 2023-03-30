@@ -157,7 +157,6 @@ namespace OfficeOpenXml.VBA.Signatures
 
         private static byte[] ReadOctStringBytes(BinaryReader bw)
         {
-            var s = "";
             var id = bw.ReadByte();   //Octet String Tag Identifier
             if (id == 4)
             {

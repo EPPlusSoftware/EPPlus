@@ -11,10 +11,10 @@ Please see the Submission Guidelines below.
 ## Submission Guidelines
 Before you submit your question or issue, search Stack Overflow, maybe your question was already answered.
 If your issue appears to be a bug, please verify that it hasn't been reported before. 
-If it's not reported create an issue in the issue tracker with a fully reproducable unit test including any Excel files nessesary. 
+If it's not reported create an issue in the issue tracker with a fully reproducible unit test including any Excel files necessary. 
 If we can't reproduce the issue, we can't fix it!
 
-## Pull requsts
+## Pull requests
 Anyone that want to contribute and submit a pull request are welcome to do so. Please note that for pull requests with more than 20 significant lines of code it's mandatory to sign the EPPlus CAA, for the pull request to be accepted. 	
 This is not a complicated process. Just download the CAA form, sign it and mail it to github@epplussoftware.com. You only need to do this once either for you or your company. 
 

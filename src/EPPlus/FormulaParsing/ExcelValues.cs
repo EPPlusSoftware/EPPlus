@@ -54,7 +54,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Calc error
         /// </summary>
-        Calc
+        Calc,
+        /// <summary>
+        /// Spill error from a dynamic array formula.
+        /// </summary>
+        Spill,
     }
 
     internal static class ErrorValues
@@ -67,6 +71,7 @@ namespace OfficeOpenXml
         public static ExcelErrorValue Div0Error = ExcelErrorValue.Create(eErrorType.Div0);
         public static ExcelErrorValue RefError = ExcelErrorValue.Create(eErrorType.Ref);
         public static ExcelErrorValue CalcError = ExcelErrorValue.Create(eErrorType.Calc);
+        public static ExcelErrorValue SpillError = ExcelErrorValue.Create(eErrorType.Spill);
     }
     /// <summary>
     /// Represents an Excel error.

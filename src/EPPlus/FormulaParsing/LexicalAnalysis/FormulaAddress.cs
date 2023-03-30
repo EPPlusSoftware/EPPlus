@@ -595,7 +595,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             if(ix>0)
             {
-                var ws = address.Substring(0, ix - 1);
+                var ws = address.Substring(0, ix);
                 address = address.Substring(ix + 1);
                 if(ws.StartsWith("'") && ws.EndsWith("'"))
                 {

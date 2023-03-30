@@ -11,12 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -26,59 +21,43 @@ namespace OfficeOpenXml.DataValidation
     internal static class ExcelDataValidationFactory
     {
         /// <summary>
-        /// Creates an instance of <see cref="ExcelDataValidation"/> out of the given parameters.
+        /// Creates an instance of <see cref="ExcelDataValidation"/> out of the reader.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="worksheet"></param>
-        /// <param name="address"></param>
-        /// <param name="itemElementNode"></param>
-        /// <param name="internalType"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        internal static ExcelDataValidation Create(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+        /// <param name="xr"></param>
+        /// <returns>"</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        internal static ExcelDataValidation Create(XmlReader xr)
         {
-            Require.Argument(type).IsNotNull("validationType");
-            switch (type.Type)
+            string validationTypeName = xr.GetAttribute("type") == null ? "" : xr.GetAttribute("type");
+
+            switch (validationTypeName)
             {
-                case eDataValidationType.Any:
-                    return new ExcelDataValidationAny(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.TextLength:
-                case eDataValidationType.Whole:
-                    return new ExcelDataValidationInt(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.Decimal:
-                    return new ExcelDataValidationDecimal(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.List:
-                    return CreateListValidation(type, worksheet, address, itemElementNode, internalType, uid);
-                case eDataValidationType.DateTime:
-                    return new ExcelDataValidationDateTime(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.Time:
-                    return new ExcelDataValidationTime(worksheet, uid, address, type, itemElementNode);
-                case eDataValidationType.Custom:
-                    return CreateCustomValidation(type, worksheet, address, itemElementNode, internalType, uid);
+                case "":
+                    return new ExcelDataValidationAny(xr);
+                case "textLength":
+                    return new ExcelDataValidationInt(xr, true);
+                case "whole":
+                    return new ExcelDataValidationInt(xr);
+                case "decimal":
+                    return new ExcelDataValidationDecimal(xr);
+                case "list":
+                    return new ExcelDataValidationList(xr);
+                case "time":
+                    return new ExcelDataValidationTime(xr);
+                case "date":
+                    return new ExcelDataValidationDateTime(xr);
+                case "custom":
+                    return new ExcelDataValidationCustom(xr);
                 default:
-                    throw new InvalidOperationException("Non supported validationtype: " + type.Type.ToString());
+                    throw new InvalidOperationException($"Non supported validationtype: {validationTypeName}");
             }
         }
 
-        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormulaList> CreateListValidation(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
+        static internal ExcelDataValidation CloneWithNewAdress(string address, ExcelDataValidation oldValidation)
         {
-            if(internalType == InternalValidationType.DataValidation)
-            {
-                return new ExcelDataValidationList(worksheet, uid, address, type, itemElementNode);
-            }
-            // extLst
-            return new ExcelDataValidationExtList(worksheet, uid, address, type, itemElementNode);
+            var validation = oldValidation.GetClone();
+            validation.Address = new ExcelAddress(address);
+            return validation;
         }
-
-        internal static ExcelDataValidationWithFormula<IExcelDataValidationFormula> CreateCustomValidation(ExcelDataValidationType type, ExcelWorksheet worksheet, string address, XmlNode itemElementNode, InternalValidationType internalType, string uid)
-        {
-            if (internalType == InternalValidationType.DataValidation)
-            {
-                return new ExcelDataValidationCustom(worksheet, uid, address, type, itemElementNode);
-            }
-            // extLst
-            return new ExcelDataValidationExtCustom(worksheet, uid, address, type, itemElementNode);
-        }
-
     }
 }

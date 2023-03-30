@@ -406,6 +406,10 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelEscapeAndEncodeString(string t)
         {
+            if (string.IsNullOrEmpty(t))
+            {
+                return t;
+            }
             return ExcelEncodeString(ExcelEscapeString(t));
         }
         /// <summary>
@@ -582,6 +586,11 @@ namespace OfficeOpenXml.Utils
             }
             return s;
         }
+        internal static string CropString(string s, int maxLength)
+        {
+            if (s == null) return s;
+            return s.Length > maxLength? s.Substring(0, maxLength) : s;
+        }
         internal static object GetValueFromType(XmlReader xr, string type, int styleId, ExcelWorkbook workbook)
         {
             if (type == "s")
@@ -698,11 +707,11 @@ namespace OfficeOpenXml.Utils
             }
             else if (objType == typeof(double))
             {
-                return Convert.ToInt32(System.Math.Floor((double)obj));
+                return Convert.ToInt32(Math.Floor((double)obj));
             }
             else
             {
-                return Convert.ToInt32(System.Math.Floor((decimal)obj));
+                return Convert.ToInt32(Math.Floor(Convert.ToDecimal(obj)));
             }
         }
         /// <summary>

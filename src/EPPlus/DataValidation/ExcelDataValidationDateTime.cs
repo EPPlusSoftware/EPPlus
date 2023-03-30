@@ -10,14 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OfficeOpenXml.DataValidation.Formulas.Contracts;
-using OfficeOpenXml.DataValidation.Formulas;
-using System.Xml;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.DataValidation.Formulas;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
+using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -29,46 +26,53 @@ namespace OfficeOpenXml.DataValidation
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="worksheet"></param>
+        /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        internal ExcelDataValidationDateTime(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType)
-            : base(worksheet, uid, address, validationType)
+        internal ExcelDataValidationDateTime(string uid, string address, string worksheetName)
+            : base(uid, address, worksheetName)
         {
-            Formula = new ExcelDataValidationFormulaDateTime(NameSpaceManager, TopNode, GetFormula1Path(), uid);
-            Formula2 = new ExcelDataValidationFormulaDateTime(NameSpaceManager, TopNode, GetFormula2Path(), uid);
+            Formula = new ExcelDataValidationFormulaDateTime(null, Uid, worksheetName, OnFormulaChanged);
+            Formula2 = new ExcelDataValidationFormulaDateTime(null, Uid, worksheetName, OnFormulaChanged);
         }
 
         /// <summary>
-        /// Constructor
+        /// Constructor for reading data
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        internal ExcelDataValidationDateTime(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode)
-            : base(worksheet, uid, address, validationType, itemElementNode)
+        /// <param name="xr">The XmlReader to read from</param>
+        internal ExcelDataValidationDateTime(XmlReader xr)
+            : base(xr)
         {
-            Formula = new ExcelDataValidationFormulaDateTime(NameSpaceManager, TopNode, GetFormula1Path(), uid);
-            Formula2 = new ExcelDataValidationFormulaDateTime(NameSpaceManager, TopNode, GetFormula2Path(), uid);
         }
 
         /// <summary>
-        /// Constructor
+        /// Copy constructor
         /// </summary>
-        /// <param name="worksheet"></param>
-        /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
-        /// <param name="address"></param>
-        /// <param name="validationType"></param>
-        /// <param name="itemElementNode"></param>
-        /// <param name="namespaceManager"></param>
-        internal ExcelDataValidationDateTime(ExcelWorksheet worksheet, string uid, string address, ExcelDataValidationType validationType, XmlNode itemElementNode, XmlNamespaceManager namespaceManager)
-            : base(worksheet, uid, address, validationType, itemElementNode, namespaceManager)
+        /// <param name="copy"></param>
+        internal ExcelDataValidationDateTime(ExcelDataValidationDateTime copy) : base(copy)
         {
-            Formula = new ExcelDataValidationFormulaDateTime(NameSpaceManager, TopNode, GetFormula1Path(), uid);
-            Formula2 = new ExcelDataValidationFormulaDateTime(NameSpaceManager, TopNode, GetFormula2Path(), uid);
+            Formula = copy.Formula;
+            Formula2 = copy.Formula;
+        }
+
+        /// <summary>
+        /// Property for determining type of validation
+        /// </summary>
+        public override ExcelDataValidationType ValidationType => new ExcelDataValidationType(eDataValidationType.DateTime);
+
+        internal override IExcelDataValidationFormulaDateTime DefineFormulaClassType(string formulaValue, string sheetName)
+        {
+            return new ExcelDataValidationFormulaDateTime(formulaValue, Uid, sheetName, OnFormulaChanged);
+        }
+
+        internal override ExcelDataValidation GetClone()
+        {
+            return new ExcelDataValidationDateTime(this);
+        }
+
+        ExcelDataValidationDateTime Clone()
+        {
+            return (ExcelDataValidationDateTime)GetClone();
         }
     }
 }

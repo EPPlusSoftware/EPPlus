@@ -26,13 +26,12 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace EPPlusTest.DataValidation
@@ -52,89 +51,138 @@ namespace EPPlusTest.DataValidation
             CleanupTestData();
         }
 
-        [TestMethod]
-        public void DataValidations_ShouldSetOperatorFromExistingXml()
-        {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "greaterThanOrEqual", "1");
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.AreEqual(ExcelDataValidationOperator.greaterThanOrEqual, validation.Operator);
-       }
-
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {
-            var validations = _sheet.DataValidations.AddIntegerValidation("A1");
-            validations.Operator = ExcelDataValidationOperator.equal;
-            validations.Validate();
+            var validation = _sheet.DataValidations.AddIntegerValidation("A1");
+            validation.Operator = ExcelDataValidationOperator.equal;
+            validation.Validate();
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetShowErrorMessageFromExistingXml()
+        public void DataValidations_ShouldWriteReadTypes()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", true, false);
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.IsTrue(validation.ShowErrorMessage ?? false);
+            var P = new ExcelPackage(new MemoryStream());
+            var sheet = P.Workbook.Worksheets.Add("NewSheet");
+
+            sheet.DataValidations.AddAnyValidation("A1");
+            var intDV = sheet.DataValidations.AddIntegerValidation("A2");
+            intDV.Formula.Value = 1;
+            intDV.Formula2.Value = 1;
+
+            var decimalDV = sheet.DataValidations.AddDecimalValidation("A3");
+
+            decimalDV.Formula.Value = 1;
+            decimalDV.Formula2.Value = 1;
+
+            var listDV = sheet.DataValidations.AddListValidation("A4");
+
+            listDV.Formula.Values.Add("5");
+            listDV.Formula.Values.Add("Option");
+
+
+            var textDV = sheet.DataValidations.AddTextLengthValidation("A5");
+
+            textDV.Formula.Value = 1;
+            textDV.Formula2.Value = 1;
+
+            var dateTimeDV = sheet.DataValidations.AddDateTimeValidation("A6");
+
+            dateTimeDV.Formula.Value = DateTime.MaxValue;
+            dateTimeDV.Formula2.Value = DateTime.MinValue;
+
+            var timeDV = sheet.DataValidations.AddTimeValidation("A7");
+
+            timeDV.Formula.Value.Hour = 1;
+            timeDV.Formula2.Value.Hour = 2;
+
+            var customValidation = sheet.DataValidations.AddCustomValidation("A8");
+            customValidation.Formula.ExcelFormula = "A1+A2";
+
+            MemoryStream xmlStream = new MemoryStream();
+            P.SaveAs(xmlStream);
+
+            var P2 = new ExcelPackage(xmlStream);
+            ExcelDataValidationCollection dataValidations = P2.Workbook.Worksheets[0].DataValidations;
+
+            Assert.AreEqual(dataValidations[0].ValidationType.Type, eDataValidationType.Any);
+            Assert.AreEqual(dataValidations[1].ValidationType.Type, eDataValidationType.Whole);
+            Assert.AreEqual(dataValidations[2].ValidationType.Type, eDataValidationType.Decimal);
+            Assert.AreEqual(dataValidations[3].ValidationType.Type, eDataValidationType.List);
+            Assert.AreEqual(dataValidations[4].ValidationType.Type, eDataValidationType.TextLength);
+            Assert.AreEqual(dataValidations[5].ValidationType.Type, eDataValidationType.DateTime);
+            Assert.AreEqual(dataValidations[6].ValidationType.Type, eDataValidationType.Time);
+            Assert.AreEqual(dataValidations[7].ValidationType.Type, eDataValidationType.Custom);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetShowInputMessageFromExistingXml()
+        public void DataValidations_ShouldWriteReadOperator()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", false, true);
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.IsTrue(validation.ShowInputMessage ?? false);
+            var P = new ExcelPackage(new MemoryStream());
+            var sheet = P.Workbook.Worksheets.Add("NewSheet");
+
+            var validation = sheet.DataValidations.AddIntegerValidation("A1");
+            validation.Operator = ExcelDataValidationOperator.greaterThanOrEqual;
+            validation.Formula.Value = 1;
+            validation.Formula2.Value = 1;
+
+            MemoryStream xmlStream = new MemoryStream();
+            P.SaveAs(xmlStream);
+
+            var P2 = new ExcelPackage(xmlStream);
+            Assert.AreEqual(P2.Workbook.Worksheets[0].DataValidations[0].Operator, ExcelDataValidationOperator.greaterThanOrEqual);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetPromptFromExistingXml()
+        public void DataValidations_ShouldWriteReadShowErrorMessage()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.AreEqual("Prompt", validation.Prompt);
+            var P = new ExcelPackage(new MemoryStream());
+            var sheet = P.Workbook.Worksheets.Add("NewSheet");
+
+            var validation = sheet.DataValidations.AddIntegerValidation("A1");
+
+            validation.ShowErrorMessage = true;
+            validation.Formula.Value = 1;
+            validation.Formula2.Value = 1;
+
+            MemoryStream xmlStream = new MemoryStream();
+            P.SaveAs(xmlStream);
+
+            var P2 = new ExcelPackage(xmlStream);
+            Assert.IsTrue(P2.Workbook.Worksheets[0].DataValidations[0].ShowErrorMessage);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetPromptTitleFromExistingXml()
+        public void DataValidations_ShouldWriteReadShowinputMessage()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.AreEqual("PromptTitle", validation.PromptTitle);
+            var package = new ExcelPackage(new MemoryStream());
+            CreateSheetWithIntegerValidation(package).ShowInputMessage = true;
+            Assert.IsTrue(ReadIntValidation(package).ShowInputMessage);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetErrorFromExistingXml()
+        public void DataValidations_ShouldWriteReadPrompt()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.AreEqual("Error", validation.Error);
+            var package = new ExcelPackage(new MemoryStream());
+            CreateSheetWithIntegerValidation(package).Prompt = "Prompt";
+            Assert.AreEqual("Prompt", ReadIntValidation(package).Prompt);
         }
 
         [TestMethod]
-        public void DataValidations_ShouldSetErrorTitleFromExistingXml()
+        public void DataValidations_ShouldWriteReadError()
         {
-            // Arrange
-            LoadXmlTestData("A1", "whole", "1", "Prompt", "PromptTitle", "Error", "ErrorTitle");
-            // Act
-            var validation = new ExcelDataValidationInt(_sheet, ExcelDataValidation.NewId(), "A1", ExcelDataValidationType.Whole, _dataValidationNode, _namespaceManager);
-            // Assert
-            Assert.AreEqual("ErrorTitle", validation.ErrorTitle);
+            var package = new ExcelPackage(new MemoryStream());
+            var validation = CreateSheetWithIntegerValidation(package).Error = "Error";
+
+            Assert.AreEqual("Error", ReadIntValidation(package).Error);
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldWriteReadErrorTitle()
+        {
+            var package = new ExcelPackage(new MemoryStream());
+            CreateSheetWithIntegerValidation(package).ErrorTitle = "ErrorTitle";
+            Assert.AreEqual("ErrorTitle", ReadIntValidation(package).ErrorTitle);
         }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
@@ -151,14 +199,6 @@ namespace EPPlusTest.DataValidation
         {
             var validation = _sheet.DataValidations.AddListValidation("A1");
             validation.Formula.Values.Add("1");
-            validation.Validate();
-        }
-
-        [TestMethod]
-        public void DataValidations_ShouldNotThrowIfAllowBlankIsSet()
-        {
-            var validation = _sheet.DataValidations.AddListValidation("A1");
-            validation.AllowBlank = true;
             validation.Validate();
         }
 
@@ -248,6 +288,123 @@ namespace EPPlusTest.DataValidation
 
                 // Check that the data validation rule no longer exists
                 Assert.AreEqual(0, wks.DataValidations.Count);
+            }
+        }
+        [TestMethod]
+        public void TestLoadingWorksheet()
+        {
+            using (var p = OpenTemplatePackage("DataValidationTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                Assert.AreEqual(3, ws.DataValidations.Count);
+            }
+        }
+        [TestMethod]
+        public void DataValidationAny_AllowsOperatorShouldBeFalse()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var dvAddress = "A1";
+                var dv = wks.DataValidations.AddAnyValidation(dvAddress);
+
+                Assert.IsFalse(dv.AllowsOperator);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidationDefaults_AllowsOperatorShouldBeTrueOnCorrectTypes()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                var intValidation = wks.DataValidations.AddIntegerValidation("A1");
+                var decimalValidation = wks.DataValidations.AddDecimalValidation("A2");
+                var textLengthValidation = wks.DataValidations.AddTextLengthValidation("A3");
+                var dateTimeValidation = wks.DataValidations.AddDateTimeValidation("A4");
+                var timeValidation = wks.DataValidations.AddTimeValidation("A5");
+                var customValidation = wks.DataValidations.AddCustomValidation("A6");
+
+                Assert.IsTrue(intValidation.AllowsOperator);
+                Assert.IsTrue(decimalValidation.AllowsOperator);
+                Assert.IsTrue(textLengthValidation.AllowsOperator);
+                Assert.IsTrue(dateTimeValidation.AllowsOperator);
+                Assert.IsTrue(timeValidation.AllowsOperator);
+                Assert.IsTrue(customValidation.AllowsOperator);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidations_CloneShouldDeepCopy()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                var validation = wks.DataValidations.AddIntegerValidation("A1");
+                var clone = ((ExcelDataValidationInt)validation).GetClone();
+                clone.Address = new ExcelAddress("A2");
+
+                Assert.AreNotEqual(validation.Address, clone.Address);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldCopyAllProperties()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                List<ExcelDataValidation> validations = new List<ExcelDataValidation>
+                {
+                    (ExcelDataValidation)wks.DataValidations.AddIntegerValidation("A1"),
+                    (ExcelDataValidation)wks.DataValidations.AddDecimalValidation("A2"),
+                    (ExcelDataValidation)wks.DataValidations.AddTextLengthValidation("A3"),
+                    (ExcelDataValidation)wks.DataValidations.AddDateTimeValidation("A4"),
+                    (ExcelDataValidation)wks.DataValidations.AddTimeValidation("A5"),
+                    (ExcelDataValidation)wks.DataValidations.AddCustomValidation("A6"),
+                    (ExcelDataValidation)wks.DataValidations.AddAnyValidation("A7"),
+                    (ExcelDataValidation)wks.DataValidations.AddListValidation("A9")
+                };
+
+                foreach (var validation in validations)
+                {
+                    validation.AllowBlank = true;
+                    validation.Prompt = "prompt";
+                    validation.PromptTitle = "promptTitle";
+                    validation.Error = "error";
+                    validation.ErrorTitle = "errorTitle";
+                    validation.ShowInputMessage = true;
+                    validation.ShowErrorMessage = true;
+                    validation.ErrorStyle = ExcelDataValidationWarningStyle.information;
+
+                    var clone = validation.GetClone();
+
+                    Assert.AreEqual(validation.AllowBlank, clone.AllowBlank);
+                    Assert.AreEqual(validation.Prompt, clone.Prompt);
+                    Assert.AreEqual(validation.Error, clone.Error);
+                    Assert.AreEqual(validation.ErrorTitle, clone.ErrorTitle);
+                    Assert.AreEqual(validation.ShowInputMessage, clone.ShowInputMessage);
+                    Assert.AreEqual(validation.ShowErrorMessage, clone.ShowErrorMessage);
+                    Assert.AreEqual(validation.ErrorStyle, clone.ErrorStyle);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldWriteReadIMEmode()
+        {
+            using (var pck = OpenPackage("ImeTest.xlsx", true))
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                var validation = wks.DataValidations.AddCustomValidation("A1");
+                validation.ShowErrorMessage = true;
+                validation.Formula.ExcelFormula = "=ISTEXT(A1)";
+                validation.ImeMode = ExcelDataValidationImeMode.FullKatakana;
+
+                SaveAndCleanup(pck);
             }
         }
     }
