@@ -279,6 +279,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["offset"] = new Offset();
             Functions["transpose"] = new Transpose();
             Functions["filter"] = new FilterFunction();
+            Functions["sort"] = new SortFunction();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

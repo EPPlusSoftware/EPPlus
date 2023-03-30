@@ -191,6 +191,26 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(6, _sheet.Cells["D5"].Value);
         }
 
+        [TestMethod]
+        public void ShouldReturnHorizontalArray()
+        {
+            _sheet.Cells[1, 1].Value = "Brazil";
+            _sheet.Cells[2, 1].Value = "Indonesia";
+            _sheet.Cells[3, 1].Value = "Sweden";
+            _sheet.Cells[1, 2].Value = 1;
+            _sheet.Cells[2, 2].Value = 2;
+            _sheet.Cells[3, 2].Value = 3;
+            _sheet.Cells[1, 3].Value = 4;
+            _sheet.Cells[2, 3].Value = 5;
+            _sheet.Cells[3, 3].Value = 6;
+
+            _sheet.Cells["D4"].Formula = "XLOOKUP(\"Sweden\",A1:A3,B1:C3)";
+            _sheet.Calculate();
+
+            Assert.AreEqual(3, _sheet.Cells["D4"].Value);
+            Assert.AreEqual(6, _sheet.Cells["E4"].Value);
+        }
+
         [DataTestMethod]
         [DataRow("*A*", "1", 1)]
         [DataRow("*A*", "3", -1)]
