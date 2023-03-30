@@ -20,7 +20,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationList
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationList.cs
-    startLine: 23
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -47,6 +47,7 @@ items:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.As
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   modifiers.csharp:
   - public
@@ -72,7 +73,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HideDropDown
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationList.cs
-    startLine: 34
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -210,6 +211,12 @@ references:
   name: As
   nameWithType: IExcelDataValidation.As
   fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.As
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: ImeMode
+  nameWithType: IExcelDataValidation.ImeMode
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation

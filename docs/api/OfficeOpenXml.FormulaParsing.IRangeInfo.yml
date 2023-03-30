@@ -11,6 +11,7 @@ items:
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.IRangeInfo.IsEmpty
   - OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
   - OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
   langs:
   - csharp
@@ -119,6 +120,41 @@ items:
   - get
   modifiers.vb:
   - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  id: IsRef
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: IsRef
+  nameWithType: IRangeInfo.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsRef
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf the range is not valid and returns #REF!\n"
+  example: []
+  syntax:
+    content: bool IsRef { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: ReadOnly Property IsRef As Boolean
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
   commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
   id: GetNCells
@@ -137,7 +173,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 36
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -168,7 +204,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 40
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -203,7 +239,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 47
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -241,7 +277,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 54
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -279,7 +315,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 58
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -688,6 +724,11 @@ references:
   name: IsMulti
   nameWithType: IRangeInfo.IsMulti
   fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  name: IsRef
+  nameWithType: IRangeInfo.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
 - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells*
   commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
   name: GetNCells

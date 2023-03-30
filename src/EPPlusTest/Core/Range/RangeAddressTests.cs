@@ -428,5 +428,106 @@ namespace EPPlusTest.Core.Range
             ExcelAddressBase.GetWorksheetPart("'sheet 1'!A1:A2", "Sheet1", ref ix);
             Assert.AreEqual(10, ix);
         }
+        [TestMethod]
+        public void IntersectReversedTopLeftTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("A1:C3"));
+            Assert.AreEqual(2, ia1.Addresses.Count);
+            Assert.AreEqual("D2:D4", ia1.Addresses[0].Address);
+            Assert.AreEqual("B4:C4", ia1.Addresses[1].Address);
+
+        }
+        [TestMethod]
+        public void IntersectReversedTopRightTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("C1:E3"));
+            Assert.AreEqual(2, ia1.Addresses.Count);
+            Assert.AreEqual("B2:B4", ia1.Addresses[0].Address);
+            Assert.AreEqual("C4:D4", ia1.Addresses[1].Address);
+
+        }
+
+        [TestMethod]
+        public void IntersectReversedTopTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("A2:D3"));
+            Assert.AreEqual("B4:D4", ia1.Address);
+        }
+        [TestMethod]
+        public void IntersectReversedLeftTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("A2:C4"));
+            Assert.AreEqual("D2:D4", ia1.Address);
+        }
+        [TestMethod]
+        public void IntersectReversedOutSideTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("B2:D4"));
+            Assert.IsNull(ia1);
+            var ia2 = address.IntersectReversed(new ExcelAddressBase("A1:E5"));
+            Assert.IsNull(ia2);
+        }
+        [TestMethod]
+        public void IntersectReversedInsideTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("C3"));
+            Assert.AreEqual(4, ia1.Addresses.Count);
+            Assert.AreEqual("B2:B4", ia1.Addresses[0].Address);
+            Assert.AreEqual("C2:D2", ia1.Addresses[1].Address);
+            Assert.AreEqual("D3:D4", ia1.Addresses[2].Address);
+            Assert.AreEqual("C4", ia1.Addresses[3].Address);
+        }
+
+        [TestMethod]
+        public void IntersectReversedBottomLeftTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("A4:B5"));
+            Assert.AreEqual(2, ia1.Addresses.Count);
+            Assert.AreEqual("B2:D3", ia1.Addresses[0].Address);
+            Assert.AreEqual("C4:D4", ia1.Addresses[1].Address);
+
+        }
+        [TestMethod]
+        public void IntersectReversedBottomRightTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("C3:E12"));
+            Assert.AreEqual(2, ia1.Addresses.Count);
+            Assert.AreEqual("B2:B4", ia1.Addresses[0].Address);
+            Assert.AreEqual("C2:D2", ia1.Addresses[1].Address);
+        }
+
+        [TestMethod]
+        public void IntersectReversedBottomTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("A4:E5"));
+            Assert.AreEqual("B2:D3", ia1.Address);
+        }
+        [TestMethod]
+        public void IntersectReversedRightTest()
+        {
+            var address = new ExcelAddressBase("B2:D4");
+
+            var ia1 = address.IntersectReversed(new ExcelAddressBase("C2:E4"));
+            Assert.AreEqual("B2:B4", ia1.Address);
+        }
+
     }
 }

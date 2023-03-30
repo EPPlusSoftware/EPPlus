@@ -62,6 +62,7 @@ items:
   - OfficeOpenXml.ExcelWorksheet.WorksheetXml
   - OfficeOpenXml.ExcelWorksheet.Comments
   - OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  - OfficeOpenXml.ExcelWorksheet.DataValidations
   - OfficeOpenXml.ExcelWorksheet.HeaderFooter
   - OfficeOpenXml.ExcelWorksheet.PrinterSettings
   - OfficeOpenXml.ExcelWorksheet.Cells
@@ -97,7 +98,6 @@ items:
   - OfficeOpenXml.ExcelWorksheet.Tables
   - OfficeOpenXml.ExcelWorksheet.PivotTables
   - OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
-  - OfficeOpenXml.ExcelWorksheet.DataValidations
   - OfficeOpenXml.ExcelWorksheet.IgnoredErrors
   - OfficeOpenXml.ExcelWorksheet.BackgroundImage
   - OfficeOpenXml.ExcelWorksheet.Workbook
@@ -411,6 +411,12 @@ references:
   name: ThreadedComments
   nameWithType: ExcelWorksheet.ThreadedComments
   fullName: OfficeOpenXml.ExcelWorksheet.ThreadedComments
+- uid: OfficeOpenXml.ExcelWorksheet.DataValidations
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DataValidations
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: DataValidations
+  nameWithType: ExcelWorksheet.DataValidations
+  fullName: OfficeOpenXml.ExcelWorksheet.DataValidations
 - uid: OfficeOpenXml.ExcelWorksheet.HeaderFooter
   commentId: P:OfficeOpenXml.ExcelWorksheet.HeaderFooter
   parent: OfficeOpenXml.ExcelWorksheet
@@ -1611,12 +1617,6 @@ references:
   name: ConditionalFormatting
   nameWithType: ExcelWorksheet.ConditionalFormatting
   fullName: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
-- uid: OfficeOpenXml.ExcelWorksheet.DataValidations
-  commentId: P:OfficeOpenXml.ExcelWorksheet.DataValidations
-  parent: OfficeOpenXml.ExcelWorksheet
-  name: DataValidations
-  nameWithType: ExcelWorksheet.DataValidations
-  fullName: OfficeOpenXml.ExcelWorksheet.DataValidations
 - uid: OfficeOpenXml.ExcelWorksheet.IgnoredErrors
   commentId: P:OfficeOpenXml.ExcelWorksheet.IgnoredErrors
   parent: OfficeOpenXml.ExcelWorksheet

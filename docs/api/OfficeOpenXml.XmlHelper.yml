@@ -35,9 +35,6 @@ items:
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
-  - OfficeOpenXml.DataValidation.ExcelDataValidation
-  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection
-  - OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint

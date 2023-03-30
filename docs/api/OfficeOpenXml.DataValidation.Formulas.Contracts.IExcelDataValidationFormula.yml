@@ -20,7 +20,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationFormula
     path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormula.cs
-    startLine: 23
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
@@ -53,7 +53,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFormula
     path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormula.cs
-    startLine: 28
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Formulas.Contracts

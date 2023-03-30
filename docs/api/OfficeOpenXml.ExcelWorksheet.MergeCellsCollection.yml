@@ -24,7 +24,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MergeCellsCollection
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 231
+    startLine: 230
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -72,7 +72,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 245
+    startLine: 244
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -119,7 +119,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 265
+    startLine: 264
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -163,7 +163,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 355
+    startLine: 354
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -200,7 +200,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 368
+    startLine: 367
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -238,7 +238,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 377
+    startLine: 376
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

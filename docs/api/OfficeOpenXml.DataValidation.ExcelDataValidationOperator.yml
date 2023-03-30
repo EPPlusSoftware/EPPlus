@@ -27,7 +27,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 22
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -60,7 +60,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: between
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 27
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -94,7 +94,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: equal
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 31
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -128,7 +128,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: greaterThan
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 35
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -162,7 +162,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: greaterThanOrEqual
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 39
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -196,7 +196,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: lessThan
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 43
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -230,7 +230,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: lessThanOrEqual
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 47
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -264,7 +264,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: notBetween
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 51
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -298,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: notEqual
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-    startLine: 55
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

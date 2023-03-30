@@ -50,6 +50,7 @@ items:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.As
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   nameWithType.vb: IExcelDataValidationWithFormula2(Of T)
   modifiers.csharp:
@@ -218,6 +219,12 @@ references:
   name: As
   nameWithType: IExcelDataValidation.As
   fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.As
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: ImeMode
+  nameWithType: IExcelDataValidation.ImeMode
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
@@ -232,7 +239,7 @@ references:
   nameWithType.vb: IExcelDataValidationWithFormula(Of T).Formula
   fullName.vb: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula(Of T).Formula
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula{{T}}
-  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula{``0}
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula{`0}
   parent: OfficeOpenXml.DataValidation.Contracts
   definition: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1
   name: IExcelDataValidationWithFormula<T>

@@ -1,37 +1,38 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType
-  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationType
-  id: ExcelDataValidationType
-  parent: OfficeOpenXml.DataValidation
-  children:
-  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
+- uid: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+  commentId: T:OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+  id: OnFormulaChangedEventArgs
+  parent: OfficeOpenXml.DataValidation.Events
+  children: []
   langs:
   - csharp
   - vb
-  name: ExcelDataValidationType
-  nameWithType: ExcelDataValidationType
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  name: OnFormulaChangedEventArgs
+  nameWithType: OnFormulaChangedEventArgs
+  fullName: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
   type: Class
   source:
     remote:
-      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      path: src/EPPlus/DataValidation/Events/OnFormulaChangedEventArgs.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ExcelDataValidationType
-    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
-    startLine: 72
+    id: OnFormulaChangedEventArgs
+    path: ../src/EPPlus/DataValidation/Events/OnFormulaChangedEventArgs.cs
+    startLine: 4
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.DataValidation
-  summary: "\nTypes of datavalidation\n"
-  example: []
+  namespace: OfficeOpenXml.DataValidation.Events
   syntax:
-    content: public class ExcelDataValidationType
-    content.vb: Public Class ExcelDataValidationType
+    content: 'public class OnFormulaChangedEventArgs : EventArgs'
+    content.vb: >-
+      Public Class OnFormulaChangedEventArgs
+          Inherits EventArgs
   inheritance:
   - System.Object
+  - System.EventArgs
   inheritedMembers:
+  - System.EventArgs.Empty
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -45,49 +46,12 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
-  id: Type
-  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
-  langs:
-  - csharp
-  - vb
-  name: Type
-  nameWithType: ExcelDataValidationType.Type
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Type
-    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
-    startLine: 79
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.DataValidation
-  summary: "\nValidation type\n"
-  example: []
-  syntax:
-    content: public eDataValidationType Type { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.DataValidation.eDataValidationType
-    content.vb: Public ReadOnly Property Type As eDataValidationType
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 references:
-- uid: OfficeOpenXml.DataValidation
-  commentId: N:OfficeOpenXml.DataValidation
-  name: OfficeOpenXml.DataValidation
-  nameWithType: OfficeOpenXml.DataValidation
-  fullName: OfficeOpenXml.DataValidation
+- uid: OfficeOpenXml.DataValidation.Events
+  commentId: N:OfficeOpenXml.DataValidation.Events
+  name: OfficeOpenXml.DataValidation.Events
+  nameWithType: OfficeOpenXml.DataValidation.Events
+  fullName: OfficeOpenXml.DataValidation.Events
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -95,6 +59,20 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: System.EventArgs
+  commentId: T:System.EventArgs
+  parent: System
+  isExternal: true
+  name: EventArgs
+  nameWithType: EventArgs
+  fullName: System.EventArgs
+- uid: System.EventArgs.Empty
+  commentId: F:System.EventArgs.Empty
+  parent: System.EventArgs
+  isExternal: true
+  name: Empty
+  nameWithType: EventArgs.Empty
+  fullName: System.EventArgs.Empty
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -380,14 +358,3 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
-  name: Type
-  nameWithType: ExcelDataValidationType.Type
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
-- uid: OfficeOpenXml.DataValidation.eDataValidationType
-  commentId: T:OfficeOpenXml.DataValidation.eDataValidationType
-  parent: OfficeOpenXml.DataValidation
-  name: eDataValidationType
-  nameWithType: eDataValidationType
-  fullName: OfficeOpenXml.DataValidation.eDataValidationType

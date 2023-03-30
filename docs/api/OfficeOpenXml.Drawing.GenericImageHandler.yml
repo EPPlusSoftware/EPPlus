@@ -207,7 +207,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidForEnvironment
     path: ../src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
-    startLine: 88
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

@@ -60,6 +60,7 @@ This might be the easiest way of configuring this. Just as above, set the variab
 EPPlus 6 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
 
 ## Breaking Changes
+* From version 6.2, updating data validations via the XML DOM will not work as read and write is performed on load/save. ExcelDataValidation.IsStale is deprecated and will always return false.
 * All public references to System.Drawing.Common has been removed from EPPlus. See [Breaking Changes in EPPlus 6](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6).
 * Static class 'FontSize' has splitted width and heights into two dictionaries. FontSizes are lazy-loaded when needed. 
 * ...and more, see https://epplussoftware.com/docs/6.0/articles/breakingchanges.html

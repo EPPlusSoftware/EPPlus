@@ -139,7 +139,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 442
+    startLine: 446
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

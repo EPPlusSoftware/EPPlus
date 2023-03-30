@@ -5,6 +5,9 @@ items:
   id: ExcelDataValidation
   parent: OfficeOpenXml.DataValidation
   children:
+  - OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(OfficeOpenXml.DataValidation.ExcelDataValidation)
+  - OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(System.String,System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(System.Xml.XmlReader)
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Address
   - OfficeOpenXml.DataValidation.ExcelDataValidation.AllowBlank
   - OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
@@ -12,16 +15,12 @@ items:
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Error
   - OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle
   - OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorTitle
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation#IsStale
+  - OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode
+  - OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
+  - OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Prompt
   - OfficeOpenXml.DataValidation.ExcelDataValidation.PromptTitle
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue(System.String,System.Nullable{System.Boolean})
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue``1(System.Nullable{``0},System.String)
   - OfficeOpenXml.DataValidation.ExcelDataValidation.ShowErrorMessage
   - OfficeOpenXml.DataValidation.ExcelDataValidation.ShowInputMessage
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Uid
@@ -41,21 +40,19 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 29
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
   summary: "\nAbstract base class for all Excel datavalidations. Contains functionlity which is common for all these different validation types.\n"
   example: []
   syntax:
-    content: 'public abstract class ExcelDataValidation : XmlHelper, IExcelDataValidation'
+    content: 'public abstract class ExcelDataValidation : IExcelDataValidation'
     content.vb: >-
       Public MustInherit Class ExcelDataValidation
-          Inherits XmlHelper
           Implements IExcelDataValidation
   inheritance:
   - System.Object
-  - OfficeOpenXml.XmlHelper
   derivedClasses:
   - OfficeOpenXml.DataValidation.ExcelDataValidationAny
   - OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
@@ -77,163 +74,117 @@ items:
   - Public
   - MustInherit
   - Class
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation#IsStale
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation#IsStale
-  id: OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation#IsStale
-  isEii: true
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(System.String,System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(System.String,System.String)
+  id: '#ctor(System.String,System.String)'
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: IExcelDataValidation.IsStale
-  nameWithType: ExcelDataValidation.IExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  type: Property
+  name: ExcelDataValidation(String, String)
+  nameWithType: ExcelDataValidation.ExcelDataValidation(String, String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ExcelDataValidation(System.String, System.String)
+  type: Constructor
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
+    id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 112
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nIndicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions\n"
+  summary: "\nConstructor\n"
   example: []
   syntax:
-    content: bool IExcelDataValidation.IsStale { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: ReadOnly WriteOnly Property OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale As Boolean Implements IExcelDataValidation.IsStale
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation#IsStale*
-  implements:
-  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  nameWithType.vb: ExcelDataValidation.OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  modifiers.csharp:
-  - get
-  modifiers.vb:
-  - ReadOnly
-  name.vb: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue(System.String,System.Nullable{System.Boolean})
-  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue(System.String,System.Nullable{System.Boolean})
-  id: SetNullableBoolValue(System.String,System.Nullable{System.Boolean})
-  parent: OfficeOpenXml.DataValidation.ExcelDataValidation
-  langs:
-  - csharp
-  - vb
-  name: SetNullableBoolValue(String, Nullable<Boolean>)
-  nameWithType: ExcelDataValidation.SetNullableBoolValue(String, Nullable<Boolean>)
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue(System.String, System.Nullable<System.Boolean>)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: SetNullableBoolValue
-    path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 235
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.DataValidation
-  syntax:
-    content: protected void SetNullableBoolValue(string path, bool? val)
+    content: protected ExcelDataValidation(string uid, string address)
     parameters:
-    - id: path
+    - id: uid
       type: System.String
-    - id: val
-      type: System.Nullable{System.Boolean}
-    content.vb: Protected Sub SetNullableBoolValue(path As String, val As Boolean?)
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue*
-  nameWithType.vb: ExcelDataValidation.SetNullableBoolValue(String, Nullable(Of Boolean))
+      description: Id for validation
+    - id: address
+      type: System.String
+      description: adress validation is applied to
+    content.vb: Protected Sub New(uid As String, address As String)
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor*
   modifiers.csharp:
   - protected
   modifiers.vb:
   - Protected
-  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue(System.String, System.Nullable(Of System.Boolean))
-  name.vb: SetNullableBoolValue(String, Nullable(Of Boolean))
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
-  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
-  id: Validate
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(System.Xml.XmlReader)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(System.Xml.XmlReader)
+  id: '#ctor(System.Xml.XmlReader)'
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: Validate()
-  nameWithType: ExcelDataValidation.Validate()
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate()
-  type: Method
+  name: ExcelDataValidation(XmlReader)
+  nameWithType: ExcelDataValidation.ExcelDataValidation(XmlReader)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ExcelDataValidation(System.Xml.XmlReader)
+  type: Constructor
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Validate
+    id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 251
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nThis method will validate the state of the validation\n"
+  summary: "\nRead-File Constructor\n"
   example: []
   syntax:
-    content: public virtual void Validate()
-    content.vb: Public Overridable Sub Validate
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate*
-  exceptions:
-  - type: System.InvalidOperationException
-    commentId: T:System.InvalidOperationException
-    description: If the state breaks the rules of the validation
-  implements:
-  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
+    content: protected ExcelDataValidation(XmlReader xr)
+    parameters:
+    - id: xr
+      type: System.Xml.XmlReader
+      description: ''
+    content.vb: Protected Sub New(xr As XmlReader)
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor*
   modifiers.csharp:
-  - public
-  - virtual
+  - protected
   modifiers.vb:
-  - Public
-  - Overridable
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
-  id: AllowsOperator
+  - Protected
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(OfficeOpenXml.DataValidation.ExcelDataValidation)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor(OfficeOpenXml.DataValidation.ExcelDataValidation)
+  id: '#ctor(OfficeOpenXml.DataValidation.ExcelDataValidation)'
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: AllowsOperator
-  nameWithType: ExcelDataValidation.AllowsOperator
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
-  type: Property
+  name: ExcelDataValidation(ExcelDataValidation)
+  nameWithType: ExcelDataValidation.ExcelDataValidation(ExcelDataValidation)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ExcelDataValidation(OfficeOpenXml.DataValidation.ExcelDataValidation)
+  type: Constructor
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: AllowsOperator
+    id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 271
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nTrue if the validation type allows operator to be set.\n"
+  summary: "\nCopy-Constructor\n"
   example: []
   syntax:
-    content: public bool AllowsOperator { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: Public ReadOnly Property AllowsOperator As Boolean
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator*
-  implements:
-  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
+    content: protected ExcelDataValidation(ExcelDataValidation validation)
+    parameters:
+    - id: validation
+      type: OfficeOpenXml.DataValidation.ExcelDataValidation
+      description: Validation to copy from
+    content.vb: Protected Sub New(validation As ExcelDataValidation)
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor*
   modifiers.csharp:
-  - public
-  - get
+  - protected
   modifiers.vb:
-  - Public
-  - ReadOnly
+  - Protected
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Uid
   commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Uid
   id: Uid
@@ -252,27 +203,27 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Uid
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 282
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nUuid of the data validation\n"
+  summary: "\nUid of the data validation\n"
   example: []
   syntax:
-    content: public string Uid { get; set; }
+    content: public string Uid { get; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public Property Uid As String
+    content.vb: Public ReadOnly Property Uid As String
   overload: OfficeOpenXml.DataValidation.ExcelDataValidation.Uid*
   implements:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Uid
   modifiers.csharp:
   - public
   - get
-  - set
   modifiers.vb:
   - Public
+  - ReadOnly
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Address
   commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Address
   id: Address
@@ -291,7 +242,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 300
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -330,64 +281,29 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 314
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
   summary: "\nValidation type\n"
   example: []
   syntax:
-    content: public ExcelDataValidationType ValidationType { get; }
+    content: public virtual ExcelDataValidationType ValidationType { get; }
     parameters: []
     return:
       type: OfficeOpenXml.DataValidation.ExcelDataValidationType
-    content.vb: Public ReadOnly Property ValidationType As ExcelDataValidationType
+    content.vb: Public Overridable ReadOnly Property ValidationType As ExcelDataValidationType
   overload: OfficeOpenXml.DataValidation.ExcelDataValidation.ValidationType*
   implements:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ValidationType
   modifiers.csharp:
   - public
+  - virtual
   - get
   modifiers.vb:
   - Public
+  - Overridable
   - ReadOnly
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
-  id: Operator
-  parent: OfficeOpenXml.DataValidation.ExcelDataValidation
-  langs:
-  - csharp
-  - vb
-  name: Operator
-  nameWithType: ExcelDataValidation.Operator
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Operator
-    path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 330
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.DataValidation
-  summary: "\nOperator for comparison between the entered value and Formula/Formulas.\n"
-  example: []
-  syntax:
-    content: public ExcelDataValidationOperator Operator { get; set; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
-    content.vb: Public Property Operator As ExcelDataValidationOperator
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle
   commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle
   id: ErrorStyle
@@ -406,7 +322,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorStyle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 355
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -421,6 +337,43 @@ items:
   overload: OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle*
   implements:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode
+  id: ImeMode
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidation
+  langs:
+  - csharp
+  - vb
+  name: ImeMode
+  nameWithType: ExcelDataValidation.ImeMode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ImeMode
+    path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  syntax:
+    content: public ExcelDataValidationImeMode ImeMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+    content.vb: Public Property ImeMode As ExcelDataValidationImeMode
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode*
+  implements:
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
   modifiers.csharp:
   - public
   - get
@@ -445,7 +398,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowBlank
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 383
+    startLine: 127
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -484,7 +437,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInputMessage
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 399
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -523,7 +476,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowErrorMessage
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 415
+    startLine: 137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -562,7 +515,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorTitle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 431
+    startLine: 142
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -601,7 +554,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Error
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 455
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -640,7 +593,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PromptTitle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 478
+    startLine: 152
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -679,7 +632,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Prompt
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 494
+    startLine: 157
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -700,80 +653,87 @@ items:
   - set
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-  id: Formula1Internal
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
+  id: AllowsOperator
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: Formula1Internal
-  nameWithType: ExcelDataValidation.Formula1Internal
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
+  name: AllowsOperator
+  nameWithType: ExcelDataValidation.AllowsOperator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
   type: Property
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Formula1Internal
+    id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 510
+    startLine: 162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nFormula 1\n"
+  summary: "\nTrue if the current validation type allows operator.\n"
   example: []
   syntax:
-    content: protected string Formula1Internal { get; }
+    content: public virtual bool AllowsOperator { get; }
     parameters: []
     return:
-      type: System.String
-    content.vb: Protected ReadOnly Property Formula1Internal As String
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal*
+      type: System.Boolean
+    content.vb: Public Overridable ReadOnly Property AllowsOperator As Boolean
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator*
+  implements:
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
   modifiers.csharp:
-  - protected
+  - public
+  - virtual
   - get
   modifiers.vb:
-  - Protected
+  - Public
+  - Overridable
   - ReadOnly
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-  id: Formula2Internal
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
+  id: Validate
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: Formula2Internal
-  nameWithType: ExcelDataValidation.Formula2Internal
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-  type: Property
+  name: Validate()
+  nameWithType: ExcelDataValidation.Validate()
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate()
+  type: Method
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Formula2Internal
+    id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 521
+    startLine: 168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nFormula 2\n"
+  summary: "\nThis method will validate the state of the validation\n"
   example: []
   syntax:
-    content: protected string Formula2Internal { get; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: Protected ReadOnly Property Formula2Internal As String
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal*
+    content: public virtual void Validate()
+    content.vb: Public Overridable Sub Validate
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the state breaks the rules of the validation
+  implements:
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
   modifiers.csharp:
-  - protected
-  - get
+  - public
+  - virtual
   modifiers.vb:
-  - Protected
-  - ReadOnly
+  - Public
+  - Overridable
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.As
   commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.As
   id: As
@@ -792,7 +752,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 543
+    startLine: 176
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -813,123 +773,129 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue``1(System.Nullable{``0},System.String)
-  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue``1(System.Nullable{``0},System.String)
-  id: SetValue``1(System.Nullable{``0},System.String)
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
+  id: IsStale
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: SetValue<T>(Nullable<T>, String)
-  nameWithType: ExcelDataValidation.SetValue<T>(Nullable<T>, String)
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue<T>(System.Nullable<T>, System.String)
-  type: Method
+  name: IsStale
+  nameWithType: ExcelDataValidation.IsStale
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
+  type: Property
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: SetValue
+    id: IsStale
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 562
+    startLine: 193
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nSets the value to the supplied path\n"
+  summary: "\nIndicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions\nDEPRECATED as of Epplus 6.2.\nThis as validations can no longer be stale since all attributes are now always fresh and held in the system.\n"
   example: []
   syntax:
     content: >-
-      protected void SetValue<T>(T? val, string path)
-          where T : struct
-    parameters:
-    - id: val
-      type: System.Nullable{{T}}
-      description: The value to set
-    - id: path
-      type: System.String
-      description: xml path
-    typeParameters:
-    - id: T
-      description: ''
-    content.vb: Protected Sub SetValue(Of T As Structure)(val As T?, path As String)
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue*
-  nameWithType.vb: ExcelDataValidation.SetValue(Of T)(Nullable(Of T), String)
+      [Obsolete]
+
+      public bool IsStale { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <Obsolete>
+
+      Public ReadOnly Property IsStale As Boolean
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale*
+  implements:
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor
+    arguments: []
   modifiers.csharp:
-  - protected
+  - public
+  - get
   modifiers.vb:
-  - Protected
-  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue(Of T)(System.Nullable(Of T), System.String)
-  name.vb: SetValue(Of T)(Nullable(Of T), String)
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path
-  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path
-  id: GetFormula1Path
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
+  id: Operator
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: GetFormula1Path()
-  nameWithType: ExcelDataValidation.GetFormula1Path()
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path()
-  type: Method
+  name: Operator
+  nameWithType: ExcelDataValidation.Operator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
+  type: Property
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: GetFormula1Path
+    id: Operator
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 577
+    startLine: 200
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nReturns the <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal\" data-throw-if-not-resolved=\"false\"></xref> xml path\n"
+  summary: "\nOperator for comparison between the entered value and Formula/Formulas.\n"
   example: []
   syntax:
-    content: protected string GetFormula1Path()
+    content: public ExcelDataValidationOperator Operator { get; set; }
+    parameters: []
     return:
-      type: System.String
-      description: ''
-    content.vb: Protected Function GetFormula1Path As String
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path*
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+    content.vb: Public Property Operator As ExcelDataValidationOperator
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator*
   modifiers.csharp:
-  - protected
+  - public
+  - get
+  - set
   modifiers.vb:
-  - Protected
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path
-  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path
-  id: GetFormula2Path
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
+  id: OnFormulaChanged
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation
   langs:
   - csharp
   - vb
-  name: GetFormula2Path()
-  nameWithType: ExcelDataValidation.GetFormula2Path()
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path()
-  type: Method
+  name: OnFormulaChanged
+  nameWithType: ExcelDataValidation.OnFormulaChanged
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
+  type: Property
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
       branch: develop
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: GetFormula2Path
+    id: OnFormulaChanged
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
-    startLine: 585
+    startLine: 273
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nReturns the <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal\" data-throw-if-not-resolved=\"false\"></xref> xml path\n"
+  summary: "\nEvent method for changing internal type when referring to an external worksheet.\n"
   example: []
   syntax:
-    content: protected string GetFormula2Path()
+    content: protected Action<OnFormulaChangedEventArgs> OnFormulaChanged { get; }
+    parameters: []
     return:
-      type: System.String
-      description: ''
-    content.vb: Protected Function GetFormula2Path As String
-  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path*
+      type: System.Action{OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs}
+    content.vb: Protected ReadOnly Property OnFormulaChanged As Action(Of OnFormulaChangedEventArgs)
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged*
   modifiers.csharp:
   - protected
+  - get
   modifiers.vb:
   - Protected
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.DataValidation
   commentId: N:OfficeOpenXml.DataValidation
@@ -943,12 +909,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.XmlHelper
-  commentId: T:OfficeOpenXml.XmlHelper
-  parent: OfficeOpenXml
-  name: XmlHelper
-  nameWithType: XmlHelper
-  fullName: OfficeOpenXml.XmlHelper
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
   commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
   parent: OfficeOpenXml.DataValidation.Contracts
@@ -1240,41 +1200,16 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.DataValidation.Contracts
   commentId: N:OfficeOpenXml.DataValidation.Contracts
   name: OfficeOpenXml.DataValidation.Contracts
   nameWithType: OfficeOpenXml.DataValidation.Contracts
   fullName: OfficeOpenXml.DataValidation.Contracts
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation#IsStale*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation#IsStale
-  name: IExcelDataValidation.IsStale
-  nameWithType: ExcelDataValidation.IExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  nameWithType.vb: ExcelDataValidation.OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  name.vb: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: IsStale
-  nameWithType: IExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue
-  name: SetNullableBoolValue
-  nameWithType: ExcelDataValidation.SetNullableBoolValue
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.SetNullableBoolValue
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.#ctor
+  name: ExcelDataValidation
+  nameWithType: ExcelDataValidation.ExcelDataValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ExcelDataValidation
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -1282,6 +1217,120 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Xml.XmlReader
+  commentId: T:System.Xml.XmlReader
+  parent: System.Xml
+  isExternal: true
+  name: XmlReader
+  nameWithType: XmlReader
+  fullName: System.Xml.XmlReader
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidation
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidation
+  nameWithType: ExcelDataValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Uid*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Uid
+  name: Uid
+  nameWithType: ExcelDataValidation.Uid
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Uid
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Uid
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Uid
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: Uid
+  nameWithType: IExcelDataValidation.Uid
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Uid
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Address*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Address
+  name: Address
+  nameWithType: ExcelDataValidation.Address
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Address
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Address
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Address
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: Address
+  nameWithType: IExcelDataValidation.Address
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Address
+- uid: OfficeOpenXml.ExcelAddress
+  commentId: T:OfficeOpenXml.ExcelAddress
+  parent: OfficeOpenXml
+  name: ExcelAddress
+  nameWithType: ExcelAddress
+  fullName: OfficeOpenXml.ExcelAddress
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ValidationType*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.ValidationType
+  name: ValidationType
+  nameWithType: ExcelDataValidation.ValidationType
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ValidationType
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ValidationType
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ValidationType
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: ValidationType
+  nameWithType: IExcelDataValidation.ValidationType
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ValidationType
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationType
+  nameWithType: ExcelDataValidationType
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle
+  name: ErrorStyle
+  nameWithType: ExcelDataValidation.ErrorStyle
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: ErrorStyle
+  nameWithType: IExcelDataValidation.ErrorStyle
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationWarningStyle
+  nameWithType: ExcelDataValidationWarningStyle
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode
+  name: ImeMode
+  nameWithType: ExcelDataValidation.ImeMode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ImeMode
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: ImeMode
+  nameWithType: IExcelDataValidation.ImeMode
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationImeMode
+  nameWithType: ExcelDataValidationImeMode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowBlank*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.AllowBlank
+  name: AllowBlank
+  nameWithType: ExcelDataValidation.AllowBlank
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowBlank
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowBlank
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowBlank
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: AllowBlank
+  nameWithType: IExcelDataValidation.AllowBlank
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowBlank
 - uid: System.Nullable{System.Boolean}
   commentId: T:System.Nullable{System.Boolean}
   parent: System
@@ -1365,141 +1414,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.InvalidOperationException
-  commentId: T:System.InvalidOperationException
-  parent: System
-  isExternal: true
-  name: InvalidOperationException
-  nameWithType: InvalidOperationException
-  fullName: System.InvalidOperationException
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
-  name: Validate
-  nameWithType: ExcelDataValidation.Validate
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
-  commentId: M:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: Validate()
-  nameWithType: IExcelDataValidation.Validate()
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate()
-  spec.csharp:
-  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
-    name: Validate
-    nameWithType: IExcelDataValidation.Validate
-    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
-    name: Validate
-    nameWithType: IExcelDataValidation.Validate
-    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
-  name: AllowsOperator
-  nameWithType: ExcelDataValidation.AllowsOperator
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: AllowsOperator
-  nameWithType: IExcelDataValidation.AllowsOperator
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Uid*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Uid
-  name: Uid
-  nameWithType: ExcelDataValidation.Uid
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Uid
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Uid
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Uid
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: Uid
-  nameWithType: IExcelDataValidation.Uid
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Uid
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Address*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Address
-  name: Address
-  nameWithType: ExcelDataValidation.Address
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Address
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Address
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Address
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: Address
-  nameWithType: IExcelDataValidation.Address
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Address
-- uid: OfficeOpenXml.ExcelAddress
-  commentId: T:OfficeOpenXml.ExcelAddress
-  parent: OfficeOpenXml
-  name: ExcelAddress
-  nameWithType: ExcelAddress
-  fullName: OfficeOpenXml.ExcelAddress
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ValidationType*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.ValidationType
-  name: ValidationType
-  nameWithType: ExcelDataValidation.ValidationType
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ValidationType
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ValidationType
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ValidationType
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: ValidationType
-  nameWithType: IExcelDataValidation.ValidationType
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ValidationType
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType
-  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationType
-  parent: OfficeOpenXml.DataValidation
-  name: ExcelDataValidationType
-  nameWithType: ExcelDataValidationType
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
-  name: Operator
-  nameWithType: ExcelDataValidation.Operator
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
-  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationOperator
-  parent: OfficeOpenXml.DataValidation
-  name: ExcelDataValidationOperator
-  nameWithType: ExcelDataValidationOperator
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle
-  name: ErrorStyle
-  nameWithType: ExcelDataValidation.ErrorStyle
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.ErrorStyle
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: ErrorStyle
-  nameWithType: IExcelDataValidation.ErrorStyle
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
-  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
-  parent: OfficeOpenXml.DataValidation
-  name: ExcelDataValidationWarningStyle
-  nameWithType: ExcelDataValidationWarningStyle
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowBlank*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.AllowBlank
-  name: AllowBlank
-  nameWithType: ExcelDataValidation.AllowBlank
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowBlank
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowBlank
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowBlank
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: AllowBlank
-  nameWithType: IExcelDataValidation.AllowBlank
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowBlank
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.ShowInputMessage*
   commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.ShowInputMessage
   name: ShowInputMessage
@@ -1566,16 +1480,64 @@ references:
   name: Prompt
   nameWithType: IExcelDataValidation.Prompt
   fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Prompt
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-  name: Formula1Internal
-  nameWithType: ExcelDataValidation.Formula1Internal
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-  name: Formula2Internal
-  nameWithType: ExcelDataValidation.Formula2Internal
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
+  name: AllowsOperator
+  nameWithType: ExcelDataValidation.AllowsOperator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: AllowsOperator
+  nameWithType: IExcelDataValidation.AllowsOperator
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.AllowsOperator
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
+  name: Validate
+  nameWithType: ExcelDataValidation.Validate
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Validate
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
+  commentId: M:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: Validate()
+  nameWithType: IExcelDataValidation.Validate()
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate()
+  spec.csharp:
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
+    name: Validate
+    nameWithType: IExcelDataValidation.Validate
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
+    name: Validate
+    nameWithType: IExcelDataValidation.Validate
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.As*
   commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.As
   name: As
@@ -1593,26 +1555,89 @@ references:
   name: ExcelDataValidationAsType
   nameWithType: ExcelDataValidationAsType
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAsType
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue
-  name: SetValue
-  nameWithType: ExcelDataValidation.SetValue
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.SetValue
-- uid: System.Nullable{{T}}
-  commentId: T:System.Nullable{``0}
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
+  name: IsStale
+  nameWithType: ExcelDataValidation.IsStale
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  name: IsStale
+  nameWithType: IExcelDataValidation.IsStale
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
+  name: Operator
+  nameWithType: ExcelDataValidation.Operator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationOperator
+  nameWithType: ExcelDataValidationOperator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
+  name: OnFormulaChanged
+  nameWithType: ExcelDataValidation.OnFormulaChanged
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
+- uid: System.Action{OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs}
+  commentId: T:System.Action{OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs}
   parent: System
-  definition: System.Nullable`1
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
+  definition: System.Action`1
+  name: Action<OnFormulaChangedEventArgs>
+  nameWithType: Action<OnFormulaChangedEventArgs>
+  fullName: System.Action<OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs>
+  nameWithType.vb: Action(Of OnFormulaChangedEventArgs)
+  fullName.vb: System.Action(Of OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs)
+  name.vb: Action(Of OnFormulaChangedEventArgs)
   spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+    name: OnFormulaChangedEventArgs
+    nameWithType: OnFormulaChangedEventArgs
+    fullName: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+    name: OnFormulaChangedEventArgs
+    nameWithType: OnFormulaChangedEventArgs
+    fullName: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
     isExternal: true
   - name: <
     nameWithType: <
@@ -1624,10 +1649,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1638,31 +1663,3 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-  parent: OfficeOpenXml.DataValidation.ExcelDataValidation
-  name: Formula1Internal
-  nameWithType: ExcelDataValidation.Formula1Internal
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula1Internal
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path
-  name: GetFormula1Path
-  nameWithType: ExcelDataValidation.GetFormula1Path
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula1Path
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation
-  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidation
-  parent: OfficeOpenXml.DataValidation
-  name: ExcelDataValidation
-  nameWithType: ExcelDataValidation
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-  parent: OfficeOpenXml.DataValidation.ExcelDataValidation
-  name: Formula2Internal
-  nameWithType: ExcelDataValidation.Formula2Internal
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.Formula2Internal
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path*
-  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path
-  name: GetFormula2Path
-  nameWithType: ExcelDataValidation.GetFormula2Path
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.GetFormula2Path

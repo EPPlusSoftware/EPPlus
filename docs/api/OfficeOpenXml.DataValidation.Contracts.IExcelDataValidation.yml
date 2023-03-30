@@ -12,6 +12,7 @@ items:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Error
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorStyle
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ErrorTitle
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Prompt
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.PromptTitle
@@ -34,7 +35,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidation
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 22
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -67,7 +68,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Uid
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 27
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -102,7 +103,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 31
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -137,7 +138,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 35
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -172,7 +173,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorStyle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 39
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -206,7 +207,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowBlank
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 43
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -240,7 +241,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInputMessage
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 47
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -274,7 +275,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowErrorMessage
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 51
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -308,7 +309,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorTitle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 55
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -342,7 +343,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Error
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 59
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -376,7 +377,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PromptTitle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 63
+    startLine: 59
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -410,7 +411,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Prompt
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 67
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -444,7 +445,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 71
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -479,7 +480,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 75
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -507,7 +508,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 80
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -524,6 +525,40 @@ items:
   - get
   modifiers.vb:
   - ReadOnly
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  id: ImeMode
+  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  langs:
+  - csharp
+  - vb
+  name: ImeMode
+  nameWithType: IExcelDataValidation.ImeMode
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ImeMode
+    path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Contracts
+  summary: "\nDefines mode for Input Method Editor used in east-asian languages\n"
+  example: []
+  syntax:
+    content: ExcelDataValidationImeMode ImeMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+    content.vb: Property ImeMode As ExcelDataValidationImeMode
+  overload: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode*
+  modifiers.csharp:
+  - get
+  - set
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   id: IsStale
@@ -542,7 +577,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsStale
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-    startLine: 85
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Contracts
@@ -778,6 +813,17 @@ references:
   name: As
   nameWithType: IExcelDataValidation.As
   fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.As
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode*
+  commentId: Overload:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+  name: ImeMode
+  nameWithType: IExcelDataValidation.ImeMode
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationImeMode
+  nameWithType: ExcelDataValidationImeMode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale*
   commentId: Overload:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   name: IsStale

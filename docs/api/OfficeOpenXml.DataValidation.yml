@@ -12,8 +12,7 @@ items:
   - OfficeOpenXml.DataValidation.ExcelDataValidationCustom
   - OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
   - OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
-  - OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
-  - OfficeOpenXml.DataValidation.ExcelDataValidationExtList
+  - OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
   - OfficeOpenXml.DataValidation.ExcelDataValidationInt
   - OfficeOpenXml.DataValidation.ExcelDataValidationList
   - OfficeOpenXml.DataValidation.ExcelDataValidationOperator
@@ -22,7 +21,6 @@ items:
   - OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
   - OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
   - OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
-  - OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
   - OfficeOpenXml.DataValidation.ExcelTime
   - OfficeOpenXml.DataValidation.IRangeDataValidation
   langs:
@@ -73,18 +71,15 @@ references:
   name: ExcelDataValidationDecimal
   nameWithType: ExcelDataValidationDecimal
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
-  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
-  name: ExcelDataValidationExtCustom
-  nameWithType: ExcelDataValidationExtCustom
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtList
-  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationExtList
-  name: ExcelDataValidationExtList
-  nameWithType: ExcelDataValidationExtList
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationExtList
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationImeMode
+  nameWithType: ExcelDataValidationImeMode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
   commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation
   name: ExcelDataValidationInt
   nameWithType: ExcelDataValidationInt
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidationInt
@@ -194,11 +189,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
-  commentId: T:OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
-  name: ExcelExLstDataValidationCollection
-  nameWithType: ExcelExLstDataValidationCollection
-  fullName: OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
 - uid: OfficeOpenXml.DataValidation.ExcelTime
   commentId: T:OfficeOpenXml.DataValidation.ExcelTime
   name: ExcelTime
