@@ -143,6 +143,44 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        ExcelAddress IntersectReversedForExcelAddress(ExcelAddress currentAddress, ExcelAddress compareAddress)
+        {
+            string addressResults = "";
+
+            if (currentAddress.Addresses != null)
+            {
+                for (int i = 0; i < currentAddress.Addresses.Count; i++)
+                {
+                    if (addressResults != "")
+                    {
+                        addressResults += ",";
+                    }
+
+                    addressResults += currentAddress.Addresses[i].IntersectReversed(compareAddress);
+                }
+            }
+            else
+            {
+                var res = currentAddress.IntersectReversed(compareAddress);
+                if (res != null)
+                {
+                    addressResults = res.Address.ToString();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(addressResults))
+            {
+                var sectionAddress = new ExcelAddress(addressResults);
+
+                return sectionAddress;
+
+            }
+
+            //If we reach here the entirety of this address already exists in CompareAdress
+            return null;
+        }
+
+
         string IntersectCheck(ExcelAddress address, ExcelDataValidation validation)
         {
             StringBuilder sb= new StringBuilder();
@@ -161,84 +199,24 @@ namespace OfficeOpenXml.DataValidation
                 {
                     for(int j = 0; j < _validations[i].Address.Addresses.Count; j++)
                     {
-                        string addressResults = "";
 
-                        if(currentAddress.Addresses != null)
-                        {
-                            for (int k = 0; k < currentAddress.Addresses.Count; k++)
-                            {
-                                if(addressResults != "")
-                                {
-                                    addressResults += ",";
-                                }
-
-                                addressResults += currentAddress.Addresses[k].IntersectReversed(_validations[i].Address.Addresses[j]);
-                            }
-                        }
-                        else
-                        {
-                            var res = currentAddress.IntersectReversed(_validations[i].Address.Addresses[j]);
-                            if (res != null)
-                            {
-                                addressResults = res.Address.ToString();
-                            }
-                        }
-
-                        if (!string.IsNullOrEmpty(addressResults))
-                        {
-                            var sectionAddress = new ExcelAddress(addressResults);
-
-                            if(sectionAddress.Address != currentAddress.Address)
-                            {
-                                currentAddress = sectionAddress;
-                            }
-                        }
-                        else
-                        {
-                            //If we reach here the entirety of this address already exists
-                            return "";
-                        }
+                        currentAddress = IntersectReversedForExcelAddress(currentAddress, _validations[i].Address.Addresses[j]);
                     }
                 }
                 else
                 {
-                    string addressResultsSingularValidation = "";
-
-
-                    if (currentAddress.Addresses != null)
-                    {
-                        for (int j = 0; j < currentAddress.Addresses.Count; j++)
-                        {
-                            addressResultsSingularValidation += currentAddress.Addresses[j].IntersectReversed(_validations[i].Address);
-                        }
-                    }
-                    else
-                    {
-                        var res = currentAddress.IntersectReversed(_validations[i].Address);
-                        if (res != null)
-                        {
-                            addressResultsSingularValidation = res.Address.ToString();
-                        }
-                    }
-
-                    if(!string.IsNullOrEmpty(addressResultsSingularValidation))
-                    {
-                        var sectionAddress = new ExcelAddress(addressResultsSingularValidation);
-
-                        if (sectionAddress != currentAddress)
-                        {
-                            currentAddress = sectionAddress;
-                        }
-                    }
-                    else
-                    {
-                        //If we reach here the entirety of this address already exists
-                        return "";
-                    }
+                    currentAddress = IntersectReversedForExcelAddress(currentAddress, _validations[i].Address);
                 }
             }
 
+            if (currentAddress == null)
+            {
+                //If we reach here the entirety of this address already exists
+                return "";
+            }
+
             var addresses = currentAddress.Addresses;
+
             if (addresses != null)
             {
                 for (int k = 0; k < addresses.Count; k++)
