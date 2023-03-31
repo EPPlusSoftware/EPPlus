@@ -634,7 +634,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             if (_ws.DataValidations.HasValidationType(InternalValidationType.DataValidation))
             {
-                cache.Append($"sqref=\"{_ws.DataValidations[i].Address}\" ");
+                cache.Append($"sqref=\"{_ws.DataValidations[i].Address.ToString().Replace(",", " ")}\" ");
             }
 
             cache.Append($"xr:uid=\"{_ws.DataValidations[i].Uid}\"");

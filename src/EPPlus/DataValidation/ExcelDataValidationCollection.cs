@@ -82,168 +82,125 @@ namespace OfficeOpenXml.DataValidation
                 {
                     var validation = ExcelDataValidationFactory.Create(xr);
 
-                    StringBuilder sb = new StringBuilder();
-
                     if(validation.Address.Addresses != null)
                     {
-                        var adresses = validation.Address.Addresses;
-
-                        for (int i = 0; i< adresses.Count; i++)
+                        for(int i = 0; i< validation.Address.Addresses.Count; i++) 
                         {
-                            if (_validationsRD.Exists(adresses[i]._fromRow, adresses[i]._fromCol, adresses[i]._toRow, adresses[i]._toCol))
-                            {
-                                sb.Append(IntersectCheck(validation.Address.Addresses[i],validation));
-                            }
-                            else
-                            {
-                                string currentSb = sb.ToString();
-                                if (currentSb != "" && currentSb[currentSb.Length-1] != ',')
-                                {
-                                    sb.Append(",");
-                                }
-
-                                if ( i < (adresses.Count -1))
-                                {
-                                    sb.Append(adresses[i] + ",");
-                                }
-                                else
-                                {
-                                    sb.Append(adresses[i]);
-                                }
-
-                                _validationsRD.Add(adresses[i]._fromRow, adresses[i]._fromCol,
-                                adresses[i]._toRow, adresses[i]._toCol, validation);
-                            }
+                            _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
+                                validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
                         }
                     }
                     else
                     {
-                        if (_validationsRD.Exists(validation.Address._fromRow, validation.Address._fromCol, 
-                                                  validation.Address._toRow, validation.Address._toCol))
-                        {
-                            sb.Append(IntersectCheck(validation.Address, validation));
-                        }
-                        else
-                        {
-                            sb.Append(validation.Address);
-                            _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol,
+                        _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol, 
                             validation.Address._toRow, validation.Address._toCol, validation);
-                        }
                     }
-
-
-                    if (!string.IsNullOrEmpty(sb.ToString()))
-                    {
-                        validation.Address = new ExcelAddress(sb.ToString());
-
-                        _validations.Add(validation);
-
-                    }
+                    _validations.Add(validation);
                 }
             }
         }
 
-        ExcelAddress IntersectReversedForExcelAddress(ExcelAddress currentAddress, ExcelAddress compareAddress)
-        {
-            string addressResults = "";
+        //ExcelAddress IntersectReversedForExcelAddress(ExcelAddress currentAddress, ExcelAddress compareAddress)
+        //{
+        //    string addressResults = "";
 
-            if (currentAddress.Addresses != null)
-            {
-                for (int i = 0; i < currentAddress.Addresses.Count; i++)
-                {
-                    if (addressResults != "")
-                    {
-                        addressResults += ",";
-                    }
+        //    if (currentAddress.Addresses != null)
+        //    {
+        //        for (int i = 0; i < currentAddress.Addresses.Count; i++)
+        //        {
+        //            if (addressResults != "")
+        //            {
+        //                addressResults += ",";
+        //            }
 
-                    addressResults += currentAddress.Addresses[i].IntersectReversed(compareAddress);
-                }
-            }
-            else
-            {
-                var res = currentAddress.IntersectReversed(compareAddress);
-                if (res != null)
-                {
-                    addressResults = res.Address.ToString();
-                }
-            }
+        //            addressResults += currentAddress.Addresses[i].IntersectReversed(compareAddress);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var res = currentAddress.IntersectReversed(compareAddress);
+        //        if (res != null)
+        //        {
+        //            addressResults = res.Address.ToString();
+        //        }
+        //    }
 
-            if (!string.IsNullOrEmpty(addressResults))
-            {
-                var sectionAddress = new ExcelAddress(addressResults);
+        //    if (!string.IsNullOrEmpty(addressResults))
+        //    {
+        //        var sectionAddress = new ExcelAddress(addressResults);
 
-                return sectionAddress;
+        //        return sectionAddress;
 
-            }
+        //    }
 
-            //If we reach here the entirety of this address already exists in CompareAdress
-            return null;
-        }
-
-
-        string IntersectCheck(ExcelAddress address, ExcelDataValidation validation)
-        {
-            StringBuilder sb= new StringBuilder();
-
-            var currentAddress = address;
+        //    //If we reach here the entirety of this address already exists in CompareAdress
+        //    return null;
+        //}
 
 
-            //TODO: Complex and can be simplified via one or two recursive methods
-            //Iterate through each Validation check if address or adresses.
-            //Check if the Current address has several addresses within each option
-            //Iterate addresses if it does otherwise use standard address and update current address to only be intersect reveresed.
-            //If iterated to null we can abort as this validation is no longer relevant
-            for (int i = 0; i < _validations.Count; i++)
-            {
-                if (_validations[i].Address.Addresses != null)
-                {
-                    for(int j = 0; j < _validations[i].Address.Addresses.Count; j++)
-                    {
+        //string IntersectCheck(ExcelAddress address, ExcelDataValidation validation)
+        //{
+        //    StringBuilder sb= new StringBuilder();
 
-                        currentAddress = IntersectReversedForExcelAddress(currentAddress, _validations[i].Address.Addresses[j]);
-                    }
-                }
-                else
-                {
-                    currentAddress = IntersectReversedForExcelAddress(currentAddress, _validations[i].Address);
-                }
-            }
+        //    var currentAddress = address;
 
-            if (currentAddress == null)
-            {
-                //If we reach here the entirety of this address already exists
-                return "";
-            }
 
-            var addresses = currentAddress.Addresses;
+        //    //TODO: Complex and can be simplified via one or two recursive methods
+        //    //Iterate through each Validation check if address or adresses.
+        //    //Check if the Current address has several addresses within each option
+        //    //Iterate addresses if it does otherwise use standard address and update current address to only be intersect reveresed.
+        //    //If iterated to null we can abort as this validation is no longer relevant
+        //    for (int i = 0; i < _validations.Count; i++)
+        //    {
+        //        if (_validations[i].Address.Addresses != null)
+        //        {
+        //            for(int j = 0; j < _validations[i].Address.Addresses.Count; j++)
+        //            {
 
-            if (addresses != null)
-            {
-                for (int k = 0; k < addresses.Count; k++)
-                {
-                    _validationsRD.Add(addresses[k]._fromRow, addresses[k]._fromCol,
-                    addresses[k]._toRow, addresses[k]._toCol, validation);
+        //                currentAddress = IntersectReversedForExcelAddress(currentAddress, _validations[i].Address.Addresses[j]);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            currentAddress = IntersectReversedForExcelAddress(currentAddress, _validations[i].Address);
+        //        }
+        //    }
 
-                    if (k < (addresses.Count - 1))
-                    {
-                        sb.Append(addresses[k] + ",");
-                    }
-                    else
-                    {
-                        sb.Append(addresses[k]);
-                    }
-                }
-            }
-            else
-            {
-                _validationsRD.Add(currentAddress._fromRow, currentAddress._fromCol,
-                currentAddress._toRow, currentAddress._toCol, validation);
+        //    if (currentAddress == null)
+        //    {
+        //        //If we reach here the entirety of this address already exists
+        //        return "";
+        //    }
 
-                sb.Append(currentAddress);
-            }
+        //    var addresses = currentAddress.Addresses;
 
-            return sb.ToString();
-        }
+        //    if (addresses != null)
+        //    {
+        //        for (int k = 0; k < addresses.Count; k++)
+        //        {
+        //            _validationsRD.Add(addresses[k]._fromRow, addresses[k]._fromCol,
+        //            addresses[k]._toRow, addresses[k]._toCol, validation);
+
+        //            if (k < (addresses.Count - 1))
+        //            {
+        //                sb.Append(addresses[k] + ",");
+        //            }
+        //            else
+        //            {
+        //                sb.Append(addresses[k]);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        _validationsRD.Add(currentAddress._fromRow, currentAddress._fromCol,
+        //        currentAddress._toRow, currentAddress._toCol, validation);
+
+        //        sb.Append(currentAddress);
+        //    }
+
+        //    return sb.ToString();
+        //}
 
 
         internal bool HasValidationType(InternalValidationType type)

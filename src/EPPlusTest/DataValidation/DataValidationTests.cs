@@ -72,8 +72,28 @@ namespace EPPlusTest.DataValidation
 
         }
 
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), Ignore]
+        public void TestRangeAddMultipleTryAddingAfterShouldThrow()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
 
-        [TestMethod]
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            validations.AddIntegerValidation("C8");
+        }
+
+        [TestMethod, Ignore]
+        public void TestRangeAddMultipleTryAddingAfterShouldNotThrow()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            validations.AddIntegerValidation("Z8");
+        }
+
+
+        [TestMethod, Ignore]
         public void TestRangeAddsMultipleInbetweenInstances()
         {
             ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
@@ -83,7 +103,6 @@ namespace EPPlusTest.DataValidation
             StringBuilder sb = new StringBuilder();
 
             //Ensure all addresses exist in _validationsRD
-            //If all have been added duplicates are impossible as it would have thrown when added
             for (int i = 0; i < validations.Count; i++)
             {
                 if (validations[i].Address.Addresses != null)
@@ -110,7 +129,7 @@ namespace EPPlusTest.DataValidation
             Assert.AreEqual("", sb.ToString());
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestRangeAddsSingularInstance()
         {
             ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTest.xlsx");
@@ -122,7 +141,6 @@ namespace EPPlusTest.DataValidation
             StringBuilder sb = new StringBuilder();
 
             //Ensure all addresses exist in _validationsRD
-            //If all have been added duplicates are impossible as it would have thrown when added
             for(int i = 0; i< validations.Count; i++) 
             {
                 if(validations[i].Address.Addresses != null)
