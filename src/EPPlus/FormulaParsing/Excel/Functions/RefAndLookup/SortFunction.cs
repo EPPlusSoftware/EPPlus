@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 sortOrder = ArgToInt(arguments, 2);
             }
-            var byCol = true;
+            var byCol = false;
             if(arguments.Count() > 3)
             {
                 byCol = ArgToBool(arguments, 3);

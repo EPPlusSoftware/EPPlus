@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
     internal class InMemoryRangeSorter
     {
         private readonly LookupComparer _comparer = new LookupComparer(LookupMatchMode.ExactMatch);
-        public InMemoryRange SortByCol(IRangeInfo sourceRange, int colIndex, int sortOrder)
+        public InMemoryRange SortByRow(IRangeInfo sourceRange, int colIndex, int sortOrder)
         {
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             return sortedRange;
         }
 
-        public InMemoryRange SortByRow(IRangeInfo sourceRange, int rowIndex, int sortOrder)
+        public InMemoryRange SortByCol(IRangeInfo sourceRange, int rowIndex, int sortOrder)
         {
             var rangeDef = new RangeDefinition(sourceRange.Size.NumberOfRows, sourceRange.Size.NumberOfCols);
             var sortedRange = new InMemoryRange(rangeDef);
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 for (var col = 0; col < rangeDef.NumberOfCols; col++)
                 {
                     var v = sourceRange.GetOffset(row, col);
-                    var si = new InMemoryRangeSortItem(v, row);
+                    var si = new InMemoryRangeSortItem(v, col);
                     cols.AddItem(col, si);
                 }
                 rows.Add(cols);

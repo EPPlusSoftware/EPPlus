@@ -60,7 +60,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells[2, 2].Value = "C";
             _sheet.Cells[3, 2].Value = "A";
 
-            _sheet.Cells[4, 1].Formula = "SORT(A1:B3, 2)";
+            _sheet.Cells[4, 1].Formula = "SORT(A1:B3, 2, 1, FALSE)";
             _sheet.Calculate();
             Assert.AreEqual(1, _sheet.Cells[4, 1].Value);
             Assert.AreEqual(3, _sheet.Cells[5, 1].Value);
@@ -81,7 +81,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells[2, 2].Value = "B";
             _sheet.Cells[3, 2].Value = "C";
 
-            _sheet.Cells[4, 1].Formula = "SORT(A1:B3, 1, -1)";
+            _sheet.Cells[4, 1].Formula = "SORT(A1:B3, 1, -1, FALSE)";
             _sheet.Calculate();
             Assert.AreEqual(3, _sheet.Cells[4, 1].Value);
             Assert.AreEqual(2, _sheet.Cells[5, 1].Value);
@@ -102,7 +102,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells[2, 2].Value = "B";
             _sheet.Cells[3, 2].Value = "C";
 
-            _sheet.Cells[4, 1].Formula = "SORT(A1:C3, 2, -1)";
+            _sheet.Cells[4, 1].Formula = "SORT(A1:C3, 2, -1, FALSE)";
             _sheet.Calculate();
             Assert.AreEqual(3, _sheet.Cells[4, 1].Value);
             Assert.AreEqual(1, _sheet.Cells[5, 1].Value);
@@ -123,16 +123,55 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             _sheet.Cells[2, 2].Value = 3;
             _sheet.Cells[3, 2].Value = 9;
 
-            _sheet.Cells[4, 1].Formula = "SORT(A1:C3,1,1,FALSE)";
+            _sheet.Cells[1, 3].Value = 1;
+            _sheet.Cells[2, 3].Value = 4;
+            _sheet.Cells[3, 3].Value = 2;
+
+            _sheet.Cells[4, 1].Formula = "SORT(A1:C3,1,1,TRUE)";
             _sheet.Calculate();
 
             Assert.AreEqual(1, _sheet.Cells[4, 1].Value);
-            Assert.AreEqual(3, _sheet.Cells[4, 2].Value);
-            Assert.AreEqual(4, _sheet.Cells[4, 3].Value);
+            Assert.AreEqual(4, _sheet.Cells[5, 1].Value);
+            Assert.AreEqual(2, _sheet.Cells[6, 1].Value);
 
-            Assert.AreEqual(3, _sheet.Cells[5, 1].Value);
-            Assert.AreEqual(2, _sheet.Cells[5, 2].Value);
-            Assert.AreEqual(9, _sheet.Cells[5, 3].Value);
+            Assert.AreEqual(2, _sheet.Cells[4, 2].Value);
+            Assert.AreEqual(3, _sheet.Cells[5, 2].Value);
+            Assert.AreEqual(9, _sheet.Cells[6, 2].Value);
+
+            Assert.AreEqual(3, _sheet.Cells[4, 3].Value);
+            Assert.AreEqual(1, _sheet.Cells[5, 3].Value);
+            Assert.AreEqual(4, _sheet.Cells[6, 3].Value);
+        }
+
+        [TestMethod]
+        public void BasicByRowTestAsc_Col1()
+        {
+            _sheet.Cells[1, 1].Value = 3;
+            _sheet.Cells[2, 1].Value = 1;
+            _sheet.Cells[3, 1].Value = 4;
+
+            _sheet.Cells[1, 2].Value = 2;
+            _sheet.Cells[2, 2].Value = 3;
+            _sheet.Cells[3, 2].Value = 9;
+
+            _sheet.Cells[1, 3].Value = 1;
+            _sheet.Cells[2, 3].Value = 4;
+            _sheet.Cells[3, 3].Value = 2;
+
+            _sheet.Cells[4, 1].Formula = "SORT(A1:C3,3,1,TRUE)";
+            _sheet.Calculate();
+
+            Assert.AreEqual(1, _sheet.Cells[4, 1].Value);
+            Assert.AreEqual(4, _sheet.Cells[5, 1].Value);
+            Assert.AreEqual(2, _sheet.Cells[6, 1].Value);
+
+            Assert.AreEqual(3, _sheet.Cells[4, 2].Value);
+            Assert.AreEqual(1, _sheet.Cells[5, 2].Value);
+            Assert.AreEqual(4, _sheet.Cells[6, 2].Value);
+
+            Assert.AreEqual(2, _sheet.Cells[4, 3].Value);
+            Assert.AreEqual(3, _sheet.Cells[5, 3].Value);
+            Assert.AreEqual(9, _sheet.Cells[6, 3].Value);
         }
     }
 }
