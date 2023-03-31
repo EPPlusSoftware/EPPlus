@@ -28,6 +28,7 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using System;
@@ -72,6 +73,42 @@ namespace EPPlusTest.DataValidation
         }
 
 
+        [TestMethod]
+        public void TestRangeAddsMultipleInbetweenInstances()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            StringBuilder sb = new StringBuilder();
+
+            //Ensure all addresses exist in _validationsRD
+            //If all have been added duplicates are impossible as it would have thrown when added
+            for (int i = 0; i < validations.Count; i++)
+            {
+                if (validations[i].Address.Addresses != null)
+                {
+                    var addresses = validations[i].Address.Addresses;
+
+                    for (int j = 0; j < validations[i].Address.Addresses.Count; j++)
+                    {
+                        if (!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
+                        {
+                            sb.Append(addresses[i]);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
+                    {
+                        sb.Append(validations[i].Address);
+                    }
+                }
+            }
+
+            Assert.AreEqual("", sb.ToString());
+        }
 
         [TestMethod]
         public void TestRangeAddsSingularInstance()
@@ -84,6 +121,8 @@ namespace EPPlusTest.DataValidation
 
             StringBuilder sb = new StringBuilder();
 
+            //Ensure all addresses exist in _validationsRD
+            //If all have been added duplicates are impossible as it would have thrown when added
             for(int i = 0; i< validations.Count; i++) 
             {
                 if(validations[i].Address.Addresses != null)
@@ -92,7 +131,7 @@ namespace EPPlusTest.DataValidation
 
                     for (int j = 0; j < validations[i].Address.Addresses.Count; j++)
                     {
-                        if(validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
+                        if(!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
                         {
                             sb.Append(addresses[i]);
                         }
@@ -100,7 +139,7 @@ namespace EPPlusTest.DataValidation
                 }
                 else
                 {
-                    if (validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
+                    if (!validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
                     {
                         sb.Append(validations[i].Address);
                     }

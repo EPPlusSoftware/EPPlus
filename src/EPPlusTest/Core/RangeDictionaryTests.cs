@@ -27,6 +27,18 @@ namespace EPPlusTest.Core
         }
 
         [TestMethod]
+        public void RangeDictionaryTestForG() 
+        {
+            var rd = new RangeDictionary<int>();
+
+            //rd.Add(1, 7, 5, 7, 10);
+            rd.Add(1, 7, 2, 7, 10);
+
+
+            Assert.IsTrue(rd.Exists(1,7,5,7));
+        }
+
+        [TestMethod]
         public void VerifyAddAddress1()
         {
             var rd = new RangeDictionary<int>();
