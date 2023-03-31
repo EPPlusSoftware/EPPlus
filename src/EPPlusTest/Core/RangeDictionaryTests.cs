@@ -330,6 +330,47 @@ namespace EPPlusTest.Core
             Assert.AreEqual(2, rd[5, 7]);
             Assert.AreEqual(0, rd[5, 8]);
         }
+        [TestMethod]
+        public void VerifyMerge()
+        {
+            var rd = new RangeDictionary<int>();
+
+            rd.Add(3, 1, 5, 4, 1);
+            rd.Merge(5, 1, 5, 5, 2); //Inside
+            rd.Merge(5, 1, 6, 4, 3); //Inside
+            rd.Merge(8, 1, 9, 4, 4); //Inside
+            rd.Merge(15, 1, 19, 5, 5); //Inside
+
+            rd.Merge(2, 1, 20, 5, 6);
+
+            Assert.AreEqual(0, rd[1, 1]);
+            Assert.AreEqual(0, rd[1, 5]);
+            Assert.AreEqual(6, rd[2, 1]);
+            Assert.AreEqual(6, rd[2, 5]);
+            Assert.AreEqual(1, rd[3, 1]);
+            Assert.AreEqual(6, rd[3, 5]);
+
+            Assert.AreEqual(1, rd[5, 1]);
+            Assert.AreEqual(2, rd[5, 5]);
+
+            Assert.AreEqual(3, rd[6, 1]);
+            Assert.AreEqual(6, rd[6, 5]);
+
+            Assert.AreEqual(6, rd[7, 1]);
+            Assert.AreEqual(6, rd[7, 5]);
+
+            Assert.AreEqual(4, rd[8, 1]);
+            Assert.AreEqual(4, rd[8, 4]);
+
+            Assert.AreEqual(6, rd[10, 1]);
+            Assert.AreEqual(6, rd[14, 5]);
+
+            Assert.AreEqual(5, rd[15, 1]);
+            Assert.AreEqual(5, rd[19, 5]);
+
+            Assert.AreEqual(6, rd[20, 1]);
+            Assert.AreEqual(6, rd[20, 5]);
+        }
 
     }
 }

@@ -110,6 +110,7 @@ namespace OfficeOpenXml.DataValidation
                                 {
                                     sb.Append(adresses[i]);
                                 }
+
                                 _validationsRD.Add(adresses[i]._fromRow, adresses[i]._fromCol,
                                 adresses[i]._toRow, adresses[i]._toCol, validation);
                             }
