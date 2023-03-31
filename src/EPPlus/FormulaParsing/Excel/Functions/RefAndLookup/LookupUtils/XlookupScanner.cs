@@ -4,12 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RoundingHelper;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
     internal class XlookupScanner
     {
-        public XlookupScanner(object lookupValue, IRangeInfo lookupRange, LookupSearchMode searchMode, LookupMatchMode matchMode)
+        public XlookupScanner(
+            object lookupValue,
+            IRangeInfo lookupRange,
+            LookupSearchMode searchMode,
+            LookupMatchMode matchMode)
         {
             _lookupValue = lookupValue;
             _lookupRange = lookupRange;
@@ -18,14 +23,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             _comparer = new LookupComparer(matchMode);
         }
 
+        public XlookupScanner(
+            object lookupValue, 
+            IRangeInfo lookupRange, 
+            LookupSearchMode searchMode, 
+            LookupMatchMode matchMode,
+            LookupRangeDirection direction)
+        {
+            _lookupValue = lookupValue;
+            _lookupRange = lookupRange;
+            _searchMode = searchMode;
+            _matchMode = matchMode;
+            _direction = direction;
+            _comparer = new LookupComparer(matchMode);
+        }
+
         private readonly object _lookupValue;
         private readonly IRangeInfo _lookupRange;
         private readonly LookupSearchMode _searchMode;
         private readonly LookupMatchMode _matchMode;
+        private readonly LookupRangeDirection? _direction;
         private readonly IComparer<object> _comparer;
 
         private LookupRangeDirection GetLookupDirection()
         {
+            if (_direction.HasValue) return _direction.Value;
             var result = LookupRangeDirection.Vertical;
             if (_lookupRange.Size.NumberOfCols > 1)
             {

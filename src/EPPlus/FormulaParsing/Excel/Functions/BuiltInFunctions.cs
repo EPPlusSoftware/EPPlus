@@ -264,7 +264,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["hlookup"] = new HLookup();
-            Functions["vlookup"] = new VLookup();
+            Functions["vlookup"] = new VLookupV2();
             Functions["xlookup"] = new Xlookup();
             Functions["lookup"] = new Lookup();
             Functions["match"] = new Match();
