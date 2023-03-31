@@ -4412,15 +4412,14 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue829()
+        public void Issue831()
         {
-            using (ExcelPackage package = OpenTemplatePackage("dvmany.xlsx"))
+            using (ExcelPackage package = OpenTemplatePackage("I831.xlsx"))
             {
-                var worksheet = package.Workbook.Worksheets[0];
+                package.Workbook.Worksheets.Delete(0);
                 SaveAndCleanup(package);
             }
         }
-
     }
 }
 

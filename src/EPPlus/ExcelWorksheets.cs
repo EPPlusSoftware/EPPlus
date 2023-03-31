@@ -436,7 +436,7 @@ namespace OfficeOpenXml
             //If the active sheet is deleted, set the first tab as active.
             if (_pck.Workbook.Worksheets.Count > 0)
             {
-                if (_pck.Workbook.View.ActiveTab > _pck.Workbook.Worksheets.Count)
+                if (_pck.Workbook.View.ActiveTab >= _pck.Workbook.Worksheets.Count)
                 {
                     _pck.Workbook.View.ActiveTab = Math.Min(_pck.Workbook.View.ActiveTab - 1, _pck.Workbook.Worksheets.Count-1);
                 }
