@@ -11,8 +11,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Looks up a supplied value in the first column of a table, and returns the corresponding value from another column")]
-    internal class VLookupV2 : ExcelFunction
+        Description = "Looks up a supplied value in the first row of a table, and returns the corresponding value from another row")]
+    internal class HLookupV2 : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
@@ -23,14 +23,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var lookupRange = arg1.ValueAsRangeInfo;
             var lookupIndex = ArgToInt(arguments, 2);
             var rangeLookup = true;
-            if(arguments.Count() > 3)
+            if (arguments.Count() > 3)
             {
                 rangeLookup = ArgToBool(arguments, 3);
             }
             var index = -1;
-            if(!rangeLookup)
+            if (!rangeLookup)
             {
-                var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatch, LookupRangeDirection.Vertical);
+                var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatch, LookupRangeDirection.Horizontal);
                 index = scanner.FindIndex();
                 if (index < 0)
                 {
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, true, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller), LookupRangeDirection.Vertical);
+                index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, true, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller), LookupRangeDirection.Horizontal);
                 index = LookupBinarySearch.GetMatchIndex(index, lookupRange, LookupMatchMode.ExactMatchReturnNextSmaller, true);
                 if (index < 0)
                 {

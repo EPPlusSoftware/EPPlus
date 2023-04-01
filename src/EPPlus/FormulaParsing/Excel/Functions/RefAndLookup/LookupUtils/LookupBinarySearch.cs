@@ -141,7 +141,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
         internal static int GetMatchIndex(int ix, IRangeInfo returnArray, LookupMatchMode matchMode, bool asc)
         {
-            var result = ix < 0 ? ~ix : ix;
+            if (ix > -1) return ix;
+            var result = ~ix;
             if (matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
             {
                 result = result - 1;
