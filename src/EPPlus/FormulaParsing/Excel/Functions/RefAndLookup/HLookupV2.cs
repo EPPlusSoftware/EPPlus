@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var index = -1;
             if (!rangeLookup)
             {
-                var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatch, LookupRangeDirection.Horizontal);
+                var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatchReturnNextSmaller, LookupRangeDirection.Horizontal);
                 index = scanner.FindIndex();
                 if (index < 0)
                 {
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     return CreateResult(eErrorType.NA);
                 }
             }
-            return CompileResultFactory.Create(lookupRange.GetOffset(index, lookupIndex - 1));
+            return CompileResultFactory.Create(lookupRange.GetOffset(lookupIndex - 1, index));
         }
     }
 }
