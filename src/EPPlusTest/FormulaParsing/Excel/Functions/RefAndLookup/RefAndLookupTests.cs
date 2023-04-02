@@ -140,6 +140,23 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
+        public void VLookupShouldIgnoreCase()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                sheet.Cells["F1"].Formula = "VLOOKUP(\"b\",A1:B2,2,true)";
+                sheet.Cells[1, 1].Value = "A";
+                sheet.Cells[1, 2].Value = 1;
+                sheet.Cells[2, 1].Value = "C";
+                sheet.Cells[2, 2].Value = 4;
+                sheet.Calculate();
+
+                Assert.AreEqual(1, sheet.Cells["F1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void HLookupShouldReturnResultFromMatchingRow()
         {
             using (var package = new ExcelPackage())

@@ -66,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             {
                 var s1 = x1 == null ? "" : x1.ToString();
                 var s2 = y1 == null ? "" : y1.ToString();
-                ret = string.Compare(s1, s2, StringComparison.CurrentCulture);
+                ret = string.Compare(s1, s2, StringComparison.CurrentCultureIgnoreCase);
             }
             else
             {
