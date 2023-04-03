@@ -32,6 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             ValidateArguments(arguments, 2);
             var str = ArgToString(arguments, 0);
             var length = ArgToInt(arguments, 1);
+            if (length < 0) return CompileResult.GetErrorResult(eErrorType.Value);
             var startIx = str.Length - length;
             if (startIx < 0)
                 startIx = 0;

@@ -18,14 +18,9 @@ namespace OfficeOpenXml.FormulaParsing
             var sf = ws._sharedFormulas[f._arrayIndex];
             var sr = sf.StartRow;
             var sc = sf.StartCol;
-            if (HasSpill(ws,f._arrayIndex, sr, sc, nr, nc))
-            {
-                ws.SetValueInner(sr, sc, ErrorValues.SpillError);
-            }
             var rows = sf.EndRow - sf.StartRow + 1;
             var cols = sf.EndCol - sf.StartCol + 1;
             var wsIx = ws.IndexInList;
-
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
@@ -49,11 +44,11 @@ namespace OfficeOpenXml.FormulaParsing
             rd.Merge(ref formulaAddress);
         }
 
-        private static bool HasSpill(ExcelWorksheet ws, int fIx, int sr, int sc, int nr, short nc)
+        private static bool HasSpill(ExcelWorksheet ws, int fIx, int startRow, int startColumns, int rows, short columns)
         {
-            for (int r = sr; r < sr + nr; r++)
+            for (int r = startRow; r < startRow + rows; r++)
             {
-                for (int c = sc; c < sc + nc; c++)
+                for (int c = startColumns; c < startColumns + columns; c++)
                 {
                     object f = -1;
                     if (ws._formulas.Exists(r, c, ref f) && f != null)
@@ -76,21 +71,33 @@ namespace OfficeOpenXml.FormulaParsing
             }
             return false;
         }       
-        private static bool HasSpill(ExcelWorksheet ws, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
         internal static void FillDynamicArrayFromRangeInfo(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
         {
+            var nr = array.Size.NumberOfRows;
+            var nc = array.Size.NumberOfCols;
+            var ws = f._ws;
+            var sf = ws._sharedFormulas[f._arrayIndex];
+            var sr = sf.StartRow;
+            var sc = sf.StartCol;
+            var rows = sf.EndRow - sf.StartRow + 1;
+            var cols = sf.EndCol - sf.StartCol + 1;
+            var wsIx = ws.IndexInList;
+
             f._isDynamic = true;
             var md = depChain._parsingContext.Package.Workbook.Metadata;
             md.GetDynamicArrayIndex(out int cm);
             f._ws._metadataStore.SetValue(f._row, f._column, new ExcelWorksheet.MetaDataReference() { cm = cm });
             f._ws._flags.SetFlagValue(f._row, f._column, true, CellFlags.ArrayFormula);
+
+            if(HasSpill(ws, f._arrayIndex, sr, sc, nr,nc))
+            {
+                ws.SetValueInner(sr, sc, ErrorValues.SpillError); //TODO: Spill should be handled on save updating value meta data.
+            }
+
             f._ws.Cells[f._row, f._column, f._row+array.Size.NumberOfRows-1, f._column+array.Size.NumberOfCols-1].CreateArrayFormula(f._formula);
             f._arrayIndex = f._ws.GetMaxShareFunctionIndex(true) - 1;
             FillArrayFromRangeInfo(f, array, rd, depChain);
         }
+
     }
 }

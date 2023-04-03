@@ -31,60 +31,73 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             ValidateArguments(arguments, 2);
             var arg1 = arguments.ElementAt(0);
-            var args = arg1.Value as IEnumerable<FunctionArgument>;
-            if (args != null)
-            {
-                var index = ArgToInt(arguments, 1, RoundingMethod.Floor);
-                if (index > args.Count())
-                {
-                    throw new ExcelErrorValueException(eErrorType.Ref);
-                }
-                var candidate = args.ElementAt(index - 1);
-
-                return CompileResultFactory.Create(candidate.Value);
-            }
+            var row = ArgToInt(arguments, 1, RoundingMethod.Floor);
+            var col = arguments.Count() > 2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
             if (arg1.IsExcelRange)
             {
-                var row = ArgToInt(arguments, 1, RoundingMethod.Floor);
-                var col = arguments.Count() > 2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
                 var ri = arg1.ValueAsRangeInfo;
                 if(row==0 || col==0)
                 {
-
+                    var range = GetResultRange(row, col, ri);
+                    return CreateResult(range, DataType.ExcelRange);
                 }
                 else
                 {
                     return GetResultSingleCell(row, col, ri);
                 }
-            }
+            }            
             if (arg1.ValueIsExcelError)
             {
                 return new CompileResult(arg1.ValueAsExcelErrorValue.Type);
             }
-            return new CompileResult(eErrorType.Value);
+            else
+            {
+                if(row>1 || col>1)
+                {
+                    return CompileResult.GetErrorResult(eErrorType.Ref);
+                }
+                else
+                {
+                    return CreateResult(arg1.Value, arg1.DataType);
+                }
+            }
         }
+        private static IRangeInfo GetResultRange(int row, int col, IRangeInfo ri)
+        {
 
-        private static CompileResult GetResultSingleCell(int row, int col, IRangeInfo ri)
+            return ri.GetOffset(
+                row == 0 ? 0 : row-1,
+                col == 0 ? 0 : col-1,
+                row == 0 ? ri.Size.NumberOfRows - 1 : row - 1,
+                col == 0 ? ri.Size.NumberOfCols - 1 : col - 1);                
+        }
+        private CompileResult GetResultSingleCell(int row, int col, IRangeInfo ri)
         {
             if (row > ri.Address.ToRow - ri.Address.FromRow + 1 ||
                 col > ri.Address.ToCol - ri.Address.FromCol + 1)
             {
-                return new CompileResult(eErrorType.Ref);
+                return CompileResult.GetErrorResult(eErrorType.Ref);
             }
             var r = row - 1;
             var c = col - 1;
-            var candidate = ri.GetOffset(r, c);
+            var newRange = ri.GetOffset(r, c, r, c);
 
             if (ri.Address == null)
             {
-                return CompileResultFactory.Create(candidate);
+                return CompileResultFactory.Create(newRange);
             }
             else
             {
-                var adr = ri.Address.Clone();
-                adr.FromRow = adr.ToRow = row;
-                adr.FromCol = adr.ToCol = col;
-                return CompileResultFactory.Create(candidate, adr);
+                //var adr = ri.Address.Clone();
+                //var sr = (adr.FromRow + r);
+                //var sc = (adr.FromCol + c);
+                //if(sr < adr.FromRow || sr > adr.ToRow || sc < adr.FromCol || sc > adr.ToCol)
+                //{
+                //    return CompileResult.GetErrorResult(eErrorType.Ref);
+                //}
+                //adr.FromRow = adr.ToRow = sr;
+                //adr.FromCol = adr.ToCol = sc;
+                return CreateAddressResult(newRange, DataType.ExcelRange);
             }
         }
 
