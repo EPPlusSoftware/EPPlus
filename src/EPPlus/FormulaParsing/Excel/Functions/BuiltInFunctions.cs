@@ -263,8 +263,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["xor"] = new Xor();
             // Reference and lookup
             Functions["address"] = new Address();
-            Functions["hlookup"] = new HLookup();
-            Functions["vlookup"] = new VLookup();
+            Functions["hlookup"] = new HLookupV2();
+            Functions["vlookup"] = new VLookupV2();
             Functions["xlookup"] = new Xlookup();
             Functions["lookup"] = new Lookup();
             Functions["match"] = new Match();
@@ -279,6 +279,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["offset"] = new Offset();
             Functions["transpose"] = new Transpose();
             Functions["filter"] = new FilterFunction();
+            Functions["sort"] = new SortFunction();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

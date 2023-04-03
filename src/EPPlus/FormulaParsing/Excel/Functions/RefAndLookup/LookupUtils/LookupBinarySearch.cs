@@ -19,12 +19,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
     internal static class LookupBinarySearch
     {
-        private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer)
+        private static int SearchAsc(object s, IRangeInfo lookupRange, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
             var nRows = lookupRange.Size.NumberOfRows;
             var nCols = lookupRange.Size.NumberOfCols;
             if (nRows == 0 && nCols == 0) return -1;
             int low = 0, high = nRows > nCols ? nRows : nCols, mid;
+            if(direction.HasValue)
+            {
+                high = direction.Value == LookupRangeDirection.Vertical ? nRows : nCols;
+            }
 
             while (low <= high)
             {
@@ -32,6 +36,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 
                 var col = nRows > nCols ? 0 : mid;
                 var row = nRows > nCols ? mid : 0;
+                if (direction.HasValue)
+                {
+                    
+                    col = direction.Value == LookupRangeDirection.Vertical ? 0 : mid;
+                    row = direction.Value == LookupRangeDirection.Vertical ? mid : 0;
+                }
+                
                 var val = lookupRange.GetOffset(row, col);
 
                 var result = comparer.Compare(s, val);
@@ -123,14 +134,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             return ~low;
         }
 
-        internal static int BinarySearch(object lookupValue, IRangeInfo lookupRange, bool asc, IComparer<object> comparer)
+        internal static int BinarySearch(object lookupValue, IRangeInfo lookupRange, bool asc, IComparer<object> comparer, LookupRangeDirection? direction = null)
         {
-            return asc ? SearchAsc(lookupValue, lookupRange, comparer) : SearchDesc(lookupValue, lookupRange, comparer);
+            return asc ? SearchAsc(lookupValue, lookupRange, comparer, direction) : SearchDesc(lookupValue, lookupRange, comparer);
         }
 
         internal static int GetMatchIndex(int ix, IRangeInfo returnArray, LookupMatchMode matchMode, bool asc)
         {
-            var result = ix < 0 ? ~ix : ix;
+            if (ix > -1) return ix;
+            var result = ~ix;
             if (matchMode == LookupMatchMode.ExactMatchReturnNextSmaller)
             {
                 result = result - 1;
