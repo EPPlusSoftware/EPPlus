@@ -44,9 +44,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var text = ArgToString(arguments, 0);
             var startIx = ArgToInt(arguments, 1);
             var length = ArgToInt(arguments, 2);
-            if(startIx<=0)
+            if(startIx<=0 && length < 0)
             {
-                throw(new ArgumentException("Argument start can't be less than 1"));
+                //throw(new ArgumentException("Argument start can't be less than 1"));
+                return CompileResult.GetErrorResult(eErrorType.Value);
             }
             //Allow overflowing start and length
             if (startIx > text.Length)

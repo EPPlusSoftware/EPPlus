@@ -61,25 +61,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
                 else
                 {
-                    return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError); ;
+                    return CompileResult.GetErrorResult(eErrorType.Name);
                 }
             }
 
             if(result.IsRef)
             {
-                return new CompileResult(ExcelErrorValue.Create(eErrorType.Ref), DataType.ExcelError);
+                return CompileResult.GetErrorResult(eErrorType.Ref);
             }
             else if (result.IsEmpty)
             {
                 return CompileResult.Empty;
             }
-            else if(!result.IsMulti)
-            {
-                var cell = result.FirstOrDefault();
-                var val = cell != null ? cell.Value : null;
-                if (val == null) return CompileResult.Empty;
-                return CompileResultFactory.Create(val, result.Address);
-            }
+            //else if(!result.IsMulti)
+            //{
+            //    var cell = result.FirstOrDefault();
+            //    var val = cell != null ? cell.Value : null;
+            //    if (val == null) return CompileResult.Empty;
+            //    return CompileResultFactory.Create(val, result.Address);
+            //}
             return new AddressCompileResult(result, DataType.ExcelRange, result.Address);
         }
 

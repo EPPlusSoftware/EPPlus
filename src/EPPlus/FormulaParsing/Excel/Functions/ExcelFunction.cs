@@ -617,6 +617,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             validator.Validate(result);
             return new CompileResult(result, dataType);
         }
+        protected CompileResult CreateResult(object result, DataType dataType, FormulaRangeAddress address)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new AddressCompileResult(result, dataType, address);
+        }
         /// <summary>
         /// Use this method to create a result to return from Excel functions. 
         /// </summary>

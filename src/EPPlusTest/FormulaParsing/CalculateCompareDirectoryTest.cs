@@ -55,7 +55,6 @@ namespace EPPlusTest.FormulaParsing
                 VerifyCalculationInPackage(xlFile, logFile);
             }
         }
-
         private void VerifyCalculationInPackage(string xlFile, string logFile)
         {
             Stopwatch sw = new Stopwatch();
@@ -88,27 +87,13 @@ namespace EPPlusTest.FormulaParsing
                     var id = ExcelCellBase.GetCellId(-1, name.Index, 0);
                     values.Add(id, name.Value);
                 }
-
+                UpdateData(p);
+                
                 p.Workbook.ClearFormulaValues();
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    //p.Workbook.Worksheets["Opties"].Cells["C54"].Calculate();
                     p.Workbook.Calculate();
-                    //p.Workbook.Worksheets["CELP"].Cells["O128"].Calculate();
-                    //p.Workbook.Worksheets["CELP"].Cells["N9"].Calculate();
-                    //p.Workbook.Worksheets["Stacked Logs"].Cells["N3"].Calculate();  //#REF! not hanlded in lookup
-                    //p.Workbook.Names[0].Calculate();  //#REF! not hanlded in lookup
-                    //p.Workbook.Worksheets["T-UAP"].Cells["M3"].Calculate();
-                    //p.Workbook.Worksheets["T-UAP"].Cells["F66"].Calculate();
-                    //p.Workbook.Worksheets["UAP Summary"].Cells["J53"].Calculate(); //#Ref! in And
-                    //p.Workbook.Worksheets["ERRP"].Cells["K723"].Calculate();
-                    //p.Workbook.Worksheets["ERRP"].Cells["Q176"].Calculate();   
-                    //p.Workbook.Worksheets["UAP SUMMARY"].Cells["O10"].Calculate();
-                    //p.Workbook.Worksheets["T-UAP"].Cells["B10:B11"].Calculate();
-                    //p.Workbook.Worksheets["T-UAP"].Cells["B1"].Calculate();
-                    //p.Workbook.Worksheets["ERRP"].Cells["Q198"].Calculate();
-                    //p.Workbook.Worksheets["T-Input"].Cells["Q670"].Calculate();
                 }
                 catch (Exception ex)
                 {
@@ -158,7 +143,36 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"File end processing {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");
                 logWriter.Close();
                 logWriter.Dispose();
+
+                SaveWorkbook("calcIssue.xlsx", p);
             }
+        }
+
+        private void UpdateData(ExcelPackage p)
+        {
+            var inputSheet = p.Workbook.Worksheets["Invoer"];
+            if (inputSheet == null) return;
+            inputSheet.Cells[2, 1].Value = "Avery 50 gold gloss Polyester op 123 cm";
+            inputSheet.Cells[2, 2].Value = 1;
+            inputSheet.Cells[2, 3].Value = 0;
+            inputSheet.Cells[2, 7].Value = 44910d;
+            inputSheet.Cells[2, 8].Value = "Vink VTS";
+            inputSheet.Cells[2, 10].Value = "1268";
+            inputSheet.Cells[2, 11].Value = "NL";
+            inputSheet.Cells[2, 12].Value = "2719JE";
+            inputSheet.Cells[2, 13].Value = 17;
+            inputSheet.Cells[2, 14].Value = 5592;
+            inputSheet.Cells[2, 15].Value = 770347;
+
+            var opties2Sheet = p.Workbook.Worksheets["Opties 2"];
+            var outputSheet = p.Workbook.Worksheets["Uitvoer"];
+            //opties2Sheet.Calculate();
+            //outputSheet.Calculate();
+            //package.Workbook.Calculate();
+            //outputSheet.Calculate();
+            //var outputA2 = outputSheet.Cells[2, 1].Value;
+            //var outputB2 = outputSheet.Cells[2, 1].Value;
+
         }
     }
 }

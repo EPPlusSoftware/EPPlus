@@ -36,6 +36,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal FormulaExecutor _formulaExecutor;
         internal ParsingContext _parsingContext;
         internal FunctionCompilerFactory _functionCompilerFactory;
+        internal List<int> _startOfChain= new List<int>();
         internal bool HasDynamicArrayFormula=false;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
@@ -72,6 +73,12 @@ namespace OfficeOpenXml.FormulaParsing
         internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
         {
             return RpnFormulaExecution.Execute(ws, options);
+        }
+
+        //Adds the position where a chain of formulas start.
+        internal void StartOfChain()
+        {
+            _startOfChain.Add(_formulas.Count);
         }
     }
     internal class RpnFormulaExecution
@@ -341,6 +348,7 @@ namespace OfficeOpenXml.FormulaParsing
             object v=null;
 
             rd?.Merge(f._row, f._column);
+            depChain.StartOfChain();
         ExecuteFormula:
             try
             {
@@ -456,7 +464,6 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     //Add dynamic array formula support here.
                                     ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
-                                    //f._ws.SetValueInner(f._row, f._column, ExcelErrorValue.Create(eErrorType.Value));
                                 }
                             }
                             else
