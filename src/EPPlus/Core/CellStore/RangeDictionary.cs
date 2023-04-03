@@ -57,12 +57,12 @@ namespace OfficeOpenXml.Core.CellStore
                     else if(rows.Count > 0)
                     {
                         ix = ~ix;
-                        if (ix < rows.Count)
+                        if (ix < rows.Count && ExistsInSpan(fromRow, toRow, rows[ix].RowSpan))
                         {
-                            return ExistsInSpan(fromRow, toRow, rows[ix].RowSpan);
+                            return true;
                         }
-                        else if(--ix < rows.Count)
-                        {
+                        else if(--ix < rows.Count && ix >= 0)
+                        {   
                             return ExistsInSpan(fromRow, toRow, rows[ix].RowSpan);
                         }
                     }
@@ -132,6 +132,13 @@ namespace OfficeOpenXml.Core.CellStore
                     }
                 }
                 return default;
+            }
+        }
+        internal void Merge(int fromRow, int fromCol, int toRow, int toCol, T value)
+        {
+            for (int c = fromCol; c <= toCol; c++)
+            {
+                MergeRowSpan(c, fromRow, toRow, value);
             }
         }
         internal void Add(int fromRow, int fromCol, int toRow, int toCol, T value)
@@ -497,7 +504,7 @@ namespace OfficeOpenXml.Core.CellStore
             var rowSpan = ((long)(fromRow - 1) << 20) | (long)(toRow - 1);
             if (_addresses.TryGetValue(col, out rows) == false)
             {
-                rows = new List<RangeItem>(1000000);
+                rows = new List<RangeItem>(64);
                 _addresses.Add(col, rows);
             }
             if (rows.Count == 0)
@@ -513,6 +520,56 @@ namespace OfficeOpenXml.Core.CellStore
                 if (ix < rows.Count)
                 {
                     rows.Insert(ix, ri);
+                }
+                else
+                {
+                    rows.Add(ri);
+                }
+            }
+        }
+        private void MergeRowSpan(int col, int fromRow, int toRow, T value)
+        {
+            List<RangeItem> rows;
+            var rowSpan = ((long)(fromRow - 1) << 20) | (long)(toRow - 1);
+            if (_addresses.TryGetValue(col, out rows) == false)
+            {
+                rows = new List<RangeItem>(64);
+                _addresses.Add(col, rows);
+            }
+            if (rows.Count == 0)
+            {
+                rows.Add(new RangeItem(rowSpan, value));
+                return;
+            }
+            var ri = new RangeItem(rowSpan, value);
+            var ix = rows.BinarySearch(ri);
+            if (ix < 0)
+            {
+                ix = ~ix;
+                if (ix > 0) ix--;
+                if (ix < rows.Count)
+                {
+                    int fr, tr = -1;
+                    while (rows.Count > ix)
+                    {                         
+                        var rs = rows[ix];
+                        fr = (int)(rs.RowSpan >> 20) + 1;
+                        tr = (int)(rs.RowSpan & 0xFFFFF) + 1;
+                        if(fromRow<fr)
+                        {
+                            rowSpan = ((long)(fromRow - 1) << 20) | (long)(fr - 2);
+                            rows.Insert(ix, new RangeItem(rowSpan, value));
+                            ix++;
+                            fromRow=tr+1;
+                        }
+                        ix++;
+                    }
+                    if(tr < toRow)
+                    {
+                        tr = tr > fromRow - 1 ? tr : fromRow - 1;
+                        rowSpan = ((long)(tr) << 20) | (long)(toRow - 1);
+                        rows.Insert(ix, new RangeItem(rowSpan, value));
+                    }
                 }
                 else
                 {

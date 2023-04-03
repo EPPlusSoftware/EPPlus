@@ -12,11 +12,13 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
@@ -49,7 +51,7 @@ namespace OfficeOpenXml.DataValidation
     {
         private List<ExcelDataValidation> _validations = new List<ExcelDataValidation>();
         private ExcelWorksheet _worksheet = null;
-        private RangeDictionary<ExcelDataValidation> _validationsRD = new RangeDictionary<ExcelDataValidation>();
+        internal RangeDictionary<ExcelDataValidation> _validationsRD = new RangeDictionary<ExcelDataValidation>();
 
         internal ExcelDataValidationCollection(ExcelWorksheet worksheet)
         {
@@ -79,9 +81,21 @@ namespace OfficeOpenXml.DataValidation
                 if (xr.NodeType == XmlNodeType.Element)
                 {
                     var validation = ExcelDataValidationFactory.Create(xr);
+
+                    if(validation.Address.Addresses != null)
+                    {
+                        for(int i = 0; i< validation.Address.Addresses.Count; i++) 
+                        {
+                            _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
+                                validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
+                        }
+                    }
+                    else
+                    {
+                        _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol, 
+                            validation.Address._toRow, validation.Address._toCol, validation);
+                    }
                     _validations.Add(validation);
-                    _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol,
-                                       validation.Address._toRow, validation.Address._toCol, validation);
                 }
             }
         }
@@ -281,6 +295,8 @@ namespace OfficeOpenXml.DataValidation
         private ExcelDataValidation AddValidation(string address, ExcelDataValidation validation)
         {
             var internalAddress = new ExcelAddress(address);
+
+            // if(internalAddress.inter)
 
             if (_validationsRD.Exists(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol))
             {

@@ -60,6 +60,11 @@ namespace OfficeOpenXml.DataValidation
             {
                 Formula2 = ReadFormula(xr, "formula2");
             }
+            else
+            {
+                //Ensure Formula2 is not null for writing and if operator type changes.
+                Formula2 = DefineFormulaClassType("", _workSheetName);
+            }
         }
 
         /// <summary>
@@ -70,6 +75,11 @@ namespace OfficeOpenXml.DataValidation
             get;
             protected set;
         }
+
+        //internal override string GetXmlValue()
+        //{
+        //    base.get
+        //}
 
         public override void Validate()
         {
