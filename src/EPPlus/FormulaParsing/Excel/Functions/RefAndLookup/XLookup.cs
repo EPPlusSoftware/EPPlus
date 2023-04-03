@@ -10,20 +10,12 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.Utils;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RoundingHelper;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -33,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             IntroducedInExcelVersion = "2016",
             Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds.",
             SupportsArrays = true)]
-    internal class Xlookup : LookupFunction
+    internal class Xlookup : ExcelFunction
     {
         private Stopwatch _stopwatch = null;
 
@@ -133,7 +125,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     return CreateResult(notFoundText, DataType.String);
                 }
             }
-            return CreateResult(result, DataType.ExcelRange);
+            //return CreateResult(result, DataType.ExcelRange);
+            return CreateAddressResult(result, DataType.ExcelRange);
         }
     }
 }

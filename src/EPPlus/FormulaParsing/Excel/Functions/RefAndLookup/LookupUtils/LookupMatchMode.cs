@@ -22,6 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         ExactMatch = 0,
         ExactMatchReturnNextSmaller = -1,
         ExactMatchReturnNextLarger = 1,
-        Wildcard = 2
+        Wildcard = 2,
+        ExactMatchWithWildcard = 3
     }
 }

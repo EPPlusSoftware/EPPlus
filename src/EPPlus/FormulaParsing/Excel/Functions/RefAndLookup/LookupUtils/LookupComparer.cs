@@ -32,7 +32,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         public virtual int Compare(object x, object y)
         {
             int v = 0;
-            if (_matchMode == LookupMatchMode.Wildcard)
+            if(x == null && y == null)
+            {
+                return 1;
+            }
+            if (_matchMode == LookupMatchMode.Wildcard || _matchMode == LookupMatchMode.ExactMatchWithWildcard)
             {
                 v = _vm.IsMatch(x, y);
             }

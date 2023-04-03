@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  22/3/2023         EPPlus Software AB           EPPlus v7
+ *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
@@ -11,9 +23,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Looks up a supplied value in the first column of a table, and returns the corresponding value from another column")]
+        Description = "Looks up a supplied value in the first column of a table, and returns the corresponding value from another column",
+        SupportsArrays = true)]
     internal class VLookupV2 : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);
@@ -27,10 +41,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 rangeLookup = ArgToBool(arguments, 3);
             }
-            var index = -1;
-            if(!rangeLookup)
+            int index;
+            if (!rangeLookup)
             {
-                var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatch, LookupRangeDirection.Vertical);
+                var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatchWithWildcard, LookupRangeDirection.Vertical);
                 index = scanner.FindIndex();
                 if (index < 0)
                 {

@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Returns one of a list of values, depending on the value of a supplied index number")]
+        Description = "Returns one of a list of values, depending on the value of a supplied index number",
+        SupportsArrays = true)]
     internal class Choose : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

@@ -628,11 +628,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             var validator = _compileResultValidators.GetValidator(dataType);
             validator.Validate(result);
-            return new AddressCompileResult(result, dataType, result.Address);
+            return new AddressCompileResult(result, dataType, result.IsInMemoryRange ? null :  result.Address);
         }
         protected CompileResult CreateResult(eErrorType errorType)
         {
-            return CreateResult(ExcelErrorValue.Create(errorType), DataType.ExcelError);
+            return CompileResult.GetErrorResult(errorType);
         }
 
         /// <summary>

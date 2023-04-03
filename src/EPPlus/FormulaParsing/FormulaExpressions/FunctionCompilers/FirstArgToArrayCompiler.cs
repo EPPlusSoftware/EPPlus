@@ -85,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                                 else
                                 {
                                     var cr = x.Compile();
-                                    return new FunctionArgument(cr.ResultValue, cr.DataType);
+                                    return new FunctionArgument(cr.Result, cr.DataType);
                                 }
                             }));
                             if(errorCompileResult != null)

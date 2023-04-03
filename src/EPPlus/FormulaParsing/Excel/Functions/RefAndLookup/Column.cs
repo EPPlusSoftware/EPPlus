@@ -26,7 +26,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Returns the column number of a supplied range, or of the current cell")]
+        Description = "Returns the column number of a supplied range, or of the current cell",
+        SupportsArrays = true)]
     internal class Column : LookupFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
