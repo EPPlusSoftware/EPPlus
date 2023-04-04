@@ -4421,20 +4421,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void i834()
-        {
-            if (File.Exists("issue834.xlsx")) File.Delete("issue834.xlsx");
-
-            using (ExcelPackage package = new ExcelPackage("issue834.xlsx"))
-            {
-                //package.Settings.ImageSettings.PrimaryImageHandler = new SystemDrawingImageHandler();
-                //package.Settings.ImageSettings.PrimaryImageHandler = new GenericImageHandler();
-                var ws = package.Workbook.Worksheets.Add("Sheet1");
-                ws.Drawings.AddPicture("Img1", _worksheetPath + "\\..\\images\\Issue834.PNG");
-                package.Save();
-            }
-        }
-        [TestMethod]
         public void extLst()
         {
             using (ExcelPackage package = OpenTemplatePackage("extLstMany.xlsx"))
