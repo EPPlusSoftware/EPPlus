@@ -80,23 +80,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             var r = row - 1;
             var c = col - 1;
-            var newRange = ri.GetOffset(r, c, r, c);
 
-            if (ri.Address == null)
+            if (ri.IsInMemoryRange)
             {
-                return CompileResultFactory.Create(newRange);
+                return CompileResultFactory.Create(ri.GetValue(r, c));
             }
             else
             {
-                //var adr = ri.Address.Clone();
-                //var sr = (adr.FromRow + r);
-                //var sc = (adr.FromCol + c);
-                //if(sr < adr.FromRow || sr > adr.ToRow || sc < adr.FromCol || sc > adr.ToCol)
-                //{
-                //    return CompileResult.GetErrorResult(eErrorType.Ref);
-                //}
-                //adr.FromRow = adr.ToRow = sr;
-                //adr.FromCol = adr.ToCol = sc;
+                var newRange = ri.GetOffset(r, c, r, c);
                 return CreateAddressResult(newRange, DataType.ExcelRange);
             }
         }

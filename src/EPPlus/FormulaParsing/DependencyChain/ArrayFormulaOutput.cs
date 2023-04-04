@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Filter;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -44,14 +45,15 @@ namespace OfficeOpenXml.FormulaParsing
             rd.Merge(ref formulaAddress);
         }
 
-        private static bool HasSpill(ExcelWorksheet ws, int fIx, int startRow, int startColumns, int rows, short columns)
+        private static bool HasSpill(ExcelWorksheet ws, int fIx, int startRow, int startColumn, int rows, short columns)
         {
             for (int r = startRow; r < startRow + rows; r++)
             {
-                for (int c = startColumns; c < startColumns + columns; c++)
+                for (int c = startColumn; c < startColumn + columns; c++)
                 {
+                    if (r == startRow && c == startColumn) continue;
                     object f = -1;
-                    if (ws._formulas.Exists(r, c, ref f) && f != null)
+                    if (fIx!=-1 && ws._formulas.Exists(r, c, ref f) && f != null)
                     {
                         if (f is int intfIx && intfIx == fIx)
                         {
@@ -76,28 +78,76 @@ namespace OfficeOpenXml.FormulaParsing
             var nr = array.Size.NumberOfRows;
             var nc = array.Size.NumberOfCols;
             var ws = f._ws;
-            var sf = ws._sharedFormulas[f._arrayIndex];
-            var sr = sf.StartRow;
-            var sc = sf.StartCol;
-            var rows = sf.EndRow - sf.StartRow + 1;
-            var cols = sf.EndCol - sf.StartCol + 1;
+            var sr = f._row;
+            var sc = f._column;
             var wsIx = ws.IndexInList;
 
             f._isDynamic = true;
             var md = depChain._parsingContext.Package.Workbook.Metadata;
             md.GetDynamicArrayIndex(out int cm);
             f._ws._metadataStore.SetValue(f._row, f._column, new ExcelWorksheet.MetaDataReference() { cm = cm });
-            f._ws._flags.SetFlagValue(f._row, f._column, true, CellFlags.ArrayFormula);
+            //f._ws._flags.SetFlagValue(f._row, f._column, true, CellFlags.ArrayFormula);
 
             if(HasSpill(ws, f._arrayIndex, sr, sc, nr,nc))
             {
                 ws.SetValueInner(sr, sc, ErrorValues.SpillError); //TODO: Spill should be handled on save updating value meta data.
             }
-
-            f._ws.Cells[f._row, f._column, f._row+array.Size.NumberOfRows-1, f._column+array.Size.NumberOfCols-1].CreateArrayFormula(f._formula);
-            f._arrayIndex = f._ws.GetMaxShareFunctionIndex(true) - 1;
+            if(f._arrayIndex==-1)
+            {
+                f._ws.Cells[f._row, f._column, f._row + array.Size.NumberOfRows - 1, f._column + array.Size.NumberOfCols - 1].CreateArrayFormula(f._formula);
+                f._arrayIndex = f._ws.GetMaxShareFunctionIndex(true) - 1;
+            }
+            else
+            {
+                var sf = ws._sharedFormulas[f._arrayIndex];
+                var endRow = sf.StartRow + nr - 1;
+                var endCol = sf.StartCol + nc - 1;
+                if(endRow<sf.EndRow)
+                {
+                    ClearDynamicFormulaIndex(ws, endRow + 1, sf.StartCol, sf.EndRow, sf.EndCol);
+                    //clearValues
+                }
+                else if(endRow > sf.EndRow)
+                {
+                    SetDynamicFormulaIndex(ws, sf.EndRow + 1, sf.StartCol, endRow, sf.EndCol, f._arrayIndex);
+                }
+                if (endCol<sf.EndCol)
+                {
+                    ClearDynamicFormulaIndex(ws, sf.StartRow, endCol + 1, sf.EndRow, sf.EndCol);
+                }
+                else
+                {
+                    SetDynamicFormulaIndex(ws, sf.StartRow, sf.StartCol+1, sf.StartCol, sf.EndCol, f._arrayIndex);
+                }
+                sf.EndRow = endRow;
+                sf.EndCol = endCol;
+            }
             FillArrayFromRangeInfo(f, array, rd, depChain);
         }
+        private static void ClearDynamicFormulaIndex(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol)
+        {
+            ws._formulas.Clear(fromRow, fromCol, toRow, toCol);
+            ws._flags.Clear(fromRow, fromCol, toRow, toCol);
 
+            for (int col = fromCol; col <= toCol; col++)
+            {
+                for (int row = fromRow; row <= toRow; row++)
+                {
+                    ws.SetValueInner(row, col, null);
+                }
+            }
+        }
+        private static void SetDynamicFormulaIndex(ExcelWorksheet ws, int fromRow, int fromCol, int toRow, int toCol, int formulaIndex)
+        {
+            for (int col = fromCol; col <= toCol; col++)
+            {
+                for (int row = fromRow; row <= toRow; row++)
+                {
+                    ws._formulas.SetValue(row, col, formulaIndex);
+                    ws._flags.SetFlagValue(row, col, true, CellFlags.ArrayFormula);
+                    ws.SetValueInner(row, col, null);
+                }
+            }
+        }
     }
 }

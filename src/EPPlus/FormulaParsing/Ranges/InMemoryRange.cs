@@ -31,6 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _nCols = rangeDef.NumberOfCols;
             _cells = new ICellInfo[_nRows, _nCols];
             _size = rangeDef;
+            _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = _nRows - 1, ToCol = _nCols - 1 };
         }
         public InMemoryRange(FormulaRangeAddress address, RangeDefinition rangeDef, ParsingContext ctx)
         {
