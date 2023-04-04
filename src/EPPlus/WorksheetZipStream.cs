@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using EPPlusTest.Utils;
 using OfficeOpenXml.Utils;
+using System;
 using System.IO;
 
 namespace OfficeOpenXml
@@ -184,7 +185,7 @@ namespace OfficeOpenXml
             }
         }
 
-        internal string ReadFromEndElement(string endElement, string startXml = "", string readToElement = null, bool writeToBuffer = true, string xmlPrefix = "", string attribute = "", bool addEmptyNode = true)
+        internal string ReadFromEndElement(string endElement, string startXml = "", string readToElement = null, bool writeToBuffer = true, string xmlPrefix = "", bool addEmptyNode = true)
         {
             if (string.IsNullOrEmpty(readToElement) && _stream.Position < _stream.Length)
             {
@@ -208,7 +209,7 @@ namespace OfficeOpenXml
                     xml = xml.Substring(endElementIx, toElementIx - endElementIx);
                     if (addEmptyNode)
                     {
-                        xml += string.IsNullOrEmpty(xmlPrefix) ? $"<{readToElement}{attribute}/>" : $"<{xmlPrefix}:{readToElement}{attribute}/>";
+                        xml += string.IsNullOrEmpty(xmlPrefix) ? $"<{readToElement}/>" : $"<{xmlPrefix}:{readToElement}/>";
                     }
                 }
                 else
@@ -219,6 +220,84 @@ namespace OfficeOpenXml
             WriteToBuffer = writeToBuffer;
             return startXml + xml;
         }
+        internal string ReadToExt(string startXml, string uriValue, ref string lastElement, string lastUri="")
+        {
+            Buffer.Flush();
+            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+
+            if (lastElement == "ext")
+            {
+                var lastExtStartIx = GetXmlIndex(xml, lastUri);
+                int endExtIx;
+                if(lastExtStartIx < 0)
+                {
+                    endExtIx = FindElementPos(xml, "ext", false);
+                }
+                else
+                {
+                    endExtIx = FindElementPos(xml, "ext", false, lastExtStartIx+4);
+                }
+                xml = xml.Substring(endExtIx);
+            }
+            else
+            {
+                var lastElementIx = FindElementPos(xml, lastElement, false, 0);
+                if (lastElementIx < 0)
+                {
+                    throw new InvalidOperationException("Worksheet Xml is invalid");
+                }
+                xml = xml.Substring(lastElementIx);
+            }
+            if (string.IsNullOrEmpty(uriValue))
+            {
+                lastElement = "";
+                return startXml + xml;
+            }
+            else
+            {
+                var ix = GetXmlIndex(xml, uriValue);
+                if (ix > 0)
+                {
+                    lastElement = "ext";
+                    return startXml + xml.Substring(0, ix);
+                }
+            }
+            return startXml;
+        }
+
+        private int GetXmlIndex(string xml, string uriValue)
+        {
+            var elementStartIx = FindElementPos(xml, "ext", true, 0);
+            while (elementStartIx > 0)
+            {
+                var elementEndIx = xml.IndexOf('>', elementStartIx);
+                var elementString = xml.Substring(elementStartIx, elementEndIx - elementStartIx + 1);
+                if (HasExtElementUri(elementString, uriValue))
+                {
+                    return elementStartIx;
+                }
+                elementStartIx = FindElementPos(xml, "ext", true, elementEndIx + 1);
+            }
+            return -1;
+        }
+
+        private bool HasExtElementUri(string elementString, string uriValue)
+        {
+            if (elementString.StartsWith("</")) return false; //An endtag, return false;
+            var ix=elementString.IndexOf("uri");
+            var pc = elementString[ix - 1];
+            var nc = elementString[ix + 3];
+            if(char.IsWhiteSpace(pc) && (char.IsWhiteSpace(nc) || nc=='='))
+            {
+                ix = elementString.IndexOf('=', ix + 1);
+                var ixAttrStart = elementString.IndexOf('"', ix + 1) + 1;
+                var ixAttrEnd = elementString.IndexOf('"', ixAttrStart + 1) - 1;
+
+                var uri = elementString.Substring(ixAttrStart, ixAttrEnd - ixAttrStart+1);
+                return uriValue.Equals(uri, StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
+        }
 
         /// <summary>
         /// Returns the position in the xml document for an element. Either returns the position of the start element or the end element.
@@ -227,9 +306,8 @@ namespace OfficeOpenXml
         /// <param name="element">The element</param>
         /// <param name="returnStartPos">If the position before the start element is returned. If false the end of the end element is returned.</param>
         /// <returns>The position of the element in the input xml</returns>
-        private int FindElementPos(string xml, string element, bool returnStartPos = true)
+        private int FindElementPos(string xml, string element, bool returnStartPos = true, int ix=0)
         {
-            var ix = 0;
             while (true)
             {
                 ix = xml.IndexOf(element, ix);

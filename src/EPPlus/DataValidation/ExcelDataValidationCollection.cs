@@ -72,9 +72,9 @@ namespace OfficeOpenXml.DataValidation
         {
             while (xr.Read())
             {
-                if (xr.LocalName != "dataValidation")
+                if(xr.LocalName != "dataValidation")
                 {
-                    xr.Read(); //Read beyond the end element
+                    xr.Read();
                     break;
                 }
 

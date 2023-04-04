@@ -15,7 +15,7 @@ namespace OfficeOpenXml.Utils
                 {
                     xr.Read();
                     if (xr.EOF) return false;
-                } while (xr.Depth != depth);
+                } while (!(xr.Depth == depth && xr.NodeType==XmlNodeType.Element));
             }
             return xr.NodeType==XmlNodeType.Element && ConvertUtil._invariantCompareInfo.IsSuffix(xr.LocalName, tagName[0]) ;
         }
