@@ -111,7 +111,7 @@ namespace EPPlusTest.Excel.Functions
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["F1"].Formula = "VLOOKUP(A1:A2,A1:B2,2)";
+                sheet.Cells["F1:F2"].CreateArrayFormula("VLOOKUP(A1:A2,A1:B2,2)");
                 sheet.Cells[1, 1].Value = 1;
                 sheet.Cells[1, 2].Value = 1;
                 sheet.Cells[2, 1].Value = 2;
@@ -214,7 +214,7 @@ namespace EPPlusTest.Excel.Functions
             using (var package = new ExcelPackage())
             {
                 var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["F1"].Formula = "HLOOKUP(A1:B1,A1:B2,2)";
+                sheet.Cells["F1:G1"].CreateArrayFormula("HLOOKUP(A1:B1,A1:B2,2)");
                 sheet.Cells[1, 1].Value = 1;
                 sheet.Cells[1, 2].Value = 3;
                 sheet.Cells[2, 1].Value = 2;

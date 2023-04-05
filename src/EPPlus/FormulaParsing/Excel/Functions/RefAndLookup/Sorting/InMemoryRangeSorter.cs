@@ -40,10 +40,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             }
             var colIx = colIndex - 1;
             var colToSortList = columns[colIx].ToList();
-            colToSortList.Sort((a, b) => _comparer.Compare(a.Value, b.Value) * sortOrder);
-            for (var row = 0; row < colToSortList.Count; row++)
+            var sortedList = colToSortList.Where(x => x.Value != null).ToList();
+            sortedList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
+            var nullValues = colToSortList.Where(x => x.Value == null);
+            sortedList.AddRange(nullValues);
+            for (var row = 0; row < sortedList.Count; row++)
             {
-                var sortedColItem = colToSortList[row];
+                var sortedColItem = sortedList[row];
                 sortedRange.SetValue(row, colIx, sortedColItem.Value);
                 for (var col = 0; col < columns.Count; col++)
                 {
@@ -74,7 +77,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             }
             var rowIx = rowIndex - 1;
             var rowToSortList = rows[rowIx].ToList();
-            rowToSortList.Sort((a, b) => _comparer.Compare(a.Value, b.Value) * sortOrder);
+            rowToSortList.Sort((a, b) => _comparer.Compare(a.Value, b.Value, sortOrder));
             for (var col = 0; col < rowToSortList.Count; col++)
             {
                 var sortedRowItem = rowToSortList[col];
