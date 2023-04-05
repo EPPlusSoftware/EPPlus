@@ -104,19 +104,26 @@ namespace OfficeOpenXml.DataValidation
 
             var formula = Formula as ExcelDataValidationFormula;
 
-            if(ValidationType.Type == eDataValidationType.List)
+            if (ValidationType.Type == eDataValidationType.Any)
             {
-                if(((ExcelDataValidationFormulaList)formula).Values.Count == 0 && string.IsNullOrEmpty(formula.ExcelFormula))
+                return;
+            }
+
+            if (ValidationType.Type == eDataValidationType.List)
+            {
+                var formulaList = (ExcelDataValidationFormulaList)formula;
+                if (string.IsNullOrEmpty(formulaList.ExcelFormula) && formulaList.Values.Count <= 0)
                 {
-                    throw new InvalidOperationException($"Formula in Datavalidation of type:{ValidationType} with {Uid} must have a Value or ExcelFormula");
+                    throw new InvalidOperationException($"Formula in Datavalidation of type: {eDataValidationType.List} with Uid: {Uid} must have a Value or ExcelFormula");
                 }
                 return;
             }
 
-            if (ValidationType.Type != eDataValidationType.Any && 
-                (formula.HasValue == false) && string.IsNullOrEmpty(formula.ExcelFormula))
+            if ((formula.HasValue == false) 
+                && string.IsNullOrEmpty(formula.ExcelFormula) 
+                && !(AllowBlank ?? false))
             {
-                throw new InvalidOperationException($"Formula in Datavalidation of type:{ValidationType} with {Uid} must have a Value or ExcelFormula");
+                throw new InvalidOperationException($"Formula in Datavalidation of type: {ValidationType.Type} with Uid: {Uid} must have a Value or ExcelFormula");
             }
         }
     }

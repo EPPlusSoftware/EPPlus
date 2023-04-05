@@ -205,7 +205,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void DataValidations_ShouldThrowIfAllowBlankIsNotSet()
         {
-            var validation = _sheet.DataValidations.AddListValidation("A1");
+            var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Validate();
         }
 
