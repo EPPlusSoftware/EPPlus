@@ -183,5 +183,34 @@ namespace EPPlusTest.DataValidation
                 Assert.IsFalse(validation.AllowsOperator);
             }
         }
+
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        public void CompletelyEmptyListValidationsShouldThrow()
+        {
+            var excel = new ExcelPackage();
+            var sheet = excel.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells[1, 1].Value = "Column1";
+            sheet.Cells["A2:A1048576"].DataValidation.AddListDataValidation();
+
+            excel.Save();
+        }
+
+        [TestMethod]
+        public void EmptyListValidationsShouldNotThrow()
+        {
+            var excel = new ExcelPackage();
+            var sheet = excel.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells[1, 1].Value = "Column1";
+            var boolValidator = sheet.Cells["A2:A1048576"].DataValidation.AddListDataValidation();
+            {
+                boolValidator.Formula.Values.Add("");
+                boolValidator.Formula.Values.Add("True");
+                boolValidator.Formula.Values.Add("False");
+                boolValidator.ShowErrorMessage = true;
+                boolValidator.Error = "Choose either False or True";
+            }
+
+            excel.Save();
+        }
     }
 }
