@@ -1,4 +1,11 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.1
+### Fixed issues
+* Having data validations referring to other worksheets could break the xml causing the workbook to become corrupt.
+* Deleting a worksheet and having the last worksheet selected caused the workbook to become corrupt.
+* Fixed a rounding bug in ExcelTime, affecting the Time formula and the data validation time rule.
+* List data validations could not have empty value as a list item
+
 ## Version 6.2.0
 ### Features
 * Improved performance and better support for cross-worksheet references in data validations.
