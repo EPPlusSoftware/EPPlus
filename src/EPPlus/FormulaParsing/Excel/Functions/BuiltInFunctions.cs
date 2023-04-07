@@ -151,6 +151,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["roundup"] = new Roundup();
             Functions["rand"] = new Rand();
             Functions["randbetween"] = new RandBetween();
+            Functions["randarray"] = new RandArray();
             Functions["rank"] = new Rank();
             Functions["rank.eq"] = new RankEq();
             Functions["rank.avg"] = new RankAvg();
