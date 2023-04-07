@@ -19,6 +19,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {
     internal enum LookupRangeDirection
     {
+        Undefined,
         Vertical,
         Horizontal
     }

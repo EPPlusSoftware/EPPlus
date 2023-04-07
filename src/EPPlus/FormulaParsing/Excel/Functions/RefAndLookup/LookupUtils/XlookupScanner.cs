@@ -42,12 +42,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         private readonly IRangeInfo _lookupRange;
         private readonly LookupSearchMode _searchMode;
         private readonly LookupMatchMode _matchMode;
-        private readonly LookupRangeDirection? _direction;
+        private readonly LookupRangeDirection _direction;
         private readonly IComparer<object> _comparer;
 
         private LookupRangeDirection GetLookupDirection()
         {
-            if (_direction.HasValue) return _direction.Value;
             var result = LookupRangeDirection.Vertical;
             if (_lookupRange.Size.NumberOfCols > 1)
             {
