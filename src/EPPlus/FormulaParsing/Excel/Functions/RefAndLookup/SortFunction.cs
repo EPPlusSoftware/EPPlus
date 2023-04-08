@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "7",
-        Description = "Sorts the contents of a range or array in ascending or descending order and returns a dynamic array.")]
+        Description = "Sorts the contents of a range or array in ascending or descending order and returns a dynamic array.",
+        SupportsArrays = true)]
     internal class SortFunction : ExcelFunction
     {
         private readonly InMemoryRangeSorter _sorter = new InMemoryRangeSorter();
