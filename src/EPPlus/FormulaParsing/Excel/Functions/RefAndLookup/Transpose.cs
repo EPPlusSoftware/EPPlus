@@ -23,7 +23,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "7",        
-        Description = "Converts a vertical range/array to a horizontal or vice versa.")]
+        Description = "Converts a vertical range/array to a horizontal or vice versa.",
+        SupportsArrays = true)]
     internal class Transpose : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)

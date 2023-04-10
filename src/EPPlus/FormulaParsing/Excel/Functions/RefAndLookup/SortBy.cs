@@ -30,11 +30,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             ValidateArguments(arguments, 2);
             var range = ArgToRangeInfo(arguments, 0);
-            var byRange = ArgToRangeInfo(arguments, 1);
-            if(byRange.Size.NumberOfCols != range.Size.NumberOfCols && byRange.Size.NumberOfRows != range.Size.NumberOfRows)
+            var nArgs = arguments.Count();
+            for(var x = 1; x < nArgs; x+=2)
             {
-                return CreateResult(eErrorType.Value);
+                var byRange = ArgToRangeInfo(arguments, x);
+                if (byRange.Size.NumberOfCols != range.Size.NumberOfCols && byRange.Size.NumberOfRows != range.Size.NumberOfRows)
+                {
+                    return CreateResult(eErrorType.Value);
+                }
+                if(byRange.Size.NumberOfRows > 1 && byRange.Size.NumberOfCols > 1)
+                {
+                    return CreateResult(eErrorType.Value);
+                }
+                var sortOrder = 1;
+                if(x +1 < nArgs)
+                {
+                    sortOrder = ArgToInt(arguments, x + 1);
+
+                }
             }
+
             throw new NotImplementedException();
         }
     }

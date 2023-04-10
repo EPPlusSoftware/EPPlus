@@ -22,7 +22,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     [FunctionMetadata(
         Category = ExcelFunctionCategory.DateAndTime,
         EPPlusVersion = "4",
-        Description = "Returns a date that is the specified number of months before or after an initial supplied start date")]
+        Description = "Returns a date that is the specified number of months before or after an initial supplied start date",
+        SupportsArrays = true)]
     internal class Edate : ExcelFunction
     {
         internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
