@@ -21,6 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             _searchMode = searchMode;
             _matchMode = matchMode;
             _comparer = new LookupComparer(matchMode);
+            _direction = LookupRangeDirection.Undefined;
         }
 
         public XlookupScanner(
@@ -42,18 +43,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         private readonly IRangeInfo _lookupRange;
         private readonly LookupSearchMode _searchMode;
         private readonly LookupMatchMode _matchMode;
-        private readonly LookupRangeDirection? _direction;
+        private readonly LookupRangeDirection _direction;
         private readonly IComparer<object> _comparer;
 
         private LookupRangeDirection GetLookupDirection()
         {
-            if (_direction.HasValue) return _direction.Value;
-            var result = LookupRangeDirection.Vertical;
+            if(_direction != LookupRangeDirection.Undefined)
+            {
+                return _direction;
+            }
             if (_lookupRange.Size.NumberOfCols > 1)
             {
-                result = LookupRangeDirection.Horizontal;
+                return LookupRangeDirection.Horizontal;
             }
-            return result;
+            return LookupRangeDirection.Vertical;
         }
 
         public int FindIndex()

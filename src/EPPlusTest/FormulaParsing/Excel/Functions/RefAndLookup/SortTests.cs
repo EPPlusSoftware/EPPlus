@@ -173,5 +173,48 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual(3, _sheet.Cells[5, 3].Value);
             Assert.AreEqual(9, _sheet.Cells[6, 3].Value);
         }
+
+        [TestMethod]
+        public void NullValuesShouldAlwaysComeLast_1()
+        {
+            _sheet.Cells[1, 1].Value = 3;
+            _sheet.Cells[2, 1].Value = 2;
+            _sheet.Cells[3, 1].Value = 1;
+
+            _sheet.Cells[1, 2].Value = "B";
+            _sheet.Cells[2, 2].Value = "C";
+            _sheet.Cells[3, 2].Value = "A";
+
+            _sheet.Cells[5, 1].Formula = "SORT(A1:B4,1,-1)";
+            _sheet.Calculate();
+
+            Assert.AreEqual(3, _sheet.Cells[5, 1].Value);
+            Assert.AreEqual(2, _sheet.Cells[6, 1].Value);
+            Assert.AreEqual(1, _sheet.Cells[7, 1].Value);
+            Assert.AreEqual(0, _sheet.Cells[8, 1].Value);
+
+        }
+
+        [TestMethod]
+        public void NullValuesShouldAlwaysComeLast_2()
+        {
+            _sheet.Cells[1, 1].Value = 3;
+            _sheet.Cells[3, 1].Value = 2;
+            _sheet.Cells[4, 1].Value = 1;
+
+            _sheet.Cells[1, 2].Value = "B";
+            _sheet.Cells[2, 2].Value = "C1";
+            _sheet.Cells[3, 2].Value = "C";
+            _sheet.Cells[4, 2].Value = "A";
+
+            _sheet.Cells[5, 1].Formula = "SORT(A1:B4,1,-1)";
+            _sheet.Calculate();
+
+            Assert.AreEqual(3, _sheet.Cells[5, 1].Value);
+            Assert.AreEqual(2, _sheet.Cells[6, 1].Value);
+            Assert.AreEqual(1, _sheet.Cells[7, 1].Value);
+            Assert.AreEqual(0, _sheet.Cells[8, 1].Value);
+
+        }
     }
 }

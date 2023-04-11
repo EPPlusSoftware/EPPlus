@@ -31,6 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             ValidateArguments(arguments, 2);
 
             var searchedValue = arguments.ElementAt(0).Value;
+            if(searchedValue == null)
+            {
+                return CreateResult(eErrorType.NA);
+            }
             var arg2 = arguments.ElementAt(1);
             if (!arg2.IsExcelRange) return CreateResult(eErrorType.Value);
             var lookupRange = arg2.ValueAsRangeInfo;

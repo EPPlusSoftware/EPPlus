@@ -151,6 +151,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["roundup"] = new Roundup();
             Functions["rand"] = new Rand();
             Functions["randbetween"] = new RandBetween();
+            Functions["randarray"] = new RandArray();
             Functions["rank"] = new Rank();
             Functions["rank.eq"] = new RankEq();
             Functions["rank.avg"] = new RankAvg();
@@ -280,6 +281,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["transpose"] = new Transpose();
             Functions["filter"] = new FilterFunction();
             Functions["sort"] = new SortFunction();
+            Functions["unique"] = new Unique();
             Functions["anchorarray"] = new AnchorArray();
             // Date
             Functions["date"] = new Date();

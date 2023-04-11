@@ -54,8 +54,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Plus, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(2d, range.GetValue(0, 0));
             Assert.AreEqual(5d, range.GetValue(0, 1));
@@ -92,8 +92,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Plus, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(2d, range.GetValue(0, 0));
             Assert.AreEqual(4d, range.GetValue(0, 1));
@@ -126,8 +126,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Plus, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(2d, range.GetValue(0, 0));
             Assert.AreEqual(3d, range.GetValue(1, 0));
@@ -155,8 +155,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Plus, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(2d, range.GetValue(0, 0));
             Assert.AreEqual(2d, range.GetValue(1, 0));
@@ -183,8 +183,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Plus, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(2d, range.GetValue(0, 0));
             Assert.AreEqual(2d, range.GetValue(1, 0));
@@ -209,8 +209,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(1, DataType.Integer);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Plus, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(2d, range.GetValue(0, 0));
             Assert.AreEqual(2d, range.GetValue(1, 0));
@@ -235,8 +235,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(1, DataType.Integer);
 
             var result = RangeOperationsOperator.Apply(c2, c1, Operators.Plus, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(2d, range.GetValue(0, 0));
             Assert.AreEqual(2d, range.GetValue(1, 0));
@@ -263,8 +263,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c2, c1, Operators.Equals, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(true, range.GetValue(0, 0));
             Assert.AreEqual(false, range.GetValue(0, 1));
@@ -287,8 +287,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c2, c1, Operators.Equals, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(true, range.GetValue(0, 0));
             Assert.AreEqual(false, range.GetValue(0, 1));
@@ -311,8 +311,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c2, c1, Operators.NotEqualTo, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(false, range.GetValue(0, 0));
             Assert.AreEqual(true, range.GetValue(0, 1));
@@ -335,8 +335,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c2, c1, Operators.NotEqualTo, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(false, range.GetValue(0, 0));
             Assert.AreEqual(true, range.GetValue(0, 1));
@@ -363,8 +363,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.LessThanOrEqual, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(true, range.GetValue(0, 0), "'Abc' was not less than or equal to 'abc'");
             Assert.AreEqual(true, range.GetValue(0, 1), "'b' was not less than or equal to 'C'");
@@ -392,8 +392,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.LessThanOrEqual, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(true, range.GetValue(0, 0), "'1.1' was not less than or equal to '1.1'");
             Assert.AreEqual(true, range.GetValue(0, 1), "'1' was not less than or equal to '2'");
@@ -421,8 +421,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.GreaterThanOrEqual, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(true, range.GetValue(0, 0), "'Abc' was not less than or equal to 'abc'");
             Assert.AreEqual(false, range.GetValue(0, 1), "'b' was not less than or equal to 'C'");
@@ -450,8 +450,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
             var c2 = new CompileResult(r2, DataType.ExcelRange);
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.GreaterThanOrEqual, _context);
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(true, range.GetValue(0, 0), "'1.1' was not greater than or equal to '1.1'");
             Assert.AreEqual(false, range.GetValue(0, 1), "'1' was not greater than or equal to '2'");
@@ -475,8 +475,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Concat, _context);
 
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual("13", range.GetValue(0, 0));
             Assert.AreEqual("24", range.GetValue(1, 0));
@@ -499,8 +499,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Concat, _context);
 
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual("ac", range.GetValue(0, 0));
             Assert.AreEqual("bd", range.GetValue(1, 0));
@@ -523,8 +523,8 @@ namespace EPPlusTest.FormulaParsing.Excel.OperatorsTests
 
             var result = RangeOperationsOperator.Apply(c1, c2, Operators.Exponentiation, _context);
 
-            Assert.IsInstanceOfType(result.ResultValue, typeof(InMemoryRange));
-            var range = result.ResultValue as InMemoryRange;
+            Assert.IsInstanceOfType(result.Result, typeof(InMemoryRange));
+            var range = result.Result as InMemoryRange;
             Assert.IsNotNull(range);
             Assert.AreEqual(1000d, range.GetValue(0, 0));
             Assert.AreEqual(32d, range.GetValue(1, 0));

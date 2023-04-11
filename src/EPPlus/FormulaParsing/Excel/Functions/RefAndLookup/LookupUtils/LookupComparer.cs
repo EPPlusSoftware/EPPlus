@@ -27,15 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         }
 
         private readonly LookupMatchMode _matchMode;
+        private readonly int _sortOrder;
         private readonly ValueMatcher _vm = new WildCardValueMatcher();
 
-        public virtual int Compare(object x, object y)
+        public virtual int Compare(object x, object y, int sortOrder)
         {
             int v = 0;
-            if(x == null && y == null)
-            {
-                return 1;
-            }
             if (_matchMode == LookupMatchMode.Wildcard || _matchMode == LookupMatchMode.ExactMatchWithWildcard)
             {
                 v = _vm.IsMatch(x, y);
@@ -44,7 +41,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             {
                 v = CompareObjects(x, y);
             }
-            return v;
+            return v * (sortOrder > -1 ? 1 : -1);
+        }
+
+        public virtual int Compare(object x, object y)
+        {
+            return Compare(x, y, 1);
         }
 
         internal static int CompareObjects(object x1, object y1)
