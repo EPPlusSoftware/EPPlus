@@ -281,6 +281,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["transpose"] = new Transpose();
             Functions["filter"] = new FilterFunction();
             Functions["sort"] = new SortFunction();
+            Functions["sortby"] = new SortBy();
             Functions["unique"] = new Unique();
             // Date
             Functions["date"] = new Date();

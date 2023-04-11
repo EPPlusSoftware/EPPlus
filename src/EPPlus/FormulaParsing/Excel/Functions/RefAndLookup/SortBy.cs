@@ -11,6 +11,7 @@
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -31,10 +32,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             ValidateArguments(arguments, 2);
             var range = ArgToRangeInfo(arguments, 0);
             var nArgs = arguments.Count();
+            var nRows = range.Size.NumberOfRows;
+            var nCols = range.Size.NumberOfCols;
+            var byRanges = new List<IRangeInfo>();
+            var sortOrders = new List<short>();
+            var direction = LookupDirection.Vertical;
             for(var x = 1; x < nArgs; x+=2)
             {
                 var byRange = ArgToRangeInfo(arguments, x);
-                if (byRange.Size.NumberOfCols != range.Size.NumberOfCols && byRange.Size.NumberOfRows != range.Size.NumberOfRows)
+                if(x == 1)
+                {
+                    if(byRange.Size.NumberOfCols > byRange.Size.NumberOfRows)
+                    {
+                        direction = LookupDirection.Horizontal;
+                    }
+                }
+                else if(
+                    (direction == LookupDirection.Horizontal && byRange.Size.NumberOfRows > byRange.Size.NumberOfCols) 
+                    ||
+                    (direction == LookupDirection.Vertical && byRange.Size.NumberOfCols > byRange.Size.NumberOfRows))
+                {
+                    // two "by-ranges" goes in different direction (i.e. vertical/horizontal) which is not allowed.
+                    return CreateResult(eErrorType.Value);
+                }
+                if (byRange.Size.NumberOfCols != nCols && byRange.Size.NumberOfRows != nRows)
                 {
                     return CreateResult(eErrorType.Value);
                 }
@@ -42,15 +63,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     return CreateResult(eErrorType.Value);
                 }
+                byRanges.Add(byRange);
                 var sortOrder = 1;
-                if(x +1 < nArgs)
+                if(x + 1 < nArgs)
                 {
                     sortOrder = ArgToInt(arguments, x + 1);
-
+                    if(sortOrder != 1 && sortOrder != -1)
+                    {
+                        return CreateResult(eErrorType.Value);
+                    }
                 }
+                sortOrders.Add((short)sortOrder);
             }
-
-            throw new NotImplementedException();
+            var sortByImpl = new SortByImpl(range, byRanges, sortOrders, direction);
+            var sortedRange = sortByImpl.Sort();
+            return CreateResult(sortedRange, DataType.ExcelRange);
         }
     }
 }
