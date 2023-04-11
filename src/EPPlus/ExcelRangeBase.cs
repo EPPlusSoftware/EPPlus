@@ -44,6 +44,7 @@ using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 
 namespace OfficeOpenXml
 {
@@ -61,6 +62,8 @@ namespace OfficeOpenXml
         private delegate void _setValue(ExcelRangeBase range, object value, int row, int col);
         private _changeProp _changePropMethod;
         private int _styleID;
+        private static OptimizedSourceCodeTokenizer _tokenizer=new OptimizedSourceCodeTokenizer(null, null, false, true);
+        private FunctionRepository _functions;
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
         {
@@ -68,6 +71,7 @@ namespace OfficeOpenXml
             _ws = _worksheet.Name;
             _workbook = _worksheet.Workbook;
             SetDelegate();
+            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;            
         }
 
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet, string address) :
@@ -78,6 +82,7 @@ namespace OfficeOpenXml
             base.SetRCFromTable(_worksheet._package, null);
             if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
             SetDelegate();
+            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
         }
         internal ExcelRangeBase(ExcelWorkbook wb, ExcelWorksheet xlWorksheet, string address, bool isName) :
             base(xlWorksheet == null ? "" : xlWorksheet.Name, address, isName)
@@ -87,11 +92,12 @@ namespace OfficeOpenXml
             _workbook = wb;
             if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
             SetDelegate();
+            _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
         }
         #endregion
         private void Init(ExcelWorksheet xlWorksheet)
         {
-            _worksheet = xlWorksheet;            
+            _worksheet = xlWorksheet;
         }
 
         /// <summary>
@@ -917,6 +923,11 @@ namespace OfficeOpenXml
                     ClearTableFormulas();
                 }
             }
+        }
+
+        private string AddNamespaceToFormula(IList<Token> tokens)
+        {
+            throw new NotImplementedException();
         }
 
         private void Set_Formula_Range(ExcelRangeBase range, string formula)

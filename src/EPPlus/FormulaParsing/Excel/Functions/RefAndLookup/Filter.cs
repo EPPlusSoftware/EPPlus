@@ -156,11 +156,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return new CompileResult(new InMemoryRange(filteredData), DataType.ExcelRange);
         }
 
-        public override bool ReturnsReference => false;
-        public override bool HasNormalArguments => false;
-        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        public override string NamespacePrefix
         {
-            return FunctionParameterInformation.Normal;
+            get
+            {
+                return "_xlfn._xlws.";
+            }
         }
     }
 }

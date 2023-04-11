@@ -42,6 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             var repo = new FunctionRepository();
             repo.LoadModule(new BuiltInFunctions());
+            repo._namespaceFunctions = null;
             return repo;
         }
 
@@ -60,6 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 CustomCompilers[key] = module.CustomCompilers[key];
             }
+            _namespaceFunctions = null;
         }
 
         public virtual ExcelFunction GetFunction(string name)
@@ -79,6 +81,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         public virtual void Clear()
         {
             _functions.Clear();
+            _namespaceFunctions = null;
         }
 
         /// <summary>
@@ -114,6 +117,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 _functions.Remove(fName);
             }
             _functions[fName] = functionImpl;
+        }
+        internal Dictionary<string, string> _namespaceFunctions = null;
+        /// <summary>
+        /// Contains all functions that needs a namespace prefix in Excel.
+        /// For example: The Filter function must have the prefix "_xlfn._xlws."
+        /// </summary>
+        public Dictionary<string, string> NamespaceFunctions
+        {
+            get
+            {
+                if (_namespaceFunctions == null)
+                {
+                    _namespaceFunctions = new Dictionary<string, string>();
+                    foreach (var f in _functions)
+                    {
+                        if (string.IsNullOrEmpty(f.Value.NamespacePrefix) == false)
+                        {
+                            _namespaceFunctions.Add(f.Key, f.Value.NamespacePrefix);
+                        }
+                    }
+                }
+                return _namespaceFunctions;
+            }
         }
     }
 }

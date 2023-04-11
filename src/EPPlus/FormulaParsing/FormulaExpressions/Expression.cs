@@ -40,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     }
     public abstract class Expression
     {
-        protected CompileResult _cachedCompileResult;
+        internal CompileResult _cachedCompileResult;
         internal Operators Operator;
         internal static EmptyExpression Empty=new EmptyExpression();
 
@@ -57,8 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public virtual void Negate()
         {
 
-        }
-
+        }         
         internal virtual Expression CloneWithOffset(int row, int col)
         {
             return this;
@@ -66,7 +65,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal abstract ExpressionStatus Status { get; set; }
         public virtual FormulaRangeAddress GetAddress() { return null; }
-
         internal virtual void MergeAddress(string address)
         {
 

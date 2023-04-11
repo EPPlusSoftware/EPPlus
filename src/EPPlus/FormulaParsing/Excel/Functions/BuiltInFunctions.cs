@@ -283,6 +283,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["sort"] = new SortFunction();
             Functions["sortby"] = new SortBy();
             Functions["unique"] = new Unique();
+            Functions["anchorarray"] = new AnchorArray();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

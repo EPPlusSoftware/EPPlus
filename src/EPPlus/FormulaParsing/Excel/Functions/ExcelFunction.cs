@@ -65,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         public ExcelFunction(
-            ArgumentCollectionUtil argumentCollectionUtil, 
+            ArgumentCollectionUtil argumentCollectionUtil,
             ArgumentParsers argumentParsers,
             CompileResultValidators compileResultValidators)
         {
@@ -93,12 +93,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="context"></param>
         public virtual void BeforeInvoke(ParsingContext context) { }
 
-        public virtual bool IsLookupFuction 
-        { 
-            get 
-            { 
-                return false; 
-            } 
+        public virtual bool IsLookupFuction
+        {
+            get
+            {
+                return false;
+            }
         }
 
         public virtual bool IsErrorHandlingFunction
@@ -133,7 +133,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected object GetFirstValue(IEnumerable<FunctionArgument> val)
         {
             var arg = ((IEnumerable<FunctionArgument>)val).FirstOrDefault();
-            if(arg.Value is IRangeInfo)
+            if (arg.Value is IRangeInfo)
             {
                 //var r=((ExcelDataProvider.IRangeInfo)arg);
                 var r = arg.ValueAsRangeInfo;
@@ -141,7 +141,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
             else
             {
-                return arg==null?null:arg.Value;
+                return arg == null ? null : arg.Value;
             }
         }
         /// <summary>
@@ -222,7 +222,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         //protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index, ParsingContext context)
         //{
         //    var arg = arguments.ElementAt(index);
-            
+
         //    if(arg.Address !=null)
         //    {
         //        return arg.Address.WorksheetAddress;
@@ -264,11 +264,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected int ArgToInt(IEnumerable<FunctionArgument> arguments, int index, bool ignoreErrors)
         {
             var arg = arguments.ElementAt(index);
-            if(arg.ValueIsExcelError && !ignoreErrors)
+            if (arg.ValueIsExcelError && !ignoreErrors)
             {
                 throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue.Type);
             }
-            else if(arg.DataType==DataType.Empty)
+            else if (arg.DataType == DataType.Empty)
             {
                 return 0;
             }
@@ -348,7 +348,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy= PrecisionAndRoundingStrategy.DotNet)
+        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet)
         {
             var arg = arguments.ElementAt(index);
             switch (arg.DataType)
@@ -359,7 +359,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     return 0D;
                 default:
                     return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
-            }            
+            }
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 return ExcelErrorValue.Create(eErrorType.Div0);
             }
-            return left/right;
+            return left / right;
         }
 
         protected bool IsNumericString(object value)
@@ -468,7 +468,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected bool IsNumeric(object val)
         {
             if (val == null) return false;
-            return (TypeCompat.IsPrimitive(val) || val is double || val is decimal  || val is System.DateTime || val is TimeSpan);
+            return (TypeCompat.IsPrimitive(val) || val is double || val is decimal || val is System.DateTime || val is TimeSpan);
         }
 
         protected bool IsBool(object val)
@@ -634,7 +634,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             var validator = _compileResultValidators.GetValidator(dataType);
             validator.Validate(result);
-            return new AddressCompileResult(result, dataType, result.IsInMemoryRange ? null :  result.Address);
+            return new AddressCompileResult(result, dataType, result.IsInMemoryRange ? null : result.Address);
         }
         protected CompileResult CreateResult(eErrorType errorType)
         {
@@ -650,7 +650,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="result"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        protected virtual double CalculateCollection(IEnumerable<FunctionArgument> collection, double result, Func<FunctionArgument,double,double> action)
+        protected virtual double CalculateCollection(IEnumerable<FunctionArgument> collection, double result, Func<FunctionArgument, double, double> action)
         {
             return _argumentCollectionUtil.CalculateCollection(collection, result, action);
         }
@@ -738,5 +738,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         {
             return FunctionParameterInformation.Normal;
         }
+        public virtual string NamespacePrefix
+        {
+            get
+            {
+                return "";
+            }
+        }
+
     }
 }

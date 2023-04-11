@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System;
 using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing
@@ -54,6 +55,14 @@ namespace OfficeOpenXml.FormulaParsing
             else
             {
                 return _ws.Name + "!" + ExcelCellBase.GetAddress(_row, _column);
+            }
+        }
+
+        internal void ClearCache()
+        {
+            foreach(var e in _expressions.Values)
+            {
+                e._cachedCompileResult = null;
             }
         }
     }

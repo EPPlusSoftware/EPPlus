@@ -233,6 +233,7 @@ namespace OfficeOpenXml
         /// Maximum number of rows in a worksheet (1048576). 
         /// </summary>
         public const int MaxRows = 1048576;
+
         internal readonly List<Action> BeforeSave=new List<Action>();
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
         internal static ExcelPackageConfiguration GlobalConfiguration => _configuration;

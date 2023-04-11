@@ -74,9 +74,6 @@ namespace OfficeOpenXml.FormulaParsing
             Configure(configuration =>
             {
                 configuration
-                    //.SetLexer(new Lexer(_parsingContext.Configuration.FunctionRepository, _parsingContext.NameValueProvider))
-                    //.SetGraphBuilder(new ExpressionGraphBuilder(excelDataProvider, _parsingContext))
-                    //.SetExpresionCompiler(new ExpressionCompiler(parsingContext))
                     .FunctionRepository.LoadModule(new BuiltInFunctions());
             });
             Tokenizer = new OptimizedSourceCodeTokenizer(parsingContext.Configuration.FunctionRepository, parsingContext.NameValueProvider);

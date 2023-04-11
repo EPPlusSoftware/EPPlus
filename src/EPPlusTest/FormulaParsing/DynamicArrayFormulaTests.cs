@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Exceptions;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,20 +31,32 @@ namespace EPPlusTest.FormulaParsing
         {
             SaveAndCleanup(_package);
         }
-
         [TestMethod]
         public void DynamicArrayFormulaSimpleRange()
         {
             _ws.Cells["F1"].Formula = "F10";
-            _ws.Cells["F2"].Formula = "DateDif(A2:A11,A12:A17,\"d\")";
+            _ws.Cells["F2"].Formula = "DateDif(A2:A11,A12:A21,\"d\")";  //Spill down
+            _ws.Cells["E1"].Formula = "SUM(F1:F11)";
             _ws.Calculate();
 
             Assert.AreEqual(10D, _ws.GetValue(2, 6));
-            //Assert.AreEqual(_ws.GetValue(2, 1), _ws.GetValue(3, 6));
-            //Assert.AreEqual(_ws.GetValue(9, 1), _ws.GetValue(10, 6));
-
-            //Assert.AreEqual(((DateTime)_ws.GetValue(10, 6)).ToOADate(), _ws.GetValue(1, 6));    //A1 is converted to AO-date. Correct?
+            Assert.AreEqual(10D, _ws.GetValue(1, 6));
+            Assert.AreEqual(110D, _ws.GetValue(1, 5));
         }
+        [TestMethod]
+        public void DynamicArrayFormulaReferencedBySharedFormula()
+        {
+            var ws = _package.Workbook.Worksheets.Add("SharedFormulaRef");
+            ws.Cells["F1:N1"].Formula = "F2";
+            ws.Cells["F2"].Formula = "Transpose(Data!A2:A10)"; //Spill Right
+            ws.Calculate();
+
+            Assert.AreEqual(_ws.GetValue(2, 1), ws.GetValue(2, 6));
+            Assert.AreEqual(_ws.GetValue(5, 1), ws.GetValue(2, 9));
+            Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 9)), ConvertUtil.GetValueDouble(ws.GetValue(2, 9)));
+            Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 14)), ConvertUtil.GetValueDouble(ws.GetValue(2, 14)));
+        }
+
         [TestMethod]
         public void ArrayFormulaFilterFunction()
         {
@@ -57,9 +70,10 @@ namespace EPPlusTest.FormulaParsing
             _ws.Cells["F19:I59"].Style.Font.Size = 12;
             _ws.Cells["F20"].Formula = "_xlfn._xlws.Filter(A2:D100,D2:D100 > F17)";
             _ws.Cells["F19:I59"].AutoFitColumns();
+            _ws.Cells["F100"].Formula = "_xlfn.AnchorArray(F20)";
             _ws.Calculate();
 
-             //Assert.AreEqual(10D, _ws.GetValue(2, 6));
+            //Assert.AreEqual(10D, _ws.GetValue(2, 6));
             //Assert.AreEqual(_ws.GetValue(2, 1), _ws.GetValue(3, 6));
             //Assert.AreEqual(_ws.GetValue(9, 1), _ws.GetValue(10, 6));
 
