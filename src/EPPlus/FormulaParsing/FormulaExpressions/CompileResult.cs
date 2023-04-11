@@ -144,7 +144,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 if(DataType==DataType.ExcelRange)
                 {
                     var r = Result as IRangeInfo;
-                    if (r == null || r.Address == null)
+                    if (r == null || r.IsMulti)
                     {
                         return Result;
                     }

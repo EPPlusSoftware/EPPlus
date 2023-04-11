@@ -8,6 +8,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -74,7 +75,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     internal class SharedFormula : Formula
     {        
         internal int EndRow, EndCol;
-        int _rowOffset = 0, _colOffset = 0;
         public SharedFormula() : base()
         {
         }
@@ -187,7 +187,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             foreach(var expression in _compiledExpressions)
             {
                 if(expression.Value.ExpressionType == ExpressionType.CellAddress ||
-                   expression.Value.ExpressionType == ExpressionType.ExcelRange ||
                    expression.Value.ExpressionType == ExpressionType.TableAddress)
                 {
                     l.Add(expression.Key, expression.Value.CloneWithOffset(row - StartRow, col - StartCol));
@@ -307,6 +306,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 Tokens = _tokenizer.Tokenize(Formula, worksheet);
             }
         }
+
         //internal Dictionary<ulong, ExpressionTree> _expressionTrees=new Dictionary<ulong, ExpressionTree>();
         //internal override ExpressionTree GetExpressionTree(int row, int col)
         //{
@@ -564,6 +564,17 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         public int WorksheetIx = int.MinValue;
     }
+    internal struct SimpleAddress
+    {
+        internal SimpleAddress(int fromRow, int fromCol, int toRow, int toCol)
+        {
+            FromRow = fromRow;
+            FromCol = fromCol;
+            ToRow = toRow;
+            ToCol = toCol;
+        }
+        internal int FromRow, FromCol, ToRow,ToCol;
+    }
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
         public ParsingContext _context;
@@ -629,6 +640,24 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             var util = new ExcelAddressCollideUtility(this, _context);
             return util.Collide(other, _context);
         }
+        internal bool DoCollide(List<SimpleAddress> addresses)
+        {            
+            foreach(var a in addresses)
+            {
+                if(DoCollide(a.FromRow, a.FromCol, a.ToRow, a.ToCol))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        internal bool DoCollide(int fromRow, int fromCol, int toRow, int toCol)
+        {
+            return fromRow <= ToRow && fromCol <= ToCol
+                   &&
+                   FromRow <= toRow && FromCol <= toCol;
+        }
+
 
         /// <summary>
         /// ToString() returns the full address as a string
