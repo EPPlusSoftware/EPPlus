@@ -112,5 +112,50 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             Assert.AreEqual("Steve", _sheet.Cells["B6"].Value);
             Assert.AreEqual("Bob", _sheet.Cells["C6"].Value);
         }
+
+        [TestMethod]
+        public void SortByColAscending_NullValues_1()
+        {
+            _sheet.Cells["A1"].Value = "Bob";
+            _sheet.Cells["B1"].Value = "Street 1";
+            _sheet.Cells["A2"].Value = "Steve";
+            _sheet.Cells["B2"].Value = "Street 2";
+            _sheet.Cells["A3"].Value = "Phil";
+            _sheet.Cells["B3"].Value = "Street 3";
+            _sheet.Cells["C1"].Value = 25;
+            _sheet.Cells["C2"].Value = null;
+            _sheet.Cells["C3"].Value = 23;
+            _sheet.Cells["A4"].Formula = "SORTBY(A1:C3,C1:C3,-1)";
+            _sheet.Calculate();
+            Assert.AreEqual("Bob", _sheet.Cells["A4"].Value);
+            Assert.AreEqual("Street 1", _sheet.Cells["B4"].Value);
+            Assert.AreEqual("Phil", _sheet.Cells["A5"].Value);
+            Assert.AreEqual("Steve", _sheet.Cells["A6"].Value);
+            
+        }
+
+        [TestMethod]
+        public void SortByColAscending_NullValues_2()
+        {
+            _sheet.Cells["A1"].Value = "Bob";
+            _sheet.Cells["B1"].Value = "Street 1";
+            _sheet.Cells["A2"].Value = "Steve";
+            _sheet.Cells["B2"].Value = "Street 2";
+            _sheet.Cells["A3"].Value = "Phil";
+            _sheet.Cells["B3"].Value = "Street 3";
+            _sheet.Cells["C1"].Value = null;
+            _sheet.Cells["C2"].Value = null;
+            _sheet.Cells["C3"].Value = 23;
+            _sheet.Cells["D1"].Value = 1;
+            _sheet.Cells["D2"].Value = 1;
+            _sheet.Cells["D3"].Value = null;
+            _sheet.Cells["A4"].Formula = "SORTBY(A1:C3,C1:C3,-1,D1:D3,1)";
+            _sheet.Calculate();
+            Assert.AreEqual("Phil", _sheet.Cells["A4"].Value);
+            Assert.AreEqual("Street 3", _sheet.Cells["B4"].Value);
+            Assert.AreEqual("Steve", _sheet.Cells["A5"].Value);
+            Assert.AreEqual("Bob", _sheet.Cells["A6"].Value);
+
+        }
     }
 }

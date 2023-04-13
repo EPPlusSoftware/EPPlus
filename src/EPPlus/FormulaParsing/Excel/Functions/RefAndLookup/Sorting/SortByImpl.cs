@@ -37,6 +37,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             {
                 get; private set;
             }
+
+            public bool CompareValueWasNull
+            {
+                get; set;
+            }
         }
         public SortByImpl(IRangeInfo sourceRange, List<IRangeInfo> byRanges, List<short> sortOrders, LookupDirection direction)
         {
@@ -50,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
         private readonly List<IRangeInfo> _byRanges;
         private readonly List<short> _sortOrders;
         private readonly LookupDirection _direction;
-        private readonly LookupComparer _comparer = new LookupComparer(LookupMatchMode.ExactMatch);
+        private readonly LookupComparerBase _comparer = new SortByComparer();
 
         public IRangeInfo Sort()
         {
@@ -103,7 +108,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
                 while((a.CompareData != null && b.CompareData != null) && compareDataIx < a.CompareData.Count - 1  && compareDataIx < b.CompareData.Count -1 )
                 {
                     compareDataIx++;
-                    var cr = _comparer.Compare(a.CompareData[compareDataIx], b.CompareData[compareDataIx], _sortOrders[compareDataIx]);
+                    var asi = a.CompareData[compareDataIx];
+                    var bsi = b.CompareData[compareDataIx];
+                    var cr = _comparer.Compare(asi, bsi, _sortOrders[compareDataIx]);
                     if(cr != 0)
                     {
                         return cr;

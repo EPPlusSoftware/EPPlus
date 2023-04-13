@@ -10,26 +10,37 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
+namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
 {
-    internal class LookupComparer : LookupComparerBase
+    internal class SortByComparer : LookupComparerBase
     {
-        public LookupComparer(LookupMatchMode matchMode)
-            : base(matchMode)
+        public SortByComparer() : base(LookupMatchMode.ExactMatch)
         {
         }
-        
 
         public override int Compare(object x, object y)
         {
             return Compare(x, y, 1);
+        }
+
+        public override int Compare(object x, object y, int sortOrder)
+        {
+            // null values should always be sorted last
+            if(x == null && y != null)
+            {
+                return 1;
+            }
+            else if(x != null && y == null)
+            {
+                return -1;
+            }
+            return CompareObjects(x, y) * sortOrder;
         }
     }
 }
