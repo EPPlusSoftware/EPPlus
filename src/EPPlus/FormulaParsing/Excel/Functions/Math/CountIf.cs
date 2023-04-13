@@ -29,6 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         Description = "Returns the number of cells (of a supplied range), that satisfy a given criteria")]
     internal class CountIf : ExcelFunction
     {
+        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        {
+            return new ArrayBehaviourConfig { ArrayParameterIndexes = new List<int> { 1 } };
+        }
         private ExpressionEvaluator _expressionEvaluator;
         private bool Evaluate(object obj, string expression)
         {

@@ -86,6 +86,19 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(5d, _worksheet.Cells["A4"].Value);
         }
+        [TestMethod]
+        public void Index_Should_Handle_SingleRange_Columnwise()
+        {
+            _worksheet.Cells["A1"].Value = 1d;
+            _worksheet.Cells["B1"].Value = 3d;
+            _worksheet.Cells["C1"].Value = 5d;
+
+            _worksheet.Cells["A2"].Formula = "INDEX(A1:V1,3)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(5d, _worksheet.Cells["A2"].Value);
+        }
 
         [TestMethod]
         public void Index_SameColumn()

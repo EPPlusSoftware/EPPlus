@@ -195,6 +195,13 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public ExcelWorksheet Worksheet
         {
             get { return null; }
+        }        
+        public FormulaRangeAddress Dimension
+        {
+            get
+            {
+                return _address;
+            }
         }
         /// <summary>
         /// Called when the object is disposed.

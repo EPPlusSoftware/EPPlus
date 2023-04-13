@@ -14,7 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Utils;
@@ -36,6 +38,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (arg1.IsExcelRange)
             {
                 var ri = arg1.ValueAsRangeInfo;
+                if(ri.Size.NumberOfRows==1 && arguments.Count() < 3)
+                {
+                    var t = row;
+                    row = col;
+                    col = t;
+                }
                 if(row==0 || col==0)
                 {
                     var range = GetResultRange(row, col, ri);

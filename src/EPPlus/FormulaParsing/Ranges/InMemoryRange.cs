@@ -93,7 +93,13 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public FormulaRangeAddress Address => _address;
 
         public ExcelWorksheet Worksheet => _ws;
-
+        public FormulaRangeAddress Dimension
+        {
+            get
+            {        
+                return _address;
+            }
+        }
         public ICellInfo Current
         {
             get

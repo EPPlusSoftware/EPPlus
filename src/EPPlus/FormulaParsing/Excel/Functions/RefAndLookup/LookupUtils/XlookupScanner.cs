@@ -71,16 +71,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         private int FindIndexInternal()
         {
             var direction = GetLookupDirection();
-            int dimensionRows, maxItems;
+            int  maxItems;
             if (direction == LookupRangeDirection.Vertical)
             {
-                dimensionRows = _lookupRange.Worksheet.Dimension.Rows;
-                maxItems = _lookupRange.Size.NumberOfRows > dimensionRows ? dimensionRows : _lookupRange.Size.NumberOfRows;
+                maxItems = GetMaxItemsRow(_lookupRange);
             }
             else
             {
-                dimensionRows = _lookupRange.Worksheet.Dimension.Columns;
-                maxItems = _lookupRange.Size.NumberOfCols > dimensionRows ? dimensionRows : _lookupRange.Size.NumberOfCols;
+                //dimensionItems = _lookupRange.Dimension.ToCol - _lookupRange.Dimension.FromCol + 1;
+                //maxItems = _lookupRange.Size.NumberOfCols > dimensionItems ? dimensionItems : _lookupRange.Size.NumberOfCols;
+                maxItems = GetMaxItemsColumns(_lookupRange);
             }
             int closestBelowIx = -1;
             int closestAboveIx = -1;
@@ -136,6 +136,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                 return closestBelowIx;
             }
             return -1;
+        }
+
+        private int GetMaxItemsRow(IRangeInfo lookupRange)
+        {
+            if (lookupRange.Address.ToRow > lookupRange.Dimension.ToRow)
+            {
+                return lookupRange.Dimension.ToRow - lookupRange.Address.FromRow;
+            }            
+            return _lookupRange.Size.NumberOfRows;
+        }
+        private int GetMaxItemsColumns(IRangeInfo lookupRange)
+        {
+            if (lookupRange.Address.ToCol > lookupRange.Dimension.ToCol)
+            {
+                return lookupRange.Dimension.ToCol - lookupRange.Address.FromCol;
+            }
+            return _lookupRange.Size.NumberOfCols;
         }
 
         private int FindHorizontal()

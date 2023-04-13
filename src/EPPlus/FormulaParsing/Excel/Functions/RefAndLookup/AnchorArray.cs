@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             ValidateArguments(arguments, 1);
             var address = arguments.First().Address;
-            if(address != null && address.WorksheetIx >= 0 && address.IsSingleCell)
+            if(address != null && address.WorksheetIx >= 0 && address.IsSingleCell && address.ExternalReferenceIx < 0)  //Not supported in external files yet
             {
                 if (address.WorksheetIx>=0)
                 {

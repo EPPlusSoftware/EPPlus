@@ -97,7 +97,13 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal bool Next()
         {
-            return _cellStore.GetNextCell(ref row, ref colPos, minColPos, maxRow, maxColPos);
+            var ret = _cellStore.GetNextCell(ref row, ref colPos, minColPos, maxRow, maxColPos);
+            if(ret==false)
+            {
+                row = _endRow;
+                colPos = maxColPos;
+            }
+            return ret;
         }
         internal bool Previous()
         {

@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     return CreateResult(0d, DataType.Integer);
                 }
             }
-            var length = arguments.First().ValueFirst.ToString().Length;
+            var length = (arg.ValueFirst??"").ToString().Length;
             return CreateResult(Convert.ToDouble(length), DataType.Integer);
         }
     }

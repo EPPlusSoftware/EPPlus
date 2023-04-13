@@ -335,5 +335,27 @@ namespace EPPlusTest.Core
             Assert.AreEqual(14, r2.ToRow);
             Assert.AreEqual(6, r2.ToCol);
         }
+        [TestMethod]
+        public void VerifySameRange()
+        {
+            var rd = new RangeHashset();
+            var r1 = new FormulaRangeAddress() { FromRow = 133, ToRow = 193, FromCol = 4, ToCol = 5 };
+            var b1 = rd.Merge(ref r1);
+            var r2 = new FormulaRangeAddress() { FromRow = 133, ToRow = 193, FromCol = 4, ToCol = 5 };
+            var b2 = rd.Merge(ref r2);
+
+
+            Assert.AreEqual(5, GetFromRow(rd._addresses[5][0]));
+            Assert.AreEqual(14, GetToRow(rd._addresses[5][0]));
+            Assert.IsTrue(b1);
+            Assert.IsTrue(b2);
+
+            //Spill range A5:B12
+            Assert.AreEqual(9, r2.FromRow);
+            Assert.AreEqual(5, r2.FromCol);
+            Assert.AreEqual(14, r2.ToRow);
+            Assert.AreEqual(6, r2.ToCol);
+        }
+
     }
 }

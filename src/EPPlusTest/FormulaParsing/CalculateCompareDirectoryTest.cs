@@ -34,13 +34,10 @@ namespace EPPlusTest.FormulaParsing
         {
             
         }
-
         [TestCleanup]
         public void Cleanup()
         {
         }
-
-
         [TestMethod]
         public void VerifyCalculationInCalculateTestDirectory()
         {
@@ -84,7 +81,7 @@ namespace EPPlusTest.FormulaParsing
                 }
                 foreach (var name in p.Workbook.Names)
                 {
-                    var id = ExcelCellBase.GetCellId(-1, name.Index, 0);
+                    var id = ExcelCellBase.GetCellId(ushort.MaxValue, name.Index, 0);
                     values.Add(id, name.Value);
                 }
                 UpdateData(p);
@@ -108,7 +105,7 @@ namespace EPPlusTest.FormulaParsing
                     ExcelCellBase.SplitCellId(value.Key, out int wsIndex, out int row, out int col);
                     object v;
                     ExcelWorksheet ws;
-                    if (wsIndex < 0)
+                    if (wsIndex == ushort.MaxValue || wsIndex==-1)
                     {
                         ws = null;
                         v = p.Workbook.Names[row].Value;
@@ -118,14 +115,14 @@ namespace EPPlusTest.FormulaParsing
                         ws = p.Workbook.Worksheets[wsIndex];
                         if (col == 0)
                         {
-                            v = p.Workbook.Names[row].Value;
+                            v = ws.Names[row].Value;
                         }
                         else
                         { 
                             v = ws.GetValue(row, col);
                         }
                     }
-
+                    
                     if ((v==null && value.Value!=null) || !(v!=null && v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
                     {
                         //Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");

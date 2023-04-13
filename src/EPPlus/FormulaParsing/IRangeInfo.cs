@@ -85,13 +85,16 @@ namespace OfficeOpenXml.FormulaParsing
         /// The worksheet 
         /// </summary>
         ExcelWorksheet Worksheet { get; }
+        /// <summary>
+        /// The worksheet dimension if the range referres to an worksheet address, otherwise the size of the array.
+        /// </summary>
+        FormulaRangeAddress Dimension { get; }
     }
     public interface IAddressInfo
     {
         /// <summary>
         /// The address.
         /// </summary>
-        //ExcelAddressBase Address { get; }
         FormulaRangeAddress Address { get; }
     }
 }

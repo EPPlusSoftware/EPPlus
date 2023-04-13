@@ -200,7 +200,25 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get { return _ws; }
         }
-
+        FormulaRangeAddress _dimension = null;
+        public FormulaRangeAddress Dimension
+        {
+            get
+            {
+                if(_dimension == null)
+                {
+                    var d = _ws.Dimension;
+                    _dimension =new FormulaRangeAddress() 
+                    { 
+                        FromRow=d._fromRow,
+                        FromCol=d._fromCol,
+                        ToRow=d._toRow,
+                        ToCol=d._toCol                        
+                    };
+                }
+                return _dimension; 
+            }
+        }
         /// <summary>
         /// Runs at dispose of this instance
         /// </summary>

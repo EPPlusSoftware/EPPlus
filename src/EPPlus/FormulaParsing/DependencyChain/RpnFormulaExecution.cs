@@ -489,12 +489,12 @@ namespace OfficeOpenXml.FormulaParsing
             NextFormula:
                 var fe = f._formulaEnumerator;
                 var row = fe.Row;
-                var col = fe.Column < fe._startCol ? fe._startCol : fe.Column;
-                if (fe != null && fe.Next())
+                var col = fe.Column;
+                if (fe.Next())
                 {
                     if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws.IndexInList, fe.Row, fe.Column))) goto NextFormula;
                     depChain._formulaStack.Push(f);
-                    MergeToRd(rd, row, col, fe);
+                    MergeToRd(rd, row, col, fe, false);
                     if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
                     {
                         goto ExecuteFormula;
@@ -504,7 +504,8 @@ namespace OfficeOpenXml.FormulaParsing
                         goto NextFormula;
                     }
                 }
-                MergeToRd(rd, row, col, fe);
+
+                MergeToRd(rd, row, col, fe, true);
                 f._tokenIndex++;
                 goto ExecuteFormula;
             }
@@ -597,14 +598,18 @@ namespace OfficeOpenXml.FormulaParsing
             var e=f._expressionStack.Pop();            
             SetValueToWorkbook(depChain, f, rd, e.Compile());
         }
-        private static void MergeToRd(RangeHashset rd, int fromRow, int fromCol, CellStoreEnumerator<object> fe)
+        private static void MergeToRd(RangeHashset rd, int fromRow, int fromCol, CellStoreEnumerator<object> fe, bool atEnd)
         {
-            var startRow = fe._startRow;
-            var startCol = fe._startCol;
+            var startCol = fe._startCol;           
             var endRow = fe._endRow;
             var endCol = fe._endCol;
+            if (++fromCol > fe._endCol)
+            {
+                fromCol = startCol;
+                fromRow++;
+            }
             int toRow, toCol;
-            if (fe.Column < 0 || endRow < fe.Row || endCol < fe.Column)
+            if (atEnd || fe.Column < 0 || endRow < fe.Row || endCol < fe.Column) 
             {
                 toRow = endRow;
                 toCol = endCol;
@@ -615,26 +620,43 @@ namespace OfficeOpenXml.FormulaParsing
                 toCol = fe.Column;
             }
 
-
-            if(fromCol!=toCol)
+            FormulaRangeAddress fa;
+            if(fe._startRow == endRow || startCol==endCol)
             {
-                var fa = new FormulaRangeAddress() { FromRow = fromRow, FromCol = fromCol, ToRow = fromRow, ToCol = endCol };
-                rd.Merge(ref fa);
-                fromRow++;
-            }
-            if(toRow >= fromRow && endCol == toCol)
-            {
-                var fa = new FormulaRangeAddress() { FromRow = fromRow, FromCol = startCol, ToRow = toRow, ToCol = toCol };
+                fa = new FormulaRangeAddress() { FromCol = fromCol, FromRow = fromRow, ToCol = toCol, ToRow = toRow };
                 rd.Merge(ref fa);
             }
-            else if(toRow > fromRow)
+            else if (fromRow < toRow)
             {
-                var fa = new FormulaRangeAddress() { FromRow = fromRow, FromCol = startCol, ToRow = toRow-1, ToCol = endCol };
-                rd.Merge(ref fa);
-                fa = new FormulaRangeAddress() { FromRow = toRow, FromCol = startCol, ToRow = toRow, ToCol = toCol };
+                if(fromCol > startCol)
+                {
+                    fa = new FormulaRangeAddress() { FromCol = fromCol, FromRow = fromRow, ToCol=endCol, ToRow=fromRow};
+                    rd.Merge(ref fa);
+                    fromRow++;
+                }
+                if(fromRow < toRow)
+                {
+                    if(toCol == endCol)
+                    {
+                        fa = new FormulaRangeAddress() { FromCol = startCol, FromRow = fromRow, ToCol = endCol, ToRow = toRow };
+                        rd.Merge(ref fa);
+                        return;
+                    }
+                    fa = new FormulaRangeAddress() { FromCol = startCol, FromRow = fromRow, ToCol = endCol, ToRow = toRow-1 };
+                    rd.Merge(ref fa);
+                    fromRow = toRow;
+                }
+                if(fromRow==toRow)
+                {
+                    fa = new FormulaRangeAddress() { FromCol = startCol, FromRow = toRow, ToCol = toCol, ToRow = toRow };
+                    rd.Merge(ref fa);
+                }
+            }
+            else
+            {
+                fa = new FormulaRangeAddress() { FromCol = fromCol, FromRow = fromRow, ToCol = toCol, ToRow = fromRow };
                 rd.Merge(ref fa);
             }
-
         }
 
         private static RangeHashset AddAddressToRD(RpnOptimizedDependencyChain depChain, int wsIx)
@@ -661,7 +683,8 @@ namespace OfficeOpenXml.FormulaParsing
                     throw new CircularReferenceException($"Circular reference in Arrayformula: {fa.Address}");
                 }
             }
-            if (address.CollidesWith(f._ws.IndexInList, f._row, f._column))
+            var wsIx=f._ws?.IndexInList ?? ushort.MaxValue;
+            if (address.CollidesWith(wsIx, f._row, f._column))
             {
                 var fId = ExcelCellBase.GetCellId(f._ws.IndexInList, f._row, f._column);
                 HandleCircularReference(depChain, f, options, fId);
@@ -669,8 +692,9 @@ namespace OfficeOpenXml.FormulaParsing
 
             foreach (var sf in depChain._formulaStack)
             {
-                var toCell = ExcelCellBase.GetCellId(sf._ws.IndexInList, sf._row, sf._column);
-                if(address.CollidesWith(sf._ws.IndexInList, sf._row, sf._column))
+                wsIx = sf._ws?.IndexInList ?? ushort.MaxValue;
+                var toCell = ExcelCellBase.GetCellId(wsIx, sf._row, sf._column);
+                if(address.CollidesWith(wsIx, sf._row, sf._column))
                 {
                     HandleCircularReference(depChain, f, options, toCell);
                 }
@@ -788,7 +812,7 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             if ((f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && r.Address!=null)
                             {
-                                return r.Address;
+                                return r.Address.Clone();
                             }
                         }
                         break;

@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -45,6 +46,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return (_excelCellState & state) != 0;
         }
 
+        /// <summary>
+        /// Always a IRangeInfo, even if the cell is a single cell. 
+        /// <seealso cref="ValueAsRangeInfo"/>
+        /// </summary>
+        /// <param name="context">The parsing context</param>
+        /// <returns>A <see cref="RangeInfo"/> if the argument is a range otherwise null</returns>
+        public IRangeInfo GetAsRangeInfo(ParsingContext context)
+        {
+            if(Value is IRangeInfo ri)
+            {
+                return ri;
+            }
+            else
+            {
+                if(Address==null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new RangeInfo(Address, context);
+                }
+            }
+        }
+
         public object Value { get; private set; }
 
         public DataType DataType { get; }
@@ -54,7 +80,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             get { return Value != null ? Value.GetType() : null; }
         }
 
-        //public int ExcelAddressReferenceId { get; set; }
         public FormulaRangeAddress Address { get; set; }
         public bool IsExcelRange
         {
@@ -83,10 +108,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 
         /// <summary>
         /// If <see cref="Value"/> is an instance of <see cref="IRangeInfo"/> this will return a typed instance. If not null will be returned.
+        /// <seealso cref="GetAsRangeInfo(ParsingContext)"/>
         /// </summary>
         public IRangeInfo ValueAsRangeInfo
         {
-            get { return Value is IRangeInfo ? Value as IRangeInfo : null; }
+            get 
+            { 
+                return Value is IRangeInfo ? Value as IRangeInfo : null; 
+            }
         }
         public object ValueFirst
         {

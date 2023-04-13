@@ -130,7 +130,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             if(_name?.Value is IRangeInfo ri) 
             {
-                return ri.Address;
+                return ri.Address.Clone();
             }
             return null;
         }

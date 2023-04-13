@@ -1,14 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing
 {
@@ -79,7 +75,6 @@ namespace EPPlusTest.FormulaParsing
 
             //Assert.AreEqual(((DateTime)_ws.GetValue(10, 6)).ToOADate(), _ws.GetValue(1, 6));    //A1 is converted to AO-date. Correct?
         }
-
         //[TestMethod]
         //public void ArrayFormulaMultiplyRange()
         //{
