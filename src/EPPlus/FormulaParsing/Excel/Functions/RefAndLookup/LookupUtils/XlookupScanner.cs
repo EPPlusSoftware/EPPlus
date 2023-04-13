@@ -142,7 +142,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         {
             if (lookupRange.Address.ToRow > lookupRange.Dimension.ToRow)
             {
-                return lookupRange.Dimension.ToRow - lookupRange.Address.FromRow;
+                return lookupRange.Dimension.ToRow - lookupRange.Address.FromRow + 1;
             }            
             return _lookupRange.Size.NumberOfRows;
         }
@@ -150,7 +150,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         {
             if (lookupRange.Address.ToCol > lookupRange.Dimension.ToCol)
             {
-                return lookupRange.Dimension.ToCol - lookupRange.Address.FromCol;
+                return lookupRange.Dimension.ToCol - lookupRange.Address.FromCol + 1;
             }
             return _lookupRange.Size.NumberOfCols;
         }

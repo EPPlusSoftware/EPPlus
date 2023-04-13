@@ -34,6 +34,9 @@ using System.Text;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRanges
 {
@@ -162,38 +165,35 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         [TestMethod]
         public void ValueShouldHandleScientificNotation()
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-            _worksheet.Cells["A1"].Value = "1.2345E-02";
-            _worksheet.Cells["A4"].Formula = "Value(A1)";
-            _worksheet.Calculate();
-            var result = _worksheet.Cells["A4"].Value;
-            Assert.AreEqual(0.012345d, result);
+            var func = new Value(new CultureInfo("en-US"));
+            var argument = new FunctionArgument("1.2345E-02");
+            var cr = func.Execute(new List<FunctionArgument> { argument }, ParsingContext.Create());
+            Assert.AreEqual(0.012345d, cr.Result);
         }
 
         [TestMethod]
         public void ValueShouldHandleDate()
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            var ci = new CultureInfo("en-US");
+            var func = new Value(ci);
             var date = new DateTime(2015, 12, 31);
-            _worksheet.Cells["A1"].Value = date.ToString(CultureInfo.CurrentCulture);
-            _worksheet.Cells["A4"].Formula = "Value(A1)";
-            _worksheet.Calculate();
-            var result = _worksheet.Cells["A4"].Value;
-            Assert.AreEqual(date.ToOADate(), result);
+            var argument = new FunctionArgument(date.ToString(ci));
+            var cr = func.Execute(new List<FunctionArgument> { argument }, ParsingContext.Create());
+            Assert.AreEqual(date.ToOADate(), cr.Result);
         }
 
         [TestMethod]
         public void ValueShouldHandleTime()
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            var ci = new CultureInfo("en-US");
             var date = new DateTime(2015, 12, 31);
             var date2 = new DateTime(2015, 12, 31, 12, 00, 00);
             var ts = date2.Subtract(date);
-            _worksheet.Cells["A1"].Value = ts.ToString();
-            _worksheet.Cells["A4"].Formula = "Value(A1)";
-            _worksheet.Calculate();
-            var result = _worksheet.Cells["A4"].Value;
-            Assert.AreEqual(0.5, result);
+            var func = new Value(ci);
+            var argument = new FunctionArgument(ts.ToString());
+            var cr = func.Execute(new List<FunctionArgument> { argument }, ParsingContext.Create());
+            Assert.AreEqual(0.5, cr.Result);
+
         }
 
         [TestMethod]

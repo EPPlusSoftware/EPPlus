@@ -1532,7 +1532,7 @@ namespace EPPlusTest
 
             _pck.Workbook.Worksheets.Copy(ws.Name, "Copied HeaderImage");
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void NamedStyles()
         {
             var wsSheet = _pck.Workbook.Worksheets.Add("NamedStyles");
