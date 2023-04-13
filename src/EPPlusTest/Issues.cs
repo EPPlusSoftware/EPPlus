@@ -29,9 +29,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -4427,6 +4429,31 @@ namespace EPPlusTest
             {
                 //package.Workbook.Worksheets.Delete(0);
                 Assert.AreEqual(1, package.Workbook.Worksheets[0].DataValidations.Count);
+                SaveAndCleanup(package);
+            }
+        }
+
+        //Should not generate a corrupt file when opened.
+        [TestMethod]
+        public void Issue842()
+        {
+            using (var package = OpenPackage("issue842_SHOULD_BE_OPENEABLE.xlsx", true))
+            {
+                ExcelWorksheet ws = package.Workbook.Worksheets.Add("exampleSheet");
+
+                ws.SetValue("C1", "0");
+
+                var address = new ExcelAddress(1, 1, 3, 1);
+                var testValidation = ws.DataValidations.AddDecimalValidation(address.Address);
+                testValidation.Formula.Value = 10;
+                testValidation.Formula2.Value = 15;
+
+                ExcelRange range = ws.Cells[1, 1, 4, 1];
+                ExcelTable table = ws.Tables.Add(range, "TestTable");
+                table.StyleName = "None";
+
+                ExcelTableSlicer slicer = ws.Drawings.AddTableSlicer(table.Columns[0]);
+
                 SaveAndCleanup(package);
             }
         }

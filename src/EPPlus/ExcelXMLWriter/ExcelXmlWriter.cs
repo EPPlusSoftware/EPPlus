@@ -92,7 +92,9 @@ namespace OfficeOpenXml.ExcelXMLWriter
             FindNodePositionAndClearIt(sw, xml, "colBreaks", ref startOfNode, ref endOfNode);
             UpdateColBreaks(sw, prefix);
 
-            if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.Count() != 0)
+            //Careful. Ensure that we only do appropriate extLst things when there are objects to operate on.
+            //Creating an empty DataValidations Node in ExtLst for example generates a corrupt excelfile that passes validation tool checks.
+            if (_ws.GetNode("d:extLst") != null && _ws.DataValidations.GetExtLstCount() != 0)
             {
                 ExtLstHelper extLst = new ExtLstHelper(xml);
                 FindNodePositionAndClearIt(sw, xml, "extLst", ref startOfNode, ref endOfNode);
