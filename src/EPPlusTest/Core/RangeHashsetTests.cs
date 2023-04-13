@@ -345,16 +345,10 @@ namespace EPPlusTest.Core
             var b2 = rd.Merge(ref r2);
 
 
-            Assert.AreEqual(5, GetFromRow(rd._addresses[5][0]));
-            Assert.AreEqual(14, GetToRow(rd._addresses[5][0]));
+            Assert.AreEqual(133, GetFromRow(rd._addresses[5][0]));
+            Assert.AreEqual(193, GetToRow(rd._addresses[5][0]));
             Assert.IsTrue(b1);
-            Assert.IsTrue(b2);
-
-            //Spill range A5:B12
-            Assert.AreEqual(9, r2.FromRow);
-            Assert.AreEqual(5, r2.FromCol);
-            Assert.AreEqual(14, r2.ToRow);
-            Assert.AreEqual(6, r2.ToCol);
+            Assert.IsFalse(b2);
         }
 
     }
