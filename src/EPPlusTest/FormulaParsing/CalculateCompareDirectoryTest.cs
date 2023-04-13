@@ -90,7 +90,13 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate();
+                    //p.Workbook.Calculate();
+                    p.Workbook.Worksheets["Risk Report"].Cells["C13"].Calculate();
+                    //p.Workbook.Worksheets["RptEC"].Cells["DC6"].Calculate();
+                    //p.Workbook.Worksheets["RptEC"].Cells["DC7"].Calculate();
+                    //p.Workbook.Worksheets["Risk Report"].Cells["D6"].Calculate();
+                    //p.Workbook.Worksheets["Risk Report"].Cells["AO99"].Calculate();
+                    //p.Workbook.Worksheets["RptEC"].Cells["DC6"].Calculate();
                 }
                 catch (Exception ex)
                 {
