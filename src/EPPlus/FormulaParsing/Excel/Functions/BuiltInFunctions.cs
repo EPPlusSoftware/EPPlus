@@ -212,6 +212,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["correl"] = new Correl();
             Functions["fisher"] = new Fisher();
             Functions["fisherinv"] = new FisherInv();
+            Functions["frequency"] = new Frequency();
             Functions["geomean"] = new Geomean();
             Functions["harmean"] = new Harmean();
             Functions["pearson"] = new Pearson();
