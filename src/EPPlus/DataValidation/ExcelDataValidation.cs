@@ -13,6 +13,8 @@
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
+
 using System;
 using System.Xml;
 
@@ -111,7 +113,7 @@ namespace OfficeOpenXml.DataValidation
                 if (string.IsNullOrEmpty(imeModeString))
                     return (ExcelDataValidationImeMode.NoControl);
 
-                return (ExcelDataValidationImeMode)Enum.Parse(typeof(ExcelDataValidationImeMode), imeModeString);
+                return (ExcelDataValidationImeMode) imeModeString.ToEnum<ExcelDataValidationImeMode>();
             }
             set
             {
