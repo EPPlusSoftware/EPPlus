@@ -30,7 +30,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Sparkline;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -511,6 +515,29 @@ namespace EPPlusTest.DataValidation
                 validation.ShowErrorMessage = true;
                 validation.Formula.ExcelFormula = "=ISTEXT(A1)";
                 validation.ImeMode = ExcelDataValidationImeMode.FullKatakana;
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldWriteReadIMEmodeAndWriteAgain()
+        {
+            using (var pck = OpenPackage("ImeTestOFF.xlsx", true))
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                var validation = wks.DataValidations.AddCustomValidation("A1");
+                validation.ShowErrorMessage = true;
+                validation.Formula.ExcelFormula = "=ISTEXT(A1)";
+                validation.ImeMode = ExcelDataValidationImeMode.Off;
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var pck2 = new ExcelPackage(stream);
+
+                pck2.SaveAs(stream);
 
                 SaveAndCleanup(pck);
             }
