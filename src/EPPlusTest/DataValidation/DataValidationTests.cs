@@ -519,5 +519,28 @@ namespace EPPlusTest.DataValidation
                 SaveAndCleanup(pck);
             }
         }
+
+        [TestMethod]
+        public void DataValidations_ShouldWriteReadIMEmodeAndWriteAgain()
+        {
+            using (var pck = OpenPackage("ImeTestOFF.xlsx", true))
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                var validation = wks.DataValidations.AddCustomValidation("A1");
+                validation.ShowErrorMessage = true;
+                validation.Formula.ExcelFormula = "=ISTEXT(A1)";
+                validation.ImeMode = ExcelDataValidationImeMode.Off;
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var pck2 = new ExcelPackage(stream);
+
+                pck2.SaveAs(stream);
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }

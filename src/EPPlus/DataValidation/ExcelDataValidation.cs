@@ -111,7 +111,7 @@ namespace OfficeOpenXml.DataValidation
                 if (string.IsNullOrEmpty(imeModeString))
                     return (ExcelDataValidationImeMode.NoControl);
 
-                return (ExcelDataValidationImeMode)Enum.Parse(typeof(ExcelDataValidationImeMode), imeModeString);
+                return (ExcelDataValidationImeMode)Enum.Parse(typeof(ExcelDataValidationImeMode), imeModeString.CapitalizeFirstLetter());
             }
             set
             {
