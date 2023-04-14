@@ -4425,7 +4425,7 @@ namespace EPPlusTest
         [TestMethod]
         public void RichText()
         {
-            using (ExcelPackage package = OpenPackage("richtextclear.xlsx"))
+            using (ExcelPackage package = OpenPackage("richtextclear.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
