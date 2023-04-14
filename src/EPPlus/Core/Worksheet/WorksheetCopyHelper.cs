@@ -219,7 +219,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     styleID = CopyValues(Copy, added, row, col, hasMetadata);
                 }
-                if (!sameWorkbook)
+                if (!sameWorkbook && styleID != 0)
                 {
                     if (styleCashe.ContainsKey(styleID))
                     {

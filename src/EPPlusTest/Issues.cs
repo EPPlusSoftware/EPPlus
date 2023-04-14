@@ -4421,6 +4421,22 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void RichText()
+        {
+            using (ExcelPackage package = OpenPackage("richtextclear.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws.Cells["A1"].Style.Fill.BackgroundColor.SetColor(Color.Red);
+
+                ws.Cells["A1"].RichText.Add("Test");
+                ws.Cells["A1"].RichText.Clear();
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
         public void extLst()
         {
             using(ExcelPackage package = OpenTemplatePackage("extLstMany.xlsx"))
@@ -4428,6 +4444,21 @@ namespace EPPlusTest
                 //package.Workbook.Worksheets.Delete(0);
                 Assert.AreEqual(1, package.Workbook.Worksheets[0].DataValidations.Count);
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s449()
+        {
+            using (var xlPackage = OpenTemplatePackage("s449.xlsx"))
+            {
+                using (var p2 = OpenPackage("s449-saved.xlsx", true))
+                {
+                    var SheetName = "Error_Sheet";
+                    var InSheet = xlPackage.Workbook.Worksheets[SheetName];
+                    var xlSheet = p2.Workbook.Worksheets.Add(SheetName, InSheet);
+                    SaveAndCleanup(p2);
+
+                }
             }
         }
     }
