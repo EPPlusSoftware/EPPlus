@@ -772,11 +772,10 @@ namespace OfficeOpenXml.Core.Worksheet
         private static SourceCodeTokenizer _sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
         private static IEnumerable<Token> GetTokens(ExcelWorksheet ws, int row, int column, string formula)
         {
-            if(string.IsNullOrEmpty(formula)) return new List<Token>();
-            var tokens = (List<Token>)_sct.Tokenize(formula, ws.Name);
-            return tokens;
+            return string.IsNullOrEmpty(formula) ? 
+                new List<Token>() : 
+                (List<Token>)_sct.Tokenize(formula, ws.Name);
         }
-
         private static void FixFormulasInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             foreach (var wsToUpdate in ws.Workbook.Worksheets)
@@ -796,6 +795,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         {
                             a._toCol += columns;
                         }
+
                         f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
                         f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, 0, columns, 0, columnFrom, wsToUpdate.Name, ws.Name);
                     }

@@ -1,4 +1,12 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.2
+### Fixed issues
+* Insert row did not update formula cells correctly in some cases.
+* Copying a worksheet to another workbook sometimes doesn't copy the correct style.
+* Creating a sparkline group with an ExcelAddress caused a corrupt workbook.
+* Datavalidations with a ImeMode property set, throw an exception on save.
+* Datavalidations sometimes caused a corrupt workbook when used with slicers and sparklines (extLst).
+
 ## Version 6.2.1
 ### Fixed issues
 * Having data validations referring to other worksheets could break the xml causing the workbook to become corrupt.
