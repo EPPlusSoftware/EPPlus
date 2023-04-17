@@ -166,8 +166,8 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         public void ValueShouldHandleScientificNotation()
         {
             var func = new Value(new CultureInfo("en-US"));
-            var argument = new FunctionArgument("1.2345E-02");
-            var cr = func.Execute(new List<FunctionArgument> { argument }, ParsingContext.Create());
+            var arg = new FunctionArgument("1.2345E-02");
+            var cr = func.Execute(new List<FunctionArgument> { arg }, ParsingContext.Create());
             Assert.AreEqual(0.012345d, cr.Result);
         }
 
@@ -177,8 +177,8 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
             var ci = new CultureInfo("en-US");
             var func = new Value(ci);
             var date = new DateTime(2015, 12, 31);
-            var argument = new FunctionArgument(date.ToString(ci));
-            var cr = func.Execute(new List<FunctionArgument> { argument }, ParsingContext.Create());
+            var arg = new FunctionArgument(date.ToString(ci));
+            var cr = func.Execute(new List<FunctionArgument> { arg }, ParsingContext.Create());
             Assert.AreEqual(date.ToOADate(), cr.Result);
         }
 
@@ -186,14 +186,13 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         public void ValueShouldHandleTime()
         {
             var ci = new CultureInfo("en-US");
+            var func = new Value(ci);
             var date = new DateTime(2015, 12, 31);
             var date2 = new DateTime(2015, 12, 31, 12, 00, 00);
             var ts = date2.Subtract(date);
-            var func = new Value(ci);
-            var argument = new FunctionArgument(ts.ToString());
-            var cr = func.Execute(new List<FunctionArgument> { argument }, ParsingContext.Create());
+            var arg = new FunctionArgument(ts.ToString());
+            var cr = func.Execute(new List<FunctionArgument> { arg }, ParsingContext.Create());
             Assert.AreEqual(0.5, cr.Result);
-
         }
 
         [TestMethod]

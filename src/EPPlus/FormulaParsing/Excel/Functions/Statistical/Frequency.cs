@@ -10,7 +10,6 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
@@ -24,10 +23,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Statistical,
-        EPPlusVersion = "7",
-        IntroducedInExcelVersion = "2007",
-        Description = "Calculates how often values occur within a range of values, and then returns a vertical array of numbers",
-        SupportsArrays = true)]
+        EPPlusVersion = "7.0",
+        IntroducedInExcelVersion = "2010",
+        Description = "Calculates how often values occur within a range of values, and then returns a vertical array of numbers")]
     internal class Frequency : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
@@ -39,73 +37,73 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 return CreateResult(eErrorType.Value);
             }
-            var dataArray = arg1.ValueAsRangeInfo;
-            var binsArray = arg2.ValueAsRangeInfo;
+            var dataRange = arg1.ValueAsRangeInfo;
+            var binsRange = arg2.ValueAsRangeInfo;
 
-            var dataArrayNumbers = GetNumbers(dataArray);
-            var binsArrayNumbers = GetNumbers(binsArray);
-            var sortedBins = new List<double>(binsArrayNumbers).ToArray();
-            Array.Sort(sortedBins);
-            var counts = new Dictionary<double, int>();
-            var min = sortedBins.Min();
-            var max = sortedBins.Max();
-            foreach(var b in sortedBins )
+            var dataArray = new List<object>();
+            foreach(var cell in dataRange)
             {
-                counts[b] = 0;
-            }
-            counts[max + 1] = 0;
-            foreach(var n in dataArrayNumbers)
-            {
-                if(n <= min)
+                if(cell?.Value != null)
                 {
-                    counts[min]++;
-                }
-                else if(n > max)
-                {
-                    counts[max + 1]++;
-                }
-                else
-                {
-                    var ix = Array.BinarySearch(sortedBins, n);
-                    if(ix > -1)
-                    {
-                        counts[n]++;
-                    }
-                    else
-                    {
-                        ix = ~ix;
-                        counts[sortedBins[ix + 1]]++;
-                    }
+                    dataArray.Add(cell.Value);
                 }
             }
-            var resultArray = new InMemoryRange(new RangeDefinition(counts.Keys.Count, 1));
-            for(var x = 0; x < binsArrayNumbers.Count; x++)
-            {
-                var b = binsArrayNumbers[x];
-                var c = counts[b];
-                resultArray.SetValue(x, 0, c);
-            }
-            resultArray.SetValue(resultArray.Size.NumberOfRows - 1, 0, counts[max + 1]);
-            return CreateResult(resultArray, DataType.ExcelRange);
 
+            var binsArray = new List<object>();
+            foreach(var cell in binsRange)
+            {
+                if(cell?.Value != null)
+                {
+                    binsArray.Add(cell.Value);
+                }
+            }
+
+            var resultValues = Calculate(dataArray, binsArray);
+            var result = new InMemoryRange(new RangeDefinition(resultValues.Count, 1));
+            for(var row = 0; row < resultValues.Count; row++)
+            {
+                result.SetValue(row, 0, resultValues[row]);
+            }
+            return CreateResult(result, DataType.ExcelRange);
         }
 
-        private List<double> GetNumbers(IRangeInfo range)
+        private List<int> Calculate(List<object> objData, List<object> objBinsArray)
         {
-            var list = new List<double>();
-            for (var row = 0; row < range.Size.NumberOfRows; row++)
+            var data = ToDoubles(objData);
+            var binsArray = ToDoubles(objBinsArray);
+            if (binsArray.Count == 0)
             {
-                for (var col = 0; col < range.Size.NumberOfCols; col++)
+                binsArray.Add(0);
+            }
+            var sortedBinsArray = binsArray.ToArray();
+            Array.Sort(sortedBinsArray);
+            var dict = new Dictionary<double, int>();
+            foreach (var bin in sortedBinsArray)
+            {
+                dict.Add(bin, data.Count(x => x <= bin));
+                data.RemoveAll(x => x <= bin);
+            }
+            var result = new List<int>();
+            foreach (var b in binsArray)
+            {
+                result.Add(dict[b]);
+            }
+            // add last item (larger than the highest value in the binsarray)
+            result.Add(data.Count());
+            return result;
+        }
+
+        private List<double> ToDoubles(List<object> list)
+        {
+            var result = new List<double>();
+            foreach (var item in list)
+            {
+                if (ConvertUtil.IsNumeric(item))
                 {
-                    var obj = range.GetOffset(row, col);
-                    if (obj != null && IsNumeric(obj))
-                    {
-                        var n = ConvertUtil.GetValueDouble(obj);
-                        list.Add(n);
-                    }
+                    result.Add(ConvertUtil.GetValueDouble(item));
                 }
             }
-            return list;
+            return result;
         }
     }
 }
