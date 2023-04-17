@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Sparkline;
 using System.IO;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Drawing.Slicer;
 
 namespace EPPlusTest.DataValidation
 {
     [TestClass]
     public class ExternalExtTests : TestBase
     {
-        //static ExcelPackage _pck;
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -202,14 +203,43 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
-        public void LocalDataValidationsShouldWorkWithExtLstSparklines()
+        public void ExtDataValidationsShouldWorkWithAllOtherExts()
         {
-            using (var pck = new ExcelPackage())
+            using (var pck = OpenPackage("ExternalDataValidations\\ExtDVAllOtherExts.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("conditionalFormattingsTest");
                 var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
 
                 ws.SparklineGroups.Add(eSparklineType.Line, ws.Cells["A1:A5"], ws.Cells["B1:B5"]);
+                ws.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 1, 2, 1), Color.Blue);
+
+                ExcelRange range = ws.Cells[1, 1, 4, 1];
+                ExcelTable table = ws.Tables.Add(range, "TestTable");
+                table.StyleName = "None";
+
+                ExcelTableSlicer slicer = ws.Drawings.AddTableSlicer(table.Columns[0]);
+
+                AddDataValidations(ref ws, true, extSheet.Name, true);
+                SaveAndLoadAndSave(pck);
+            }
+        }
+
+        [TestMethod]
+        public void LocalDataValidationsShouldWorkWithAllOtherExts()
+        {
+            using (var pck = OpenPackage("ExternalDataValidations\\LocalDVAllOtherExts.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("conditionalFormattingsTest");
+                var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
+
+                ws.SparklineGroups.Add(eSparklineType.Line, ws.Cells["A1:A5"], ws.Cells["B1:B5"]);
+                ws.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 1, 2, 1), Color.Blue);
+
+                ExcelRange range = ws.Cells[1, 1, 4, 1];
+                ExcelTable table = ws.Tables.Add(range, "TestTable");
+                table.StyleName = "None";
+
+                ExcelTableSlicer slicer = ws.Drawings.AddTableSlicer(table.Columns[0]);
 
                 AddDataValidations(ref ws, false);
                 SaveAndLoadAndSave(pck);
