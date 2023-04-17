@@ -183,9 +183,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 return true;
             }
-            else if(nExp == 1 && nDot == 1 && (nMinus == 1 || nPlus == 1))
+            else if(allowDecimal && nExp == 1 && nDot == 1 && (nMinus == 1 || nPlus == 1))
             {
                 return double.TryParse(value, NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out double r);
+            }
+            else if (!allowDecimal && nExp == 1 && (nMinus == 1 || nPlus == 1))
+            {
+                return double.TryParse(value, NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out double r);
             }
             return false;
         }
