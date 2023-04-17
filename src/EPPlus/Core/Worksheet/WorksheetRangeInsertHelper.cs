@@ -773,12 +773,7 @@ namespace OfficeOpenXml.Core.Worksheet
         private static IEnumerable<Token> GetTokens(ExcelWorksheet ws, int row, int column, string formula)
         {
             if(string.IsNullOrEmpty(formula)) return new List<Token>();
-            var tokens = ws._formulaTokens.GetValue(row, column);
-            if (tokens == null)
-            {
-                tokens = (List<Token>)_sct.Tokenize(formula, ws.Name);
-                ws._formulaTokens.SetValue(row, column, tokens);
-            }
+            var tokens = (List<Token>)_sct.Tokenize(formula, ws.Name);
             return tokens;
         }
 

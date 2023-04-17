@@ -4518,13 +4518,41 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void SparkLinesIssue()
+        public void Issue848()
         {
-            using (var p = OpenPackage("sparkTest.xlsx", true))
+            using (var p = OpenPackage("issue848-2.xlsx", true))
             {
-                ExcelWorksheet ws = p.Workbook.Worksheets.Add("WS1");
-                ExcelSparklineGroup sparkline = ws.SparklineGroups.Add(eSparklineType.Column, new ExcelAddress("A1:A5"), new ExcelAddress("B1:B5"));
-                SaveAndCleanup(p);
+                var worksheet = p.Workbook.Worksheets.Add("Sheet1");
+
+                // We start with a single row that has a formula
+                worksheet.Cells["A1"].Value = 1;
+                worksheet.Cells["B1"].Value = 2;
+                worksheet.Cells["C1"].Formula = "A1*B1";
+
+                // Insert a row and copy the original row
+                worksheet.InsertRow(2, 1);
+                worksheet.Cells["A1:C1"].Copy(worksheet.Cells["A2:C2"]);
+                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1");
+                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
+
+                // Insert another row and copy the original row
+                worksheet.InsertRow(3, 1);
+                worksheet.Cells["A1:C1"].Copy(worksheet.Cells["A3:C3"]);
+                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1");
+                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
+                Debug.Assert(worksheet.Cells["C3"].Formula == "A3*B3");
+
+                // Delete the original row
+                worksheet.DeleteRow(1);
+                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1"); // This still succeeds...
+                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
+
+                // Insert a row the end
+                worksheet.InsertRow(4, 1); // This seems to trigger the issue
+
+                // Next line fails, the formula in C1 is "A2*B2" (which is wrong)
+                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1"); //  ... Now this fails
+                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
             }
         }
     }
