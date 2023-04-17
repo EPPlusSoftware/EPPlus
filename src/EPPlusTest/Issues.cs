@@ -35,6 +35,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -4513,6 +4514,16 @@ namespace EPPlusTest
                 // But now its =A2*B2. Why?
                 Assert.AreEqual("A3*B3", eppWorksheet.Cells["C3"].Formula);
 
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void SparkLinesIssue()
+        {
+            using (var p = OpenPackage("sparkTest.xlsx", true))
+            {
+                ExcelWorksheet ws = p.Workbook.Worksheets.Add("WS1");
+                ExcelSparklineGroup sparkline = ws.SparklineGroups.Add(eSparklineType.Column, new ExcelAddress("A1:A5"), new ExcelAddress("B1:B5"));
                 SaveAndCleanup(p);
             }
         }
