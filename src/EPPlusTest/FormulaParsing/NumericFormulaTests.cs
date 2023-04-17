@@ -70,5 +70,19 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(1.000004008, result);
             }
         }
+
+        [TestMethod]
+        public void ShouldHandleIntegerWithScientificNotation()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells[1, 1].Formula = "1E+30";
+                sheet.Calculate();
+                var result = Math.Round((double)sheet.Cells[1, 1].Value, 9);
+                Assert.AreEqual(1E+30, result);
+            }
+        }
+
     }
 }
