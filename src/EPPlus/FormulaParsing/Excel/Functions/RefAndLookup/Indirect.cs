@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "4",
-        Description = "Returns a cell or range reference that is represented by a supplied text string")]
+        Description = "Returns a cell or range reference that is represented by a supplied text string",
+        SupportsArrays = true)]
     internal class Indirect : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
@@ -73,13 +74,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 return CompileResult.Empty;
             }
-            //else if(!result.IsMulti)
-            //{
-            //    var cell = result.FirstOrDefault();
-            //    var val = cell != null ? cell.Value : null;
-            //    if (val == null) return CompileResult.Empty;
-            //    return CompileResultFactory.Create(val, result.Address);
-            //}
             return new AddressCompileResult(result, DataType.ExcelRange, result.Address);
         }
 

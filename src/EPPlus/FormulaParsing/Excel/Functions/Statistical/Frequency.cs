@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "7.0",
         IntroducedInExcelVersion = "2010",
-        Description = "Calculates how often values occur within a range of values, and then returns a vertical array of numbers")]
+        Description = "Calculates how often values occur within a range of values, and then returns a vertical array of numbers",
+        SupportsArrays = true)]
     internal class Frequency : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
