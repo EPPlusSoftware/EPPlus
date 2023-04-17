@@ -140,21 +140,6 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
-        public void LocalDataValidationsShouldWorkWithExtLstSparklines()
-        {
-            using (var pck = new ExcelPackage())
-            {
-                var ws = pck.Workbook.Worksheets.Add("conditionalFormattingsTest");
-                var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
-
-                ws.SparklineGroups.Add(eSparklineType.Line, ws.Cells["A1:A5"], ws.Cells["B1:B5"]);
-
-                AddDataValidations(ref ws, false);
-                SaveAndLoadAndSave(pck);
-            }
-        }
-
-        [TestMethod]
         public void LocalDataValidationsShouldWorkWithManyExtLstSparklines()
         {
             using (var pck = new ExcelPackage())
@@ -212,17 +197,21 @@ namespace EPPlusTest.DataValidation
                 ws.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 2, 2, 2), Color.Red);
 
                 AddDataValidations(ref ws, true, extSheet.Name, true);
+                SaveAndLoadAndSave(pck);
+            }
+        }
 
+        [TestMethod]
+        public void LocalDataValidationsShouldWorkWithExtLstSparklines()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var ws = pck.Workbook.Worksheets.Add("conditionalFormattingsTest");
+                var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
 
-                //var intValidation = ws.DataValidations.AddIntegerValidation("A1");
-                //intValidation.Operator = ExcelDataValidationOperator.equal;
-                //intValidation.Formula.ExcelFormula = extSheet.Name + "!A1";
+                ws.SparklineGroups.Add(eSparklineType.Line, ws.Cells["A1:A5"], ws.Cells["B1:B5"]);
 
-                //var timeValidation = ws.DataValidations.AddTimeValidation("B1");
-                //timeValidation.Operator = ExcelDataValidationOperator.between;
-                //timeValidation.Formula.ExcelFormula = extSheet.Name + "!B1";
-                //timeValidation.Formula2.ExcelFormula = extSheet.Name + "!B2";
-
+                AddDataValidations(ref ws, false);
                 SaveAndLoadAndSave(pck);
             }
         }
