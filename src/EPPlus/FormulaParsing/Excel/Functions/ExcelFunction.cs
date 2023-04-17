@@ -722,6 +722,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return false;
             }
         }
+
+        /// <summary>
+        /// Returns true if there are no deviations 
+        /// </summary>
         public virtual bool HasNormalArguments
         {
             get
