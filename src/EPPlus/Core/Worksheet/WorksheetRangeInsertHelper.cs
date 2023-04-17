@@ -760,6 +760,10 @@ namespace OfficeOpenXml.Core.Worksheet
                             var tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
                             cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
+                        if(v!=cse.Value.ToString())
+                        {
+                            wsToUpdate._formulaTokens.SetValue(cse.Row, cse.Column, null);
+                        }
                     }
                 }
             }
@@ -832,7 +836,8 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 throw (new ArgumentOutOfRangeException("columnFrom can't be lesser that 1"));
             }
-            //Check that cells aren't shifted outside the boundries
+            
+            //Check that cells aren't shifted outside the boundries.
             if (d != null && d.End.Column > columnFrom && d.End.Column + columns > ExcelPackage.MaxColumns)
             {
                 throw (new ArgumentOutOfRangeException("Can't insert. Columns will be shifted outside the boundries of the worksheet."));
@@ -841,7 +846,6 @@ namespace OfficeOpenXml.Core.Worksheet
             var insertRange = new ExcelAddressBase(rowFrom, columnFrom, rowFrom + rows - 1, columnFrom + columns - 1);
             FormulaDataTableValidation.HasPartlyFormulaDataTable(ws, insertRange, false, "Can't insert a part of a data table function");
         }
-
         #region private methods
         private static void ValidateInsertRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom = 1, int columns = ExcelPackage.MaxColumns)
         {
