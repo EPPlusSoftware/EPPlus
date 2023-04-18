@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class Xlookup : ExcelFunction
     {
         private Stopwatch _stopwatch = null;
-
+        public override string NamespacePrefix => "_xlfn.";
         private int GetMatchIndex(object lookupValue, IRangeInfo lookupRange, IRangeInfo returnArray, bool asc, LookupMatchMode matchMode)
         {
             var comparer = new LookupComparer(matchMode);

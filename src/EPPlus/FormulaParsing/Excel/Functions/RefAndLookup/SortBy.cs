@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class SortBy : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);

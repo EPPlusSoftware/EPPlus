@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         SupportsArrays = true)]
     internal class RandArray : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             var nRows = 1;
@@ -83,7 +84,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             }
             return CreateResult(result, DataType.ExcelRange);
         }
-
         private double GetRandomNumber(Random rnd, double min, double max, bool useInteger)
         {
             if(!useInteger)
