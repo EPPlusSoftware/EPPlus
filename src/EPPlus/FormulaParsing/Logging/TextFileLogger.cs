@@ -35,6 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Logging
 #else
             _sw = new StreamWriter(fileInfo.FullName);
 #endif
+            _sw.AutoFlush = true;
         }
 
         private void WriteSeparatorAndTimeStamp()
@@ -48,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Logging
         {
             if (context.CurrentCell.Row > 0)
             {
-                _sw.WriteLine("Worksheet: {0}", context.CurrentWorksheet.Name ?? "<not specified>");
+                _sw.WriteLine("Worksheet: {0}", context.CurrentWorksheet?.Name ?? "<not specified>");
                 _sw.WriteLine("Address: {0}", context.CurrentCell.Address ?? "<not available>");
             }
         }

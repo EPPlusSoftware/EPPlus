@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 _stopwatch.Start();
             }
             ValidateArguments(arguments, 2);
-            var lookupValue = arguments.ElementAt(0).Value;
+            var lookupValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
 
             // lookup range
             if (!arguments.ElementAt(1).IsExcelRange) return CreateResult(eErrorType.Value);

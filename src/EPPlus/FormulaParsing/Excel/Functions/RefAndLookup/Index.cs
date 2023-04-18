@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if(row==0 || col==0)
                 {
                     var range = GetResultRange(row, col, ri);
-                    return CreateResult(range, DataType.ExcelRange);
+                    return CreateAddressResult(range, DataType.ExcelRange);
                 }
                 else
                 {

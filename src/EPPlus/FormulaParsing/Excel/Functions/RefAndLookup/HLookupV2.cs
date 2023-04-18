@@ -31,7 +31,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 3);
-            var searchedValue = arguments.ElementAt(0).Value;
+            var searchedValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
             var arg1 = arguments.ElementAt(1);
             if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
             var lookupRange = arg1.ValueAsRangeInfo;

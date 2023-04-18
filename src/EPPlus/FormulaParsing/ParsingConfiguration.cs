@@ -128,7 +128,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         /// <returns></returns>
         public ParsingConfiguration DetachLogger()
-        {
+        {            
             Logger = null;
             return this;
         }

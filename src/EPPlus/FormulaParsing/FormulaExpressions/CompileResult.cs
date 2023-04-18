@@ -20,6 +20,8 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing.Excel.Operators;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -88,13 +90,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal void Negate()
         {
-            if(ResultNumeric!=0)
+            if(DataType == DataType.ExcelRange && Result is IRangeInfo ri)
+            {
+                Result = RangeOperationsOperator.Negate(ri);
+            }
+
+            else if (ResultNumeric != 0)
             {
                 _resultNumeric *= -1;
                 Result = _resultNumeric;
             }
         }
-
         internal static CompileResult GetErrorResult(eErrorType errorType)
         {
             switch(errorType)

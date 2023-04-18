@@ -42,11 +42,12 @@ namespace EPPlusTest.FormulaParsing
         public void VerifyCalculationInCalculateTestDirectory()
         {
             var path = _testInputPathOptional + "CalculationTests\\";
-            if (Directory.Exists(path)==false)
+            if (Directory.Exists(path) == false)
             {
                 Assert.Inconclusive($"Directory {path} does not exist.");
             }
-            foreach(var xlFile in Directory.GetFiles(path).Where(x=>x.EndsWith(".xlsx") || x.EndsWith(".xlsm")))
+            
+            foreach(var xlFile in Directory.GetFiles(path).Where(x => x.EndsWith(".xlsx") || x.EndsWith(".xlsm")))
             {
                 string logFile = path + new FileInfo(xlFile).Name + ".log";
                 VerifyCalculationInPackage(xlFile, logFile);
@@ -64,6 +65,7 @@ namespace EPPlusTest.FormulaParsing
             logWriter.WriteLine($"File {xlFile} starting");
             using(var p = new ExcelPackage(xlFile))
             {
+                p.Workbook.FormulaParserManager.AttachLogger(new FileInfo("c:\\temp\\formulaLog.log"));
                 var values = new Dictionary<ulong, object>();
                 foreach(var ws in p.Workbook.Worksheets)
                 {
@@ -79,19 +81,26 @@ namespace EPPlusTest.FormulaParsing
                         values.Add(id, name.Value);
                     }
                 }
+
                 foreach (var name in p.Workbook.Names)
                 {
                     var id = ExcelCellBase.GetCellId(ushort.MaxValue, name.Index, 0);
                     values.Add(id, name.Value);
                 }
+
                 UpdateData(p);
                 
                 p.Workbook.ClearFormulaValues();
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    //p.Workbook.Calculate();
-                    p.Workbook.Worksheets["Risk Report"].Cells["C13"].Calculate();
+                    p.Workbook.Calculate();
+                    //p.Workbook.Names["SizePort"].Calculate();
+                    //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate();
+                    //p.Workbook.Worksheets["CELP Change Tool Index"].Cells["AJ7"].Calculate(); 
+                    //p.Workbook.Worksheets["RptEC"].Cells["DC63"].Calculate(); 
+                    //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate(); 
+                    //p.Workbook.Worksheets["Risk Report"].Cells["C13"].Calculate();
                     //p.Workbook.Worksheets["RptEC"].Cells["DC6"].Calculate();
                     //p.Workbook.Worksheets["RptEC"].Cells["DC7"].Calculate();
                     //p.Workbook.Worksheets["Risk Report"].Cells["D6"].Calculate();

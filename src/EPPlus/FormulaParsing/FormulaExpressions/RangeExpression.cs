@@ -2,6 +2,7 @@
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -100,13 +101,20 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
         public override void Negate()
         {
-            if (_negate == 0)
+            if (_cachedCompileResult == null)
             {
-                _negate = -1;
+                if (_negate == 0)
+                {
+                    _negate = -1;
+                }
+                else
+                {
+                    _negate *= -1;
+                }
             }
             else
             {
-                _negate *= -1;
+                _cachedCompileResult.Negate();
             }
         }
         internal override ExpressionStatus Status

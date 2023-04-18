@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
-            var searchedValue = arguments.ElementAt(0).Value;
+            var searchedValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
             var arg2 = arguments.ElementAt(1);
             if(!arg2.IsExcelRange)
             {

@@ -32,7 +32,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var arg0 = functionArguments.First();
             var rowOffset = ArgToInt(functionArguments, 1);
             var colOffset = ArgToInt(functionArguments, 2);
-            //var r = arg0.ValueAsRangeInfo;
 
             var startRange = ArgToAddress(functionArguments, 0);
             
