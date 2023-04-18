@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class Xlookup : ExcelFunction
     {
         private Stopwatch _stopwatch = null;
-
+        public override string NamespacePrefix => "_xlfn.";
         private int GetMatchIndex(object lookupValue, IRangeInfo lookupRange, IRangeInfo returnArray, bool asc, LookupMatchMode matchMode)
         {
             var comparer = new LookupComparer(matchMode);
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 _stopwatch.Start();
             }
             ValidateArguments(arguments, 3);
-            var lookupValue = arguments.ElementAt(0).Value;
+            var lookupValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
 
             // lookup range
             if (!arguments.ElementAt(1).IsExcelRange) return CreateResult(eErrorType.Value);

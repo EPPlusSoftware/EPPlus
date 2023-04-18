@@ -129,7 +129,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             {
                 if (_namespaceFunctions == null)
                 {
-                    _namespaceFunctions = new Dictionary<string, string>();
+                    _namespaceFunctions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                     foreach (var f in _functions)
                     {
                         if (string.IsNullOrEmpty(f.Value.NamespacePrefix) == false)

@@ -149,8 +149,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     return null;
             }
         }
+        internal static InMemoryRange Negate(IRangeInfo ri)
+        {
+            InMemoryRange imr;
+            if(ri.IsInMemoryRange==false)
+            {
+                imr = new InMemoryRange(ri.Size);
+            }
+            else
+            {
+                imr = (InMemoryRange)ri;
+            }
 
+            for (int c = 0; c < ri.Size.NumberOfCols; c++)
+            {
+                for (int r = 0; r < ri.Size.NumberOfRows; r++)
+                {
+                    var d = ConvertUtil.GetValueDouble(ri.GetOffset(r, c), true, true);
 
+                    if (double.IsNaN(d))
+                    {
+                        imr.SetValue(r, c, ErrorValues.ValueError);
+                    }
+                    else
+                    {
+                        imr.SetValue(r, c, -d);
+                    }
+                }
+            }
+            return imr;
+        }
         private static InMemoryRange CreateRange(IRangeInfo l, IRangeInfo r/*, ParsingContext ctx*/)
         {
             var width = Math.Max(l.Size.NumberOfCols, r.Size.NumberOfCols);

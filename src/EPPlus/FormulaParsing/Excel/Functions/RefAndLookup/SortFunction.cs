@@ -28,8 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Sorts the contents of a range or array in ascending or descending order and returns a dynamic array.",
         SupportsArrays = true)]
     internal class SortFunction : ExcelFunction
-    {
+    {        
         private readonly InMemoryRangeSorter _sorter = new InMemoryRangeSorter();
+        public override string NamespacePrefix => "_xlfn._xlws.";
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

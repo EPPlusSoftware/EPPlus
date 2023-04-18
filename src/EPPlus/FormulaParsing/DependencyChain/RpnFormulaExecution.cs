@@ -400,7 +400,7 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             if (address?.WorksheetIx < 0)
                             {
-                                throw (new InvalidOperationException("Address in formula does not reference a worksheet and does not belong to a worksheet."));
+                                throw new InvalidOperationException("Address in formula does not reference a worksheet and does not belong to a worksheet.");
                             }
                             else
                             {
@@ -466,6 +466,7 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return cr.ResultValue;
             FollowChain:
+                
                 ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
                 if (address.IsSingleCell)
                 {
@@ -764,7 +765,7 @@ namespace OfficeOpenXml.FormulaParsing
                         if (ne._name != null)
                         {
                             var address = ne.GetAddress();
-                            if (address == null)
+                            if(address == null)
                             {
                                 if (string.IsNullOrEmpty(ne._name?.Formula) == false)
                                 {
@@ -983,9 +984,6 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.ExcelRange:
                     f._expressionStack.Push(new RangeExpression(result, context));
                     break;
-                //case DataType.Enumerable:
-                //    f._expressionStack.Push(new RpnEnumerableExpression(result, context));
-                //    break;
                 case DataType.Empty:
                     f._expressionStack.Push(Expression.Empty);
                     break;

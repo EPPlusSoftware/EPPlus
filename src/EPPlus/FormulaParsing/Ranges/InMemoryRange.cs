@@ -55,6 +55,23 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = _nRows-1, ToCol = _nCols - 1 };
         }
+
+        public InMemoryRange(IRangeInfo ri)
+        {
+            var size = ri.Size;
+            _nRows = _size.NumberOfRows;
+            _nCols = _size.NumberOfCols;
+            _cells = new ICellInfo[_nRows, _nCols];
+            for (int c = 0; c < _nCols; c++)
+            {
+                for (int r = 0; r < _nRows; r++)
+                {
+                    _cells[r, c] = new InMemoryCellInfo(ri.GetOffset(r, c));
+                }
+            }
+            _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = _nRows - 1, ToCol = _nCols - 1 };
+        }
+
         private readonly FormulaRangeAddress _address;
         private readonly RangeDefinition _size;
         private readonly ExcelWorksheet _ws;

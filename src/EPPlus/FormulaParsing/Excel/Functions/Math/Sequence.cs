@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
         IntroducedInExcelVersion = "2021")]
     internal class Sequence : ExcelFunction
     {
+        public override string NamespacePrefix => "_xlfn.";
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);

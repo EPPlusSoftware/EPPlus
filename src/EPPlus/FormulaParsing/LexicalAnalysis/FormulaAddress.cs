@@ -9,6 +9,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -17,9 +19,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal ExcelWorksheet _ws;
         internal int StartRow, StartCol;
         internal static ISourceCodeTokenizer _tokenizer = OptimizedSourceCodeTokenizer.Default;
+        internal static ISourceCodeTokenizer _tokenizerNWS = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
         internal IList<Token> Tokens;
         internal IList<Token> RpnTokens;
-        //internal IExpressionCompiler _compiler;
         internal int AddressExpressionIndex;
         internal CellStoreEnumerator<object> _formulaEnumerator;
         internal ulong _id=ulong.MinValue;
@@ -115,6 +117,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             set
             {
                 _formula = value;
+                _hasUpdatedNamespace = false;
                 SetFormula(_ws, value);
             }
         }
@@ -307,28 +310,33 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
         }
 
-        //internal Dictionary<ulong, ExpressionTree> _expressionTrees=new Dictionary<ulong, ExpressionTree>();
-        //internal override ExpressionTree GetExpressionTree(int row, int col)
-        //{
-        //    if(row==StartRow && col == StartCol)
-        //    {
-        //        return ExpressionTree;
-        //    }
-        //    else
-        //    {
-        //        var id = ExcelAddressBase.GetCellId(0, row, col);
-        //        if(_expressionTrees.TryGetValue(id, out ExpressionTree tree))
-        //        {
-        //            return tree;
-        //        }
-        //        else
-        //        {
-        //            tree= ExpressionTree.CreateFromOffset(row - StartRow, col - StartCol);
-        //            _expressionTrees.Add(id, tree);
-        //            return tree;
-        //        }
-        //    }
-        //}
+        internal bool _hasUpdatedNamespace=false;
+        internal void UpdateFormulaNamespaces(Dictionary<string, string> nsDict)
+        {
+            _formula = UpdateFormulaNamespaces(_formula, nsDict);
+            _hasUpdatedNamespace = true;
+        }
+
+        internal static string UpdateFormulaNamespaces(string formula, Dictionary<string, string> nsDict)
+        {
+            if (nsDict.Keys.Any(x => formula.IndexOf(x, StringComparison.OrdinalIgnoreCase) >= 0))
+            {
+                var sb = new StringBuilder();
+                foreach(var t in _tokenizerNWS.Tokenize(formula))
+                {
+                    if (t.TokenTypeIsSet(TokenType.Function) && nsDict.ContainsKey(t.Value))
+                    {
+                        sb.Append(nsDict[t.Value] + t.Value);
+                    }
+                    else
+                    {
+                        sb.Append(t.Value);
+                    }
+                }
+                return sb.ToString();
+            }
+            return formula;
+        }
     }
     internal enum FormulaType
     {
@@ -347,181 +355,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         ToColFixed = 0x8,
         All = 0xF,
     }
-    //internal abstract class TokenInfo
-    //{
-    //    internal FormulaType Type;
-    //    internal short TokenStartPosition;
-    //    internal short TokenEndPosition;
-    //    internal virtual void SetOffset(int rowOffset, int colOffset) { }
-
-    //    internal abstract string GetValue();
-
-    //    internal virtual bool IsFixed { get { return true; } }
-    //}
-    //internal class FormulaCellAddress : FormulaAddressBase
-    //{
-    //    internal FormulaCellAddress()
-    //    {
-    //    }
-    //    internal FormulaCellAddress(FormulaAddressBase addressBase)
-    //    {
-    //        ExternalReferenceIx = addressBase.ExternalReferenceIx;
-    //        WorksheetIx = addressBase.WorksheetIx;
-    //    }
-    //    internal int Row, Col;
-    //    internal bool FixedRow, FixedCol;
-    //    //internal override void SetOffset(int rowOffset, int colOffset)
-    //    //{
-    //    //    if (!FixedRow) Row += rowOffset;
-    //    //    if (!FixedCol) Col += colOffset;
-    //    //}
-    //    //internal override bool IsFixed { get { return FixedRow & FixedCol; } }
-    //    //internal override string GetValue()
-    //    //{
-    //    //    return ExcelCellBase.GetAddress(Row, FixedRow, Col, FixedCol);
-    //    //}
-    //}
-    //internal class FormulaFixedValue : TokenInfo
-    //{
-    //    public FormulaFixedValue(short startPos, short endPos, object v)
-    //    {
-    //        Type = FormulaType.FixedValue;
-    //        TokenStartPosition = startPos;
-    //        TokenEndPosition = endPos;
-    //        Value = v;
-    //    }
-    //    internal object Value;
-    //    internal override string GetValue()
-    //    {
-    //        return Value.ToString();
-    //    }
-    //}
-    //internal class FormulaNamedFormula : TokenInfo
-    //{
-    //    public FormulaNamedFormula(short startPos, short endPos, string f)
-    //    {
-    //        Type = FormulaType.Formula;
-    //        TokenStartPosition = startPos;
-    //        TokenEndPosition = endPos;
-    //        Formula = f;
-    //    }
-    //    internal string Formula;
-    //    internal override bool IsFixed { get { return false; } } //TODO: Check here if we can us fixed from the actual formula in  later stage.
-    //    internal override string GetValue()
-    //    {
-    //        return Formula;
-    //    }
-    //}
-    //internal class FormulaRange : TokenInfo
-    //{
-    //    ParsingContext _ctx;
-    //    public FormulaRange(ParsingContext ctx)
-    //    {
-    //        _ctx = ctx;
-    //    }
-    //    internal override void SetOffset(int rowOffset, int colOffset)
-    //    { 
-    //        for(int i=0;i < Ranges.Count;i++)
-    //        {
-    //            var r=Ranges[i];
-    //            if ((r.FixedFlag & FixedFlag.FromRowFixed) == FixedFlag.None) r.FromRow += rowOffset;
-    //            if ((r.FixedFlag & FixedFlag.ToRowFixed) == FixedFlag.None) r.ToRow += rowOffset;
-    //            if ((r.FixedFlag & FixedFlag.FromColFixed) == FixedFlag.None) r.FromCol += colOffset;
-    //            if ((r.FixedFlag & FixedFlag.ToColFixed) == FixedFlag.None) r.ToCol += colOffset;
-    //        }
-    //    }
-    //    internal override bool IsFixed 
-    //    {
-    //        get
-    //        {
-    //            foreach(var r in Ranges)
-    //            {
-    //                if(r.FixedFlag != FixedFlag.All)
-    //                {
-    //                    return false;
-    //                }
-    //            }
-    //            return true;
-    //        }
-    //    }
-    //    internal List<FormulaRangeAddress> Ranges;
-    //    internal FormulaRange(short startPos, short endPos, int fromRow, int fromCol, int toRow, int toCol, FixedFlag fixedFlag)
-    //    {
-    //        Type = FormulaType.FormulaRange;
-    //        TokenStartPosition = startPos;
-    //        TokenEndPosition = endPos;
-    //        Ranges = new List<FormulaRangeAddress>();
-    //        Ranges.Add(
-    //            new FormulaRangeAddress(_ctx)
-    //            {
-    //                FromRow = fromRow,
-    //                FromCol = fromCol,
-    //                ToRow = toRow,
-    //                ToCol = toCol,
-    //                FixedFlag = fixedFlag
-    //            });
-    //    }
-    //    internal FormulaRange(short startPos, short endPos, ExcelRangeBase range)
-    //    {
-    //        Type = FormulaType.FormulaRange;
-    //        TokenStartPosition = startPos;
-    //        TokenEndPosition = endPos;
-    //        Ranges = new List<FormulaRangeAddress>();
-    //        if (range.Addresses == null)
-    //        {
-    //            Ranges.Add(
-    //                new FormulaRangeAddress(_ctx)
-    //                {
-    //                    ExternalReferenceIx = (short)(string.IsNullOrEmpty(range._wb) ? 0 : range._workbook.ExternalLinks.GetExternalLink(range._wb)),
-    //                    WorksheetIx = (short)range.Worksheet.PositionId,
-    //                    FromRow = range._fromRow,
-    //                    FromCol = range._fromCol,
-    //                    ToRow = range._toRow,
-    //                    ToCol = range._toCol,
-
-    //                    FixedFlag = (range._fromRowFixed ? FixedFlag.FromRowFixed : 0) |
-    //                                (range._fromColFixed ? FixedFlag.FromColFixed : 0) |
-    //                                (range._toRowFixed ? FixedFlag.ToRowFixed : 0) |
-    //                                (range._toColFixed ? FixedFlag.ToColFixed : 0)
-    //                }); 
-    //        }
-    //        else
-    //        {
-    //            foreach (var a in range.Addresses)
-    //            {
-    //                Ranges.Add(
-    //                    new FormulaRangeAddress(_ctx)
-    //                    {
-    //                        ExternalReferenceIx = (short)(string.IsNullOrEmpty(a._wb) ? -1 : range._workbook.ExternalLinks.GetExternalLink(a._wb)),
-    //                        WorksheetIx = (short)(string.IsNullOrEmpty(a.WorkSheetName) ? range.Worksheet.PositionId : (range._workbook.Worksheets[a.WorkSheetName]==null ? -1 : range._workbook.Worksheets[a.WorkSheetName].PositionId)),
-    //                        FromRow = a._fromRow,
-    //                        FromCol = a._fromCol,
-    //                        ToRow = a._toRow,
-    //                        ToCol = a._toCol,
-    //                        FixedFlag = (a._fromRowFixed ? FixedFlag.FromRowFixed : 0) |
-    //                                    (a._fromColFixed ? FixedFlag.FromColFixed : 0) |
-    //                                    (a._toRowFixed ? FixedFlag.ToRowFixed : 0) |
-    //                                    (a._toColFixed ? FixedFlag.ToColFixed : 0) 
-
-    //                    });
-    //            }
-    //        }
-    //    }
-    //    internal override string GetValue()
-    //    {
-    //        var sb=new StringBuilder();
-    //        foreach(var r in Ranges)
-    //        {
-    //            sb.Append(ExcelCellBase.GetAddress(r.FromRow, r.FromCol, r.ToRow, r.ToCol,
-    //                (r.FixedFlag & FixedFlag.FromRowFixed) > 0,
-    //                (r.FixedFlag & FixedFlag.FromColFixed) > 0,
-    //                (r.FixedFlag & FixedFlag.ToRowFixed) > 0,
-    //                (r.FixedFlag & FixedFlag.ToColFixed) > 0));
-    //            sb.Append(':');
-    //        }
-    //        return sb.ToString(0, sb.Length - 1);
-    //    }
-    //}
     public struct FormulaCellAddress
     {
         public FormulaCellAddress(int wsIx, int row, int column)

@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             ValidateArguments(arguments, 1);
             double result = 0d;
             List<List<double>> results = new List<List<double>>();
-            foreach (var arg in arguments)
+            foreach(var arg in arguments)
             {
                 results.Add(new List<double>());
                 var currentResult = results.Last();

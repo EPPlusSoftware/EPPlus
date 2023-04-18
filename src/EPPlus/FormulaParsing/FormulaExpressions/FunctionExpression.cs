@@ -80,8 +80,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 if(_function==null) return new CompileResult(ExcelErrorValue.Create(eErrorType.Name), DataType.ExcelError);
 
                 var compiler = _functionCompilerFactory.Create(_function);
-                var result = compiler.Compile(_args??Enumerable.Empty<Expression>());
-                if (_negate!=0)
+                var result = compiler.Compile(_args ?? Enumerable.Empty<Expression>());
+                if (_negate != 0)
                 {
                     if (result.IsNumeric==false)
                     {
@@ -120,24 +120,23 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 return this;
             }
-            return new FunctionExpression(Context) { _arguments = _arguments, _function = _function, _functionCompilerFactory = _functionCompilerFactory, _startPos = _startPos, _endPos = _endPos  };
+            return new FunctionExpression(Context) 
+            {   
+                _arguments = _arguments, 
+                _function = _function, 
+                _functionCompilerFactory = _functionCompilerFactory, 
+                _startPos = _startPos, 
+                _endPos = _endPos
+            };
         }
         private ExpressionStatus _status= ExpressionStatus.NoSet;
         internal override ExpressionStatus Status
         {
             get
             {
-                if(_status==ExpressionStatus.NoSet)
+                if(_status == ExpressionStatus.NoSet)
                 {
-                    //foreach(var a in _arguments)
-                    //{
-                    //    if(a.Status==RpnExpressionStatus.IsAddress)
-                    //    {
-                    //        _status= a.Status;
-                    //        return _status;
-                    //    }
-                    //}
-                    _status= ExpressionStatus.CanCompile;
+                    _status = ExpressionStatus.CanCompile;
                 }
                 return _status;
             }

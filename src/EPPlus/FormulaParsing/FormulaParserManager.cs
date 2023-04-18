@@ -153,7 +153,6 @@ namespace OfficeOpenXml.FormulaParsing
             Require.That(range).IsNotNull();
             return GetCalculationChain(range, null);
         }
-
         public IEnumerable<IFormulaCellInfo> GetCalculationChain(ExcelRangeBase range, ExcelCalculationOption options)
         {
             Require.That(range).IsNotNull();

@@ -351,7 +351,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             var cTag = prefix + "c";
             var fTag = prefix + "f";
             var vTag = prefix + "v";
-
+            var nsf = _package.Workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository.NamespaceFunctions;
             StringBuilder sbXml = new StringBuilder();
             var ss = _package.Workbook._sharedStrings;
             var cache = new StringBuilder();
@@ -418,7 +418,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 }
                             }
                         }
-
+                        if(f._hasUpdatedNamespace==false) f.UpdateFormulaNamespaces(nsf);
                         if (f.Address.IndexOf(':') > 0)
                         {
                             if (f.StartCol == cse.Column && f.StartRow == cse.Row)
@@ -476,8 +476,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else if (formula != null && formula.ToString() != "")
                     {
+                        var f= SharedFormula.UpdateFormulaNamespaces(formula.ToString(), nsf);
                         cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
-                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(formula.ToString())}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
                     }
                     else
                     {

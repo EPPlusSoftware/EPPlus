@@ -34,7 +34,14 @@ namespace OfficeOpenXml.FormulaParsing
             
             if(_ws==null)
             {
-                return ExcelCellBase.GetAddress(_row, _column);
+                if(_row>=0 && _column>=0)
+                {
+                    return ExcelCellBase.GetAddress(_row, _column);
+                }
+                else
+                {
+                    return $"Workbook name - index {_row}";
+                }
             }
             return _ws.Name + "!" + ExcelCellBase.GetAddress(_row, _column);
         }

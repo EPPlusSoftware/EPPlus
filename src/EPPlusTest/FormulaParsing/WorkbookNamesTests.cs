@@ -47,13 +47,11 @@ namespace EPPlusTest.FormulaParsing
         {
             _package = OpenTemplatePackage("workbook-offset-name.xlsx");
         }
-
         [TestCleanup]
         public void Cleanup()
         {
             _package.Dispose();
         }
-
         [TestMethod]
         public void ShouldCalculateOffsetName()
         {
