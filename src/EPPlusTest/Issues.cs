@@ -4253,8 +4253,8 @@ namespace EPPlusTest
         [TestMethod]
         public void s803()
         {
-            using (var p = OpenPackage("s803.xlsx",true))
-            {                
+            using (var p = OpenPackage("s803.xlsx", true))
+            {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1:E100"].FillNumber(1, 1);
                 ws.Cells["A82"].Formula = "a1";
@@ -4359,34 +4359,34 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-            private void AddLineSeries(ExcelChart chart, string seriesAddress, string xSeriesAddress, string seriesName)
-            {
-                var lineSeries = chart.Series.Add(seriesAddress, xSeriesAddress);
-                lineSeries.Header = seriesName;
-            }
+        private void AddLineSeries(ExcelChart chart, string seriesAddress, string xSeriesAddress, string seriesName)
+        {
+            var lineSeries = chart.Series.Add(seriesAddress, xSeriesAddress);
+            lineSeries.Header = seriesName;
+        }
 
 
-            private DataTable Data()
-            {
-                var toReturn = new DataTable();
-                toReturn.Columns.Add("Month");
-                toReturn.Columns.Add("Serie1", typeof(decimal));
-                toReturn.Columns.Add("Serie2", typeof(decimal));
-                toReturn.Columns.Add("Serie3", typeof(decimal));
+        private DataTable Data()
+        {
+            var toReturn = new DataTable();
+            toReturn.Columns.Add("Month");
+            toReturn.Columns.Add("Serie1", typeof(decimal));
+            toReturn.Columns.Add("Serie2", typeof(decimal));
+            toReturn.Columns.Add("Serie3", typeof(decimal));
 
 
-                toReturn.Rows.Add("01/2022", 1.4, 2.4, 3.4);
-                toReturn.Rows.Add("02/2022", 1.4, 2.4, 3.4);
-                toReturn.Rows.Add("03/2022", 1.4, 2.4, 3.4);
-                toReturn.Rows.Add("04/2022", 1.7, 2.7, 3.7);
-                toReturn.Rows.Add("05/2022", 1.7, 2.7, 3.7);
-                toReturn.Rows.Add("06/2022", 1.7, 2.7, 3.7);
-                toReturn.Rows.Add("07/2022", 1.9, 2.9, 3.9);
-                toReturn.Rows.Add("08/2022", 1.9, 2.9, 3.9);
+            toReturn.Rows.Add("01/2022", 1.4, 2.4, 3.4);
+            toReturn.Rows.Add("02/2022", 1.4, 2.4, 3.4);
+            toReturn.Rows.Add("03/2022", 1.4, 2.4, 3.4);
+            toReturn.Rows.Add("04/2022", 1.7, 2.7, 3.7);
+            toReturn.Rows.Add("05/2022", 1.7, 2.7, 3.7);
+            toReturn.Rows.Add("06/2022", 1.7, 2.7, 3.7);
+            toReturn.Rows.Add("07/2022", 1.9, 2.9, 3.9);
+            toReturn.Rows.Add("08/2022", 1.9, 2.9, 3.9);
 
 
-                return toReturn;
-            }
+            return toReturn;
+        }
         [TestMethod]
         public void s437()
         {
@@ -4401,12 +4401,12 @@ namespace EPPlusTest
                     metroChart.YAxis.MinValue = 0d;
                     metroChart.YAxis.MajorUnit = 0.05d;
 
-                    
+
                     foreach (var ct in metroChart.PlotArea.ChartTypes)
                     {
                         ///The "Series" being returned in this is only the bar series
                         ///while the other two line series are not being returned.
-                        foreach(var serie in ct.Series)
+                        foreach (var serie in ct.Series)
                         {
 
                         }
@@ -4442,7 +4442,7 @@ namespace EPPlusTest
         [TestMethod]
         public void extLst()
         {
-            using(ExcelPackage package = OpenTemplatePackage("extLstMany.xlsx"))
+            using (ExcelPackage package = OpenTemplatePackage("extLstMany.xlsx"))
             {
                 //package.Workbook.Worksheets.Delete(0);
                 Assert.AreEqual(1, package.Workbook.Worksheets[0].DataValidations.Count);
@@ -4509,7 +4509,7 @@ namespace EPPlusTest
 
                 // Insert row(-s) after second one (it has index 3 now).
                 eppWorksheet.InsertRow(4, 1);
-                
+
                 // Formula should not be updated, because row 3 is above.
                 // But now its =A2*B2. Why?
                 Assert.AreEqual("A3*B3", eppWorksheet.Cells["C3"].Formula);
@@ -4551,10 +4551,21 @@ namespace EPPlusTest
                 worksheet.InsertRow(4, 1); // This seems to trigger the issue
 
                 // Next line fails, the formula in C1 is "A2*B2" (which is wrong)
-                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1"); //  ... Now this fails
-                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
+                Debug.Assert(worksheet.Cells["C1"].Formula == "A1 * B1"); //  ... Now this fails
+                Debug.Assert(worksheet.Cells["C2"].Formula == "A2 * B2");
+            }
+        }
+        [TestMethod]
+        public void Issue843()
+        {
+            using (var p = OpenTemplatePackage("i843.xlsx"))
+            {
+                var picture = p.Workbook.Worksheets["Photos"];
+                while (picture.Drawings.Count > 0)
+                {
+                    picture.Drawings.Remove(picture.Drawings[0]);
+                }
             }
         }
     }
 }
-
