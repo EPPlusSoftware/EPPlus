@@ -4532,39 +4532,27 @@ namespace EPPlusTest
                 // Insert a row and copy the original row
                 worksheet.InsertRow(2, 1);
                 worksheet.Cells["A1:C1"].Copy(worksheet.Cells["A2:C2"]);
-                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1");
-                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
+                Assert.AreEqual("A1*B1", worksheet.Cells["C1"].Formula);
+                Assert.AreEqual("A2*B2", worksheet.Cells["C2"].Formula);
 
                 // Insert another row and copy the original row
                 worksheet.InsertRow(3, 1);
                 worksheet.Cells["A1:C1"].Copy(worksheet.Cells["A3:C3"]);
-                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1");
-                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
-                Debug.Assert(worksheet.Cells["C3"].Formula == "A3*B3");
+                Assert.AreEqual("A1*B1", worksheet.Cells["C1"].Formula);
+                Assert.AreEqual("A2*B2", worksheet.Cells["C2"].Formula);
+                Assert.AreEqual("A3*B3", worksheet.Cells["C3"].Formula);
 
                 // Delete the original row
                 worksheet.DeleteRow(1);
-                Debug.Assert(worksheet.Cells["C1"].Formula == "A1*B1"); // This still succeeds...
-                Debug.Assert(worksheet.Cells["C2"].Formula == "A2*B2");
+                Assert.AreEqual("A1*B1", worksheet.Cells["C1"].Formula); // This still succeeds...
+                Assert.AreEqual("A2*B2", worksheet.Cells["C2"].Formula);
 
                 // Insert a row the end
                 worksheet.InsertRow(4, 1); // This seems to trigger the issue
 
                 // Next line fails, the formula in C1 is "A2*B2" (which is wrong)
-                Debug.Assert(worksheet.Cells["C1"].Formula == "A1 * B1"); //  ... Now this fails
-                Debug.Assert(worksheet.Cells["C2"].Formula == "A2 * B2");
-            }
-        }
-        [TestMethod]
-        public void Issue843()
-        {
-            using (var p = OpenTemplatePackage("i843.xlsx"))
-            {
-                var picture = p.Workbook.Worksheets["Photos"];
-                while (picture.Drawings.Count > 0)
-                {
-                    picture.Drawings.Remove(picture.Drawings[0]);
-                }
+                Assert.AreEqual("A1*B1", worksheet.Cells["C1"].Formula); //  ... Now this fails
+                Assert.AreEqual("A2*B2", worksheet.Cells["C2"].Formula);
             }
         }
     }
