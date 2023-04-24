@@ -30,6 +30,7 @@ using System.Security;
 using System.Text;
 using System.Xml.Linq;
 using static OfficeOpenXml.ExcelWorksheet;
+using OfficeOpenXml.XMLWritingEncoder;
 
 namespace OfficeOpenXml.ExcelXMLWriter
 {
@@ -616,22 +617,22 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             if (string.IsNullOrEmpty(_ws.DataValidations[i].ErrorTitle) == false)
             {
-                cache.Append($"errorTitle=\"{_ws.DataValidations[i].ErrorTitle}\" ");
+                cache.Append($"errorTitle=\"{_ws.DataValidations[i].ErrorTitle.EncodeXMLAttribute()}\" ");
             }
 
             if (string.IsNullOrEmpty(_ws.DataValidations[i].Error) == false)
             {
-                cache.Append($"error=\"{_ws.DataValidations[i].Error}\" ");
+                cache.Append($"error=\"{_ws.DataValidations[i].Error.EncodeXMLAttribute()}\" ");
             }
 
             if (string.IsNullOrEmpty(_ws.DataValidations[i].PromptTitle) == false)
             {
-                cache.Append($"promptTitle=\"{_ws.DataValidations[i].PromptTitle}\" ");
+                cache.Append($"promptTitle=\"{_ws.DataValidations[i].PromptTitle.EncodeXMLAttribute()}\" ");
             }
 
             if (string.IsNullOrEmpty(_ws.DataValidations[i].Prompt) == false)
             {
-                cache.Append($"prompt=\"{_ws.DataValidations[i].Prompt}\" ");
+                cache.Append($"prompt=\"{_ws.DataValidations[i].Prompt.EncodeXMLAttribute()}\" ");
             }
 
             if (_ws.DataValidations.HasValidationType(InternalValidationType.DataValidation))
