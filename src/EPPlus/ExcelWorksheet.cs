@@ -2822,6 +2822,7 @@ namespace OfficeOpenXml
                     }
                 }
             }
+            if (colNum == -1) return;
             if (col.TotalsRowFunction == RowFunctions.Custom)
             {
                 SetFormula(tbl.Address._toRow, colNum, col.TotalsRowFormula);

@@ -797,6 +797,7 @@ namespace OfficeOpenXml.Table
                     if (value)
                     {
                         SetXmlNodeString(TOTALSROWCOUNT_PATH, "1");
+                        SetXmlNodeString(TOTALSROWSHOWN_PATH, "1");
                         TotalsRowStyle.SetStyle();
                         foreach (var c in Columns)
                         {

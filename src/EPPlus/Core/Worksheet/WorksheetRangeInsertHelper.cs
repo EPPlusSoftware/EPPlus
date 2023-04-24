@@ -15,6 +15,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -465,16 +466,18 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
 
                 //Update CalculatedColumnFormula
+                var address = tbl.Address.Intersect(range);
                 foreach (var col in tbl.Columns)
                 {
                     if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
                     {
                         var cf = ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
                         col.SetFormula(cf);
-                        var address = tbl.Address.Intersect(range);
-                        if (address != null)
+                        if (address != null && tbl.Address._fromCol+col.Position-1 >= effectedAddress._fromCol)
                         {
-                            col.SetFormulaCells(address._fromRow, address._toRow, tbl.Address._fromCol + col.Position);
+                            var fromRow = tbl.ShowHeader && address._fromRow == tbl.Address._fromRow ? address._fromRow + 1 : address._fromRow;
+                            var toRow = tbl.ShowTotal ? address._toRow - 1 : address._toRow;
+                            col.SetFormulaCells(fromRow, toRow, tbl.Address._fromCol + col.Position + range.Columns);
                         }
                     }
                 }

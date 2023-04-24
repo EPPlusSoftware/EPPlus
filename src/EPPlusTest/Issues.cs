@@ -4555,5 +4555,27 @@ namespace EPPlusTest
                 Assert.AreEqual("A2*B2", worksheet.Cells["C2"].Formula);
             }
         }
+        [TestMethod]
+        public void Issue854()
+        {
+            //using (var p = OpenTemplatePackage("i854.xlsx"))
+            using (var p = OpenTemplatePackage("i854.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Component Failure Rates"];
+                ws.Tables[0].DeleteRow(0, 1);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue854_2()
+        {
+            using (var p = OpenTemplatePackage("i854-2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Component Failure Rates"];
+                var table = ws.Tables[0];
+                table.Columns.Insert(8,1);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
