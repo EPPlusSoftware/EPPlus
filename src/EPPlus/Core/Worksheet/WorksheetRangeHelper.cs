@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -109,6 +110,12 @@ namespace OfficeOpenXml.Core.Worksheet
                 if (!string.IsNullOrEmpty(ws._mergedCells[i]))
                 {
                     ExcelAddressBase addr = new ExcelAddressBase(ws._mergedCells[i]), newAddr;
+
+                    if ((new ExcelAddress(fromRow, column, toRow, columns)).Collide(addr) == eAddressCollition.No)
+                    {
+                        continue;
+                    }
+
                     if (delete)
                     {
                         newAddr = addr.DeleteColumn(column, columns);

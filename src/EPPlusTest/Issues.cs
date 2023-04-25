@@ -4577,5 +4577,21 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void Issue852()
+        {
+            using (var package = new ExcelPackage(new FileInfo("C:\\epplusTest\\Workbooks\\i852.xlsx")))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                sheet.Cells["A2:C3"].Insert(eShiftTypeInsert.Right);
+                var f = "C:\\epplusTest\\Workbooks\\i852Result.xlsx";
+                if (File.Exists(f))
+                {
+                    File.Delete(f);
+                }
+                package.SaveAs(f);
+            }
+        }
     }
 }
