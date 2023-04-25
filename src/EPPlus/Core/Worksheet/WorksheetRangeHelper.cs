@@ -47,15 +47,6 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void FixMergedCellsRow(ExcelWorksheet ws, int row, int rows, bool delete, int fromCol=1, int toCol=ExcelPackage.MaxColumns)
         {
-            if (delete)
-            {
-                ws._mergedCells._cells.Delete(row, 0, rows, ExcelPackage.MaxColumns + 1);
-            }
-            else
-            {
-                ws._mergedCells._cells.Insert(row, 0, rows, ExcelPackage.MaxColumns + 1);
-            }
-
             List<int> removeIndex = new List<int>();
             for (int i = 0; i < ws._mergedCells.Count; i++)
             {
@@ -96,14 +87,6 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void FixMergedCellsColumn(ExcelWorksheet ws, int column, int columns, bool delete, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
         {
-            if (delete)
-            {
-                ws._mergedCells._cells.Delete(fromRow, column, toRow - fromRow + 1, columns);
-            }
-            else
-            {
-                ws._mergedCells._cells.Insert(fromRow, column, toRow - fromRow + 1, columns);
-            }
             List<int> removeIndex = new List<int>();
             for (int i = 0; i < ws._mergedCells.Count; i++)
             {
