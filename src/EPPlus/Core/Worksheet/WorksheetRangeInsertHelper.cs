@@ -876,6 +876,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._flags.Insert(rowFrom, columnFrom, rows, columns);
             ws._metadataStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._vmlDrawings?._drawingsCellStore.Insert(rowFrom, columnFrom, rows, columns);
+            ws.MergedCells._cells.Insert(rowFrom, columnFrom, rows, columns);
 
             if (rows == 0 || columns == 0)
             {
@@ -904,6 +905,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._flags.InsertShiftRight(fromAddress);
             ws._metadataStore.InsertShiftRight(fromAddress);
             ws._vmlDrawings?._drawingsCellStore.InsertShiftRight(fromAddress);
+            ws.MergedCells._cells.InsertShiftRight(fromAddress); 
 
             ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._toRow, fromAddress._toCol);
             ws.ThreadedComments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._toRow, fromAddress._toCol);

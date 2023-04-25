@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -46,15 +47,6 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void FixMergedCellsRow(ExcelWorksheet ws, int row, int rows, bool delete, int fromCol=1, int toCol=ExcelPackage.MaxColumns)
         {
-            if (delete)
-            {
-                ws._mergedCells._cells.Delete(row, 0, rows, ExcelPackage.MaxColumns + 1);
-            }
-            else
-            {
-                ws._mergedCells._cells.Insert(row, 0, rows, ExcelPackage.MaxColumns + 1);
-            }
-
             List<int> removeIndex = new List<int>();
             for (int i = 0; i < ws._mergedCells.Count; i++)
             {
@@ -95,41 +87,37 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         internal static void FixMergedCellsColumn(ExcelWorksheet ws, int column, int columns, bool delete, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
         {
-            if (delete)
-            {
-                ws._mergedCells._cells.Delete(0, column, 0, columns);
-            }
-            else
-            {
-                ws._mergedCells._cells.Insert(0, column, 0, columns);
-            }
             List<int> removeIndex = new List<int>();
             for (int i = 0; i < ws._mergedCells.Count; i++)
             {
                 if (!string.IsNullOrEmpty(ws._mergedCells[i]))
                 {
                     ExcelAddressBase addr = new ExcelAddressBase(ws._mergedCells[i]), newAddr;
-                    if (delete)
+
+                    if (addr._fromRow >= fromRow && addr._toRow <= toRow)
                     {
-                        newAddr = addr.DeleteColumn(column, columns);
-                        if (newAddr == null)
+                        if (delete)
                         {
-                            removeIndex.Add(i);
-                            continue;
+                            newAddr = addr.DeleteColumn(column, columns);
+                            if (newAddr == null)
+                            {
+                                removeIndex.Add(i);
+                                continue;
+                            }
                         }
-                    }
-                    else
-                    {
-                        newAddr = addr.AddColumn(column, columns);
+                        else
+                        {
+                            newAddr = addr.AddColumn(column, columns);
+                            if (newAddr.Address != addr.Address)
+                            {
+                                ws._mergedCells.SetIndex(newAddr, i);
+                            }
+                        }
+
                         if (newAddr.Address != addr.Address)
                         {
-                            ws._mergedCells.SetIndex(newAddr, i);
+                            ws._mergedCells._list[i] = newAddr._address;
                         }
-                    }
-
-                    if (newAddr.Address != addr.Address)
-                    {
-                        ws._mergedCells._list[i] = newAddr._address;
                     }
                 }
             }
