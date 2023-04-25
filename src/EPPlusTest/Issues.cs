@@ -4578,19 +4578,86 @@ namespace EPPlusTest
             }
         }
 
+        //[TestMethod]
+        //public void Issue852()
+        //{
+        //    using (var package = new ExcelPackage(new FileInfo("C:\\epplusTest\\Workbooks\\i852.xlsx")))
+        //    {
+        //        var sheet = package.Workbook.Worksheets[0];
+        //        sheet.Cells["A2:C3"].Insert(eShiftTypeInsert.Right);
+        //        var f = "C:\\epplusTest\\Workbooks\\i852Result.xlsx";
+        //        if (File.Exists(f))
+        //        {
+        //            File.Delete(f);
+        //        }
+        //        package.SaveAs(f);
+        //    }
+        //}
+
         [TestMethod]
         public void Issue852()
         {
-            using (var package = new ExcelPackage(new FileInfo("C:\\epplusTest\\Workbooks\\i852.xlsx")))
+            using (var p = OpenPackage("i852.xlsx",true))
             {
-                var sheet = package.Workbook.Worksheets[0];
-                sheet.Cells["A2:C3"].Insert(eShiftTypeInsert.Right);
-                var f = "C:\\epplusTest\\Workbooks\\i852Result.xlsx";
-                if (File.Exists(f))
+                //Making the sheet
+                var sheet = p.Workbook.Worksheets.Add("mergedCellsTest");
+
+                var cells = sheet.Cells["A1:D1"];
+
+                cells.Merge = true;
+                cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cells.Style.Fill.BackgroundColor.SetColor(Color.Orange);
+
+                sheet.Cells["A2"].Value = "a";
+                sheet.Cells["B2"].Value = "b";
+                sheet.Cells["A3"].Value = "c";
+                sheet.Cells["B3"].Value = "d";
+
+                var square = sheet.Cells["C2:C3"];
+
+                square.Merge = true;
+
+                square.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                square.Style.Fill.BackgroundColor.SetColor(Color.LightYellow);
+
+                var numberRange = sheet.Cells["A5:E5"];
+
+                for(int i = 0; i < numberRange.Columns; i++)
                 {
-                    File.Delete(f);
+                    numberRange.SetCellValue(0, i, i + 1);
                 }
-                package.SaveAs(f);
+
+                var lowMerge = sheet.Cells["A6:E6"];
+
+                lowMerge.Merge = true;
+
+                lowMerge.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                lowMerge.Style.Fill.BackgroundColor.SetColor(Color.Blue);
+
+                sheet.Cells["A2:C3"].Insert(eShiftTypeInsert.Right);
+
+                Assert.IsTrue(sheet.Cells["A1:D1"].Merge);
+                Assert.IsTrue(sheet.Cells["A6:E6"].Merge);
+                Assert.IsFalse(sheet.Cells["E1:G1"].Merge);
+                Assert.IsFalse(sheet.Cells["A6:H6"].Merge);
+
+                Assert.AreEqual(Color.LightYellow.ToArgb().ToString("X"), sheet.Cells["F2:F3"].Style.Fill.BackgroundColor.Rgb);
+
+                var stream = new MemoryStream(); 
+                p.SaveAs(stream);
+
+                ExcelPackage newPack = new ExcelPackage(stream);
+
+                var newSheet = newPack.Workbook.Worksheets[0];
+
+                //Performing the test
+
+                Assert.IsTrue(newSheet.Cells["A1:D1"].Merge);
+                Assert.IsTrue(newSheet.Cells["A6:E6"].Merge);
+                Assert.IsFalse(newSheet.Cells["E1:G1"].Merge);
+                Assert.IsFalse(newSheet.Cells["A6:H6"].Merge);
+
+                Assert.AreEqual(Color.LightYellow.ToArgb().ToString("X"), newSheet.Cells["F2:F3"].Style.Fill.BackgroundColor.Rgb);
             }
         }
     }
