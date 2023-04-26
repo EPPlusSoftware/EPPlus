@@ -45,5 +45,10 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeControlProperties = "application/vnd.ms-excel.controlproperties+xml";
         internal const string contentTypeChart = "application/vnd.openxmlformats-officedocument.drawingml.chart+xml";
         internal const string contentTypeChartEx = "application/vnd.ms-office.chartex+xml";
+
+        //Rich data
+        internal const string contentTypeRichDataValue = "application/vnd.ms-excel.rdrichvalue+xml";
+        internal const string contentTypeRichDataValueStructure = "application/vnd.ms-excel.rdrichvaluestructure+xml";
+        internal const string contentTypeRichDataValueType = "application/vnd.ms-excel.rdrichvaluetypes+xml";
     }
 }

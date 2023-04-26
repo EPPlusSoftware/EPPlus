@@ -113,6 +113,14 @@ namespace OfficeOpenXml
             /// A constant for the Value error in Excel
             /// </summary>
             public const string Value = "#VALUE!";
+            /// <summary>
+            /// A constant for the Calc error in Excel
+            /// </summary>
+            public const string Calc = "#CALC!";
+            /// <summary>
+            /// A constant for the Spill error in Excel
+            /// </summary>
+            public const string Spill = "#SPILL!";
 
             private static Dictionary<string, eErrorType> _values = new Dictionary<string, eErrorType>()
                 {
@@ -122,7 +130,9 @@ namespace OfficeOpenXml
                     {Null, eErrorType.Null},
                     {Num, eErrorType.Num},
                     {Ref, eErrorType.Ref},
-                    {Value, eErrorType.Value}
+                    {Value, eErrorType.Value},
+                    {Calc, eErrorType.Calc},
+                    {Spill, eErrorType.Spill},
                 };
 
             /// <summary>
@@ -228,6 +238,10 @@ namespace OfficeOpenXml
                     return Values.Ref;
                 case eErrorType.Value:
                     return Values.Value;
+                case eErrorType.Calc:
+                    return Values.Calc;
+                case eErrorType.Spill:
+                    return Values.Spill;
                 default:
                     throw(new ArgumentException("Invalid errortype"));
             }

@@ -38,6 +38,7 @@ using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
+using OfficeOpenXml.RichData;
 
 namespace OfficeOpenXml
 {
@@ -371,7 +372,6 @@ namespace OfficeOpenXml
 				}
 			}
 		}
-
         private ExcelNamedRange AddFormulaOrValueName(XmlElement elem, string fullAddress, ExcelWorksheet nameWorksheet)
         {
 			ExcelNamedRange namedRange;
@@ -413,7 +413,6 @@ namespace OfficeOpenXml
 			allowRelativeAddress = iR;
 			return range;
 		}
-
 		internal void RemoveSlicerCacheReference(string relId, eSlicerSourceType sourceType)
 		{
 			string path;
@@ -438,7 +437,6 @@ namespace OfficeOpenXml
 				}
 			}		
 		}
-
 		internal ExcelRangeBase GetRange(ExcelWorksheet ws, string function)
 		{
 			switch (ExcelAddressBase.IsValid(function))
@@ -1832,6 +1830,19 @@ namespace OfficeOpenXml
                 }
                 return _metadata;
             }
+		}
+		ExcelRichData _richData = null;
+
+        internal ExcelRichData RichData
+		{
+			get
+			{
+				if (_richData == null)
+				{
+					_richData = new ExcelRichData(this);
+				}
+				return _richData;
+			}
 		}
 	} // end Workbook
 }

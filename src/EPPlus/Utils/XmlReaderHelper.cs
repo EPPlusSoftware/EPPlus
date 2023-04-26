@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-
+using OfficeOpenXml.Utils;
 namespace OfficeOpenXml.Utils
 {
     internal static class XmlReaderHelper
