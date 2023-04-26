@@ -4644,5 +4644,26 @@ namespace EPPlusTest
                 Assert.AreEqual(Color.LightYellow.ToArgb().ToString("X"), newSheet.Cells["F2:F3"].Style.Fill.BackgroundColor.Rgb);
             }
         }
+        [TestMethod]
+        public void Issue858()
+        {
+            using (var p = OpenTemplatePackage("i858.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+
+                for (int i = 1; i <= 4; i++)
+                {
+                    sheet.Cells[1, i].IsRichText = true;
+                    sheet.Cells[1, i].Style.WrapText = true;
+                    sheet.Cells[1, i].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
+                    sheet.Cells[1, i].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Top;
+                    sheet.Cells[1, i].RichText.Add($"Hello world {i}");
+
+                }
+
+                var bytearray = p.GetAsByteArray();
+            }
+        }
+
     }
 }

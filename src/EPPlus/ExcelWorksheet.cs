@@ -2870,11 +2870,6 @@ namespace OfficeOpenXml
             _formulas.SetValue(row, col, value);
             if (!ExistsValueInner(row, col)) SetValueInner(row, col, null);
         }
-        //internal void SetStyle(int row, int col, int value)
-        //{
-        //    SetStyleInner(row, col, value);
-        //    if(!_values.Exists(row,col)) SetValueInner(row, col, null);
-        //}
 
         private void SavePivotTables()
         {

@@ -2005,7 +2005,7 @@ namespace OfficeOpenXml
             var d = Worksheet.Dimension;
             if (d != null && Range._fromRow <= d._fromRow && Range._toRow >= d._toRow) //EntireRow?
             {
-                fromRow = 0;
+                fromRow = d._fromRow;
             }
             else
             {
@@ -2013,7 +2013,7 @@ namespace OfficeOpenXml
             }
             if (d != null && Range._fromCol <= d._fromCol && Range._toCol >= d._toCol) //EntireRow?
             {
-                fromCol = 0;
+                fromCol = d._fromCol;
             }
             else
             {

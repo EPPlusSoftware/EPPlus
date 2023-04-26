@@ -135,12 +135,14 @@ namespace OfficeOpenXml.ExcelXMLWriter
             bool first = true;
             while (cse.Next())
             {
+                var col = cse.Value._value as ExcelColumn;
+                if (col == null) continue;
+                
                 if (first)
                 {
                     sw.Write($"<{prefix}cols>");
                     first = false;
                 }
-                var col = cse.Value._value as ExcelColumn;
                 ExcelStyleCollection<ExcelXfs> cellXfs = _package.Workbook.Styles.CellXfs;
 
                 sw.Write($"<{prefix}col min=\"{col.ColumnMin}\" max=\"{col.ColumnMax}\"");
