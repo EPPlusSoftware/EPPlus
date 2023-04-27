@@ -152,7 +152,7 @@ namespace OfficeOpenXml
 		/// </summary>
         internal const string schemaWorkbook = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
 
-        internal const string schemaMain = @"http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+        internal const string schemaMain = @"http://schemas.openxmlformats.org/spreadsheetml/2006/main";                                             
                                             
 		/// <summary>
 		/// Relationship schema name

@@ -13,12 +13,20 @@ namespace OfficeOpenXml.RichData
     internal class ExcelRichValueStructureCollection
     {
         private ExcelWorkbook _wb;
-        ZipPackagePart _part;
+        private ZipPackagePart _part;
+        private Uri _uri;
         internal ExcelRichValueStructureCollection(ExcelWorkbook wb) 
         {
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueStructureRelationship).FirstOrDefault();
-            _part = wb._package.ZipPackage.GetPart(UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri));
-            ReadXml(_part.GetStream());
+            if (r != null)
+            {
+                _uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
+                if (wb._package.ZipPackage.PartExists(_uri))
+                {
+                    _part = wb._package.ZipPackage.GetPart(_uri);
+                    ReadXml(_part.GetStream());
+                }
+            }
         }
 
         private void ReadXml(Stream stream)
@@ -54,6 +62,28 @@ namespace OfficeOpenXml.RichData
             }
             return item;
         }
+
+        internal void Save()
+        {
+            if (_part == null)
+            {
+                _uri = new Uri("/xl/richData/rdrichvaluestructure.xml", UriKind.Relative);
+                _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValueStructure);
+                _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueStructureRelationship);
+            }
+            
+            var stream = _part.GetStream(FileMode.Create);
+            var sw = new StreamWriter(stream);
+            sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+            sw.Write($"<rvStructures xmlns=\"{Schemas.schemaRichData}\" count=\"{StructureItems.Count}\">");
+            foreach(var item in StructureItems)
+            {
+                item.WriteXml(sw);
+            }
+            sw.Write("</rvStructures>");
+            sw.Flush();
+        }
+
         public List<ExcelRichValueStructure> StructureItems { get; }=new List<ExcelRichValueStructure>();
         public string ExtLstXml { get; set; }
     }

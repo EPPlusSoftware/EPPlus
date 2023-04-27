@@ -47,6 +47,10 @@ namespace OfficeOpenXml.Constants
         internal const string SlicerStylesUri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}";
 
         internal const string DataValidationsUri = "{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}";
+
+
+        internal const string DynamicArrayPropertiesUri = "{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}";
+        internal const string RichValueDataUri = "{3e2802c4-a4d2-4d8b-9148-e3be6c30e623}";
     }
 }
 

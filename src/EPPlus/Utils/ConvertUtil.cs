@@ -154,6 +154,29 @@ namespace OfficeOpenXml.Utils
 			result = false;
 			return false;
 		}
+        internal static bool ToBooleanString(string candidateString)
+        {
+            if (!string.IsNullOrEmpty(candidateString))
+            {
+                if (candidateString == "-1" || candidateString == "1")
+                {
+                    return true;
+                }
+                else if (candidateString == "0")
+                {
+                    return true;
+                }
+                else
+                {
+                    if(bool.TryParse(candidateString, out bool result))
+                    {
+                        return result;
+                    }
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Tries to parse an int value from the specificed <paramref name="candidateString"/>.
         /// </summary>

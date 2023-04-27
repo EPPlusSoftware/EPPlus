@@ -32,6 +32,28 @@ namespace OfficeOpenXml.RichData
                     return RichValueDataType.SupportingPropertyBag;
             }
         }
+        internal string GetDataTypeString()
+        {
+            switch (DataType)
+            {
+                case RichValueDataType.Decimal:
+                    return "d";
+                case RichValueDataType.Integer:
+                    return "i";
+                case RichValueDataType.Bool:
+                    return "b";
+                case RichValueDataType.Error:
+                    return "e";
+                case RichValueDataType.String:
+                    return "s";
+                case RichValueDataType.RichValue:
+                    return "r";
+                case RichValueDataType.Array:
+                    return "a";
+                default:
+                    return "spb";
+            }
+        }
 
         public string Name { get; set; }
         public RichValueDataType DataType { get; set; }

@@ -1247,6 +1247,10 @@ namespace OfficeOpenXml
 				VbaProject.Save();
 			}
 
+			if (_richData != null)
+			{
+				_richData.Save();
+			}
 		}
 
         private void SaveExternalLinks()
@@ -1826,7 +1830,7 @@ namespace OfficeOpenXml
 			{
 				if(_metadata==null)
 				{
-                    _metadata=new ExcelMetadata(this, NameSpaceManager);
+                    _metadata=new ExcelMetadata(this);
                 }
                 return _metadata;
             }

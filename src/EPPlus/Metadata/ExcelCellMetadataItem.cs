@@ -10,30 +10,16 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
-using System.Collections.Generic;
-using System.Xml;
-
 namespace OfficeOpenXml.Metadata
 {
-    internal class ExcelMetadataItem
+    internal class ExcelMetadataRecord
     {
-        public ExcelMetadataItem()
+        public ExcelMetadataRecord(int recordTypeIndex, int valueTypeIndex)
         {
-
+            RecordTypeIndex= recordTypeIndex;
+            ValueTypeIndex = valueTypeIndex;
         }
-        public ExcelMetadataItem(XmlReader xr)
-        {
-            while(xr.IsEndElementWithName("bk")==false && xr.EOF==false)
-            {
-                if(xr.IsElementWithName("rc"))
-                {
-                    Records.Add(new ExcelMetadataRecord(int.Parse(xr.GetAttribute("t")), int.Parse(xr.GetAttribute("v"))));
-                }
-                xr.Read();
-            }
-        }
-
-        public List<ExcelMetadataRecord> Records { get;}= new List<ExcelMetadataRecord>();
+        public int RecordTypeIndex { get; private set; }
+        public int ValueTypeIndex { get; private set; }
     }
 }

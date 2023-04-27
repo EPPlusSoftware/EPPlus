@@ -10,17 +10,71 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Utils;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
-    internal class ExcelFutureMetadataType : XmlHelper
+    internal class ExcelFutureMetadata
     {
-
-        internal ExcelFutureMetadataType(XmlNamespaceManager nsm, XmlElement topNode) : base(nsm, topNode)
+        public string Name { get; set; }
+        public List<ExcelFutureMetadataType> Types { get; }=new List<ExcelFutureMetadataType>();
+        string _extLstXml;
+    }
+    internal abstract class ExcelFutureMetadataType
+    {
+        public abstract FutureMetadataType Type { get; }
+        public abstract string Uri { get; }
+        public ExcelFutureMetadataDynamicArray AsDynamicArray { get { return this as ExcelFutureMetadataDynamicArray; } }
+        public ExcelFutureMetadataRichData AsRichData { get { return this as ExcelFutureMetadataRichData; } }
+    }
+    internal class ExcelFutureMetadataRichData : ExcelFutureMetadataType
+    {
+        public ExcelFutureMetadataRichData(XmlReader xr)
         {
-            IsDynamicArray = GetXmlNodeBool("fDynamic");
+            var startDepth = xr.Depth;
+            while (xr.Read() && startDepth <= xr.Depth)
+            {
+                if (xr.IsElementWithName("rvb"))
+                {
+                    Index=int.Parse(xr.GetAttribute("i"));
+                }
+            }
+
+            if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
         }
+        public int Index { get; set; }
+        public override FutureMetadataType Type => FutureMetadataType.RichData;
+        public override string Uri => ExtLstUris.RichValueDataUri;
+    }
+    internal class ExcelFutureMetadataDynamicArray : ExcelFutureMetadataType
+    {
+        public ExcelFutureMetadataDynamicArray(bool isDynamicArray)
+        {
+            IsDynamicArray= isDynamicArray;
+            IsCollapsed = false;
+        }
+        public ExcelFutureMetadataDynamicArray(XmlReader xr)
+        {
+            var startDepth = xr.Depth;
+            while(xr.Read() && startDepth<=xr.Depth)
+            {
+                if(xr.IsElementWithName("dynamicArrayProperties"))
+                {
+                    IsDynamicArray = ConvertUtil.ToBooleanString(xr.GetAttribute("fDynamic"));
+                    IsCollapsed = ConvertUtil.ToBooleanString(xr.GetAttribute("fCollapsed"));
+                    ExtLstXml = xr.ReadInnerXml();
+                }
+            }
+
+            if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
+        }
+        public override FutureMetadataType Type => FutureMetadataType.DynamicArray;
+        public override string Uri => ExtLstUris.DataValidationsUri;
         public bool IsDynamicArray { get; set; }
+        public bool IsCollapsed { get; set; }
+        public string ExtLstXml { get; set; }
     }    
 }

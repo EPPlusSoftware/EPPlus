@@ -16,90 +16,162 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
-    internal class ExcelMetadata : XmlHelper
+    internal class ExcelMetadata
     {
         private ExcelWorkbook _workbook;
-
-        public ExcelMetadata(ExcelWorkbook workbook, XmlNamespaceManager nsm) : base(nsm) 
+        private ZipPackagePart _part;
+        private Uri _uri;
+        
+        //Preserve xml variables
+        private string _metadataStringsXml;
+        private string _metadataCount;
+        private string _mdxMetadataXml;
+        private string _mdxMetadataCount;
+        public string _extLstXml;
+        public ExcelMetadata(ExcelWorkbook workbook)
         {
             _workbook = workbook;
             var p = _workbook._package;
             var rel = _workbook.Part.GetRelationshipsByType(ExcelPackage.schemaMetadata).FirstOrDefault();
             if(rel!=null)
             {
-                Part = p.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
-                ReadMetadata();
+                _uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                _part = p.ZipPackage.GetPart(_uri);
+                ReadMetadata(_part.GetStream());
+            }
+            else
+            {
+                _uri = new Uri("/xl/metadata.xml", UriKind.Relative);
             }
         }
 
-        private void ReadMetadata()
+        private void ReadMetadata(Stream stream)
         {
-            MetadataXml = new XmlDocument();
-            LoadXmlSafe(MetadataXml, Part.GetStream());
-            TopNode = MetadataXml.DocumentElement;
-            LoadTypes();
+            var xr = XmlReader.Create(stream);
+            while(xr.Read())
+            {
+                if(xr.NodeType== XmlNodeType.Element)
+                {
+                    switch (xr.Name)
+                    {
+                        case "metadataTypes":
+                            ReadMetadataTypes(xr);
+                            break;
+                        case "metadataStrings":
+                            //Currently not used. Preserve.
+                            _metadataStringsXml = xr.ReadInnerXml();
+                            _metadataCount = xr.GetAttribute("count");
+                            break;
+                        case "mdxMetadata":
+                            //Currently not used. Preserve.
+                            _mdxMetadataXml = xr.ReadInnerXml();
+                            _mdxMetadataCount = xr.GetAttribute("count");
+                            break;
+                        case "futureMetadata":
+                            ReadFutureMetadata(xr);
+                            break;
+                        case "cellMetadata":
+                            ReadMetadataItems(xr, xr.Name, CellMetadata);
+                            break;
+                        case "valueMetadata":
+                            ReadMetadataItems(xr, xr.Name, ValueMetadata);
+                            break;
+                        case "extLst":
+                            _extLstXml = xr.ReadInnerXml();
+                            break;
+                    }
+
+                }
+            }
         }
+
+        private void ReadMetadataItems(XmlReader xr, string elementName, List<ExcelMetadataItem> collection)
+        {
+            xr.Read();
+            while(xr.IsEndElementWithName(elementName) ==false && xr.EOF==false)
+            {
+                if(xr.IsElementWithName("bk"))
+                {
+                    xr.Read();
+                    while(xr.IsEndElementWithName("bk")==false)
+                    {
+                        collection.Add(new ExcelMetadataItem(xr));
+                    }
+                }
+                xr.Read();
+            }
+        }
+
+        private void ReadFutureMetadata(XmlReader xr)
+        {
+            var item = new ExcelFutureMetadata();
+            item.Name = xr.GetAttribute("name"); ;
+            xr.Read();
+            while (xr.IsEndElementWithName("futureMetadata") == false && xr.EOF == false)
+            {
+                if (xr.IsElementWithName("ext"))
+                {
+                    switch (xr.GetAttribute("uri"))
+                    {
+                        case ExtLstUris.DynamicArrayPropertiesUri:
+                            FutureMetadataTypes.Add(new ExcelFutureMetadataDynamicArray(xr));
+                            break;
+                        case ExtLstUris.RichValueDataUri:
+                            FutureMetadataTypes.Add(new ExcelFutureMetadataRichData(xr));
+                            break;
+                    }                    
+                }
+                xr.Read();
+            }
+        }
+        private void ReadMetadataTypes(XmlReader xr)
+        {            
+            xr.Read();
+            while(xr.IsEndElementWithName("metadataTypes")==false && xr.EOF==false)
+            {
+                if(xr.IsElementWithName("metadataType"))
+                {
+                    var item = new ExcelMetadataType(xr);
+                    MetadataTypes.Add(item);
+                }
+                xr.Read();
+            }
+        }
+
         internal void CreateDefaultXml()
         {
-            var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<metadata xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:xda=\"http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray\"><metadataTypes count=\"1\"><metadataType name=\"XLDAPR\" minSupportedVersion=\"120000\" copy=\"1\" pasteAll=\"1\" pasteValues=\"1\" merge=\"1\" splitFirst=\"1\" rowColShift=\"1\" clearFormats=\"1\" clearComments=\"1\" assign=\"1\" coerce=\"1\" cellMeta=\"1\"/></metadataTypes><futureMetadata name=\"XLDAPR\" count=\"1\"><bk><extLst><ext uri=\"{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}\"><xda:dynamicArrayProperties fDynamic=\"1\" fCollapsed=\"0\"/></ext></extLst></bk></futureMetadata><cellMetadata count=\"1\"><bk><rc t=\"1\" v=\"0\"/></bk></cellMetadata></metadata>";
-            MetadataXml = new XmlDocument();
-            LoadXmlSafe(MetadataXml, xml, Encoding.UTF8);
-            TopNode = MetadataXml.DocumentElement;
-            LoadTypes();
-
-            var metadataUri = new Uri("/xl/metadata.xml", UriKind.Relative);
-            Part = _workbook._package.ZipPackage.CreatePart(metadataUri, ContentTypes.contentTypeMetaData);
-            _workbook.Part.CreateRelationship(UriHelper.GetRelativeUri(_workbook.WorkbookUri, metadataUri), TargetMode.Internal, ExcelPackage.schemaMetadata);
-            var stream = Part.GetStream(System.IO.FileMode.Create);
-            MetadataXml.Save(stream);
+            MetadataTypes.Add(new ExcelMetadataType() { Name = "XLDAPR", MinSupportedVersion=120000, Flags=MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta });
+            FutureMetadataTypes.Add(new ExcelFutureMetadataDynamicArray(true));
+            
+            var item = new ExcelMetadataItem();
+            item.Records.Add(new ExcelMetadataRecord(1,0));
+            CellMetadata.Add(item);
         }
         internal bool HasMetadata()
         {
-            return MetadataXml == null;
+            return _part==null;
         }
         internal List<ExcelMetadataType> MetadataTypes { get; } = new List<ExcelMetadataType>();
         internal List<ExcelFutureMetadataType> FutureMetadataTypes{ get; } = new List<ExcelFutureMetadataType>();
-        internal List<ExcelCellMetadata> CellMetadata { get; } = new List<ExcelCellMetadata>();
-        private void LoadTypes()
-        {
-            const string MetadataTypesPath = "d:metadataTypes/d:metadataType";
-            if (ExistsNode(MetadataTypesPath))
-            {
-                foreach (XmlElement mdNode in GetNodes(MetadataTypesPath))
-                {
-                    MetadataTypes.Add(new ExcelMetadataType(NameSpaceManager, mdNode));
-                }
-            }
-
-            const string FutureMetadataTypesPath = "d:futureMetadata[@name='XLDAPR']/d:bk/d:extLst/d:ext[@uri='{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}']/xda:dynamicArrayProperties";
-            if (ExistsNode(FutureMetadataTypesPath))
-            {
-                foreach (XmlElement cellFmdNode in GetNodes(FutureMetadataTypesPath))
-                {
-                    FutureMetadataTypes.Add(new ExcelFutureMetadataType(NameSpaceManager, cellFmdNode));
-                } 
-            }
-            const string CellMetaDataPath = "d:cellMetadata/d:bk/d:rc";
-            foreach (XmlElement cellMdNode in GetNodes(CellMetaDataPath))
-            {
-                CellMetadata.Add(new ExcelCellMetadata(NameSpaceManager, cellMdNode));
-            }
-        }
+        internal List<ExcelMetadataItem> CellMetadata { get; } = new List<ExcelMetadataItem>();
+        internal List<ExcelMetadataItem> ValueMetadata { get; } = new List<ExcelMetadataItem>();        
         internal bool IsFormulaDynamic(int cm)
         {
             if(cm <= CellMetadata.Count)
             {
                 var cellMetadata = CellMetadata[cm - 1];
-                var metadataType = MetadataTypes[cellMetadata.MetadataRecordTypeIndex - 1];
+                var record = cellMetadata.Records.First();
+                var metadataType = MetadataTypes[record.RecordTypeIndex - 1];
                 if(metadataType.Name == "XLDAPR")
                 {
-                    return FutureMetadataTypes[cellMetadata.MetadataValueTypeIndex].IsDynamicArray;
+                    return FutureMetadataTypes[record.ValueTypeIndex].AsDynamicArray.IsDynamicArray;
                 }
             }
             return false;
@@ -107,20 +179,16 @@ namespace OfficeOpenXml.Metadata
 
         internal void GetDynamicArrayIndex(out int cm)
         {
-            if(MetadataXml==null)
+            if(HasMetadata())
             {
-                CreateDefaultXml();
-                cm=1;
-                return;
+                GetDynamicArrayIndex(out cm);
             }
             else
             {
-                //TODO Find dynamic Array settings;
+                CreateDefaultXml();
                 cm = 1;
             }
         }
 
-        public XmlDocument MetadataXml { get; private set; }
-        public ZipPackagePart Part { get; set; }
     }
 }

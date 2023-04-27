@@ -10,45 +10,50 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
-    internal partial class ExcelMetadataType : XmlHelper
+    internal partial class ExcelMetadataType
     {
-        public ExcelMetadataType(XmlNamespaceManager nsm, XmlElement topNode) : base(nsm, topNode)
+        public ExcelMetadataType()
         {
-            Name = GetXmlNodeString("@name");            
-            MinSupportedVersion = GetXmlNodeInt("@minSupportedVersion");
-            SetXmlNodeFlag("@ghostRow", MetadataFlags.GhostRow, ref _flags);
-            SetXmlNodeFlag("@ghostCol", MetadataFlags.GhostCol, ref _flags);
-            SetXmlNodeFlag("@edit", MetadataFlags.Edit, ref _flags);
-            SetXmlNodeFlag("@delete", MetadataFlags.Delete, ref _flags);
-            SetXmlNodeFlag("@copy", MetadataFlags.Copy, ref _flags);
-            SetXmlNodeFlag("@pasteAll", MetadataFlags.PasteAll, ref _flags);
-            SetXmlNodeFlag("@pasteFormulas", MetadataFlags.PasteFormulas, ref _flags);
-            SetXmlNodeFlag("@pasteValues", MetadataFlags.PasteValues, ref _flags);
-            SetXmlNodeFlag("@pasteFormats", MetadataFlags.PasteFormats, ref _flags);
-            SetXmlNodeFlag("@pasteComments", MetadataFlags.PasteComments, ref _flags);
-            SetXmlNodeFlag("@pasteDataValidation", MetadataFlags.PasteDataValidation, ref _flags);
-            SetXmlNodeFlag("@pasteBorders", MetadataFlags.PasteBorders, ref _flags);
-            SetXmlNodeFlag("@pasteColWidths", MetadataFlags.PasteColWidths, ref _flags);
-            SetXmlNodeFlag("@pasteNumberFormats", MetadataFlags.PasteNumberFormats, ref _flags);
-            SetXmlNodeFlag("@merge", MetadataFlags.Merge, ref _flags);
-            SetXmlNodeFlag("@splitFirst", MetadataFlags.SplitFirst, ref _flags);
-            SetXmlNodeFlag("@rowColShift", MetadataFlags.RowColShift, ref _flags);
-            SetXmlNodeFlag("@clearAll", MetadataFlags.ClearAll, ref _flags);
-            SetXmlNodeFlag("@clearFormats", MetadataFlags.ClearFormats, ref _flags);
-            SetXmlNodeFlag("@clearContents", MetadataFlags.ClearContents, ref _flags);
-            SetXmlNodeFlag("@clearComments", MetadataFlags.ClearComments, ref _flags);
-            SetXmlNodeFlag("@assign", MetadataFlags.Assign, ref _flags);
-            SetXmlNodeFlag("@coerce", MetadataFlags.Coerce, ref _flags);
-            SetXmlNodeFlag("@cellMeta", MetadataFlags.CellMeta, ref _flags);
+
         }
-        internal void SetXmlNodeFlag(string path, MetadataFlags flag, ref MetadataFlags value) 
+        public ExcelMetadataType(XmlReader xr) 
+        {
+            Name = xr.GetAttribute("name");            
+            MinSupportedVersion = int.Parse(xr.GetAttribute("minSupportedVersion"));
+            SetXmlNodeFlag(xr.GetAttribute("ghostRow"), MetadataFlags.GhostRow, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("ghostCol"), MetadataFlags.GhostCol, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("edit"), MetadataFlags.Edit, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("delete"), MetadataFlags.Delete, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("copy"), MetadataFlags.Copy, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteAll"), MetadataFlags.PasteAll, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteFormulas"), MetadataFlags.PasteFormulas, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteValues"), MetadataFlags.PasteValues, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteFormats"), MetadataFlags.PasteFormats, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteComments"), MetadataFlags.PasteComments, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteDataValidation"), MetadataFlags.PasteDataValidation, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteBorders"), MetadataFlags.PasteBorders, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteColWidths"), MetadataFlags.PasteColWidths, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("pasteNumberFormats"), MetadataFlags.PasteNumberFormats, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("merge"), MetadataFlags.Merge, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("splitFirst"), MetadataFlags.SplitFirst, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("rowColShift"), MetadataFlags.RowColShift, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("clearAll"), MetadataFlags.ClearAll, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("clearFormats"), MetadataFlags.ClearFormats, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("clearContents"), MetadataFlags.ClearContents, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("clearComments"), MetadataFlags.ClearComments, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("assign"), MetadataFlags.Assign, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("coerce"), MetadataFlags.Coerce, ref _flags);
+            SetXmlNodeFlag(xr.GetAttribute("cellMeta"), MetadataFlags.CellMeta, ref _flags);
+        }
+        internal void SetXmlNodeFlag(string s, MetadataFlags flag, ref MetadataFlags value) 
         {            
-            if(GetXmlNodeBool(path))
+            if(s!=null && (s=="1" || s.Equals("true",StringComparison.OrdinalIgnoreCase)))
             {
                 value |= flag;
             }
@@ -61,12 +66,12 @@ namespace OfficeOpenXml.Metadata
         public string Name 
         {
             get;
-            private set;
+            set;
         }
         public int MinSupportedVersion
         {
             get;
-            private set;
+            set;
         }
         MetadataFlags _flags = 0;
         public MetadataFlags Flags
@@ -74,6 +79,10 @@ namespace OfficeOpenXml.Metadata
             get
             {
                 return _flags;
+            }
+            set
+            {
+                _flags = value;
             }
         }
     }
