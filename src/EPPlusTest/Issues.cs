@@ -4665,5 +4665,25 @@ namespace EPPlusTest
             }
         }
 
+        [TestMethod]
+        public void Issue861()
+        {
+            var ep = new ExcelPackage();
+            var ws = ep.Workbook.Worksheets.Add("Test");
+
+            for (int row = 1; row < 10; ++row)
+                for (int col = 1; col < 10; ++col)
+                    ws.Cells[row, col].Value = $"{row}:{col}";
+
+            var wsCol = ws.Column(3);
+            wsCol.Style.Border.Left.Style = wsCol.Style.Border.Right.Style = ExcelBorderStyle.Thick;
+            wsCol.Style.Fill.SetBackground(System.Drawing.Color.Black);
+
+            ws.Row(3).Style.Fill.SetBackground(System.Drawing.Color.Aqua);
+
+            Assert.AreNotEqual(ws.Row(3).Style.Border.Left.Style, wsCol.Style.Border.Left.Style);
+            Assert.AreNotEqual(ws.Row(3).Style.Border.Right.Style, wsCol.Style.Border.Right.Style);
+        }
+
     }
 }
