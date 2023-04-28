@@ -448,10 +448,11 @@ namespace OfficeOpenXml
                 {
                     //iterate all columns and set the row to the style of the last column
                     var cse = new CellStoreEnumerator<ExcelValue>(ws._values, 0, 1, 0, ExcelPackage.MaxColumns);
+                    var cs = 0;
                     while (cse.Next())
                     {
-                        s = cse.Value._styleId;
-                        if (s == 0) continue;
+                        cs = cse.Value._styleId;
+                        if (cs == 0) continue;
                         var c = ws.GetValueInner(cse.Row, cse.Column) as ExcelColumn;
                         if (c != null && c.ColumnMax < ExcelPackage.MaxColumns)
                         {
@@ -459,12 +460,12 @@ namespace OfficeOpenXml
                             {
                                 if (!ws.ExistsStyleInner(rowNum, col))
                                 {
-                                    ws.SetStyleInner(rowNum, col, s);
+                                    ws.SetStyleInner(rowNum, col, cs);
                                 }
                             }
                         }
                     }
-                    ws.SetStyleInner(rowNum, 0, s);
+                    ws.SetStyleInner(rowNum, 0, cs);
                     cse.Dispose();
                 }
                 if (styleCashe.ContainsKey(s))
