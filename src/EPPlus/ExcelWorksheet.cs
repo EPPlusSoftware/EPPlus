@@ -1573,7 +1573,7 @@ namespace OfficeOpenXml
                                 cm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm),
                                 vm = string.IsNullOrEmpty(vm) ? 0 : int.Parse(vm)
                             });
-                    };
+                    }
 
                     xr.Read();
                 }
@@ -1783,8 +1783,49 @@ namespace OfficeOpenXml
             }
             else
             {
+                if(type=="e")
+                {
+                    var md = _metadataStore.GetValue(row, col);
+                    if(md.vm > 0)
+                    {
+                        v = GetErrorFromMetaData(md, v);
+                    }
+                }
                 SetValueInner(row, col, v);
             }
+        }
+
+        private object GetErrorFromMetaData(MetaDataReference md, object v)
+        {
+            var metaData = Workbook.Metadata;
+            var valueMetaData = metaData.ValueMetadata[md.vm-1];
+            var valueRecord = valueMetaData.Records[0];
+            var type = metaData.MetadataTypes[valueRecord.RecordTypeIndex - 1];
+            if (type.Name.Equals("XLRICHVALUE"))
+            {
+                var fmd = metaData.FutureMetadata.Find(x=>x.Name == "XLRICHVALUE");
+                var ix = fmd.Types[valueRecord.ValueTypeIndex].AsRichData.Index;
+
+                var rdValue = Workbook.RichData.Values.Items[ix];
+
+                var errorTypeIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("errorType"));
+                if (errorTypeIndex>=0)
+                {
+                    switch(int.Parse(rdValue.Values[errorTypeIndex]))
+                    {
+                        case 4:
+                            return ErrorValues.NameError;
+                        case 8:
+                            return ErrorValues.SpillError;
+                        case 13:
+                            return ErrorValues.CalcError;
+                        default:    //We can implement other error types here later, See MS-XLSX 2.3.6.1.3
+                            return v;
+
+                    }
+                }
+            }
+            return v;
         }
 
         //private string GetSharedString(int stringID)
@@ -1796,8 +1837,8 @@ namespace OfficeOpenXml
         //        retValue = stringNode.InnerText;
         //    return (retValue);
         //}
-#endregion
-#region HeaderFooter
+        #endregion
+        #region HeaderFooter
         /// <summary>
         /// A reference to the header and footer class which allows you to 
         /// set the header and footer for all odd, even and first pages of the worksheet

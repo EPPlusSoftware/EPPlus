@@ -125,6 +125,7 @@ namespace OfficeOpenXml.RichData.Types
 
             var stream = _part.GetStream(FileMode.Create);
             var sw = new StreamWriter(stream);
+            sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             sw.Write($"<rvTypesInfo xmlns=\"{Schemas.schemaRichData2}\" xmlns:mc=\"{Schemas.schemaMarkupCompatibility}\" xmlns:x=\"{ExcelPackage.schemaMain}\" mc:Ignorable=\"x\">");
             WriteSection(sw, Global, "global", _globalExtLstXml);
             WriteSection(sw, Types, "types", _typesExtLstXml);

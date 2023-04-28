@@ -1544,7 +1544,7 @@ namespace OfficeOpenXml
                         if (id >= 0 && !formulas.Contains(id))
                         {
                             if (_worksheet._sharedFormulas[id].FormulaType==FormulaType.Array &&
-                                    Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) // If the formula is an array formula and its on the inside the overwriting range throw an exception
+                                    Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) //If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
                                 throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
                             }

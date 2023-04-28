@@ -393,6 +393,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
                         }
                     }
+                    if(v is ExcelErrorValue error)
+                    {
+                        if(error.Type==eErrorType.Spill || error.Type==eErrorType.Calc)
+                        {
+                            v = ErrorValues.ValueError;
+                        }
+                    }
                     if (formula is int sfId)
                     {
                         if (!_ws._sharedFormulas.ContainsKey(sfId))
@@ -498,7 +505,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
                             if ((TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char))
                             {
-                                //string sv = GetValueForXml(v);
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
+                                cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
+                            }
+                            else if(v is ExcelErrorValue e)
+                            {
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
                                 cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
                             }

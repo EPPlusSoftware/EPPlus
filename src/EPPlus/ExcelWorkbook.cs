@@ -1247,6 +1247,10 @@ namespace OfficeOpenXml
 				VbaProject.Save();
 			}
 
+			if(_metadata != null)
+			{
+				_metadata.Save();
+			}
 			if (_richData != null)
 			{
 				_richData.Save();

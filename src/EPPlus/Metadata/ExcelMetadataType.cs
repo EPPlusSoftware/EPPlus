@@ -11,7 +11,10 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
 using System;
+using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -61,6 +64,24 @@ namespace OfficeOpenXml.Metadata
             {
                 value &= ~flag;
             }
+        }
+
+        internal void WriteXml(StreamWriter sw)
+        {
+            sw.Write($"<metadataType name=\"{Name}\" minSupportedVersion=\"{MinSupportedVersion}\" {GetFlagAttributes()} />");
+        }
+
+        private string GetFlagAttributes()
+        {
+            var sb =new StringBuilder();
+            foreach(MetadataFlags f in Enum.GetValues(typeof(MetadataFlags)))
+            {
+                if((f & Flags)==f)
+                {
+                    sb.Append($" {f.ToEnumString()}=\"1\"");
+                }
+            }
+            return sb.ToString();
         }
 
         public string Name 

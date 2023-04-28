@@ -47,7 +47,7 @@ namespace EPPlusTest.FormulaParsing
             ws.Cells["F1:N1"].Formula = "F2";
             ws.Cells["F2"].Formula = "Transpose(Data!A2:A10)"; //Spill Right
             ws.Calculate();
-
+            ws.Cells["G2"].Value = 2;
             Assert.AreEqual(_ws.GetValue(2, 1), ws.GetValue(2, 6));
             Assert.AreEqual(_ws.GetValue(5, 1), ws.GetValue(2, 9));
             Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 9)), ConvertUtil.GetValueDouble(ws.GetValue(2, 9)));

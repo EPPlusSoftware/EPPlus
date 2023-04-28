@@ -377,8 +377,11 @@
 
   <ItemGroup>
     <Compile Remove="Core\Worksheet\Fonts\Tables\**" />
+    <Compile Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
     <EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
+    <EmbeddedResource Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
     <None Remove="Core\Worksheet\Fonts\Tables\**" />
+    <None Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
   </ItemGroup>
 
 
@@ -489,8 +492,5 @@
     <None Update="readme.md">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FormulaParsing\Excel\Functions\DynamicArray\" />
   </ItemGroup>
 </Project>

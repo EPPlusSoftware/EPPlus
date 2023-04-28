@@ -12,7 +12,9 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -24,11 +26,13 @@ namespace OfficeOpenXml.Metadata
         string _extLstXml;
     }
     internal abstract class ExcelFutureMetadataType
-    {
+    {        
         public abstract FutureMetadataType Type { get; }
         public abstract string Uri { get; }
         public ExcelFutureMetadataDynamicArray AsDynamicArray { get { return this as ExcelFutureMetadataDynamicArray; } }
         public ExcelFutureMetadataRichData AsRichData { get { return this as ExcelFutureMetadataRichData; } }
+
+        internal abstract void WriteXml(StreamWriter sw);
     }
     internal class ExcelFutureMetadataRichData : ExcelFutureMetadataType
     {
@@ -48,6 +52,10 @@ namespace OfficeOpenXml.Metadata
         public int Index { get; set; }
         public override FutureMetadataType Type => FutureMetadataType.RichData;
         public override string Uri => ExtLstUris.RichValueDataUri;
+        internal override void WriteXml(StreamWriter sw)
+        {
+            sw.Write($"<xlrd:rvb i=\"{Index}\"/>");
+        }
     }
     internal class ExcelFutureMetadataDynamicArray : ExcelFutureMetadataType
     {
@@ -71,8 +79,21 @@ namespace OfficeOpenXml.Metadata
 
             if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
         }
+        internal override void WriteXml(StreamWriter sw)
+        {
+            if(string.IsNullOrEmpty(ExtLstXml))
+            {
+                sw.Write($"<xda:dynamicArrayProperties fDynamic=\"{(IsDynamicArray ? "1" : "0")}\" fCollapsed=\"{(IsCollapsed ? "1" : "0")}\"/>");
+            }
+            else
+            {
+                sw.Write($"<xda:dynamicArrayProperties fDynamic=\"{(IsDynamicArray ? "1" : "0")}\" fCollapsed=\"{(IsCollapsed ? "1" : "0")}\">");
+                sw.Write($"<extLst>{ExtLstXml}</extLst>");
+                sw.Write($"</xda:dynamicArrayProperties>");
+            }
+        }
         public override FutureMetadataType Type => FutureMetadataType.DynamicArray;
-        public override string Uri => ExtLstUris.DataValidationsUri;
+        public override string Uri => ExtLstUris.DynamicArrayPropertiesUri;
         public bool IsDynamicArray { get; set; }
         public bool IsCollapsed { get; set; }
         public string ExtLstXml { get; set; }

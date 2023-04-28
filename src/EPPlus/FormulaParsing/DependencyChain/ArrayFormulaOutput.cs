@@ -85,13 +85,19 @@ namespace OfficeOpenXml.FormulaParsing
             f._isDynamic = true;
             var md = depChain._parsingContext.Package.Workbook.Metadata;
             md.GetDynamicArrayIndex(out int cm);
-            f._ws._metadataStore.SetValue(f._row, f._column, new ExcelWorksheet.MetaDataReference() { cm = cm });
+            var metaData = f._ws._metadataStore.GetValue(startRow, startCol);
+            metaData.cm= cm;
             //f._ws._flags.SetFlagValue(f._row, f._column, true, CellFlags.ArrayFormula);
 
             if(HasSpill(ws, f._arrayIndex, startRow, startCol, nr,nc))
             {
-                ws.SetValueInner(startRow, startCol, ErrorValues.SpillError); //TODO: Spill should be handled on save updating value meta data.
+                ws.SetValueInner(startRow, startCol, ErrorValues.SpillError); 
+                if(metaData.vm>=0 && ws.Workbook.Metadata.IsSpillError(metaData.vm)==false)
+                {
+                    //Add Spill MetaData and RichData.
+                }
             }
+            f._ws._metadataStore.SetValue(f._row, f._column, metaData);
             SimpleAddress[] dirtyRange;
             if(f._arrayIndex==-1)
             {
