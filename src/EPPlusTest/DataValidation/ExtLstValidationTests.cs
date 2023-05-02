@@ -176,6 +176,121 @@ namespace EPPlusTest.DataValidation
             Assert.AreEqual(InternalValidationType.ExtLst, validations[4].InternalValidationType);
         }
 
+        internal void AddDataValidations(ref ExcelWorksheet ws, bool isExtLst = false, string extSheetName = "", bool many = false)
+        {
+            if (isExtLst)
+            {
+                var intValidation = ws.DataValidations.AddIntegerValidation("A1");
+                intValidation.Operator = ExcelDataValidationOperator.equal;
+                intValidation.Formula.ExcelFormula = extSheetName + "!A1";
+            }
+            else
+            {
+                var intValidation = ws.DataValidations.AddIntegerValidation("A2");
+                intValidation.Formula.Value = 1;
+                intValidation.Formula2.Value = 3;
+            }
+
+            if (many)
+            {
+
+                if (isExtLst)
+                {
+                    var timeValidation = ws.DataValidations.AddTimeValidation("B1");
+                    timeValidation.Operator = ExcelDataValidationOperator.between;
+
+                    timeValidation.Formula.ExcelFormula = extSheetName + "!B1";
+                    timeValidation.Formula2.ExcelFormula = extSheetName + "!B2";
+
+
+                }
+                else
+                {
+                    var timeValidation = ws.DataValidations.AddTimeValidation("B2");
+                    timeValidation.Operator = ExcelDataValidationOperator.between;
+
+                    timeValidation.Formula.ExcelFormula = "B1";
+                    timeValidation.Formula.ExcelFormula = "B2";
+                }
+            }
+        }
+
+        //Ensures no save or load errors
+        internal void SaveAndLoadAndSave(in ExcelPackage pck)
+        {
+            var file = pck.File;
+
+            var stream = new MemoryStream();
+            pck.SaveAs(stream);
+
+            var loadedPackage = new ExcelPackage(stream);
+
+            loadedPackage.File = file;
+
+            SaveAndCleanup(loadedPackage);
+        }
+
+        [TestMethod]
+        public void LocalDataValidationsShouldWorkWithExtLstValidation()
+        {
+            using (var pck = OpenPackage("DataValidationLocalExtLst.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("extLstTest");
+                var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
+
+                AddDataValidations(ref ws, false);
+                AddDataValidations(ref ws, true, "extAddressSheet");
+
+                SaveAndLoadAndSave(pck);
+            }
+        }
+
+        [TestMethod]
+        public void LocalDataValidationsShouldWorkWithManyExtLstValidations()
+        {
+            using (var pck = OpenPackage("DataValidationLocalExtLstMany.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("extLstTest");
+                var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
+
+                AddDataValidations(ref ws, false);
+                AddDataValidations(ref ws, true, "extAddressSheet", true);
+
+                SaveAndLoadAndSave(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ManyLocalDataValidationsShouldWorkWithSingularExtLstValidations()
+        {
+            using (var pck = OpenPackage("DataValidationLocalManyExtLst.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("extLstTest");
+                var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
+
+                AddDataValidations(ref ws, false, "", true);
+                AddDataValidations(ref ws, true, "extAddressSheet");
+
+                SaveAndLoadAndSave(pck);
+            }
+
+        }
+
+        [TestMethod]
+        public void ManyLocalDataValidationsShouldWorkWithManyExtLstConditionalFormattings()
+        {
+            using (var pck = OpenPackage("DataValidationLocalManyExtLst.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("extLstTest");
+                var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
+
+                AddDataValidations(ref ws, false, "", true);
+                AddDataValidations(ref ws, true, "extAddressSheet", true);
+
+                SaveAndLoadAndSave(pck);
+            }
+        }
+
         [TestMethod]
         public void DataValidationExtLstShouldWorkWithConditionalFormatting()
         {

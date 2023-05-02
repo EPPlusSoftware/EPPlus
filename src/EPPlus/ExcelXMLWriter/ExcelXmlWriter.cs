@@ -637,7 +637,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 cache.Append($"prompt=\"{_ws.DataValidations[i].Prompt.EncodeXMLAttribute()}\" ");
             }
 
-            if (_ws.DataValidations.HasValidationType(InternalValidationType.DataValidation))
+            if (_ws.DataValidations[i].InternalValidationType == InternalValidationType.DataValidation)
             {
                 cache.Append($"sqref=\"{_ws.DataValidations[i].Address.ToString().Replace(",", " ")}\" ");
             }
@@ -705,7 +705,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
                 if (extNode != "")
                 {
                     //write adress if extLst
-                    cache.Append($"<xm:sqref>{_ws.DataValidations[i].Address}</xm:sqref>");
+                    cache.Append($"<xm:sqref>{_ws.DataValidations[i].Address.ToString().Replace(",", " ")}</xm:sqref>");
                 }
             }
 
@@ -897,13 +897,12 @@ namespace OfficeOpenXml.ExcelXMLWriter
         {
             var cache = new StringBuilder();
 
-            cache.Append($"<ext uri=\"{ExtLstUris.DataValidationsUri}\">");
+            cache.Append($"<ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.DataValidationsUri}\">");
 
             prefix = "x14:";
             cache.Append
             (
-            UpdateDataValidation(prefix,
-                $"xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{{CCE6A557-97BC-4b89-ADB6-D9C93CAAB3DF}}\" " + $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"")
+            UpdateDataValidation(prefix, $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"")
             );
             cache.Append("</ext>");
 
