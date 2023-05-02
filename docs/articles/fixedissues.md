@@ -1,4 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.3
+### Fixed issues
+* Setting sparklineGroups.MaxAxisType to eSparklineAxisMinMax.Group did not work.
+* Extracting the worksheet xml sometimes fails when having an extLst element. 
+* Having a DataTable formula sometimes caused an InvalidDataException due to missing shared formula id.
+* Setting ExcelRange.IsRichText caused an exception in some cases.
+* Inserting columns in tables with calculated columns sometimes caused a corrupt workbook upon save.
+* Having a workbook with picture-drawings with duplicate names caused Drawing.Delete(string) to fail.
+* Fixed an encoding issue with data validation attributes having values containing double quotes (").
+* Data validation's sometimes corrupted the workbook on save when referencing another worksheet in the formulas.
+
 ## Version 6.2.2
 ### Fixed issues
 * Insert row did not update formula cells correctly in some cases.
