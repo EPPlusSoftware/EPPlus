@@ -4573,7 +4573,7 @@ namespace EPPlusTest
             {
                 var ws = p.Workbook.Worksheets["Component Failure Rates"];
                 var table = ws.Tables[0];
-                table.Columns.Insert(8,1);
+                table.Columns.Insert(8, 1);
                 SaveAndCleanup(p);
             }
         }
@@ -4581,7 +4581,7 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue852()
         {
-            using (var p = OpenPackage("i852.xlsx",true))
+            using (var p = OpenPackage("i852.xlsx", true))
             {
                 //Making the sheet
                 var sheet = p.Workbook.Worksheets.Add("mergedCellsTest");
@@ -4606,7 +4606,7 @@ namespace EPPlusTest
 
                 var numberRange = sheet.Cells["A5:E5"];
 
-                for(int i = 0; i < numberRange.Columns; i++)
+                for (int i = 0; i < numberRange.Columns; i++)
                 {
                     numberRange.SetCellValue(0, i, i + 1);
                 }
@@ -4627,7 +4627,7 @@ namespace EPPlusTest
 
                 Assert.AreEqual(Color.LightYellow.ToArgb().ToString("X"), sheet.Cells["F2:F3"].Style.Fill.BackgroundColor.Rgb);
 
-                var stream = new MemoryStream(); 
+                var stream = new MemoryStream();
                 p.SaveAs(stream);
 
                 ExcelPackage newPack = new ExcelPackage(stream);
@@ -4684,6 +4684,69 @@ namespace EPPlusTest
             Assert.AreNotEqual(ws.Row(3).Style.Border.Left.Style, wsCol.Style.Border.Left.Style);
             Assert.AreNotEqual(ws.Row(3).Style.Border.Right.Style, wsCol.Style.Border.Right.Style);
         }
+        [TestMethod]
+        public void i863()
+        {
+            using (var p = OpenTemplatePackage("i863.xlsx"))
+            {
+                // Removed insertion of PHI data, just re-saving the template for sample purposes
 
+                // Workaround - Issue with "Inputs" tab - Validation of T60:T64 failed: Formula2 must be set if operator is 'between' or 'notBetween' when cells are not using between or notBetween
+                var otherInputTab = p.Workbook.Worksheets.FirstOrDefault(ws => ws.Name.Equals("Inputs"));
+                if (otherInputTab != null)
+                {
+                    otherInputTab.DataValidations.InternalValidationEnabled = false;
+                }
+
+                // Saving
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void Issue864()
+        {
+            using (var p = OpenPackage("i864.xlsx", true))
+            {
+                var worksheet = p.Workbook.Worksheets.Add("Test");
+
+                worksheet.Cells[1, 1].Value = 1100;
+                worksheet.Cells[1, 2].Value = 2200;
+                worksheet.Cells[1, 3].Value = 3300;
+                worksheet.Cells[1, 4].Value = 4400;
+                worksheet.Cells[2, 1].Value = 2000;
+                worksheet.Cells[2, 2].Value = 1254;
+                worksheet.Cells[2, 3].Value = 5423;
+                worksheet.Cells[2, 4].Value = 1400;
+                worksheet.Cells[3, 1].Value = 2343;
+                worksheet.Cells[3, 2].Value = 2355;
+                worksheet.Cells[3, 3].Value = 2121;
+                worksheet.Cells[3, 4].Value = 1231;
+                worksheet.Cells[4, 1].Value = 954;
+                worksheet.Cells[4, 2].Value = 4323;
+                worksheet.Cells[4, 3].Value = 1112;
+                worksheet.Cells[4, 4].Value = 2211;
+
+                var sparklineGroups = worksheet.SparklineGroups.Add(
+                            eSparklineType.Line,
+                            worksheet.Cells[1, 6, 4, 6],
+                            worksheet.Cells[1, 1, 4, 4]
+                        );
+
+                sparklineGroups.MinAxisType = eSparklineAxisMinMax.Custom;
+                sparklineGroups.ManualMin = 0;
+                sparklineGroups.MaxAxisType = eSparklineAxisMinMax.Group;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s461()
+        {
+            using (var p = OpenTemplatePackage("s461.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

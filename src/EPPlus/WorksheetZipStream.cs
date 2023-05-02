@@ -317,22 +317,23 @@ namespace OfficeOpenXml
                     if (c == '>' || c == ' ' || c == '/')
                     {
                         c = xml[ix - 1];
-                        if (c != '/' && c != ':' && xml[ix - 1] != '<') return -1;
-
-                        if (returnStartPos)
+                        if (c == '/' || c == ':' || xml[ix - 1] == '<')
                         {
-                            return xml.LastIndexOf('<', ix);
-                        }
-                        else
-                        {
-                            //Return the end element, either </element> or <element/>
-                            var startIx = xml.LastIndexOf("<", ix);
-                            if (ix > 0)
+                            if (returnStartPos)
                             {
-                                var end = xml.IndexOf(">", ix + element.Length - 1);
-                                if (xml[startIx + 1] == '/' || xml[end - 1] == '/')
+                                return xml.LastIndexOf('<', ix);
+                            }
+                            else
+                            {
+                                //Return the end element, either </element> or <element/>
+                                var startIx = xml.LastIndexOf("<", ix);
+                                if (ix > 0)
                                 {
-                                    return end + 1;
+                                    var end = xml.IndexOf(">", ix + element.Length - 1);
+                                    if (xml[startIx + 1] == '/' || xml[end - 1] == '/')
+                                    {
+                                        return end + 1;
+                                    }
                                 }
                             }
                         }

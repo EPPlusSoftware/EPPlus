@@ -1832,6 +1832,7 @@ namespace OfficeOpenXml
                         string refAddress = xr.GetAttribute("ref");
                         var f = new Formulas(SourceCodeTokenizer.Default)
                         {
+                            Index = afIndex,
                             Address = refAddress,
                             StartRow = address._fromRow,
                             StartCol = address._fromCol,
