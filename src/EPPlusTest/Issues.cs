@@ -4684,6 +4684,7 @@ namespace EPPlusTest
             Assert.AreNotEqual(ws.Row(3).Style.Border.Left.Style, wsCol.Style.Border.Left.Style);
             Assert.AreNotEqual(ws.Row(3).Style.Border.Right.Style, wsCol.Style.Border.Right.Style);
         }
+
         [TestMethod]
         public void i863()
         {
