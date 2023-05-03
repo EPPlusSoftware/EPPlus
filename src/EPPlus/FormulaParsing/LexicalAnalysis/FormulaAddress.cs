@@ -453,6 +453,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             ExcelCellBase.GetRowColFromAddress(address, out FromRow, out FromCol, out ToRow, out ToCol);
         }
+
+        public FormulaRangeAddress(ParsingContext context, int fromRow, int fromCol, int toRow, int toCol) : this(context)
+        {
+            FromRow = fromRow;
+            FromCol = fromCol;
+            ToRow = toRow;
+            ToCol = toCol;
+        }
+
         public int FromRow, FromCol, ToRow, ToCol;
         internal FixedFlag FixedFlag;
 

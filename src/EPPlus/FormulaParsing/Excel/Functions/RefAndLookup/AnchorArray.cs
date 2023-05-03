@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
-        EPPlusVersion = "4",
+        EPPlusVersion = "7",
         Description = "Returns the range of the dynamic array starting at the cell-address supplied")]
     internal class AnchorArray : ExcelFunction
     {

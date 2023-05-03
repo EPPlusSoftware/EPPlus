@@ -10,6 +10,8 @@
  *************************************************************************************************
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -18,11 +20,19 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
-    internal class Single : ExcelFunction
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.LookupAndReference,
+        EPPlusVersion = "7",
+        Description = "Returns a value using implicit intersection")]
+    internal class SingleFunction : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
-            throw new NotImplementedException();
+            ValidateArguments(arguments, 1);
+            var arg1 = arguments.First();
+            if (!arg1.IsExcelRange) return CreateResult(eErrorType.Value);
+            var range = arg1.ValueAsRangeInfo;
+            return ImplicitIntersectionUtil.GetResult(range, context.CurrentCell, context);
         }
     }
 }
