@@ -279,13 +279,70 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ManyLocalDataValidationsShouldWorkWithManyExtLstConditionalFormattings()
         {
-            using (var pck = OpenPackage("DataValidationLocalManyExtLst.xlsx", true))
+            using (var pck = OpenPackage("DataValidationLocalManyExtLstMany.xlsx", true))
             {
                 var ws = pck.Workbook.Worksheets.Add("extLstTest");
                 var extSheet = pck.Workbook.Worksheets.Add("extAddressSheet");
 
                 AddDataValidations(ref ws, false, "", true);
                 AddDataValidations(ref ws, true, "extAddressSheet", true);
+
+                SaveAndLoadAndSave(pck);
+            }
+        }
+
+        [TestMethod]
+        public void LocalMultipleAddress()
+        {
+            using (var pck = OpenPackage("DataValidationLocalSeperatedAddress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("localAddressTest");
+
+                var validation = ws.DataValidations.AddDecimalValidation("A1:A5 C5:C15 D13");
+
+                validation.Formula.Value = 5;
+                validation.Formula2.Value = 10.5;
+
+                SaveAndLoadAndSave(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ExtLstMultipleAddress()
+        {
+            using (var pck = OpenPackage("DataValidationExtLstSeperatedAddress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("extLstAddressTest");
+                var ws2 = pck.Workbook.Worksheets.Add("external");
+
+
+                var validation = ws.DataValidations.AddDecimalValidation("A1:A5 C5:C15 D13");
+
+                validation.Formula.ExcelFormula = "external!A1";
+                validation.Formula2.Value = 10.5;
+
+                SaveAndLoadAndSave(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ExtLstAndLocalMultipleAddressShouldWork()
+        {
+            using (var pck = OpenPackage("DataValidationLocalExtSeperatedAddress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("extLstAddressTest");
+                var ws2 = pck.Workbook.Worksheets.Add("external");
+
+
+                var extValidation = ws.DataValidations.AddDecimalValidation("A1:A5 C5:C15 D13");
+
+                extValidation.Formula.ExcelFormula = "external!A1";
+                extValidation.Formula2.Value = 10.5;
+
+                var localValidation = ws.DataValidations.AddDecimalValidation("E1:E5 F5:F15 G13");
+
+                localValidation.Formula.Value = 5.5;
+                localValidation.Formula2.Value = 25.75;
 
                 SaveAndLoadAndSave(pck);
             }
