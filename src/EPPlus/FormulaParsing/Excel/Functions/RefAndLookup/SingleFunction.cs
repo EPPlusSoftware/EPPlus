@@ -34,5 +34,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var range = arg1.ValueAsRangeInfo;
             return ImplicitIntersectionUtil.GetResult(range, context.CurrentCell, context);
         }
+
+        public override string NamespacePrefix
+        {
+            get
+            {
+                return "_xlfn.";
+            }
+        }
     }
 }
