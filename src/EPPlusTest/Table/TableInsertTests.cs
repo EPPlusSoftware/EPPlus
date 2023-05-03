@@ -415,5 +415,54 @@ namespace EPPlusTest.Table
                 Assert.AreEqual("A1:A5", tbl.Address.Address);
             }
         }
+
+        [TestMethod]
+        public void TableWithCalculatedFormulaInsert()
+        {
+            using (var p = OpenPackage("TableCalculatedColumnInsert.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells[2, 1, 10, 1].Value = 1;
+                ws.Cells[2, 2, 10, 2].Value = 2;
+                ws.Cells[2, 3, 10, 3].Value = 3;
+                ws.Cells[2, 4, 10, 4].Value = 4;
+                ws.Cells[2, 5, 10, 5].Value = 5;
+                var tbl = ws.Tables.Add(ws.Cells["A1:E10"], "Table1");
+                tbl.ShowHeader = true;
+                tbl.Columns[2].CalculatedColumnFormula = "Table1[[#This Row],[Column1]]";
+                Assert.AreEqual("Table1[[#This Row],[Column1]]", ws.Cells["C2"].Formula);
+                Assert.AreEqual("", ws.Cells["D11"].Formula);
+                tbl.Columns.Insert(1, 1);
+                tbl.InsertRow(0, 2);
+                tbl.Columns.Add(3);
+                tbl.AddRow(5);
+                Assert.AreEqual("Table1[[#This Row],[Column1]]", ws.Cells["D2"].Formula);
+                Assert.AreEqual("Table1[[#This Row],[Column1]]", ws.Cells["D12"].Formula);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void TableWithCalculatedFormulaDelete()
+        {
+            using (var p = OpenPackage("TableCalculatedColumnDelete.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells[2, 1, 10, 1].Value = 1;
+                ws.Cells[2, 2, 10, 2].Value = 2;
+                ws.Cells[2, 3, 10, 3].Value = 3;
+                ws.Cells[2, 4, 10, 4].Value = 4;
+                ws.Cells[2, 5, 10, 5].Value = 5;
+                var tbl = ws.Tables.Add(ws.Cells["A1:E10"], "Table1");
+                tbl.ShowHeader = true;
+                tbl.Columns[2].CalculatedColumnFormula = "Table1[[#This Row],[Column1]]";
+                Assert.AreEqual("Table1[[#This Row],[Column1]]", ws.Cells["C2"].Formula);
+                Assert.AreEqual("", ws.Cells["D11"].Formula);
+                tbl.Columns.Delete(1, 1);
+                tbl.DeleteRow(1, 2);
+                Assert.AreEqual("Table1[[#This Row],[Column1]]", ws.Cells["B2"].Formula);
+                Assert.AreEqual("", ws.Cells["B9"].Formula);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

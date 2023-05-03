@@ -186,7 +186,19 @@ namespace OfficeOpenXml.Table
         {
             lock (Table)
             {
-                var range = Table.DeleteColumn(position, columns);
+                if (position < 0)
+                {
+                    throw new ArgumentException("position", "position can't be negative");
+                }
+                if (columns < 0)
+                {
+                    throw new ArgumentException("columns", "columns can't be negative");
+                }
+
+                if (Table.Address._toCol < Table.Address._fromCol + position + columns - 1)
+                {
+                    throw new InvalidOperationException("Delete will exceed the number of columns in the table");
+                }
 
                 for (int i = position + columns - 1; i >= position; i--)
                 {
@@ -201,6 +213,7 @@ namespace OfficeOpenXml.Table
                 }
                 _colNames = _cols.ToDictionary(x => x.Name, y => y.Position);
 
+                var range = Table.DeleteColumn(position, columns);
                 return range;
             }
         }

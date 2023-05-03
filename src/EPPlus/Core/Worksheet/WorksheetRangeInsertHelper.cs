@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(range, ws, rowFrom, rows);
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(ws, rowFrom, rows);
 
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
@@ -111,7 +111,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(range, ws, columnFrom, columns);
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(ws, columnFrom, columns);
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
@@ -196,6 +196,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, shift, effectedAddress, ws, isTable);
                 InsertConditionalFormatting(range, shift, effectedAddress, ws, isTable);
 
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasInsert(range, effectedAddress, shift);
+
                 InsertSparkLinesAddress(range, shift, effectedAddress);
 
                 if (shift == eShiftTypeInsert.Down)
@@ -222,7 +224,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
+                    var cfr = ((ExcelConditionalFormattingRule)cf);
+                    cfr.Address = new ExcelAddress(newAddress.Address);
                 }
             }
 
@@ -231,7 +234,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 ws.ConditionalFormatting.Remove(cf);
             }
         }
-
         private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
             var delDV = new List<ExcelDataValidation>();
@@ -477,7 +479,8 @@ namespace OfficeOpenXml.Core.Worksheet
                         {
                             var fromRow = tbl.ShowHeader && address._fromRow == tbl.Address._fromRow ? address._fromRow + 1 : address._fromRow;
                             var toRow = tbl.ShowTotal ? address._toRow - 1 : address._toRow;
-                            col.SetFormulaCells(fromRow, toRow, tbl.Address._fromCol + col.Position + range.Columns);
+                            var colNo = shift == eShiftTypeInsert.Right ? tbl.Address._fromCol + col.Position + range.Columns : tbl.Address._fromCol + col.Position;
+                            col.SetFormulaCells(fromRow, toRow, colNo);
                         }
                     }
                 }
@@ -655,7 +658,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 var workSheetName = range.Worksheet.Name;
                 var rowFrom = range._fromRow;
                 var columnFrom = range._fromCol;
-                var rows = range.Rows;
 
                 foreach (var f in ws._sharedFormulas.Values)
                 {
@@ -667,17 +669,35 @@ namespace OfficeOpenXml.Core.Worksheet
                         {
                             throw new Exception("Invalid shared formula"); //This should never happend!
                         }
-                        if (f.StartCol >= columnFrom && c != ExcelAddressBase.eAddressCollition.No)
+                        if (f.StartCol >= columnFrom && c != ExcelAddressBase.eAddressCollition.No )
                         {
-                            if (f.StartRow >= rowFrom) f.StartRow += rows;
-                            if (a._fromRow >= rowFrom)
+                            if((shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
                             {
-                                a._fromRow += rows;
-                                a._toRow += rows;
+                                var rows = range.Rows;
+                                if (f.StartRow >= rowFrom) f.StartRow += rows;
+                                if (a._fromRow >= rowFrom)
+                                {
+                                    a._fromRow += rows;
+                                    a._toRow += rows;
+                                }
+                                else if (a._toRow >= rowFrom)
+                                {
+                                    a._toRow += rows;
+                                }
                             }
-                            else if (a._toRow >= rowFrom)
+                            else
                             {
-                                a._toRow += rows;
+                                var cols = range.Columns;
+                                if (f.StartCol >= columnFrom) f.StartCol += cols;
+                                if (a._fromCol >= columnFrom)
+                                {
+                                    a._fromCol += cols;
+                                    a._toCol += cols;
+                                }
+                                else if (a._toCol >= columnFrom)
+                                {
+                                    a._toCol += cols;
+                                }
                             }
                             f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
                             f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);

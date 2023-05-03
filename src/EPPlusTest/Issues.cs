@@ -4567,17 +4567,88 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue854_2()
+        public void Issue854_2_Insert()
         {
             using (var p = OpenTemplatePackage("i854-2.xlsx"))
             {
-                var ws = p.Workbook.Worksheets["Component Failure Rates"];
+                var ws = p.Workbook.Worksheets["Components"];
                 var table = ws.Tables[0];
-                table.Columns.Insert(8, 1);
+                table.Columns.Insert(1,2);
+                SaveWorkbook("i854-2-Insert.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue854_2_Delete()
+        {
+            using (var p = OpenTemplatePackage("i854-2.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Components"];
+                var table = ws.Tables[0];
+                table.Columns.Delete(1, 2);
+                SaveWorkbook("i854-2-Delete.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void Issue854_3()
+        {
+            using (var p = OpenTemplatePackage("i854-3.xlsx"))
+            {
+                var table = p.Workbook.Worksheets.SelectMany(x => x.Tables).Single(x => x.Name == "TblComponents");
+                List<object[]> tableData = new List<object[]>()
+                    {
+                        new []{ "C1", null, "Ceramic Capacitor", "Ceramic Capacitor FM" },
+                        new []{ "C2", null, "Ceramic Capacitor", "Ceramic Capacitor FM" }
+                    };
+                InsertTableRows(table, tableData.ToList(), 1, true);
                 SaveAndCleanup(p);
             }
         }
+        static void InsertTableRows(ExcelTable table, List<object[]> data, int insertBeforeRow, bool removeOtherRows)
+        {
+            // Finding the row in the sheet
+            int nextSheetRow = GetSheetRowIndex(table, insertBeforeRow);
 
+            table.InsertRow(insertBeforeRow, data.Count, true);
+
+            // Applying the formulas to the new rows
+            if (insertBeforeRow > 0)
+            {
+                nextSheetRow = GetSheetRowIndex(table, insertBeforeRow + data.Count);
+            }
+
+            // Filling the data -> not working
+            for (int dataRowIx = 0; dataRowIx < data.Count; dataRowIx++)
+            {
+                object[] dataRow = data[dataRowIx];
+                for (int colIx = 0; colIx < dataRow.Length; colIx++)
+                {
+                    table.WorkSheet.Cells[nextSheetRow, colIx + 1].Value = dataRow[colIx];
+                }
+                nextSheetRow++;
+            }
+
+            // Deleting the other rows in the table if required
+            if (removeOtherRows)
+            {
+                // Deleting the rows before the newly inserted ones
+                if (insertBeforeRow > 0)
+                {
+                    table.DeleteRow(0, insertBeforeRow);
+                }
+                // NB: The new rows are now at the start of the sequence, so only the ones after
+                // them should be removed
+                int endRowsToRemove = (table.Address.End.Row - table.Address.Start.Row) - data.Count;
+                if (endRowsToRemove > 0)
+                {
+                    table.DeleteRow(data.Count, endRowsToRemove);
+                }
+            }
+        }
+
+        static int GetSheetRowIndex(ExcelTable table, int tableRow)
+        {
+            return table.Address.Start.Row + tableRow + (table.ShowHeader ? 1 : 0);
+        }
         [TestMethod]
         public void Issue852()
         {

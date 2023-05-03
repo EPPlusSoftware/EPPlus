@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
@@ -54,7 +55,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Up);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Up, effectedAddress);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(range, ws, rowFrom, -rows);
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(ws, rowFrom, -rows);
 
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, -rows);
             }
@@ -127,7 +128,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Left);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Left, effectedAddress);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(range, ws, columnFrom, -columns);
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(ws, columnFrom, -columns);
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, -columns);
@@ -426,6 +427,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 //Adjust/delete data validations and conditional formatting
                 DeleteDataValidations(range, shift, ws, effectedAddress);
                 DeleteConditionalFormatting(range, shift, ws, effectedAddress);
+
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasDelete(range, effectedAddress, shift);
 
                 DeleteSparkLinesAddress(range, shift, effectedAddress);
                 AdjustDrawings(range, shift);
@@ -786,8 +789,6 @@ namespace OfficeOpenXml.Core.Worksheet
             foreach (var ws in range.Worksheet.Workbook.Worksheets)
             {
                 var workSheetName = range.WorkSheetName;
-                var rowFrom = range._fromRow;
-                var rows = range.Rows;
 
                 var delSF = new List<int>();
                 foreach (var sf in ws._sharedFormulas.Values)
@@ -799,11 +800,25 @@ namespace OfficeOpenXml.Core.Worksheet
                             ExcelAddressBase a;
                             if (shift == eShiftTypeDelete.Up)
                             {
+                                var rowFrom = range._fromRow;
+                                var rows = range.Rows;
                                 a = new ExcelAddress(sf.Address).DeleteRow(range._fromRow, rows);
+                                if (sf.StartRow >= rowFrom)
+                                {
+                                    var r = Math.Max(rowFrom, sf.StartRow - rows);
+                                    sf.StartRow = r;
+                                }
                             }
                             else
                             {
-                                a = new ExcelAddress(sf.Address).DeleteColumn(range._fromRow, rows);
+                                var colFrom = range._fromCol;
+                                var cols = range.Columns;
+                                a = new ExcelAddress(sf.Address).DeleteColumn(range._fromCol, cols);
+                                if (sf.StartCol >= colFrom)
+                                {
+                                    var c = Math.Max(colFrom, sf.StartCol - cols);
+                                    sf.StartCol = c;
+                                }
                             }
 
                             if (a == null)
@@ -814,17 +829,13 @@ namespace OfficeOpenXml.Core.Worksheet
                             {
                                 sf.Address = a.Address;
                                 sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, range, effectedRange, shift, ws.Name, workSheetName);
-                                if (sf.StartRow >= rowFrom)
-                                {
-                                    var r = Math.Max(rowFrom, sf.StartRow - rows);
-                                    sf.StartRow = r;
-                                }
                             }
                         }
                     }
                     else if (sf.Formula.Contains(workSheetName))
                     {
-                        sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                        //sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, -rows, 0, rowFrom, 0, ws.Name, workSheetName);
+                        sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, range, effectedRange, shift, ws.Name, workSheetName);
                     }
                 }
 

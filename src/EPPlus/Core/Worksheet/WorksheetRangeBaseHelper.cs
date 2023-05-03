@@ -10,15 +10,17 @@
  *************************************************************************************************
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
     internal static class WorksheetRangeCommonHelper
     {
-        internal static void AdjustDvAndCfFormulasRow(ExcelRange range, ExcelWorksheet ws, int rowFrom, int rows)
+        internal static void AdjustDvAndCfFormulasRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
             foreach (var dv in ws.DataValidations)
             {
@@ -32,19 +34,74 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            foreach (var cf in ws.ConditionalFormatting)
+            foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
             {
-                if (cf is IExcelConditionalFormattingWithFormula cfFormula)
+                if (!string.IsNullOrEmpty(cf.Formula))
                 {
-                    cfFormula.Formula = ExcelCellBase.UpdateFormulaReferences(cfFormula.Formula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
-                    if (cf is IExcelConditionalFormattingWithFormula2 cfFormula2)
-                    {
-                        cfFormula2.Formula2 = ExcelCellBase.UpdateFormulaReferences(cfFormula2.Formula2, rows, 0, rowFrom, 0, ws.Name, ws.Name);
-                    }
+                    cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, rows, 0, rowFrom, 0, ws.Name, ws.Name);
+                }
+                if (!string.IsNullOrEmpty(cf.Formula2))
+                {
+                    cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, rows, 0, rowFrom, 0, ws.Name, ws.Name);
                 }
             }
         }
-        internal static void AdjustDvAndCfFormulasColumn(ExcelRange range, ExcelWorksheet ws, int columnFrom, int columns)
+        internal static void AdjustDvAndCfFormulasDelete(ExcelRangeBase range, ExcelAddressBase affectedRange, eShiftTypeDelete shift)
+        {
+            var ws=range.Worksheet;
+            foreach (var dv in ws.DataValidations)
+            {
+                if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
+                {
+                    dvFormula.Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula.Formula.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
+                    if (dv is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula2)
+                    {
+                        dvFormula2.Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula2.Formula2.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
+                    }
+                }
+            }
+
+            foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
+            {
+                if (!string.IsNullOrEmpty(cf.Formula))
+                {
+                    cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, range, affectedRange, shift, ws.Name, ws.Name);
+                }
+                if (!string.IsNullOrEmpty(cf.Formula2))
+                {
+                    cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, range, affectedRange, shift, ws.Name, ws.Name);
+                }
+            }
+        }
+        internal static void AdjustDvAndCfFormulasInsert(ExcelRangeBase range, ExcelAddressBase affectedRange, eShiftTypeInsert shift)
+        {
+            var ws = range.Worksheet;
+            foreach (var dv in ws.DataValidations)
+            {
+                if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
+                {
+                    dvFormula.Formula.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula.Formula.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
+                    if (dv is ExcelDataValidationWithFormula2<IExcelDataValidationFormula> dvFormula2)
+                    {
+                        dvFormula2.Formula2.ExcelFormula = ExcelCellBase.UpdateFormulaReferences(dvFormula2.Formula2.ExcelFormula, range, affectedRange, shift, ws.Name, ws.Name);
+                    }
+                }
+            }
+
+            foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
+            {
+                if (!string.IsNullOrEmpty(cf.Formula))
+                {
+                    cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, range, affectedRange, shift, ws.Name, ws.Name);
+                }
+                if (!string.IsNullOrEmpty(cf.Formula2))
+                {
+                    cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, range, affectedRange, shift, ws.Name, ws.Name);
+                }
+            }
+        }
+
+        internal static void AdjustDvAndCfFormulasColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
             foreach (var dv in ws.DataValidations)
             {
@@ -58,15 +115,15 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            foreach (var cf in ws.ConditionalFormatting)
+            foreach (ExcelConditionalFormattingRule cf in ws.ConditionalFormatting)
             {
-                if (cf is IExcelConditionalFormattingWithFormula cfFormula)
+                if (!string.IsNullOrEmpty(cf.Formula))
                 {
-                    cfFormula.Formula = ExcelCellBase.UpdateFormulaReferences(cfFormula.Formula, 0, columns, 0, columnFrom, ws.Name, ws.Name);
-                    if (cf is IExcelConditionalFormattingWithFormula2 cfFormula2)
-                    {
-                        cfFormula2.Formula2 = ExcelCellBase.UpdateFormulaReferences(cfFormula2.Formula2, 0, columns, 0, columnFrom, ws.Name, ws.Name);
-                    }
+                    cf.Formula = ExcelCellBase.UpdateFormulaReferences(cf.Formula, 0, columns, 0, columnFrom, ws.Name, ws.Name);
+                }
+                if (!string.IsNullOrEmpty(cf.Formula2))
+                {
+                    cf.Formula2 = ExcelCellBase.UpdateFormulaReferences(cf.Formula2, 0, columns, 0, columnFrom, ws.Name, ws.Name);
                 }
             }
         }
