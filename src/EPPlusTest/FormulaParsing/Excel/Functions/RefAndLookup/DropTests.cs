@@ -57,6 +57,37 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
+        public void DropShouldReturnResultByRowNegative()
+        {
+            AddTestData();
+            _sheet.Cells["A10"].Formula = "DROP(A1:C4, -1)";
+            _sheet.Calculate();
+            Assert.AreEqual(1, _sheet.Cells["A10"].Value);
+            Assert.AreEqual(2, _sheet.Cells["A11"].Value);
+            Assert.AreEqual(3, _sheet.Cells["A12"].Value);
+            Assert.AreEqual(5, _sheet.Cells["B10"].Value);
+            Assert.AreEqual(6, _sheet.Cells["B11"].Value);
+            Assert.AreEqual(7, _sheet.Cells["B12"].Value);
+            Assert.AreEqual(9, _sheet.Cells["C10"].Value);
+            Assert.AreEqual(10, _sheet.Cells["C11"].Value);
+            Assert.AreEqual(11, _sheet.Cells["C12"].Value);
+        }
+
+        [TestMethod]
+        public void DropShouldReturnResultByRowAndColNegative()
+        {
+            AddTestData();
+            _sheet.Cells["A10"].Formula = "DROP(A1:C4,-1,-1)";
+            _sheet.Calculate();
+            Assert.AreEqual(1, _sheet.Cells["A10"].Value);
+            Assert.AreEqual(2, _sheet.Cells["A11"].Value);
+            Assert.AreEqual(3, _sheet.Cells["A12"].Value);
+            Assert.AreEqual(5, _sheet.Cells["B10"].Value);
+            Assert.AreEqual(6, _sheet.Cells["B11"].Value);
+            Assert.AreEqual(7, _sheet.Cells["B12"].Value);
+        }
+
+        [TestMethod]
         public void DropShouldReturnResultByRowAndCol()
         {
             AddTestData();
@@ -125,15 +156,15 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         [TestMethod]
         public void DropShouldHandleSingleArgument()
         {
-            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",0)";
+            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",1)";
             _sheet.Calculate();
             Assert.AreEqual("asdf", _sheet.Cells["A1"].Value);
         }
 
         [TestMethod]
-        public void DropShouldReturnCalcWithSingleArgumentAndRowLargerThan0()
+        public void DropShouldReturnCalcWithSingleArgumentAndRowIs0()
         {
-            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",1)";
+            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",0)";
             _sheet.Calculate();
             Assert.AreEqual(ErrorValues.CalcError, _sheet.Cells["A1"].Value);
         }
