@@ -1067,6 +1067,7 @@ namespace EPPlusTest
             var pt=ws.PivotTables.Add(ws.Cells["G20"], ws.Cells["A1:D4"], "PivotTable1");
             pt.ColumnFields.Add(pt.Fields[1]);
             pt.DataFields.Add(pt.Fields[3]);
+            
             Assert.AreEqual("PivotStyleMedium9", ws.PivotTables["PivotTable1"].StyleName);
 
             _pck.Workbook.Worksheets.AddChart("PivotChartWorksheet", eChartType.Line, pt);

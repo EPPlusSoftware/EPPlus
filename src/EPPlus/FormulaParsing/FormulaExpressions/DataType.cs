@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// A lookup array
         /// </summary>
-        LookupArray = 7,
+        //LookupArray = 7,
         ///// <summary>
         ///// A range reference
         ///// </summary>

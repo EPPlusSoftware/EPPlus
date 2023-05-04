@@ -1,4 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;

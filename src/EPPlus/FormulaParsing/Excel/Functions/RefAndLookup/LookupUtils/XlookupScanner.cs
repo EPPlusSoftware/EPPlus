@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RoundingHelper;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RoundingHelper;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
 {

@@ -11,7 +11,7 @@
   06/29/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;

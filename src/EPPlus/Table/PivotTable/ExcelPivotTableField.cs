@@ -21,7 +21,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing;
 using System.Text;
 using System.Collections;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Table.PivotTable.Filter;

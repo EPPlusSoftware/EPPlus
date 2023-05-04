@@ -1887,7 +1887,7 @@ namespace EPPlusTest
                 pivotTable.OutlineData = true;
                 //pivotTable.ShowDrill = true;
                 //pivotTable.CacheDefinition.Refresh();
-                pivotTable.Fields["Employee"].Items.ShowDetails(false);
+                pivotTable.Fields["Employee"].Items.ShowDetails(false);                
                 rowField1.Items.ShowDetails(false);
                 worksheet.Cells.AutoFitColumns(0);
 
@@ -4409,6 +4409,24 @@ namespace EPPlusTest
                         }
                     }
                 }
+            }
+        }
+        [TestMethod]
+        public void i863()
+        {
+            using (var p = OpenTemplatePackage("i863.xlsx"))
+            {
+                // Removed insertion of PHI data, just re-saving the template for sample purposes
+
+                // Workaround - Issue with "Inputs" tab - Validation of T60:T64 failed: Formula2 must be set if operator is 'between' or 'notBetween' when cells are not using between or notBetween
+                var otherInputTab = p.Workbook.Worksheets.FirstOrDefault(ws => ws.Name.Equals("Inputs"));
+                if (otherInputTab != null)
+                {
+                    otherInputTab.DataValidations.InternalValidationEnabled = false;
+                }
+
+                // Saving
+                SaveAndCleanup(p);
             }
         }
     }

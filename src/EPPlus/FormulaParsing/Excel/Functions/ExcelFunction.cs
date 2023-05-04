@@ -24,7 +24,7 @@ using System.Collections;
 using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 using OfficeOpenXml.Compatibility;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 

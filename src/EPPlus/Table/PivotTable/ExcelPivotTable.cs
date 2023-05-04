@@ -22,7 +22,7 @@ using System.Linq;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Packaging.Ionic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style.Dxf;
 using System.IO;
 using System.Globalization;

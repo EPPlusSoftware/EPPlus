@@ -1663,7 +1663,8 @@ namespace OfficeOpenXml
                             SecondCellDeleted = del2,
                             DataTableIsTwoDimesional = dt2D,
                             R1CellAddress = r1,
-                            R2CellAddress = r2
+                            R2CellAddress = r2,
+                            Index=afIndex
                         };
                         if (!string.IsNullOrEmpty(refAddress))
                         {
