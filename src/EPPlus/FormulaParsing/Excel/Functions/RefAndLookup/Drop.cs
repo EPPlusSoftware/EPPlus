@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if(firstArg.DataType == DataType.ExcelRange)
             {
-                var r = firstArg as IRangeInfo;
+                var r = firstArg.Value as IRangeInfo;
                 if(r.Size.NumberOfRows <= Math.Abs(rows) || r.Size.NumberOfCols <= Math.Abs(cols))
                 {
                     return CompileResult.GetErrorResult(eErrorType.Calc);
@@ -57,19 +57,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     toCol = r.Address.ToCol;
                 }
 
-                var address = new FormulaRangeAddress(context, fromRow, fromCol, toRow, toCol);
+                
                 IRangeInfo retRange;
                 if(r.IsInMemoryRange)
                 {
-                    retRange = new InMemoryRange(r.Size);
-                    //Copy rows into range
+                    retRange = r.GetOffset(fromRow, fromCol, toRow, toCol);
+                    return CreateResult(retRange, DataType.ExcelRange);
                 }
                 else
                 {
+                    var address = new FormulaRangeAddress(context, fromRow, fromCol, toRow, toCol);
                     retRange = new RangeInfo(r.Worksheet, fromRow, fromCol, toRow, toCol, context, r.Address.ExternalReferenceIx); //External references must be check how they work.
+                    return CreateResult(retRange, DataType.ExcelRange, address);
                 }
             }
-            return null;
+            // arg was not a range
+            if(rows == 0 && cols == 0)
+            {
+                return CompileResultFactory.Create(firstArg.Value);
+            }
+            return CompileResult.GetErrorResult(eErrorType.Calc);
+            
         }
         public override string NamespacePrefix => "_xlfn.";
         public override bool ReturnsReference => true;        
