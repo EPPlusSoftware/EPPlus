@@ -1656,6 +1656,7 @@ namespace OfficeOpenXml
 
                         var f = new SharedFormula(this, refAddress, formula)
                         {
+                            Index = afIndex,
                             StartRow = address._fromRow,
                             StartCol = address._fromCol,
                             FormulaType = FormulaType.DataTable,
@@ -1663,8 +1664,7 @@ namespace OfficeOpenXml
                             SecondCellDeleted = del2,
                             DataTableIsTwoDimesional = dt2D,
                             R1CellAddress = r1,
-                            R2CellAddress = r2,
-                            Index=afIndex
+                            R2CellAddress = r2
                         };
                         if (!string.IsNullOrEmpty(refAddress))
                         {
@@ -3030,28 +3030,38 @@ namespace OfficeOpenXml
 
         private void LoadExtLst(XmlReader xr, WorksheetZipStream stream, ref string xml, ref string lastXmlElement)
         {
+            string lastUri = "";
             while (xr.ReadUntil(2, "ext"))
             {
                 if (xr.GetAttribute("uri") == ExtLstUris.DataValidationsUri)
                 {
-                    var nextXmlElement = "ext";
-                    xml = stream.ReadFromEndElement(lastXmlElement, xml, "ext", false, xr.Prefix, $" uri=\"{ExtLstUris.DataValidationsUri}\"", false);
-
+                    xml = stream.ReadToExt(xml, ExtLstUris.DataValidationsUri, ref lastXmlElement, lastUri);
+                    lastUri = ExtLstUris.DataValidationsUri;
+                    stream.WriteToBuffer = false;
                     xr.Read();
 
                     if (_dataValidations == null)
+                    {
                         _dataValidations = new ExcelDataValidationCollection(xr, this);
+                    }
                     else
+                    {
                         _dataValidations.ReadDataValidations(xr);
+                    }
+                    xr.Read(); //Read over ext end tag
 
                     stream.SetWriteToBuffer();
-                    lastXmlElement = nextXmlElement;
                 }
                 else
                 {
                     //TODO: add other extLst options here. For now avoid infinite loop.
                     xr.Read();
                 }
+            }
+            if (string.IsNullOrEmpty(lastUri) == false)
+            {
+                stream.ReadToEnd();
+                xml = stream.ReadToExt(xml, "", ref lastXmlElement, lastUri);
             }
         }
         ExcelIgnoredErrorCollection _ignoredErrors =null;

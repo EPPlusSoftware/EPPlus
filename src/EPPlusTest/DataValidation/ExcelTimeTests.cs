@@ -27,6 +27,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using System;
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.DataValidation;
 
@@ -173,6 +174,19 @@ namespace EPPlusTest.DataValidation
 
             // Assert
             Assert.AreEqual(2, time.Second);
+        }
+
+        [TestMethod]
+        public void ExcelTimeTests_HourRoundingCheck()
+        {
+            decimal hour1 = decimal.Parse("0.416666666666667",CultureInfo.InvariantCulture);
+            decimal hour2 = decimal.Parse("0.458333333333333",CultureInfo.InvariantCulture);
+
+            var time1 = new ExcelTime(hour1);
+            var time2 = new ExcelTime(hour2);
+
+            Assert.AreEqual(10, time1.Hour);
+            Assert.AreEqual(11, time2.Hour);
         }
     }
 }

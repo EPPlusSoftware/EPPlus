@@ -28,11 +28,17 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Sparkline;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace EPPlusTest.DataValidation
 {
@@ -57,6 +63,112 @@ namespace EPPlusTest.DataValidation
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Operator = ExcelDataValidationOperator.equal;
             validation.Validate();
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldWriteReadAllValidOperatorsOnAllTypes()
+        {
+
+        }
+
+        public void TestTypeOperator(ExcelDataValidation type)
+        {
+
+        }
+
+        [TestMethod, ExpectedException(typeof(InvalidOperationException)), Ignore]
+        public void TestRangeAddMultipleTryAddingAfterShouldThrow()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            validations.AddIntegerValidation("C8");
+        }
+
+        [TestMethod, Ignore]
+        public void TestRangeAddMultipleTryAddingAfterShouldNotThrow()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            validations.AddIntegerValidation("Z8");
+        }
+
+
+        [TestMethod, Ignore]
+        public void TestRangeAddsMultipleInbetweenInstances()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            StringBuilder sb = new StringBuilder();
+
+            //Ensure all addresses exist in _validationsRD
+            for (int i = 0; i < validations.Count; i++)
+            {
+                if (validations[i].Address.Addresses != null)
+                {
+                    var addresses = validations[i].Address.Addresses;
+
+                    for (int j = 0; j < validations[i].Address.Addresses.Count; j++)
+                    {
+                        if (!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
+                        {
+                            sb.Append(addresses[i]);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
+                    {
+                        sb.Append(validations[i].Address);
+                    }
+                }
+            }
+
+            Assert.AreEqual("", sb.ToString());
+        }
+
+        [TestMethod, Ignore]
+        public void TestRangeAddsSingularInstance()
+        {
+            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTest.xlsx");
+
+            //pck.Workbook.Worksheets.Add("RangeTest");
+
+            var validations = pck.Workbook.Worksheets[0].DataValidations;
+
+            StringBuilder sb = new StringBuilder();
+
+            //Ensure all addresses exist in _validationsRD
+            for(int i = 0; i< validations.Count; i++) 
+            {
+                if(validations[i].Address.Addresses != null)
+                {
+                    var addresses = validations[i].Address.Addresses;
+
+                    for (int j = 0; j < validations[i].Address.Addresses.Count; j++)
+                    {
+                        if(!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
+                        {
+                            sb.Append(addresses[i]);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
+                    {
+                        sb.Append(validations[i].Address);
+                    }
+                }
+            }
+
+            Assert.AreEqual("",sb.ToString());
         }
 
         [TestMethod]
@@ -205,7 +317,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void DataValidations_ShouldThrowIfAllowBlankIsNotSet()
         {
-            var validation = _sheet.DataValidations.AddListValidation("A1");
+            var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Validate();
         }
 
@@ -403,6 +515,29 @@ namespace EPPlusTest.DataValidation
                 validation.ShowErrorMessage = true;
                 validation.Formula.ExcelFormula = "=ISTEXT(A1)";
                 validation.ImeMode = ExcelDataValidationImeMode.FullKatakana;
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void DataValidations_ShouldWriteReadIMEmodeAndWriteAgain()
+        {
+            using (var pck = OpenPackage("ImeTestOFF.xlsx", true))
+            {
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+
+                var validation = wks.DataValidations.AddCustomValidation("A1");
+                validation.ShowErrorMessage = true;
+                validation.Formula.ExcelFormula = "=ISTEXT(A1)";
+                validation.ImeMode = ExcelDataValidationImeMode.Off;
+
+                var stream = new MemoryStream();
+                pck.SaveAs(stream);
+
+                var pck2 = new ExcelPackage(stream);
+
+                pck2.SaveAs(stream);
 
                 SaveAndCleanup(pck);
             }

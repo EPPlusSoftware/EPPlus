@@ -86,5 +86,15 @@ namespace OfficeOpenXml.Utils
         {
             return type != typeof(string) && (type.IsClass || type.IsInterface);
         }
+        /// <summary>
+        /// Encode to XML (special characteres: &apos; &quot; &gt; &lt; &amp;)
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        internal static string EncodeXMLAttribute(this string s)
+        {
+            return s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
+        }
+
     }
 }

@@ -100,10 +100,9 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopySheetNames(copy, added);
             }
-            
-            if (copy.DataValidations.Count > 0)
+            if(copy.DataValidations.Count > 0) 
             {
-                foreach (ExcelDataValidation dv in copy.DataValidations)
+                foreach(ExcelDataValidation dv in copy.DataValidations)
                 {
                     added.DataValidations.AddCopyOfDataValidation(dv);
                 }
@@ -220,7 +219,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     styleID = CopyValues(Copy, added, row, col, hasMetadata);
                 }
-                if (!sameWorkbook)
+                if (!sameWorkbook && styleID != 0)
                 {
                     if (styleCashe.ContainsKey(styleID))
                     {

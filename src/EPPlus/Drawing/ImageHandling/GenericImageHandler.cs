@@ -37,6 +37,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         public bool GetImageBounds(MemoryStream image, ePictureType type, out double width, out double height, out double horizontalResolution, out double verticalResolution)
         {
+            if (image.Length == 0) throw new InvalidDataException("The Image has zero-length");
             try
             {
                 width = 0;

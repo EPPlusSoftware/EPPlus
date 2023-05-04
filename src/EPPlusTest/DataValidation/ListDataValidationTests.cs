@@ -32,6 +32,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 using System;
+using System.IO;
 
 namespace EPPlusTest.DataValidation
 {
@@ -181,6 +182,66 @@ namespace EPPlusTest.DataValidation
                 var validation = sheet.DataValidations.AddListValidation("A1");
 
                 Assert.IsFalse(validation.AllowsOperator);
+            }
+        }
+
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        public void CompletelyEmptyListValidationsShouldThrow()
+        {
+            var excel = new ExcelPackage();
+            var sheet = excel.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells[1, 1].Value = "Column1";
+            sheet.Cells["A2:A1048576"].DataValidation.AddListDataValidation();
+
+            excel.Save();
+        }
+
+        [TestMethod]
+        public void EmptyListValidationsShouldNotThrow()
+        {
+            var excel = new ExcelPackage();
+            var sheet = excel.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells[1, 1].Value = "Column1";
+            var boolValidator = sheet.Cells["A2:A1048576"].DataValidation.AddListDataValidation();
+            {
+                boolValidator.Formula.Values.Add("");
+                boolValidator.Formula.Values.Add("True");
+                boolValidator.Formula.Values.Add("False");
+                boolValidator.ShowErrorMessage = true;
+                boolValidator.Error = "Choose either False or True";
+            }
+
+            excel.Save();
+        }
+
+        [TestMethod]
+        public void ListLocalAndExt()
+        {
+            using (var package = OpenPackage("DataValidationExtLocalList.xlsx", true))
+            {
+                var ws1 = package.Workbook.Worksheets.Add("Worksheet1");
+                package.Workbook.Worksheets.Add("Worksheet2");
+
+                var localVal = ws1.DataValidations.AddDecimalValidation("A1:A5");
+
+                localVal.Formula.Value = 0;
+                localVal.Formula2.Value = 0.1;
+
+                var extVal = ws1.DataValidations.AddListValidation("B1:B5");
+
+                extVal.Formula.ExcelFormula = "Worksheet2!$G$12:G15";
+
+                SaveAndCleanup(package);
+
+                var p = OpenPackage("DataValidationExtLocalList.xlsx");
+
+                var stream = new MemoryStream();
+                p.SaveAs(stream);
+
+                ExcelPackage pck = new ExcelPackage(stream);
+
+                var stream2 = new MemoryStream();
+                pck.SaveAs(stream2);
             }
         }
     }

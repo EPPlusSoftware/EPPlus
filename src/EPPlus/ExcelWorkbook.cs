@@ -1765,7 +1765,8 @@ namespace OfficeOpenXml
 			_slicerCaches = new Dictionary<string, ExcelSlicerCache>();
 			foreach (var r in Part.GetRelationshipsByType(ExcelPackage.schemaRelationshipsSlicerCache))
 			{
-				var p = Part.Package.GetPart(UriHelper.ResolvePartUri(WorkbookUri, r.TargetUri));
+                var uri = UriHelper.ResolvePartUri(WorkbookUri, r.TargetUri);
+                var p = Part.Package.GetPart(uri); 
 				var xml = new XmlDocument();
 				LoadXmlSafe(xml, p.GetStream());
 
@@ -1778,7 +1779,8 @@ namespace OfficeOpenXml
 				{
 					cache = new ExcelTableSlicerCache(NameSpaceManager);
 				}
-				cache.CacheRel = r;
+                cache.Uri = uri;
+                cache.CacheRel = r;
 				cache.Part = p;
 				cache.TopNode = xml.DocumentElement;
 				cache.SlicerCacheXml = xml;

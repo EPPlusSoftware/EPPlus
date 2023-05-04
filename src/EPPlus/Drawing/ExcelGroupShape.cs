@@ -250,14 +250,13 @@ namespace OfficeOpenXml.Drawing
             AdjustXmlAndMoveFromGroup(drawing);
             var ix = _parent._drawings._drawingsList.IndexOf(_parent);
             _parent._drawings._drawingsList.Insert(ix, drawing);
-            _parent._drawings.ReIndexNames(ix, 1);
-            _parent._drawings._drawingNames.Add(drawing.Name, ix);
 
             //Remove 
             if (_parent.Drawings.Count == 0)
             {
                 _parent._drawings.Remove(_parent);
             }
+            _parent._drawings.ReIndexNames(ix, 1);
             drawing._parent = null;
         }
         /// <summary>

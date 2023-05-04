@@ -10,12 +10,14 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Exceptions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 using System;
 using System.Linq;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {
@@ -37,8 +39,11 @@ namespace OfficeOpenXml.DataValidation.Formulas
     /// <summary>
     /// Base class for a formula
     /// </summary>
-    internal abstract class ExcelDataValidationFormula
+    internal abstract class ExcelDataValidationFormula :IExcelDataValidationFormula
     {
+
+        internal event System.EventHandler BecomesExt;
+
         private readonly Action<OnFormulaChangedEventArgs> _handler;
 
         /// <summary>
@@ -110,8 +115,6 @@ namespace OfficeOpenXml.DataValidation.Formulas
             }
         }
 
-
-
         private bool RefersToOtherWorksheet(string address)
         {
             if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
@@ -123,16 +126,18 @@ namespace OfficeOpenXml.DataValidation.Formulas
             {
                 var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(address, _workSheetName);
                 if (!tokens.Any()) return false;
-                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.WorksheetNameContent));
+                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
                 foreach (var token in addressTokens)
                 {
-                    if (!string.IsNullOrEmpty(token.Value) && token.Value.Equals(_workSheetName, StringComparison.OrdinalIgnoreCase))
+                    var adr = new ExcelAddress(token.Value);
+                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _workSheetName)
                         return true;
                 }
 
             }
             return false;
         }
+
         internal abstract void ResetValue();
 
         /// <summary>

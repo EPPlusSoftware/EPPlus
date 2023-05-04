@@ -79,31 +79,6 @@ namespace OfficeOpenXml.DataValidation
         public override void Validate()
         {
             base.Validate();
-
-            if (Formula.Values.Count == 0 && Formula.ExcelFormula == null && (AllowBlank == null || AllowBlank == false))
-            {
-                throw new InvalidOperationException($"Cannot leave value blank when AllowBlank set to false!");
-            }
-            else
-            {
-                if (Formula.Values.Count > 0)
-                {
-                    foreach (var value in Formula.Values)
-                    {
-                        if (string.IsNullOrEmpty(value))
-                        {
-                            throw new InvalidOperationException($"Validation of {Address.Address} failed: value cannot be null or empty");
-                        }
-                    }
-                }
-                else
-                {
-                    if (Formula.ExcelFormula == "")
-                    {
-                        throw new InvalidOperationException($"Validation of {Address.Address} failed: ExcelFormula cannot be null or empty");
-                    }
-                }
-            }
         }
 
         internal override IExcelDataValidationFormulaList DefineFormulaClassType(string formulaValue, string sheetName)

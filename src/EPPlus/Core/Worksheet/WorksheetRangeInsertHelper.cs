@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(range, ws, rowFrom, rows);
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(ws, rowFrom, rows);
 
                 WorksheetRangeHelper.AdjustDrawingsRow(ws, rowFrom, rows);
             }
@@ -115,7 +115,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(range, ws, columnFrom, columns);
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(ws, columnFrom, columns);
 
                 //Adjust drawing positions.
                 WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
@@ -200,6 +200,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, shift, effectedAddress, ws, isTable);
                 InsertConditionalFormatting(range, shift, effectedAddress, ws, isTable);
 
+                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasInsert(range, effectedAddress, shift);
+
                 InsertSparkLinesAddress(range, shift, effectedAddress);
 
                 if (shift == eShiftTypeInsert.Down)
@@ -238,7 +240,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
-            var delDV = new List<DataValidation.Contracts.IExcelDataValidation>();
+            var delDV = new List<ExcelDataValidation>();
             //Update data validation references
             foreach (ExcelDataValidation dv in ws.DataValidations)
             {
@@ -251,6 +253,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     dv.SetAddress(newAddress.Address);
                 }
+                ws.DataValidations.InsertRangeDictionary(range, shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn);
             }
             foreach (var dv in delDV)
             {
@@ -469,16 +472,19 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
 
                 //Update CalculatedColumnFormula
+                var address = tbl.Address.Intersect(range);
                 foreach (var col in tbl.Columns)
                 {
                     if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
                     {
-                        var cf=ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
+                        var cf = ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
                         col.SetFormula(cf);
-                        var address = tbl.Address.Intersect(range);
-                        if (address != null)
+                        if (address != null && tbl.Address._fromCol + col.Position - 1 >= effectedAddress._fromCol)
                         {
-                            col.SetFormulaCells(address._fromRow, address._toRow, tbl.Address._fromCol + col.Position);
+                            var fromRow = tbl.ShowHeader && address._fromRow == tbl.Address._fromRow ? address._fromRow + 1 : address._fromRow;
+                            var toRow = tbl.ShowTotal ? address._toRow - 1 : address._toRow;
+                            var colNo = shift == eShiftTypeInsert.Right ? tbl.Address._fromCol + col.Position + range.Columns : tbl.Address._fromCol + col.Position;
+                            col.SetFormulaCells(fromRow, toRow, colNo);
                         }
                     }
                 }
@@ -656,7 +662,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 var workSheetName = range.Worksheet.Name;
                 var rowFrom = range._fromRow;
                 var columnFrom = range._fromCol;
-                var rows = range.Rows;
 
                 foreach (var f in ws._sharedFormulas.Values)
                 {
@@ -664,21 +669,39 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         var a = new ExcelAddressBase(f.Address);
                         var c = effectedAddress.Collide(a);
-                        //if(c==ExcelAddressBase.eAddressCollition.Partly && (effectedAddress._fromCol>a._fromCol || effectedAddress._toCol<a._toCol))
-                        //{
-                        //    throw new Exception("Invalid shared formula"); //This should never happend!
-                        //}
-                        if (f.StartCol >= columnFrom && c!=ExcelAddressBase.eAddressCollition.No)
+                        if (c == ExcelAddressBase.eAddressCollition.Partly && (effectedAddress._fromCol > a._fromCol || effectedAddress._toCol < a._toCol))
                         {
-                            if (f.StartRow >= rowFrom) f.StartRow += rows;
-                            if (a._fromRow >= rowFrom)
+                            throw new Exception("Invalid shared formula"); //This should never happend!
+                        }
+                        if (f.StartCol >= columnFrom && c != ExcelAddressBase.eAddressCollition.No)
+                        {
+                            if ((shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
                             {
-                                a._fromRow += rows;
-                                a._toRow += rows;
+                                var rows = range.Rows;
+                                if (f.StartRow >= rowFrom) f.StartRow += rows;
+                                if (a._fromRow >= rowFrom)
+                                {
+                                    a._fromRow += rows;
+                                    a._toRow += rows;
+                                }
+                                else if (a._toRow >= rowFrom)
+                                {
+                                    a._toRow += rows;
+                                }
                             }
-                            else if (a._toRow >= rowFrom)
+                            else
                             {
-                                a._toRow += rows;
+                                var cols = range.Columns;
+                                if (f.StartCol >= columnFrom) f.StartCol += cols;
+                                if (a._fromCol >= columnFrom)
+                                {
+                                    a._fromCol += cols;
+                                    a._toCol += cols;
+                                }
+                                else if (a._toCol >= columnFrom)
+                                {
+                                    a._toCol += cols;
+                                }
                             }
                             f.Address = ExcelCellBase.GetAddress(a._fromRow, a._fromCol, a._toRow, a._toCol);
                             f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
@@ -688,9 +711,9 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
                     }
-                    if(f.FormulaType==FormulaType.DataTable)
+                    if (f.FormulaType == FormulaType.DataTable)
                     {
-                        if(string.IsNullOrEmpty(f.R1CellAddress)==false)
+                        if (string.IsNullOrEmpty(f.R1CellAddress) == false)
                         {
                             //var c1 = ExcelCellBase.Insert(f.Address, range);                            
                         }
@@ -730,13 +753,11 @@ namespace OfficeOpenXml.Core.Worksheet
                             if (f.StartRow >= rowFrom)
                             {
                                 f.StartRow += rows;
+                            }
+                            if(f.EndRow >= rowFrom)
+                            {
                                 f.EndRow += rows;
                             }
-                            else if (f.StartRow >= rowFrom)
-                            {
-                                f.StartRow += rows;
-                            }
-
                             f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name);
                         }
                     }
@@ -761,6 +782,11 @@ namespace OfficeOpenXml.Core.Worksheet
                             var tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
                             cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
+                        if (v != cse.Value.ToString())
+                        {
+                            wsToUpdate._formulaTokens.SetValue(cse.Row, cse.Column, null);
+                        }
+
                     }
                 }
 }
@@ -769,14 +795,9 @@ namespace OfficeOpenXml.Core.Worksheet
         private static OptimizedSourceCodeTokenizer _sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
         private static IList<Token> GetTokens(ExcelWorksheet ws, int row, int column, string formula)
         {
-            if (string.IsNullOrEmpty(formula)) return new List<Token>();
-            var tokens = ws._formulaTokens.GetValue(row, column);
-            if(tokens==null)
-            {
-                tokens = (List<Token>) _sct.Tokenize(formula, ws.Name);
-                ws._formulaTokens.SetValue(row, column, tokens);
-            }
-            return tokens;
+            return string.IsNullOrEmpty(formula) ?
+                new List<Token>() :
+                (List<Token>)_sct.Tokenize(formula, ws.Name);
         }
 
         private static void FixFormulasInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
@@ -787,16 +808,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (ws.Name == wsToUpdate.Name)
                     {
-                        if (f.StartCol >= columnFrom)
-                        {
-                            f.StartCol += columns;
-                            f.EndCol += columns;
-                        }
-                        else if (f.EndCol >= columnFrom)
-                        {
-                            f.EndCol += columns;
-                        }
-
+                        if (f.StartCol >= columnFrom) f.StartCol += columns;
+                        if (f.EndCol >= columnFrom) f.EndCol += columns;
                         f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, 0, columns, 0, columnFrom, wsToUpdate.Name, ws.Name);
                     }
                     else if (f.Formula.Contains(ws.Name))
@@ -869,11 +882,13 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._commentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._threadedCommentsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._hyperLinks.Insert(rowFrom, columnFrom, rows, columns);
+            ws._dataValidationsStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._flags.Insert(rowFrom, columnFrom, rows, columns);
             ws._metadataStore.Insert(rowFrom, columnFrom, rows, columns);
             ws._vmlDrawings?._drawingsCellStore.Insert(rowFrom, columnFrom, rows, columns);
+            ws.MergedCells._cells.Insert(rowFrom, columnFrom, rows, columns);
 
-            if(rows==0||columns==0)
+            if (rows==0||columns==0)
             {
                 ws.Comments.Insert(rowFrom, columnFrom, rows, columns);
                 ws.ThreadedComments.Insert(rowFrom, columnFrom, rows, columns);
@@ -896,9 +911,11 @@ namespace OfficeOpenXml.Core.Worksheet
             ws._commentsStore.InsertShiftRight(fromAddress);
             ws._threadedCommentsStore.InsertShiftRight(fromAddress);
             ws._hyperLinks.InsertShiftRight(fromAddress);
+            ws._dataValidationsStore.InsertShiftRight(fromAddress);
             ws._flags.InsertShiftRight(fromAddress);
             ws._metadataStore.InsertShiftRight(fromAddress);
             ws._vmlDrawings?._drawingsCellStore.InsertShiftRight(fromAddress);
+            ws.MergedCells._cells.InsertShiftRight(fromAddress);
 
             ws.Comments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._toRow, fromAddress._toCol);
             ws.ThreadedComments.Insert(fromAddress._fromRow, fromAddress._fromCol, 0, fromAddress.Columns, fromAddress._toRow, fromAddress._toCol);

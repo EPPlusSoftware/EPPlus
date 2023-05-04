@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -477,7 +478,7 @@ namespace OfficeOpenXml.Sparkline
                 }
                 else
                 {
-                    SetXmlNodeString(_minAxisTypePath, value.ToString());
+                    SetXmlNodeString(_minAxisTypePath, value.ToEnumString());
                     DeleteNode(_manualMinPath);
                 }
             }
@@ -508,7 +509,7 @@ namespace OfficeOpenXml.Sparkline
                 }
                 else
                 {
-                    SetXmlNodeString(_maxAxisTypePath, value.ToString());
+                    SetXmlNodeString(_maxAxisTypePath, value.ToEnumString());
                     DeleteNode(_manualMaxPath);
                 }
             }
