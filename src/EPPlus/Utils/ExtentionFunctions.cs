@@ -45,6 +45,19 @@ namespace OfficeOpenXml.Utils.Extensions
             }
         }
 
+        //internal static T ToEnumThrowIfNull<T>(this string s) where T : struct
+        //{
+        //    var enumValue = ToEnum<T>(s);
+        //    if(enumValue == null)
+        //    {
+        //        throw new InvalidOperationException("Enum value could not be read from file");
+        //    }
+        //    else
+        //    {
+        //        return (T)enumValue;
+        //    }
+        //}
+
         internal static T ToEnum<T>(this string s, T defaultValue) where T : struct
         {
             try

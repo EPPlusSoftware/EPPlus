@@ -46,8 +46,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
         int Priority { get; set; }
 
         /// <summary>
-        /// If this property is true, no rules with lower priority should be applied over this rule,
-        /// when this rule evaluates to true.
+        /// If this property is true, no rules with lower priority should be applied over this rule.
         /// </summary>
         bool StopIfTrue { get; set; }
 

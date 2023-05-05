@@ -1,106 +1,80 @@
-/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿using OfficeOpenXml.ConditionalFormatting.Contracts;
 using System.Xml;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingContainsBlanks
-  /// </summary>
-  public class ExcelConditionalFormattingContainsBlanks
-    : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingContainsBlanks : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingContainsBlanks
-  {
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-      /// <param name="address"></param>
-      /// <param name="priority"></param>
-      /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingContainsBlanks(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.ContainsBlanks,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
     {
-        if (itemElementNode==null) //Set default values and create attributes if needed
+        /****************************************************************************************/
+
+        #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="priority"></param>
+        /// <param name="worksheet"></param>
+        internal ExcelConditionalFormattingContainsBlanks(
+          ExcelAddress address,
+          int priority,
+          ExcelWorksheet worksheet)
+          : base(
+                eExcelConditionalFormattingRuleType.ContainsBlanks,
+                address,
+                priority,
+                worksheet
+                )
         {
             Formula = string.Format(
               "LEN(TRIM({0}))=0",
               Address.Start.Address);
         }
-    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingContainsBlanks(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
-    }
+        internal ExcelConditionalFormattingContainsBlanks(ExcelConditionalFormattingContainsBlanks copy) : base(copy)
+        {
+        }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingContainsBlanks(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingContainsBlanks(this);
+        }
 
-    /****************************************************************************************/
-  }
+
+        void UpdateFormula()
+        {
+            Formula = string.Format(
+              "LEN(TRIM({0}))=0",
+              Address.Start.Address);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="worksheet"></param>
+        /// <param name="xr"></param>
+        internal ExcelConditionalFormattingContainsBlanks(
+          ExcelAddress address,
+          ExcelWorksheet worksheet,
+          XmlReader xr)
+          : base(
+                eExcelConditionalFormattingRuleType.ContainsBlanks,
+                address,
+                worksheet,
+                xr)
+        {
+        }
+
+        public override ExcelAddress Address 
+        { 
+            get { return base.Address; } 
+            set { base.Address = value; UpdateFormula(); } 
+        }
+
+
+        #endregion Constructors
+
+        /****************************************************************************************/
+    }
 }

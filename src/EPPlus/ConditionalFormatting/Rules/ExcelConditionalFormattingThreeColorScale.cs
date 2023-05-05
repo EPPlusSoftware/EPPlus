@@ -1,199 +1,109 @@
-/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *************************************************************************************************/
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingThreeColorScale
-  /// </summary>
-  public class ExcelConditionalFormattingThreeColorScale
-    : ExcelConditionalFormattingRule,
+    public class ExcelConditionalFormattingThreeColorScale : ExcelConditionalFormattingTwoColorScale,
     IExcelConditionalFormattingThreeColorScale
-  {
-    /****************************************************************************************/
-
-    #region Private Properties
-    /// <summary>
-    /// Private Low Value
-    /// </summary>
-    private ExcelConditionalFormattingColorScaleValue _lowValue;
-
-    /// <summary>
-    /// Private Middle Value
-    /// </summary>
-    private ExcelConditionalFormattingColorScaleValue _middleValue;
-
-    /// <summary>
-    /// Private High Value
-    /// </summary>
-    private ExcelConditionalFormattingColorScaleValue _highValue;
-    #endregion Private Properties
-
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="address"></param>
-    /// <param name="priority"></param>
-     /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingThreeColorScale(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.ThreeColorScale,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
     {
-            if (itemElementNode == null)
-            {
-                // Create the <colorScale> node inside the <cfRule> node
-                CreateComplexNode(
-                  TopNode,
-                  ExcelConditionalFormattingConstants.Paths.ColorScale);
-            }
-            else
-            {
-                itemElementNode=itemElementNode.ChildNodes[0];
-            }
 
-            // LowValue default
-            LowValue = new ExcelConditionalFormattingColorScaleValue(
-              eExcelConditionalFormattingValueObjectPosition.Low,
-              eExcelConditionalFormattingValueObjectType.Min,
-              ExcelConditionalFormattingConstants.Colors.CfvoLowValue,
-              eExcelConditionalFormattingRuleType.ThreeColorScale,
-              address,
-              priority,
-              worksheet,
-              itemElementNode,
-              NameSpaceManager);
+        private Color tempColor;
 
-            // MiddleValue default
+        internal ExcelConditionalFormattingThreeColorScale(ExcelAddress address, int priority, ExcelWorksheet ws)
+            : base(address, priority, ws)
+        {
             MiddleValue = new ExcelConditionalFormattingColorScaleValue(
-              eExcelConditionalFormattingValueObjectPosition.Middle,
-              eExcelConditionalFormattingValueObjectType.Percent,
-              ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
-              50,
-              string.Empty,
-              eExcelConditionalFormattingRuleType.ThreeColorScale,
-              address,
-              priority,
-              worksheet,
-              itemElementNode,
-              NameSpaceManager);
+            eExcelConditionalFormattingValueObjectType.Percentile,
+            ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
+            priority);
 
-            // HighValue default
-            HighValue = new ExcelConditionalFormattingColorScaleValue(
-              eExcelConditionalFormattingValueObjectPosition.High,
-              eExcelConditionalFormattingValueObjectType.Max,
-              ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
-              eExcelConditionalFormattingRuleType.ThreeColorScale,
-              address,
-              priority,
-              worksheet,
-              itemElementNode,
-              NameSpaceManager);
+            Type = eExcelConditionalFormattingRuleType.ThreeColorScale;
+
+            MiddleValue.Value = 50;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <param name="address"></param>
-        /// <param name="worksheet"></param>
-        /// <param name="itemElementNode"></param>
         internal ExcelConditionalFormattingThreeColorScale(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
+        ExcelAddress address,
+        int priority,
+        ExcelWorksheet worksheet,
+        bool stopIfTrue,
+        eExcelConditionalFormattingValueObjectType? low,
+        eExcelConditionalFormattingValueObjectType? middle,
+        eExcelConditionalFormattingValueObjectType? high,
+        string lowVal,
+        string middleVal,
+        string highVal,
+        XmlReader xr) : base(
+            address,
+            priority,
+            worksheet,
+            stopIfTrue, 
+            low, 
+            high, 
+            lowVal, 
+            highVal, 
+            xr)
+        {
+            MiddleValue = new ExcelConditionalFormattingColorScaleValue(
+            middle,
+            ExcelConditionalFormattingConstants.Colors.CfvoMiddleValue,
+            Priority);
+
+            MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Percentile;
+
+            if(middleVal != "") 
+            {
+                MiddleValue.Value = double.Parse(middleVal, CultureInfo.InvariantCulture);
+            }
+
+            MiddleValue.Color = tempColor;
+        }
+
+        internal ExcelConditionalFormattingThreeColorScale(ExcelConditionalFormattingThreeColorScale copy) : base(copy)
+        {
+            LowValue = copy.LowValue;
+            MiddleValue = copy.MiddleValue;
+            HighValue = copy.HighValue;
+            StopIfTrue = copy.StopIfTrue;
+        }
+
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingThreeColorScale(this);
+        }
+
+
+        internal override void ReadColors(XmlReader xr)
+        {
+            //we don't call base as the order of nodes are different. Second node is middle.
+
+            Type = eExcelConditionalFormattingRuleType.ThreeColorScale;
+            string test = xr.GetAttribute("rgb");
+            LowValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(test);
+
+            xr.Read();
+
+            tempColor = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+
+            xr.Read();
+
+            HighValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+
+            xr.Read();
+            xr.Read();
+        }
+
+        public ExcelConditionalFormattingColorScaleValue MiddleValue
+        {
+            get;
+            set;
+        }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingThreeColorScale(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
-
-    /****************************************************************************************/
-
-    #region Public Properties
-    /// <summary>
-    /// Low Value for Three Color Scale Object Value
-    /// </summary>
-    public ExcelConditionalFormattingColorScaleValue LowValue
-    {
-      get { return _lowValue; }
-      set { _lowValue = value; }
-    }
-
-    /// <summary>
-    /// Middle Value for Three Color Scale Object Value
-    /// </summary>
-    public ExcelConditionalFormattingColorScaleValue MiddleValue
-    {
-      get { return _middleValue; }
-      set { _middleValue = value; }
-    }
-
-    /// <summary>
-    /// High Value for Three Color Scale Object Value
-    /// </summary>
-    public ExcelConditionalFormattingColorScaleValue HighValue
-    {
-      get { return _highValue; }
-      set { _highValue = value; }
-    }
-    #endregion Public Properties
-
-    /****************************************************************************************/
-  }
 }

@@ -28,7 +28,7 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     /// <summary>
     /// Text Attribute
     /// </summary>
-    string Text { get; set; }
+    string ContainText { get; set; }
     #endregion Public Properties
   }
 }

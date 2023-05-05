@@ -1,172 +1,127 @@
-/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *************************************************************************************************/
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingTwoColorScale
-  /// </summary>
-  public class ExcelConditionalFormattingTwoColorScale
-    : ExcelConditionalFormattingRule,
+    public class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTwoColorScale
-  {
-    /****************************************************************************************/
-
-    #region Private Properties
-    /// <summary>
-    /// Private Low Value
-    /// </summary>
-    private ExcelConditionalFormattingColorScaleValue _lowValue;
-
-    /// <summary>
-    /// Private High Value
-    /// </summary>
-    private ExcelConditionalFormattingColorScaleValue _highValue;
-    #endregion Private Properties
-
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingTwoColorScale(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.TwoColorScale,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
     {
-            // If the node is not null, parse values out of it instead of clobbering it.
-            if (itemElementNode == null)
-            {
-                // Create the <colorScale> node inside the <cfRule> node
-                CreateComplexNode(
-                  TopNode,
-                  ExcelConditionalFormattingConstants.Paths.ColorScale);
-            }
-            else
-            {
-                itemElementNode = itemElementNode.ChildNodes[0];
-            }   
-            // LowValue default
+        internal ExcelConditionalFormattingTwoColorScale(
+        ExcelAddress address,
+        int priority,
+        ExcelWorksheet ws) 
+        : base(
+            eExcelConditionalFormattingRuleType.TwoColorScale, 
+            address, 
+            priority, 
+            ws)
+        {
             LowValue = new ExcelConditionalFormattingColorScaleValue(
-              eExcelConditionalFormattingValueObjectPosition.Low,
-              eExcelConditionalFormattingValueObjectType.Min,
-              ExcelConditionalFormattingConstants.Colors.CfvoLowValue,
-              eExcelConditionalFormattingRuleType.TwoColorScale,
-              address,
-              priority,
-              worksheet,
-              itemElementNode,
-              NameSpaceManager);
+                eExcelConditionalFormattingValueObjectType.Min, 
+                ExcelConditionalFormattingConstants.Colors.CfvoLowValue, 
+                priority);
 
-            // HighValue default
             HighValue = new ExcelConditionalFormattingColorScaleValue(
-              eExcelConditionalFormattingValueObjectPosition.High,
-              eExcelConditionalFormattingValueObjectType.Max,
-              ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
-              eExcelConditionalFormattingRuleType.TwoColorScale,
-              address,
-              priority,
-              worksheet,
-              itemElementNode,
-              NameSpaceManager);
+                eExcelConditionalFormattingValueObjectType.Max,
+                ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
+                priority);
+        }
 
+        internal ExcelConditionalFormattingTwoColorScale(
+            ExcelAddress address,
+            int priority,
+            ExcelWorksheet worksheet,
+            bool stopIfTrue,
+            eExcelConditionalFormattingValueObjectType? low, 
+            eExcelConditionalFormattingValueObjectType? high,
+            string lowVal,
+            string highVal,
+            XmlReader xr) : base (
+                eExcelConditionalFormattingRuleType.TwoColorScale, 
+                address, 
+                priority, 
+                worksheet)
+        {
+            StopIfTrue = stopIfTrue;
+            SetValues(low, high, lowVal, highVal);
+            ReadColors(xr);
+        }
+
+        internal void SetValues(
+            eExcelConditionalFormattingValueObjectType? low, 
+            eExcelConditionalFormattingValueObjectType? high,
+            string lowVal = "",
+            string highVal = "",
+            string middleVal = "",
+            eExcelConditionalFormattingValueObjectType? middle = null)
+        {
+            LowValue = new ExcelConditionalFormattingColorScaleValue(
+            low,
+            ExcelConditionalFormattingConstants.Colors.CfvoLowValue,
+            Priority);
+
+            HighValue = new ExcelConditionalFormattingColorScaleValue(
+            high,
+            ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
+            Priority);
+
+            if(lowVal != null)
+            {
+                LowValue.Value = double.Parse(lowVal, CultureInfo.InvariantCulture);
+            }
+
+            if(highVal!= null) 
+            {
+                HighValue.Value = double.Parse(highVal, CultureInfo.InvariantCulture);
+            }
+        }
+
+        internal ExcelConditionalFormattingTwoColorScale(ExcelConditionalFormattingTwoColorScale copy) : base(copy)
+        {
+            LowValue = copy.LowValue;
+            HighValue = copy.HighValue;
+            StopIfTrue = copy.StopIfTrue;
+        }
+
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingTwoColorScale(this);
+        }
+
+        internal virtual void ReadColors(XmlReader xr)
+        {
+            Type = eExcelConditionalFormattingRuleType.TwoColorScale;
+            LowValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+
+            xr.Read();
+
+            HighValue.Color = ExcelConditionalFormattingHelper.ConvertFromColorCode(xr.GetAttribute("rgb"));
+
+            xr.Read();
+            xr.Read();
+        }
+
+        public ExcelConditionalFormattingColorScaleValue LowValue
+        {
+            get;
+            set;
         }
 
         /// <summary>
-        /// 
+        /// High Value for Two Color Scale Object Value
         /// </summary>
-        /// <param name="priority"></param>
-        /// <param name="address"></param>
-        /// <param name="worksheet"></param>
-        /// <param name="itemElementNode"></param>
-        internal ExcelConditionalFormattingTwoColorScale(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
+        public ExcelConditionalFormattingColorScaleValue HighValue
+        {
+            get;
+            set;
+        }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingTwoColorScale(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
-
-    /****************************************************************************************/
-
-    #region Public Properties
-    /// <summary>
-    /// Low Value for Two Color Scale Object Value
-    /// </summary>
-    public ExcelConditionalFormattingColorScaleValue LowValue
-    {
-      get { return _lowValue; }
-      set { _lowValue = value; }
-    }
-
-    /// <summary>
-    /// High Value for Two Color Scale Object Value
-    /// </summary>
-    public ExcelConditionalFormattingColorScaleValue HighValue
-    {
-      get { return _highValue; }
-      set { _highValue = value; }
-    }
-    #endregion Public Properties
-
-    /****************************************************************************************/
-  }
 }

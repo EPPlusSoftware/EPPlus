@@ -19,7 +19,7 @@ using System.Xml;
 namespace OfficeOpenXml.ConditionalFormatting
 {
 	/// <summary>
-	/// Functions related to the <see cref="ExcelConditionalFormattingColorScaleValue"/>
+	/// Functions related to the <see cref="ExcelConditionalFormattingColorScaleValueOLD"/>
 	/// </summary>
 	internal static class ExcelConditionalFormattingValueObjectType
 	{

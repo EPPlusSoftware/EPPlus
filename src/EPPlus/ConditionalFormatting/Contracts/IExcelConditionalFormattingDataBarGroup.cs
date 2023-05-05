@@ -14,16 +14,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using OfficeOpenXml.ConditionalFormatting;
 using System.Drawing;
+using OfficeOpenXml.Core.Worksheet.XmlWriter;
 
 namespace OfficeOpenXml.ConditionalFormatting.Contracts
 {
-	/// <summary>
-	/// IExcelConditionalFormattingDataBar
-	/// </summary>
-	public interface IExcelConditionalFormattingDataBarGroup
+    /// <summary>
+    /// IExcelConditionalFormattingDataBar
+    /// </summary>
+    public interface IExcelConditionalFormattingDataBarGroup
         : IExcelConditionalFormattingRule
 	{
 		#region Public Properties

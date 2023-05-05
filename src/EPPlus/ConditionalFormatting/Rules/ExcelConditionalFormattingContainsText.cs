@@ -1,132 +1,72 @@
-/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// ExcelConditionalFormattingContainsText
-  /// </summary>
-  public class ExcelConditionalFormattingContainsText
-    : ExcelConditionalFormattingRule,
+    internal class ExcelConditionalFormattingContainsText : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingContainsText
-  {
-    /****************************************************************************************/
-
-    #region Constructors
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="address"></param>
-    /// <param name="priority"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    /// <param name="namespaceManager"></param>
-    internal ExcelConditionalFormattingContainsText(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode,
-      XmlNamespaceManager namespaceManager)
-      : base(
-        eExcelConditionalFormattingRuleType.ContainsText,
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        (namespaceManager == null) ? worksheet.NameSpaceManager : namespaceManager)
     {
-        if (itemElementNode==null) //Set default values and create attributes if needed
+        public ExcelConditionalFormattingContainsText(
+          ExcelAddress address,
+          int priority,
+          ExcelWorksheet worksheet)
+          : base(eExcelConditionalFormattingRuleType.ContainsText, address, priority, worksheet)
         {
             Operator = eExcelConditionalFormattingOperatorType.ContainsText;
-            Text = string.Empty;
+            ContainText = string.Empty;
+        }
+
+        public ExcelConditionalFormattingContainsText(
+          ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
+          : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
+        {
+            Operator = eExcelConditionalFormattingOperatorType.ContainsText;
+
+            Text = Formula.GetSubstringStoppingAtSymbol("NOT(ISERROR(SEARCH(\"".Length);
+        }
+
+        ExcelConditionalFormattingContainsText(ExcelConditionalFormattingContainsText copy) :base(copy)
+        {
+            ContainText = copy.ContainText;
+        }
+
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingContainsText(this);
+        }
+
+        public string ContainText
+        {
+            get
+            {
+                return Text;
+            }
+            set
+            {
+                Text = value;
+                //TODO: Error check/Throw when formula does not follow this format and is a ContainsText.
+                Formula = string.Format(
+                  "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
+                  Address.Start.Address,
+                  value.Replace("\"", "\"\""));
+            }
+        }
+
+        void UpdateFormula()
+        {
+            Formula = string.Format(
+              "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
+              Address.Start.Address,
+              Text);
+        }
+
+        public override ExcelAddress Address
+        {
+            get { return base.Address; }
+            set { base.Address = value; UpdateFormula(); }
         }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    /// <param name="itemElementNode"></param>
-    internal ExcelConditionalFormattingContainsText(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet,
-      XmlNode itemElementNode)
-      : this(
-        address,
-        priority,
-        worksheet,
-        itemElementNode,
-        null)
-    {
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priority"></param>
-    /// <param name="address"></param>
-    /// <param name="worksheet"></param>
-    internal ExcelConditionalFormattingContainsText(
-      ExcelAddress address,
-      int priority,
-      ExcelWorksheet worksheet)
-      : this(
-        address,
-        priority,
-        worksheet,
-        null,
-        null)
-    {
-    }
-    #endregion Constructors
-
-    /****************************************************************************************/
-
-    #region Exposed Properties
-    /// <summary>
-    /// The text to search inside the cell
-    /// </summary>
-    public string Text
-    {
-      get
-      {
-        return GetXmlNodeString(
-          ExcelConditionalFormattingConstants.Paths.TextAttribute);
-      }
-      set
-      {
-        SetXmlNodeString(
-          ExcelConditionalFormattingConstants.Paths.TextAttribute,
-          value);
-
-        Formula = string.Format(
-          "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
-          Address.Start.Address,
-          value.Replace("\"", "\"\""));
-      }
-    }
-    #endregion Exposed Properties
-
-    /****************************************************************************************/
-  }
 }

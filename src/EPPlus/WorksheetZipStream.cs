@@ -241,7 +241,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                var lastElementIx = FindElementPos(xml, lastElement, false, 0);
+                var lastElementIx = FindLastElementPosWithoutPrefix(xml, lastElement, false, 0);
                 if (lastElementIx < 0)
                 {
                     throw new InvalidOperationException("Worksheet Xml is invalid");
@@ -312,6 +312,72 @@ namespace OfficeOpenXml
             while (true)
             {
                 ix = xml.IndexOf(element, ix);
+                if (ix > 0 && ix < xml.Length - 1)
+                {
+                    var c = xml[ix + element.Length];
+                    if (c == '>' || c == ' ' || c == '/')
+                    {
+                        c = xml[ix - 1];
+                        if (c == '/' || c == ':' || xml[ix - 1] == '<')
+                        {
+                            if (returnStartPos)
+                            {
+                                return xml.LastIndexOf('<', ix);
+                            }
+                            else
+                            {
+                                //Return the end element, either </element> or <element/>
+                                var startIx = xml.LastIndexOf("<", ix);
+                                if (ix > 0)
+                                {
+                                    var end = xml.IndexOf(">", ix + element.Length - 1);
+                                    if (xml[startIx + 1] == '/' || xml[end - 1] == '/')
+                                    {
+                                        return end + 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (ix <= 0) return -1;
+                ix += element.Length;
+            }
+        }
+
+        /// <summary>
+        /// Returns the position of the last instance of an element in the xml document. Either returns the position of the start element or the end element.
+        /// </summary>
+        /// <param name="xml">The xml to search</param>
+        /// <param name="element">The element</param>
+        /// <param name="returnStartPos">If the position before the start element is returned. If false the end of the end element is returned.</param>
+        /// <returns>The position of the element in the input xml</returns>
+        private int FindLastElementPosWithoutPrefix(string xml, string element, bool returnStartPos = true, int ix = 0)
+        {
+            ix = xml.LastIndexOf(element, xml.Length - 1);
+
+            while (xml[ix - 1] == ':')
+            {
+                ix = xml.LastIndexOf(element, ix);
+
+                if (ix - 1 <= 0)
+                {
+                    return -1;
+                }
+            }
+
+            bool first = false;
+            while (true)
+            {
+                if (!first)
+                {
+                    first = true;
+                }
+                else
+                {
+                    ix = xml.IndexOf(element, ix);
+                }
+
                 if (ix > 0 && ix < xml.Length - 1)
                 {
                     var c = xml[ix + element.Length];
