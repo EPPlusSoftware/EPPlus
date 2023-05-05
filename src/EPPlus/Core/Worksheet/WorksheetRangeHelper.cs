@@ -271,23 +271,20 @@ namespace OfficeOpenXml.Core.Worksheet
             bool doConvertSF = false;
             var sfAddress = new ExcelAddressBase(sf.Address);
             sf.SetTokens(ws.Name);
-            foreach (var token in sf.Tokens)
+            foreach (var token in sf.TokenAddresses)
             {
-                if (token.TokenTypeIsSet(TokenType.ExcelAddress))
+                //Check if the address for the entire shared formula collides with the deleted address.
+                var tokenAddress = new ExcelAddressBase(token);
+                if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheetName)) ||
+                    (!string.IsNullOrEmpty(tokenAddress.WorkSheetName) && tokenAddress.WorkSheetName.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    //Check if the address for the entire shared formula collides with the deleted address.
-                    var tokenAddress = new ExcelAddressBase(token.Value);
-                    if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheetName)) ||
-                        (!string.IsNullOrEmpty(tokenAddress.WorkSheetName) && tokenAddress.WorkSheetName.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);
-                        if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);
+                    if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);
+                    if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);
 
-                        if (tokenAddress.Collide(delRange, true) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
-                        {
-                            doConvertSF = true;
-                            break;
-                        }
+                    if (tokenAddress.Collide(delRange, true) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
+                    {
+                        doConvertSF = true;
+                        break;
                     }
                 }
             }

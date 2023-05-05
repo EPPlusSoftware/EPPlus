@@ -133,6 +133,70 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 ExcelCellBase.GetRowColFromAddress(value, out StartRow, out StartCol, out EndRow, out EndCol);
             }
         }
+        /// <summary>
+        /// Return all addresses in the formula.
+        /// </summary>
+        public List<string> TokenAddresses 
+        {
+            get
+            {
+                var l = new List<string>();
+                var address = "";
+                foreach(var t in Tokens)
+                {
+                    if(t.TokenTypeIsAddress || (t.Value==":" && t.TokenType==TokenType.Operator))
+                    {
+                        address += t.Value;
+                    }
+                    else
+                    {
+                        if(!string.IsNullOrEmpty(address))
+                        {
+                            l.Add(address);
+                            address = "";
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(address))
+                {
+                    l.Add(address);
+                }
+                return l;
+            }
+        }
+        /// <summary>
+        /// Return tokens with addresses concatenated into an ExcelAddress instead of cell
+        /// </summary>
+        public List<Token> TokensWithFullAddresses
+        {
+            get
+            {
+                var l = new List<Token>();
+                var address = "";
+                foreach (var t in Tokens)
+                {
+                    if (t.TokenTypeIsAddress || (t.Value == ":" && t.TokenType == TokenType.Operator))
+                    {
+                        address += t.Value;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(address))
+                        {
+                            l.Add(new Token(address, TokenType.ExcelAddress));
+                            address = "";                            
+                        }
+                        l.Add(t);
+                    }
+                }
+                if (!string.IsNullOrEmpty(address))
+                {
+                    l.Add(new Token(address, TokenType.ExcelAddress));
+                }
+                return l;
+            }
+        }
+
         internal SharedFormula Clone()
         {
             return new SharedFormula(_ws, StartRow, StartCol, EndRow, EndCol, Formula)

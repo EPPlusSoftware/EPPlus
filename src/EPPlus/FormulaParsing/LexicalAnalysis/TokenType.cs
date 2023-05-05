@@ -171,10 +171,25 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Represents a cell address.
         /// </summary>
         CellAddress = (ulong)1 << 36,
+        /// <summary>
+        /// Alphnumeric characters representing a full column
+        /// </summary>
         FullColumnAddress = (ulong)1 << 37,
+        /// <summary>
+        /// An integer representing a full row
+        /// </summary>
         FullRowAddress = (ulong)1 << 38,
+        /// <summary>
+        /// Reprensenting a the start of a function argument
+        /// </summary>
         StartFunctionArguments = (ulong)1 << 39,
+        /// <summary>
+        /// An array
+        /// </summary>
         Array = (ulong)1 << 40,
+        /// <summary>
+        /// Represents a N/A error
+        /// </summary>
         NAError = (ulong)1 << 41,
         SingleQuote = (ulong)1 << 42,
         HashMark = (ulong)1 << 43,

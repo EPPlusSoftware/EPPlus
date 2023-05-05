@@ -62,7 +62,7 @@ namespace EPPlusTest.DataValidation
                 var validation = ws1.DataValidations.AddIntegerValidation("A1");
                 validation.Operator = ExcelDataValidationOperator.equal;
 
-                validation.Formula.ExcelFormula = "IF(A2=\"red\"";
+                validation.Formula.ExcelFormula = "IF(A2=\"red\")";
 
                 Assert.AreNotEqual(((ExcelDataValidationInt)validation).InternalValidationType, InternalValidationType.ExtLst);
 
@@ -73,7 +73,7 @@ namespace EPPlusTest.DataValidation
 
                 var readingValidation = package2.Workbook.Worksheets[0].DataValidations[0];
 
-                Assert.AreEqual("IF(A2=\"red\"", readingValidation.As.IntegerValidation.Formula.ExcelFormula);
+                Assert.AreEqual("IF(A2=\"red\")", readingValidation.As.IntegerValidation.Formula.ExcelFormula);
                 Assert.AreNotEqual(((ExcelDataValidationInt)readingValidation).InternalValidationType, InternalValidationType.ExtLst);
             }
         }

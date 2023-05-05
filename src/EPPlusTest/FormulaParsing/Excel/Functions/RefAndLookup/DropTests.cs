@@ -154,17 +154,17 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
         }
 
         [TestMethod]
-        public void DropShouldHandleSingleArgument()
+        public void DropShouldHandleSingleArgumentIfRowIs0()
         {
-            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",1)";
+            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",0)";
             _sheet.Calculate();
             Assert.AreEqual("asdf", _sheet.Cells["A1"].Value);
         }
 
         [TestMethod]
-        public void DropShouldReturnCalcWithSingleArgumentAndRowIs0()
+        public void DropShouldReturnCalcWithSingleArgumentAndRowIs1()
         {
-            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",0)";
+            _sheet.Cells["A1"].Formula = "DROP(\"asdf\",1)";
             _sheet.Calculate();
             Assert.AreEqual(ErrorValues.CalcError, _sheet.Cells["A1"].Value);
         }

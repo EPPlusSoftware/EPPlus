@@ -805,8 +805,13 @@ namespace OfficeOpenXml.Core.Worksheet
                                 a = new ExcelAddress(sf.Address).DeleteRow(range._fromRow, rows);
                                 if (sf.StartRow >= rowFrom)
                                 {
-                                    var r = Math.Max(rowFrom, sf.StartRow - rows);
-                                    sf.StartRow = r;
+                                    var sr = Math.Max(rowFrom, sf.StartRow - rows);
+                                    sf.StartRow = sr;
+                                }
+                                if(sf.EndRow >= rowFrom)
+                                {
+                                    var er = Math.Max(rowFrom, sf.EndRow - rows);
+                                    sf.EndRow = er;
                                 }
                             }
                             else
@@ -819,6 +824,11 @@ namespace OfficeOpenXml.Core.Worksheet
                                     var c = Math.Max(colFrom, sf.StartCol - cols);
                                     sf.StartCol = c;
                                 }
+                                if (sf.EndCol >= colFrom)
+                                {
+                                    var c = Math.Max(colFrom, sf.EndCol - cols);
+                                    sf.EndCol = c;
+                                }
                             }
 
                             if (a == null)
@@ -827,7 +837,6 @@ namespace OfficeOpenXml.Core.Worksheet
                             }
                             else
                             {
-                                sf.Address = a.Address;
                                 sf.Formula = ExcelCellBase.UpdateFormulaReferences(sf.Formula, range, effectedRange, shift, ws.Name, workSheetName);
                             }
                         }

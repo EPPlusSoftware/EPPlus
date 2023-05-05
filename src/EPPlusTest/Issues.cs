@@ -1889,7 +1889,8 @@ namespace EPPlusTest
                 pivotTable.OutlineData = true;
                 //pivotTable.ShowDrill = true;
                 //pivotTable.CacheDefinition.Refresh();
-                pivotTable.Fields["Employee"].Items.ShowDetails(false);                
+                pivotTable.CacheDefinition.Refresh();
+                pivotTable.Fields["Employee"].Items.ShowDetails(false);
                 rowField1.Items.ShowDetails(false);
                 worksheet.Cells.AutoFitColumns(0);
 
