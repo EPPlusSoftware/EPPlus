@@ -290,6 +290,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["drop"] = new Drop();
             Functions["take"] = new Take();
             Functions["torow"] = new ToRow();
+            Functions["tocol"] = new ToCol();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

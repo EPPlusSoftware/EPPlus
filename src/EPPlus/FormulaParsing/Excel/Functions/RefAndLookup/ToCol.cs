@@ -23,19 +23,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "7",
-        Description = "Returns the array in a single row.",
+        Description = "Returns the array in a single column.",
         SupportsArrays = true)]
-    internal class ToRow : ToRowColBase
+    internal class ToCol : ToRowColBase
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var firstArg = arguments.First();
             var ignore = 0;
-            if(arguments.Count() > 1 && arguments.ElementAt(1).Value != null) 
+            if (arguments.Count() > 1 && arguments.ElementAt(1).Value != null)
             {
                 ignore = ArgToInt(arguments, 1);
-                if(ignore < 0 || ignore > 4)
+                if (ignore < 0 || ignore > 4)
                 {
                     return CompileResult.GetErrorResult(eErrorType.Value);
                 }
@@ -45,17 +45,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 scanByColumn = ArgToBool(arguments, 2);
             }
-            if (firstArg.IsExcelRange)
+            if(firstArg.IsExcelRange)
             {
-                var range = firstArg.ValueAsRangeInfo;
                 var result = GetItemsFromRange(firstArg.ValueAsRangeInfo, ignore, scanByColumn);
-                var resultRange = new InMemoryRange(new RangeDefinition(1, (short)result.Count));
-                var col = 0;
+                var resultRange = new InMemoryRange(new RangeDefinition(result.Count, 1));
+                var row = 0;
                 foreach (var val in result)
                 {
-                    resultRange.SetValue(0, col++, val);
+                    resultRange.SetValue(row++, 0, val);
                 }
-                return CreateResult(resultRange, DataType.ExcelRange);  
+                return CreateResult(resultRange, DataType.ExcelRange);
             }
             return CompileResultFactory.Create(firstArg.Value);
         }
