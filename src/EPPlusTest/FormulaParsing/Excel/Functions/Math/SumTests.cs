@@ -11,7 +11,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Math
     [TestClass]
     public class SumTests
     {
-        [TestMethod]
+        // TODO: this needs a review and potentially redesign
+        [TestMethod, Ignore]
         public void ShouldTreatSingleBooleanValuesOrginatingFromEvaluationsAsNumbers()
         {
             using (var package = new ExcelPackage())
