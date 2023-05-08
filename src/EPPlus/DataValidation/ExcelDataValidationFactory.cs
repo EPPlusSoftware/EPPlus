@@ -26,28 +26,28 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="xr"></param>
         /// <returns>"</returns>
         /// <exception cref="InvalidOperationException"></exception>
-        internal static ExcelDataValidation Create(XmlReader xr)
+        internal static ExcelDataValidation Create(XmlReader xr, ExcelWorksheet ws)
         {
             string validationTypeName = xr.GetAttribute("type") == null ? "" : xr.GetAttribute("type");
 
             switch (validationTypeName)
             {
                 case "":
-                    return new ExcelDataValidationAny(xr);
+                    return new ExcelDataValidationAny(xr, ws);
                 case "textLength":
-                    return new ExcelDataValidationInt(xr, true);
+                    return new ExcelDataValidationInt(xr, ws, true);
                 case "whole":
-                    return new ExcelDataValidationInt(xr);
+                    return new ExcelDataValidationInt(xr, ws);
                 case "decimal":
-                    return new ExcelDataValidationDecimal(xr);
+                    return new ExcelDataValidationDecimal(xr, ws);
                 case "list":
-                    return new ExcelDataValidationList(xr);
+                    return new ExcelDataValidationList(xr, ws);
                 case "time":
-                    return new ExcelDataValidationTime(xr);
+                    return new ExcelDataValidationTime(xr, ws);
                 case "date":
-                    return new ExcelDataValidationDateTime(xr);
+                    return new ExcelDataValidationDateTime(xr, ws);
                 case "custom":
-                    return new ExcelDataValidationCustom(xr);
+                    return new ExcelDataValidationCustom(xr, ws);
                 default:
                     throw new InvalidOperationException($"Non supported validationtype: {validationTypeName}");
             }

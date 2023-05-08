@@ -29,19 +29,19 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        internal ExcelDataValidationDateTime(string uid, string address, string worksheetName)
-            : base(uid, address, worksheetName)
+        internal ExcelDataValidationDateTime(string uid, string address, ExcelWorksheet ws)
+            : base(uid, address, ws)
         {
-            Formula = new ExcelDataValidationFormulaDateTime(null, Uid, worksheetName, OnFormulaChanged);
-            Formula2 = new ExcelDataValidationFormulaDateTime(null, Uid, worksheetName, OnFormulaChanged);
+            Formula = new ExcelDataValidationFormulaDateTime(null, Uid, ws.Name, OnFormulaChanged);
+            Formula2 = new ExcelDataValidationFormulaDateTime(null, Uid, ws.Name, OnFormulaChanged);
         }
 
         /// <summary>
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
-        internal ExcelDataValidationDateTime(XmlReader xr)
-            : base(xr)
+        internal ExcelDataValidationDateTime(XmlReader xr, ExcelWorksheet ws)
+            : base(xr, ws)
         {
         }
 
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
-        internal ExcelDataValidationDateTime(ExcelDataValidationDateTime copy) : base(copy)
+        internal ExcelDataValidationDateTime(ExcelDataValidationDateTime copy, ExcelWorksheet ws) : base(copy, ws)
         {
             Formula = copy.Formula;
             Formula2 = copy.Formula;
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.DataValidation
 
         internal override ExcelDataValidation GetClone()
         {
-            return new ExcelDataValidationDateTime(this);
+            return new ExcelDataValidationDateTime(this, _ws);
         }
 
         ExcelDataValidationDateTime Clone()

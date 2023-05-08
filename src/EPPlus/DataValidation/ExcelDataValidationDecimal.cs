@@ -28,19 +28,19 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        internal ExcelDataValidationDecimal(string uid, string address, string worksheetName)
-            : base(uid, address, worksheetName)
+        internal ExcelDataValidationDecimal(string uid, string address, ExcelWorksheet ws)
+            : base(uid, address, ws)
         {
-            Formula = new ExcelDataValidationFormulaDecimal(null, uid, worksheetName, OnFormulaChanged);
-            Formula2 = new ExcelDataValidationFormulaDecimal(null, uid, worksheetName, OnFormulaChanged);
+            Formula = new ExcelDataValidationFormulaDecimal(null, uid, ws.Name, OnFormulaChanged);
+            Formula2 = new ExcelDataValidationFormulaDecimal(null, uid, ws.Name, OnFormulaChanged);
         }
 
         /// <summary>
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
-        internal ExcelDataValidationDecimal(XmlReader xr)
-            : base(xr)
+        internal ExcelDataValidationDecimal(XmlReader xr, ExcelWorksheet ws)
+            : base(xr, ws)
         {
         }
 
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
-        internal ExcelDataValidationDecimal(ExcelDataValidationDecimal copy) : base(copy)
+        internal ExcelDataValidationDecimal(ExcelDataValidationDecimal copy, ExcelWorksheet ws) : base(copy, ws)
         {
             Formula = copy.Formula;
             Formula2 = copy.Formula2;
@@ -66,7 +66,7 @@ namespace OfficeOpenXml.DataValidation
 
         internal override ExcelDataValidation GetClone()
         {
-            return new ExcelDataValidationDecimal(this);
+            return new ExcelDataValidationDecimal(this, _ws);
         }
 
         ExcelDataValidationDecimal Clone()

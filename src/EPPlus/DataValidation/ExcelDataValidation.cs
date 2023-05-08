@@ -30,20 +30,21 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="uid">Id for validation</param>
         /// <param name="address">adress validation is applied to</param>
-        protected ExcelDataValidation(string uid, string address)
+        protected ExcelDataValidation(string uid, string address, ExcelWorksheet ws)
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");
             Require.Argument(address).IsNotNullOrEmpty("address");
 
             Uid = uid;
             Address = new ExcelAddress(CheckAndFixRangeAddress(address));
+            _ws = ws;
         }
 
         /// <summary>
         /// Read-File Constructor
         /// </summary>
         /// <param name="xr"></param>
-        protected ExcelDataValidation(XmlReader xr)
+        protected ExcelDataValidation(XmlReader xr, ExcelWorksheet ws)
         {
             LoadXML(xr);
         }
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy-Constructor
         /// </summary>
         /// <param name="validation">Validation to copy from</param>
-        protected ExcelDataValidation(ExcelDataValidation validation)
+        protected ExcelDataValidation(ExcelDataValidation validation,ExcelWorksheet ws)
         {
             Uid = validation.Uid;
             Address = validation.Address;
@@ -66,7 +67,10 @@ namespace OfficeOpenXml.DataValidation
             PromptTitle = validation.PromptTitle;
             Prompt = validation.Prompt;
             operatorString = validation.operatorString;
+            _ws = ws;
         }
+
+        internal ExcelWorksheet _ws;
 
         /// <summary>
         /// Uid of the data validation
@@ -335,6 +339,7 @@ namespace OfficeOpenXml.DataValidation
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
             Address = new ExcelAddress(address);
+            _ws.DataValidations.UpdateRangeDictionary(this);
         }
 
         /// <summary>

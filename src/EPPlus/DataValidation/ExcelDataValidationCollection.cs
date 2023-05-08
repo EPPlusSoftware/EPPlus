@@ -80,7 +80,7 @@ namespace OfficeOpenXml.DataValidation
 
                 if (xr.NodeType == XmlNodeType.Element)
                 {
-                    var validation = ExcelDataValidationFactory.Create(xr);
+                    var validation = ExcelDataValidationFactory.Create(xr, _worksheet);
 
                     if(validation.Address.Addresses != null)
                     {
@@ -97,6 +97,25 @@ namespace OfficeOpenXml.DataValidation
                     }
                     _validations.Add(validation);
                 }
+            }
+        }
+
+        internal void UpdateRangeDictionary(ExcelDataValidation validation)
+        {
+            //_validationsRD
+
+            if (validation.Address.Addresses != null)
+            {
+                for (int i = 0; i < validation.Address.Addresses.Count; i++)
+                {
+                    _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
+                        validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
+                }
+            }
+            else
+            {
+                _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol,
+                    validation.Address._toRow, validation.Address._toCol, validation);
             }
         }
 
@@ -215,7 +234,7 @@ namespace OfficeOpenXml.DataValidation
         /// <returns></returns>
         public IExcelDataValidationAny AddAnyValidation(string address)
         {
-            var validation = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address);
+            var validation = new ExcelDataValidationAny(ExcelDataValidation.NewId(), address, _worksheet);
             return (IExcelDataValidationAny)AddValidation(address, validation);
         }
 
@@ -226,7 +245,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address">the range/address to validate</param>
         public IExcelDataValidationInt AddIntegerValidation(string address)
         {
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet);
             return (IExcelDataValidationInt)AddValidation(address, validation);
         }
 
@@ -236,7 +255,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationInt AddTextLengthValidation(string address)
         {
-            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet.Name, true);
+            var validation = new ExcelDataValidationInt(ExcelDataValidation.NewId(), address, _worksheet, true);
             return (IExcelDataValidationInt)AddValidation(address, validation);
         }
 
@@ -247,7 +266,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationDecimal AddDecimalValidation(string address)
         {
-            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            var validation = new ExcelDataValidationDecimal(ExcelDataValidation.NewId(), address, _worksheet);
             return (IExcelDataValidationDecimal)AddValidation(address, validation);
         }
 
@@ -258,7 +277,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationList AddListValidation(string address)
         {
-            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            var validation = new ExcelDataValidationList(ExcelDataValidation.NewId(), address, _worksheet);
             return (IExcelDataValidationList)AddValidation(address, validation);
         }
 
@@ -268,7 +287,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationDateTime AddDateTimeValidation(string address)
         {
-            var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            var validation = new ExcelDataValidationDateTime(ExcelDataValidation.NewId(), address, _worksheet);
             return (IExcelDataValidationDateTime)AddValidation(address, validation);
         }
 
@@ -278,7 +297,7 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationTime AddTimeValidation(string address)
         {
-            var validation = new ExcelDataValidationTime(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            var validation = new ExcelDataValidationTime(ExcelDataValidation.NewId(), address, _worksheet);
             return (IExcelDataValidationTime)AddValidation(address, validation);
         }
 
@@ -288,23 +307,20 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="address">The range/address to validate</param>
         public IExcelDataValidationCustom AddCustomValidation(string address)
         {
-            var validation = new ExcelDataValidationCustom(ExcelDataValidation.NewId(), address, _worksheet.Name);
+            var validation = new ExcelDataValidationCustom(ExcelDataValidation.NewId(), address, _worksheet);
             return (IExcelDataValidationCustom)AddValidation(address, validation);
         }
 
         private ExcelDataValidation AddValidation(string address, ExcelDataValidation validation)
         {
-            var internalAddress = new ExcelAddress(address);
 
-            // if(internalAddress.inter)
-
-            if (_validationsRD.Exists(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol))
+            if (_validationsRD.Exists(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol))
             {
                 throw new InvalidOperationException($"A DataValidation already exists at {address}");
             }
 
             _validations.Add(validation);
-            _validationsRD.Add(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol, validation);
+            _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol, validation);
 
             return validation;
         }
@@ -454,6 +470,11 @@ namespace OfficeOpenXml.DataValidation
             {
                 _validationsRD.InsertRow(address._fromRow, address.Rows, address._fromCol, address._toCol);
             }
+        }
+
+        internal void ClearRangeDictionary()
+        {
+            //_validationsRD.del
         }
 
         internal void DeleteRangeDictionary(ExcelAddress address, bool shiftLeft)
