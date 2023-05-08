@@ -215,15 +215,15 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="dv"></param>
         /// <param name="address"></param>
-        internal void AddCopyOfDataValidation(ExcelDataValidation dv, string address = null)
+        internal void AddCopyOfDataValidation(ExcelDataValidation dv, ExcelWorksheet added, string address = null)
         {
             if(address == null)
             {
-                _validations.Add(dv.GetClone());
+                _validations.Add(dv.GetClone(added));
             }
             else
             {
-                _validations.Add(ExcelDataValidationFactory.CloneWithNewAdress(address, dv));
+                _validations.Add(ExcelDataValidationFactory.CloneWithNewAdress(address, dv, added));
             }
         }
 

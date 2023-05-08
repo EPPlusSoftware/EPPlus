@@ -67,6 +67,10 @@ namespace OfficeOpenXml.DataValidation
         {
             return new ExcelDataValidationCustom(this, _ws);
         }
+        internal override ExcelDataValidation GetClone(ExcelWorksheet copy)
+        {
+            return new ExcelDataValidationCustom(this, copy);
+        }
 
         ExcelDataValidationAny Clone()
         {

@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.DataValidation
 {

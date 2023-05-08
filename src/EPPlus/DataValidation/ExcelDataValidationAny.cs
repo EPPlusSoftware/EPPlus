@@ -57,13 +57,19 @@ namespace OfficeOpenXml.DataValidation
 
         internal override ExcelDataValidation GetClone()
         {
-            //TODO if to be cloneable to different worksheet ws must be changed here somehow...
             return new ExcelDataValidationAny(this, this._ws);
+        }
+
+        internal override ExcelDataValidation GetClone(ExcelWorksheet copy)
+        {
+            return new ExcelDataValidationAny(this, copy);
         }
 
         internal ExcelDataValidationAny Clone()
         {
             return (ExcelDataValidationAny)GetClone();
         }
+
+
     }
 }

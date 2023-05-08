@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OfficeOpenXml.DataValidation
 {
-    internal class ExcelDatavalidationAddress : ExcelAddress
+    /// <summary>
+    /// Handling for ExcelAdress updates of DataValidations
+    /// </summary>
+    public class ExcelDatavalidationAddress : ExcelAddress
     {
         ExcelDataValidation _val;
 
-        public ExcelDatavalidationAddress(string address, ExcelDataValidation val) : base(address) 
+        internal ExcelDatavalidationAddress(string address, ExcelDataValidation val) : base(address) 
         {
             _val = val;
         }
 
+        /// <summary>
+        /// Called before the address changes
+        /// </summary>
         internal protected override void BeforeChangeAddress()
         {
             _val._ws.DataValidations.DeleteRangeDictionary(_val.Address, false);
@@ -26,7 +33,6 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         internal protected override void ChangeAddress()
         {
-
             _val._ws.DataValidations.UpdateRangeDictionary(_val);
         }
     }

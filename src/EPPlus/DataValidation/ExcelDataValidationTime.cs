@@ -71,6 +71,11 @@ namespace OfficeOpenXml.DataValidation
             return new ExcelDataValidationTime(this, _ws);
         }
 
+        internal override ExcelDataValidation GetClone(ExcelWorksheet copy)
+        {
+            return new ExcelDataValidationTime(this, copy);
+        }
+
         ExcelDataValidationTime Clone()
         {
             return (ExcelDataValidationTime)GetClone();

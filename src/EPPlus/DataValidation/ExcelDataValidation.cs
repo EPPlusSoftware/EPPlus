@@ -16,27 +16,30 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Xml;
 
 namespace OfficeOpenXml.DataValidation
 {
+
     /// <summary>
     /// Abstract base class for all Excel datavalidations. Contains functionlity which is common for all these different validation types.
     /// </summary>
     public abstract class ExcelDataValidation : IExcelDataValidation
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="uid">Id for validation</param>
-        /// <param name="address">adress validation is applied to</param>
-        protected ExcelDataValidation(string uid, string address, ExcelWorksheet ws)
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="uid">Id for validation</param>
+            /// <param name="address">adress validation is applied to</param>
+            protected ExcelDataValidation(string uid, string address, ExcelWorksheet ws)
         {
             Require.Argument(uid).IsNotNullOrEmpty("uid");
             Require.Argument(address).IsNotNullOrEmpty("address");
 
             Uid = uid;
-            Address = new ExcelAddress(CheckAndFixRangeAddress(address));
+            _address = new ExcelDatavalidationAddress(CheckAndFixRangeAddress(address), this);
             _ws = ws;
         }
 
@@ -47,6 +50,7 @@ namespace OfficeOpenXml.DataValidation
         protected ExcelDataValidation(XmlReader xr, ExcelWorksheet ws)
         {
             LoadXML(xr);
+            _ws = ws;
         }
 
         /// <summary>
@@ -77,10 +81,12 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public string Uid { get; internal set; }
 
+        ExcelDatavalidationAddress _address;
+
         /// <summary>
         /// Address of data validation
         /// </summary>
-        public ExcelAddress Address { get; internal set; }
+        public ExcelAddress Address { get { return _address; } internal set { _address = (ExcelDatavalidationAddress)value; } }
 
         /// <summary>
         /// Validation type
@@ -320,9 +326,9 @@ namespace OfficeOpenXml.DataValidation
                 }
             }
 
-            Address = new ExcelAddress
+            _address = new ExcelDatavalidationAddress
                 (CheckAndFixRangeAddress(address)
-                 .Replace(" ", ","));
+                 .Replace(" ", ","), this);
         }
 
         internal virtual void ReadClassSpecificXmlNodes(XmlReader xr)
@@ -338,7 +344,7 @@ namespace OfficeOpenXml.DataValidation
         internal void SetAddress(string address)
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
-            Address = new ExcelAddress(address);
+            _address = new ExcelDatavalidationAddress(address, this);
             _ws.DataValidations.UpdateRangeDictionary(this);
         }
 
@@ -347,6 +353,12 @@ namespace OfficeOpenXml.DataValidation
         /// Note that one should also implement a separate clone() method casting to the child class
         /// </summary>
         internal abstract ExcelDataValidation GetClone();
+
+        /// <summary>
+        /// Create a Deep-Copy of this validation.
+        /// Note that one should also implement a separate clone() method casting to the child class
+        /// </summary>
+        internal abstract ExcelDataValidation GetClone(ExcelWorksheet copy);
     }
 }
 

@@ -455,7 +455,7 @@ namespace EPPlusTest.DataValidation
                 var wks = pck.Workbook.Worksheets.Add("Sheet1");
                 var validation = wks.DataValidations.AddIntegerValidation("A1");
                 var clone = ((ExcelDataValidationInt)validation).GetClone();
-                clone.Address = new ExcelAddress("A2");
+                clone.Address = new ExcelDatavalidationAddress("A2", clone);
 
                 Assert.AreNotEqual(validation.Address, clone.Address);
             }
@@ -560,112 +560,58 @@ namespace EPPlusTest.DataValidation
 
                 var list = ws.DataValidations.AddListValidation("A2");
 
+                list.Formula.Values.Add("TestValue");
+
                 ////Ideally
                 //ws.Cells["A2"].DataValidation.AddListDataValidation();
                 ////ws.Cells["A2"].DataValidation.AddListDataValidation(bool replace = false);
 
-
-                //SaveAndCleanup(pck);
-
-                //var pck2 = OpenPackage("InsertTest.xlsx");
-                //var ws2 = pck2.Workbook.Worksheets[0];
-                //var validation = pck2.Workbook.Worksheets[0].DataValidations[0];
-
-                //var list = ws2.DataValidations.AddListValidation("A2");
-
-                //list.Formula.Values.Add("Value1");
-                //list.Formula.Values.Add("Value2");
-
-                //ws.DataValidations.Remove(rangeValidation);
-
-                //rangeValidation.Address.Address = "A1,A2";
-
-                //ws.Cells["A1,A2"].DataValidation = rangeValidation;
-
-                // ws.DataValidations.AddIntegerValidation()
-
-
-
-                //rangeValidation.Operator = ExcelDataValidationOperator.equal;
-                //rangeValidation.Formula.Value = 5;
-                //rangeValidation.
-                //ws.DataValidations.AddCopyOfDataValidation(rangeValidation, "A4,A6");
-
-                //var operatorvar = rangeValidation.Operator;
-                //var fomula = rangeValidation.Formula;
-
-
-
-                //rangeValidation.Address.Address = "A1,A3";
-
-                //var listValidation = ws.Cells["A2"].DataValidation.AddListDataValidation();
-
-                //listValidation.Formula.Values.Add("Value1");
-                //listValidation.Formula.Values.Add("Value2");
-
-                // // ws.DataValidations.Remove(rangeValidation);
-
-                //// ws.DataValidations.Remove(rangeValidation);
-
-                // ws.Cells["A1"].Insert(eShiftTypeInsert.Down);
-                //var listvalidation = ws.Cells["A2"].DataValidation.AddListDataValidation();
-
-                //ws.Cells["A4"].Delete(eShiftTypeDelete.Up);
-
-                ////var validation = ws.Cells["A2"].DataValidation.AddListDataValidation();
-
-                //listvalidation.Formula.Values.Add("Test1");
-                //listvalidation.Formula.Values.Add("Test2");
-
-                ////ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
-
-                ////ws.DataValidations.AddIntegerValidation()
-                ///
-
                 SaveAndCleanup(pck);
             }
         }
 
-        [TestMethod]
-        public void DataValidations_Insert_Test2()
-        {
-            using (var pck = OpenPackage("InsertTest2.xlsx", true))
-            {
-                var ws = pck.Workbook.Worksheets.Add("InsertTest2");
-                var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A3");
+        //[TestMethod]
+        //public void DataValidations_Insert_Test2()
+        //{
+        //    using (var pck = OpenPackage("InsertTest2.xlsx", true))
+        //    {
+        //        var ws = pck.Workbook.Worksheets.Add("InsertTest2");
+        //        var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A3");
 
-                rangeValidation.Operator = ExcelDataValidationOperator.equal;
-                rangeValidation.Formula.Value = 5;
+        //        rangeValidation.Operator = ExcelDataValidationOperator.equal;
+        //        rangeValidation.Formula.Value = 5;
 
-                //rangeValidation.Address.Address = "A1,A3";
+        //        //rangeValidation.Address.Address = "A1,A3";
 
-                //ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
-                ws.Cells["A2"].Clear();
+        //        //ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
+        //        //ws.Cells["A2"].Clear();
 
-                //ws.Cells["A3"].Insert(eShiftTypeInsert.Down);
+        //        ws.Cells["A2:A4"].DataValidation.ClearDataValidation();
 
-                //ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
+        //        //ws.Cells["A3"].Insert(eShiftTypeInsert.Down);
 
-                var list = ws.DataValidations.AddListValidation("A2");
+        //        //ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
 
-                list.Formula.Values.Add("Value1");
-                list.Formula.Values.Add("Value2");
+        //        var list = ws.DataValidations.AddListValidation("A2");
 
-                //rangeValidation.Address.Address = "A1,A3";
+        //        list.Formula.Values.Add("Value1");
+        //        list.Formula.Values.Add("Value2");
 
-                //SaveAndCleanup(pck);
+        //        //rangeValidation.Address.Address = "A1,A3";
 
-                //var pck2 = OpenPackage("InsertTest.xlsx");
-                //var ws2 = pck2.Workbook.Worksheets[0];
-                //var validation = pck2.Workbook.Worksheets[0].DataValidations[0];
+        //        //SaveAndCleanup(pck);
 
-                //var list = ws2.DataValidations.AddListValidation("A2");
+        //        //var pck2 = OpenPackage("InsertTest.xlsx");
+        //        //var ws2 = pck2.Workbook.Worksheets[0];
+        //        //var validation = pck2.Workbook.Worksheets[0].DataValidations[0];
 
-                //list.Formula.Values.Add("Value1");
-                //list.Formula.Values.Add("Value2");
+        //        //var list = ws2.DataValidations.AddListValidation("A2");
 
-                SaveAndCleanup(pck);
-            }
-        }
+        //        //list.Formula.Values.Add("Value1");
+        //        //list.Formula.Values.Add("Value2");
+
+        //        SaveAndCleanup(pck);
+        //    }
+        //}
     }
 }

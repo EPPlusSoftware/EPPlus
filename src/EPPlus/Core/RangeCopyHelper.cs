@@ -130,7 +130,7 @@ namespace OfficeOpenXml.Core
                         }
                         else
                         {
-                            _destination._worksheet.DataValidations.AddCopyOfDataValidation(dv, new ExcelAddressBase(newAddress).AddressSpaceSeparated);
+                            _destination._worksheet.DataValidations.AddCopyOfDataValidation(dv, _destination._worksheet, new ExcelAddressBase(newAddress).AddressSpaceSeparated);
                         }
                     }
                 }

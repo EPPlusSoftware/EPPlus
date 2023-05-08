@@ -106,6 +106,11 @@ namespace OfficeOpenXml.DataValidation
             return new ExcelDataValidationList(this, _ws);
         }
 
+        internal override ExcelDataValidation GetClone(ExcelWorksheet copy)
+        {
+            return new ExcelDataValidationList(this, copy);
+        }
+
         ExcelDataValidationDecimal Clone()
         {
             return (ExcelDataValidationDecimal)GetClone();

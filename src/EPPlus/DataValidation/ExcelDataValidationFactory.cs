@@ -53,10 +53,10 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        static internal ExcelDataValidation CloneWithNewAdress(string address, ExcelDataValidation oldValidation)
+        static internal ExcelDataValidation CloneWithNewAdress(string address, ExcelDataValidation oldValidation, ExcelWorksheet added)
         {
-            var validation = oldValidation.GetClone();
-            validation.Address = new ExcelAddress(address);
+            var validation = oldValidation.GetClone(added);
+            validation.Address = new ExcelDatavalidationAddress(address, validation);
             return validation;
         }
     }
