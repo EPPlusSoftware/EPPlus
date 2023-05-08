@@ -4823,9 +4823,15 @@ namespace EPPlusTest
         [TestMethod]
         public void s463()
         {
-            using (var p = OpenTemplatePackage("s463.xlsx"))
+            using (var p = OpenTemplatePackage("SRK2016.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
+                foreach(var ws in p.Workbook.Worksheets)
+                {
+                    if (ws.Names.ContainsKey("_xlnm.Print_Area") && ws.Names.ContainsKey("Print_Area"))
+                    {
+                        ws.Names.Remove("Print_Area");
+                    }
+                }
                 SaveAndCleanup(p);
             }
         }
