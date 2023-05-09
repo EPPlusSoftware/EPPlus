@@ -528,6 +528,32 @@ namespace EPPlusTest.Core.Range
             var ia1 = address.IntersectReversed(new ExcelAddressBase("C2:E4"));
             Assert.AreEqual("B2:B4", ia1.Address);
         }
+        [TestMethod]
+        public void GetAllAddressesSingle()
+        {
+            var address = new ExcelAddressBase("B2:D4");
 
+            Assert.AreEqual(address._fromRow, 2);
+            Assert.AreEqual(address._fromCol, 2);
+            Assert.AreEqual(address._toRow, 4);
+            Assert.AreEqual(address._toCol, 4);
+            Assert.IsNull(address.Addresses);
+            Assert.AreEqual("B2:D4", address.FirstAddress);
+            Assert.AreEqual(1, address.GetAllAddresses().Count);
+            Assert.AreEqual(address, address.GetAllAddresses()[0]);
+        }
+        [TestMethod]
+        public void GetAllAddressesMulti()
+        {
+            var address = new ExcelAddressBase("B2:D4,C3,A1:A5");
+
+            Assert.AreEqual(address._fromRow, 2);
+            Assert.AreEqual(address._fromCol, 2);
+            Assert.AreEqual(address._toRow, 4);
+            Assert.AreEqual(address._toCol, 4);
+            Assert.AreEqual(3, address.Addresses.Count);
+            Assert.AreEqual("B2:D4", address.FirstAddress);
+            Assert.AreEqual(3, address.GetAllAddresses().Count);
+        }
     }
 }

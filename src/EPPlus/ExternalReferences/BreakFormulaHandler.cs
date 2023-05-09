@@ -126,7 +126,7 @@ namespace OfficeOpenXml.ExternalReferences
                                 }
                                 else if (extRefIx > ix)
                                 {
-                                    a.Address = a.Address.Substring(0, startIx+1) + (extRefIx.ToString(CultureInfo.InvariantCulture)) + a.Address.Substring(endIx);
+                                    a._address = a.Address.Substring(0, startIx+1) + (extRefIx.ToString(CultureInfo.InvariantCulture)) + a.Address.Substring(endIx);
                                 }
                             }
                         }
