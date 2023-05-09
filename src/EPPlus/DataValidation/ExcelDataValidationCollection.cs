@@ -103,10 +103,24 @@ namespace OfficeOpenXml.DataValidation
 
         internal void AddToRangeDictionary(ExcelDataValidation validation)
         {
+            //if (validation.Address.Addresses != null)
+            //{
+            //    for (int i = 0; i < validation.Address.Addresses.Count; i++)
+            //    {
+            //        _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
+            //            validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
+            //    }
+            //}
+            //else
+            //{
+            //    _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol,
+            //        validation.Address._toRow, validation.Address._toCol, validation);
+            //}
 
             if (_validationsRD.Exists(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol))
             {
-                throw new InvalidOperationException($"A DataValidation already exists at {validation.Address}");
+                throw new InvalidOperationException($"A DataValidation already exists at {validation.Address}. " +
+                    $"If using ClearDataValidation this may be because the sheet you're reading has multiple dataValidations on one cell.");
             }
 
             _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol, validation);
@@ -485,9 +499,9 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        internal void ClearRangeDictionary()
+        internal void ClearRangeDictionary(ExcelAddressBase address)
         {
-            //_validationsRD.del
+            _validationsRD.DeleteRow(address._fromRow, address.Rows, address._fromCol, address._toCol, false);
         }
 
         internal void DeleteRangeDictionary(ExcelAddress address, bool shiftLeft)

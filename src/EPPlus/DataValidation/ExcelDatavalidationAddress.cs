@@ -25,7 +25,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         internal protected override void BeforeChangeAddress()
         {
-            _val._ws.DataValidations.DeleteRangeDictionary(_val.Address, false);
+            _val._ws.DataValidations.ClearRangeDictionary(_val.Address);
         }
 
         /// <summary>

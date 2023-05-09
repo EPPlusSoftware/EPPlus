@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -44,74 +45,50 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        /// <summary>
+        ///  Used to remove all dataValidations in cell or cellrange
+        /// </summary>
+        /// <param name="deleteIfEmpty">Deletes the dataValidation if it has no addresses after clear</param>
+        /// <exception cref="InvalidOperationException"></exception>
         public void ClearDataValidation(bool deleteIfEmpty = false)
         {
-            var adress = new ExcelAddress(_address);
+            var address = new ExcelAddress(_address);
+            var validations = _worksheet.DataValidations._validationsRD.GetValuesFromRange(address._fromRow, address._fromCol, address._toRow, address._toCol);
 
-            GetAllAddresses(adress).ForEach(a =>
+            foreach( var validation in validations)
             {
-                var validation = _worksheet.DataValidations.
-                Find(x => x.Address.Collide(a) != ExcelAddressBase.eAddressCollition.No);
-
-                if (validation != null)
+                if (validation.Address.Addresses == null)
                 {
-                    var addresses = GetAllAddresses(validation.Address);
+                    var nullOrAddress = validation.Address.IntersectReversed(address);
 
-                    if(addresses.Count == 1)
+                    if (nullOrAddress == null)
                     {
-                        //ExcelRangeBase test = _worksheet.Cells[addresses[0].Address];
-
-                        var address2 = addresses[0].IntersectReversed(a);
-
-                        validation.Address.Address = address2.Address;
-
-                        //validation.Address.Address = ;
-                        //ExcelRange range = new ExcelRange(_worksheet, addresses[0].Address);
-                        //foreach(ExcelAddress address in range) 
-                        //{
-                        //    if(address == a)
-                        //    {
-                        //        range.Except(a.Address);
-                        //    }
-                        //}
+                        if(deleteIfEmpty)
+                        {
+                            _worksheet.DataValidations.Remove(validation);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Cannot remove last address in validation of type {validation.ValidationType.Type} " +
+                                $"with uid {validation.Uid} without deleting it." +
+                                $" Add other addresses or use ClearDataValidation(true)");
+                        }
+                        return;
                     }
-                    else
-                    {
-                        validation.Address.Addresses.Remove(a);
-                    }
-                    //validation.Address.Address;
-                    //var addresses = GetAllAddresses(validation.Address);
-                    //validation.Address.Addresses.Find(va => va == a);
+                    validation.Address.Address = validation.Address.IntersectReversed(address).Address;
                 }
-            });
-
-            //for (int i = 0; i< adress.Addresses.Count; i++)
-            //{
-
-            //}
-
-            //var validation = _worksheet.DataValidations.
-            //    Find(x => x.Address.Collide(adress.Addresses) != ExcelAddressBase.eAddressCollition.No);
-
-            //var newString = validation.Address.Address;
-
-            ////trigger the setter
-            //validation.Address.Address = newString.Replace(_address, "");
-
-            //if (deleteIfEmpty)
-            //{
-            //    if (validation.Address.Address == "")
-            //    {
-            //        _worksheet.DataValidations.Remove(validation);
-            //    }
-            //}
-            //else
-            //{
-            //    throw new InvalidOperationException($"All addresses within validation {validation} were removed. " +
-            //        $"Please leave at least one address or call ClearDataValidation(true) instead.");
-            //}
-
-            //_worksheet.DataValidations.DeleteRangeDictionary(new ExcelAddress(_address), false);
+                else
+                {
+                    for(int i = 0; i < validation.Address.Addresses.Count; i++) 
+                    {
+                        var nullOrAddress = validation.Address.Addresses[i].IntersectReversed(address);
+                        if(nullOrAddress != null)
+                        {
+                            validation.Address.Address = nullOrAddress.Address;
+                        }
+                    }
+                }
+            }
         }
 
         public IExcelDataValidationAny AddAnyDataValidation()

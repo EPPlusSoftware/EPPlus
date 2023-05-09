@@ -598,6 +598,181 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        public void ClearValidationAndAddressChangeWithSpacedAddresses()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A3 B5 C3 E15:E17");
+                var rangeValidation2 = ws.DataValidations.AddIntegerValidation("A4:A6");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Formula.Value = 6;
+
+
+                ws.Cells["A2:A3"].DataValidation.ClearDataValidation();
+                ws.Cells["E16 A5"].DataValidation.ClearDataValidation();
+
+                var list = ws.DataValidations.AddListValidation("A2");
+
+                list.Formula.Values.Add("Value1");
+                list.Formula.Values.Add("Value2");
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ClearValidationOverARangeWithMultipleValidations()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A5");
+                var rangeValidation2 = ws.DataValidations.AddIntegerValidation("A6:A8");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Formula.Value = 6;
+
+
+                ws.Cells["A4:A7"].DataValidation.ClearDataValidation();
+
+                var list = ws.DataValidations.AddListValidation("A4");
+
+                list.Formula.Values.Add("Value1");
+                list.Formula.Values.Add("Value2");
+
+                Assert.AreEqual(rangeValidation.Address.Address, "A1:A3");
+                Assert.AreEqual(rangeValidation2.Address.Address, "A8");
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+
+        [TestMethod]
+        public void ClearValidationOverARangeWithMultipleValidations2()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A5");
+                var rangeValidation2 = ws.DataValidations.AddIntegerValidation("A6:A8");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Formula.Value = 6;
+
+                ws.Cells["A3:A7"].DataValidation.ClearDataValidation();
+
+                var list = ws.DataValidations.AddListValidation("A4");
+
+                list.Formula.Values.Add("Value1");
+                list.Formula.Values.Add("Value2");
+
+                Assert.AreEqual(rangeValidation.Address.Address, "A1:A2");
+                Assert.AreEqual(rangeValidation2.Address.Address, "A8");
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ClearValidationOverBlockRanges()
+        {
+            using (var pck = OpenPackage("ClearBlockRanges.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:D5");
+                var rangeValidation2 = ws.DataValidations.AddIntegerValidation("C6:C8");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Formula.Value = 6;
+
+                ws.Cells["A3:B7"].DataValidation.ClearDataValidation();
+
+                var list = ws.DataValidations.AddListValidation("A4");
+                var list2 = ws.DataValidations.AddListValidation("B3:B7");
+
+                list.Formula.Values.Add("Value1");
+                list.Formula.Values.Add("Value2");
+
+
+                list2.Formula.Values.Add("Value21");
+                list2.Formula.Values.Add("Value22");
+
+                //Assert.AreEqual(rangeValidation.Address.Address, "A1:A2");
+                //Assert.AreEqual(rangeValidation2.Address.Address, "A8");
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void DeleteRangeOneAddressTest()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A5");
+                var rangeValidation2 = ws.DataValidations.AddIntegerValidation("A6:A8");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Formula.Value = 6;
+
+                ws.DeleteRow(2, 5);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ClearSingular()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A9");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                ws.Cells["A9"].DataValidation.ClearDataValidation();
+            }
+        }
+
+        [TestMethod]
+        public void ClearSingularSpaceSeparated()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A9 A6 B12 C50");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                ws.Cells["A9"].DataValidation.ClearDataValidation();
+
+                Assert.AreEqual(rangeValidation.Address.Address, "A6 B12 C50");
+            }
+        }
+
+
+        [TestMethod]
         public void MultipleValidationsOnePlaceTest()
         {
             using (var pck = OpenTemplatePackage("DataValidationsSameCellTemplate.xlsx"))
