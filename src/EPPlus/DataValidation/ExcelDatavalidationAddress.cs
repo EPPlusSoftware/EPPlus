@@ -33,7 +33,7 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         internal protected override void ChangeAddress()
         {
-            _val._ws.DataValidations.UpdateRangeDictionary(_val);
+            _val._ws.DataValidations.AddToRangeDictionary(_val);
         }
     }
 }

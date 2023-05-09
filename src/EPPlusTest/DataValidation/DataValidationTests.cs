@@ -38,6 +38,7 @@ using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace EPPlusTest.DataValidation
@@ -551,10 +552,13 @@ namespace EPPlusTest.DataValidation
                 var ws = pck.Workbook.Worksheets.Add("InsertTest");
                 var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A3");
 
+                var rangeValidation2 = ws.DataValidations.AddDecimalValidation("A52");
+
                 rangeValidation.Operator = ExcelDataValidationOperator.equal;
                 rangeValidation.Formula.Value = 5;
 
-                //ws.DataValidations.InsertRangeDictionary
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Formula.Value = 6;
 
                 rangeValidation.Address.Address = "A1,A3";
 
@@ -562,56 +566,57 @@ namespace EPPlusTest.DataValidation
 
                 list.Formula.Values.Add("TestValue");
 
-                ////Ideally
-                //ws.Cells["A2"].DataValidation.AddListDataValidation();
-                ////ws.Cells["A2"].DataValidation.AddListDataValidation(bool replace = false);
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ClearValidation()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTest.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+                var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A3");
+                var rangeValidation2 = ws.DataValidations.AddIntegerValidation("A4:A6");
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
+
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Formula.Value = 6;
+
+
+                ws.Cells["A2"].DataValidation.ClearDataValidation();
+
+                var list = ws.DataValidations.AddListValidation("A2");
+
+                list.Formula.Values.Add("Value1");
+                list.Formula.Values.Add("Value2");
 
                 SaveAndCleanup(pck);
             }
         }
 
-        //[TestMethod]
-        //public void DataValidations_Insert_Test2()
-        //{
-        //    using (var pck = OpenPackage("InsertTest2.xlsx", true))
-        //    {
-        //        var ws = pck.Workbook.Worksheets.Add("InsertTest2");
-        //        var rangeValidation = ws.DataValidations.AddIntegerValidation("A1:A3");
+        [TestMethod]
+        public void MultipleValidationsOnePlaceTest()
+        {
+            using (var pck = OpenTemplatePackage("DataValidationsSameCellTemplate.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
 
-        //        rangeValidation.Operator = ExcelDataValidationOperator.equal;
-        //        rangeValidation.Formula.Value = 5;
+                var firstOverlapValidation = ws.DataValidations[1];
 
-        //        //rangeValidation.Address.Address = "A1,A3";
+                var address = firstOverlapValidation.Address.Address;
 
-        //        //ws.Cells["A2"].Insert(eShiftTypeInsert.Down);
-        //        //ws.Cells["A2"].Clear();
+                var validation = ws.Cells["A9"].DataValidation;
 
-        //        ws.Cells["A2:A4"].DataValidation.ClearDataValidation();
+                validation.ClearDataValidation();
 
-        //        //ws.Cells["A3"].Insert(eShiftTypeInsert.Down);
+                Assert.AreNotEqual(address,firstOverlapValidation.Address.Address);
 
-        //        //ws.Cells["A2"].Delete(eShiftTypeDelete.Up);
+                SaveAndCleanup(pck);
+            }
+        }
 
-        //        var list = ws.DataValidations.AddListValidation("A2");
-
-        //        list.Formula.Values.Add("Value1");
-        //        list.Formula.Values.Add("Value2");
-
-        //        //rangeValidation.Address.Address = "A1,A3";
-
-        //        //SaveAndCleanup(pck);
-
-        //        //var pck2 = OpenPackage("InsertTest.xlsx");
-        //        //var ws2 = pck2.Workbook.Worksheets[0];
-        //        //var validation = pck2.Workbook.Worksheets[0].DataValidations[0];
-
-        //        //var list = ws2.DataValidations.AddListValidation("A2");
-
-        //        //list.Formula.Values.Add("Value1");
-        //        //list.Formula.Values.Add("Value2");
-
-        //        SaveAndCleanup(pck);
-        //    }
-        //}
     }
 }

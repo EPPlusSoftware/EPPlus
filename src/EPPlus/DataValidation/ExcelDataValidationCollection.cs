@@ -18,6 +18,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Xml;
 
@@ -100,9 +101,20 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
+        internal void AddToRangeDictionary(ExcelDataValidation validation)
+        {
+
+            if (_validationsRD.Exists(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol))
+            {
+                throw new InvalidOperationException($"A DataValidation already exists at {validation.Address}");
+            }
+
+            _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol, validation);
+        }
+
+
         internal void UpdateRangeDictionary(ExcelDataValidation validation)
         {
-            //_validationsRD
 
             if (validation.Address.Addresses != null)
             {
@@ -313,14 +325,15 @@ namespace OfficeOpenXml.DataValidation
 
         private ExcelDataValidation AddValidation(string address, ExcelDataValidation validation)
         {
+            var internalAddress = new ExcelAddress(address);
 
-            if (_validationsRD.Exists(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol))
+            if (_validationsRD.Exists(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol))
             {
                 throw new InvalidOperationException($"A DataValidation already exists at {address}");
             }
 
             _validations.Add(validation);
-            _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol, validation);
+            _validationsRD.Add(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol, validation);
 
             return validation;
         }

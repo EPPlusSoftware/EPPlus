@@ -11,9 +11,11 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Contracts;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.DataValidation
 {
@@ -29,6 +31,88 @@ namespace OfficeOpenXml.DataValidation
 
         ExcelWorksheet _worksheet;
         string _address;
+
+        private List<ExcelAddress> GetAllAddresses(ExcelAddress addressBase)
+        {
+            if(addressBase.Addresses == null)
+            {
+                return new List<ExcelAddress> { addressBase };
+            }
+            else 
+            {
+                return addressBase.Addresses;
+            }
+        }
+
+        public void ClearDataValidation(bool deleteIfEmpty = false)
+        {
+            var adress = new ExcelAddress(_address);
+
+            GetAllAddresses(adress).ForEach(a =>
+            {
+                var validation = _worksheet.DataValidations.
+                Find(x => x.Address.Collide(a) != ExcelAddressBase.eAddressCollition.No);
+
+                if (validation != null)
+                {
+                    var addresses = GetAllAddresses(validation.Address);
+
+                    if(addresses.Count == 1)
+                    {
+                        //ExcelRangeBase test = _worksheet.Cells[addresses[0].Address];
+
+                        var address2 = addresses[0].IntersectReversed(a);
+
+                        validation.Address.Address = address2.Address;
+
+                        //validation.Address.Address = ;
+                        //ExcelRange range = new ExcelRange(_worksheet, addresses[0].Address);
+                        //foreach(ExcelAddress address in range) 
+                        //{
+                        //    if(address == a)
+                        //    {
+                        //        range.Except(a.Address);
+                        //    }
+                        //}
+                    }
+                    else
+                    {
+                        validation.Address.Addresses.Remove(a);
+                    }
+                    //validation.Address.Address;
+                    //var addresses = GetAllAddresses(validation.Address);
+                    //validation.Address.Addresses.Find(va => va == a);
+                }
+            });
+
+            //for (int i = 0; i< adress.Addresses.Count; i++)
+            //{
+
+            //}
+
+            //var validation = _worksheet.DataValidations.
+            //    Find(x => x.Address.Collide(adress.Addresses) != ExcelAddressBase.eAddressCollition.No);
+
+            //var newString = validation.Address.Address;
+
+            ////trigger the setter
+            //validation.Address.Address = newString.Replace(_address, "");
+
+            //if (deleteIfEmpty)
+            //{
+            //    if (validation.Address.Address == "")
+            //    {
+            //        _worksheet.DataValidations.Remove(validation);
+            //    }
+            //}
+            //else
+            //{
+            //    throw new InvalidOperationException($"All addresses within validation {validation} were removed. " +
+            //        $"Please leave at least one address or call ClearDataValidation(true) instead.");
+            //}
+
+            //_worksheet.DataValidations.DeleteRangeDictionary(new ExcelAddress(_address), false);
+        }
 
         public IExcelDataValidationAny AddAnyDataValidation()
         {
