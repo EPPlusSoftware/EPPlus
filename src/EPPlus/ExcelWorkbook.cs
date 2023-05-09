@@ -1496,7 +1496,11 @@ namespace OfficeOpenXml
             }
             else
             {
-                if (name.AllowRelativeAddress)
+                if(name.Table != null)
+                {
+                    elem.InnerText = name.Address;
+                }
+                else if (name.AllowRelativeAddress)
                 {
                     elem.InnerText = name.FullAddress;
                 }
