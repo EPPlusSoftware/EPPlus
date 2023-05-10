@@ -740,13 +740,21 @@ namespace OfficeOpenXml
                 return _ws;
             }
         }
-        internal List<ExcelAddress> _addresses = null;
-        internal virtual List<ExcelAddress> Addresses
+        internal List<ExcelAddressBase> _addresses = null;
+        internal virtual List<ExcelAddressBase> Addresses
         {
             get
             {
                 return _addresses;
             }
+        }
+        internal virtual List<ExcelAddressBase> GetAllAddresses()
+        {
+            if(Addresses==null)
+            {
+                return new List<ExcelAddressBase>() { this };
+            }
+            return _addresses;
         }
 
         private bool ExtractAddress(string fullAddress)
@@ -857,7 +865,7 @@ namespace OfficeOpenXml
                         }
                         else if (c == ',' && !isText)
                         {
-                            if(_addresses==null) _addresses = new List<ExcelAddress>();
+                            if(_addresses==null) _addresses = new List<ExcelAddressBase>();
                             if(string.IsNullOrEmpty(ws))
                             {
                                 first = string.IsNullOrEmpty(second) ? first : first + ":" + second;

@@ -139,7 +139,7 @@ namespace OfficeOpenXml.Style
         /// <param name="Color">The color of the border</param>
         public void BorderAround(ExcelBorderStyle Style, System.Drawing.Color Color)
         {
-            var addr = new ExcelAddress(_address);
+            var addr = new ExcelAddressBase(_address);
             if (addr.Addresses?.Count > 1)
             {
                 foreach (var a in addr.Addresses)
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.Style
             }
         }
 
-        private void SetBorderColor(Color Color, ExcelAddress addr)
+        private void SetBorderColor(Color Color, ExcelAddressBase addr)
         {
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Color, Color.ToArgb().ToString("X"), _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._fromRow, addr._toCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Color, Color.ToArgb().ToString("X"), _positionID, new ExcelAddress(addr._toRow, addr._fromCol, addr._toRow, addr._toCol).Address));
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Style
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderRight, eStyleProperty.Color, Color.ToArgb().ToString("X"), _positionID, new ExcelAddress(addr._fromRow, addr._toCol, addr._toRow, addr._toCol).Address));
         }
 
-        private void SetBorderAroundStyle(ExcelBorderStyle Style, ExcelAddress addr)
+        private void SetBorderAroundStyle(ExcelBorderStyle Style, ExcelAddressBase addr)
         {
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._fromRow, addr._toCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._toRow, addr._fromCol, addr._toRow, addr._toCol).Address));

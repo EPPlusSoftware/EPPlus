@@ -725,7 +725,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         foreach (var d in ws.Drawings)
                         {
-                            if (d is ExcelPivotTableSlicer s && s.Cache.PivotTables.Contains(_pivotTable) && Index==s.Cache._field.Index)
+                            if (d is ExcelPivotTableSlicer s && s.Cache != null && s.Cache.PivotTables.Contains(_pivotTable) && Index==s.Cache._field.Index)
                             {
                                 _slicer = s;
                                 return _slicer;

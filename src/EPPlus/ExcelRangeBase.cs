@@ -192,7 +192,7 @@ namespace OfficeOpenXml
         /// <param name="address"></param>
         /// <param name="valueMethod"></param>
         /// <param name="value"></param>
-        private void SetValueAddress(ExcelAddress address, _setValue valueMethod, object value)
+        private void SetValueAddress(ExcelAddressBase address, _setValue valueMethod, object value)
         {
             IsRangeValid("");
             if (_fromRow == 1 && _fromCol == 1 && _toRow == ExcelPackage.MaxRows && _toCol == ExcelPackage.MaxColumns)  //Full sheet (ex ws.Cells.Value=0). Set value for A1 only to avoid hanging 
@@ -274,7 +274,7 @@ namespace OfficeOpenXml
         /// <param name="value">The  formula</param>
         /// <param name="address">The address of the formula</param>
         /// <param name="IsArray">If the forumla is an array formula.</param>
-        private static void Set_SharedFormula(ExcelRangeBase range, string value, ExcelAddress address, bool IsArray)
+        private static void Set_SharedFormula(ExcelRangeBase range, string value, ExcelAddressBase address, bool IsArray)
         {
             if (range._fromRow == 1 && range._fromCol == 1 && range._toRow == ExcelPackage.MaxRows && range._toCol == ExcelPackage.MaxColumns)  //Full sheet (ex ws.Cells.Value=0). Set value for A1 only to avoid hanging 
             {

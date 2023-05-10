@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var items = Field.Items;
                 foreach (PivotItemReference r in Items)
                 {
-                    if (r.Index >= 0 && r.Index <= items.Count && r.Value.Equals(items[r.Index]))
+                    if (r.Index >= 0 && r.Index < items.Count && r.Value.Equals(items[r.Index]))
                     {
                         var n = (XmlElement)CreateNode("d:x", false, true);
                         n.SetAttribute("v", r.Index.ToString(CultureInfo.InvariantCulture));

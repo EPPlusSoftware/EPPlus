@@ -29,7 +29,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
-using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -4823,12 +4822,30 @@ namespace EPPlusTest
         [TestMethod]
         public void s463()
         {
-            using (var p = OpenTemplatePackage("s463.xlsx"))
+            using (var p = OpenTemplatePackage("SRK2016.xlsx"))
             {
-                var ws = p.Workbook.Worksheets[0];
+                foreach(var ws in p.Workbook.Worksheets)
+                {
+                    if (ws.Names.ContainsKey("_xlnm.Print_Area") && ws.Names.ContainsKey("Print_Area"))
+                    {
+                        ws.Names.Remove("Print_Area");
+                    }
+                }
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i871()
+        {
+            using (var p = OpenTemplatePackage("i871.xlsx"))
+            {
+                var table = p.Workbook.Worksheets.SelectMany(x => x.Tables).Single(x => x.Name == "TblComponentTypes");
+                table.AddRow(2);
+                table.WorkSheet.Cells[8, 1].Value = "TST";
+                table.WorkSheet.Cells[9, 1].Value = "TST 2";
 
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

@@ -81,11 +81,27 @@ namespace OfficeOpenXml.Drawing.Chart
         internal ExcelChartStandard(ExcelDrawings drawings, XmlNode node, Uri uriChart, ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
            base(drawings, node, chartXml, parent, drawingPath, nvPrPath)
         {
+            var ptSource = _chartXmlHelper.GetXmlNodeString("c:pivotSource/c:name");
+            if(!string.IsNullOrEmpty(ptSource))
+            {
+                if(ptSource.StartsWith("["))
+                {
+                    ptSource = ptSource.Substring(ptSource.IndexOf("]") + 1);
+                }
+                var wsName = ExcelAddressBase.GetWorksheetPart(ptSource,"");
+                var ws = drawings.Worksheet.Workbook.Worksheets[wsName];
+                if(ws!=null)
+                {
+                    var ptName = ptSource.Substring(ptSource.LastIndexOf("!")+1);
+                    PivotTableSource = ws.PivotTables[ptName];
+                    _chartXmlHelper.SetXmlNodeString("c:pivotSource/c:name", "[]"+ptSource);
+                }
+            }
             UriChart = uriChart;
             Part = part;
             ChartXml = chartXml;
             _chartNode = chartNode;
-            InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
+            InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);            
             InitChartLoad(drawings, chartNode);
             ChartType = GetChartType(chartNode.LocalName);
         }

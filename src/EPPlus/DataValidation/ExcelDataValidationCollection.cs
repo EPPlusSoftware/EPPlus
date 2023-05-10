@@ -473,7 +473,7 @@ namespace OfficeOpenXml.DataValidation
             return _validations.GetEnumerator();
         }
 
-        internal void InsertRangeDictionary(ExcelAddress address, bool shiftRight)
+        internal void InsertRangeDictionary(ExcelAddressBase address, bool shiftRight)
         {
             if (address.Addresses == null)
             {
@@ -487,7 +487,7 @@ namespace OfficeOpenXml.DataValidation
                 }
             }
         }
-        private void InsertRangeIntoRangeDictionary(ExcelAddress address, bool shiftRight)
+        private void InsertRangeIntoRangeDictionary(ExcelAddressBase address, bool shiftRight)
         {
             if (shiftRight)
             {
@@ -503,8 +503,8 @@ namespace OfficeOpenXml.DataValidation
         {
             _validationsRD.DeleteRow(address._fromRow, address.Rows, address._fromCol, address._toCol, false);
         }
-
-        internal void DeleteRangeDictionary(ExcelAddress address, bool shiftLeft)
+        
+        internal void DeleteRangeDictionary(ExcelAddressBase address, bool shiftLeft)
         {
             if (address.Addresses == null)
             {
@@ -518,7 +518,7 @@ namespace OfficeOpenXml.DataValidation
                 }
             }
         }
-        private void DeleteRangeInRangeDictionary(ExcelAddress address, bool shiftLeft)
+        private void DeleteRangeInRangeDictionary(ExcelAddressBase address, bool shiftLeft)
         {
             if (shiftLeft)
             {

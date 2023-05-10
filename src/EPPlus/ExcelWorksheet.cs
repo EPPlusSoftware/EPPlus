@@ -2580,6 +2580,7 @@ namespace OfficeOpenXml
             }
             else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
             {
+                if (p.Cache == null) return;
                 p.Cache.UpdateItemsXml();
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
