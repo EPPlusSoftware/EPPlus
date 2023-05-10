@@ -80,7 +80,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void TestRangeAddMultipleTryAddingAfterShouldThrow()
         {
-            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+            ExcelPackage pck = OpenTemplatePackage("ValidationRangeTestMany.xlsx");
 
             var validations = pck.Workbook.Worksheets[0].DataValidations;
 
@@ -90,7 +90,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void TestRangeAddMultipleTryAddingAfterShouldNotThrow()
         {
-            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+            ExcelPackage pck = OpenTemplatePackage("ValidationRangeTestMany.xlsx");
 
             var validations = pck.Workbook.Worksheets[0].DataValidations;
 
@@ -101,7 +101,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void TestRangeAddsMultipleInbetweenInstances()
         {
-            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
+            ExcelPackage pck = OpenTemplatePackage("ValidationRangeTestMany.xlsx");
 
             var validations = pck.Workbook.Worksheets[0].DataValidations;
 
@@ -403,15 +403,17 @@ namespace EPPlusTest.DataValidation
                 Assert.AreEqual(0, wks.DataValidations.Count);
             }
         }
+
         [TestMethod]
         public void TestLoadingWorksheet()
         {
-            using (var p = OpenPackage("DataValidationReadTest.xlsx"))
+            using (var p = OpenTemplatePackage("DataValidationReadTest.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
-                Assert.AreEqual(3, ws.DataValidations.Count);
+                Assert.AreEqual(4, ws.DataValidations.Count);
             }
         }
+
         [TestMethod]
         public void DataValidationAny_AllowsOperatorShouldBeFalse()
         {
@@ -611,6 +613,35 @@ namespace EPPlusTest.DataValidation
 
                 rangeValidation2.Operator = ExcelDataValidationOperator.equal;
                 rangeValidation2.Formula.Value = 6;
+
+
+                ws.Cells["A2:A3"].DataValidation.ClearDataValidation();
+                ws.Cells["E16 A5"].DataValidation.ClearDataValidation();
+
+                var list = ws.DataValidations.AddListValidation("A2");
+
+                list.Formula.Values.Add("Value1");
+                list.Formula.Values.Add("Value2");
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ClearValidationAndAddressChangeWithSpacedAddressesViaCells()
+        {
+            using (var pck = OpenPackage("ClearDataValidationTestAdress.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("ClearTest");
+
+                var listValidation = ws.Cells["A1:A3 B5 C3 E15:E17"].DataValidation.AddListDataValidation();
+
+                listValidation.Formula.Values.Add("Value1");
+
+                var rangeValidation = ws.Cells["A4:A6"].DataValidation.AddIntegerDataValidation();
+
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Formula.Value = 5;
 
 
                 ws.Cells["A2:A3"].DataValidation.ClearDataValidation();
