@@ -33,18 +33,6 @@ namespace OfficeOpenXml.DataValidation
         ExcelWorksheet _worksheet;
         string _address;
 
-        private List<ExcelAddress> GetAllAddresses(ExcelAddress addressBase)
-        {
-            if(addressBase.Addresses == null)
-            {
-                return new List<ExcelAddress> { addressBase };
-            }
-            else 
-            {
-                return addressBase.Addresses;
-            }
-        }
-
         /// <summary>
         ///  Used to remove all dataValidations in cell or cellrange
         /// </summary>
@@ -57,36 +45,37 @@ namespace OfficeOpenXml.DataValidation
 
             foreach( var validation in validations)
             {
-                if (validation.Address.Addresses == null)
-                {
-                    var nullOrAddress = validation.Address.IntersectReversed(address);
+                var excelAddress = new ExcelAddressBase(validation.Address.Address.Replace(" ", ","));
+                var addresses = excelAddress.GetAllAddresses();
 
-                    if (nullOrAddress == null)
+                string newAddress = "";
+
+                foreach (var validationAddress in addresses)
+                {
+                    var nullOrAddress = validationAddress.IntersectReversed(address);
+                    
+                    if (nullOrAddress != null)
                     {
-                        if(deleteIfEmpty)
-                        {
-                            _worksheet.DataValidations.Remove(validation);
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException($"Cannot remove last address in validation of type {validation.ValidationType.Type} " +
-                                $"with uid {validation.Uid} without deleting it." +
-                                $" Add other addresses or use ClearDataValidation(true)");
-                        }
-                        return;
+                        newAddress+= nullOrAddress.Address + " ";
                     }
-                    validation.Address.Address = validation.Address.IntersectReversed(address).Address;
+                }
+
+                if (newAddress == "")
+                {
+                    if (deleteIfEmpty)
+                    {
+                        _worksheet.DataValidations.Remove(validation);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"Cannot remove last address in validation of type {validation.ValidationType.Type} " +
+                            $"with uid {validation.Uid} without deleting it." +
+                            $" Add other addresses or use ClearDataValidation(true)");
+                    }
                 }
                 else
                 {
-                    for(int i = 0; i < validation.Address.Addresses.Count; i++) 
-                    {
-                        var nullOrAddress = validation.Address.Addresses[i].IntersectReversed(address);
-                        if(nullOrAddress != null)
-                        {
-                            validation.Address.Address = nullOrAddress.Address;
-                        }
-                    }
+                    validation.Address.Address = newAddress;
                 }
             }
         }

@@ -77,7 +77,7 @@ namespace EPPlusTest.DataValidation
 
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException)), Ignore]
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
         public void TestRangeAddMultipleTryAddingAfterShouldThrow()
         {
             ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
@@ -87,7 +87,7 @@ namespace EPPlusTest.DataValidation
             validations.AddIntegerValidation("C8");
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestRangeAddMultipleTryAddingAfterShouldNotThrow()
         {
             ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
@@ -98,7 +98,7 @@ namespace EPPlusTest.DataValidation
         }
 
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestRangeAddsMultipleInbetweenInstances()
         {
             ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTestMany.xlsx");
@@ -134,7 +134,7 @@ namespace EPPlusTest.DataValidation
             Assert.AreEqual("", sb.ToString());
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestRangeAddsSingularInstance()
         {
             ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTest.xlsx");
@@ -406,7 +406,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void TestLoadingWorksheet()
         {
-            using (var p = OpenTemplatePackage("DataValidationTest.xlsx"))
+            using (var p = OpenPackage("DataValidationReadTest.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 Assert.AreEqual(3, ws.DataValidations.Count);
@@ -766,8 +766,9 @@ namespace EPPlusTest.DataValidation
                 rangeValidation.Formula.Value = 5;
 
                 ws.Cells["A9"].DataValidation.ClearDataValidation();
+                ws.Cells["B12"].DataValidation.ClearDataValidation();
 
-                Assert.AreEqual(rangeValidation.Address.Address, "A6 B12 C50");
+                Assert.AreEqual("A6 C50", rangeValidation.Address.Address);
             }
         }
 

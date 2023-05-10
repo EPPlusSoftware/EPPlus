@@ -103,33 +103,11 @@ namespace OfficeOpenXml.DataValidation
 
         internal void AddToRangeDictionary(ExcelDataValidation validation)
         {
-            //if (validation.Address.Addresses != null)
-            //{
-            //    for (int i = 0; i < validation.Address.Addresses.Count; i++)
-            //    {
-            //        _validationsRD.Merge(validation.Address.Addresses[i]._fromRow, validation.Address.Addresses[i]._fromCol,
-            //            validation.Address.Addresses[i]._toRow, validation.Address.Addresses[i]._toCol, validation);
-            //    }
-            //}
-            //else
-            //{
-            //    _validationsRD.Merge(validation.Address._fromRow, validation.Address._fromCol,
-            //        validation.Address._toRow, validation.Address._toCol, validation);
-            //}
-
-            if (_validationsRD.Exists(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol))
-            {
-                throw new InvalidOperationException($"A DataValidation already exists at {validation.Address}. " +
-                    $"If using ClearDataValidation this may be because the sheet you're reading has multiple dataValidations on one cell.");
-            }
-
-            _validationsRD.Add(validation.Address._fromRow, validation.Address._fromCol, validation.Address._toRow, validation.Address._toCol, validation);
+            AddItemToRangeDictionaryMultipleAddresses(validation.Address.Address, validation);
         }
-
 
         internal void UpdateRangeDictionary(ExcelDataValidation validation)
         {
-
             if (validation.Address.Addresses != null)
             {
                 for (int i = 0; i < validation.Address.Addresses.Count; i++)
@@ -339,17 +317,32 @@ namespace OfficeOpenXml.DataValidation
 
         private ExcelDataValidation AddValidation(string address, ExcelDataValidation validation)
         {
-            var internalAddress = new ExcelAddress(address);
-
-            if (_validationsRD.Exists(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol))
-            {
-                throw new InvalidOperationException($"A DataValidation already exists at {address}");
-            }
-
             _validations.Add(validation);
-            _validationsRD.Add(internalAddress._fromRow, internalAddress._fromCol, internalAddress._toRow, internalAddress._toCol, validation);
+
+            var internalAddress = new ExcelAddress(address.Replace(" ", ","));
+
+            AddItemToRangeDictionaryMultipleAddresses(address, validation);
 
             return validation;
+        }
+
+        private void AddItemToRangeDictionaryMultipleAddresses(string address, ExcelDataValidation validation)
+        {
+            var internalAddress = new ExcelAddress(address.Replace(" ", ","));
+
+            foreach (var individualAddress in internalAddress.GetAllAddresses())
+            {
+                if (_validationsRD.Exists(individualAddress._fromRow, individualAddress._fromCol,
+                          individualAddress._toRow, individualAddress._toCol))
+                {
+                    throw new InvalidOperationException($"A DataValidation already exists at {address}" +
+                    $"If using ClearDataValidation this may be because the sheet you're reading has multiple dataValidations on one cell.");
+                }
+
+                _validationsRD.Add(individualAddress._fromRow, individualAddress._fromCol,
+                                   individualAddress._toRow, individualAddress._toCol, validation);
+            }
+
         }
 
         /// <summary>
@@ -501,7 +494,12 @@ namespace OfficeOpenXml.DataValidation
 
         internal void ClearRangeDictionary(ExcelAddressBase address)
         {
-            _validationsRD.DeleteRow(address._fromRow, address.Rows, address._fromCol, address._toCol, false);
+            var internalAddress = new ExcelAddressBase (address.Address.Replace(" ", ","));
+            foreach (var individualAddress in internalAddress.GetAllAddresses())
+            {
+                _validationsRD.DeleteRow(individualAddress._fromRow, individualAddress.Rows, 
+                                         individualAddress._fromCol, individualAddress._toCol, false);
+            }
         }
         
         internal void DeleteRangeDictionary(ExcelAddressBase address, bool shiftLeft)
