@@ -811,7 +811,7 @@ namespace EPPlusTest.DataValidation
             {
                 var ws = pck.Workbook.Worksheets[0];
 
-                var firstOverlapValidation = ws.DataValidations[1];
+                var firstOverlapValidation = ws.DataValidations[0];
 
                 var address = firstOverlapValidation.Address.Address;
 
