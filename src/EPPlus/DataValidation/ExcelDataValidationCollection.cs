@@ -336,7 +336,7 @@ namespace OfficeOpenXml.DataValidation
                           individualAddress._toRow, individualAddress._toCol))
                 {
                     throw new InvalidOperationException($"A DataValidation already exists at {address}" +
-                    $"If using ClearDataValidation this may be because the sheet you're reading has multiple dataValidations on one cell.");
+                    $" If using ClearDataValidation this may be because the sheet you're reading has multiple dataValidations on one cell.");
                 }
 
                 _validationsRD.Add(individualAddress._fromRow, individualAddress._fromCol,

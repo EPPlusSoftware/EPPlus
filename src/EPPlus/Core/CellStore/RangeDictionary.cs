@@ -272,45 +272,44 @@ namespace OfficeOpenXml.Core.CellStore
                     for (int i = rowStartIndex; i < rows.Count; i++)
                     {
                         ri = rows[i];
-                        var fr = (int)(ri.RowSpan >> 20) + 1;
-                        var tr = (int)(ri.RowSpan & 0xFFFFF) + 1;
+                        var fromRowRangeItem = (int)(ri.RowSpan >> 20) + 1;
+                        var toRowRangeItem = (int)(ri.RowSpan & 0xFFFFF) + 1;
 
-                        if(fr >= fromRow)
+                        if(fromRowRangeItem >= fromRow)
                         {
-                            if(fr >= fromRow && tr <= fromRow + noRows)
+                            if(fromRowRangeItem >= fromRow && toRowRangeItem <= fromRow + noRows)
                             { 
                                 rows.RemoveAt(i--);
                                 continue;
                             }
-                            else if(fr >= fromRow + noRows)
+                            else if(fromRowRangeItem >= fromRow + noRows)
                             {
                                 if(shiftRow)
                                 {
-                                    tr -= noRows;
-                                    fr -= noRows;
+                                    toRowRangeItem -= noRows;
+                                    fromRowRangeItem -= noRows;
                                 }
                             }
                             else
                             {
                                 if (shiftRow)
                                 {
-                                    fr = Math.Max(fromRow, fr - noRows);
-                                    tr = Math.Max(fromRow, tr - noRows);
+                                    fromRowRangeItem = Math.Max(fromRow, fromRowRangeItem - noRows);
+                                    toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                                 }
                                 else
                                 {
-                                    fr = Math.Max(fr, fromRow + noRows + 1);
-                                    tr = Math.Max(tr, fromRow + noRows + 1);
-
+                                    fromRowRangeItem = Math.Max(fromRowRangeItem, fromRow + noRows + 1);
+                                    toRowRangeItem = Math.Max(toRowRangeItem, fromRow + noRows + 1);
                                 }
                             }
                         }
-                        else if(fr+noRows >= fromRow) 
+                        else if(toRowRangeItem >= fromRow) 
                         {
-                            tr = Math.Max(fromRow, tr - noRows);
+                            toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                         }
 
-                        ri.RowSpan = ((fr - 1) << 20) | (tr - 1);
+                        ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);
                         rows[i] = ri;
                     }
                 }

@@ -803,7 +803,7 @@ namespace EPPlusTest.DataValidation
             }
         }
 
-
+        //Edge-case of broken xml with multiple validations in the same cell.
         [TestMethod]
         public void MultipleValidationsOnePlaceTest()
         {
@@ -825,5 +825,59 @@ namespace EPPlusTest.DataValidation
             }
         }
 
+        [TestMethod]
+        public void RemovalOfCellsAfterBeingRemovedAndAdded()
+        {
+            using (var pck = OpenPackage("DataValidationsUserClearTest.xlsx", true))
+            {
+                var myWS = pck.Workbook.Worksheets.Add("MyWorksheet");
+                var yourWS = pck.Workbook.Worksheets.Add("YourWorksheet");
+
+                var validation = myWS.DataValidations.AddTextLengthValidation("A1:C5");
+
+                validation.Operator = ExcelDataValidationOperator.lessThan;
+
+                validation.Formula.Value = 10;
+
+                myWS.Cells["B3:C6"].DataValidation.ClearDataValidation();
+
+                var decimalVal = myWS.Cells["B3:D4"].DataValidation.AddDecimalDataValidation();
+                decimalVal.Operator = ExcelDataValidationOperator.greaterThan;
+                decimalVal.Formula.Value = 5;
+
+                myWS.Cells["B1:D2"].DataValidation.ClearDataValidation();
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+
+        [TestMethod]
+        public void UserTestClear()
+        {
+            using (var pck = OpenPackage("DataValidationsUserClearTest.xlsx", true))
+            {
+                var myWS = pck.Workbook.Worksheets.Add("MyWorksheet");
+                var yourWS = pck.Workbook.Worksheets.Add("YourWorksheet");
+
+                var validation = myWS.DataValidations.AddTextLengthValidation("A1:E30");
+
+                validation.Operator = ExcelDataValidationOperator.lessThan;
+
+                validation.Formula.Value = 10;
+
+                myWS.Cells["C1:D10"].DataValidation.ClearDataValidation();
+
+                var listVal = myWS.Cells["C5:D10"].DataValidation.AddListDataValidation();
+
+                listVal.Formula.ExcelFormula = "$C$1:$D$4";
+
+                myWS.Cells["B1:C4"].DataValidation.ClearDataValidation();
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        //C11:D30
     }
 }
