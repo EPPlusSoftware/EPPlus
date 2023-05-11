@@ -137,7 +137,7 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void TestRangeAddsSingularInstance()
         {
-            ExcelPackage pck = new ExcelPackage("C:\\epplusTest\\Workbooks\\ValidationRangeTest.xlsx");
+            ExcelPackage pck = OpenTemplatePackage("ValidationRangeTest.xlsx"); ;
 
             //pck.Workbook.Worksheets.Add("RangeTest");
 
