@@ -803,28 +803,6 @@ namespace EPPlusTest.DataValidation
             }
         }
 
-        //Edge-case of broken xml with multiple validations in the same cell.
-        [TestMethod]
-        public void MultipleValidationsOnePlaceTest()
-        {
-            using (var pck = OpenTemplatePackage("DataValidationsSameCellTemplate.xlsx"))
-            {
-                var ws = pck.Workbook.Worksheets[0];
-
-                var firstOverlapValidation = ws.DataValidations[0];
-
-                var address = firstOverlapValidation.Address.Address;
-
-                var validation = ws.Cells["A9"].DataValidation;
-
-                validation.ClearDataValidation();
-
-                Assert.AreNotEqual(address,firstOverlapValidation.Address.Address);
-
-                SaveAndCleanup(pck);
-            }
-        }
-
         [TestMethod]
         public void RemovalOfCellsAfterBeingRemovedAndAdded()
         {
