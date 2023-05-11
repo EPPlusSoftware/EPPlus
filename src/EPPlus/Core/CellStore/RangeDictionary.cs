@@ -616,6 +616,7 @@ namespace OfficeOpenXml.Core.CellStore
                         var rs = rows[ix];
                         fr = (int)(rs.RowSpan >> 20) + 1;
                         tr = (int)(rs.RowSpan & 0xFFFFF) + 1;
+                        if (fr > toRow) break;
                         if(fromRow<fr)
                         {
                             rowSpan = ((long)(fromRow - 1) << 20) | (long)(fr - 2);
