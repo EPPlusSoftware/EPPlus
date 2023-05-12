@@ -40,14 +40,14 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(10D, _ws.GetValue(1, 6));
             Assert.AreEqual(110D, _ws.GetValue(1, 5));
         }
-        [TestMethod, Ignore]
+        [TestMethod]
         public void DynamicArrayFormulaReferencedBySharedFormula()
         {
             var ws = _package.Workbook.Worksheets.Add("SharedFormulaRef");
             ws.Cells["F1:N1"].Formula = "F2";
             ws.Cells["F2"].Formula = "Transpose(Data!A2:A10)"; //Spill Right
             ws.Calculate();
-            ws.Cells["G2"].Value = 2; //Result in overwrite of the array formula.
+            Assert.AreEqual(_ws.GetValue(2, 1), ws.GetValue(2, 6));
             Assert.AreEqual(_ws.GetValue(2, 1), ws.GetValue(2, 6));
             Assert.AreEqual(_ws.GetValue(5, 1), ws.GetValue(2, 9));
             Assert.AreEqual(ConvertUtil.GetValueDouble(ws.GetValue(1, 9)), ConvertUtil.GetValueDouble(ws.GetValue(2, 9)));
@@ -91,5 +91,20 @@ namespace EPPlusTest.FormulaParsing
             _ws.Cells["K19:N59"].AutoFitColumns();
             _ws.Calculate();
         }
+        [TestMethod]
+        public void DynamicArrayFormulaWithSpill()
+        {
+            var ws = _package.Workbook.Worksheets.Add("CalcSpill");
+            ws.Cells["F1:N1"].Formula = "F2";
+            ws.Cells["F2"].Formula = "Transpose(Data!A2:A10)"; //Spill Right
+            ws.Cells["G2"].Value = 2;
+            ws.Calculate();
+            var v = ws.GetValue(2, 6);
+            Assert.IsInstanceOfType(v, typeof(ExcelRichDataErrorValue));
+            var spillError = (ExcelRichDataErrorValue)v;
+            Assert.AreEqual(0, spillError.SpillRowOffset);
+            Assert.AreEqual(1, spillError.SpillColOffset);
+        }
+
     }
 }

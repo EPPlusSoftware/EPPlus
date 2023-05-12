@@ -340,7 +340,7 @@ namespace OfficeOpenXml
                         }
                     }
                 }
-                if (ix <= 0) return -1;
+                if (ix < 0) return -1;
                 ix += element.Length;
             }
         }

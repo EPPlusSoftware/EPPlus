@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace OfficeOpenXml.RichData
                 }
             }
         }
-
+        internal ZipPackagePart Part { get { return _part; } }
         private void ReadXml(Stream stream)
         {
             var xr = XmlReader.Create(stream);
@@ -88,16 +89,10 @@ namespace OfficeOpenXml.RichData
             }
         }
 
-        internal void Save()
+        internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
         {
-            if (_part == null)
-            {
-                _uri = new Uri("/xl/richData/rdrichvalue.xml", UriKind.Relative);
-                _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValue);
-                _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueRelationship);
-            }
-
-            var stream = _part.GetStream(FileMode.Create);
+            stream.PutNextEntry(fileName);
+            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             sw.Write($"<rvData xmlns=\"{Schemas.schemaRichData}\" count=\"{Items.Count}\">");
@@ -107,6 +102,64 @@ namespace OfficeOpenXml.RichData
             }
             sw.Write("</rvData>");
             sw.Flush();
+        }
+
+        internal void CreatePart()
+        {
+            if (_part == null)
+            {
+                _uri = new Uri("/xl/richData/rdrichvalue.xml", UriKind.Relative);
+                _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValue);
+                _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueRelationship);
+                _part.ShouldBeSaved = false;
+            }
+            _part.SaveHandler = Save;
+        }
+
+        internal void AddErrorSpill(ExcelRichDataErrorValue spillError)
+        {
+            var structureId = _structures.GetStructureId(RichDataStructureFlags.ErrorSpill);
+            var item = new ExcelRichValue(structureId);            
+            item.Structure = _structures.StructureItems[item.StructureId];                        
+            item.AddSpillError(spillError.SpillRowOffset, spillError.SpillColOffset, "1");
+            Items.Add(item);
+        }
+
+        internal void AddPropagated(eErrorType errorType)
+        {
+            var structureId = _structures.GetStructureId(RichDataStructureFlags.ErrorPropagated);
+            var item = new ExcelRichValue(structureId);
+            item.Structure = _structures.StructureItems[item.StructureId];
+            switch (errorType)
+            {
+                case eErrorType.Calc:
+                    item.AddPropagatedError(RichDataErrorType.Calc, true);
+                    break;
+                case eErrorType.Spill:
+                    item.AddPropagatedError(RichDataErrorType.Spill, true);
+                    break;
+            }
+            Items.Add(item);
+        }
+        internal void AddError(eErrorType errorType, string subType)
+        {
+            var structureId = _structures.GetStructureId(RichDataStructureFlags.ErrorWithSubType);
+            var item = new ExcelRichValue(structureId);
+            item.Structure = _structures.StructureItems[item.StructureId];
+            switch (errorType)
+            {
+                case eErrorType.Calc:
+                    item.AddError(RichDataErrorType.Calc, subType);
+                    break;
+                case eErrorType.Spill:
+                    item.AddError(RichDataErrorType.Spill, subType);
+                    break;
+                case eErrorType.Name:
+                    item.AddError(RichDataErrorType.Name, subType);
+                    break;
+
+            }
+            Items.Add(item);
         }
 
         public List<ExcelRichValue> Items { get; }=new List<ExcelRichValue>();

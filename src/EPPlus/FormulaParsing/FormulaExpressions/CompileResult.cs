@@ -40,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private static CompileResult _errorName = new CompileResult(ErrorValues.NameError, DataType.ExcelError);
         private static CompileResult _errorNum = new CompileResult(ErrorValues.NumError, DataType.ExcelError);
         private static CompileResult _errorCalc = new CompileResult(ErrorValues.CalcError, DataType.ExcelError);
-        private static CompileResult _errorSpill = new CompileResult(ErrorValues.SpillError, DataType.ExcelError);
+        //private static CompileResult _errorSpill = new CompileResult(ErrorValues.SpillError, DataType.ExcelError);
 
 
         /// <summary>

@@ -43,8 +43,8 @@ namespace OfficeOpenXml.RichData
                     return "n";
             }
         }
-        public void AddSpillError(int colOffset, int rowOffset)
-        {
+        public void AddSpillError(int rowOffset, int colOffset, string subType)
+        {            
             foreach(var s in Structure.Keys)
             {
                 switch(s.Name)
@@ -56,15 +56,15 @@ namespace OfficeOpenXml.RichData
                         Values.Add(rowOffset.ToString());
                         break;
                     case "errorType":
-                        Values.Add("8");
+                        Values.Add(RichDataErrorType.Spill);
                         break;
                     case "subType":
-                        Values.Add("1");
+                        Values.Add(subType);
                         break;
                 }
             }
         }
-        public void AddSpillPropagatedError(string errorType, bool propagated)
+        public void AddPropagatedError(string errorType, bool propagated)
         {
             foreach (var s in Structure.Keys)
             {
@@ -74,7 +74,7 @@ namespace OfficeOpenXml.RichData
                         Values.Add(errorType);
                         break;
                     case "propagated":
-                        Values.Add(propagated?"1" : "0");
+                        Values.Add(propagated ? "1" : "0");
                         break;
                 }
             }

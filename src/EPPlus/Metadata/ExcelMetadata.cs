@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,10 @@ namespace OfficeOpenXml.Metadata
         private string _mdxMetadataXml;
         private string _mdxMetadataCount;
         public string _extLstXml;
+
+        internal const string FUTURE_METADATA_DYNAMIC_ARRAY_NAME = "XLDAPR";
+        internal const string FUTURE_METADATA_RICHDATA_NAME = "XLRICHVALUE";
+
         public ExcelMetadata(ExcelWorkbook workbook)
         {
             _wb = workbook;
@@ -113,7 +118,8 @@ namespace OfficeOpenXml.Metadata
         {
             var item = new ExcelFutureMetadata();
             item.Name = xr.GetAttribute("name");
-            FutureMetadata.Add(item);
+            item.Index = FutureMetadata.Count;
+            FutureMetadata.Add(item.Name, item);
             xr.Read();
             while (xr.IsEndElementWithName("futureMetadata") == false && xr.EOF == false)
             {
@@ -140,6 +146,17 @@ namespace OfficeOpenXml.Metadata
                 if(xr.IsElementWithName("metadataType"))
                 {
                     var item = new ExcelMetadataType(xr);
+                    switch(item.Name)
+                    {
+                        case FUTURE_METADATA_DYNAMIC_ARRAY_NAME:
+                            DynamicArrayTypeIndex = MetadataTypes.Count;
+                            break;
+                        case FUTURE_METADATA_RICHDATA_NAME:
+                            RichDataTypeIndex = MetadataTypes.Count;
+                            break;
+
+
+                    }
                     MetadataTypes.Add(item);
                 }
                 xr.Read();
@@ -148,12 +165,14 @@ namespace OfficeOpenXml.Metadata
 
         internal int CreateDefaultXml()
         {
-            MetadataTypes.Add(new ExcelMetadataType() { Name = "XLDAPR", MinSupportedVersion=120000, Flags=MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta });
-            FutureMetadata.Add(new ExcelFutureMetadata() { Name="XLDAPR" });
-            FutureMetadata[0].Types.Add(new ExcelFutureMetadataDynamicArray(true));
-            
+            MetadataTypes.Add(new ExcelMetadataType() { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME, MinSupportedVersion=120000, Flags=MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta });
+            var fmd = new ExcelFutureMetadata() { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME };
+            fmd.Types.Add(new ExcelFutureMetadataDynamicArray(true));
+            FutureMetadata.Add(fmd.Name, fmd);
+            DynamicArrayTypeIndex = 1;
+
             var item = new ExcelMetadataItem();
-            item.Records.Add(new ExcelMetadataRecord(1,0));
+            item.Records.Add(new ExcelMetadataRecord(1, 0));
             CellMetadata.Add(item);
             return CellMetadata.Count;
         }
@@ -162,9 +181,12 @@ namespace OfficeOpenXml.Metadata
             return MetadataTypes.Count==0;
         }
         internal List<ExcelMetadataType> MetadataTypes { get; } = new List<ExcelMetadataType>();
-        internal List<ExcelFutureMetadata> FutureMetadata{ get; } = new List<ExcelFutureMetadata>();
+        internal Dictionary<string, ExcelFutureMetadata> FutureMetadata{ get; } = new Dictionary<string, ExcelFutureMetadata>();
         internal List<ExcelMetadataItem> CellMetadata { get; } = new List<ExcelMetadataItem>();
-        internal List<ExcelMetadataItem> ValueMetadata { get; } = new List<ExcelMetadataItem>();        
+        internal List<ExcelMetadataItem> ValueMetadata { get; } = new List<ExcelMetadataItem>();
+        internal int RichDataTypeIndex { get; private set; }
+        internal int DynamicArrayTypeIndex { get; private set; }
+        internal ZipPackagePart Part { get { return _part; } }
         internal bool IsFormulaDynamic(int cm)
         {
             if(cm <= CellMetadata.Count)
@@ -172,9 +194,9 @@ namespace OfficeOpenXml.Metadata
                 var cellMetadata = CellMetadata[cm - 1];
                 var record = cellMetadata.Records.First();
                 var metadataType = MetadataTypes[record.RecordTypeIndex - 1];
-                if (metadataType.Name == "XLDAPR")
+                if (metadataType.Name == FUTURE_METADATA_DYNAMIC_ARRAY_NAME)
                 {
-                    return FutureMetadata.Find(x => x.Name == "XLDAPR").Types[record.ValueTypeIndex].AsDynamicArray.IsDynamicArray;
+                    return FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Types[record.ValueTypeIndex].AsDynamicArray.IsDynamicArray;
                 }
             }
             return false;
@@ -190,12 +212,13 @@ namespace OfficeOpenXml.Metadata
 
         internal int GetErrorType(int vm)
         {
+            if (ValueMetadata.Count >= vm) return -1;
             var valueMetadata = ValueMetadata[vm - 1];
             var record = valueMetadata.Records.First();
             var metadataType = MetadataTypes[record.RecordTypeIndex - 1];
-            if (metadataType.Name == "XLRICHVALUE")
+            if (metadataType.Name == FUTURE_METADATA_RICHDATA_NAME)
             {
-                var ix = FutureMetadata.Find(x => x.Name == "XLDAPR").Types[record.ValueTypeIndex].AsRichData.Index;
+                var ix = FutureMetadata[metadataType.Name].Types[record.ValueTypeIndex].AsRichData.Index;
                 var rd = _wb.RichData.Values.Items[ix];
                 var fieldIx = rd.Structure.Keys.FindIndex(x => x.Name == "errorType");
                 if (fieldIx >= 0)
@@ -213,13 +236,13 @@ namespace OfficeOpenXml.Metadata
             }
             else
             {
-                var tIx = FutureMetadata.FindIndex(x => x.Name == "XLDAPR")+1;
-                if (tIx > 0)
+                var tIx = FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Index;
+                if (tIx >= 0)
                 {
                     cm = CellMetadata.FindIndex(x => x.Records.Exists(y => y.RecordTypeIndex == tIx)) + 1;
                     if(cm<=0)
                     {
-                        var mtIx = MetadataTypes.FindIndex(x => x.Name == "XLDAPR") + 1;
+                        var mtIx = MetadataTypes.FindIndex(x => x.Name == FUTURE_METADATA_DYNAMIC_ARRAY_NAME) + 1;
                         var item = new ExcelMetadataItem();
                         item.Records.Add(new ExcelMetadataRecord(mtIx, tIx));
                         CellMetadata.Add(item);
@@ -233,15 +256,10 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
-        internal void Save()
+        internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
         {
-            if (_part == null)
-            {
-                _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeMetaData);
-                _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaMetadata);
-            }
-
-            var stream = _part.GetStream(FileMode.Create);
+            stream.PutNextEntry(fileName);
+            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
 
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
@@ -256,6 +274,17 @@ namespace OfficeOpenXml.Metadata
             sw.Flush();
 
         }
+
+        internal void CreatePart()
+        {
+            if (_part == null)
+            {
+                _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeMetaData);
+                _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaMetadata);
+            }
+            _part.SaveHandler = Save;
+        }
+
         private void WriteMetadataItems(StreamWriter sw, string element, List<ExcelMetadataItem> collection)
         {
             if (collection.Count == 0) return;
@@ -275,7 +304,7 @@ namespace OfficeOpenXml.Metadata
         {
             if (FutureMetadata.Count > 0)
             {
-                foreach (var fmd in FutureMetadata)
+                foreach (var fmd in FutureMetadata.Values.OrderBy(x=>x.Index))
                 {
                     sw.Write($"<futureMetadata name=\"{fmd.Name}\" count=\"1\">");
                     foreach(var t in fmd.Types)
@@ -311,6 +340,20 @@ namespace OfficeOpenXml.Metadata
             {
                 sw.Write($"<mdxMetadata count=\"{_mdxMetadataCount}\">{_mdxMetadataXml}</metadataStrings>");
             }
+        }
+
+        internal ExcelFutureMetadata GetFutureMetadataRichDataCollection()
+        {
+            if(FutureMetadata.TryGetValue(FUTURE_METADATA_RICHDATA_NAME, out ExcelFutureMetadata fm))
+            {
+                return fm;
+            }
+            var mdt = new ExcelMetadataType() { Name = FUTURE_METADATA_RICHDATA_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce };
+            MetadataTypes.Add(mdt);
+            RichDataTypeIndex = MetadataTypes.Count;
+            fm = new ExcelFutureMetadata() { Index = FutureMetadata.Count, Name = FUTURE_METADATA_RICHDATA_NAME };
+            FutureMetadata.Add(FUTURE_METADATA_RICHDATA_NAME, fm);
+            return fm;
         }
     }
 }
