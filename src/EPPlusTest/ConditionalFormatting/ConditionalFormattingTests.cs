@@ -1347,5 +1347,86 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
+        [TestMethod]
+        public void PriorityTest()
+        {
+            using (var pck = OpenPackage("CFPriorityTest.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("priorityTest");
+
+                sheet.Cells["A1:A7"].Value = "A Player's handbook";
+                sheet.Cells["A1:A7"].AutoFitColumns();
+                sheet.Cells["B1"].Value = "A1:A5 should be green, A6 yellow, A7 red";
+                sheet.Cells["B1"].AutoFitColumns();
+
+                var cfHighestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
+
+                cfHighestPriority.ContainText = "A";
+                cfHighestPriority.Style.Fill.BackgroundColor.Color = Color.Green;
+
+                var cfMiddlePriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A6"));
+
+                cfMiddlePriority.ContainText = "A";
+                cfMiddlePriority.Style.Fill.BackgroundColor.Color = Color.Yellow;
+
+                var cfLowestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A7"));
+                cfLowestPriority.Style.Fill.BackgroundColor.Color = Color.Red;
+                cfLowestPriority.ContainText = "A";
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void PriorityTestExtLst()
+        {
+            using (var pck = OpenPackage("CFPriorityTestExtLst.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("priorityTest");
+
+                sheet.Cells["A1:A7"].Formula = "=Row()";
+                sheet.Cells["A1:A7"].AutoFitColumns();
+                sheet.Cells["B1"].Value = "A1:A5 should be green, A6 yellow, A7 red";
+                sheet.Cells["B1"].AutoFitColumns();
+
+                var cfHighestPriorityExt = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A5"), Color.Green);
+
+                var cfMiddlePriorityExt = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A6"), Color.Yellow);
+
+                var cfLowestPriorityExt = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("A1:A7"), Color.Red);
+
+                sheet.Cells["B1"].Value = "A1:A5 should be green, A6 yellow, A7 red";
+                sheet.Cells["B1"].AutoFitColumns();
+
+                var cfHighestPriority = sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A5"));
+
+                cfHighestPriority.Formula = "0";
+                cfHighestPriority.Style.Fill.BackgroundColor.Color = Color.Orange;
+
+                var cfMiddlePriority = sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A6"));
+
+                cfMiddlePriority.Formula = "0";
+                cfMiddlePriority.Style.Fill.BackgroundColor.Color = Color.Silver;
+
+                var cfLowestPriority = sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A7"));
+                cfLowestPriority.Style.Fill.BackgroundColor.Color = Color.Yellow;
+                cfLowestPriority.Formula = "0";
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ExtLstFormulaValidations()
+        {
+
+            using (var pck = OpenPackage("ExtLstFormulas.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
+
+            }
+        }
+
     }
 }
