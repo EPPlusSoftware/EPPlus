@@ -10,51 +10,52 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
     {
         public override bool Handle(char c, Token tokenSeparator, TokenizerContext context, ITokenIndexProvider tokenIndexProvider)
         {
-            if(!string.IsNullOrEmpty(context.CurrentToken))
+            if(string.IsNullOrEmpty(context.CurrentToken) || context.CurrentToken.Trim().Length == 0)
             {
-                if (c == '-')
-                {
-                    var currentToken = context.CurrentToken;
-                    var arr = currentToken.ToArray();
-                    if (arr[arr.Length - 1] != 'E') return false;
-                    for (var x = 0; x < arr.Length - 1; x++)
-                    {
-                        var ch = arr[x];
-                        if (char.IsDigit(ch) || ch == '.')
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    context.AppendToCurrentToken('-');
-                    return true;
-                }
-                else if(c == '+')
-                {
-                    var currentToken = context.CurrentToken;
-                    var arr = currentToken.ToArray();
-                    if (arr[arr.Length -1] != 'E') return false;
-                    
-                    for (var x = 0; x < arr.Length - 1; x++)
-                    {
-                        var ch = arr[x];
-                        if (char.IsDigit(ch) || ch == '.')
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                    context.AppendToCurrentToken('+');
-                    return true;
-                }
+                return false;
             }
-            
+            if (c == '-')
+            {
+                var currentToken = context.CurrentToken;
+                var arr = currentToken.Trim().ToArray();
+                if (arr[arr.Length - 1] != 'E') return false;
+                for (var x = 0; x < arr.Length - 1; x++)
+                {
+                    var ch = arr[x];
+                    if (char.IsDigit(ch) || ch == '.')
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                context.AppendToCurrentToken('-');
+                return true;
+            }
+            else if (c == '+')
+            {
+                var currentToken = context.CurrentToken;
+                var arr = currentToken.Trim().ToArray();
+                if (arr[arr.Length - 1] != 'E') return false;
+
+                for (var x = 0; x < arr.Length - 1; x++)
+                {
+                    var ch = arr[x];
+                    if (char.IsDigit(ch) || ch == '.')
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                context.AppendToCurrentToken('+');
+                return true;
+            }
+
             return false;
         }
     }
