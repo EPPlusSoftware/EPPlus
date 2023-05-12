@@ -84,5 +84,19 @@ namespace EPPlusTest.FormulaParsing
             }
         }
 
+        [TestMethod]
+        public void ShouldHandleIntegerWithScientificNotation_IgnoreWhitespce()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = "Active";
+                sheet.Cells["B1"].Formula = "IF(A1 = \"Active\", 9E+30, 99)";
+                sheet.Calculate();
+                var v = sheet.Cells["B1"].Value;
+                Assert.AreEqual(9E+30, v);
+            }
+        }
+
     }
 }
