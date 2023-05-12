@@ -72,6 +72,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             _address = new FormulaRangeAddress() { FromRow = 0, FromCol = 0, ToRow = _nRows - 1, ToCol = _nCols - 1 };
         }
 
+        public InMemoryRange(int rows, short cols)
+            : this(new RangeDefinition(rows, cols))
+        {}
+
         private readonly FormulaRangeAddress _address;
         private readonly RangeDefinition _size;
         private readonly ExcelWorksheet _ws;
