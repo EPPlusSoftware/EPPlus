@@ -53,10 +53,128 @@ namespace EPPlusTest.ConditionalFormatting
     {
         private static ExcelPackage _pck;
 
+        static string[] numbers = new string[]
+        { "zero",
+          "one",
+          "two",
+          "three",
+          "four",
+          "five",
+          "six",
+          "seven",
+          "eight",
+          "nine",
+          "ten",
+          "eleven"
+        };
+
         [ClassInitialize()]
         public static void Init(TestContext testContext)
         {
             _pck = OpenPackage("ConditionalFormatting.xlsx", true);
+            var wks = _pck.Workbook.Worksheets.Add("Overview");
+
+            //Filling the overview sheet
+            var year = $"{DateTime.Now.Year}";
+            string date = $"{DateTime.Now.Year}-{DateTime.Now.Month}-";
+
+            string lastMonth = $"{year}-{DateTime.Now.AddMonths(-1).Month}-";
+            string thisMonth = $"{year}-{DateTime.Now.Month}-";
+            string nextMonth = $"{year}-{DateTime.Now.AddMonths(+1).Month}";
+
+            for (int i = 1; i < 11; i++)
+            {
+                wks.Cells[i, 1].Value = i;
+                wks.Cells[i, 2].Value = i;
+                wks.Cells[i, 4].Value = i % 2;
+                wks.Cells[i, 6].Value = numbers[i];
+
+                wks.Cells[i, 8].Value = date + $"{i + 10}";
+                wks.Cells[i + 7, 8].Value = date + $"{i + 10 + 7}";
+
+                wks.Cells[i, 9].Value = date + $"{i + 10}";
+                wks.Cells[i + 7, 9].Value = date + $"{i + 10 + 7}";
+
+                wks.Cells[i, 10].Value = date + $"{i + 10}";
+                wks.Cells[i + 7, 10].Value = date + $"{i + 10 + 7}";
+
+                wks.Cells[i, 11].Value = date + $"{i + 10}";
+                wks.Cells[i + 7, 11].Value = date + $"{i + 10 + 7}";
+
+                wks.Cells[i, 12].Value = date + $"{i + 10}";
+                wks.Cells[i + 7, 12].Value = date + $"{i + 10 + 7}";
+
+                wks.Cells[i, 13].Value = date + $"{i + 10}";
+                wks.Cells[i + 7, 13].Value = date + $"{i + 10 + 7}";
+
+                wks.Cells[i, 14].Value = date + $"{i + 10}";
+                wks.Cells[i + 7, 14].Value = date + $"{i + 10 + 7}";
+
+                wks.Cells[i, 15].Value = lastMonth + $"{i + 10}";
+                wks.Cells[i + 7, 15].Value = thisMonth + $"{i + 10}";
+                wks.Cells[i + 14, 15].Value = nextMonth + $"{i + 10}";
+
+                wks.Cells[i, 16].Value = lastMonth + $"{i + 10}";
+                wks.Cells[i + 7, 16].Value = thisMonth + $"{i + 10}";
+                wks.Cells[i + 14, 16].Value = nextMonth + $"{i + 10}";
+
+                wks.Cells[i, 17].Value = lastMonth + $"{i + 10}";
+                wks.Cells[i + 7, 17].Value = thisMonth + $"{i + 10}";
+                wks.Cells[i + 14, 17].Value = nextMonth + $"{i + 10}";
+
+                int counter = 0;
+                wks.Cells[i, 19].Value = i % 2 == 1 ? i : counter++ % 2;
+
+                wks.Cells[i, 21].Value = i;
+                wks.Cells[i + 10, 21].Value = i + 10;
+
+                wks.Cells[i, 21].Value = i;
+                wks.Cells[i + 10, 21].Value = i + 10;
+
+                wks.Cells[i, 22].Value = i;
+                wks.Cells[i + 10, 22].Value = i + 10;
+
+                wks.Cells[i, 23].Value = i;
+                wks.Cells[i + 10, 23].Value = i + 10;
+
+                wks.Cells[i, 33].Value = i;
+
+                wks.Cells[i, 35].Value = i;
+                wks.Cells[i, 36].Value = i;
+
+                wks.Cells[i, 38].Value = i;
+                wks.Cells[i, 39].Value = i;
+                wks.Cells[i, 40].Value = i;
+                wks.Cells[i, 41].Value = i;
+                wks.Cells[i, 42].Value = i;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                wks.Cells[1, 25 + i].Value = 3;
+                wks.Cells[2, 25 + i].Value = 2;
+                wks.Cells[3, 25 + i].Value = 4;
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                wks.Cells[1, 30 + i].Value = -500;
+                wks.Cells[2, 30 + i].Value = -10;
+                wks.Cells[3, 30 + i].Value = -1;
+                wks.Cells[4, 30 + i].Value = 0;
+                wks.Cells[5, 30 + i].Value = 1;
+                wks.Cells[6, 30 + i].Value = 9;
+                wks.Cells[7, 30 + i].Value = 17;
+                wks.Cells[8, 30 + i].Value = 25;
+                wks.Cells[9, 30 + i].Value = 200;
+            }
+
+            wks.Cells["A1:AZ50"].AutoFitColumns();
+            wks.Cells["H1:Q30"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
+            wks.Cells["H1:Q30"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Medium;
+
+            wks.Cells["H1:Q30"].Style.Border.Right.Color.SetColor(Color.Black);
+            wks.Cells["H1:Q30"].Style.Border.Left.Color.SetColor(Color.Black);
         }
         // Use ClassCleanup to run code after all tests in a class have run
         [ClassCleanup()]
@@ -814,21 +932,75 @@ namespace EPPlusTest.ConditionalFormatting
             package2.SaveAs("C:\\epplusTest\\Workbooks\\cf.xlsx");
         }
 
+        ExcelConditionalFormattingCollection SavePackageReadCollection(ExcelPackage pck)
+        {
+            var stream = new MemoryStream();
+            pck.SaveAs(stream);
 
-        static string[] numbers = new string[]
-        { "zero",
-          "one",
-          "two",
-          "three",
-          "four",
-          "five",
-          "six",
-          "seven",
-          "eight",
-          "nine",
-          "ten",
-          "eleven"
-        };
+            var cf = new ExcelPackage(stream);
+            return cf.Workbook.Worksheets[0].ConditionalFormatting;
+        }
+
+        [TestMethod]
+        public void ReadWriteBetween()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("BetweenWorksheet");
+
+            var betweenFormatting = sheet.ConditionalFormatting.AddBetween(new ExcelAddress(1, 1, 10, 1));
+            betweenFormatting.Formula = "3";
+            betweenFormatting.Formula2 = "8";
+
+            betweenFormatting.Style.Fill.BackgroundColor.Color = Color.Red;
+            betweenFormatting.Style.Font.Color.Color = Color.Orange;
+
+            var cf = SavePackageReadCollection(pck)[0];
+
+            Assert.AreEqual(cf.Formula, "3");
+            Assert.AreEqual(cf.Formula2, "8");
+
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)betweenFormatting);
+        }
+
+        [TestMethod]
+        public void ReadWriteLess()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("LessThan");
+
+            var lessFormatting = sheet.ConditionalFormatting.AddLessThan(new ExcelAddress(1, 2, 10, 2));
+            lessFormatting.Formula = "7";
+
+            lessFormatting.Style.Fill.BackgroundColor.Color = Color.Black;
+            lessFormatting.Style.Font.Color.Color = Color.Violet;
+
+            var cf = SavePackageReadCollection(pck)[0];
+
+            Assert.AreEqual(cf.Formula, "7");
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)lessFormatting);
+        }
+
+        [TestMethod]
+        public void ReadWriteEqual()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("LessThan");
+
+            var equalFormatting = sheet.ConditionalFormatting.AddEqual(new ExcelAddress(1, 4, 10, 4));
+            equalFormatting.Formula = "1";
+
+            equalFormatting.Style.Fill.BackgroundColor.Color = Color.Black;
+            equalFormatting.Style.Font.Color.Color = Color.Violet;
+
+            var cf = SavePackageReadCollection(pck)[0];
+
+            Assert.AreEqual(cf.Formula, "1");
+
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule((ExcelConditionalFormattingRule)equalFormatting);
+        }
 
         [TestMethod]
         public void TestReadingConditionalFormatting()

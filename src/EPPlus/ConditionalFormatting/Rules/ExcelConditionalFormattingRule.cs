@@ -184,6 +184,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Text = original.Text;
             StdDev = original.StdDev;
             DxfId = original.DxfId;
+            Address = original.Address;
 
             if (DxfId >= 0 && DxfId < _ws.Workbook.Styles.Dxfs.Count)
             {
