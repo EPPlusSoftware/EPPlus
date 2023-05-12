@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Table;
@@ -428,8 +429,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 DeleteDataValidations(range, shift, ws, effectedAddress);
                 DeleteConditionalFormatting(range, shift, ws, effectedAddress);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasDelete(range, effectedAddress, shift);
-
                 DeleteSparkLinesAddress(range, shift, effectedAddress);
                 AdjustDrawings(range, shift);
             }
@@ -553,14 +552,25 @@ namespace OfficeOpenXml.Core.Worksheet
             var deletedCF = new List<IExcelConditionalFormattingRule>();
             foreach (var cf in ws.ConditionalFormatting)
             {
-                var address = DeleteSplitAddress(cf.Address, range, effectedAddress, shift);
-                if (address == null)
+                var newAddress = DeleteSplitAddress(cf.Address, range, effectedAddress, shift);
+                if (newAddress == null)
                 {
                     deletedCF.Add(cf);
                 }
                 else
                 {
-                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(address.Address);
+                    if (cf.Address.Address != newAddress.Address)
+                    {
+                        if (cf.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
+                        {
+                            var cfr = ((ExcelConditionalFormattingRule)cf);
+                            cfr.Formula = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula, cf.Address, newAddress);
+                            cfr.Formula2 = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula2, cf.Address, newAddress);
+                        }
+
+                        ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
+                    }
+
                 }
             }
             deletedCF.ForEach(cf => ws.ConditionalFormatting.Remove(cf));
@@ -572,14 +582,21 @@ namespace OfficeOpenXml.Core.Worksheet
             var deletedDV = new List<ExcelDataValidation>();
             foreach (ExcelDataValidation dv in ws.DataValidations)
             {
-                var address = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
-                if (address == null)
+                var newAddress = DeleteSplitAddress(dv.Address, range, effectedAddress, shift);
+                if (newAddress == null)
                 {
                     deletedDV.Add(dv);
                 }
                 else
                 {
-                    dv.SetAddress(address.Address);
+                    if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
+                    {
+                        if (dv.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
+                        {
+                            dvFormula.Formula.ExcelFormula = WorksheetRangeHelper.AdjustStartCellForFormula(dvFormula.Formula.ExcelFormula, dv.Address, newAddress);
+                        }
+                    }
+                    dv.SetAddress(newAddress.Address);
                 }
                 ws.DataValidations.DeleteRangeDictionary(range, shift == eShiftTypeDelete.Left || shift == eShiftTypeDelete.EntireColumn);
             }

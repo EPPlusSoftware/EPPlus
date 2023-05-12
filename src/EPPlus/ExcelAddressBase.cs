@@ -712,6 +712,20 @@ namespace OfficeOpenXml
                 }
             }
         }
+        /// <summary>
+        /// Returns the address of the first cell in the address without $. Returns #REF! if the address is invalid.
+        /// </summary>
+        internal string FirstCellAddressRelative
+        {
+            get
+            {
+                if (_fromRow > 0 && _fromCol > 0)
+                {
+                    return GetAddress(_fromRow, _fromCol);
+                }
+                return "#REF!";
+            }
+        }
         internal string AddressSpaceSeparated
         {
             get

@@ -13,6 +13,7 @@
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -22,6 +23,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Core.Worksheet
@@ -196,8 +198,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, shift, effectedAddress, ws, isTable);
                 InsertConditionalFormatting(range, shift, effectedAddress, ws, isTable);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasInsert(range, effectedAddress, shift);
-
                 InsertSparkLinesAddress(range, shift, effectedAddress);
 
                 if (shift == eShiftTypeInsert.Down)
@@ -225,7 +225,16 @@ namespace OfficeOpenXml.Core.Worksheet
                 else
                 {
                     var cfr = ((ExcelConditionalFormattingRule)cf);
-                    cfr.Address = new ExcelAddress(newAddress.Address);
+                    if (cfr.Address.Address != newAddress.Address)
+                    {
+                        if (cfr.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
+                        {
+                            cfr.Formula = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula, cfr.Address, newAddress);
+                            cfr.Formula2 = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula2, cfr.Address, newAddress);
+                        }
+                        
+                        cfr.Address = new ExcelAddress(newAddress.Address);
+                    }
                 }
             }
 
@@ -234,6 +243,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 ws.ConditionalFormatting.Remove(cf);
             }
         }
+
         private static void InsertDataValidation(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
             var delDV = new List<ExcelDataValidation>();
@@ -247,7 +257,18 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    dv.SetAddress(newAddress.Address);
+                    if (dv.Address.Address != newAddress.Address)
+                    {
+                        if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
+                        {
+                            if (dv.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
+                            {
+                                dvFormula.Formula.ExcelFormula = WorksheetRangeHelper.AdjustStartCellForFormula(dvFormula.Formula.ExcelFormula, dv.Address, newAddress);
+                            }
+                        }
+                        dv.SetAddress(newAddress.Address);
+                    }
+                    
                 }
                 ws.DataValidations.InsertRangeDictionary(range, shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn);
             }
