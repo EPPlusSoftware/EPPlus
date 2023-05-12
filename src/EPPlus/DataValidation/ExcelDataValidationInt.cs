@@ -28,7 +28,8 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
         ///  <param name="isTextLength">Bool to define type of int validation</param>
-        internal ExcelDataValidationInt(XmlReader xr, bool isTextLength = false) : base(xr)
+        internal ExcelDataValidationInt(XmlReader xr, ExcelWorksheet ws, bool isTextLength = false)
+            : base(xr, ws)
         {
             _isTextLength = isTextLength;
         }
@@ -40,12 +41,12 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
         /// <param name="isTextLength">Bool to define type of int validation</param>
-        internal ExcelDataValidationInt(string uid, string address, string worksheetName, bool isTextLength = false)
-            : base(uid, address, worksheetName)
+        internal ExcelDataValidationInt(string uid, string address, ExcelWorksheet ws, bool isTextLength = false)
+            : base(uid, address, ws)
         {
             //Initilization of forumlas so they don't cause nullref
-            Formula = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
-            Formula2 = new ExcelDataValidationFormulaInt(null, uid, worksheetName, OnFormulaChanged);
+            Formula = new ExcelDataValidationFormulaInt(null, uid, ws.Name, OnFormulaChanged);
+            Formula2 = new ExcelDataValidationFormulaInt(null, uid, ws.Name, OnFormulaChanged);
             _isTextLength = isTextLength;
         }
 
@@ -53,7 +54,8 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
-        internal ExcelDataValidationInt(ExcelDataValidationInt copy) : base(copy)
+        internal ExcelDataValidationInt(ExcelDataValidationInt copy, ExcelWorksheet ws) 
+            : base(copy, ws)
         {
             Formula = copy.Formula;
             Formula2 = copy.Formula2;
@@ -73,8 +75,14 @@ namespace OfficeOpenXml.DataValidation
 
         internal override ExcelDataValidation GetClone()
         {
-            return new ExcelDataValidationInt(this);
+            return new ExcelDataValidationInt(this, _ws);
         }
+
+        internal override ExcelDataValidation GetClone(ExcelWorksheet copy)
+        {
+            return new ExcelDataValidationInt(this, copy);
+        }
+
 
         /// <summary>
         /// Return a deep-copy clone of validation

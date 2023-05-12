@@ -38,6 +38,12 @@ namespace OfficeOpenXml.Core.CellStore
             {
                 return RowSpan.CompareTo(other.RowSpan);
             }
+            public override string ToString()
+            {
+                var fr = (int)(RowSpan >> 20) + 1;
+                var tr = (int)(RowSpan & 0xFFFFF) + 1;
+                return $"{fr} - {tr}";
+            }
         }
         internal Dictionary<int, List<RangeItem>> _addresses = new Dictionary<int, List<RangeItem>>();
         private bool _extendValuesToInsertedColumn = true;
@@ -134,6 +140,52 @@ namespace OfficeOpenXml.Core.CellStore
                 return default;
             }
         }
+        internal List<T> GetValuesFromRange(int fromRow, int fromCol, int toRow, int toCol)
+        {
+            var hs = new HashSet<T>();
+            long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
+            var searchItem = new RangeItem(rowSpan, default);
+            var minCol = _addresses.Keys.Min();
+            var maxCol = _addresses.Keys.Max();
+            fromCol = fromCol < minCol ? minCol : fromCol;
+            for (int col = fromCol; col<=toCol;col++)
+            {
+                if (col > maxCol) break;
+                if(_addresses.TryGetValue(col, out List<RangeItem> rows))
+                {
+                    var ix = rows.BinarySearch(searchItem);
+                    if(ix < 0)
+                    {
+                        ix = ~ix;
+                        if (ix > 0) ix--;
+                    }
+                    while(ix<rows.Count)
+                    {
+                        var ri = rows[ix];
+                        var fr = (int)(ri.RowSpan >> 20) + 1;
+                        var tr = (int)(ri.RowSpan & 0xFFFFF) + 1;
+                        if (tr < fromRow)
+                        {
+                            ix++;
+                            continue;
+                        }
+                        if(fromRow <= tr && toRow >= fr)
+                        {
+                            if(!hs.Contains(ri.Value))
+                            {
+                                hs.Add(ri.Value);
+                            }
+                            ix++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            return hs.ToList();
+        }
         internal void Merge(int fromRow, int fromCol, int toRow, int toCol, T value)
         {
             for (int c = fromCol; c <= toCol; c++)
@@ -200,7 +252,7 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
-        internal void DeleteRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns)
+        internal void DeleteRow(int fromRow, int noRows, int fromCol = 1, int toCol = ExcelPackage.MaxColumns, bool shiftRow = true)
         {
             long rowSpan = ((fromRow - 1) << 20) | (fromRow - 1);
             foreach (var c in _addresses.Keys)
@@ -209,45 +261,55 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     var rows = _addresses[c];
                     var ri = new RangeItem(rowSpan);
-                    var ix = rows.BinarySearch(ri);
-                    if (ix < 0)
+                    var rowStartIndex = rows.BinarySearch(ri);
+                    if (rowStartIndex < 0)
                     {
-                        ix = ~ix;
-                        if (ix > 0) ix--;
+                        rowStartIndex = ~rowStartIndex;
+                        if (rowStartIndex > 0) rowStartIndex--;
                     }
 
                     var delete = (noRows << 20) | (noRows);
-                    for (int i = ix; i < rows.Count; i++)
+                    for (int i = rowStartIndex; i < rows.Count; i++)
                     {
                         ri = rows[i];
-                        var fr = (int)(ri.RowSpan >> 20) + 1;
-                        var tr = (int)(ri.RowSpan & 0xFFFFF) + 1;
+                        var fromRowRangeItem = (int)(ri.RowSpan >> 20) + 1;
+                        var toRowRangeItem = (int)(ri.RowSpan & 0xFFFFF) + 1;
 
-                        if(fr >= fromRow)
+                        if(fromRowRangeItem >= fromRow)
                         {
-                            if(fr >= fromRow && tr <= fromRow + noRows)
+                            if(fromRowRangeItem >= fromRow && toRowRangeItem <= fromRow + noRows)
                             { 
-                                rows.RemoveAt(ix--);
+                                rows.RemoveAt(i--);
                                 continue;
                             }
-                            else if(fr >= fromRow + noRows)
+                            else if(fromRowRangeItem >= fromRow + noRows)
                             {
-                                
-                                tr -= noRows;
-                                fr -= noRows;
+                                if(shiftRow)
+                                {
+                                    toRowRangeItem -= noRows;
+                                    fromRowRangeItem -= noRows;
+                                }
                             }
                             else
                             {
-                                fr = Math.Max(fromRow, fr - noRows);
-                                tr = Math.Max(fromRow, tr - noRows);
+                                if (shiftRow)
+                                {
+                                    fromRowRangeItem = Math.Max(fromRow, fromRowRangeItem - noRows);
+                                    toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
+                                }
+                                else
+                                {
+                                    fromRowRangeItem = Math.Max(fromRowRangeItem, fromRow + noRows + 1);
+                                    toRowRangeItem = Math.Max(toRowRangeItem, fromRow + noRows + 1);
+                                }
                             }
                         }
-                        else if(fr+noRows >= fromRow) 
+                        else if(toRowRangeItem >= fromRow) 
                         {
-                            tr = Math.Max(fromRow, tr - noRows);
+                            toRowRangeItem = Math.Max(fromRow, toRowRangeItem - noRows);
                         }
 
-                        ri.RowSpan = ((fr - 1) << 20) | (tr - 1);
+                        ri.RowSpan = ((fromRowRangeItem - 1) << 20) | (toRowRangeItem - 1);
                         rows[i] = ri;
                     }
                 }
@@ -269,7 +331,6 @@ namespace OfficeOpenXml.Core.CellStore
                 ExtendValues(fromCol - 1, fromCol+noCols, fromRow, toRow);
             }
         }
-
         private void ExtendValues(int fromCol, int toCol, int fromRow, int toRow)
         {
             if(_addresses.ContainsKey(fromCol) && _addresses.ContainsKey(toCol))
@@ -288,7 +349,7 @@ namespace OfficeOpenXml.Core.CellStore
                         var fr = (int)(ri.RowSpan >> 20) + 1;
                         var tr = (int)(ri.RowSpan & 0xFFFFF) + 1;
                         if (tr < fromRow || fr > toRow) break;
-                        GetItersect(item, toColumn[pos], out fr, out tr);
+                        GetIntersect(item, toColumn[pos], out fr, out tr);
                         if (fr >= 0)
                         {
                             fr = Math.Max(fr, fromRow);
@@ -302,7 +363,7 @@ namespace OfficeOpenXml.Core.CellStore
             }
         }
 
-        private void GetItersect(RangeItem itemFirst, RangeItem itemLast, out int fr, out int tr)
+        private void GetIntersect(RangeItem itemFirst, RangeItem itemLast, out int fr, out int tr)
         {
             if (itemFirst.Value.Equals(itemLast.Value) == false)
             {
@@ -555,6 +616,7 @@ namespace OfficeOpenXml.Core.CellStore
                         var rs = rows[ix];
                         fr = (int)(rs.RowSpan >> 20) + 1;
                         tr = (int)(rs.RowSpan & 0xFFFFF) + 1;
+                        if (fr > toRow) break;
                         if(fromRow<fr)
                         {
                             rowSpan = ((long)(fromRow - 1) << 20) | (long)(fr - 2);

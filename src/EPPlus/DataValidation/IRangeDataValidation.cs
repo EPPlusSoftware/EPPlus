@@ -62,5 +62,11 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <returns>A <see cref="IExcelDataValidationCustom"/> that can be configured for custom validation</returns>
         IExcelDataValidationCustom AddCustomDataValidation();
+
+        /// <summary>
+        /// Removes validation from the cell/range
+        /// </summary>
+        /// <param name="deleteIfEmpty">Delete the validation if it has no more addresses its being applied to</param>
+        void ClearDataValidation(bool deleteIfEmpty = false);
     }
 }

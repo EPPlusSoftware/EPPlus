@@ -88,7 +88,8 @@ namespace OfficeOpenXml
                 return _address;
             }
             set
-            {                
+            {
+                BeforeChangeAddress();
                 SetAddress(value, null, null);
                 ChangeAddress();
             }

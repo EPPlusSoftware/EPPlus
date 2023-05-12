@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -371,6 +372,58 @@ namespace EPPlusTest.Core
             Assert.AreEqual(6, rd[20, 1]);
             Assert.AreEqual(6, rd[20, 5]);
         }
+        [TestMethod]
+        public void VerifyMergeFirstLast()
+        {
+            var rd = new RangeDictionary<int>(); 
+            rd.Add(1, 1, 10, 1, 1);
+            rd.Add(11, 1, 15, 1, 2);
+            rd.Merge(1, 1, 1, 1, 3); //Inside, Should not apply
+            rd.Merge(10, 1, 10, 1, 4); //Inside, Should not apply
+            Assert.AreEqual(1, rd._addresses.Count);
+            Assert.AreEqual(2, rd._addresses[1].Count);
+            Assert.AreEqual("1 - 10", rd._addresses[1][0].ToString());
+            Assert.AreEqual("11 - 15", rd._addresses[1][1].ToString());
+        }
+        [TestMethod]
+        public void VerifyGetValuesFromRange()
+        {
+            var rd = new RangeDictionary<int>();
 
+            rd.Add(3, 1, 5, 4, 1); //A3:D5 = 1
+            rd.Add(6, 1, 6, 2, 2); //A6:B6 = 2
+            rd.Add(8, 2, 10, 5, 3); //B8:E10 = 3
+
+            var items = rd.GetValuesFromRange(2, 1, 10,1); //A2:A10
+            Assert.AreEqual(2, items.Count);
+            Assert.IsTrue(items.Contains(1));
+            Assert.IsTrue(items.Contains(2));
+
+            items = rd.GetValuesFromRange(2, 1, 10, 2); //A2:B10
+            Assert.AreEqual(3, items.Count);
+            Assert.IsTrue(items.Contains(1));
+            Assert.IsTrue(items.Contains(2));
+            Assert.IsTrue(items.Contains(3));
+
+            items = rd.GetValuesFromRange(6, 1, 7, 8); //A6:H7
+            Assert.AreEqual(1, items.Count);
+            Assert.IsTrue(items.Contains(2));
+
+            items = rd.GetValuesFromRange(10, 2, 20, 8); //B10:H20
+            Assert.AreEqual(1, items.Count);
+            Assert.IsTrue(items.Contains(3));
+
+            items = rd.GetValuesFromRange(11, 1, 20, 2); //A11:B20
+            Assert.AreEqual(0, items.Count);
+
+            items = rd.GetValuesFromRange(3, 1, 5, 4); //A3:D5
+            Assert.AreEqual(1, items.Count);
+            Assert.IsTrue(items.Contains(1));
+
+            items = rd.GetValuesFromRange(5, 3, 8, 3); //C5:C8
+            Assert.AreEqual(2, items.Count);
+            Assert.IsTrue(items.Contains(1));
+            Assert.IsTrue(items.Contains(3));
+        }
     }
 }

@@ -422,6 +422,10 @@ namespace OfficeOpenXml
             }
         }
 
+        internal protected virtual void BeforeChangeAddress()
+        {
+        }
+
         /// <summary>
         /// Called when the address changes
         /// </summary>
