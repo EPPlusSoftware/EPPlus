@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
+using System.Runtime.InteropServices;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 
 namespace OfficeOpenXml.RichData.Types
 {
@@ -15,9 +17,12 @@ namespace OfficeOpenXml.RichData.Types
         private ExcelWorkbook _wb;
         private Uri _uri=null;
         private ZipPackagePart _part=null;
-        public ExcelRichDataValueTypeInfo(ExcelWorkbook wb, ZipPackageRelationship r)
+        public ExcelRichDataValueTypeInfo(ExcelWorkbook wb)
         {
             _wb = wb;
+        }
+        public ExcelRichDataValueTypeInfo(ExcelWorkbook wb, ZipPackageRelationship r) : this(wb)
+        {
             if(r!=null)
             {
                 _uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
@@ -28,6 +33,7 @@ namespace OfficeOpenXml.RichData.Types
                 }
             }
         }
+        internal ZipPackagePart Part { get { return _part; } }
         private void ReadXml(Stream stream)
         {
             var xr = XmlReader.Create(stream);
@@ -112,8 +118,7 @@ namespace OfficeOpenXml.RichData.Types
                 }
             }
         }
-
-        internal void Save()
+        internal void CreatePart()
         {
             if (Global.Count == 0 && Types.Count == 0 && ExtLstXml == null) return;
             if (_part == null)
@@ -121,9 +126,14 @@ namespace OfficeOpenXml.RichData.Types
                 _uri = new Uri("/xl/richData/rdRichValueTypes.xml", UriKind.Relative);
                 _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValueType);
                 _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataValueTypeRelationship);
+                _part.ShouldBeSaved = false;
             }
-
-            var stream = _part.GetStream(FileMode.Create);
+            _part.SaveHandler = Save;
+        }
+        internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
+        {
+            stream.PutNextEntry(fileName);
+            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             sw.Write($"<rvTypesInfo xmlns=\"{Schemas.schemaRichData2}\" xmlns:mc=\"{Schemas.schemaMarkupCompatibility}\" xmlns:x=\"{ExcelPackage.schemaMain}\" mc:Ignorable=\"x\">");

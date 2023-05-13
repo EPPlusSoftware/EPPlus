@@ -557,7 +557,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 //Add dynamic array formula support here.
                                 var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
-                                if (dirtyRange.Length > 0)
+                                if (dirtyRange!=null && dirtyRange.Length > 0)
                                 {
                                     RecalculateDirtyCells(dirtyRange, depChain, rd);
                                 }

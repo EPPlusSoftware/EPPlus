@@ -17,6 +17,7 @@ using System.Text;
 using System.IO;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -121,6 +122,11 @@ namespace OfficeOpenXml.Packaging
             get;
             set;
         }
+        /// <summary>
+        /// If the part with a save handler should be saved. If false the part will be deleted instead of saved.
+        /// </summary>
+        public bool ShouldBeSaved { get; set; } = true;
+
         internal void WriteZip(ZipOutputStream os)
         {
             byte[] b;
@@ -148,8 +154,6 @@ namespace OfficeOpenXml.Packaging
             }
             b = null;
         }
-
-
         public void Dispose()
         {
             _stream.Close();

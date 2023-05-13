@@ -90,7 +90,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 case TypeCode.DateTime:
                     return new AddressCompileResult(((System.DateTime)obj).ToOADate(), DataType.Date, address) { IsHiddenCell = isHidden };
                 default:
-                    if (t.Equals(typeof(ExcelErrorValue)))
+                    if (t.Equals(typeof(ExcelErrorValue)) || t.IsSubclassOf(typeof(ExcelErrorValue)))
                     {
                         return new AddressCompileResult(obj, DataType.ExcelError, address);
                     }

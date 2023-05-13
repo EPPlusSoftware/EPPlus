@@ -71,7 +71,22 @@ namespace OfficeOpenXml
         public static ExcelErrorValue Div0Error = ExcelErrorValue.Create(eErrorType.Div0);
         public static ExcelErrorValue RefError = ExcelErrorValue.Create(eErrorType.Ref);
         public static ExcelErrorValue CalcError = ExcelErrorValue.Create(eErrorType.Calc);
-        public static ExcelErrorValue SpillError = ExcelErrorValue.Create(eErrorType.Spill);
+        //public static ExcelErrorValue SpillError = ExcelErrorValue.Create(eErrorType.Spill);
+    }
+    public class ExcelRichDataErrorValue : ExcelErrorValue
+    {
+        internal ExcelRichDataErrorValue(int rowOffset, int colOffset) : base(eErrorType.Spill)
+        {
+            SpillRowOffset = rowOffset;
+            SpillColOffset = colOffset;
+        }
+        internal int SpillRowOffset { get; set; }
+        internal int SpillColOffset { get; set; }
+        internal bool IsPropagated
+        {
+            get;
+            set;
+        }
     }
     /// <summary>
     /// Represents an Excel error.
@@ -182,7 +197,7 @@ namespace OfficeOpenXml
         {
             return new ExcelErrorValue(errorType);
         }
-
+        
         /// <summary>
         /// Parses a error value string and returns the <see cref="ExcelErrorValue"/>
         /// </summary>
@@ -206,7 +221,7 @@ namespace OfficeOpenXml
             return Values.StringIsErrorValue(val);
         }
 
-        private ExcelErrorValue(eErrorType type)
+        internal ExcelErrorValue(eErrorType type)
         {
             Type=type; 
         }

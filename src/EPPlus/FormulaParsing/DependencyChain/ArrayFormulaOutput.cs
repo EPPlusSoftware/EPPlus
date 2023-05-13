@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing
             rd.Merge(ref formulaAddress);
         }
 
-        private static bool HasSpill(ExcelWorksheet ws, int fIx, int startRow, int startColumn, int rows, short columns)
+        private static bool HasSpill(ExcelWorksheet ws, int fIx, int startRow, int startColumn, int rows, short columns, out int rowOff, out int colOff)
         {
             for (int r = startRow; r < startRow + rows; r++)
             {
@@ -59,6 +59,8 @@ namespace OfficeOpenXml.FormulaParsing
                         {
                             continue;
                         }
+                        rowOff = startRow - r;
+                        colOff = startColumn - c;
                         return true;
                     }
                     else
@@ -66,11 +68,14 @@ namespace OfficeOpenXml.FormulaParsing
                         var v = ws.GetValueInner(r, c);
                         if(v!=null)
                         {
-                            return false;
+                            rowOff = r - startRow;
+                            colOff = c - startColumn;
+                            return true;
                         }
                     }
                 }
             }
+            rowOff = colOff = 0;
             return false;
         }   
         internal static SimpleAddress[] FillDynamicArrayFromRangeInfo(RpnFormula f, IRangeInfo array, RangeHashset rd, RpnOptimizedDependencyChain depChain)
@@ -87,17 +92,25 @@ namespace OfficeOpenXml.FormulaParsing
             md.GetDynamicArrayIndex(out int cm);
             var metaData = f._ws._metadataStore.GetValue(startRow, startCol);
             metaData.cm= cm;
-            //f._ws._flags.SetFlagValue(f._row, f._column, true, CellFlags.ArrayFormula);
 
-            if(HasSpill(ws, f._arrayIndex, startRow, startCol, nr,nc))
+            f._ws._metadataStore.SetValue(f._row, f._column, metaData);
+
+            if (HasSpill(ws, f._arrayIndex, startRow, startCol, nr, nc, out int rowOff, out int colOff))
             {
-                ws.SetValueInner(startRow, startCol, ErrorValues.SpillError); 
-                if(metaData.vm>=0 && ws.Workbook.Metadata.IsSpillError(metaData.vm)==false)
+                if (f._arrayIndex == -1)
                 {
-                    //Add Spill MetaData and RichData.
+                    f._ws.Cells[startRow, startCol, startRow, startCol].CreateArrayFormula(f._formula);
+                    ws.SetValueInner(startRow, startCol, new ExcelRichDataErrorValue(rowOff, colOff));
+                    return null;
+                }
+                else
+                {
+                    var sf = ws._sharedFormulas[f._arrayIndex];
+                    CleanupSharedFormulaValues(f, ws, sf, startRow, startCol);
+                    ws.SetValueInner(startRow, startCol, new ExcelRichDataErrorValue(rowOff, colOff));
+                    return new SimpleAddress[] { new SimpleAddress(startRow, startCol, sf.EndRow, sf.EndCol) };
                 }
             }
-            f._ws._metadataStore.SetValue(f._row, f._column, metaData);
             SimpleAddress[] dirtyRange;
             if(f._arrayIndex==-1)
             {
@@ -113,28 +126,33 @@ namespace OfficeOpenXml.FormulaParsing
                 var endRow = sf.StartRow + nr - 1;
                 var endCol = sf.StartCol + nc - 1;
                 dirtyRange = GetDirtyRange(startRow, startCol, endRow, endCol, sf.EndRow, sf.EndCol);
-                if (endRow<sf.EndRow)
-                {
-                    ClearDynamicFormulaIndex(ws, endRow + 1, sf.StartCol, sf.EndRow, sf.EndCol);
-                    //clearValues
-                }
-                else if(endRow > sf.EndRow)
-                {
-                    SetDynamicFormulaIndex(ws, sf.EndRow + 1, sf.StartCol, endRow, sf.EndCol, f._arrayIndex);
-                }
-                if (endCol<sf.EndCol)
-                {
-                    ClearDynamicFormulaIndex(ws, sf.StartRow, endCol + 1, sf.EndRow, sf.EndCol);
-                }
-                else
-                {
-                    SetDynamicFormulaIndex(ws, sf.StartRow, sf.StartCol+1, sf.StartCol, sf.EndCol, f._arrayIndex);
-                }
+                CleanupSharedFormulaValues(f, ws, sf, endRow, endCol);
                 sf.EndRow = endRow;
                 sf.EndCol = endCol;
             }
             FillArrayFromRangeInfo(f, array, rd, depChain);
             return dirtyRange;
+        }
+
+        private static void CleanupSharedFormulaValues(RpnFormula f, ExcelWorksheet ws, SharedFormula sf, int endRow, int endCol)
+        {
+            if (endRow < sf.EndRow)
+            {
+                ClearDynamicFormulaIndex(ws, endRow + 1, sf.StartCol, sf.EndRow, sf.EndCol);
+                //clearValues
+            }
+            else if (endRow > sf.EndRow)
+            {
+                SetDynamicFormulaIndex(ws, sf.EndRow + 1, sf.StartCol, endRow, sf.EndCol, f._arrayIndex);
+            }
+            if (endCol < sf.EndCol)
+            {
+                ClearDynamicFormulaIndex(ws, sf.StartRow, endCol + 1, sf.EndRow, sf.EndCol);
+            }
+            else
+            {
+                SetDynamicFormulaIndex(ws, sf.StartRow, sf.StartCol + 1, sf.StartCol, sf.EndCol, f._arrayIndex);
+            }
         }
 
         private static SimpleAddress[] GetDirtyRange(int fromRow, int fromCol, int toRow, int toCol, int prevToRow=0, int prevToCol=0)
