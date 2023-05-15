@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Core.CellStore
                             return true;
                         }
                     }
-                    if (--ix < rows.Count)
+                    if (ix > 0 && --ix < rows.Count)
                     {
                         return ExistsInSpan(row, row, rows[ix].RowSpan);
                     }
@@ -616,8 +616,14 @@ namespace OfficeOpenXml.Core.CellStore
                         var rs = rows[ix];
                         fr = (int)(rs.RowSpan >> 20) + 1;
                         tr = (int)(rs.RowSpan & 0xFFFFF) + 1;
-                        if (fr > toRow) break;
-                        if(fromRow<fr)
+                        if (fr <= fromRow && tr >= toRow) break; //Inside, exit
+                        if (fr > toRow) 
+                        {
+                            rows.Insert(ix, new RangeItem(rowSpan, value));
+                            ix++;
+                            break;
+                        }
+                        else if(fromRow<fr)
                         {
                             rowSpan = ((long)(fromRow - 1) << 20) | (long)(fr - 2);
                             rows.Insert(ix, new RangeItem(rowSpan, value));

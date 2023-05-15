@@ -118,7 +118,7 @@ namespace EPPlusTest.DataValidation
                     {
                         if (!validations._validationsRD.Exists(addresses[j]._fromRow, addresses[j]._fromCol, addresses[j]._toRow, addresses[j]._toCol))
                         {
-                            sb.Append(addresses[i]);
+                            sb.Append(addresses[j]+",");
                         }
                     }
                 }
@@ -126,7 +126,7 @@ namespace EPPlusTest.DataValidation
                 {
                     if (!validations._validationsRD.Exists(validations[i].Address._fromRow, validations[i].Address._fromCol, validations[i].Address._toRow, validations[i].Address._toCol))
                     {
-                        sb.Append(validations[i].Address);
+                        sb.Append(validations[i].Address+",");
                     }
                 }
             }
