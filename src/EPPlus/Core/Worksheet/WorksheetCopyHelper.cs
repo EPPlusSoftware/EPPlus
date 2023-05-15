@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 foreach(ExcelDataValidation dv in copy.DataValidations)
                 {
-                    added.DataValidations.AddCopyOfDataValidation(dv);
+                    added.DataValidations.AddCopyOfDataValidation(dv, added);
                 }
             }
 

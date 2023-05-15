@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             var slicerNode = _ws.SlicerXmlSources.GetSource(Name, eSlicerSourceType.PivotTable, out _xmlSource);
             _slicerXmlHelper = XmlHelperFactory.Create(NameSpaceManager, slicerNode);
 
-            _cache = (ExcelPivotTableSlicerCache)drawings.Worksheet.Workbook.GetSlicerCaches(CacheName);
+            _cache = drawings.Worksheet.Workbook.GetSlicerCaches(CacheName) as ExcelPivotTableSlicerCache;
         }
         private void CreateDrawing(string name)
         {

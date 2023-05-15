@@ -312,7 +312,7 @@ namespace OfficeOpenXml
             while (true)
             {
                 ix = xml.IndexOf(element, ix);
-                if (ix > 0 && ix < xml.Length - 1)
+                if (ix >= 0 && ix < xml.Length - 1)
                 {
                     var c = xml[ix + element.Length];
                     if (c == '>' || c == ' ' || c == '/')

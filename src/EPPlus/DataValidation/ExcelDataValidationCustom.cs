@@ -28,18 +28,18 @@ namespace OfficeOpenXml.DataValidation
         /// <param name="worksheetName"></param>
         /// <param name="uid">Uid of the data validation, format should be a Guid surrounded by curly braces.</param>
         /// <param name="address"></param>
-        internal ExcelDataValidationCustom(string uid, string address, string worksheetName)
-            : base(uid, address, worksheetName)
+        internal ExcelDataValidationCustom(string uid, string address, ExcelWorksheet ws)
+            : base(uid, address, ws)
         {
-            Formula = new ExcelDataValidationFormulaCustom(null, Uid, worksheetName, OnFormulaChanged);
+            Formula = new ExcelDataValidationFormulaCustom(null, Uid, ws.Name, OnFormulaChanged);
         }
 
         /// <summary>
         /// Constructor for reading data
         /// </summary>
         /// <param name="xr">The XmlReader to read from</param>
-        internal ExcelDataValidationCustom(XmlReader xr)
-            : base(xr)
+        internal ExcelDataValidationCustom(XmlReader xr, ExcelWorksheet ws)
+            : base(xr, ws)
         {
         }
 
@@ -47,7 +47,7 @@ namespace OfficeOpenXml.DataValidation
         /// Copy constructor
         /// </summary>
         /// <param name="copy"></param>
-        internal ExcelDataValidationCustom(ExcelDataValidationCustom copy) : base(copy)
+        internal ExcelDataValidationCustom(ExcelDataValidationCustom copy, ExcelWorksheet ws) : base(copy, ws)
         {
             Formula = copy.Formula;
         }
@@ -65,7 +65,11 @@ namespace OfficeOpenXml.DataValidation
 
         internal override ExcelDataValidation GetClone()
         {
-            return new ExcelDataValidationCustom(this);
+            return new ExcelDataValidationCustom(this, _ws);
+        }
+        internal override ExcelDataValidation GetClone(ExcelWorksheet copy)
+        {
+            return new ExcelDataValidationCustom(this, copy);
         }
 
         ExcelDataValidationAny Clone()
