@@ -80,7 +80,7 @@ namespace EPPlusTest.ConditionalFormatting
 
             string lastMonth = $"{year}-{DateTime.Now.AddMonths(-1).Month}-";
             string thisMonth = $"{year}-{DateTime.Now.Month}-";
-            string nextMonth = $"{year}-{DateTime.Now.AddMonths(+1).Month}";
+            string nextMonth = $"{year}-{DateTime.Now.AddMonths(+1).Month}-";
 
             for (int i = 1; i < 11; i++)
             {
@@ -128,45 +128,45 @@ namespace EPPlusTest.ConditionalFormatting
                 wks.Cells[i, 21].Value = i;
                 wks.Cells[i + 10, 21].Value = i + 10;
 
-                wks.Cells[i, 21].Value = i;
-                wks.Cells[i + 10, 21].Value = i + 10;
-
                 wks.Cells[i, 22].Value = i;
                 wks.Cells[i + 10, 22].Value = i + 10;
 
                 wks.Cells[i, 23].Value = i;
                 wks.Cells[i + 10, 23].Value = i + 10;
 
-                wks.Cells[i, 33].Value = i;
+                wks.Cells[i, 24].Value = i;
+                wks.Cells[i + 10, 24].Value = i + 10;
 
-                wks.Cells[i, 35].Value = i;
+                wks.Cells[i, 34].Value = i;
+
                 wks.Cells[i, 36].Value = i;
+                wks.Cells[i, 37].Value = i;
 
-                wks.Cells[i, 38].Value = i;
                 wks.Cells[i, 39].Value = i;
                 wks.Cells[i, 40].Value = i;
                 wks.Cells[i, 41].Value = i;
                 wks.Cells[i, 42].Value = i;
+                wks.Cells[i, 43].Value = i;
             }
 
             for (int i = 0; i < 4; i++)
             {
-                wks.Cells[1, 25 + i].Value = 3;
-                wks.Cells[2, 25 + i].Value = 2;
-                wks.Cells[3, 25 + i].Value = 4;
+                wks.Cells[1, 26 + i].Value = 3;
+                wks.Cells[2, 26 + i].Value = 2;
+                wks.Cells[3, 26 + i].Value = 4;
             }
 
             for (int i = 0; i < 2; i++)
             {
-                wks.Cells[1, 30 + i].Value = -500;
-                wks.Cells[2, 30 + i].Value = -10;
-                wks.Cells[3, 30 + i].Value = -1;
-                wks.Cells[4, 30 + i].Value = 0;
-                wks.Cells[5, 30 + i].Value = 1;
-                wks.Cells[6, 30 + i].Value = 9;
-                wks.Cells[7, 30 + i].Value = 17;
-                wks.Cells[8, 30 + i].Value = 25;
-                wks.Cells[9, 30 + i].Value = 200;
+                wks.Cells[1, 31 + i].Value = -500;
+                wks.Cells[2, 31 + i].Value = -10;
+                wks.Cells[3, 31 + i].Value = -1;
+                wks.Cells[4, 31 + i].Value = 0;
+                wks.Cells[5, 31 + i].Value = 1;
+                wks.Cells[6, 31 + i].Value = 9;
+                wks.Cells[7, 31 + i].Value = 17;
+                wks.Cells[8, 31 + i].Value = 25;
+                wks.Cells[9, 31 + i].Value = 200;
             }
 
             wks.Cells["A1:AZ50"].AutoFitColumns();
@@ -1003,406 +1003,648 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void TestReadingConditionalFormatting()
+        public void ReadWriteNotEqual() { }
+
+        [TestMethod]
+        public void ReadWriteTextContains() 
         {
-            using (var pck = new ExcelPackage())
-            {
-                var wks = pck.Workbook.Worksheets.Add("FormattingTest");
-
-                string date = "2023-03-";
-
-                string lastMonth = "2023-02-";
-                string thisMonth = "2023-03-";
-                string nextMonth = "2023-04-";
-
-                for (int i = 1; i < 11; i++)
-                {
-                    wks.Cells[i, 5].Value = i;
-                    wks.Cells[i, 6].Value = i;
-                    wks.Cells[i, 8].Value = i % 2;
-                    wks.Cells[i, 10].Value = numbers[i];
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("TextContains");
 
-                    wks.Cells[i, 12].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 12].Value = date + $"{i + 10 + 7}";
+            var textContains = sheet.ConditionalFormatting.AddTextContains(new ExcelAddress(1, 6, 10, 6));
+            textContains.ContainText = "o";
 
-                    wks.Cells[i, 13].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 13].Value = date + $"{i + 10 + 7}";
+            textContains.Style.Fill.BackgroundColor.Color = Color.Blue;
+            textContains.Style.Font.Color.Color = Color.Yellow;
 
-                    wks.Cells[i, 14].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 14].Value = date + $"{i + 10 + 7}";
+            var cf = SavePackageReadCollection(pck)[0];
 
-                    wks.Cells[i, 15].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 15].Value = date + $"{i + 10 + 7}";
+            Assert.AreEqual(((IExcelConditionalFormattingContainsText)cf).ContainText, "o");
 
-                    wks.Cells[i, 16].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 16].Value = date + $"{i + 10 + 7}";
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+        }
 
-                    wks.Cells[i, 16].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 16].Value = date + $"{i + 10 + 7}";
+        [TestMethod]
+        public void ReadWriteLast7Days()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Last7Days");
 
-                    wks.Cells[i, 17].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 17].Value = date + $"{i + 10 + 7}";
+            var sevenDays = sheet.ConditionalFormatting.AddLast7Days(new ExcelAddress(1, 8, 10, 8));
 
-                    wks.Cells[i, 18].Value = date + $"{i + 10}";
-                    wks.Cells[i + 7, 18].Value = date + $"{i + 10 + 7}";
+            sevenDays.Style.Fill.BackgroundColor.Color = Color.Red;
+            sevenDays.Style.Font.Color.Color = Color.Yellow;
 
-                    wks.Cells[i, 19].Value = lastMonth + $"{i + 10}";
-                    wks.Cells[i + 7, 19].Value = thisMonth + $"{i + 10}";
-                    wks.Cells[i + 14, 19].Value = nextMonth + $"{i + 10}";
+            var cf = SavePackageReadCollection(pck)[0];
 
-                    wks.Cells[i, 20].Value = lastMonth + $"{i + 10}";
-                    wks.Cells[i + 7, 20].Value = thisMonth + $"{i + 10}";
-                    wks.Cells[i + 14, 20].Value = nextMonth + $"{i + 10}";
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                    wks.Cells[i, 21].Value = lastMonth + $"{i + 10}";
-                    wks.Cells[i + 7, 21].Value = thisMonth + $"{i + 10}";
-                    wks.Cells[i + 14, 21].Value = nextMonth + $"{i + 10}";
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.Last7Days);
+        }
 
-                    int counter = 0;
-                    wks.Cells[i, 23].Value = i % 2 == 1 ? i : counter++ % 2;
+        [TestMethod] public void ReadWriteYesterday() 
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Yesterday");
 
-                    wks.Cells[i, 25].Value = i;
-                    wks.Cells[i + 10, 25].Value = i + 10;
+            var yesterdayFormatting = sheet.ConditionalFormatting.AddYesterday(new ExcelAddress(1, 9, 10, 9));
 
-                    wks.Cells[i, 26].Value = i;
-                    wks.Cells[i + 10, 26].Value = i + 10;
+            yesterdayFormatting.Style.Fill.BackgroundColor.Color = Color.Gray;
+            yesterdayFormatting.Style.Font.Color.Color = Color.Red;
 
-                    wks.Cells[i, 27].Value = i;
-                    wks.Cells[i + 10, 27].Value = i + 10;
+            var cf = SavePackageReadCollection(pck)[0];
 
-                    wks.Cells[i, 28].Value = i;
-                    wks.Cells[i + 10, 28].Value = i + 10;
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                    wks.Cells[i, 38].Value = i;
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.Yesterday);
+        }
 
-                    wks.Cells[i, 40].Value = i;
-                    wks.Cells[i, 41].Value = i;
+        [TestMethod]
+        public void ReadWriteToday()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Today");
 
-                    wks.Cells[i, 43].Value = i;
-                    wks.Cells[i, 44].Value = i;
-                    wks.Cells[i, 45].Value = i;
-                    wks.Cells[i, 46].Value = i;
-                    wks.Cells[i, 47].Value = i;
-                }
+            var todayFormatting = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 10, 10, 10));
 
-                for (int i = 0; i < 4; i++)
-                {
-                    wks.Cells[1, 30 + i].Value = 3;
-                    wks.Cells[2, 30 + i].Value = 2;
-                    wks.Cells[3, 30 + i].Value = 4;
-                }
+            todayFormatting.Style.Fill.BackgroundColor.Color = Color.Yellow;
+            todayFormatting.Style.Font.Color.Color = Color.Green;
+            todayFormatting.Priority = 2;
 
-                for (int i = 0; i < 2; i++)
-                {
-                    wks.Cells[1, 35 + i].Value = -500;
-                    wks.Cells[2, 35 + i].Value = -10;
-                    wks.Cells[3, 35 + i].Value = -1;
-                    wks.Cells[4, 35 + i].Value = 0;
-                    wks.Cells[5, 35 + i].Value = 1;
-                    wks.Cells[6, 35 + i].Value = 9;
-                    wks.Cells[7, 35 + i].Value = 17;
-                    wks.Cells[8, 35 + i].Value = 25;
-                    wks.Cells[9, 35 + i].Value = 200;
-                }
+            var cf = SavePackageReadCollection(pck)[0];
 
-                var betweenFormatting = wks.ConditionalFormatting.AddBetween(new ExcelAddress(1, 5, 10, 5));
-                betweenFormatting.Formula = "3";
-                betweenFormatting.Formula2 = "8";
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                betweenFormatting.Style.Fill.BackgroundColor.Color = Color.Red;
-                betweenFormatting.Style.Font.Color.Color = Color.Orange;
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.Today);
+        }
 
-                var lessFormatting = wks.ConditionalFormatting.AddLessThan(new ExcelAddress(1, 6, 10, 6));
-                lessFormatting.Formula = "7";
+        [TestMethod]
+        public void ReadWriteTommorow()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Tomorrow");
 
-                lessFormatting.Style.Fill.BackgroundColor.Color = Color.Black;
-                lessFormatting.Style.Font.Color.Color = Color.Violet;
+            var tomorrow = sheet.ConditionalFormatting.AddTomorrow(new ExcelAddress(1, 11, 10, 11));
 
-                var equalFormatting = wks.ConditionalFormatting.AddEqual(new ExcelAddress(1, 8, 10, 8));
-                equalFormatting.Formula = "1";
+            tomorrow.Style.Fill.BackgroundColor.Color = Color.Green;
+            tomorrow.Style.Font.Color.Color = Color.Orange;
 
-                equalFormatting.Style.Fill.BackgroundColor.Color = Color.Black;
-                equalFormatting.Style.Font.Color.Color = Color.Violet;
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                var containsFormatting = wks.ConditionalFormatting.AddTextContains(new ExcelAddress(1, 10, 10, 10));
-                containsFormatting.ContainText = "o";
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.Tomorrow);
+        }
 
-                containsFormatting.Style.Fill.BackgroundColor.Color = Color.Blue;
-                containsFormatting.Style.Font.Color.Color = Color.Yellow;
+        [TestMethod]
+        public void ReadWriteLastWeek() 
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("LastWeek");
 
-                var dateFormatting = wks.ConditionalFormatting.AddLast7Days(new ExcelAddress(1, 12, 10, 12));
+            var lastWeek = sheet.ConditionalFormatting.AddLastWeek(new ExcelAddress(1, 12, 20, 12));
 
-                dateFormatting.Style.Fill.BackgroundColor.Color = Color.Red;
-                dateFormatting.Style.Font.Color.Color = Color.Yellow;
+            lastWeek.Style.Fill.BackgroundColor.Color = Color.Black;
+            lastWeek.Style.Font.Color.Color = Color.Violet;
 
-                var yesterdayFormatting = wks.ConditionalFormatting.AddYesterday(new ExcelAddress(1, 13, 10, 13));
 
-                //TODO: Fix Priority. It doesn't seem to apply correctly.
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                yesterdayFormatting.Style.Fill.BackgroundColor.Color = Color.Gray;
-                yesterdayFormatting.Style.Font.Color.Color = Color.Red;
-                yesterdayFormatting.Priority = 1;
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.LastWeek);
+        }
 
-                var todayFormatting = wks.ConditionalFormatting.AddToday(new ExcelAddress(1, 14, 10, 14));
+        [TestMethod]
+        public void ReadWriteThisWeek()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("ThisWeek");
 
-                todayFormatting.Style.Fill.BackgroundColor.Color = Color.Yellow;
-                todayFormatting.Style.Font.Color.Color = Color.Green;
-                yesterdayFormatting.Priority = 2;
+            var lastWeek = sheet.ConditionalFormatting.AddThisWeek(new ExcelAddress(1, 13, 20, 13));
 
-                var tomorrow = wks.ConditionalFormatting.AddTomorrow(new ExcelAddress(1, 15, 10, 15));
+            lastWeek.Style.Fill.BackgroundColor.Color = Color.Black;
+            lastWeek.Style.Font.Color.Color = Color.Violet;
 
-                tomorrow.Style.Fill.BackgroundColor.Color = Color.Black;
-                tomorrow.Style.Font.Color.Color = Color.Violet;
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                var lastWeek = wks.ConditionalFormatting.AddLastWeek(new ExcelAddress(1, 16, 20, 16));
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.ThisWeek);
+        }
 
-                lastWeek.Style.Fill.BackgroundColor.Color = Color.Black;
-                lastWeek.Style.Font.Color.Color = Color.Violet;
+        [TestMethod]
+        public void ReadWriteNextWeek()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("NextWeek");
 
-                var thisWeek = wks.ConditionalFormatting.AddThisWeek(new ExcelAddress(1, 17, 20, 17));
+            var lastWeek = sheet.ConditionalFormatting.AddNextWeek(new ExcelAddress(1, 14, 20, 14));
 
-                thisWeek.Style.Fill.BackgroundColor.Color = Color.Black;
-                thisWeek.Style.Font.Color.Color = Color.Violet;
+            lastWeek.Style.Fill.BackgroundColor.Color = Color.Black;
+            lastWeek.Style.Font.Color.Color = Color.Violet;
 
-                var nextWeek = wks.ConditionalFormatting.AddNextWeek(new ExcelAddress(1, 18, 20, 18));
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                nextWeek.Style.Fill.BackgroundColor.Color = Color.Black;
-                nextWeek.Style.Font.Color.Color = Color.Violet;
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.NextWeek);
+        }
 
-                var lastMonthCF = wks.ConditionalFormatting.AddLastMonth(new ExcelAddress(1, 19, 27, 19));
+        [TestMethod]
+        public void ReadWriteLastMonth()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("LastMonth");
 
-                lastMonthCF.Style.Fill.BackgroundColor.Color = Color.Black;
-                lastMonthCF.Style.Font.Color.Color = Color.Violet;
+            var lastWeek = sheet.ConditionalFormatting.AddLastMonth(new ExcelAddress(1, 15, 30, 15));
 
-                var thisMonthCF = wks.ConditionalFormatting.AddThisMonth(new ExcelAddress(1, 20, 27, 20));
+            lastWeek.Style.Fill.BackgroundColor.Color = Color.Black;
+            lastWeek.Style.Font.Color.Color = Color.Violet;
 
-                thisMonthCF.Style.Fill.BackgroundColor.Color = Color.Black;
-                thisMonthCF.Style.Font.Color.Color = Color.Violet;
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                var nextMonthCF = wks.ConditionalFormatting.AddNextMonth(new ExcelAddress(1, 21, 27, 21));
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.LastMonth);
+        }
 
-                nextMonthCF.Style.Fill.BackgroundColor.Color = Color.Black;
-                nextMonthCF.Style.Font.Color.Color = Color.Violet;
+        [TestMethod]
+        public void ReadWriteThisMonth()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("ThisMonth");
 
-                var duplicateValues = wks.ConditionalFormatting.AddDuplicateValues(new ExcelAddress(1, 23, 10, 23));
+            var lastWeek = sheet.ConditionalFormatting.AddThisMonth(new ExcelAddress(1, 16, 30, 16));
 
-                duplicateValues.Style.Fill.BackgroundColor.Color = Color.Blue;
-                duplicateValues.Style.Font.Color.Color = Color.Yellow;
+            lastWeek.Style.Fill.BackgroundColor.Color = Color.Black;
+            lastWeek.Style.Font.Color.Color = Color.Violet;
 
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                var top11 = wks.ConditionalFormatting.AddTop(new ExcelAddress(1, 25, 20, 25));
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.ThisMonth);
+        }
 
-                top11.Rank = 11;
-                top11.Style.Fill.BackgroundColor.Color = Color.Black;
-                top11.Style.Font.Color.Color = Color.Violet;
+        [TestMethod]
+        public void ReadWriteNextMonth()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("NextMonth");
 
-                var bot12 = wks.ConditionalFormatting.AddBottom(new ExcelAddress(1, 26, 20, 26));
+            var lastWeek = sheet.ConditionalFormatting.AddNextMonth(new ExcelAddress(1, 17, 30, 17));
 
-                bot12.Rank = 12;
-                bot12.Style.Fill.BackgroundColor.Color = Color.Black;
-                bot12.Style.Font.Color.Color = Color.Violet;
+            lastWeek.Style.Fill.BackgroundColor.Color = Color.Black;
+            lastWeek.Style.Font.Color.Color = Color.Violet;
 
-                var top13Percent = wks.ConditionalFormatting.AddTopPercent(new ExcelAddress(1, 27, 20, 27));
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                top13Percent.Rank = 13;
-                top13Percent.Style.Fill.BackgroundColor.Color = Color.Black;
-                top13Percent.Style.Font.Color.Color = Color.Violet;
+            Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.NextMonth);
+        }
 
-                var bot14Percent = wks.ConditionalFormatting.AddBottomPercent(new ExcelAddress(1, 28, 20, 28));
+        [TestMethod]
+        public void ReadWriteDuplicate() 
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Duplicate");
 
-                bot14Percent.Rank = 14;
-                bot14Percent.Style.Fill.BackgroundColor.Color = Color.Black;
-                bot14Percent.Style.Font.Color.Color = Color.Violet;
+            var duplicateValues = sheet.ConditionalFormatting.AddDuplicateValues(new ExcelAddress(1, 19, 10, 19));
 
-                var aboveAverage = wks.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 30, 20, 30));
+            duplicateValues.Style.Fill.BackgroundColor.Color = Color.Blue;
+            duplicateValues.Style.Font.Color.Color = Color.Yellow;
 
-                aboveAverage.Style.Fill.BackgroundColor.Color = Color.Black;
-                aboveAverage.Style.Font.Color.Color = Color.Violet;
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                var aboveOrEqualAverage = wks.ConditionalFormatting.AddAboveOrEqualAverage(new ExcelAddress(1, 31, 20, 31));
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.DuplicateValues);
+        }
 
-                aboveOrEqualAverage.Style.Fill.BackgroundColor.Color = Color.Black;
-                aboveOrEqualAverage.Style.Font.Color.Color = Color.Violet;
+        [TestMethod]
+        public void ReadWriteTop()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Top");
 
-                var belowAverage = wks.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 32, 20, 32));
+            var top11 = sheet.ConditionalFormatting.AddTop(new ExcelAddress(1, 21, 20, 21));
 
-                belowAverage.Style.Fill.BackgroundColor.Color = Color.Black;
-                belowAverage.Style.Font.Color.Color = Color.Violet;
+            top11.Rank = 11;
+            top11.Style.Fill.BackgroundColor.Color = Color.Black;
+            top11.Style.Font.Color.Color = Color.Violet;
 
-                var belowEqualAverage = wks.ConditionalFormatting.AddBelowOrEqualAverage(new ExcelAddress(1, 33, 20, 33));
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                belowEqualAverage.Style.Fill.BackgroundColor.Color = Color.Black;
-                belowEqualAverage.Style.Font.Color.Color = Color.Violet;
+            Assert.AreEqual(cf.Rank, 11);
+            Assert.AreEqual(cf.Bottom, false);
+            Assert.AreEqual(cf.Percent, false);
+        }
 
-                var aboveStdDev = wks.ConditionalFormatting.AddAboveStdDev(new ExcelAddress(1, 35, 10, 35));
+        [TestMethod]
+        public void ReadWriteBottom()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Bottom");
 
-                aboveStdDev.Style.Fill.BackgroundColor.Color = Color.Black;
-                aboveStdDev.Style.Font.Color.Color = Color.Violet;
+            var bot12 = sheet.ConditionalFormatting.AddBottom(new ExcelAddress(1, 22, 20, 22));
 
-                aboveStdDev.StdDev = 1;
+            bot12.Rank = 12;
+            bot12.Style.Fill.BackgroundColor.Color = Color.Black;
+            bot12.Style.Font.Color.Color = Color.Violet;
 
-                var belowStdDev = wks.ConditionalFormatting.AddBelowStdDev(new ExcelAddress(1, 36, 10, 36));
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                belowStdDev.Style.Fill.BackgroundColor.Color = Color.Black;
-                belowStdDev.Style.Font.Color.Color = Color.Violet;
+            Assert.AreEqual(cf.Rank, 12);
+            Assert.AreEqual(cf.Bottom, true);
+            Assert.AreEqual(cf.Percent, false);
+        }
 
-                belowStdDev.StdDev = 2;
+        [TestMethod]
+        public void ReadWriteTopPercent()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("TopPercent");
 
-                var databar = wks.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 38, 10, 38), Color.AliceBlue);
-                databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                databar.LowValue.Value = 0;
-                databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                databar.HighValue.Value = 50;
+            var top13Percent = sheet.ConditionalFormatting.AddTopPercent(new ExcelAddress(1, 23, 20, 23));
 
-                var twoColor = wks.ConditionalFormatting.AddTwoColorScale(new ExcelAddress(1, 40, 10, 40));
+            top13Percent.Rank = 13;
+            top13Percent.Style.Fill.BackgroundColor.Color = Color.Black;
+            top13Percent.Style.Font.Color.Color = Color.Violet;
 
-                twoColor.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
-                twoColor.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                twoColor.LowValue.Value = 5;
-                twoColor.HighValue.Value = 80;
+            Assert.AreEqual(cf.Rank, 13);
+            Assert.AreEqual(cf.Bottom, false);
+            Assert.AreEqual(cf.Percent, true);
+        }
 
-                twoColor.LowValue.Color = Color.Gold;
-                twoColor.HighValue.Color = Color.Silver;
+        [TestMethod]
+        public void ReadWriteBottomPercent()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("BottomPercent");
 
-                var threeColor = wks.ConditionalFormatting.AddThreeColorScale(new ExcelAddress(1, 41, 10, 41));
+            var bot14Percent = sheet.ConditionalFormatting.AddBottomPercent(new ExcelAddress(1, 24, 20, 24));
 
-                var threeIcons = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 43, 10, 43), eExcelconditionalFormatting3IconsSetType.Symbols2);
+            bot14Percent.Rank = 14;
+            bot14Percent.Style.Fill.BackgroundColor.Color = Color.Black;
+            bot14Percent.Style.Font.Color.Color = Color.Violet;
 
-                var fourIcons = wks.ConditionalFormatting.AddFourIconSet(new ExcelAddress(1, 44, 10, 44), eExcelconditionalFormatting4IconsSetType.RedToBlack);
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                var fiveIcons = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress(1, 45, 10, 45), eExcelconditionalFormatting5IconsSetType.Rating);
+            Assert.AreEqual(cf.Rank, 14);
+            Assert.AreEqual(cf.Bottom, true);
+            Assert.AreEqual(cf.Percent, true);
+        }
 
-                var threeGreatherThan = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 48, 10, 48), eExcelconditionalFormatting3IconsSetType.TrafficLights2);
 
-                threeGreatherThan.Icon2.GreaterThanOrEqualTo = false;
-                threeGreatherThan.Icon3.GreaterThanOrEqualTo = false;
+        //var belowAverage = wks.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 32, 20, 32));
 
-                wks.Calculate();
+        //belowAverage.Style.Fill.BackgroundColor.Color = Color.Black;
+        //        belowAverage.Style.Font.Color.Color = Color.Violet;
 
-                ////ExtLst iconsets are best written last as they will then be read in the correct order
-                //var five2 = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress(1, 47, 10, 47), eExcelconditionalFormatting5IconsSetType.Boxes);
-                //var threeIcons2 = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 46, 10, 46), eExcelconditionalFormatting3IconsSetType.Triangles);
+        //        var belowEqualAverage = wks.ConditionalFormatting.AddBelowOrEqualAverage(new ExcelAddress(1, 33, 20, 33));
 
-                pck.SaveAs("C:/epplusTest/Workbooks/conditionalTestEppCopy.xlsx");
+        //belowEqualAverage.Style.Fill.BackgroundColor.Color = Color.Black;
+        //        belowEqualAverage.Style.Font.Color.Color = Color.Violet;
 
-                var newPck = new ExcelPackage("C:/epplusTest/Workbooks/conditionalTestEppCopy.xlsx");
+        //        var aboveStdDev = wks.ConditionalFormatting.AddAboveStdDev(new ExcelAddress(1, 35, 10, 35));
 
-                var formattings = newPck.Workbook.Worksheets[0].ConditionalFormatting;
+        //aboveStdDev.Style.Fill.BackgroundColor.Color = Color.Black;
+        //        aboveStdDev.Style.Font.Color.Color = Color.Violet;
 
-                Assert.AreEqual(formattings[0].Formula, "3");
-                Assert.AreEqual(formattings[0].Formula2, "8");
-                Assert.AreEqual(formattings[1].Formula, "7");
-                Assert.AreEqual(formattings[2].Formula, "1");
-                Assert.AreEqual(((IExcelConditionalFormattingContainsText)formattings[3]).ContainText, "o");
+        //        aboveStdDev.StdDev = 1;
 
-                Assert.AreEqual(formattings[4].TimePeriod, eExcelConditionalFormattingTimePeriodType.Last7Days);
-                Assert.AreEqual(formattings[5].TimePeriod, eExcelConditionalFormattingTimePeriodType.Yesterday);
-                Assert.AreEqual(formattings[6].TimePeriod, eExcelConditionalFormattingTimePeriodType.Today);
-                Assert.AreEqual(formattings[7].TimePeriod, eExcelConditionalFormattingTimePeriodType.Tomorrow);
-                Assert.AreEqual(formattings[8].TimePeriod, eExcelConditionalFormattingTimePeriodType.LastWeek);
-                Assert.AreEqual(formattings[9].TimePeriod, eExcelConditionalFormattingTimePeriodType.ThisWeek);
-                Assert.AreEqual(formattings[10].TimePeriod, eExcelConditionalFormattingTimePeriodType.NextWeek);
-                Assert.AreEqual(formattings[11].TimePeriod, eExcelConditionalFormattingTimePeriodType.LastMonth);
-                Assert.AreEqual(formattings[12].TimePeriod, eExcelConditionalFormattingTimePeriodType.ThisMonth);
-                Assert.AreEqual(formattings[13].TimePeriod, eExcelConditionalFormattingTimePeriodType.NextMonth);
+        [TestMethod]
+        public void ReadWriteAboveAverage()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("AboveAverage");
 
-                Assert.AreEqual(formattings[14].Type, eExcelConditionalFormattingRuleType.DuplicateValues);
+            var aboveAverage = sheet.ConditionalFormatting.AddAboveAverage(new ExcelAddress(1, 26, 10, 26));
 
-                Assert.AreEqual(formattings[15].Rank, 11);
-                Assert.AreEqual(formattings[15].Bottom, false);
-                Assert.AreEqual(formattings[15].Percent, false);
+            aboveAverage.Style.Fill.BackgroundColor.Color = Color.Black;
+            aboveAverage.Style.Font.Color.Color = Color.Violet;
 
-                Assert.AreEqual(formattings[16].Rank, 12);
-                Assert.AreEqual(formattings[16].Bottom, true);
-                Assert.AreEqual(formattings[16].Percent, false);
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                Assert.AreEqual(formattings[17].Bottom, false);
-                Assert.AreEqual(formattings[17].Percent, true);
-                Assert.AreEqual(formattings[17].Rank, 13);
+            Assert.AreEqual(cf.AboveAverage, true);
+            Assert.AreEqual(cf.EqualAverage, false);
+        }
 
-                Assert.AreEqual(formattings[18].Bottom, true);
-                Assert.AreEqual(formattings[18].Percent, true);
-                Assert.AreEqual(formattings[18].Rank, 14);
+        [TestMethod]
+        public void ReadWriteAboveOrEqualAverage()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("AboveAverage");
 
-                Assert.AreEqual(formattings[19].AboveAverage, true);
-                Assert.AreEqual(formattings[19].EqualAverage, false);
+            var aboveAverage = sheet.ConditionalFormatting.AddAboveOrEqualAverage(new ExcelAddress(1, 27, 10, 27));
 
-                Assert.AreEqual(formattings[20].AboveAverage, true);
-                Assert.AreEqual(formattings[20].EqualAverage, true);
+            aboveAverage.Style.Fill.BackgroundColor.Color = Color.Black;
+            aboveAverage.Style.Font.Color.Color = Color.Violet;
 
-                Assert.AreEqual(formattings[21].AboveAverage, false);
-                Assert.AreEqual(formattings[21].EqualAverage, false);
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                Assert.AreEqual(formattings[22].AboveAverage, false);
-                Assert.AreEqual(formattings[22].EqualAverage, true);
+            Assert.AreEqual(cf.AboveAverage, true);
+            Assert.AreEqual(cf.EqualAverage, true);
+        }
 
-                Assert.AreEqual(formattings[23].Type, eExcelConditionalFormattingRuleType.AboveStdDev);
-                Assert.AreEqual(formattings[23].StdDev, 1);
+        [TestMethod]
+        public void ReadWriteBelowAverage()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("BelowAverage");
 
-                Assert.AreEqual(formattings[24].Type, eExcelConditionalFormattingRuleType.BelowStdDev);
-                Assert.AreEqual(formattings[24].StdDev, 2);
+            var belowAverage = sheet.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 28, 10, 28));
 
-                Assert.AreEqual(formattings[25].Type, eExcelConditionalFormattingRuleType.DataBar);
-                Assert.AreEqual(formattings[25].As.DataBar.LowValue.Value, 0);
-                Assert.AreEqual(formattings[25].As.DataBar.HighValue.Value, 50);
+            belowAverage.Style.Fill.BackgroundColor.Color = Color.Black;
+            belowAverage.Style.Font.Color.Color = Color.Violet;
 
-                Assert.AreEqual(formattings[26].Type, eExcelConditionalFormattingRuleType.TwoColorScale);
-                Assert.AreEqual(formattings[26].As.TwoColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[26].As.TwoColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[26].As.TwoColorScale.LowValue.Value, 5);
-                Assert.AreEqual(formattings[26].As.TwoColorScale.HighValue.Value, 80);
-                Assert.AreEqual(formattings[26].As.TwoColorScale.LowValue.Color.ToColorString(), Color.Gold.ToColorString());
-                Assert.AreEqual(formattings[26].As.TwoColorScale.HighValue.Color.ToColorString(), Color.Silver.ToColorString());
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                Assert.AreEqual(formattings[27].Type, eExcelConditionalFormattingRuleType.ThreeColorScale);
-                Assert.AreEqual(formattings[27].As.ThreeColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Min);
-                Assert.AreEqual(formattings[27].As.ThreeColorScale.MiddleValue.Type, eExcelConditionalFormattingValueObjectType.Percentile);
-                Assert.AreEqual(formattings[27].As.ThreeColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Max);
-                Assert.AreEqual(formattings[27].As.ThreeColorScale.MiddleValue.Value, 50);
+            Assert.AreEqual(cf.AboveAverage, false);
+            Assert.AreEqual(cf.EqualAverage, false);
+        }
 
-                Assert.AreEqual(formattings[28].Type, eExcelConditionalFormattingRuleType.ThreeIconSet);
-                Assert.AreEqual(formattings[28].As.ThreeIconSet.IconSet, eExcelconditionalFormatting3IconsSetType.Symbols2);
-                Assert.AreEqual(formattings[28].As.ThreeIconSet.Icon1.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[28].As.ThreeIconSet.Icon2.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[28].As.ThreeIconSet.Icon3.Type, eExcelConditionalFormattingValueObjectType.Percent);
 
-                Assert.AreEqual(formattings[28].As.ThreeIconSet.Icon1.Value, 0);
-                Assert.AreEqual(formattings[28].As.ThreeIconSet.Icon2.Value, Math.Round(100D / 3, 0));
-                Assert.AreEqual(formattings[28].As.ThreeIconSet.Icon3.Value, Math.Round(100D * (2D / 3), 0));
+        [TestMethod]
+        public void ReadWriteBelowOrEqualAverage()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("BelowOrEqualAverage");
 
-                Assert.AreEqual(formattings[29].Type, eExcelConditionalFormattingRuleType.FourIconSet);
-                Assert.AreEqual(formattings[29].As.FourIconSet.IconSet, eExcelconditionalFormatting4IconsSetType.RedToBlack);
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon1.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon2.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon3.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon4.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            var belowEqualAverage = sheet.ConditionalFormatting.AddBelowOrEqualAverage(new ExcelAddress(1, 29 , 10, 29));
 
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon1.Value, 0);
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon2.Value, Math.Round(100D / 4, 0));
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon3.Value, Math.Round(100D * (2D / 4), 0));
-                Assert.AreEqual(formattings[29].As.FourIconSet.Icon4.Value, 75);
+            belowEqualAverage.Style.Fill.BackgroundColor.Color = Color.Black;
+            belowEqualAverage.Style.Font.Color.Color = Color.Violet;
 
-                Assert.AreEqual(formattings[30].Type, eExcelConditionalFormattingRuleType.FiveIconSet);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.IconSet, eExcelconditionalFormatting5IconsSetType.Rating);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon1.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon2.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon3.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon4.Type, eExcelConditionalFormattingValueObjectType.Percent);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon5.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
 
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon1.Value, 0);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon2.Value, 20);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon3.Value, 40);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon4.Value, 60);
-                Assert.AreEqual(formattings[30].As.FiveIconSet.Icon5.Value, 80);
+            Assert.AreEqual(cf.AboveAverage, false);
+            Assert.AreEqual(cf.EqualAverage, true);
+        }
 
-                Assert.AreEqual(formattings[31].Type, eExcelConditionalFormattingRuleType.ThreeIconSet);
-                Assert.AreEqual(formattings[31].As.ThreeIconSet.IconSet, eExcelconditionalFormatting3IconsSetType.TrafficLights2);
-                Assert.AreEqual(formattings[31].As.ThreeIconSet.Icon1.GreaterThanOrEqualTo, true);
-                Assert.AreEqual(formattings[31].As.ThreeIconSet.Icon2.GreaterThanOrEqualTo, false);
-                Assert.AreEqual(formattings[31].As.ThreeIconSet.Icon3.GreaterThanOrEqualTo, false);
-            }
+        [TestMethod]
+        public void ReadWriteStandardDeviationAboveAverage()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("stdAboveAverage");
+
+            var std1 = sheet.ConditionalFormatting.AddAboveStdDev(new ExcelAddress(1, 31, 10, 31));
+
+            std1.Style.Fill.BackgroundColor.Color = Color.Black;
+            std1.Style.Font.Color.Color = Color.Violet;
+
+            std1.StdDev = 1;
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.AboveStdDev);
+            Assert.AreEqual(cf.StdDev, 1);
+        }
+
+        [TestMethod]
+        public void ReadWriteStandardDeviationBelowAverage()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("stdBelowAverage");
+
+            var std1 = sheet.ConditionalFormatting.AddBelowStdDev(new ExcelAddress(1, 32, 10, 32));
+
+            std1.Style.Fill.BackgroundColor.Color = Color.Black;
+            std1.Style.Font.Color.Color = Color.Violet;
+
+            std1.StdDev = 2;
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.BelowStdDev);
+            Assert.AreEqual(cf.StdDev, 2);
+        }
+
+        [TestMethod]
+        public void ReadWriteDataBar()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("dataBar");
+
+            var databar = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress(1, 34, 10, 34), Color.Aqua);
+
+            databar.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+            databar.LowValue.Value = 0;
+            databar.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+            databar.HighValue.Value = 50;
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.DataBar);
+            Assert.AreEqual(cf.As.DataBar.LowValue.Value, 0);
+            Assert.AreEqual(cf.As.DataBar.HighValue.Value, 50);
+        }
+
+        [TestMethod]
+        public void ReadWriteTwoColorScale() 
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("twoColorScale");
+
+            var twoColor = sheet.ConditionalFormatting.AddTwoColorScale(new ExcelAddress(1, 36, 10, 36));
+
+            twoColor.LowValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+            twoColor.HighValue.Type = eExcelConditionalFormattingValueObjectType.Percent;
+
+            twoColor.LowValue.Value = 5;
+            twoColor.HighValue.Value = 80;
+
+            twoColor.LowValue.Color = Color.Gold;
+            twoColor.HighValue.Color = Color.Silver;
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.TwoColorScale);
+            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Value, 5);
+            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Value, 80);
+            Assert.AreEqual(cf.As.TwoColorScale.LowValue.Color.ToColorString(), Color.Gold.ToColorString());
+            Assert.AreEqual(cf.As.TwoColorScale.HighValue.Color.ToColorString(), Color.Silver.ToColorString());
+        }
+
+        [TestMethod]
+        public void ReadWriteThreeColorScale()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("threeColorScale");
+
+            var threeColor = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress(1, 37, 10, 37));
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.ThreeColorScale);
+            Assert.AreEqual(cf.As.ThreeColorScale.LowValue.Type, eExcelConditionalFormattingValueObjectType.Min);
+            Assert.AreEqual(cf.As.ThreeColorScale.MiddleValue.Type, eExcelConditionalFormattingValueObjectType.Percentile);
+            Assert.AreEqual(cf.As.ThreeColorScale.HighValue.Type, eExcelConditionalFormattingValueObjectType.Max);
+            Assert.AreEqual(cf.As.ThreeColorScale.MiddleValue.Value, 50);
+        }
+
+        [TestMethod]
+        public void ReadWriteThreeIcon()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("threeIcon");
+
+            var threeColor = sheet.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 39, 10, 39), 
+                                                                         eExcelconditionalFormatting3IconsSetType.Symbols2);
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.ThreeIconSet);
+            Assert.AreEqual(cf.As.ThreeIconSet.IconSet, eExcelconditionalFormatting3IconsSetType.Symbols2);
+            Assert.AreEqual(cf.As.ThreeIconSet.Icon1.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.ThreeIconSet.Icon2.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.ThreeIconSet.Icon3.Type, eExcelConditionalFormattingValueObjectType.Percent);
+
+            Assert.AreEqual(cf.As.ThreeIconSet.Icon1.Value, 0);
+            Assert.AreEqual(cf.As.ThreeIconSet.Icon2.Value, Math.Round(100D / 3, 0));
+            Assert.AreEqual(cf.As.ThreeIconSet.Icon3.Value, Math.Round(100D * (2D / 3), 0));
+        }
+
+        [TestMethod]
+        public void ReadWriteFourIcon()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("fourIcon");
+
+            var fourIcons = sheet.ConditionalFormatting.AddFourIconSet(new ExcelAddress(1, 40, 10, 40), 
+                                                                       eExcelconditionalFormatting4IconsSetType.RedToBlack);
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.FourIconSet);
+            Assert.AreEqual(cf.As.FourIconSet.IconSet, eExcelconditionalFormatting4IconsSetType.RedToBlack);
+            Assert.AreEqual(cf.As.FourIconSet.Icon1.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.FourIconSet.Icon2.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.FourIconSet.Icon3.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.FourIconSet.Icon4.Type, eExcelConditionalFormattingValueObjectType.Percent);
+
+            Assert.AreEqual(cf.As.FourIconSet.Icon1.Value, 0);
+            Assert.AreEqual(cf.As.FourIconSet.Icon2.Value, Math.Round(100D / 4, 0));
+            Assert.AreEqual(cf.As.FourIconSet.Icon3.Value, Math.Round(100D * (2D / 4), 0));
+            Assert.AreEqual(cf.As.FourIconSet.Icon4.Value, 75);
+        }
+
+
+        [TestMethod]
+        public void ReadWriteFiveIcon()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("fiveIcon");
+
+            var fiveIcons = sheet.ConditionalFormatting.AddFiveIconSet(new ExcelAddress(1, 41, 10, 41), eExcelconditionalFormatting5IconsSetType.Rating);
+
+            var cf = SavePackageReadCollection(pck)[0];
+            var ws = _pck.Workbook.Worksheets.GetByName("Overview");
+            ws.ConditionalFormatting.CopyRule(cf);
+
+            Assert.AreEqual(cf.Type, eExcelConditionalFormattingRuleType.FiveIconSet);
+            Assert.AreEqual(cf.As.FiveIconSet.IconSet, eExcelconditionalFormatting5IconsSetType.Rating);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon1.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon2.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon3.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon4.Type, eExcelConditionalFormattingValueObjectType.Percent);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon5.Type, eExcelConditionalFormattingValueObjectType.Percent);
+
+            Assert.AreEqual(cf.As.FiveIconSet.Icon1.Value, 0);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon2.Value, 20);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon3.Value, 40);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon4.Value, 60);
+            Assert.AreEqual(cf.As.FiveIconSet.Icon5.Value, 80);
+        }
+
+        //var threeIcons = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 43, 10, 43), eExcelconditionalFormatting3IconsSetType.Symbols2);
+
+        //var fourIcons = wks.ConditionalFormatting.AddFourIconSet(new ExcelAddress(1, 44, 10, 44), eExcelconditionalFormatting4IconsSetType.RedToBlack);
+
+        //var fiveIcons = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress(1, 45, 10, 45), eExcelconditionalFormatting5IconsSetType.Rating);
+
+        //var threeGreatherThan = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 48, 10, 48), eExcelconditionalFormatting3IconsSetType.TrafficLights2);
+
+        //threeGreatherThan.Icon2.GreaterThanOrEqualTo = false;
+        //        threeGreatherThan.Icon3.GreaterThanOrEqualTo = false;
+
+        [TestMethod]
+        public void PriorityChangeTest()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Today");
+
+            var yesterdayFormatting = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 11, 10, 11));
+
+            yesterdayFormatting.Style.Fill.BackgroundColor.Color = Color.Gray;
+            yesterdayFormatting.Style.Font.Color.Color = Color.Red;
+            yesterdayFormatting.Priority = 2;
+
+            var yesterdayFormatting2 = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 11, 10, 11));
+
+            yesterdayFormatting.Style.Fill.BackgroundColor.Color = Color.Black;
+            yesterdayFormatting.Style.Font.Color.Color = Color.Violet;
+            yesterdayFormatting.Priority = 1;
+
+            string date = $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}";
+
+            sheet.Cells[1, 11, 10, 11].Value = date;
+
+            var stream = new MemoryStream();
+            pck.SaveAs(stream);
+
+            var newPck = new ExcelPackage(stream);
+
+            Assert.AreEqual(Color.Gray, newPck.Workbook.Worksheets[0].
+                            ConditionalFormatting[0].Style.Fill.
+                            BackgroundColor.Color);
+        }
+
+        [TestMethod]
+        public void MultipleValidationsOneRange() 
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("MultipleOneRange");
+
         }
 
         //TODO: We should most likely throw a clearer exception.
@@ -1520,7 +1762,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void PriorityTest()
+        public void PriorityTestOverlap()
         {
             using (var pck = OpenPackage("CFPriorityTest.xlsx", true))
             {
@@ -1583,6 +1825,39 @@ namespace EPPlusTest.ConditionalFormatting
                 var cfLowestPriority = sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("A1:A7"));
                 cfLowestPriority.Style.Fill.BackgroundColor.Color = Color.Yellow;
                 cfLowestPriority.Formula = "0";
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void PriorityTestChangedOrder()
+        {
+            using (var pck = OpenPackage("CFPriorityTestChangedOrder.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("priorityTest");
+
+                sheet.Cells["A1:A7"].Value = "A Player's handbook";
+                sheet.Cells["A1:A7"].AutoFitColumns();
+                sheet.Cells["B1"].Value = "A1:A5 should be green, A6 yellow, A7 red";
+                sheet.Cells["B1"].AutoFitColumns();
+
+                var cfHighestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
+
+                cfHighestPriority.ContainText = "A";
+                cfHighestPriority.Style.Fill.BackgroundColor.Color = Color.Green;
+
+                var cfMiddlePriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
+
+                cfMiddlePriority.ContainText = "A";
+                cfMiddlePriority.Style.Fill.BackgroundColor.Color = Color.Yellow;
+
+                var cfLowestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
+                cfLowestPriority.Style.Fill.BackgroundColor.Color = Color.Red;
+                cfLowestPriority.ContainText = "A";
+
+                cfLowestPriority.Priority = 1;
+                cfMiddlePriority.Priority = 3;
 
                 SaveAndCleanup(pck);
             }
