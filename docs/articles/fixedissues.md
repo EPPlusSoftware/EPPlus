@@ -1,4 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.4
+### Minor Features
+* Added IRangeDataValidation. ClearDataValidation to clear data validations from a range.
+### Fixed issues 
+* Having a table data source set to a defined name, and then insert rows into the range, caused the table source to be inverted into a range without inserting the rows.
+* An error occured when setting the Shape.Text in some cases."Name cannot begin with the ' ' character, hexadecimal value 0x20, due to invalid xml. 
+* Scientific notation numbers were not being recognized in the calculation when there were leading or trailing whitespaces.
+* Formulas update for Data Validation and Conditional Formatting sometimes updated the addresses wrong when inserting and deleting.
+* The worksheet xml got corrupt in rare cases, when having extLst items.
+* A pivot table's SourceRange property was not read on load.
+
 ## Version 6.2.3
 ### Fixed issues
 * Setting sparklineGroups.MaxAxisType to eSparklineAxisMinMax.Group did not work.
