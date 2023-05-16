@@ -344,7 +344,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void WriteReadFiveIcon()
         {
-            using (var p = new ExcelPackage())
+            using (var p = OpenPackage(""))
             {
                 var ws = p.Workbook.Worksheets.Add("FiveIcon");
                 var cf = ws.Cells["A1"].ConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType.Arrows);
@@ -521,6 +521,49 @@ namespace EPPlusTest.ConditionalFormatting
 
                 // Check that the conditional formatting rule starts lower down, but ends in the same place
                 Assert.AreEqual("A14:A1048576", cf.Address.Address);
+            }
+        }
+
+        [TestMethod]
+        public void UserTest()
+        {
+            using (var pck = OpenPackage("UserTestConditionalFormatting.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("UserTest");
+
+                sheet.Cells["B2:D2"].Merge = true;
+
+                sheet.Cells["B2"].Value = "Zombie";
+
+                sheet.Cells["B3"].Value = "HP";
+                sheet.Cells["A3"].Value = "Spell level";
+                sheet.Cells["A3"].AutoFitColumns();
+
+                for (int i = 1; i < 9; i++) 
+                {
+                    sheet.Cells[i + 3, 1].Value = i;
+                    sheet.Cells[i + 3, 2].Value = i * 8;
+                }
+
+                sheet.Cells["A3:A12"].ConditionalFormatting.AddAboveAverage().Style.Fill.BackgroundColor.Color = Color.Orange;
+
+                sheet.Cells["A3:A12"].ConditionalFormatting.AddThreeColorScale();
+
+                sheet.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("A3:A12"), eExcelconditionalFormatting5IconsSetType.Boxes);
+
+                //var cfExpression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("A3:A12"));
+
+                //cfExpression.Formula = "Row()+3=>5";
+
+                //cfExpression.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.DashDot, Color.Orange);
+
+                SaveAndCleanup(pck);
+
+                var pck2 = OpenPackage("UserTestConditionalFormatting.xlsx");
+
+                var sheet2 = pck2.Workbook.Worksheets[0];
+
+                SaveAndCleanup(pck2);
             }
         }
 

@@ -351,7 +351,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
         //Since a user could potentially change the type to and from an extType in iconSets?
-        void UpdateExtDict()
+        internal void UpdateExtDict()
         {
             _extLstDict.Clear();
 
@@ -820,12 +820,6 @@ namespace OfficeOpenXml.ConditionalFormatting
               address);
         }
 
-        //Beyond this line are temporary placeholders of unimplemented methods.
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
         /// <summary>
         /// Add BeginsWith Rule
         /// </summary>
@@ -1046,6 +1040,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.ThreeIconSet,
                 Address);
             icon.IconSet = IconSet;
+
+            UpdateExtDict();
             return icon;
         }
         /// <summary>
@@ -1060,6 +1056,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.FourIconSet,
                 Address);
             icon.IconSet = IconSet;
+            UpdateExtDict();
+
             return icon;
         }
         /// <summary>
@@ -1074,6 +1072,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.FiveIconSet,
                 Address);
             icon.IconSet = IconSet;
+            UpdateExtDict();
+
             return icon;
         }
         /// <summary>
@@ -1088,6 +1088,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                 eExcelConditionalFormattingRuleType.DataBar,
                 Address);
             dataBar.Color = color;
+            UpdateExtDict();
+
             return dataBar;
         }
     }

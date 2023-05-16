@@ -1248,7 +1248,10 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
         private string UpdateConditionalFormattings(string prefix)
         {
+
             var cache = new StringBuilder();
+
+            _ws.ConditionalFormatting.UpdateExtDict();
 
             for (int j = 0; j < _ws.ConditionalFormatting.Count; j++)
             {
