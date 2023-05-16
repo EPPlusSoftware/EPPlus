@@ -4782,7 +4782,7 @@ namespace EPPlusTest
                 var sheet = pck.Workbook.Worksheets.Single();
                 string form = sheet.DataValidations[0].As.ListValidation.Formula.ToString();
 
-                pck.SaveAs("C:\\epplusTest\\Workbooks\\i877Result.xlsx");
+                SaveAndCleanup(pck);
             }
         }
 
