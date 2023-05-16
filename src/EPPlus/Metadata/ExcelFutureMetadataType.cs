@@ -21,6 +21,7 @@ namespace OfficeOpenXml.Metadata
 {
     internal class ExcelFutureMetadata
     {
+        public int Index { get; set; }
         public string Name { get; set; }
         public List<ExcelFutureMetadataType> Types { get; }=new List<ExcelFutureMetadataType>();
         string _extLstXml;
@@ -36,6 +37,10 @@ namespace OfficeOpenXml.Metadata
     }
     internal class ExcelFutureMetadataRichData : ExcelFutureMetadataType
     {
+        public ExcelFutureMetadataRichData(int index)
+        {
+            Index = index;
+        }
         public ExcelFutureMetadataRichData(XmlReader xr)
         {
             var startDepth = xr.Depth;
@@ -49,7 +54,7 @@ namespace OfficeOpenXml.Metadata
 
             if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
         }
-        public int Index { get; set; }
+        public int Index { get; private set; }
         public override FutureMetadataType Type => FutureMetadataType.RichData;
         public override string Uri => ExtLstUris.RichValueDataUri;
         internal override void WriteXml(StreamWriter sw)

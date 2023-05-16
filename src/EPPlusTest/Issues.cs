@@ -4820,6 +4820,46 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s463()
+        {
+            using (var p = OpenTemplatePackage("SRK2016.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s466()
+        {
+            using (var package = OpenTemplatePackage("s466.xlsx"))
+            {
+                var table = package.Workbook.Worksheets.SelectMany(x => x.Tables).Single(x => x.Name == "TblEffects");
+                table.AddRow(2);
+                table.WorkSheet.Cells[8, 1].Value = "TST";
+                table.WorkSheet.Cells[8, 2].Value = "Safe";
+                table.WorkSheet.Cells[9, 1].Value = "TST 2";
+                table.WorkSheet.Cells[9, 2].Value = "Dangerous";
+
+                var cell = table.WorkSheet.Cells[8, 1];
+                table.InsertRow(0, 5);
+                table.DeleteRow(0, 5);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i871()
+        {
+            using (var p = OpenTemplatePackage("i871.xlsx"))
+            {
+                var table = p.Workbook.Worksheets.SelectMany(x => x.Tables).Single(x => x.Name == "TblComponentTypes");
+                table.AddRow(2);
+                table.WorkSheet.Cells[8, 1].Value = "TST";
+                table.WorkSheet.Cells[9, 1].Value = "TST 2";
+ 
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 

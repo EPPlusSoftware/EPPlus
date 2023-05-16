@@ -1180,19 +1180,17 @@ namespace OfficeOpenXml
             {
                 LoadExtLst(xr, stream, ref xml, ref lastXmlElement);
             }
-
             if (!string.IsNullOrEmpty(lastXmlElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml);
             }
-
-            Encoding encoding = Encoding.UTF8;
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
             packPart.Stream = RecyclableMemory.GetStream();
 
             //first char is invalid sometimes?? 
+            Encoding encoding = Encoding.UTF8;
             if (xml[0] != '<')
                 LoadXmlSafe(_worksheetXml, xml.Substring(1, xml.Length - 1), encoding);
             else
@@ -1824,7 +1822,7 @@ namespace OfficeOpenXml
             var type = metaData.MetadataTypes[valueRecord.RecordTypeIndex - 1];
             if (type.Name.Equals("XLRICHVALUE"))
             {
-                var fmd = metaData.FutureMetadata.Find(x=>x.Name == "XLRICHVALUE");
+                var fmd = metaData.FutureMetadata[type.Name];
                 var ix = fmd.Types[valueRecord.ValueTypeIndex].AsRichData.Index;
 
                 var rdValue = Workbook.RichData.Values.Items[ix];
@@ -1837,7 +1835,16 @@ namespace OfficeOpenXml
                         case 4:
                             return ErrorValues.NameError;
                         case 8:
-                            return ErrorValues.SpillError;
+                            var rowOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("rwOffset"));
+                            var colOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("colOffset"));
+                            if (rowOffsetIndex > -1 && colOffsetIndex > 0)
+                            {
+                                return new ExcelRichDataErrorValue(int.Parse(rdValue.Values[rowOffsetIndex]), int.Parse(rdValue.Values[colOffsetIndex]));
+                            }
+                            else
+                            {
+                                return new ExcelRichDataErrorValue(0, 0);
+                            }
                         case 13:
                             return ErrorValues.CalcError;
                         default:    //We can implement other error types here later, See MS-XLSX 2.3.6.1.3
@@ -2416,6 +2423,13 @@ namespace OfficeOpenXml
                     SaveTables();
                     if(HasLoadedPivotTables) SavePivotTables();
                     SaveSlicers();
+
+                    //Meta data and rich data is currently used for #spill! and #calc! errors.
+                    if(_metadataStore.HasValues)
+                    {
+                        Workbook.Metadata.CreatePart();
+                        Workbook.RichData.CreateParts();
+                    }
                 }
             }
         }
@@ -2462,6 +2476,7 @@ namespace OfficeOpenXml
             }
             else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
             {
+                if (p.Cache == null) return;
                 p.Cache.UpdateItemsXml();
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
@@ -2506,16 +2521,14 @@ namespace OfficeOpenXml
 
         internal void SaveHandler(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
         {
-                    //Init Zip
-                    stream.CodecBufferSize = 8096;
-                    stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
-                    stream.PutNextEntry(fileName);
-
-                    
-                    SaveXml(stream);
+            //Init Zip
+            stream.CodecBufferSize = 8096;
+            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
+            stream.PutNextEntry(fileName);                    
+            SaveXml(stream);
         }
 
-        
+
 
         /// <summary>
         /// Delete the printersettings relationship and part.

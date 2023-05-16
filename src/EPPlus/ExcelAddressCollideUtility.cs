@@ -33,13 +33,15 @@ namespace OfficeOpenXml
 
         private static string GetWsName(FormulaRangeAddress address, ParsingContext ctx)
         {
-            if (ctx.Package != null && ctx.Package.Workbook.Worksheets[address.WorksheetIx] != null)
+            if (ctx.Package == null) return "";
+            var wsIx = address.WorksheetIx == int.MinValue ? ctx.CurrentWorksheet.IndexInList : address.WorksheetIx;
+            if (ctx.Package != null && wsIx>=0 && ctx.Package.Workbook.Worksheets[wsIx] != null)
             {
-                return ctx.Package.Workbook.Worksheets[address.WorksheetIx].Name;
+                return ctx.Package.Workbook.Worksheets[wsIx].Name;
             }
             else
             {
-                return address.WorksheetIx.ToString();
+                return wsIx.ToString();
             }
         }
 

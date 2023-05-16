@@ -318,24 +318,33 @@ namespace OfficeOpenXml.Packaging
             os.Write(b, 0, b.Length);
             /**** Top Rels ****/
             _rels.WriteZip(os, $"_rels/.rels");
-            ZipPackagePart ssPart=null;
-
-            foreach(var part in Parts.Values)
+            List<ZipPackagePart> saveAfterParts = new List<ZipPackagePart>();
+            var partsToSave = Parts.Values.ToList();
+            for(int i=0;i < partsToSave.Count;i++)            
             {
-                if (part.ContentType != ContentTypes.contentTypeSharedString)
+                var part = partsToSave[i];
+                //Shared strings, metadata and rich data must be saved after the cells have been saved as references to are updated while saving the worksheets.
+                if (part.ContentType == ContentTypes.contentTypeSharedString || 
+                    part.ContentType == ContentTypes.contentTypeMetaData ||
+                    part.ContentType == ContentTypes.contentTypeRichDataValueType ||
+                    part.ContentType == ContentTypes.contentTypeRichDataValueStructure ||
+                    part.ContentType == ContentTypes.contentTypeRichDataValue)
                 {
-                    part.WriteZip(os);
+                    saveAfterParts.Add(part);
                 }
                 else
                 {
-                    ssPart = part;
+                    part.WriteZip(os);
                 }
             }
 
             //Shared strings must be saved after all worksheets. The ss dictionary is populated when that workheets are saved (to get the best performance).
-            if (ssPart != null)
+            foreach (var part in saveAfterParts)
             {
-                ssPart.WriteZip(os);
+                if (part.ShouldBeSaved)
+                { 
+                    part.WriteZip(os);
+                }   
             }
             os.Flush();
             

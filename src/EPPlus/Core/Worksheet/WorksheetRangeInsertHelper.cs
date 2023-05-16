@@ -200,8 +200,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertDataValidation(range, shift, effectedAddress, ws, isTable);
                 InsertConditionalFormatting(range, shift, effectedAddress, ws, isTable);
 
-                WorksheetRangeCommonHelper.AdjustDvAndCfFormulasInsert(range, effectedAddress, shift);
-
                 InsertSparkLinesAddress(range, shift, effectedAddress);
 
                 if (shift == eShiftTypeInsert.Down)
@@ -228,7 +226,17 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    ((ExcelConditionalFormattingRule)cf).Address = new ExcelAddress(newAddress.Address);
+                    var cfr = ((ExcelConditionalFormattingRule)cf);
+                    if (cfr.Address.Address != newAddress.Address)
+                    {
+                        if (cfr.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
+                        {
+                            cfr.Formula = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula, cfr.Address, newAddress);
+                            cfr.Formula2 = WorksheetRangeHelper.AdjustStartCellForFormula(cfr.Formula2, cfr.Address, newAddress);
+                        }
+
+                        cfr.Address = new ExcelAddress(newAddress.Address);
+                    }
                 }
             }
 
@@ -251,7 +259,17 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else
                 {
-                    dv.SetAddress(newAddress.Address);
+                    if (dv.Address.Address != newAddress.Address)
+                    {
+                        if (dv is ExcelDataValidationWithFormula<IExcelDataValidationFormula> dvFormula)
+                        {
+                            if (dv.Address.FirstCellAddressRelative != newAddress.FirstCellAddressRelative)
+                            {
+                                dvFormula.Formula.ExcelFormula = WorksheetRangeHelper.AdjustStartCellForFormula(dvFormula.Formula.ExcelFormula, dv.Address, newAddress);
+                            }
+                        }
+                        dv.SetAddress(newAddress.Address);
+                    }
                 }
                 ws.DataValidations.InsertRangeDictionary(range, shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn);
             }

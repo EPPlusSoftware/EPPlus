@@ -19,8 +19,11 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
@@ -377,7 +380,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             FixSharedFormulas(); //Fixes Issue #32
 
-            var hasMd = _ws._metadataStore.HasValues;
+            var hasMd = _ws._metadataStore.HasValues || _ws.Workbook.HasMetadataPart;
+            var hasRd = false;
             columnStyles = new Dictionary<int, int>();
             var cse = new CellStoreEnumerator<ExcelValue>(_ws._values, 1, 0, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             while (cse.Next())
@@ -397,6 +401,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     object formula = _ws._formulas.GetValue(cse.Row, cse.Column);
                     if (hasMd)
                     {
+                        if (v is ExcelErrorValue error)
+                        {
+                            if (error.Type == eErrorType.Spill || error.Type == eErrorType.Calc)
+                            {
+                                v = ErrorValues.ValueError;
+                                SetMetaDataForError(cse, error);
+                                hasRd = true;
+                            }
+                        }
+
                         mdAttr = "";
                         if (_ws._metadataStore.Exists(cse.Row, cse.Column))
                         {
@@ -409,13 +423,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             {
                                 mdAttr += $" vm=\"{md.vm}\"";
                             }
-                        }
-                    }
-                    if(v is ExcelErrorValue error)
-                    {
-                        if(error.Type==eErrorType.Spill || error.Type==eErrorType.Calc)
-                        {
-                            v = ErrorValues.ValueError;
                         }
                     }
                     if (formula is int sfId)
@@ -576,6 +583,46 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             cache.Append($"</{prefix}sheetData>");
             sw.Write(cache.ToString());
             sw.Flush();
+
+            if(hasRd)
+            {
+                _ws.Workbook.RichData.SetHasValuesOnParts();
+            }
+        }
+
+        private void SetMetaDataForError(CellStoreEnumerator<ExcelValue> cse, ExcelErrorValue error)
+        {
+            var richData = _package.Workbook.RichData;
+            var metadata = _package.Workbook.Metadata;
+            switch(error.Type)
+            {
+                case eErrorType.Spill:
+                    var spillError = (ExcelRichDataErrorValue)error;
+                    if(spillError.IsPropagated)
+                    {
+                        richData.Values.AddPropagated(eErrorType.Spill);
+                    }
+                    else
+                    {
+                        richData.Values.AddErrorSpill(spillError);                    
+                    }
+                    break;
+                case eErrorType.Calc:
+                    richData.Values.AddError(eErrorType.Calc, "1");
+                    break;
+                default:
+                    return;
+            }
+            var fmdRichDataCollection = metadata.GetFutureMetadataRichDataCollection();
+            var rdItem = new ExcelFutureMetadataRichData(richData.Values.Items.Count-1);
+            fmdRichDataCollection.Types.Add(rdItem);
+            var mdItem = new ExcelMetadataItem();
+            mdItem.Records.Add(new ExcelMetadataRecord(metadata.RichDataTypeIndex, fmdRichDataCollection.Types.Count - 1));
+            metadata.ValueMetadata.Add(mdItem);
+
+            var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
+            md.vm = metadata.ValueMetadata.Count;
+            _ws._metadataStore.SetValue(cse.Row, cse.Column, md);
         }
 
         /// <summary>

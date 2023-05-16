@@ -1225,35 +1225,26 @@ namespace OfficeOpenXml
 			}
 
 			// Issue 15252: save SharedStrings only once
-			Packaging.ZipPackagePart part;
+			Packaging.ZipPackagePart sharedStringsPart;
 			if (_package.ZipPackage.PartExists(SharedStringsUri))
 			{
-				part = _package.ZipPackage.GetPart(SharedStringsUri);
+				sharedStringsPart = _package.ZipPackage.GetPart(SharedStringsUri);
 			}
 			else
 			{
-				part = _package.ZipPackage.CreatePart(SharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", _package.Compression);
+				sharedStringsPart = _package.ZipPackage.CreatePart(SharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", _package.Compression);
 				Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
 			}
 
-			part.SaveHandler = SaveSharedStringHandler;
+			sharedStringsPart.SaveHandler = SaveSharedStringHandler;
 
 			//// Data validation
 			ValidateDataValidations();
-
-			//VBA
-			if (_vba != null)
+            
+            //VBA
+            if (_vba != null)
 			{
 				VbaProject.Save();
-			}
-
-			if(_metadata != null)
-			{
-				_metadata.Save();
-			}
-			if (_richData != null)
-			{
-				_richData.Save();
 			}
 		}
 
@@ -1514,7 +1505,11 @@ namespace OfficeOpenXml
 			}
 			else
 			{
-				if(name.AllowRelativeAddress)
+				 if(name.Table != null)
+                {
+                    elem.InnerText = name.Address;
+                }
+                else if(name.AllowRelativeAddress)
                 {
 					elem.InnerText = name.FullAddress;
                 }
@@ -1828,7 +1823,22 @@ namespace OfficeOpenXml
 				}
 			}
 		}
-		ExcelMetadata _metadata = null;
+		internal bool HasMetadataPart
+		{
+			get
+			{
+				return Part._rels.Any(x => x.RelationshipType == Relationsships.schemaMetadata);
+			}
+		}
+        internal bool HasRichdataPart
+        {
+            get
+            {
+                return Part._rels.Any(x => x.RelationshipType == Relationsships.schemaRichDataValueStructureRelationship);
+            }
+        }
+
+        ExcelMetadata _metadata = null;
 
         internal ExcelMetadata Metadata
 		{

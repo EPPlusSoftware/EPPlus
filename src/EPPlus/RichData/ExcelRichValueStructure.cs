@@ -60,7 +60,7 @@ namespace OfficeOpenXml.RichData
             Type = "_error";
             Keys.AddRange(RichValueTypes[Type][0]);
         }
-        public void SetAsSpillPropagatedError()
+        public void SetAsPropagatedError()
         {
             Type = "_error";
             Keys.AddRange(RichValueTypes[Type][1]);
