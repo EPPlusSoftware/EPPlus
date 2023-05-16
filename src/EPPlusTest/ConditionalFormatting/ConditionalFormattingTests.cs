@@ -1621,9 +1621,9 @@ namespace EPPlusTest.ConditionalFormatting
 
             var yesterdayFormatting2 = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 11, 10, 11));
 
-            yesterdayFormatting.Style.Fill.BackgroundColor.Color = Color.Black;
-            yesterdayFormatting.Style.Font.Color.Color = Color.Violet;
-            yesterdayFormatting.Priority = 1;
+            yesterdayFormatting2.Style.Fill.BackgroundColor.Color = Color.Black;
+            yesterdayFormatting2.Style.Font.Color.Color = Color.Violet;
+            yesterdayFormatting2.Priority = 1;
 
             string date = $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}";
 
@@ -1634,9 +1634,44 @@ namespace EPPlusTest.ConditionalFormatting
 
             var newPck = new ExcelPackage(stream);
 
-            Assert.AreEqual(Color.Gray, newPck.Workbook.Worksheets[0].
+            Assert.AreEqual(Color.FromArgb(255, Color.Gray.R, Color.Gray.G, Color.Gray.B), newPck.Workbook.Worksheets[0].
                             ConditionalFormatting[0].Style.Fill.
                             BackgroundColor.Color);
+            newPck.SaveAs("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest2.xlsx");
+        }
+
+
+        [TestMethod]
+        public void PriorityChangeTest2()
+        {
+            var pck = new ExcelPackage();
+            var sheet = pck.Workbook.Worksheets.Add("Today");
+
+            var yesterdayFormatting = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 11, 10, 11));
+
+            yesterdayFormatting.Style.Fill.BackgroundColor.Color = Color.Gray;
+            yesterdayFormatting.Style.Font.Color.Color = Color.Red;
+            yesterdayFormatting.Priority = 2;
+
+            var yesterdayFormatting2 = sheet.ConditionalFormatting.AddToday(new ExcelAddress(1, 11, 10, 11));
+
+            yesterdayFormatting2.Style.Fill.BackgroundColor.Color = Color.Black;
+            yesterdayFormatting2.Style.Font.Color.Color = Color.Violet;
+            yesterdayFormatting2.Priority = 1;
+
+            string date = $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}";
+
+            sheet.Cells[1, 11, 10, 11].Value = date;
+
+            var stream = new MemoryStream();
+            pck.SaveAs("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest1.xlsx");
+
+            var newPck = new ExcelPackage("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest1.xlsx");
+
+            Assert.AreEqual(Color.FromArgb(255, Color.Gray.R, Color.Gray.G, Color.Gray.B), newPck.Workbook.Worksheets[0].
+                            ConditionalFormatting[0].Style.Fill.
+                            BackgroundColor.Color);
+            newPck.SaveAs("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest2.xlsx");
         }
 
         [TestMethod]
@@ -1713,6 +1748,7 @@ namespace EPPlusTest.ConditionalFormatting
                 }
             }
         }
+
         [TestMethod]
         public void CFWholeSheetRangeDeleteRowShouldNotRemoveCF()
         {
@@ -1728,7 +1764,6 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(1, sheet.ConditionalFormatting.Count);
             }
         }
-
 
         [TestMethod]
         public void CFColumnsRangeDeleteRowShouldNotRemoveCF()

@@ -1181,8 +1181,12 @@ namespace OfficeOpenXml
                 LoadExtLst(xr, stream, ref xml, ref lastXmlElement);
             }
 
+            if (!string.IsNullOrEmpty(lastXmlElement))
+            {
+                xml = stream.ReadFromEndElement(lastXmlElement, xml);
+            }
+
             Encoding encoding = Encoding.UTF8;
-            xml = stream.ReadFromEndElement(lastXmlElement, xml);
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
