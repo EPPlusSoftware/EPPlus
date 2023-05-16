@@ -305,17 +305,19 @@ namespace OfficeOpenXml
         /// <param name="xml">The xml to search</param>
         /// <param name="element">The element</param>
         /// <param name="returnStartPos">If the position before the start element is returned. If false the end of the end element is returned.</param>
-        /// <returns>The position of the element in the input xml</returns>
+        /// <param name="ix">The index position to start from</param>
+        /// <returns>The position of the element in the input xml</returns>        
         private int FindElementPos(string xml, string element, bool returnStartPos = true, int ix = 0)
         {
 
+            if (string.IsNullOrEmpty(element)) return -1; //;Must have an element value otherwise we will go into an infinit loop.
             while (true)
             {
                 ix = xml.IndexOf(element, ix);
-                if (ix >= 0 && ix < xml.Length - 1)
+                if (ix > 0 && ix < xml.Length - 1)
                 {
                     var c = xml[ix + element.Length];
-                    if (c == '>' || c == ' ' || c == '/')
+                    if ((c == '>' || c == ' ' || c == '/'))
                     {
                         c = xml[ix - 1];
                         if (c == '/' || c == ':' || xml[ix - 1] == '<')
