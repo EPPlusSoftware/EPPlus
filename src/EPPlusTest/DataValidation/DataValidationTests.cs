@@ -58,13 +58,15 @@ namespace EPPlusTest.DataValidation
             CleanupTestData();
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
-        public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
+        [TestMethod]
+        public void DataValidations_ShouldNotThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Operator = ExcelDataValidationOperator.equal;
+
             validation.Validate();
         }
+
 
         [TestMethod]
         public void DataValidations_ShouldWriteReadAllValidOperatorsOnAllTypes()

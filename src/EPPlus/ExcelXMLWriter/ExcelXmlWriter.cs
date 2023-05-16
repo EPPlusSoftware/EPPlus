@@ -718,6 +718,12 @@ namespace OfficeOpenXml.ExcelXMLWriter
             string string1 = ((ExcelDataValidationFormula)formula).GetXmlValue();
             string1 = ConvertUtil.ExcelEscapeAndEncodeString(string1);
 
+
+            if (string1 == "\"")
+            {
+                return;
+            }
+
             cache.Append($"<{prefix}formula1>{extNode}{string1}{endExtNode}</{prefix}formula1>");
         }
 
@@ -727,7 +733,11 @@ namespace OfficeOpenXml.ExcelXMLWriter
             string string1 = ((ExcelDataValidationFormula)formula1).GetXmlValue();
             string string2 = ((ExcelDataValidationFormula)formula2).GetXmlValue();
 
-            //Note that formula1 must be written even when string1 is empty
+            if(string1 == "\"")
+            {
+                return;
+            }
+
             string1 = ConvertUtil.ExcelEscapeAndEncodeString(string1);
             cache.Append($"<{prefix}formula1>{extNode}{string1}{endExtNode}</{prefix}formula1>");
 

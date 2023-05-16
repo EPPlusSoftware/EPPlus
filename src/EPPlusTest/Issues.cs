@@ -4775,6 +4775,18 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void i877()
+        {
+            using (var pck = OpenTemplatePackage("i877.xlsx"))
+            {
+                var sheet = pck.Workbook.Worksheets.Single();
+                string form = sheet.DataValidations[0].As.ListValidation.Formula.ToString();
+
+                pck.SaveAs("C:\\epplusTest\\Workbooks\\i877Result.xlsx");
+            }
+        }
+
+        [TestMethod]
         public void Issue864()
         {
             using (var p = OpenPackage("i864.xlsx", true))

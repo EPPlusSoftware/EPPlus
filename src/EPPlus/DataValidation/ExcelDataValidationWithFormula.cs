@@ -69,9 +69,9 @@ namespace OfficeOpenXml.DataValidation
         {
             xr.ReadUntil(formulaIdentifier, "dataValidation", "extLst");
 
-            if (xr.LocalName != formulaIdentifier && formulaIdentifier != "formula2")
-                throw new NullReferenceException($"Cannot find DataValidation formula for {Uid}. " +
-                    $"Missing node name: {formulaIdentifier}");
+            //if (xr.LocalName != formulaIdentifier && formulaIdentifier != "formula2")
+            //    throw new NullReferenceException($"Cannot find DataValidation formula for {Uid}. " +
+            //        $"Missing node name: {formulaIdentifier}");
 
             bool isExt = xr.NamespaceURI == ExcelPackage.schemaMainX14;
 
@@ -104,27 +104,27 @@ namespace OfficeOpenXml.DataValidation
 
             var formula = Formula as ExcelDataValidationFormula;
 
-            if (ValidationType.Type == eDataValidationType.Any)
-            {
-                return;
-            }
+            //if (ValidationType.Type == eDataValidationType.Any)
+            //{
+            //    return;
+            //}
 
-            if (ValidationType.Type == eDataValidationType.List)
-            {
-                var formulaList = (ExcelDataValidationFormulaList)formula;
-                if (string.IsNullOrEmpty(formulaList.ExcelFormula) && formulaList.Values.Count <= 0)
-                {
-                    throw new InvalidOperationException($"Formula in Datavalidation of type: {eDataValidationType.List} with Uid: {Uid} must have a Value or ExcelFormula");
-                }
-                return;
-            }
+            //if (ValidationType.Type == eDataValidationType.List)
+            //{
+            //    var formulaList = (ExcelDataValidationFormulaList)formula;
+            //    if (string.IsNullOrEmpty(formulaList.ExcelFormula) && formulaList.Values.Count <= 0)
+            //    {
+            //        throw new InvalidOperationException($"Formula in Datavalidation of type: {eDataValidationType.List} with Uid: {Uid} must have a Value or ExcelFormula");
+            //    }
+            //    return;
+            //}
 
-            if ((formula.HasValue == false) 
-                && string.IsNullOrEmpty(formula.ExcelFormula) 
-                && !(AllowBlank ?? false))
-            {
-                throw new InvalidOperationException($"Formula in Datavalidation of type: {ValidationType.Type} with Uid: {Uid} must have a Value or ExcelFormula");
-            }
+            //if ((formula.HasValue == false) 
+            //    && string.IsNullOrEmpty(formula.ExcelFormula) 
+            //    && !(AllowBlank ?? false))
+            //{
+            //    throw new InvalidOperationException($"Formula in Datavalidation of type: {ValidationType.Type} with Uid: {Uid} must have a Value or ExcelFormula");
+            //}
         }
     }
 }
