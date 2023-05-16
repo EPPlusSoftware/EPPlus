@@ -194,7 +194,7 @@ namespace OfficeOpenXml
 
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
-            var endElementIx = FindElementPos(xml, endElement, false);
+            var endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
 
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))
