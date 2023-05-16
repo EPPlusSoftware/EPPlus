@@ -194,7 +194,16 @@ namespace OfficeOpenXml
 
             Buffer.Flush();
             var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
-            var endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
+
+            int endElementIx;
+            if(endElement == "conditionalFormatting")
+            {
+               endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
+            }
+            else
+            {
+                endElementIx = FindElementPos(xml, endElement, false);
+            }
 
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))
@@ -310,7 +319,7 @@ namespace OfficeOpenXml
         private int FindElementPos(string xml, string element, bool returnStartPos = true, int ix = 0)
         {
 
-            if (string.IsNullOrEmpty(element)) return -1; //;Must have an element value otherwise we will go into an infinit loop.
+            if (string.IsNullOrEmpty(element)) return -1; //;Must have an element value otherwise we will go into an infinite loop.
             while (true)
             {
                 ix = xml.IndexOf(element, ix);
