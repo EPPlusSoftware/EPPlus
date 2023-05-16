@@ -72,7 +72,6 @@ namespace EPPlusTest.ExcelUtilities
             var result = address1.CollidesWith(address2);
             Assert.AreEqual(eAddressCollition.No, result);
         }
-
         [TestMethod]
         public void CollideShouldReturnFalseIfRangesCollidesButWorksheetNameDiffers()
         {

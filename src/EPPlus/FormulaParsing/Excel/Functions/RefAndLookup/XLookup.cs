@@ -118,15 +118,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if (string.IsNullOrEmpty(notFoundText))
                 {
-                    return CreateResult(eErrorType.NA);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.NA);
                 }
                 else
                 {
-                    return CreateResult(notFoundText, DataType.String);
+                    return CreateDynamicArrayResult(notFoundText, DataType.String);
                 }
             }
             //return CreateResult(result, DataType.ExcelRange);
-            return CreateAddressResult(result, DataType.ExcelRange);
+            return CreateDynamicArrayResult(result, DataType.ExcelRange);
         }
     }
 }

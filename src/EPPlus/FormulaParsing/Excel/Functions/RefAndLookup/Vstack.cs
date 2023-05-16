@@ -67,7 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     rowIx++;
                 }
             }
-            return CreateResult(range, DataType.ExcelRange);
+            return CreateDynamicArrayResult(range, DataType.ExcelRange);
         }
     }
 }

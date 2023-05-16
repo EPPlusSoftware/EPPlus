@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             ValidateArguments(arguments, 1);
             var arg1 = arguments.ElementAt(0);
-            if (!arg1.IsExcelRange) return CreateResult(eErrorType.Value);
+            if (!arg1.IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             var range = arg1.ValueAsRangeInfo;
 
             var byCol = false;
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 exactlyOnce= ArgToBool(arguments, 2);
             }
             var resultRange = byCol ? GetByCols(range, exactlyOnce) : GetByRows(range, exactlyOnce);
-            return CreateResult(resultRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
         }
 
         private bool ListContainsArray(List<object[]> items, object[] candidate, out int collisionIx)

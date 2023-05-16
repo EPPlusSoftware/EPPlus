@@ -32,36 +32,25 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 obj = ((INameInfo)obj).Value;
             }
-            if (obj == null) return new CompileResult(null, DataType.Empty);
-            var t = obj.GetType();
-            var tc = Type.GetTypeCode(t);
-            switch (tc)
+            var dt =  GetDataType(ref obj);
+            return new CompileResult(obj, dt);
+        }
+        public static CompileResult CreateDynamicArray(object obj, FormulaRangeAddress address=null)
+        {
+            if (obj is IRangeInfo)
             {
-                case TypeCode.String:
-                   return new CompileResult(obj, DataType.String);
-                case TypeCode.Double:
-                case TypeCode.Decimal:
-                case TypeCode.Single:
-                    return new CompileResult(obj, DataType.Decimal);
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                    return new CompileResult(obj, DataType.Integer);
-                case TypeCode.Boolean:
-                    return new CompileResult(obj, DataType.Boolean);
-                case TypeCode.DateTime:
-                    return new CompileResult(((System.DateTime)obj).ToOADate(), DataType.Date);
-                default:
-                    if (t.Equals(typeof(ExcelErrorValue)))
-                    {
-                        return new CompileResult(obj, DataType.ExcelError);
-                    }
-                    throw new ArgumentException("Non supported type " + t.FullName);
+                obj = ((IRangeInfo)obj).GetOffset(0, 0);
             }
+            else if ((obj is INameInfo))
+            {
+                obj = ((INameInfo)obj).Value;
+            }
+            var dt = GetDataType(ref obj);
+            return new DynamicArrayCompileResult(obj, dt);
         }
         public static CompileResult Create(object obj, FormulaRangeAddress address)
         {
-            bool isHidden=false;
+            bool isHidden = false;
             if (obj is IRangeInfo ri)
             {
                 obj = ri.GetOffset(0, 0);
@@ -70,29 +59,36 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 obj = ni.Value;
             }
-            if (obj == null) return new AddressCompileResult(null, DataType.Empty, address);
+
+            var dt = GetDataType(ref obj);
+            return new AddressCompileResult(obj, dt, address) { IsHiddenCell = isHidden };
+        }
+        private static DataType GetDataType(ref object obj)
+        {
+            if (obj == null) return DataType.Empty;
             var t = obj.GetType();
             var tc = Type.GetTypeCode(t);
             switch (tc)
             {
                 case TypeCode.String:
-                    return new AddressCompileResult(obj, DataType.String, address) { IsHiddenCell = isHidden };
+                    return DataType.String;
                 case TypeCode.Double:
                 case TypeCode.Decimal:
                 case TypeCode.Single:
-                    return new AddressCompileResult(obj, DataType.Decimal, address) { IsHiddenCell = isHidden };
+                    return DataType.Decimal;
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                 case TypeCode.Int64:
-                        return new AddressCompileResult(obj, DataType.Integer, address) { IsHiddenCell = isHidden };
+                    return DataType.Integer;
                 case TypeCode.Boolean:
-                    return new AddressCompileResult(obj, DataType.Boolean, address) { IsHiddenCell = isHidden };
+                    return DataType.Boolean;
                 case TypeCode.DateTime:
-                    return new AddressCompileResult(((System.DateTime)obj).ToOADate(), DataType.Date, address) { IsHiddenCell = isHidden };
+                    obj = ((System.DateTime)obj).ToOADate();
+                    return DataType.Date;
                 default:
-                    if (t.Equals(typeof(ExcelErrorValue)) || t.IsSubclassOf(typeof(ExcelErrorValue)))
+                    if (t.Equals(typeof(ExcelErrorValue)))
                     {
-                        return new AddressCompileResult(obj, DataType.ExcelError, address);
+                        return DataType.ExcelError;
                     }
                     throw new ArgumentException("Non supported type " + t.FullName);
             }

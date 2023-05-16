@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var source = firstArg.ValueAsRangeInfo;
                 if(rows.Any(r => Math.Abs(r - 1) > source.Size.NumberOfRows || r == 0))
                 {
-                    return CreateResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 var nCols = source.Size.NumberOfCols;
                 var resultRange = new InMemoryRange(new RangeDefinition(rows.Count, source.Size.NumberOfCols));
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     }
                     rIx++;
                 }
-                return CreateResult(resultRange, DataType.ExcelRange);
+                return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
             }
             else if (!rows.Any(x => x > 1))
             {
@@ -68,9 +68,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     resultRange.SetValue(rIx++, 0, firstArg.Value);
                 }
-                return CreateResult(resultRange, DataType.ExcelRange);
+                return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
             }
-            return CompileResult.GetErrorResult(eErrorType.Value);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
         }
     }
 }

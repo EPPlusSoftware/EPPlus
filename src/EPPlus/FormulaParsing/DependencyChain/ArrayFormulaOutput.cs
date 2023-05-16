@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -131,6 +132,39 @@ namespace OfficeOpenXml.FormulaParsing
                 sf.EndCol = endCol;
             }
             FillArrayFromRangeInfo(f, array, rd, depChain);
+            return dirtyRange;
+        }
+        internal static SimpleAddress[] FillDynamicArraySingleValue(RpnFormula f, CompileResult result, RangeHashset rd, RpnOptimizedDependencyChain depChain)
+        {
+            var ws = f._ws;
+            var startRow = f._row;
+            var startCol = f._column;
+            var wsIx = ws.IndexInList;
+
+            f._isDynamic = true;
+            var md = depChain._parsingContext.Package.Workbook.Metadata;
+            md.GetDynamicArrayIndex(out int cm);
+            var metaData = f._ws._metadataStore.GetValue(startRow, startCol);
+            metaData.cm = cm;
+
+            f._ws._metadataStore.SetValue(f._row, f._column, metaData);
+
+            SimpleAddress[] dirtyRange;
+            if (f._arrayIndex == -1)
+            {
+                f._ws.Cells[startRow, startCol, startRow, startCol].CreateArrayFormula(f._formula);
+                f._arrayIndex = f._ws.GetMaxShareFunctionIndex(true) - 1;
+                dirtyRange = null;
+            }
+            else
+            {
+                var sf = ws._sharedFormulas[f._arrayIndex];
+                dirtyRange = GetDirtyRange(startRow, startCol, startRow, startCol, sf.EndRow, sf.EndCol);
+                CleanupSharedFormulaValues(f, ws, sf, startRow, startCol);
+                sf.EndRow = startRow;
+                sf.EndCol = startCol;
+            }
+            f._ws.SetValueInner(startRow, startCol, result.ResultValue ?? 0D);
             return dirtyRange;
         }
 

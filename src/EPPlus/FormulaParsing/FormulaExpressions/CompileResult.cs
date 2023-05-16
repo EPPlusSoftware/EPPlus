@@ -22,10 +22,31 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    public class CompileResult
+    public enum CompileResultType
+    {
+        /// <summary>
+        /// A normal compile result containing a value.
+        /// </summary>
+        Normal = 0,
+        /// <summary>
+        /// A compile result referencing a range address. This will allow the result to be used with the colon operator.
+        /// </summary>
+        RangeAddress = 1,
+        /// <summary>
+        /// The result is a dynamic array formula.
+        /// </summary>
+        DynamicArray = 2
+    }
+    public abstract class CompileResultBase
+    {
+        public abstract CompileResultType ResultType { get; }
+    }
+    public class CompileResult : CompileResultBase
     {
         private static CompileResult _empty = new CompileResult(null, DataType.Empty);
         private static CompileResult _zeroDecimal = new CompileResult(0d, DataType.Decimal);
@@ -40,7 +61,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private static CompileResult _errorName = new CompileResult(ErrorValues.NameError, DataType.ExcelError);
         private static CompileResult _errorNum = new CompileResult(ErrorValues.NumError, DataType.ExcelError);
         private static CompileResult _errorCalc = new CompileResult(ErrorValues.CalcError, DataType.ExcelError);
-        //private static CompileResult _errorSpill = new CompileResult(ErrorValues.SpillError, DataType.ExcelError);
+
+        private static DynamicArrayCompileResult _arrayErrorRef = new DynamicArrayCompileResult(ErrorValues.RefError, DataType.ExcelError);
+        private static DynamicArrayCompileResult _arrayErrorValue = new DynamicArrayCompileResult(ErrorValues.ValueError, DataType.ExcelError);
+        private static DynamicArrayCompileResult _arrayErrorNA = new DynamicArrayCompileResult(ErrorValues.NAError, DataType.ExcelError);
+        private static DynamicArrayCompileResult _arrayErrorDiv0 = new DynamicArrayCompileResult(ErrorValues.Div0Error, DataType.ExcelError);
+        private static DynamicArrayCompileResult _arrayErrorNull = new DynamicArrayCompileResult(ErrorValues.NullError, DataType.ExcelError);
+        private static DynamicArrayCompileResult _arrayErrorName = new DynamicArrayCompileResult(ErrorValues.NameError, DataType.ExcelError);
+        private static DynamicArrayCompileResult _arrayErrorNum = new DynamicArrayCompileResult(ErrorValues.NumError, DataType.ExcelError);
+        private static DynamicArrayCompileResult _arrayErrorCalc = new DynamicArrayCompileResult(ErrorValues.CalcError, DataType.ExcelError);
+
+
+        //private static CompileResult _errorSpill = new CompileResult(ErrorValues.SpillError, DataType.ExcelError); //Spill should use the Spill error containing row and column offset.
 
 
         /// <summary>
@@ -85,7 +117,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 Result = result;
             }
             DataType = dataType;
-            //ExcelAddressReferenceId = excelAddressReferenceId;
         }
 
         internal void Negate()
@@ -101,9 +132,31 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 Result = _resultNumeric;
             }
         }
+        internal static CompileResult GetDynamicArrayResultError(eErrorType errorType)
+        {
+            switch (errorType)
+            {
+                case eErrorType.Ref:
+                    return _arrayErrorRef;
+                case eErrorType.Name:
+                    return _arrayErrorName;
+                case eErrorType.Null:
+                    return _arrayErrorNull;
+                case eErrorType.Div0:
+                    return _arrayErrorDiv0;
+                case eErrorType.NA:
+                    return _arrayErrorNA;
+                case eErrorType.Num:
+                    return _arrayErrorNum;
+                case eErrorType.Calc:
+                    return _arrayErrorCalc;
+                default: //#Value!
+                    return _arrayErrorValue;
+            }
+        }
         internal static CompileResult GetErrorResult(eErrorType errorType)
         {
-            switch(errorType)
+            switch (errorType)
             {
                 case eErrorType.Ref:
                     return _errorRef;
@@ -283,14 +336,22 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 return null;
             }
         }
+        public override CompileResultType ResultType
+        {
+            get
+            {
+                return CompileResultType.Normal;
+            }
+        }
+
     }
     public class AddressCompileResult : CompileResult
     {
-        public AddressCompileResult(Object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType)
+        public AddressCompileResult(object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType)
         {
             Address = address;
         }
-        public AddressCompileResult(Object result, DataType dataType) : base(result, dataType)
+        public AddressCompileResult(object result, DataType dataType) : base(result, dataType)
         { 
 
         }
@@ -305,6 +366,45 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public override FormulaRangeAddress Address
         {
             get;
+        }
+        public override CompileResultType ResultType
+        {
+            get
+            {
+                return CompileResultType.RangeAddress;
+            }
+        }
+    }
+    /// <summary>
+    /// Indicates that the result the function should be created as a dynamic array result.
+    /// </summary>
+    public class DynamicArrayCompileResult : AddressCompileResult
+    {
+        public DynamicArrayCompileResult(object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType)
+        {
+            
+        }
+        public DynamicArrayCompileResult(object result, DataType dataType) : base(result, dataType)
+        {
+
+        }
+        public DynamicArrayCompileResult(eErrorType error) : base(error)
+        {
+
+        }
+        public DynamicArrayCompileResult(ExcelErrorValue errorValue) : base(errorValue)
+        {
+
+        }
+        /// <summary>
+        /// The result is a dynamic array.
+        /// </summary>
+        public override CompileResultType ResultType
+        {
+            get
+            {
+                return CompileResultType.DynamicArray;
+            }
         }
     }
 }

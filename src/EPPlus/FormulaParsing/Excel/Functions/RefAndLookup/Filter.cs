@@ -80,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if (s2.NumberOfCols != 1)
             {
-                return CompileResult.GetErrorResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var filteredData = new List<List<object>>();
             for (int r = 0; r < s2.NumberOfRows; r++)
@@ -88,7 +88,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(r, 0), false, true);
                 if (double.IsNaN(boolValue))
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 if (boolValue != 0)
                 {
@@ -105,14 +105,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if(emptyValue== null)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Calc);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
                 }
                 else
                 {
-                    return new CompileResult(emptyValue.Value, emptyValue.DataType);
+                    return new DynamicArrayCompileResult(emptyValue.Value, emptyValue.DataType);
                 }
             }
-            return new CompileResult(new InMemoryRange(filteredData), DataType.ExcelRange);
+            return new DynamicArrayCompileResult(new InMemoryRange(filteredData), DataType.ExcelRange);
         }
         private static CompileResult FilterOnColumn(IRangeInfo arg1, IRangeInfo arg2, FunctionArgument emptyValue)
         {
@@ -121,7 +121,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             if (s2.NumberOfRows != 1)
             {
-                return CompileResult.GetErrorResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var filteredData = new List<List<object>>();
             for (int c = 0; c < s2.NumberOfCols; c++)
@@ -129,7 +129,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var boolValue = ConvertUtil.GetValueDouble(arg2.GetOffset(0, c), false, true);
                 if (double.IsNaN(boolValue))
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 if (boolValue != 0)
                 {
@@ -146,14 +146,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if (emptyValue == null)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Calc);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
                 }
                 else
                 {
-                    return new CompileResult(emptyValue.Value, emptyValue.DataType);
+                    return new DynamicArrayCompileResult(emptyValue.Value, emptyValue.DataType);
                 }
             }
-            return new CompileResult(new InMemoryRange(filteredData), DataType.ExcelRange);
+            return new DynamicArrayCompileResult(new InMemoryRange(filteredData), DataType.ExcelRange);
         }
 
         public override string NamespacePrefix

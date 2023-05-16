@@ -628,6 +628,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         /// <param name="result"></param>
         /// <param name="dataType"></param>
+        /// <returns></returns>
+        protected CompileResult CreateDynamicArrayResult(object result, DataType dataType)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new DynamicArrayCompileResult(result, dataType);
+        }
+        protected CompileResult CreateDynamicArrayResult(object result, DataType dataType, FormulaRangeAddress address)
+        {
+            var validator = _compileResultValidators.GetValidator(dataType);
+            validator.Validate(result);
+            return new DynamicArrayCompileResult(result, dataType, address);
+        }
+        /// <summary>
+        /// Use this method to create a result to return from Excel functions. 
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
         /// <param name="address">The address for the range</param>
         /// <returns></returns>
         protected CompileResult CreateAddressResult(IRangeInfo result, DataType dataType)

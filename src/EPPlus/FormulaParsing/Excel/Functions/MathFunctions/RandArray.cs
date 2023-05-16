@@ -66,11 +66,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             // 50 million cells in the array is the max value
             if(nRows * nCols > 50000000)
             {
-                return CreateResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             else if(max < min)
             {
-                return CreateResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var rnd = new Random();
             var result = new InMemoryRange(new RangeDefinition(nRows, nCols));
@@ -82,7 +82,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     result.SetValue(row, col, num);
                 }
             }
-            return CreateResult(result, DataType.ExcelRange);
+            return CreateDynamicArrayResult(result, DataType.ExcelRange);
         }
         private double GetRandomNumber(Random rnd, double min, double max, bool useInteger)
         {

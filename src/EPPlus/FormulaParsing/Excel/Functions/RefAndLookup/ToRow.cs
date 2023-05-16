@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 ignore = ArgToInt(arguments, 1);
                 if(ignore < 0 || ignore > 4)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
             }
             var scanByColumn = false;
@@ -56,9 +56,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     resultRange.SetValue(0, col++, val);
                 }
-                return CreateResult(resultRange, DataType.ExcelRange);  
+                return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);  
             }
-            return CompileResultFactory.Create(firstArg.Value);
+            return CompileResultFactory.CreateDynamicArray(firstArg.Value);
         }
     }
 }

@@ -546,7 +546,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     else
                     {
-                        if (cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).IsMulti) //A range. When we add support for dynamic array formulas we will alter this.
+                        if ((cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).IsMulti)) //A range. When we add support for dynamic array formulas we will alter this.
                         {
                             var ri = (IRangeInfo)cr.Result;
                             if (f._arrayIndex >= 0 && f._isDynamic == false) //A legacy array formula, Fill the referenced range.
@@ -561,6 +561,14 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     RecalculateDirtyCells(dirtyRange, depChain, rd);
                                 }
+                            }
+                        }
+                        else if (cr.ResultType == CompileResultType.DynamicArray)
+                        {
+                            var dirtyRange = ArrayFormulaOutput.FillDynamicArraySingleValue(f, cr, rd, depChain);
+                            if (dirtyRange != null && dirtyRange.Length > 0)
+                            {
+                                RecalculateDirtyCells(dirtyRange, depChain, rd);
                             }
                         }
                         else
