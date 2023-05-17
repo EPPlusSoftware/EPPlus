@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.RichData.Types
 {
@@ -17,7 +18,7 @@ namespace OfficeOpenXml.RichData.Types
 
         internal void WriteXml(StreamWriter sw)
         {
-            sw.Write($"<key name=\"{Name}\">");
+            sw.Write($"<key name=\"{Name.EncodeXMLAttribute()}\">");
             foreach(var flag in GetEnumFlags(Flags))
             {
                 sw.Write($"<flag name=\"{flag}\" value=\"1\" />");

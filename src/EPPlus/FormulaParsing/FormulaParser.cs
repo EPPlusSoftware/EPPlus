@@ -76,7 +76,7 @@ namespace OfficeOpenXml.FormulaParsing
                 configuration
                     .FunctionRepository.LoadModule(new BuiltInFunctions());
             });
-            Tokenizer = new OptimizedSourceCodeTokenizer(parsingContext.Configuration.FunctionRepository, parsingContext.NameValueProvider);
+            Tokenizer = new SourceCodeTokenizer(parsingContext.Configuration.FunctionRepository, parsingContext.NameValueProvider);
         }
 
         /// <summary>

@@ -95,6 +95,12 @@ namespace OfficeOpenXml.Utils
         {
             return s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
         }
+        internal static string EncodeXMLElement(this string s)
+        {
+            return s.Replace("&", "&amp;").
+                     Replace("<", "&lt;").
+                     Replace(">", "&gt;");
+        }
 
     }
 }

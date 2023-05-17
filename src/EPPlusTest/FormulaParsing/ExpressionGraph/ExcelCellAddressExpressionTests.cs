@@ -19,7 +19,7 @@ namespace EPPlusTest.FormulaParsing.ExpressionGraph
         static EpplusExcelDataProvider _excelDataProvider;
         //static ExpressionGraphBuilder _graphBuilder;
         static ExcelWorksheet _ws, _ws2;
-        internal static ISourceCodeTokenizer _tokenizer = OptimizedSourceCodeTokenizer.Default;
+        internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
         //static ExpressionCompiler _compiler;
         [ClassInitialize]
         public static void Init(TestContext context)

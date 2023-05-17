@@ -18,8 +18,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     {
         internal ExcelWorksheet _ws;
         internal int StartRow, StartCol;
-        internal static ISourceCodeTokenizer _tokenizer = OptimizedSourceCodeTokenizer.Default;
-        internal static ISourceCodeTokenizer _tokenizerNWS = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
+        internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
+        internal static ISourceCodeTokenizer _tokenizerNWS = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
         internal IList<Token> Tokens;
         internal IList<Token> RpnTokens;
         internal int AddressExpressionIndex;
@@ -695,7 +695,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         public FormulaTableAddress(ParsingContext ctx, string tableAddress)
         {
-            foreach (var t in OptimizedSourceCodeTokenizer.Default.Tokenize(tableAddress))
+            foreach (var t in SourceCodeTokenizer.Default.Tokenize(tableAddress))
             {
                 switch (t.TokenType)
                 {

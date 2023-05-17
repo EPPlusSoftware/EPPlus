@@ -56,7 +56,8 @@ namespace OfficeOpenXml
         RichText = 0x2,
         SharedFormula = 0x4,
         ArrayFormula = 0x8,
-        DataTableFormula = 0x10
+        DataTableFormula = 0x10,
+        CanBeDynamicArray = 0x20,
     }
     /// <summary>
 	/// Represents an Excel worksheet and provides access to its properties and methods

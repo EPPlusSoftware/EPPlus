@@ -62,7 +62,7 @@ namespace OfficeOpenXml
         private delegate void _setValue(ExcelRangeBase range, object value, int row, int col);
         private _changeProp _changePropMethod;
         private int _styleID;
-        private static OptimizedSourceCodeTokenizer _tokenizer=new OptimizedSourceCodeTokenizer(null, null, false, true);
+        private static SourceCodeTokenizer _tokenizer=new SourceCodeTokenizer(null, null, false, true);
         private FunctionRepository _functions;
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
@@ -271,6 +271,7 @@ namespace OfficeOpenXml
                 if (formula[0] == '=') formula = formula.Substring(1, formula.Length - 1); // remove any starting equalsign.
                 range._worksheet._formulas.SetValue(row, col, formula);
                 range._worksheet.SetValueInner(row, col, null);
+                range._worksheet._flags.SetFlagValue(row, col, true, CellFlags.CanBeDynamicArray);
             }
         }
         /// <summary>
@@ -975,7 +976,7 @@ namespace OfficeOpenXml
 
         private bool HasOffSheetReference(string value)
         {
-            var tokenizer = OptimizedSourceCodeTokenizer.Default;
+            var tokenizer = SourceCodeTokenizer.Default;
             var tokens = tokenizer.Tokenize(value, WorkSheetName);
             foreach (var t in tokens)
             {
@@ -2521,6 +2522,31 @@ namespace OfficeOpenXml
             else
             {
                 _worksheet.SetValue(_fromRow + rowOffset, _fromCol + columnOffset, value);
+            }
+        }
+        /// <summary>
+        /// If the formula in the single cell returns an array, implicit intersection will be used instead of creating a dynamic array formula.
+        /// Please note that this property must be set after setting the formula, as default behaviour is to create a dynamic array formula.
+        /// Shared formulas will always use implicit intersection.
+        /// </summary>
+        public bool UseImplicitItersection
+        {
+            get
+            {
+                return !_worksheet._flags.GetFlagValue(_fromRow, _toRow, CellFlags.CanBeDynamicArray);
+            }
+            set
+            {
+                foreach (var adr in GetAllAddresses())
+                {
+                    for (int c = adr._fromCol; c <= adr._toCol; c++)
+                    {
+                        for (int r = adr._fromRow; r <= adr._toRow; r++)
+                        {
+                            _worksheet._flags.SetFlagValue(r, c, !value, CellFlags.CanBeDynamicArray);
+                        }
+                    }
+                }
             }
         }
     }

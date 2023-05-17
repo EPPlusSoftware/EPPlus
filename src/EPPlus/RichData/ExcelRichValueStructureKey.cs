@@ -14,8 +14,8 @@ namespace OfficeOpenXml.RichData
         {
             switch(dt)
             {
-                case "d":
-                    return RichValueDataType.Decimal;
+                case "spb":
+                    return RichValueDataType.SupportingPropertyBag;
                 case "i":
                     return RichValueDataType.Integer;
                 case "b":
@@ -29,15 +29,15 @@ namespace OfficeOpenXml.RichData
                 case "a":
                     return RichValueDataType.Array;
                 default:
-                    return RichValueDataType.SupportingPropertyBag;
+                    return RichValueDataType.Decimal;
             }
         }
         internal string GetDataTypeString()
         {
             switch (DataType)
             {
-                case RichValueDataType.Decimal:
-                    return "d";
+                case RichValueDataType.SupportingPropertyBag:
+                    return "spb";
                 case RichValueDataType.Integer:
                     return "i";
                 case RichValueDataType.Bool:
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.RichData
                 case RichValueDataType.Array:
                     return "a";
                 default:
-                    return "spb";
+                    return "d";
             }
         }
 

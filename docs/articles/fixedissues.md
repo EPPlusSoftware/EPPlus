@@ -1,4 +1,41 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.4
+### Minor Features
+* Added IRangeDataValidation. ClearDataValidation to clear data validations from a range.
+### Fixed issues 
+* Having a table data source set to a defined name, and then insert rows into the range, caused the table source to be inverted into a range without inserting the rows.
+* An error occured when setting the Shape.Text in some cases."Name cannot begin with the ' ' character, hexadecimal value 0x20, due to invalid xml. 
+* Scientific notation numbers were not being recognized in the calculation when there were leading or trailing whitespaces.
+* Formulas update for Data Validation and Conditional Formatting sometimes updated the addresses wrong when inserting and deleting.
+* The worksheet xml got corrupt in rare cases, when having extLst items.
+* A pivot table's SourceRange property was not read on load.
+
+## Version 6.2.3
+### Fixed issues
+* Setting sparklineGroups.MaxAxisType to eSparklineAxisMinMax.Group did not work.
+* Extracting the worksheet xml sometimes fails when having an extLst element. 
+* Having a DataTable formula sometimes caused an InvalidDataException due to missing shared formula id.
+* Setting ExcelRange.IsRichText caused an exception in some cases.
+* Inserting columns in tables with calculated columns sometimes caused a corrupt workbook upon save.
+* Having a workbook with picture-drawings with duplicate names caused Drawing.Delete(string) to fail.
+* Fixed an encoding issue with data validation attributes having values containing double quotes (").
+* Data validation's sometimes corrupted the workbook on save when referencing another worksheet in the formulas.
+
+## Version 6.2.2
+### Fixed issues
+* Insert row did not update formula cells correctly in some cases.
+* Copying a worksheet to another workbook sometimes doesn't copy the correct style.
+* Creating a sparkline group with an ExcelAddress caused a corrupt workbook.
+* Datavalidations with a ImeMode property set, throw an exception on save.
+* Datavalidations sometimes caused a corrupt workbook when used with slicers and sparklines (extLst).
+
+## Version 6.2.1
+### Fixed issues
+* Having data validations referring to other worksheets could break the xml causing the workbook to become corrupt.
+* Deleting a worksheet and having the last worksheet selected caused the workbook to become corrupt.
+* Fixed a rounding bug in ExcelTime, affecting the Time formula and the data validation time rule.
+* List data validations could not have empty value as a list item
+
 ## Version 6.2.0
 ### Features
 * Improved performance and better support for cross-worksheet references in data validations.

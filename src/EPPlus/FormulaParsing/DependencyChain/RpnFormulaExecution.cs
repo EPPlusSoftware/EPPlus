@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -40,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal bool HasDynamicArrayFormula=false;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
-            _tokenizer = OptimizedSourceCodeTokenizer.Default;
+            _tokenizer = SourceCodeTokenizer.Default;
             _parsingContext = wb.FormulaParser.ParsingContext;
             _formulaExecutor = new FormulaExecutor(_parsingContext);
 
@@ -546,7 +547,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     else
                     {
-                        if ((cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).IsMulti)) //A range. When we add support for dynamic array formulas we will alter this.
+                        if ((cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).Address.IsSingleCell==false)) //A range. When we add support for dynamic array formulas we will alter this.
                         {
                             var ri = (IRangeInfo)cr.Result;
                             if (f._arrayIndex >= 0 && f._isDynamic == false) //A legacy array formula, Fill the referenced range.
@@ -555,11 +556,19 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else
                             {
-                                //Add dynamic array formula support here.
-                                var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
-                                if (dirtyRange!=null && dirtyRange.Length > 0)
+                                if (f.CanBeDynamicArray) //Create a dynamic array formula if allowed. 
                                 {
-                                    RecalculateDirtyCells(dirtyRange, depChain, rd);
+                                    //Add dynamic array formula support here.
+                                    var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
+                                    if (dirtyRange != null && dirtyRange.Length > 0)
+                                    {
+                                        RecalculateDirtyCells(dirtyRange, depChain, rd);
+                                    }
+                                }
+                                else //Set implicit intersection
+                                {
+                                    var icr = ImplicitIntersectionUtil.GetResult(ri, f._row, f._column, depChain._parsingContext);
+                                    f._ws.SetValueInner(f._row, f._column, icr.ResultValue ?? 0D);
                                 }
                             }
                         }

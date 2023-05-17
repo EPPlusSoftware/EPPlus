@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
-    public class OptimizedSourceCodeTokenizer : ISourceCodeTokenizer
+    public class SourceCodeTokenizer : ISourceCodeTokenizer
     {
         private static readonly Dictionary<char, Token> _charAddressTokens = new Dictionary<char, Token>
         {
@@ -61,17 +61,17 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         public static ISourceCodeTokenizer Default
         {
-            get { return new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false); }
+            get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, false); }
         }
         /// <summary>
         /// The tokenizer used for r1c1 format. This tokenizer will keep whitespaces and add them as tokens.
         /// </summary>
         public static ISourceCodeTokenizer R1C1
         {
-            get { return new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true); }
+            get { return new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, true, true); }
         }
 
-        public OptimizedSourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace=false)
+        public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace=false)
         {
             _r1c1 = r1c1;
             _keepWhitespace = keepWhitespace;

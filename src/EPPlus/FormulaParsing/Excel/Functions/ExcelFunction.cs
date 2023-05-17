@@ -48,9 +48,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// </summary>
         Condition,
         /// <summary>
-        /// 
+        /// Use this argument if the condtion is true. Requires a previous parameter to be <see cref="Condition"/>
         /// </summary>
         UseIfConditionIsTrue,
+        /// <summary>
+        /// Use this argument if the condtion is false. Requires a previous parameter to be <see cref="Condition"/>
+        /// </summary>
         UseIfConditionIsFalse
     }
     /// <summary>
@@ -112,7 +115,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <summary>
         /// Describes how the function works with input ranges and returning arrays.
         /// </summary>
-        internal virtual ExcelFunctionArrayBehaviour ArrayBehaviour
+        public virtual ExcelFunctionArrayBehaviour ArrayBehaviour
         {
             get
             {
@@ -120,7 +123,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
 
-        internal virtual ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public virtual ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return null;
         }

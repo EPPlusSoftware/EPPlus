@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// <summary>
     /// Used to indicate if a function can return an array of values.
     /// </summary>
-    internal enum ExcelFunctionArrayBehaviour
+    public enum ExcelFunctionArrayBehaviour
     {
         /// <summary>
         /// The function does not support arrays

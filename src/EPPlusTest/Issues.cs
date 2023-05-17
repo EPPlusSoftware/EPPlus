@@ -4860,6 +4860,18 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void DataTypesInCalc()
+        {
+            using (var p = OpenTemplatePackage("DataTypes-Stock Currency.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["H100"].Formula = "A1:C1";
+                ws.Calculate();
+                SaveAndCleanup(p);
+            }
+            
+        }
     }
 }
 
