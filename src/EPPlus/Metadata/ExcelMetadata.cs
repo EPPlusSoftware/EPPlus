@@ -236,7 +236,7 @@ namespace OfficeOpenXml.Metadata
             }
             else
             {
-                var tIx = FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Index;
+                var tIx = FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Index + 1;
                 if (tIx >= 0)
                 {
                     cm = CellMetadata.FindIndex(x => x.Records.Exists(y => y.RecordTypeIndex == tIx)) + 1;

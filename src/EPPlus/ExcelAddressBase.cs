@@ -445,13 +445,17 @@ namespace OfficeOpenXml
                 return this;
             }
         }
-
+        internal protected virtual void BeforeChangeAddress()
+        {
+        }
         /// <summary>
         /// Called when the address changes
         /// </summary>
         internal protected virtual void ChangeAddress()
         {
         }
+
+
         private void SetWbWs(string address)
         {
             int pos;
@@ -736,6 +740,20 @@ namespace OfficeOpenXml
                 }
             }
         }
+        /// <summary>
+        /// Returns the address of the first cell in the address without $. Returns #REF! if the address is invalid.
+        /// </summary>
+        internal string FirstCellAddressRelative
+        {
+            get
+            {
+                if (_fromRow > 0 && _fromCol > 0)
+                {
+                    return GetAddress(_fromRow, _fromCol);
+                }
+                return "#REF!";
+            }
+        }
         internal string AddressSpaceSeparated
         {
             get
@@ -760,13 +778,21 @@ namespace OfficeOpenXml
                 return _ws;
             }
         }
-        internal List<ExcelAddress> _addresses = null;
-        internal virtual List<ExcelAddress> Addresses
+        internal List<ExcelAddressBase> _addresses = null;
+        internal virtual List<ExcelAddressBase> Addresses
         {
             get
             {
                 return _addresses;
             }
+        }
+        internal virtual List<ExcelAddressBase> GetAllAddresses()
+        {
+            if (Addresses == null)
+            {
+                return new List<ExcelAddressBase>() { this };
+            }
+            return _addresses;
         }
 
         private bool ExtractAddress(string fullAddress)
@@ -877,7 +903,7 @@ namespace OfficeOpenXml
                         }
                         else if (c == ',' && !isText)
                         {
-                            if(_addresses==null) _addresses = new List<ExcelAddress>();
+                            if(_addresses==null) _addresses = new List<ExcelAddressBase>();
                             if(string.IsNullOrEmpty(ws))
                             {
                                 first = string.IsNullOrEmpty(second) ? first : first + ":" + second;

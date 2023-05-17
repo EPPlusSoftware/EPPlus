@@ -543,7 +543,7 @@ namespace OfficeOpenXml
                     }
                     else if (r._addresses != null)
                     {
-                        return r._addresses[1];
+                        return new ExcelAddress(r._addresses[1].Address);
                     }
                     else
                     {
@@ -604,7 +604,7 @@ namespace OfficeOpenXml
                     }
                     else if (r._addresses != null)
                     {
-                        return r._addresses[1];
+                        return new ExcelAddress(r._addresses[1].Address);
                     }
                     else
                     {

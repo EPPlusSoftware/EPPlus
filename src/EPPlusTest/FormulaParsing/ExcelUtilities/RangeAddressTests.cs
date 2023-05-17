@@ -35,6 +35,7 @@ using FakeItEasy;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing;
 using static OfficeOpenXml.ExcelAddressBase;
+using OfficeOpenXml;
 
 namespace EPPlusTest.ExcelUtilities
 {
@@ -47,7 +48,11 @@ namespace EPPlusTest.ExcelUtilities
         public void Setup()
         {
             var provider = A.Fake<ExcelDataProvider>();
-            _factory = new RangeAddressFactory(provider, ParsingContext.Create());
+            var p = new ExcelPackage();
+            p.Workbook.Worksheets.Add("Sheet1");
+            p.Workbook.Worksheets.Add("Sheet2");
+            var context = ParsingContext.Create(p);
+            _factory = new RangeAddressFactory(provider, context);
         }
 
         [TestMethod]
@@ -67,11 +72,10 @@ namespace EPPlusTest.ExcelUtilities
             var result = address1.CollidesWith(address2);
             Assert.AreEqual(eAddressCollition.No, result);
         }
-
         [TestMethod]
         public void CollideShouldReturnFalseIfRangesCollidesButWorksheetNameDiffers()
         {
-            var address1 = _factory.Create("Ws!A1:A6");
+            var address1 = _factory.Create("Sheet2!A1:A6");
             var address2 = _factory.Create("A5");
             var result = address1.CollidesWith(address2);
             Assert.AreEqual(eAddressCollition.No, result);

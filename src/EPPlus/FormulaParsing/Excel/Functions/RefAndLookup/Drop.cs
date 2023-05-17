@@ -79,21 +79,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if(r.IsInMemoryRange)
                 {
                     retRange = r.GetOffset(fromRow, fromCol, toRow, toCol);
-                    return CreateResult(retRange, DataType.ExcelRange);
+                    return CreateDynamicArrayResult(retRange, DataType.ExcelRange);
                 }
                 else
                 {
                     var address = new FormulaRangeAddress(context, fromRow, fromCol, toRow, toCol);
                     retRange = new RangeInfo(r.Worksheet, fromRow, fromCol, toRow, toCol, context, r.Address.ExternalReferenceIx); //External references must be check how they work.
-                    return CreateResult(retRange, DataType.ExcelRange, address);
+                    return CreateDynamicArrayResult(retRange, DataType.ExcelRange, address);
                 }
             }
             // arg was not a range
             if(rows == 0 && cols == 0)
-            {
-                return CompileResultFactory.Create(firstArg.Value);
+            {                
+                return CompileResultFactory.CreateDynamicArray(firstArg.Value);
             }
-            return CompileResult.GetErrorResult(eErrorType.Calc);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
             
         }
         public override string NamespacePrefix => "_xlfn.";

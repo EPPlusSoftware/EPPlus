@@ -47,11 +47,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                             ToCol = sf.EndCol,
                         };
                         var ri = new RangeInfo(rangeAddress, context);
-                        return new AddressCompileResult(ri, DataType.ExcelRange, rangeAddress);
+                        return new DynamicArrayCompileResult(ri, DataType.ExcelRange, rangeAddress);
                     }
                 }
             }
-            return CompileResult.GetErrorResult(eErrorType.Ref);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Ref);
         }
         public override string NamespacePrefix
         {

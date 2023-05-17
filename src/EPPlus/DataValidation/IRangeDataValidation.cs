@@ -13,7 +13,7 @@
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.DataValidation.Contracts;
-
+using System;
 namespace OfficeOpenXml.DataValidation
 {
     /// <summary>
@@ -62,5 +62,12 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         /// <returns>A <see cref="IExcelDataValidationCustom"/> that can be configured for custom validation</returns>
         IExcelDataValidationCustom AddCustomDataValidation();
+
+        /// <summary>
+        /// Removes validation from the cell/range
+        /// </summary>
+        /// <param name="deleteIfEmpty">Delete the validation if it has no more addresses its being applied to. If set to false an <see cref="InvalidOperationException"/> will be thrown if all addresses of a datavalidation has been cleared.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="deleteIfEmpty"/> is false and all addresses of a datavalidation has been cleared.</exception>
+        void ClearDataValidation(bool deleteIfEmpty = false);
     }
 }

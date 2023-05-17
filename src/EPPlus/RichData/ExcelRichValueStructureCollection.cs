@@ -115,7 +115,7 @@ namespace OfficeOpenXml.RichData
                     si.SetAsSpillError();
                     break;
                 case RichDataStructureFlags.ErrorWithSubType:
-                    si.SetAsFieldError();
+                    si.SetAsErrorWithSubType();
                     break;
                 case RichDataStructureFlags.ErrorPropagated:
                     si.SetAsPropagatedError();

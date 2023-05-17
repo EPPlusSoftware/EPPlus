@@ -11,6 +11,8 @@
   02/03/2020         EPPlus Software AB       Added
  *************************************************************************************************/
  using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
@@ -350,6 +352,24 @@ namespace OfficeOpenXml.Core.Worksheet
             }
 
         }
-
+        internal static string AdjustStartCellForFormula(string formula, ExcelAddress address, ExcelAddressBase newAddress)
+        {
+            var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+            var tokens = sct.Tokenize(formula);
+            var sb = new StringBuilder();
+            var firstCell = address.FirstCellAddressRelative;
+            foreach (var t in tokens)
+            {
+                if (t.TokenTypeIsSet(TokenType.ExcelAddress) && t.Value == firstCell) //If the first cell has been change we adjust any formula that reference it. This will not adjust custom formulas.
+                {
+                    sb.Append(newAddress.FirstCellAddressRelative);
+                }
+                else
+                {
+                    sb.Append(t.Value);
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

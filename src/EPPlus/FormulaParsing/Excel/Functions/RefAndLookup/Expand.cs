@@ -50,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 rows = ArgToInt(arguments, 1);
                 if(rows < range.Size.NumberOfRows)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
             }
             var cols = range.Size.NumberOfCols;
@@ -59,13 +59,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 cols = (short)ArgToInt(arguments, 2);
                 if(cols < range.Size.NumberOfCols)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 else if(cols + context.CurrentCell.Column > ExcelPackage.MaxColumns
                     ||
                     rows + context.CurrentCell.Row > ExcelPackage.MaxRows)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Spill);
+                    return new DynamicArrayCompileResult(new ExcelRichDataErrorValue(0, 0));
                 }
             }
             object padWith = ErrorValues.NAError;
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     }
                 }
             }
-            return CreateResult(rr, DataType.ExcelRange);
+            return CreateDynamicArrayResult(rr, DataType.ExcelRange);
         }
     }
 }

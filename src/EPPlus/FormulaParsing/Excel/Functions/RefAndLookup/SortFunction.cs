@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var arg1 = arguments.ElementAt(0);
             if(!arg1.IsExcelRange)
             {
-                return CompileResultFactory.Create(arg1.Value);
+                return CompileResultFactory.CreateDynamicArray(arg1.Value);
             }
             var range = arg1.ValueAsRangeInfo;
             var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (sortIndex < 1 || sortIndex > maxIndex) return CreateResult(eErrorType.Value);
             if (sortOrder != -1 && sortOrder != 1) return CreateResult(eErrorType.Value);
             var sortedRange = GetSortedRange(range, sortIndex, sortOrder, byCol);
-            return CreateResult(sortedRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(sortedRange, DataType.ExcelRange);
         }
 
         private InMemoryRange GetSortedRange(IRangeInfo sourceRange, int sortIndex, int sortOrder, bool byCol)

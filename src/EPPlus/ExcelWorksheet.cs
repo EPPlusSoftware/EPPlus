@@ -1170,15 +1170,17 @@ namespace OfficeOpenXml
             {
                 LoadExtLst(xr, stream, ref xml, ref lastXmlElement);
             }
-
-            Encoding encoding = Encoding.UTF8;
-            xml = stream.ReadFromEndElement(lastXmlElement, xml);
+            if (!string.IsNullOrEmpty(lastXmlElement))
+            {
+                xml = stream.ReadFromEndElement(lastXmlElement, xml);
+            }
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
             packPart.Stream = RecyclableMemory.GetStream();
 
             //first char is invalid sometimes?? 
+            Encoding encoding = Encoding.UTF8;
             if (xml[0] != '<')
                 LoadXmlSafe(_worksheetXml, xml.Substring(1, xml.Length - 1), encoding);
             else
@@ -2458,6 +2460,7 @@ namespace OfficeOpenXml
             }
             else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
             {
+                if (p.Cache == null) return;
                 p.Cache.UpdateItemsXml();
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }

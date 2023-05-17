@@ -39,11 +39,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             
             if (rows<0 || columns < 0)
             {
-                return CompileResult.GetErrorResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             else if(rows==0 || columns==0)
             {
-                return CompileResult.GetErrorResult(eErrorType.Calc);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
             }
 
             var size = new RangeDefinition(rows, (short)columns);
@@ -51,7 +51,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             SetSequence(range, start, step);
 
-            return CreateResult(range, DataType.ExcelRange);
+            return CreateDynamicArrayResult(range, DataType.ExcelRange);
         }
 
         private void SetSequence(InMemoryRange range, double start, double step)

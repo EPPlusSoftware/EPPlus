@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var arg0 = functionArguments.First();
             if(arg0.DataType!=DataType.ExcelRange)
             {
-                return CreateResult(arg0.Value, arg0.DataType);
+                return CreateDynamicArrayResult(arg0.Value, arg0.DataType);
             }
             
             var range = arg0.ValueAsRangeInfo;
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
 
-            return CreateAddressResult(newRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(newRange, DataType.ExcelRange);
         }
     }
 }
