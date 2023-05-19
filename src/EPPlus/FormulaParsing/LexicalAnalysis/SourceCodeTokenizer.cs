@@ -651,6 +651,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         l.Add(new Token(currentString, TokenType.Integer));
                     }
                 }
+                else if((flags & statFlags.isTableRef) == statFlags.isTableRef && currentString==":")
+                {
+                    l.Add(_charTokens[':']);
+                }
                 else
                 {
                     l.Add(new Token(currentString, TokenType.InvalidReference));

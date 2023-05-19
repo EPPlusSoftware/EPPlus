@@ -61,12 +61,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 var condition = ConvertUtil.GetValueBool(arg0);
                 if (arguments.Count() < 3)
                 {
-                    return condition ? CompileResultFactory.Create(arg1.Value, arg1.Address) : CompileResultFactory.Create(false, null);
+                    return condition ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : CompileResultFactory.Create(false, null);
                 }
                 else
                 {
-                    var secondStatement = arguments.ElementAt(2);
-                    return condition ? CompileResultFactory.Create(arg1.Value, arg1.Address) : CompileResultFactory.Create(secondStatement.Value, secondStatement?.Address);
+                    var secondStatement = arguments.ElementAt(2);                    
+                    return condition ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : new AddressCompileResult(secondStatement.Value, secondStatement.DataType, secondStatement.Address);
                 }
 
             }

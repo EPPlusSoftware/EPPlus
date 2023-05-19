@@ -301,7 +301,7 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void ValidateTableSaveLoad()
         {
-            using (var p1 = OpenPackage("table.xlsx"))
+            using (var p1 = OpenPackage("table.xlsx", true))
             {
                 var sheet = p1.Workbook.Worksheets.Add("Tables");
 

@@ -467,8 +467,13 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return cr.ResultValue;
             FollowChain:
-                
+
                 ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
+                if (ws == null)
+                {
+                    f._tokenIndex++;
+                    goto ExecuteFormula;
+                }
                 if (address.IsSingleCell)
                 {
                     if (depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws?.IndexInList??ushort.MaxValue, address.FromRow, address.FromCol)) == false)
