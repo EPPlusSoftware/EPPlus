@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePitchFamily
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fixed
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Variable
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultRoman
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FixedRoman
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VariableRoman
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultSwiss
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FixedSwiss
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePitchFamily.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VariableSwiss
     path: ../src/EPPlus/Drawing/Enums/ePitchFamily.cs

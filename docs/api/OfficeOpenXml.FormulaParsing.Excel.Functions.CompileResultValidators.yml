@@ -5,7 +5,7 @@ items:
   id: CompileResultValidators
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   langs:
   - csharp
   - vb
@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/CompileResultValidators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultValidators
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/CompileResultValidators.cs
@@ -43,21 +43,21 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
-  id: GetValidator(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  id: GetValidator(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
   langs:
   - csharp
   - vb
   name: GetValidator(DataType)
   nameWithType: CompileResultValidators.GetValidator(DataType)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   type: Method
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/CompileResultValidators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValidator
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/CompileResultValidators.cs
@@ -69,7 +69,7 @@ items:
     content: public CompileResultValidator GetValidator(DataType dataType)
     parameters:
     - id: dataType
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
     content.vb: Public Function GetValidator(dataType As DataType) As CompileResultValidator
@@ -381,20 +381,20 @@ references:
   name: GetValidator
   nameWithType: CompileResultValidators.GetValidator
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators.GetValidator
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
-  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
-  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: DataType
   nameWithType: DataType
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: CompileResultValidator
   nameWithType: CompileResultValidator
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions

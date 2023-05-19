@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHyperLink
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReferenceAddress
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Display
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToolTip
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColSpann
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowSpann
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -444,7 +444,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OriginalUri
     path: ../src/EPPlus/ExcelHyperLink.cs

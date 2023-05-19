@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNamedStyleXml
     path: ../src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleXfId
     path: ../src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildInId
     path: ../src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomBuildin
     path: ../src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Style/XmlAccess/ExcelNamedStyleXml.cs

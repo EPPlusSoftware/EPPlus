@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableAreaStyleCollection
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTopEnd
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTopEnd
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTopStart
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddButtonField
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -268,7 +268,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddWholeTable
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAllLabels
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -338,7 +338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAllData
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -373,7 +373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLabel
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -415,7 +415,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddData
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
@@ -457,7 +457,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddButtonField
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs

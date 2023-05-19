@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Implementations/BesselYImpl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BesselYImpl
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Implementations/BesselYImpl.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Implementations/BesselYImpl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BesselY
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Implementations/BesselYImpl.cs

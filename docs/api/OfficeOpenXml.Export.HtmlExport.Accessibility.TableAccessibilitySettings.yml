@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableAccessibilitySettings
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAccessibilityAttributes
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AriaLabel
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AriaLabelledBy
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -248,7 +248,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AriaDescribedBy
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -285,7 +285,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableRole
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -322,7 +322,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TheadRole
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -359,7 +359,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TbodyRole
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -396,7 +396,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TfootRole
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
@@ -433,7 +433,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableHeaderCellRole
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs

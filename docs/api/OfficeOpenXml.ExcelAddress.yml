@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.ExcelAddress.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.ExcelAddress.#ctor(System.String)
   - OfficeOpenXml.ExcelAddress.#ctor(System.String,OfficeOpenXml.ExcelPackage,OfficeOpenXml.ExcelAddressBase)
+  - OfficeOpenXml.ExcelAddress.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.ExcelAddress.Address
   langs:
   - csharp
@@ -19,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddress
     path: ../src/EPPlus/ExcelAddress.cs
@@ -39,9 +40,11 @@ items:
   - OfficeOpenXml.ExcelCellBase
   - OfficeOpenXml.ExcelAddressBase
   derivedClasses:
+  - OfficeOpenXml.DataValidation.ExcelDatavalidationAddress
   - OfficeOpenXml.ExcelRangeBase
   inheritedMembers:
   - OfficeOpenXml.ExcelAddressBase.SetAddress(System.String,OfficeOpenXml.ExcelWorkbook,System.String)
+  - OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
   - OfficeOpenXml.ExcelAddressBase.ChangeAddress
   - OfficeOpenXml.ExcelAddressBase.Start
   - OfficeOpenXml.ExcelAddressBase.End
@@ -100,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddress.cs
@@ -131,6 +134,54 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelAddress.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelAddress.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)
+  id: '#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32)'
+  parent: OfficeOpenXml.ExcelAddress
+  langs:
+  - csharp
+  - vb
+  name: ExcelAddress(String, Int32, Int32, Int32, Int32)
+  nameWithType: ExcelAddress.ExcelAddress(String, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelAddress.ExcelAddress(System.String, System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelAddress.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ExcelAddress(string ws, int fromRow, int fromCol, int toRow, int toColumn)
+    parameters:
+    - id: ws
+      type: System.String
+      description: Worksheet name
+    - id: fromRow
+      type: System.Int32
+      description: From row
+    - id: fromCol
+      type: System.Int32
+      description: From column
+    - id: toRow
+      type: System.Int32
+      description: To row
+    - id: toColumn
+      type: System.Int32
+      description: To column
+    content.vb: Public Sub New(ws As String, fromRow As Integer, fromCol As Integer, toRow As Integer, toColumn As Integer)
+  overload: OfficeOpenXml.ExcelAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.ExcelAddress.#ctor(System.String)
   commentId: M:OfficeOpenXml.ExcelAddress.#ctor(System.String)
   id: '#ctor(System.String)'
@@ -145,11 +196,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddress.cs
-    startLine: 47
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -181,11 +232,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddress.cs
-    startLine: 70
+    startLine: 85
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -224,11 +275,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ExcelAddress.cs
-    startLine: 79
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -339,6 +390,34 @@ references:
     nameWithType: String
     fullName: System.String
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  commentId: M:OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  parent: OfficeOpenXml.ExcelAddressBase
+  name: BeforeChangeAddress()
+  nameWithType: ExcelAddressBase.BeforeChangeAddress()
+  fullName: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+    name: BeforeChangeAddress
+    nameWithType: ExcelAddressBase.BeforeChangeAddress
+    fullName: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+    name: BeforeChangeAddress
+    nameWithType: ExcelAddressBase.BeforeChangeAddress
+    fullName: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )

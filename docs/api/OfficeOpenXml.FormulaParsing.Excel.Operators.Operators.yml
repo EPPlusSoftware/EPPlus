@@ -5,6 +5,7 @@ items:
   id: Operators
   parent: OfficeOpenXml.FormulaParsing.Excel.Operators
   children:
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Colon
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Concat
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Divide
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Equals
@@ -12,6 +13,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.GreaterThan
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.GreaterThanOrEqual
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.IntegerDivision
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Intersect
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.LessThan
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.LessThanOrEqual
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Minus
@@ -31,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operators
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -62,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Undefined
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -94,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Concat
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -126,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plus
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -158,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minus
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -190,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Multiply
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -222,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Divide
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -254,7 +256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Modulus
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -286,7 +288,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -318,7 +320,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -350,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -382,7 +384,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -414,7 +416,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -446,7 +448,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -478,7 +480,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotEqualTo
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -510,7 +512,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IntegerDivision
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -542,7 +544,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exponentiation
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
@@ -552,6 +554,70 @@ items:
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
   syntax:
     content: Exponentiation = 15
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Colon
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Colon
+  id: Colon
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  langs:
+  - csharp
+  - vb
+  name: Colon
+  nameWithType: Operators.Colon
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Colon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Colon
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: Colon = 16
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Intersect
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Intersect
+  id: Intersect
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  langs:
+  - csharp
+  - vb
+  name: Intersect
+  nameWithType: Operators.Intersect
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators.Intersect
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Intersect
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operators.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: Intersect = 17
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
   modifiers.csharp:

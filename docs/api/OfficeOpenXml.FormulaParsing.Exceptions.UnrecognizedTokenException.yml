@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/UnrecognizedTokenException.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnrecognizedTokenException
     path: ../src/EPPlus/FormulaParsing/Exceptions/UnrecognizedTokenException.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/UnrecognizedTokenException.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/UnrecognizedTokenException.cs

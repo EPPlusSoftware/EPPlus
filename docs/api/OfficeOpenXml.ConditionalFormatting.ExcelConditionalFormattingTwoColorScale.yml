@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingTwoColorScale
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LowValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HighValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingTwoColorScale.cs

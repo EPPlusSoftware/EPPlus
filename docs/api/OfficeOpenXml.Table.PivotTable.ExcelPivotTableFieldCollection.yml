@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFieldCollection
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetDateGroupField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNumericGroupField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCalculatedField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollection.cs

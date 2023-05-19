@@ -5,12 +5,17 @@ items:
   id: IRangeInfo
   parent: OfficeOpenXml.FormulaParsing
   children:
-  - OfficeOpenXml.FormulaParsing.IRangeInfo.Address
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue(System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.IRangeInfo.IsEmpty
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
   - OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  - OfficeOpenXml.FormulaParsing.IRangeInfo.Size
   - OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
   langs:
   - csharp
@@ -22,22 +27,23 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IRangeInfo
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 22
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
   summary: "\nInformation about a specific range used by the formula parser.\n"
   example: []
   syntax:
-    content: 'public interface IRangeInfo : IEnumerator<ICellInfo>, IEnumerator, IDisposable, IEnumerable<ICellInfo>, IEnumerable'
+    content: 'public interface IRangeInfo : IAddressInfo, IEnumerator<ICellInfo>, IEnumerator, IDisposable, IEnumerable<ICellInfo>, IEnumerable'
     content.vb: >-
       Public Interface IRangeInfo
-          Inherits IEnumerator(Of ICellInfo), IEnumerable(Of ICellInfo)
+          Inherits IAddressInfo, IEnumerator(Of ICellInfo), IEnumerable(Of ICellInfo)
   inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.IAddressInfo.Address
   - System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
   - System.Collections.IEnumerator.MoveNext
   - System.Collections.IEnumerator.Reset
@@ -63,11 +69,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 27
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -98,11 +104,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 31
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -115,6 +121,76 @@ items:
       type: System.Boolean
     content.vb: ReadOnly Property IsMulti As Boolean
   overload: OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  id: IsRef
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: IsRef
+  nameWithType: IRangeInfo.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsRef
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf the range is not valid and returns #REF!\n"
+  example: []
+  syntax:
+    content: bool IsRef { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: ReadOnly Property IsRef As Boolean
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+  id: IsInMemoryRange
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: IsInMemoryRange
+  nameWithType: IRangeInfo.IsInMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsInMemoryRange
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nReturns true if the range is not referring to the cell store, but rather keeps the data in memory.\n"
+  example: []
+  syntax:
+    content: bool IsInMemoryRange { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: ReadOnly Property IsInMemoryRange As Boolean
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange*
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -133,11 +209,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 36
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -150,37 +226,37 @@ items:
       description: Number of cells
     content.vb: Function GetNCells As Integer
   overload: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells*
-- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Address
-  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.Address
-  id: Address
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+  id: Size
   parent: OfficeOpenXml.FormulaParsing.IRangeInfo
   langs:
   - csharp
   - vb
-  name: Address
-  nameWithType: IRangeInfo.Address
-  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Address
+  name: Size
+  nameWithType: IRangeInfo.Size
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Size
   type: Property
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Address
+    id: Size
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 40
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nThe address.\n"
+  summary: "\nSize of the range, i.e. number of Cols and number of Rows\n"
   example: []
   syntax:
-    content: ExcelAddressBase Address { get; }
+    content: RangeDefinition Size { get; }
     parameters: []
     return:
-      type: OfficeOpenXml.ExcelAddressBase
-    content.vb: ReadOnly Property Address As ExcelAddressBase
-  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.Address*
+      type: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+    content.vb: ReadOnly Property Size As RangeDefinition
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.Size*
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -199,11 +275,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 47
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -237,11 +313,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 54
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -261,6 +337,88 @@ items:
       description: ''
     content.vb: Function GetOffset(rowOffset As Integer, colOffset As Integer) As Object
   overload: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset*
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  id: GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: GetOffset(Int32, Int32, Int32, Int32)
+  nameWithType: IRangeInfo.GetOffset(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset(System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetOffset
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet a subrange\n"
+  example: []
+  syntax:
+    content: IRangeInfo GetOffset(int rowOffsetStart, int colOffsetStart, int rowOffsetEnd, int colOffsetEnd)
+    parameters:
+    - id: rowOffsetStart
+      type: System.Int32
+      description: row start index from top left
+    - id: colOffsetStart
+      type: System.Int32
+      description: col start index from top left
+    - id: rowOffsetEnd
+      type: System.Int32
+      description: row end index from top left
+    - id: colOffsetEnd
+      type: System.Int32
+      description: col end index from top left
+    return:
+      type: OfficeOpenXml.FormulaParsing.IRangeInfo
+      description: A new range with the requested cell data
+    content.vb: Function GetOffset(rowOffsetStart As Integer, colOffsetStart As Integer, rowOffsetEnd As Integer, colOffsetEnd As Integer) As IRangeInfo
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset*
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32,System.Int32)
+  id: IsHidden(System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: IsHidden(Int32, Int32)
+  nameWithType: IRangeInfo.IsHidden(Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsHidden
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nReturns true if the cell is hidden\n"
+  example: []
+  syntax:
+    content: bool IsHidden(int rowOffset, int colOffset)
+    parameters:
+    - id: rowOffset
+      type: System.Int32
+      description: ''
+    - id: colOffset
+      type: System.Int32
+      description: ''
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Function IsHidden(rowOffset As Integer, colOffset As Integer) As Boolean
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden*
 - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
   commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
   id: Worksheet
@@ -275,11 +433,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 58
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -296,12 +454,53 @@ items:
   - get
   modifiers.vb:
   - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  commentId: P:OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  id: Dimension
+  parent: OfficeOpenXml.FormulaParsing.IRangeInfo
+  langs:
+  - csharp
+  - vb
+  name: Dimension
+  nameWithType: IRangeInfo.Dimension
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dimension
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe worksheet dimension if the range referres to an worksheet address, otherwise the size of the array.\n"
+  example: []
+  syntax:
+    content: FormulaRangeAddress Dimension { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: ReadOnly Property Dimension As FormulaRangeAddress
+  overload: OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.FormulaParsing
   commentId: N:OfficeOpenXml.FormulaParsing
   name: OfficeOpenXml.FormulaParsing
   nameWithType: OfficeOpenXml.FormulaParsing
   fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  parent: OfficeOpenXml.FormulaParsing.IAddressInfo
+  name: Address
+  nameWithType: IAddressInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
 - uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
   commentId: P:System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
   parent: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}
@@ -437,6 +636,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IAddressInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo
 - uid: System.Collections.Generic.IEnumerator`1.Current
   commentId: P:System.Collections.Generic.IEnumerator`1.Current
   isExternal: true
@@ -688,6 +893,16 @@ references:
   name: IsMulti
   nameWithType: IRangeInfo.IsMulti
   fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsMulti
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+  name: IsRef
+  nameWithType: IRangeInfo.IsRef
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsRef
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
+  name: IsInMemoryRange
+  nameWithType: IRangeInfo.IsInMemoryRange
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsInMemoryRange
 - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells*
   commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.GetNCells
   name: GetNCells
@@ -700,22 +915,22 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
-- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Address*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.Address
-  name: Address
-  nameWithType: IRangeInfo.Address
-  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Address
-- uid: OfficeOpenXml.ExcelAddressBase
-  commentId: T:OfficeOpenXml.ExcelAddressBase
-  parent: OfficeOpenXml
-  name: ExcelAddressBase
-  nameWithType: ExcelAddressBase
-  fullName: OfficeOpenXml.ExcelAddressBase
-- uid: OfficeOpenXml
-  commentId: N:OfficeOpenXml
-  name: OfficeOpenXml
-  nameWithType: OfficeOpenXml
-  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Size*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+  name: Size
+  nameWithType: IRangeInfo.Size
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Size
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  name: RangeDefinition
+  nameWithType: RangeDefinition
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+- uid: OfficeOpenXml.FormulaParsing.Ranges
+  commentId: N:OfficeOpenXml.FormulaParsing.Ranges
+  name: OfficeOpenXml.FormulaParsing.Ranges
+  nameWithType: OfficeOpenXml.FormulaParsing.Ranges
+  fullName: OfficeOpenXml.FormulaParsing.Ranges
 - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue*
   commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.GetValue
   name: GetValue
@@ -733,6 +948,17 @@ references:
   name: GetOffset
   nameWithType: IRangeInfo.GetOffset
   fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.GetOffset
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IRangeInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IRangeInfo
+  nameWithType: IRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden
+  name: IsHidden
+  nameWithType: IRangeInfo.IsHidden
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.IsHidden
 - uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet*
   commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.Worksheet
   name: Worksheet
@@ -744,3 +970,24 @@ references:
   name: ExcelWorksheet
   nameWithType: ExcelWorksheet
   fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+  name: Dimension
+  nameWithType: IRangeInfo.Dimension
+  fullName: OfficeOpenXml.FormulaParsing.IRangeInfo.Dimension
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis

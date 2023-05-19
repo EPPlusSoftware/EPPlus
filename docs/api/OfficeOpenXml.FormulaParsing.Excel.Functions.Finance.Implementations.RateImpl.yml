@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RateImpl
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rate
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LEvalRate
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs

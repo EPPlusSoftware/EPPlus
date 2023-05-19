@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eLineChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line3D
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineMarkersStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineMarkersStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs

@@ -1,0 +1,512 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  id: FormulaCellAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  children:
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.#ctor(System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Column
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Row
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.WorksheetIx
+  langs:
+  - csharp
+  - vb
+  name: FormulaCellAddress
+  nameWithType: FormulaCellAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  type: Struct
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormulaCellAddress
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 421
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public struct FormulaCellAddress
+    content.vb: Public Structure FormulaCellAddress
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.#ctor(System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.#ctor(System.Int32,System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32,System.Int32)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  langs:
+  - csharp
+  - vb
+  name: FormulaCellAddress(Int32, Int32, Int32)
+  nameWithType: FormulaCellAddress.FormulaCellAddress(Int32, Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.FormulaCellAddress(System.Int32, System.Int32, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 423
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public FormulaCellAddress(int wsIx, int row, int column)
+    parameters:
+    - id: wsIx
+      type: System.Int32
+    - id: row
+      type: System.Int32
+    - id: column
+      type: System.Int32
+    content.vb: Public Sub New(wsIx As Integer, row As Integer, column As Integer)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.WorksheetIx
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.WorksheetIx
+  id: WorksheetIx
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  langs:
+  - csharp
+  - vb
+  name: WorksheetIx
+  nameWithType: FormulaCellAddress.WorksheetIx
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.WorksheetIx
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorksheetIx
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 434
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nWorksheet index in the package.\n-1             - Non-existing worksheet\nint.MinValue - Not set. \n"
+  example: []
+  syntax:
+    content: public int WorksheetIx
+    return:
+      type: System.Int32
+    content.vb: Public WorksheetIx As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Row
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Row
+  id: Row
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: FormulaCellAddress.Row
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Row
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 435
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public int Row
+    return:
+      type: System.Int32
+    content.vb: Public Row As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Column
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Column
+  id: Column
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: FormulaCellAddress.Column
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Column
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 435
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public int Column
+    return:
+      type: System.Int32
+    content.vb: Public Column As Integer
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: FormulaCellAddress.Address
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 436
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public readonly string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Address As String
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address*
+  modifiers.csharp:
+  - public
+  - readonly
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.#ctor
+  name: FormulaCellAddress
+  nameWithType: FormulaCellAddress.FormulaCellAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.FormulaCellAddress
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address
+  name: Address
+  nameWithType: FormulaCellAddress.Address
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress.Address
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

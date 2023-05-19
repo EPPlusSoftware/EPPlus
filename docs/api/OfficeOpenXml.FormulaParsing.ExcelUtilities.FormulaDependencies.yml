@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaDependencies
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dependencies
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFormulaScope
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependencies.cs

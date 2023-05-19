@@ -28,11 +28,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalWorkbook
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 30
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -76,11 +76,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 95
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -116,11 +116,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkUri
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 223
+    startLine: 227
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -153,11 +153,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: File
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 239
+    startLine: 243
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -190,11 +190,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Package
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 311
+    startLine: 315
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -227,11 +227,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 322
+    startLine: 326
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -262,11 +262,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 330
+    startLine: 334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -300,11 +300,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 352
+    startLine: 356
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -338,11 +338,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsPathRelative
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 420
+    startLine: 424
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -375,11 +375,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateCache
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 446
+    startLine: 450
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -410,11 +410,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheStatus
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 561
+    startLine: 564
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -447,11 +447,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 706
+    startLine: 745
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -485,11 +485,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CachedNames
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 726
+    startLine: 765
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -522,11 +522,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CachedWorksheets
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
-    startLine: 733
+    startLine: 772
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences

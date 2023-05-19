@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThemeManager
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateDefaultTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -133,11 +133,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteCurrentTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 78
+    startLine: 86
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme
@@ -165,11 +165,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 92
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme
@@ -201,11 +201,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 109
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme
@@ -237,11 +237,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-    startLine: 125
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Theme

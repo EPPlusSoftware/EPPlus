@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCellAddress
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -292,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRowFixed
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsColumnFixed
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/ExcelCellAddress.cs
@@ -403,7 +403,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetColumnLetter
     path: ../src/EPPlus/ExcelCellAddress.cs

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotAreaDataFieldReference
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaDataFieldReference.cs

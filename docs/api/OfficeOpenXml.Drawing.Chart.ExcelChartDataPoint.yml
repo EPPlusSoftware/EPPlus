@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartDataPoint
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3D
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InvertIfNegative
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Marker
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -222,7 +222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMarker
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPoint.cs

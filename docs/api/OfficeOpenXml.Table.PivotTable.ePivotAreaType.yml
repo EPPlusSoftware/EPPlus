@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePivotAreaType
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: All
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldButton
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Data
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Normal
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Origin
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopEnd
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotAreaType.cs

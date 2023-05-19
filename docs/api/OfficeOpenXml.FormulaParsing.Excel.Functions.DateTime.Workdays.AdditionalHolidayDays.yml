@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/AdditionalHolidayDays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalHolidayDays
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/AdditionalHolidayDays.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/AdditionalHolidayDays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/AdditionalHolidayDays.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/AdditionalHolidayDays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalDates
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/AdditionalHolidayDays.cs

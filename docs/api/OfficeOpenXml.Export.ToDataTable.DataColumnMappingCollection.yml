@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataColumnMappingCollection
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -232,7 +232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -358,7 +358,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -445,7 +445,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs

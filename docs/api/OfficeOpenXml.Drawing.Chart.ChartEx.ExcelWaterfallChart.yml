@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWaterfallChart
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChart.cs
@@ -61,6 +61,8 @@ items:
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.RoundedCorners
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.ShowDataLabelsOverMaximum
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.ShowHiddenData
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
   - OfficeOpenXml.Drawing.Chart.ExcelChart._chartXmlHelper
   - OfficeOpenXml.Drawing.Chart.ExcelChart.StyleManager
   - OfficeOpenXml.Drawing.Chart.ExcelChart.UseSecondaryAxis
@@ -69,8 +71,6 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChart.DrawingType
   - OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType
   - OfficeOpenXml.Drawing.Chart.ExcelChart._chartNode
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
   - OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsType3D
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsTypeLine
@@ -149,7 +149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChart.cs
@@ -358,6 +358,18 @@ references:
   name: ShowHiddenData
   nameWithType: ExcelChartEx.ShowHiddenData
   fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.ShowHiddenData
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+  name: XAxis
+  nameWithType: ExcelChartEx.XAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+  name: YAxis
+  nameWithType: ExcelChartEx.YAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart._chartXmlHelper
   commentId: F:OfficeOpenXml.Drawing.Chart.ExcelChart._chartXmlHelper
   parent: OfficeOpenXml.Drawing.Chart.ExcelChart
@@ -406,18 +418,6 @@ references:
   name: _chartNode
   nameWithType: ExcelChart._chartNode
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChart._chartNode
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: XAxis
-  nameWithType: ExcelChart.XAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: YAxis
-  nameWithType: ExcelChart.YAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   parent: OfficeOpenXml.Drawing.Chart.ExcelChart

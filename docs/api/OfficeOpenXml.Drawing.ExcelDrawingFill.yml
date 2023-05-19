@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingFill
     path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFill
     path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternFill
     path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlipFill
     path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawingFill.cs

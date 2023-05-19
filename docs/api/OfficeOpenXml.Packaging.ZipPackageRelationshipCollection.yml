@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZipPackageRelationshipCollection
     path: ../src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging
@@ -67,11 +67,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _rels
     path: ../src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-    startLine: 30
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging
@@ -100,11 +100,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-    startLine: 39
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging
@@ -138,11 +138,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-    startLine: 44
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging
@@ -170,11 +170,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Packaging/ZipPackageRelationshipCollection.cs
-    startLine: 101
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Packaging

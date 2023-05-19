@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTime
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfDecimals
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
@@ -169,11 +169,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hour
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
-    startLine: 136
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -206,11 +206,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minute
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
-    startLine: 161
+    startLine: 165
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -243,11 +243,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Second
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
-    startLine: 186
+    startLine: 190
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -280,11 +280,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToExcelTime
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
-    startLine: 224
+    startLine: 228
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -315,11 +315,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToExcelString
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
-    startLine: 234
+    startLine: 238
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -350,11 +350,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelTime.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/DataValidation/ExcelTime.cs
-    startLine: 242
+    startLine: 246
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

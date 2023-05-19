@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eParentLabelLayout
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Banner
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overlapping
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eParentLabelLayout.cs

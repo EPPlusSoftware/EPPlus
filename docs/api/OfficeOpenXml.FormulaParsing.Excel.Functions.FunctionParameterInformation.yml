@@ -1,0 +1,226 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  id: FunctionParameterInformation
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreAddress
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Normal
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsFalse
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsTrue
+  langs:
+  - csharp
+  - vb
+  name: FunctionParameterInformation
+  nameWithType: FunctionParameterInformation
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FunctionParameterInformation
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nInformation about an argument passed to a function used in the formula parser. \n"
+  example: []
+  syntax:
+    content: public enum FunctionParameterInformation
+    content.vb: Public Enum FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Normal
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Normal
+  id: Normal
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: FunctionParameterInformation.Normal
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Normal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Normal
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe argument will be handled as a normally.\n"
+  example: []
+  syntax:
+    content: Normal = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreAddress
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreAddress
+  id: IgnoreAddress
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: IgnoreAddress
+  nameWithType: FunctionParameterInformation.IgnoreAddress
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.IgnoreAddress
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IgnoreAddress
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIf the argument is an address this address will be ignored in the dependency chain.\n"
+  example: []
+  syntax:
+    content: IgnoreAddress = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
+  id: Condition
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: Condition
+  nameWithType: FunctionParameterInformation.Condition
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Condition
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThis argument is a condition returning a boolean expression\n"
+  example: []
+  syntax:
+    content: Condition = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsTrue
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsTrue
+  id: UseIfConditionIsTrue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: UseIfConditionIsTrue
+  nameWithType: FunctionParameterInformation.UseIfConditionIsTrue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsTrue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseIfConditionIsTrue
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nUse this argument if the condtion is true. Requires a previous parameter to be <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: UseIfConditionIsTrue = 3
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsFalse
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsFalse
+  id: UseIfConditionIsFalse
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  langs:
+  - csharp
+  - vb
+  name: UseIfConditionIsFalse
+  nameWithType: FunctionParameterInformation.UseIfConditionIsFalse
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.UseIfConditionIsFalse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseIfConditionIsFalse
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunction.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nUse this argument if the condtion is false. Requires a previous parameter to be <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: UseIfConditionIsFalse = 4
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: FunctionParameterInformation
+  nameWithType: FunctionParameterInformation
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation.Condition
+  isExternal: true

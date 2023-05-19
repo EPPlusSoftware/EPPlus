@@ -34,7 +34,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFillStyle
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Solid
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkGray
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MediumGray
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightGray
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -237,7 +237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gray125
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gray0625
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -305,7 +305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkVertical
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkHorizontal
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -373,7 +373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkDown
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkUp
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -441,7 +441,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkGrid
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -475,7 +475,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkTrellis
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -509,7 +509,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightVertical
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -543,7 +543,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightHorizontal
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -577,7 +577,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightDown
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -611,7 +611,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightUp
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -645,7 +645,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightGrid
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs
@@ -679,7 +679,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightTrellis
     path: ../src/EPPlus/Style/enums/ExcelFillStyle.cs

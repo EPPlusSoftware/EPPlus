@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text
   langs:
   - csharp
   - vb
@@ -17,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartExTitle
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
@@ -37,7 +38,6 @@ items:
   - OfficeOpenXml.XmlHelper
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle
   inheritedMembers:
-  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Font
@@ -63,6 +63,44 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text
+  id: Text
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelChartExTitle.Text
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  syntax:
+    content: public override string Text { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides Property Text As String
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Overrides
 - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
   commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
   id: PositionAlignment
@@ -77,11 +115,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PositionAlignment
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
-    startLine: 29
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -114,11 +152,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
-    startLine: 43
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -162,12 +200,6 @@ references:
   name: ExcelChartTitle
   nameWithType: ExcelChartTitle
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
-  name: Text
-  nameWithType: ExcelChartTitle.Text
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
@@ -535,6 +567,24 @@ references:
   name: OfficeOpenXml.Drawing.Chart
   nameWithType: OfficeOpenXml.Drawing.Chart
   fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Text
+  nameWithType: ExcelChartTitle.Text
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text
+  name: Text
+  nameWithType: ExcelChartExTitle.Text
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Text
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
   name: PositionAlignment

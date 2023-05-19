@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColorXml
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rgb
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -293,7 +293,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs

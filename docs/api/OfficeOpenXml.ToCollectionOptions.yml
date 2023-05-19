@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionOptions
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCustomHeaders
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConversionFailureStrategy
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs

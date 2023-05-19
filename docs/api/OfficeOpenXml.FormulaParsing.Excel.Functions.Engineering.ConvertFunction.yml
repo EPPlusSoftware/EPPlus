@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/ConvertFunction.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConvertFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/ConvertFunction.cs
@@ -33,22 +33,23 @@ items:
   - System.Object
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction._argumentParsers
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsLookupFuction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide(System.Double,System.Double)
@@ -71,12 +72,21 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded(System.Boolean,OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.ParsingContext)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsVolatile
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HasNormalArguments
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo(System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NamespacePrefix
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -104,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/ConvertFunction.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Execute
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/ConvertFunction.cs
@@ -120,7 +130,7 @@ items:
     - id: context
       type: OfficeOpenXml.FormulaParsing.ParsingContext
     return:
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
     content.vb: Public Overrides Function Execute(arguments As IEnumerable(Of FunctionArgument), context As ParsingContext) As CompileResult
   overridden: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.ConvertFunction.Execute*
@@ -152,6 +162,12 @@ references:
   name: ExcelFunction
   nameWithType: ExcelFunction
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction._argumentParsers
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction._argumentParsers
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: _argumentParsers
+  nameWithType: ExcelFunction._argumentParsers
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction._argumentParsers
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
   commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
@@ -206,6 +222,40 @@ references:
   name: IsErrorHandlingFunction
   nameWithType: ExcelFunction.IsErrorHandlingFunction
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: ArrayBehaviour
+  nameWithType: ExcelFunction.ArrayBehaviour
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: GetArrayBehaviourConfig()
+  nameWithType: ExcelFunction.GetArrayBehaviourConfig()
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+    name: GetArrayBehaviourConfig
+    nameWithType: ExcelFunction.GetArrayBehaviourConfig
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+    name: GetArrayBehaviourConfig
+    nameWithType: ExcelFunction.GetArrayBehaviourConfig
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
@@ -513,98 +563,6 @@ references:
     nameWithType: Int32
     fullName: System.Int32
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-  isExternal: true
-  name: ArgToAddress(IEnumerable<FunctionArgument>, Int32, ParsingContext)
-  nameWithType: ExcelFunction.ArgToAddress(IEnumerable<FunctionArgument>, Int32, ParsingContext)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, OfficeOpenXml.FormulaParsing.ParsingContext)
-  nameWithType.vb: ExcelFunction.ArgToAddress(IEnumerable(Of FunctionArgument), Int32, ParsingContext)
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, OfficeOpenXml.FormulaParsing.ParsingContext)
-  name.vb: ArgToAddress(IEnumerable(Of FunctionArgument), Int32, ParsingContext)
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
-    name: ArgToAddress
-    nameWithType: ExcelFunction.ArgToAddress
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
-    name: ParsingContext
-    nameWithType: ParsingContext
-    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
-    name: ArgToAddress
-    nameWithType: ExcelFunction.ArgToAddress
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
-    name: ParsingContext
-    nameWithType: ParsingContext
-    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
   - name: )
     nameWithType: )
     fullName: )
@@ -1039,84 +997,6 @@ references:
     name: PrecisionAndRoundingStrategy
     nameWithType: PrecisionAndRoundingStrategy
     fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
-  isExternal: true
-  name: ArgToDecimal(IEnumerable<FunctionArgument>, Int32)
-  nameWithType: ExcelFunction.ArgToDecimal(IEnumerable<FunctionArgument>, Int32)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
-  nameWithType.vb: ExcelFunction.ArgToDecimal(IEnumerable(Of FunctionArgument), Int32)
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
-  name.vb: ArgToDecimal(IEnumerable(Of FunctionArgument), Int32)
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-    name: ArgToDecimal
-    nameWithType: ExcelFunction.ArgToDecimal
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
-    name: ArgToDecimal
-    nameWithType: ExcelFunction.ArgToDecimal
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-    name: FunctionArgument
-    nameWithType: FunctionArgument
-    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -2688,15 +2568,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   isExternal: true
   name: CreateResult(Object, DataType)
   nameWithType: ExcelFunction.CreateResult(Object, DataType)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
     name: CreateResult
     nameWithType: ExcelFunction.CreateResult
     fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
@@ -2711,15 +2591,15 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
     name: DataType
     nameWithType: DataType
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
     name: CreateResult
     nameWithType: ExcelFunction.CreateResult
     fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
@@ -2734,10 +2614,247 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
     name: DataType
     nameWithType: DataType
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: CreateResult(Object, DataType, FormulaRangeAddress)
+  nameWithType: ExcelFunction.CreateResult(Object, DataType, FormulaRangeAddress)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType, OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+    name: CreateResult
+    nameWithType: ExcelFunction.CreateResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+    name: CreateResult
+    nameWithType: ExcelFunction.CreateResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: CreateDynamicArrayResult(Object, DataType)
+  nameWithType: ExcelFunction.CreateDynamicArrayResult(Object, DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+    name: CreateDynamicArrayResult
+    nameWithType: ExcelFunction.CreateDynamicArrayResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+    name: CreateDynamicArrayResult
+    nameWithType: ExcelFunction.CreateDynamicArrayResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: CreateDynamicArrayResult(Object, DataType, FormulaRangeAddress)
+  nameWithType: ExcelFunction.CreateDynamicArrayResult(Object, DataType, FormulaRangeAddress)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType, OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+    name: CreateDynamicArrayResult
+    nameWithType: ExcelFunction.CreateDynamicArrayResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+    name: CreateDynamicArrayResult
+    nameWithType: ExcelFunction.CreateDynamicArrayResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateDynamicArrayResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: CreateAddressResult(IRangeInfo, DataType)
+  nameWithType: ExcelFunction.CreateAddressResult(IRangeInfo, DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult(OfficeOpenXml.FormulaParsing.IRangeInfo, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+    name: CreateAddressResult
+    nameWithType: ExcelFunction.CreateAddressResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+    name: IRangeInfo
+    nameWithType: IRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+    name: CreateAddressResult
+    nameWithType: ExcelFunction.CreateAddressResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateAddressResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+    name: IRangeInfo
+    nameWithType: IRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
   - name: )
     nameWithType: )
     fullName: )
@@ -3034,6 +3151,69 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsVolatile
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsVolatile
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: IsVolatile
+  nameWithType: ExcelFunction.IsVolatile
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsVolatile
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: ReturnsReference
+  nameWithType: ExcelFunction.ReturnsReference
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HasNormalArguments
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HasNormalArguments
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: HasNormalArguments
+  nameWithType: ExcelFunction.HasNormalArguments
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HasNormalArguments
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo(System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo(System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: GetParameterInfo(Int32)
+  nameWithType: ExcelFunction.GetParameterInfo(Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo(System.Int32)
+    name: GetParameterInfo
+    nameWithType: ExcelFunction.GetParameterInfo
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo(System.Int32)
+    name: GetParameterInfo
+    nameWithType: ExcelFunction.GetParameterInfo
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetParameterInfo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NamespacePrefix
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NamespacePrefix
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: NamespacePrefix
+  nameWithType: ExcelFunction.NamespacePrefix
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NamespacePrefix
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -3453,12 +3633,12 @@ references:
   name: ParsingContext
   nameWithType: ParsingContext
   fullName: OfficeOpenXml.FormulaParsing.ParsingContext
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
-  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
-  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: CompileResult
   nameWithType: CompileResult
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
 - uid: System.Collections.Generic.IEnumerable`1
   commentId: T:System.Collections.Generic.IEnumerable`1
   isExternal: true
@@ -3509,8 +3689,8 @@ references:
   name: OfficeOpenXml.FormulaParsing
   nameWithType: OfficeOpenXml.FormulaParsing
   fullName: OfficeOpenXml.FormulaParsing
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions

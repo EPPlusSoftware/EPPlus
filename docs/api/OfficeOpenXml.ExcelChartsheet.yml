@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelChartsheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartsheet
     path: ../src/EPPlus/ExcelChartsheet.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelChartsheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/ExcelChartsheet.cs

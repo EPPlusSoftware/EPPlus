@@ -43,11 +43,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSparklineGroup
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -89,11 +89,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateAxisRange
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 39
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -126,11 +126,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataRange
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 84
+    startLine: 85
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -163,11 +163,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LocationRange
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 102
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -200,11 +200,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sparklines
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 119
+    startLine: 120
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -237,11 +237,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Markers
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 138
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -274,11 +274,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: High
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 153
+    startLine: 154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -311,11 +311,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Low
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 168
+    startLine: 169
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -348,11 +348,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: First
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 183
+    startLine: 184
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -385,11 +385,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Last
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 198
+    startLine: 199
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -422,11 +422,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Negative
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 214
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -459,11 +459,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayXAxis
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 231
+    startLine: 232
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -496,11 +496,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayHidden
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 246
+    startLine: 247
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -533,11 +533,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineWidth
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 262
+    startLine: 263
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -570,11 +570,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayEmptyCellsAs
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 277
+    startLine: 278
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -607,11 +607,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 300
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -644,11 +644,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorSeries
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 324
+    startLine: 325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -681,11 +681,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorNegative
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 336
+    startLine: 337
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -718,11 +718,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorAxis
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 348
+    startLine: 349
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -755,11 +755,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorMarkers
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 360
+    startLine: 361
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -792,11 +792,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorFirst
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 372
+    startLine: 373
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -829,11 +829,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorLast
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 384
+    startLine: 385
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -866,11 +866,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorHigh
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 396
+    startLine: 397
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -903,11 +903,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorLow
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 408
+    startLine: 409
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -940,11 +940,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ManualMin
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 421
+    startLine: 422
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -977,11 +977,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ManualMax
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 439
+    startLine: 440
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -1014,11 +1014,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinAxisType
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 456
+    startLine: 457
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -1051,11 +1051,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxAxisType
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 488
+    startLine: 489
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline
@@ -1088,11 +1088,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightToLeft
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-    startLine: 519
+    startLine: 520
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Sparkline

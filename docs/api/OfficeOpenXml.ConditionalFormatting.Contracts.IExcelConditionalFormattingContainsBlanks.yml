@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingContainsBlanks.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingContainsBlanks
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingContainsBlanks.cs

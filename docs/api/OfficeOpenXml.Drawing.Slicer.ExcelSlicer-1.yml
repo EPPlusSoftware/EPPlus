@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSlicer
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Caption
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -199,7 +199,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowCaption
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SlicerName
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -277,7 +277,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowHeight
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -316,7 +316,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartItem
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -355,7 +355,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnCount
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -394,7 +394,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockedPosition
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -433,7 +433,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -472,7 +472,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
@@ -511,7 +511,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cache
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicer.cs

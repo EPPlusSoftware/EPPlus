@@ -1,0 +1,398 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  id: DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Boolean
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Date
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Decimal
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Empty
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelError
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelRange
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Integer
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.String
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Time
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Unknown
+  langs:
+  - csharp
+  - vb
+  name: DataType
+  nameWithType: DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataType
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nRepresents a value&apos;s data type in the formula parser.\n"
+  example: []
+  syntax:
+    content: public enum DataType
+    content.vb: Public Enum DataType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Integer
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Integer
+  id: Integer
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Integer
+  nameWithType: DataType.Integer
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Integer
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Integer
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAn integer \n"
+  example: []
+  syntax:
+    content: Integer = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Decimal
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Decimal
+  id: Decimal
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Decimal
+  nameWithType: DataType.Decimal
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Decimal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Decimal
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nA decimal or floating point\n"
+  example: []
+  syntax:
+    content: Decimal = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.String
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.String
+  id: String
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: String
+  nameWithType: DataType.String
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.String
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: String
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nA string \n"
+  example: []
+  syntax:
+    content: String = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Boolean
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Boolean
+  id: Boolean
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Boolean
+  nameWithType: DataType.Boolean
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Boolean
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Boolean
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nA boolean\n"
+  example: []
+  syntax:
+    content: Boolean = 3
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Date
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Date
+  id: Date
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Date
+  nameWithType: DataType.Date
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Date
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Date
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nA date or date/time\n"
+  example: []
+  syntax:
+    content: Date = 4
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Time
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Time
+  id: Time
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Time
+  nameWithType: DataType.Time
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Time
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Time
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nA time\n"
+  example: []
+  syntax:
+    content: Time = 5
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelRange
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelRange
+  id: ExcelRange
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: ExcelRange
+  nameWithType: DataType.ExcelRange
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelRange
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRange
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAn address range, e.g A1:B2\n"
+  example: []
+  syntax:
+    content: ExcelRange = 10
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelError
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelError
+  id: ExcelError
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: ExcelError
+  nameWithType: DataType.ExcelError
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelError
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelError
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAn error code\n"
+  example: []
+  syntax:
+    content: ExcelError = 11
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Empty
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Empty
+  id: Empty
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Empty
+  nameWithType: DataType.Empty
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Empty
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Empty
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nNull or empty string\n"
+  example: []
+  syntax:
+    content: Empty = 12
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Unknown
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Unknown
+  id: Unknown
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: Unknown
+  nameWithType: DataType.Unknown
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Unknown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Unknown
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAn unknown data type\n"
+  example: []
+  syntax:
+    content: Unknown = 13
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: DataType
+  nameWithType: DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType

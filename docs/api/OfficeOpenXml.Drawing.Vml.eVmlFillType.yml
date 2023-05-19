@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eVmlFillType
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoFill
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Solid
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gradient
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientRadial
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tile
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pattern
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Frame
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs

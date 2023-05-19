@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IYearFracProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
@@ -47,7 +47,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetYearFrac
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IYearFracProvider.cs

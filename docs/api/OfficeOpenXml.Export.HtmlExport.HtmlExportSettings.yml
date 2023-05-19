@@ -34,7 +34,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableId
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minify
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HiddenRows
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalAlignmentWhenGeneral
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accessibility
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalTableClassNames
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -306,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataValueAttributeName
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -343,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Culture
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -380,7 +380,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encoding
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -417,7 +417,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColumnWidth
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -454,7 +454,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRowHeight
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -491,7 +491,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleClassPrefix
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -528,7 +528,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellStyleClassName
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -565,7 +565,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pictures
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -602,7 +602,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeCssClassNames
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -639,7 +639,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HyperlinkTarget
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -676,7 +676,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -713,7 +713,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderDataAttributes
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -750,7 +750,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderDataTypes
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs

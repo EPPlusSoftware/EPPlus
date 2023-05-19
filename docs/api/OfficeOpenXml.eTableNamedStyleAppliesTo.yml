@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTableNamedStyleAppliesTo
     path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tables
     path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTables
     path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TablesAndPivotTables
     path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs

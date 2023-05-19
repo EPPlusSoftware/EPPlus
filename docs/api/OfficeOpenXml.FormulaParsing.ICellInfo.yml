@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ICellInfo
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetName
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -291,7 +291,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDouble
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -324,7 +324,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDoubleLogical
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -357,7 +357,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHiddenRow
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -390,7 +390,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExcelError
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
@@ -423,7 +423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ICellInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokens
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs

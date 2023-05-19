@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelReferenceType
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AbsoluteRowAndColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AbsoluteRowRelativeColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RelativeRowAbsolutColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RelativeRowAndColumn
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs

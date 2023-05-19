@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/Require.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Require
     path: ../src/EPPlus/FormulaParsing/Utilities/Require.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/Require.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: That
     path: ../src/EPPlus/FormulaParsing/Utilities/Require.cs

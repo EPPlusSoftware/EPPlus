@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlLabel.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlLabel
     path: ../src/EPPlus/Drawing/Controls/ExcelControlLabel.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlLabel.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlLabel.cs

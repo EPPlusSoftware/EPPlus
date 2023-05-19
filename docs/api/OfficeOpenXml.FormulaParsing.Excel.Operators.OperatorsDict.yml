@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/OperatorsDict.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OperatorsDict
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/OperatorsDict.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/OperatorsDict.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/OperatorsDict.cs
@@ -147,14 +147,16 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/OperatorsDict.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Instance
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/OperatorsDict.cs
-    startLine: 39
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nInstance of the OperatorsDict\n"
+  example: []
   syntax:
     content: public static IDictionary<string, IOperator> Instance { get; }
     parameters: []

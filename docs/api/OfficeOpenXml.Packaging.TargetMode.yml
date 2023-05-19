@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/TargetMode.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TargetMode
     path: ../src/EPPlus/Packaging/TargetMode.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/TargetMode.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Internal
     path: ../src/EPPlus/Packaging/TargetMode.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/TargetMode.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: External
     path: ../src/EPPlus/Packaging/TargetMode.cs

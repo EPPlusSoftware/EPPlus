@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingIconSetBase
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon1
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon2
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon3
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
@@ -223,7 +223,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reverse
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
@@ -305,7 +305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IconSet
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingThreeIconSet.cs

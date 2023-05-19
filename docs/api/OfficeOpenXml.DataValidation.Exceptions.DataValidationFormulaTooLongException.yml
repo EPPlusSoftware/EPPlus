@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Exceptions/DataValidationFormulaTooLongException.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataValidationFormulaTooLongException
     path: ../src/EPPlus/DataValidation/Exceptions/DataValidationFormulaTooLongException.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Exceptions/DataValidationFormulaTooLongException.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/Exceptions/DataValidationFormulaTooLongException.cs

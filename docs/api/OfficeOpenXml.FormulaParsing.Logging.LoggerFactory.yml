@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/LoggerFactory.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoggerFactory
     path: ../src/EPPlus/FormulaParsing/Logging/LoggerFactory.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/LoggerFactory.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTextFileLogger
     path: ../src/EPPlus/FormulaParsing/Logging/LoggerFactory.cs

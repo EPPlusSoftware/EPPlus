@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingGreaterThanOrEqual.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingGreaterThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingGreaterThanOrEqual.cs

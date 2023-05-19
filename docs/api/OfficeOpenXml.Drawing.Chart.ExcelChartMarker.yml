@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartMarker
     path: ../src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
@@ -215,7 +215,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
@@ -252,7 +252,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartMarker.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartMarker.cs

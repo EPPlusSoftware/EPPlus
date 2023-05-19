@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingDataBar
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LowValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HighValue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
@@ -205,7 +205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs

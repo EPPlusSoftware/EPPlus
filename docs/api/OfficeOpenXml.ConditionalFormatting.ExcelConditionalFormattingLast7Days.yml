@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingLast7Days.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingLast7Days
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingLast7Days.cs

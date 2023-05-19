@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlCheckBox.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlCheckBox
     path: ../src/EPPlus/Drawing/Controls/ExcelControlCheckBox.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlCheckBox.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlCheckBox.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlCheckBox.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Checked
     path: ../src/EPPlus/Drawing/Controls/ExcelControlCheckBox.cs

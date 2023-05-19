@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDatabaseCriteriaField
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldName
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldIndex
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Database/ExcelDatabaseCriteriaField.cs

@@ -6,7 +6,7 @@ items:
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
   children:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0)
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.ExcelErrorType
@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FinanceCalcResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -89,21 +89,21 @@ items:
   modifiers.vb:
   - Public
   fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).FinanceCalcResult(T)
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
-  id: '#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)'
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  id: '#ctor(`0,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)'
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
   langs:
   - csharp
   - vb
   name: FinanceCalcResult(T, DataType)
   nameWithType: FinanceCalcResult<T>.FinanceCalcResult(T, DataType)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.FinanceCalcResult(T, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.FinanceCalcResult(T, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   type: Constructor
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -117,7 +117,7 @@ items:
     - id: result
       type: '{T}'
     - id: dataType
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
     content.vb: Public Sub New(result As T, dataType As DataType)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
   nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult(T, DataType)
@@ -125,7 +125,7 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).FinanceCalcResult(T, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).FinanceCalcResult(T, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(OfficeOpenXml.eErrorType)
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(OfficeOpenXml.eErrorType)
   id: '#ctor(OfficeOpenXml.eErrorType)'
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Result
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -224,7 +224,7 @@ items:
     content: public DataType DataType { get; }
     parameters: []
     return:
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
     content.vb: Public ReadOnly Property DataType As DataType
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType*
   nameWithType.vb: FinanceCalcResult(Of T).DataType
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasError
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -286,7 +286,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorType
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
@@ -624,17 +624,17 @@ references:
   name: T
   nameWithType: T
   fullName: T
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
-  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
-  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: DataType
   nameWithType: DataType
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
 - uid: OfficeOpenXml.eErrorType
   commentId: T:OfficeOpenXml.eErrorType
   parent: OfficeOpenXml

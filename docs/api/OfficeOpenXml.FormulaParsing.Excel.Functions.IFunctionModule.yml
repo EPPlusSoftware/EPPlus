@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IFunctionModule
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
@@ -48,7 +48,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Functions
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
@@ -83,7 +83,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomCompilers
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
@@ -97,7 +97,7 @@ items:
     content: IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
     parameters: []
     return:
-      type: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
+      type: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
     content.vb: ReadOnly Property CustomCompilers As IDictionary(Of Type, FunctionCompiler)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers*
   modifiers.csharp:
@@ -235,15 +235,15 @@ references:
   name: CustomCompilers
   nameWithType: IFunctionModule.CustomCompilers
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
-- uid: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
-  commentId: T:System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
+- uid: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
+  commentId: T:System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IDictionary`2
   name: IDictionary<Type, FunctionCompiler>
   nameWithType: IDictionary<Type, FunctionCompiler>
-  fullName: System.Collections.Generic.IDictionary<System.Type, OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler>
+  fullName: System.Collections.Generic.IDictionary<System.Type, OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler>
   nameWithType.vb: IDictionary(Of Type, FunctionCompiler)
-  fullName.vb: System.Collections.Generic.IDictionary(Of System.Type, OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler)
+  fullName.vb: System.Collections.Generic.IDictionary(Of System.Type, OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler)
   name.vb: IDictionary(Of Type, FunctionCompiler)
   spec.csharp:
   - uid: System.Collections.Generic.IDictionary`2
@@ -262,10 +262,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
     name: FunctionCompiler
     nameWithType: FunctionCompiler
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
   - name: '>'
     nameWithType: '>'
     fullName: '>'
@@ -286,10 +286,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
     name: FunctionCompiler
     nameWithType: FunctionCompiler
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
   - name: )
     nameWithType: )
     fullName: )

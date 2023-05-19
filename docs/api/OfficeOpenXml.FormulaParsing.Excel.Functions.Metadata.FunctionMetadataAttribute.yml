@@ -9,6 +9,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.Description
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.EPPlusVersion
   - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.IntroducedInExcelVersion
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays
   langs:
   - csharp
   - vb
@@ -19,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionMetadataAttribute
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
@@ -111,7 +112,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Category
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
@@ -148,7 +149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusVersion
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
@@ -185,7 +186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
@@ -222,14 +223,16 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IntroducedInExcelVersion
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
-    startLine: 28
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nA string describing in which Excel version the function was introduced.\n"
+  example: []
   syntax:
     content: public string IntroducedInExcelVersion { get; set; }
     parameters: []
@@ -237,6 +240,43 @@ items:
       type: System.String
     content.vb: Public Property IntroducedInExcelVersion As String
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.IntroducedInExcelVersion*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays
+  id: SupportsArrays
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute
+  langs:
+  - csharp
+  - vb
+  name: SupportsArrays
+  nameWithType: FunctionMetadataAttribute.SupportsArrays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SupportsArrays
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/FunctionMetadataAttribute.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  summary: "\nReturns true if the function can return an array if called with a multicell range as the argument.\n"
+  example: []
+  syntax:
+    content: public bool SupportsArrays { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SupportsArrays As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays*
   modifiers.csharp:
   - public
   - get
@@ -2612,3 +2652,15 @@ references:
   name: IntroducedInExcelVersion
   nameWithType: FunctionMetadataAttribute.IntroducedInExcelVersion
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.IntroducedInExcelVersion
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays
+  name: SupportsArrays
+  nameWithType: FunctionMetadataAttribute.SupportsArrays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute.SupportsArrays
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

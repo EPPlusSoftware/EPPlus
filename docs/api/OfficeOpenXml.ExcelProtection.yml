@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelProtection
     path: ../src/EPPlus/ExcelProtection.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPassword
     path: ../src/EPPlus/ExcelProtection.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockStructure
     path: ../src/EPPlus/ExcelProtection.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockWindows
     path: ../src/EPPlus/ExcelProtection.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockRevision
     path: ../src/EPPlus/ExcelProtection.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteProtection
     path: ../src/EPPlus/ExcelProtection.cs

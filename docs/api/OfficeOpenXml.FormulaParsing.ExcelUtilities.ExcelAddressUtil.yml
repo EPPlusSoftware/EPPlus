@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddressUtil
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidAddress
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidName
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValidName
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs

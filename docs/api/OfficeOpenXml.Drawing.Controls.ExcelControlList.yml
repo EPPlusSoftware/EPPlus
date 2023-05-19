@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlList.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlList
     path: ../src/EPPlus/Drawing/Controls/ExcelControlList.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlList.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InputRange
     path: ../src/EPPlus/Drawing/Controls/ExcelControlList.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlList.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedIndex
     path: ../src/EPPlus/Drawing/Controls/ExcelControlList.cs

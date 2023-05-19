@@ -1,0 +1,1246 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  id: CompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  langs:
+  - csharp
+  - vb
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompileResult
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: 'public class CompileResult : CompileResultBase'
+    content.vb: >-
+      Public Class CompileResult
+          Inherits CompileResultBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  derivedClasses:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  id: Empty
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: Empty
+  nameWithType: CompileResult.Empty
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Empty
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nReturns a CompileResult with a null value and data type set to DataType.Empty\n"
+  example: []
+  syntax:
+    content: public static CompileResult Empty { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    content.vb: Public Shared ReadOnly Property Empty As CompileResult
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  id: ZeroDecimal
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: ZeroDecimal
+  nameWithType: CompileResult.ZeroDecimal
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZeroDecimal
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 88
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nReturns a CompileResult instance with a decimal value of 0.\n"
+  example: []
+  syntax:
+    content: public static CompileResult ZeroDecimal { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    content.vb: Public Shared ReadOnly Property ZeroDecimal As CompileResult
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  id: ZeroInt
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: ZeroInt
+  nameWithType: CompileResult.ZeroInt
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZeroInt
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nReturns a CompileResult instance with a integer value of 0.\n"
+  example: []
+  syntax:
+    content: public static CompileResult ZeroInt { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    content.vb: Public Shared ReadOnly Property ZeroInt As CompileResult
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: CompileResult(Object, DataType)
+  nameWithType: CompileResult.CompileResult(Object, DataType)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.CompileResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public CompileResult(object result, DataType dataType)
+    parameters:
+    - id: result
+      type: System.Object
+    - id: dataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    content.vb: Public Sub New(result As Object, dataType As DataType)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)
+  id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,System.Int32)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: CompileResult(Object, DataType, Int32)
+  nameWithType: CompileResult.CompileResult(Object, DataType, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.CompileResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public CompileResult(object result, DataType dataType, int excelAddressReferenceId)
+    parameters:
+    - id: result
+      type: System.Object
+    - id: dataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    - id: excelAddressReferenceId
+      type: System.Int32
+    content.vb: Public Sub New(result As Object, dataType As DataType, excelAddressReferenceId As Integer)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.eErrorType)
+  id: '#ctor(OfficeOpenXml.eErrorType)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: CompileResult(eErrorType)
+  nameWithType: CompileResult.CompileResult(eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.CompileResult(OfficeOpenXml.eErrorType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public CompileResult(eErrorType errorType)
+    parameters:
+    - id: errorType
+      type: OfficeOpenXml.eErrorType
+    content.vb: Public Sub New(errorType As eErrorType)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
+  id: '#ctor(OfficeOpenXml.ExcelErrorValue)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: CompileResult(ExcelErrorValue)
+  nameWithType: CompileResult.CompileResult(ExcelErrorValue)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.CompileResult(OfficeOpenXml.ExcelErrorValue)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 185
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public CompileResult(ExcelErrorValue errorValue)
+    parameters:
+    - id: errorValue
+      type: OfficeOpenXml.ExcelErrorValue
+    content.vb: Public Sub New(errorValue As ExcelErrorValue)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  id: Result
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: Result
+  nameWithType: CompileResult.Result
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Result
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public object Result { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public ReadOnly Property Result As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  id: ResultValue
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: ResultValue
+  nameWithType: CompileResult.ResultValue
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResultValue
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public object ResultValue { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public ReadOnly Property ResultValue As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  id: ResultNumeric
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: ResultNumeric
+  nameWithType: CompileResult.ResultNumeric
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResultNumeric
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 221
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public double ResultNumeric { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property ResultNumeric As Double
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  id: DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: DataType
+  nameWithType: CompileResult.DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataType
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public DataType DataType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    content.vb: Public ReadOnly Property DataType As DataType
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  id: IsNumeric
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: IsNumeric
+  nameWithType: CompileResult.IsNumeric
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsNumeric
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 273
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public bool IsNumeric { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsNumeric As Boolean
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  id: IsNumericString
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: IsNumericString
+  nameWithType: CompileResult.IsNumericString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsNumericString
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 281
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public bool IsNumericString { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsNumericString As Boolean
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  id: IsPercentageString
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: IsPercentageString
+  nameWithType: CompileResult.IsPercentageString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsPercentageString
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 294
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public bool IsPercentageString { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsPercentageString As Boolean
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  id: IsDateString
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: IsDateString
+  nameWithType: CompileResult.IsDateString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsDateString
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 308
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public bool IsDateString { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsDateString As Boolean
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  id: IsResultOfSubtotal
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: IsResultOfSubtotal
+  nameWithType: CompileResult.IsResultOfSubtotal
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsResultOfSubtotal
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 321
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public bool IsResultOfSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsResultOfSubtotal As Boolean
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  id: IsHiddenCell
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: IsHiddenCell
+  nameWithType: CompileResult.IsHiddenCell
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsHiddenCell
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 323
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public bool IsHiddenCell { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsHiddenCell As Boolean
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  id: IsResultOfResolvedExcelRange
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: IsResultOfResolvedExcelRange
+  nameWithType: CompileResult.IsResultOfResolvedExcelRange
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsResultOfResolvedExcelRange
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 327
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public bool IsResultOfResolvedExcelRange { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsResultOfResolvedExcelRange As Boolean
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: CompileResult.Address
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 331
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public virtual FormulaRangeAddress Address { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: Public Overridable ReadOnly Property Address As FormulaRangeAddress
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  id: ResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  langs:
+  - csharp
+  - vb
+  name: ResultType
+  nameWithType: CompileResult.ResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResultType
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 338
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public override CompileResultType ResultType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+    content.vb: Public Overrides ReadOnly Property ResultType As CompileResultType
+  overridden: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase.ResultType
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResultBase
+  nameWithType: CompileResultBase
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  name: Empty
+  nameWithType: CompileResult.Empty
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  name: ZeroDecimal
+  nameWithType: CompileResult.ZeroDecimal
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  name: ZeroInt
+  nameWithType: CompileResult.ZeroInt
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.#ctor
+  name: CompileResult
+  nameWithType: CompileResult.CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.CompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: DataType
+  nameWithType: DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.eErrorType
+  commentId: T:OfficeOpenXml.eErrorType
+  parent: OfficeOpenXml
+  name: eErrorType
+  nameWithType: eErrorType
+  fullName: OfficeOpenXml.eErrorType
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ExcelErrorValue
+  commentId: T:OfficeOpenXml.ExcelErrorValue
+  parent: OfficeOpenXml
+  name: ExcelErrorValue
+  nameWithType: ExcelErrorValue
+  fullName: OfficeOpenXml.ExcelErrorValue
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  name: Result
+  nameWithType: CompileResult.Result
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  name: ResultValue
+  nameWithType: CompileResult.ResultValue
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  name: ResultNumeric
+  nameWithType: CompileResult.ResultNumeric
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  name: DataType
+  nameWithType: CompileResult.DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  name: IsNumeric
+  nameWithType: CompileResult.IsNumeric
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  name: IsNumericString
+  nameWithType: CompileResult.IsNumericString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  name: IsPercentageString
+  nameWithType: CompileResult.IsPercentageString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  name: IsDateString
+  nameWithType: CompileResult.IsDateString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  name: IsResultOfSubtotal
+  nameWithType: CompileResult.IsResultOfSubtotal
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  name: IsHiddenCell
+  nameWithType: CompileResult.IsHiddenCell
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  name: IsResultOfResolvedExcelRange
+  nameWithType: CompileResult.IsResultOfResolvedExcelRange
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  name: Address
+  nameWithType: CompileResult.Address
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase.ResultType
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase.ResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  name: ResultType
+  nameWithType: CompileResultBase.ResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase.ResultType
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  name: ResultType
+  nameWithType: CompileResult.ResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResultType
+  nameWithType: CompileResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType

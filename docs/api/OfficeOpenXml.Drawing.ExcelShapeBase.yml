@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelShapeBase
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -307,7 +307,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -344,7 +344,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeadEnd
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -381,7 +381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TailEnd
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -455,7 +455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -492,7 +492,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockText
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -529,7 +529,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -566,7 +566,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAnchoring
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -603,7 +603,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAnchoringControl
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -640,7 +640,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAlignment
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -677,7 +677,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indent
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -714,7 +714,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextVertical
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
@@ -751,7 +751,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelShapeBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs

@@ -43,7 +43,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eRigPresetType
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Balanced
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BrightRoom
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chilly
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Contrasting
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Flat
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Flood
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Freezing
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -348,7 +348,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Glow
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Harsh
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -416,7 +416,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyFlat1
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -450,7 +450,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyFlat2
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -484,7 +484,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyFlat3
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -518,7 +518,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyFlat4
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -552,7 +552,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyHarsh1
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -586,7 +586,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyHarsh2
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -620,7 +620,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyHarsh3
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyHarsh4
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -688,7 +688,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyNormal1
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -722,7 +722,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyNormal2
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -756,7 +756,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyNormal3
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -790,7 +790,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyNormal4
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -824,7 +824,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Morning
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -858,7 +858,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Soft
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -892,7 +892,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sunrise
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -926,7 +926,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sunset
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -960,7 +960,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreePt
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs
@@ -994,7 +994,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRigPresetType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TwoPt
     path: ../src/EPPlus/Drawing/Enums/eRigPresetType.cs

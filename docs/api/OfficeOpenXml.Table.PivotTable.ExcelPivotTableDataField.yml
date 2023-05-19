@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableDataField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Field
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BaseField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BaseItem
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -254,7 +254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -291,7 +291,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Function
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
@@ -328,7 +328,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDataAs
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataField.cs

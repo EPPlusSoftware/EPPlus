@@ -1,0 +1,427 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelRichDataErrorValue
+  commentId: T:OfficeOpenXml.ExcelRichDataErrorValue
+  id: ExcelRichDataErrorValue
+  parent: OfficeOpenXml
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: ExcelRichDataErrorValue
+  nameWithType: ExcelRichDataErrorValue
+  fullName: OfficeOpenXml.ExcelRichDataErrorValue
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRichDataErrorValue
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  syntax:
+    content: 'public class ExcelRichDataErrorValue : ExcelErrorValue'
+    content.vb: >-
+      Public Class ExcelRichDataErrorValue
+          Inherits ExcelErrorValue
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.ExcelErrorValue
+  inheritedMembers:
+  - OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  - OfficeOpenXml.ExcelErrorValue.Type
+  - OfficeOpenXml.ExcelErrorValue.ToString
+  - OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.ExcelErrorValue
+  commentId: T:OfficeOpenXml.ExcelErrorValue
+  parent: OfficeOpenXml
+  name: ExcelErrorValue
+  nameWithType: ExcelErrorValue
+  fullName: OfficeOpenXml.ExcelErrorValue
+- uid: OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  parent: OfficeOpenXml.ExcelErrorValue
+  name: Create(eErrorType)
+  nameWithType: ExcelErrorValue.Create(eErrorType)
+  fullName: OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+    name: Create
+    nameWithType: ExcelErrorValue.Create
+    fullName: OfficeOpenXml.ExcelErrorValue.Create
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+    name: Create
+    nameWithType: ExcelErrorValue.Create
+    fullName: OfficeOpenXml.ExcelErrorValue.Create
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  parent: OfficeOpenXml.ExcelErrorValue
+  isExternal: true
+  name: Parse(String)
+  nameWithType: ExcelErrorValue.Parse(String)
+  fullName: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+    name: Parse
+    nameWithType: ExcelErrorValue.Parse
+    fullName: OfficeOpenXml.ExcelErrorValue.Parse
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+    name: Parse
+    nameWithType: ExcelErrorValue.Parse
+    fullName: OfficeOpenXml.ExcelErrorValue.Parse
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.Type
+  commentId: P:OfficeOpenXml.ExcelErrorValue.Type
+  parent: OfficeOpenXml.ExcelErrorValue
+  name: Type
+  nameWithType: ExcelErrorValue.Type
+  fullName: OfficeOpenXml.ExcelErrorValue.Type
+- uid: OfficeOpenXml.ExcelErrorValue.ToString
+  commentId: M:OfficeOpenXml.ExcelErrorValue.ToString
+  parent: OfficeOpenXml.ExcelErrorValue
+  name: ToString()
+  nameWithType: ExcelErrorValue.ToString()
+  fullName: OfficeOpenXml.ExcelErrorValue.ToString()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelErrorValue.ToString
+    name: ToString
+    nameWithType: ExcelErrorValue.ToString
+    fullName: OfficeOpenXml.ExcelErrorValue.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelErrorValue.ToString
+    name: ToString
+    nameWithType: ExcelErrorValue.ToString
+    fullName: OfficeOpenXml.ExcelErrorValue.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  commentId: M:OfficeOpenXml.ExcelErrorValue.GetHashCode
+  parent: OfficeOpenXml.ExcelErrorValue
+  name: GetHashCode()
+  nameWithType: ExcelErrorValue.GetHashCode()
+  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+    name: GetHashCode
+    nameWithType: ExcelErrorValue.GetHashCode
+    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+    name: GetHashCode
+    nameWithType: ExcelErrorValue.GetHashCode
+    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  parent: OfficeOpenXml.ExcelErrorValue
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ExcelErrorValue.Equals(Object)
+  fullName: OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+    name: Equals
+    nameWithType: ExcelErrorValue.Equals
+    fullName: OfficeOpenXml.ExcelErrorValue.Equals
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+    name: Equals
+    nameWithType: ExcelErrorValue.Equals
+    fullName: OfficeOpenXml.ExcelErrorValue.Equals
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

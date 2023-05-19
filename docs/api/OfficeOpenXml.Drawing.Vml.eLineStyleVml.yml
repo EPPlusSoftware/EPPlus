@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eLineStyleVml
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Solid
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Round
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Square
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dash
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDash
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDashDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDashDotDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs

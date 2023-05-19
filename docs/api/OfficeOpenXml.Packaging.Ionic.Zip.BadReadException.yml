@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Exceptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BadReadException
     path: ../src/EPPlus/Packaging/DotNetZip/Exceptions.cs
@@ -79,7 +79,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Exceptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Exceptions.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Exceptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Exceptions.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Exceptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Exceptions.cs

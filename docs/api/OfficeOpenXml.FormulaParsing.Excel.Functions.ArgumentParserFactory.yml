@@ -5,7 +5,7 @@ items:
   id: ArgumentParserFactory
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   langs:
   - csharp
   - vb
@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArgumentParserFactory.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgumentParserFactory
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArgumentParserFactory.cs
@@ -43,21 +43,21 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
-  id: CreateArgumentParser(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  id: CreateArgumentParser(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
   langs:
   - csharp
   - vb
   name: CreateArgumentParser(DataType)
   nameWithType: ArgumentParserFactory.CreateArgumentParser(DataType)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser(OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   type: Method
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArgumentParserFactory.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateArgumentParser
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArgumentParserFactory.cs
@@ -69,7 +69,7 @@ items:
     content: public virtual ArgumentParser CreateArgumentParser(DataType dataType)
     parameters:
     - id: dataType
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
     content.vb: Public Overridable Function CreateArgumentParser(dataType As DataType) As ArgumentParser
@@ -383,20 +383,20 @@ references:
   name: CreateArgumentParser
   nameWithType: ArgumentParserFactory.CreateArgumentParser
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory.CreateArgumentParser
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
-  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
-  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: DataType
   nameWithType: DataType
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: ArgumentParser
   nameWithType: ArgumentParser
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions

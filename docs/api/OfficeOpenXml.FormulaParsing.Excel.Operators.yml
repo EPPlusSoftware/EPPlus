@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
   - OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsEnumDict
   langs:
   - csharp
   - vb
@@ -40,6 +41,11 @@ references:
   name: OperatorsDict
   nameWithType: OperatorsDict
   fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsEnumDict
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsEnumDict
+  name: OperatorsEnumDict
+  nameWithType: OperatorsEnumDict
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsEnumDict
 - uid: OfficeOpenXml.FormulaParsing.Excel.Operators
   commentId: N:OfficeOpenXml.FormulaParsing.Excel.Operators
   name: OfficeOpenXml.FormulaParsing.Excel.Operators

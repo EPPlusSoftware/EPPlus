@@ -32,11 +32,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCellBase
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 24
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -79,11 +79,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TranslateFromR1C1
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 62
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -126,11 +126,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TranslateToR1C1
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 74
+    startLine: 85
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -173,11 +173,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetColumnLetter
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 89
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -214,11 +214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetColumnLetter
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 99
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -258,11 +258,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddressRow
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 483
+    startLine: 529
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -302,11 +302,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddressCol
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 495
+    startLine: 541
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -346,11 +346,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 508
+    startLine: 554
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -390,11 +390,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 520
+    startLine: 566
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -440,11 +440,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 532
+    startLine: 578
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -487,11 +487,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 555
+    startLine: 601
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -537,11 +537,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 568
+    startLine: 614
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -590,11 +590,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 604
+    startLine: 650
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -652,11 +652,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFullAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 632
+    startLine: 678
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -696,11 +696,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFullAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 643
+    startLine: 689
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -743,11 +743,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsSimpleAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 711
+    startLine: 757
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -784,11 +784,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 732
+    startLine: 778
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -825,11 +825,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidCellAddress
     path: ../src/EPPlus/ExcelCellBase.cs
-    startLine: 852
+    startLine: 898
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

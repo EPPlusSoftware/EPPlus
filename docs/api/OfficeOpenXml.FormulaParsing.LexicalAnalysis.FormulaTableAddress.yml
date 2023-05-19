@@ -1,0 +1,866 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  id: FormulaTableAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  children:
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName1
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName2
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TableName
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart1
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart2
+  langs:
+  - csharp
+  - vb
+  name: FormulaTableAddress
+  nameWithType: FormulaTableAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormulaTableAddress
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 700
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: 'public class FormulaTableAddress : FormulaRangeAddress, IAddressInfo, IComparable<FormulaRangeAddress>'
+    content.vb: >-
+      Public Class FormulaTableAddress
+          Inherits FormulaRangeAddress
+          Implements IAddressInfo, IComparable(Of FormulaRangeAddress)
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  implements:
+  - OfficeOpenXml.FormulaParsing.IAddressInfo
+  - System.IComparable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}
+  inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress._context
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromRow
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromCol
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToRow
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToCol
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.IsSingleCell
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Empty
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetAddress
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetName
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Address
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.ExternalReferenceIx
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.WorksheetIx
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.ParsingContext)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: FormulaTableAddress(ParsingContext)
+  nameWithType: FormulaTableAddress.FormulaTableAddress(ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.FormulaTableAddress(OfficeOpenXml.FormulaParsing.ParsingContext)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 702
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public FormulaTableAddress(ParsingContext ctx)
+    parameters:
+    - id: ctx
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+    content.vb: Public Sub New(ctx As ParsingContext)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)'
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: FormulaTableAddress(ParsingContext, String)
+  nameWithType: FormulaTableAddress.FormulaTableAddress(ParsingContext, String)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.FormulaTableAddress(OfficeOpenXml.FormulaParsing.ParsingContext, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 706
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public FormulaTableAddress(ParsingContext ctx, string tableAddress)
+    parameters:
+    - id: ctx
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+    - id: tableAddress
+      type: System.String
+    content.vb: Public Sub New(ctx As ParsingContext, tableAddress As String)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TableName
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TableName
+  id: TableName
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: TableName
+  nameWithType: FormulaTableAddress.TableName
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TableName
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableName
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 740
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public string TableName
+    return:
+      type: System.String
+    content.vb: Public TableName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName1
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName1
+  id: ColumnName1
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: ColumnName1
+  nameWithType: FormulaTableAddress.ColumnName1
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnName1
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 740
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public string ColumnName1
+    return:
+      type: System.String
+    content.vb: Public ColumnName1 As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName2
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName2
+  id: ColumnName2
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: ColumnName2
+  nameWithType: FormulaTableAddress.ColumnName2
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.ColumnName2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnName2
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 740
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public string ColumnName2
+    return:
+      type: System.String
+    content.vb: Public ColumnName2 As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart1
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart1
+  id: TablePart1
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: TablePart1
+  nameWithType: FormulaTableAddress.TablePart1
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TablePart1
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 740
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public string TablePart1
+    return:
+      type: System.String
+    content.vb: Public TablePart1 As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart2
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart2
+  id: TablePart2
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: TablePart2
+  nameWithType: FormulaTableAddress.TablePart2
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.TablePart2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TablePart2
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 740
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public string TablePart2
+    return:
+      type: System.String
+    content.vb: Public TablePart2 As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone
+  id: Clone
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  langs:
+  - csharp
+  - vb
+  name: Clone()
+  nameWithType: FormulaTableAddress.Clone()
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clone
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 866
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public virtual FormulaTableAddress Clone()
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+    content.vb: Public Overridable Function Clone As FormulaTableAddress
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+references:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaAddressBase
+  nameWithType: FormulaAddressBase
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IAddressInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo
+- uid: System.IComparable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}
+  commentId: T:System.IComparable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress}
+  parent: System
+  definition: System.IComparable`1
+  name: IComparable<FormulaRangeAddress>
+  nameWithType: IComparable<FormulaRangeAddress>
+  fullName: System.IComparable<OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress>
+  nameWithType.vb: IComparable(Of FormulaRangeAddress)
+  fullName.vb: System.IComparable(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  name.vb: IComparable(Of FormulaRangeAddress)
+  spec.csharp:
+  - uid: System.IComparable`1
+    name: IComparable
+    nameWithType: IComparable
+    fullName: System.IComparable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.IComparable`1
+    name: IComparable
+    nameWithType: IComparable
+    fullName: System.IComparable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress._context
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress._context
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: _context
+  nameWithType: FormulaRangeAddress._context
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress._context
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromRow
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromRow
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: FromRow
+  nameWithType: FormulaRangeAddress.FromRow
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromRow
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromCol
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromCol
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: FromCol
+  nameWithType: FormulaRangeAddress.FromCol
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.FromCol
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToRow
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToRow
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: ToRow
+  nameWithType: FormulaRangeAddress.ToRow
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToRow
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToCol
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToCol
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: ToCol
+  nameWithType: FormulaRangeAddress.ToCol
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToCol
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.IsSingleCell
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.IsSingleCell
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: IsSingleCell
+  nameWithType: FormulaRangeAddress.IsSingleCell
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.IsSingleCell
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Empty
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Empty
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: Empty
+  nameWithType: FormulaRangeAddress.Empty
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Empty
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: ToString()
+  nameWithType: FormulaRangeAddress.ToString()
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
+    name: ToString
+    nameWithType: FormulaRangeAddress.ToString
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
+    name: ToString
+    nameWithType: FormulaRangeAddress.ToString
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetAddress
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: WorksheetAddress
+  nameWithType: FormulaRangeAddress.WorksheetAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetName
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetName
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: WorksheetName
+  nameWithType: FormulaRangeAddress.WorksheetName
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.WorksheetName
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: CompareTo(FormulaRangeAddress)
+  nameWithType: FormulaRangeAddress.CompareTo(FormulaRangeAddress)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+    name: CompareTo
+    nameWithType: FormulaRangeAddress.CompareTo
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+    name: CompareTo
+    nameWithType: FormulaRangeAddress.CompareTo
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Address
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  name: Address
+  nameWithType: FormulaRangeAddress.Address
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Address
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.ExternalReferenceIx
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.ExternalReferenceIx
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase
+  name: ExternalReferenceIx
+  nameWithType: FormulaAddressBase.ExternalReferenceIx
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.ExternalReferenceIx
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.WorksheetIx
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.WorksheetIx
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase
+  name: WorksheetIx
+  nameWithType: FormulaAddressBase.WorksheetIx
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase.WorksheetIx
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.IComparable`1
+  commentId: T:System.IComparable`1
+  isExternal: true
+  name: IComparable<T>
+  nameWithType: IComparable<T>
+  fullName: System.IComparable<T>
+  nameWithType.vb: IComparable(Of T)
+  fullName.vb: System.IComparable(Of T)
+  name.vb: IComparable(Of T)
+  spec.csharp:
+  - uid: System.IComparable`1
+    name: IComparable
+    nameWithType: IComparable
+    fullName: System.IComparable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.IComparable`1
+    name: IComparable
+    nameWithType: IComparable
+    fullName: System.IComparable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.#ctor
+  name: FormulaTableAddress
+  nameWithType: FormulaTableAddress.FormulaTableAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.FormulaTableAddress
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext
+  commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
+  parent: OfficeOpenXml.FormulaParsing
+  name: ParsingContext
+  nameWithType: ParsingContext
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone
+  name: Clone
+  nameWithType: FormulaTableAddress.Clone
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress.Clone
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaTableAddress
+  nameWithType: FormulaTableAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSparklineGroupCollection
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
@@ -302,7 +302,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroupCollection.cs

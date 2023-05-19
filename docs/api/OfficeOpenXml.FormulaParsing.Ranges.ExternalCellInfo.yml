@@ -1,0 +1,1093 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  id: ExternalCellInfo
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  children:
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName
+  langs:
+  - csharp
+  - vb
+  name: ExternalCellInfo
+  nameWithType: ExternalCellInfo
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalCellInfo
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 340
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nProvides information about an external cell in an external range.\n"
+  example: []
+  syntax:
+    content: 'public class ExternalCellInfo : ICellInfo'
+    content.vb: >-
+      Public Class ExternalCellInfo
+          Implements ICellInfo
+  inheritance:
+  - System.Object
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExternalCellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 352
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe cell address.\n"
+  example: []
+  syntax:
+    content: public string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Address As String
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.Address
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row
+  id: Row
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: ExternalCellInfo.Row
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 359
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe row of the cell\n"
+  example: []
+  syntax:
+    content: public int Row { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Row As Integer
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.Row
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column
+  id: Column
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: ExternalCellInfo.Column
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 367
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe column of the cell\n"
+  example: []
+  syntax:
+    content: public int Column { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Column As Integer
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.Column
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula
+  id: Formula
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: ExternalCellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 374
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nFormula. Always return Empty.String for external cells.\n"
+  example: []
+  syntax:
+    content: public string Formula { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Formula As String
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.Formula
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value
+  id: Value
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: ExternalCellInfo.Value
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 384
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe value of the current cell.\n"
+  example: []
+  syntax:
+    content: public object Value { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public ReadOnly Property Value As Object
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.Value
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble
+  id: ValueDouble
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: ValueDouble
+  nameWithType: ExternalCellInfo.ValueDouble
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueDouble
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 394
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe value as double of the current cell. Bools will be ignored.\n"
+  example: []
+  syntax:
+    content: public double ValueDouble { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property ValueDouble As Double
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.ValueDouble
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical
+  id: ValueDoubleLogical
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: ValueDoubleLogical
+  nameWithType: ExternalCellInfo.ValueDoubleLogical
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueDoubleLogical
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 401
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe value as double of the current cell.\n"
+  example: []
+  syntax:
+    content: public double ValueDoubleLogical { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property ValueDoubleLogical As Double
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.ValueDoubleLogical
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow
+  id: IsHiddenRow
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: IsHiddenRow
+  nameWithType: ExternalCellInfo.IsHiddenRow
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsHiddenRow
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 408
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nIf the row of the cell is hidden\n"
+  example: []
+  syntax:
+    content: public bool IsHiddenRow { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsHiddenRow As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.IsHiddenRow
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError
+  id: IsExcelError
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: IsExcelError
+  nameWithType: ExternalCellInfo.IsExcelError
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsExcelError
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 419
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nIf the value of the cell is an Excel Error\n"
+  example: []
+  syntax:
+    content: public bool IsExcelError { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsExcelError As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.IsExcelError
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens
+  id: Tokens
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Tokens
+  nameWithType: ExternalCellInfo.Tokens
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tokens
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 426
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nTokens for the formula. Not applicable to External cells.\n"
+  example: []
+  syntax:
+    content: public IList<Token> Tokens { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: Public ReadOnly Property Tokens As IList(Of Token)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.Tokens
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id
+  id: Id
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: ExternalCellInfo.Id
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Id
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 436
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe cell id\n"
+  example: []
+  syntax:
+    content: public ulong Id { get; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public ReadOnly Property Id As ULong
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.Id
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName
+  id: WorksheetName
+  parent: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  langs:
+  - csharp
+  - vb
+  name: WorksheetName
+  nameWithType: ExternalCellInfo.WorksheetName
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorksheetName
+    path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
+    startLine: 446
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe name of the worksheet.\n"
+  example: []
+  syntax:
+    content: public string WorksheetName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property WorksheetName As String
+  overload: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName*
+  implements:
+  - OfficeOpenXml.FormulaParsing.ICellInfo.WorksheetName
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.Ranges
+  commentId: N:OfficeOpenXml.FormulaParsing.Ranges
+  name: OfficeOpenXml.FormulaParsing.Ranges
+  nameWithType: OfficeOpenXml.FormulaParsing.Ranges
+  fullName: OfficeOpenXml.FormulaParsing.Ranges
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.ICellInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: ICellInfo
+  nameWithType: ICellInfo
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address
+  name: Address
+  nameWithType: ExternalCellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.Address
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: Address
+  nameWithType: ICellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.Address
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row
+  name: Row
+  nameWithType: ExternalCellInfo.Row
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Row
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.Row
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.Row
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: Row
+  nameWithType: ICellInfo.Row
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.Row
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column
+  name: Column
+  nameWithType: ExternalCellInfo.Column
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Column
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.Column
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.Column
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: Column
+  nameWithType: ICellInfo.Column
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.Column
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula
+  name: Formula
+  nameWithType: ExternalCellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Formula
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.Formula
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.Formula
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: Formula
+  nameWithType: ICellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.Formula
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value
+  name: Value
+  nameWithType: ExternalCellInfo.Value
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Value
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.Value
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.Value
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: Value
+  nameWithType: ICellInfo.Value
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.Value
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble
+  name: ValueDouble
+  nameWithType: ExternalCellInfo.ValueDouble
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDouble
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.ValueDouble
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.ValueDouble
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: ValueDouble
+  nameWithType: ICellInfo.ValueDouble
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.ValueDouble
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical
+  name: ValueDoubleLogical
+  nameWithType: ExternalCellInfo.ValueDoubleLogical
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.ValueDoubleLogical
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.ValueDoubleLogical
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.ValueDoubleLogical
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: ValueDoubleLogical
+  nameWithType: ICellInfo.ValueDoubleLogical
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.ValueDoubleLogical
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow
+  name: IsHiddenRow
+  nameWithType: ExternalCellInfo.IsHiddenRow
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsHiddenRow
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.IsHiddenRow
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.IsHiddenRow
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: IsHiddenRow
+  nameWithType: ICellInfo.IsHiddenRow
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.IsHiddenRow
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError
+  name: IsExcelError
+  nameWithType: ExternalCellInfo.IsExcelError
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.IsExcelError
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.IsExcelError
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.IsExcelError
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: IsExcelError
+  nameWithType: ICellInfo.IsExcelError
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.IsExcelError
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens
+  name: Tokens
+  nameWithType: ExternalCellInfo.Tokens
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Tokens
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.Tokens
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.Tokens
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: Tokens
+  nameWithType: ICellInfo.Tokens
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.Tokens
+- uid: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  commentId: T:System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  name: IList<Token>
+  nameWithType: IList<Token>
+  fullName: System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
+  nameWithType.vb: IList(Of Token)
+  fullName.vb: System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  name.vb: IList(Of Token)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id
+  name: Id
+  nameWithType: ExternalCellInfo.Id
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.Id
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.Id
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.Id
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: Id
+  nameWithType: ICellInfo.Id
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.Id
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  name: UInt64
+  nameWithType: UInt64
+  fullName: System.UInt64
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName
+  name: WorksheetName
+  nameWithType: ExternalCellInfo.WorksheetName
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo.WorksheetName
+- uid: OfficeOpenXml.FormulaParsing.ICellInfo.WorksheetName
+  commentId: P:OfficeOpenXml.FormulaParsing.ICellInfo.WorksheetName
+  parent: OfficeOpenXml.FormulaParsing.ICellInfo
+  name: WorksheetName
+  nameWithType: ICellInfo.WorksheetName
+  fullName: OfficeOpenXml.FormulaParsing.ICellInfo.WorksheetName

@@ -20,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MergeCellsCollection
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 231
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -68,11 +68,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 245
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -115,11 +115,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 265
+    startLine: 142
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,11 +159,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 355
+    startLine: 229
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -196,11 +196,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 368
+    startLine: 242
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -234,11 +234,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 377
+    startLine: 251
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

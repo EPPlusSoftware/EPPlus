@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaParserManager
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFunctionModule
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOrReplaceFunction
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyFunctionsFrom
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetImplementedFunctionNames
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetImplementedFunctions
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -251,7 +251,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AttachLogger
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -371,7 +371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AttachLogger
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DetachLogger
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -439,7 +439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCalculationChain
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
@@ -474,11 +474,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCalculationChain
     path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
-    startLine: 156
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing

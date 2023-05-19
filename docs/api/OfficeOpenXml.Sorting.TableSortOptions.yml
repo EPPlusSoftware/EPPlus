@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortOptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableSortOptions
     path: ../src/EPPlus/Sorting/TableSortOptions.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortOptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Sorting/TableSortOptions.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortOptions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortBy
     path: ../src/EPPlus/Sorting/TableSortOptions.cs

@@ -1,0 +1,92 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IAddressInfo
+  id: IAddressInfo
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  langs:
+  - csharp
+  - vb
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IAddressInfo
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: public interface IAddressInfo
+    content.vb: Public Interface IAddressInfo
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.IAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: IAddressInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe address.\n"
+  example: []
+  syntax:
+    content: FormulaRangeAddress Address { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: ReadOnly Property Address As FormulaRangeAddress
+  overload: OfficeOpenXml.FormulaParsing.IAddressInfo.Address*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  name: Address
+  nameWithType: IAddressInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelSlicerAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSlicerAsType
     path: ../src/EPPlus/Drawing/ExcelSlicerAsType.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelSlicerAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableSlicer
     path: ../src/EPPlus/Drawing/ExcelSlicerAsType.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelSlicerAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableSlicer
     path: ../src/EPPlus/Drawing/ExcelSlicerAsType.cs

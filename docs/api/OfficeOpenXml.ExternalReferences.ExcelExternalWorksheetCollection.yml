@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheetCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalWorksheetCollection
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheetCollection.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheetCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheetCollection.cs

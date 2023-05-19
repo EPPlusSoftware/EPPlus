@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieDataLabel.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartSerieDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieDataLabel.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieDataLabel.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabels
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieDataLabel.cs

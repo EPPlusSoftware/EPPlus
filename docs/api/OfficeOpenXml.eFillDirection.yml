@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eFillDirection
     path: ../src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Core/Worksheet/Fill/eFillDirection.cs

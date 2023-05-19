@@ -5,14 +5,14 @@ items:
   id: ParsingContext
   parent: OfficeOpenXml.FormulaParsing
   children:
-  - OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache
   - OfficeOpenXml.FormulaParsing.ParsingContext.Configuration
   - OfficeOpenXml.FormulaParsing.ParsingContext.Create
+  - OfficeOpenXml.FormulaParsing.ParsingContext.Create(OfficeOpenXml.ExcelPackage)
   - OfficeOpenXml.FormulaParsing.ParsingContext.Debug
+  - OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
   - OfficeOpenXml.FormulaParsing.ParsingContext.NameValueProvider
   - OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
   - OfficeOpenXml.FormulaParsing.ParsingContext.Parser
-  - OfficeOpenXml.FormulaParsing.ParsingContext.Scopes
   langs:
   - csharp
   - vb
@@ -23,11 +23,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingContext
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 28
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -70,11 +70,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parser
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 37
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -107,11 +107,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValueProvider
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 53
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -144,11 +144,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configuration
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 58
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -167,83 +167,6 @@ items:
   - set
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.Scopes
-  commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.Scopes
-  id: Scopes
-  parent: OfficeOpenXml.FormulaParsing.ParsingContext
-  langs:
-  - csharp
-  - vb
-  name: Scopes
-  nameWithType: ParsingContext.Scopes
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.Scopes
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Scopes
-    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 63
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nScopes, a scope represents the parsing of a cell or a value.\n"
-  example: []
-  syntax:
-    content: public ParsingScopes Scopes { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.FormulaParsing.ParsingScopes
-    content.vb: Public ReadOnly Property Scopes As ParsingScopes
-  overload: OfficeOpenXml.FormulaParsing.ParsingContext.Scopes*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache
-  commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache
-  id: AddressCache
-  parent: OfficeOpenXml.FormulaParsing.ParsingContext
-  langs:
-  - csharp
-  - vb
-  name: AddressCache
-  nameWithType: ParsingContext.AddressCache
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: AddressCache
-    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 69
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nAddress cache\n"
-  example: []
-  syntax:
-    content: public ExcelAddressCache AddressCache { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.FormulaParsing.ExcelAddressCache
-    content.vb: Public ReadOnly Property AddressCache As ExcelAddressCache
-  overload: OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache*
-  seealso:
-  - linkId: OfficeOpenXml.FormulaParsing.ExcelAddressCache
-    commentId: T:OfficeOpenXml.FormulaParsing.ExcelAddressCache
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.ParsingContext.Debug
   commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.Debug
   id: Debug
@@ -258,11 +181,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Debug
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 74
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -281,6 +204,47 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext.Create(OfficeOpenXml.ExcelPackage)
+  commentId: M:OfficeOpenXml.FormulaParsing.ParsingContext.Create(OfficeOpenXml.ExcelPackage)
+  id: Create(OfficeOpenXml.ExcelPackage)
+  parent: OfficeOpenXml.FormulaParsing.ParsingContext
+  langs:
+  - csharp
+  - vb
+  name: Create(ExcelPackage)
+  nameWithType: ParsingContext.Create(ExcelPackage)
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.Create(OfficeOpenXml.ExcelPackage)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingContext.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Create
+    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nFactory method.\n"
+  example: []
+  syntax:
+    content: public static ParsingContext Create(ExcelPackage package)
+    parameters:
+    - id: package
+      type: OfficeOpenXml.ExcelPackage
+      description: The ExcelPackage where calculation is done
+    return:
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
+    content.vb: Public Shared Function Create(package As ExcelPackage) As ParsingContext
+  overload: OfficeOpenXml.FormulaParsing.ParsingContext.Create*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: OfficeOpenXml.FormulaParsing.ParsingContext.Create
   commentId: M:OfficeOpenXml.FormulaParsing.ParsingContext.Create
   id: Create
@@ -295,21 +259,18 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 83
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nFactory method.\n"
-  example: []
   syntax:
     content: public static ParsingContext Create()
     return:
       type: OfficeOpenXml.FormulaParsing.ParsingContext
-      description: ''
     content.vb: Public Shared Function Create As ParsingContext
   overload: OfficeOpenXml.FormulaParsing.ParsingContext.Create*
   modifiers.csharp:
@@ -333,11 +294,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 93
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -349,6 +310,41 @@ items:
   - OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
   nameWithType.vb: ParsingContext.OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
   name.vb: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
+  commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
+  id: IsSubtotal
+  parent: OfficeOpenXml.FormulaParsing.ParsingContext
+  langs:
+  - csharp
+  - vb
+  name: IsSubtotal
+  nameWithType: ParsingContext.IsSubtotal
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ParsingContext.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsSubtotal
+    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: public bool IsSubtotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsSubtotal As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.FormulaParsing
   commentId: N:OfficeOpenXml.FormulaParsing
@@ -686,28 +682,6 @@ references:
   name: ParsingConfiguration
   nameWithType: ParsingConfiguration
   fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.Scopes*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.Scopes
-  name: Scopes
-  nameWithType: ParsingContext.Scopes
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.Scopes
-- uid: OfficeOpenXml.FormulaParsing.ParsingScopes
-  commentId: T:OfficeOpenXml.FormulaParsing.ParsingScopes
-  parent: OfficeOpenXml.FormulaParsing
-  name: ParsingScopes
-  nameWithType: ParsingScopes
-  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes
-- uid: OfficeOpenXml.FormulaParsing.ExcelAddressCache
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelAddressCache
-  parent: OfficeOpenXml.FormulaParsing
-  name: ExcelAddressCache
-  nameWithType: ExcelAddressCache
-  fullName: OfficeOpenXml.FormulaParsing.ExcelAddressCache
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache
-  name: AddressCache
-  nameWithType: ParsingContext.AddressCache
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.AddressCache
 - uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
   commentId: T:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
   parent: OfficeOpenXml.FormulaParsing.Logging
@@ -736,12 +710,23 @@ references:
   name: Create
   nameWithType: ParsingContext.Create
   fullName: OfficeOpenXml.FormulaParsing.ParsingContext.Create
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  parent: OfficeOpenXml
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
 - uid: OfficeOpenXml.FormulaParsing.ParsingContext
   commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
   parent: OfficeOpenXml.FormulaParsing
   name: ParsingContext
   nameWithType: ParsingContext
   fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
 - uid: OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
   name: IParsingLifetimeEventHandler.ParsingCompleted
@@ -777,3 +762,8 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal
+  name: IsSubtotal
+  nameWithType: ParsingContext.IsSubtotal
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.IsSubtotal

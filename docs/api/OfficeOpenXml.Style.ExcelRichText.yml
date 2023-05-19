@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.Style.ExcelRichText._collection
   - OfficeOpenXml.Style.ExcelRichText.Bold
   - OfficeOpenXml.Style.ExcelRichText.Color
+  - OfficeOpenXml.Style.ExcelRichText.ColorSettings
   - OfficeOpenXml.Style.ExcelRichText.FontName
   - OfficeOpenXml.Style.ExcelRichText.HtmlText
   - OfficeOpenXml.Style.ExcelRichText.Italic
@@ -27,11 +28,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichText
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 25
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -73,11 +74,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 43
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -110,11 +111,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlText
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 66
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -147,11 +148,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreserveSpace
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 88
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -184,11 +185,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 121
+    startLine: 123
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -221,11 +222,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 145
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -258,11 +259,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 170
+    startLine: 172
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -295,11 +296,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 194
+    startLine: 196
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -332,11 +333,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlign
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 219
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -369,11 +370,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 259
+    startLine: 261
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -406,11 +407,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontName
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 276
+    startLine: 278
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -443,15 +444,15 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 293
+    startLine: 299
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nText color\n"
+  summary: "\nText color.\nAlso see <xref href=\"OfficeOpenXml.Style.ExcelRichText.ColorSettings\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public Color Color { get; set; }
@@ -466,6 +467,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Style.ExcelRichText.ColorSettings
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.ColorSettings
+  id: ColorSettings
+  parent: OfficeOpenXml.Style.ExcelRichText
+  langs:
+  - csharp
+  - vb
+  name: ColorSettings
+  nameWithType: ExcelRichText.ColorSettings
+  fullName: OfficeOpenXml.Style.ExcelRichText.ColorSettings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichText.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorSettings
+    path: ../src/EPPlus/Style/ExcelRichText.cs
+    startLine: 350
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nColor settings.\n<xref href=\"OfficeOpenXml.Style.ExcelRichText.Color\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelRichTextColor ColorSettings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelRichTextColor
+    content.vb: Public ReadOnly Property ColorSettings As ExcelRichTextColor
+  overload: OfficeOpenXml.Style.ExcelRichText.ColorSettings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.Style.ExcelRichText._collection
   commentId: P:OfficeOpenXml.Style.ExcelRichText._collection
   id: _collection
@@ -480,11 +518,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelRichText.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _collection
     path: ../src/EPPlus/Style/ExcelRichText.cs
-    startLine: 317
+    startLine: 364
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -889,6 +927,9 @@ references:
   name: FontName
   nameWithType: ExcelRichText.FontName
   fullName: OfficeOpenXml.Style.ExcelRichText.FontName
+- uid: OfficeOpenXml.Style.ExcelRichText.ColorSettings
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.ColorSettings
+  isExternal: true
 - uid: OfficeOpenXml.Style.ExcelRichText.Color*
   commentId: Overload:OfficeOpenXml.Style.ExcelRichText.Color
   name: Color
@@ -907,6 +948,20 @@ references:
   name: System.Drawing
   nameWithType: System.Drawing
   fullName: System.Drawing
+- uid: OfficeOpenXml.Style.ExcelRichText.Color
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.Color
+  isExternal: true
+- uid: OfficeOpenXml.Style.ExcelRichText.ColorSettings*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichText.ColorSettings
+  name: ColorSettings
+  nameWithType: ExcelRichText.ColorSettings
+  fullName: OfficeOpenXml.Style.ExcelRichText.ColorSettings
+- uid: OfficeOpenXml.Style.ExcelRichTextColor
+  commentId: T:OfficeOpenXml.Style.ExcelRichTextColor
+  parent: OfficeOpenXml.Style
+  name: ExcelRichTextColor
+  nameWithType: ExcelRichTextColor
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor
 - uid: OfficeOpenXml.Style.ExcelRichText._collection*
   commentId: Overload:OfficeOpenXml.Style.ExcelRichText._collection
   name: _collection

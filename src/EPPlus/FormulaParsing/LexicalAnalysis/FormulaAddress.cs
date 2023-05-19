@@ -597,9 +597,20 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get
             {
-                if(WorksheetIx > -1 && _context != null && _context.Package != null)
+                if(WorksheetIx > -1 && ExternalReferenceIx > 0)
                 {
-                    if(_context.Package.Workbook.Worksheets[WorksheetIx] != null)
+                    if (_context.Package.Workbook.ExternalLinks.Count >= ExternalReferenceIx)
+                    {
+                        var ewb = _context.Package.Workbook.ExternalLinks[ExternalReferenceIx - 1].As.ExternalWorkbook;
+                        if (ewb.CachedWorksheets.Count > WorksheetIx)
+                        {
+                            return ewb.CachedWorksheets[WorksheetIx].Name;
+                        }
+                    }
+                }
+                else if(WorksheetIx > -1 && _context != null && _context.Package != null)
+                {
+                    if(_context.Package.Workbook.Worksheets.Count > WorksheetIx)
                     {
                         return _context.Package.Workbook.Worksheets[WorksheetIx].Name;
                     }

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontSize
     path: ../src/EPPlus/FontSize.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultFont
     path: ../src/EPPlus/FontSize.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonExistingFont
     path: ../src/EPPlus/FontSize.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontWidths
     path: ../src/EPPlus/FontSize.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontHeights
     path: ../src/EPPlus/FontSize.cs
@@ -205,7 +205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAllFontsFromResource
     path: ../src/EPPlus/FontSize.cs
@@ -239,7 +239,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFontsFromResource
     path: ../src/EPPlus/FontSize.cs

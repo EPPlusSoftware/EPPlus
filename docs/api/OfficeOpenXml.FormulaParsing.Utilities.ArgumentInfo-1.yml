@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgumentInfo
     path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Named
     path: ../src/EPPlus/FormulaParsing/Utilities/ArgumentInfo.cs

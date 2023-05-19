@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfStyle
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs

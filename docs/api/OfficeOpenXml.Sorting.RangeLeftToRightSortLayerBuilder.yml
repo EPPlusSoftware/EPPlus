@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeLeftToRightSortLayerBuilder.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeLeftToRightSortLayerBuilder
     path: ../src/EPPlus/Sorting/RangeLeftToRightSortLayerBuilder.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeLeftToRightSortLayerBuilder.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThenSortBy
     path: ../src/EPPlus/Sorting/RangeLeftToRightSortLayerBuilder.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeLeftToRightSortLayerBuilder.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UsingCustomList
     path: ../src/EPPlus/Sorting/RangeLeftToRightSortLayerBuilder.cs

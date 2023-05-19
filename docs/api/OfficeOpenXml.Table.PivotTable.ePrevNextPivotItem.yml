@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePrevNextPivotItem
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Previous
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Next
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs

@@ -5,13 +5,15 @@ items:
   id: Operator
   parent: OfficeOpenXml.FormulaParsing.Excel.Operators
   children:
-  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Concat
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Divide
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Eq
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Exp
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.GreaterThan
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.GreaterThanOrEqual
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.LessThan
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.LessThanOrEqual
   - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Minus
@@ -31,14 +33,16 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 24
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nImplementation of operators in formula calculation.\n"
+  example: []
   syntax:
     content: 'public class Operator : IOperator'
     content.vb: >-
@@ -77,11 +81,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Precedence
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 49
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -115,11 +119,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 54
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -138,41 +142,43 @@ items:
   modifiers.vb:
   - ReadOnly
   name.vb: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Operator
-- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
-  id: Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
   parent: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
   langs:
   - csharp
   - vb
-  name: Apply(CompileResult, CompileResult)
-  nameWithType: Operator.Apply(CompileResult, CompileResult)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult, OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  name: Apply(CompileResult, CompileResult, ParsingContext)
+  nameWithType: Operator.Apply(CompileResult, CompileResult, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult, OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult, OfficeOpenXml.FormulaParsing.ParsingContext)
   type: Method
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Apply
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 59
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
   syntax:
-    content: public CompileResult Apply(CompileResult left, CompileResult right)
+    content: public CompileResult Apply(CompileResult left, CompileResult right, ParsingContext ctx)
     parameters:
     - id: left
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
     - id: right
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    - id: ctx
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
     return:
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
-    content.vb: Public Function Apply(left As CompileResult, right As CompileResult) As CompileResult
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+    content.vb: Public Function Apply(left As CompileResult, right As CompileResult, ctx As ParsingContext) As CompileResult
   overload: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply*
   implements:
-  - OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -191,11 +197,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plus
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 79
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -228,11 +234,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minus
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 106
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -265,11 +271,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Multiply
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 129
+    startLine: 152
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -302,11 +308,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Divide
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 151
+    startLine: 178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -339,11 +345,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exp
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 177
+    startLine: 208
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -376,11 +382,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Concat
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 210
+    startLine: 245
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -391,6 +397,82 @@ items:
       type: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
     content.vb: Public Shared ReadOnly Property Concat As IOperator
   overload: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Concat*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon
+  id: Colon
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
+  langs:
+  - csharp
+  - vb
+  name: Colon
+  nameWithType: Operator.Colon
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Colon
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
+    startLine: 265
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  syntax:
+    content: public static IOperator Colon { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+    content.vb: Public Shared ReadOnly Property Colon As IOperator
+  overload: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect
+  id: Intersect
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
+  langs:
+  - csharp
+  - vb
+  name: Intersect
+  nameWithType: Operator.Intersect
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Intersect
+    path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
+    startLine: 384
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nIntersect operator\n"
+  example: []
+  syntax:
+    content: public static IOperator Intersect { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+    content.vb: Public Shared ReadOnly Property Intersect As IOperator
+  overload: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect*
   modifiers.csharp:
   - public
   - static
@@ -413,14 +495,16 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 226
+    startLine: 442
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nGreater than operator\n"
+  example: []
   syntax:
     content: public static IOperator GreaterThan { get; }
     parameters: []
@@ -450,14 +534,16 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Eq
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 238
+    startLine: 463
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
+  summary: "\nEquals operator\n"
+  example: []
   syntax:
     content: public static IOperator Eq { get; }
     parameters: []
@@ -487,11 +573,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotEqualsTo
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 250
+    startLine: 482
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -524,11 +610,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 262
+    startLine: 494
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -561,11 +647,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThan
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 274
+    startLine: 512
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -598,11 +684,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThanOrEqual
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 285
+    startLine: 530
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -635,11 +721,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/FormulaParsing/Excel/Operators/Operator.cs
-    startLine: 295
+    startLine: 548
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Operators
@@ -1006,67 +1092,92 @@ references:
   name: Apply
   nameWithType: Operator.Apply
   fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Apply
-- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
-  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
   parent: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
-  name: Apply(CompileResult, CompileResult)
-  nameWithType: IOperator.Apply(CompileResult, CompileResult)
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult, OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  name: Apply(CompileResult, CompileResult, ParsingContext)
+  nameWithType: IOperator.Apply(CompileResult, CompileResult, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult, OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult, OfficeOpenXml.FormulaParsing.ParsingContext)
   spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
     name: Apply
     nameWithType: IOperator.Apply
     fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply
   - name: (
     nameWithType: (
     fullName: (
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
     name: CompileResult
     nameWithType: CompileResult
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
     name: CompileResult
     nameWithType: CompileResult
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply(OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult,OfficeOpenXml.FormulaParsing.ParsingContext)
     name: Apply
     nameWithType: IOperator.Apply
     fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator.Apply
   - name: (
     nameWithType: (
     fullName: (
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
     name: CompileResult
     nameWithType: CompileResult
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
     name: CompileResult
     nameWithType: CompileResult
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
-  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
-  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: CompileResult
   nameWithType: CompileResult
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext
+  commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
+  parent: OfficeOpenXml.FormulaParsing
+  name: ParsingContext
+  nameWithType: ParsingContext
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
 - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Plus*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Plus
   name: Plus
@@ -1097,6 +1208,16 @@ references:
   name: Concat
   nameWithType: Operator.Concat
   fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Concat
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon
+  name: Colon
+  nameWithType: Operator.Colon
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Colon
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect
+  name: Intersect
+  nameWithType: Operator.Intersect
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.Intersect
 - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.GreaterThan*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator.GreaterThan
   name: GreaterThan

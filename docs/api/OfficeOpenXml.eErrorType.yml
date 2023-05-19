@@ -5,12 +5,14 @@ items:
   id: eErrorType
   parent: OfficeOpenXml
   children:
+  - OfficeOpenXml.eErrorType.Calc
   - OfficeOpenXml.eErrorType.Div0
   - OfficeOpenXml.eErrorType.NA
   - OfficeOpenXml.eErrorType.Name
   - OfficeOpenXml.eErrorType.Null
   - OfficeOpenXml.eErrorType.Num
   - OfficeOpenXml.eErrorType.Ref
+  - OfficeOpenXml.eErrorType.Spill
   - OfficeOpenXml.eErrorType.Value
   langs:
   - csharp
@@ -22,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eErrorType
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -55,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Div0
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -89,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NA
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -123,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -157,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -191,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Num
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -225,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ref
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -259,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -271,6 +273,74 @@ items:
   example: []
   syntax:
     content: Value = 6
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Calc
+  commentId: F:OfficeOpenXml.eErrorType.Calc
+  id: Calc
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Calc
+  nameWithType: eErrorType.Calc
+  fullName: OfficeOpenXml.eErrorType.Calc
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calc
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalc error\n"
+  example: []
+  syntax:
+    content: Calc = 7
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Spill
+  commentId: F:OfficeOpenXml.eErrorType.Spill
+  id: Spill
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Spill
+  nameWithType: eErrorType.Spill
+  fullName: OfficeOpenXml.eErrorType.Spill
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Spill
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSpill error from a dynamic array formula.\n"
+  example: []
+  syntax:
+    content: Spill = 8
     return:
       type: OfficeOpenXml.eErrorType
   modifiers.csharp:

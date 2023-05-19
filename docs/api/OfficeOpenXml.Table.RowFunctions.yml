@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowFunctions
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Average
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -92,7 +92,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CountNums
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Custom
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -194,7 +194,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Max
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -228,7 +228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Min
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDev
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -330,7 +330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sum
     path: ../src/EPPlus/Table/enums/RowFunctions.cs
@@ -364,7 +364,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/RowFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Var
     path: ../src/EPPlus/Table/enums/RowFunctions.cs

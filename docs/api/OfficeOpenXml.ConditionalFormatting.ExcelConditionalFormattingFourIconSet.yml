@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingFourIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingFourIconSet
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingFourIconSet.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingFourIconSet.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon4
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingFourIconSet.cs

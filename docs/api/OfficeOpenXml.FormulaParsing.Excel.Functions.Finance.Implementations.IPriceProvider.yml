@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IPriceProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
@@ -47,7 +47,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPrice
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs

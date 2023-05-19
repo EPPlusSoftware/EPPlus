@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFormulaAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFormulaAddress
     path: ../src/EPPlus/ExcelFormulaAddress.cs
@@ -40,6 +40,7 @@ items:
   - OfficeOpenXml.ExcelAddressBase
   inheritedMembers:
   - OfficeOpenXml.ExcelAddressBase.SetAddress(System.String,OfficeOpenXml.ExcelWorkbook,System.String)
+  - OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
   - OfficeOpenXml.ExcelAddressBase.ChangeAddress
   - OfficeOpenXml.ExcelAddressBase.Start
   - OfficeOpenXml.ExcelAddressBase.End
@@ -98,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFormulaAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelFormulaAddress.cs
@@ -143,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFormulaAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelFormulaAddress.cs
@@ -182,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFormulaAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ExcelFormulaAddress.cs
@@ -220,7 +221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFormulaAddress.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Addresses
     path: ../src/EPPlus/ExcelFormulaAddress.cs
@@ -334,6 +335,34 @@ references:
     nameWithType: String
     fullName: System.String
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  commentId: M:OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  parent: OfficeOpenXml.ExcelAddressBase
+  name: BeforeChangeAddress()
+  nameWithType: ExcelAddressBase.BeforeChangeAddress()
+  fullName: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+    name: BeforeChangeAddress
+    nameWithType: ExcelAddressBase.BeforeChangeAddress
+    fullName: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+    name: BeforeChangeAddress
+    nameWithType: ExcelAddressBase.BeforeChangeAddress
+    fullName: OfficeOpenXml.ExcelAddressBase.BeforeChangeAddress
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )

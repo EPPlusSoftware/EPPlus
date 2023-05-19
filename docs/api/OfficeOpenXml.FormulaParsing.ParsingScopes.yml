@@ -8,7 +8,7 @@ items:
   - OfficeOpenXml.FormulaParsing.ParsingScopes.#ctor(OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler)
   - OfficeOpenXml.FormulaParsing.ParsingScopes.Current
   - OfficeOpenXml.FormulaParsing.ParsingScopes.KillScope(OfficeOpenXml.FormulaParsing.ParsingScope)
-  - OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  - OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   langs:
   - csharp
   - vb
@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScopes.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingScopes
     path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -62,11 +62,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScopes.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
-    startLine: 32
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -84,40 +84,40 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  commentId: M:OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  id: NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+- uid: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  id: NewScope(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   parent: OfficeOpenXml.FormulaParsing.ParsingScopes
   langs:
   - csharp
   - vb
-  name: NewScope(RangeAddress)
-  nameWithType: ParsingScopes.NewScope(RangeAddress)
-  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  name: NewScope(FormulaRangeAddress)
+  nameWithType: ParsingScopes.NewScope(FormulaRangeAddress)
+  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   type: Method
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScopes.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NewScope
     path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
-    startLine: 43
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
   summary: "\nCreates a new <xref href=\"OfficeOpenXml.FormulaParsing.ParsingScope\" data-throw-if-not-resolved=\"false\"></xref> and puts it on top of the stack.\n"
   example: []
   syntax:
-    content: public virtual ParsingScope NewScope(RangeAddress address)
+    content: public virtual ParsingScope NewScope(FormulaRangeAddress address)
     parameters:
     - id: address
-      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
       description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.ParsingScope
       description: ''
-    content.vb: Public Overridable Function NewScope(address As RangeAddress) As ParsingScope
+    content.vb: Public Overridable Function NewScope(address As FormulaRangeAddress) As ParsingScope
   overload: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope*
   modifiers.csharp:
   - public
@@ -139,11 +139,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScopes.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
-    startLine: 62
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -178,11 +178,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScopes.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: KillScope
     path: ../src/EPPlus/FormulaParsing/ParsingScopes.cs
-    startLine: 71
+    startLine: 72
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -522,17 +522,17 @@ references:
   name: NewScope
   nameWithType: ParsingScopes.NewScope
   fullName: OfficeOpenXml.FormulaParsing.ParsingScopes.NewScope
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  name: RangeAddress
-  nameWithType: RangeAddress
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  commentId: N:OfficeOpenXml.FormulaParsing.ExcelUtilities
-  name: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  nameWithType: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
 - uid: OfficeOpenXml.FormulaParsing.ParsingScopes.Current*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingScopes.Current
   name: Current

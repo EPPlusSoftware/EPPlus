@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfStyleConditionalFormatting
     path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
     path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelExcelDxfStyleConditionalFormatting.cs
