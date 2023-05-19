@@ -344,7 +344,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void WriteReadFiveIcon()
         {
-            using (var p = OpenPackage(""))
+            using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("FiveIcon");
                 var cf = ws.Cells["A1"].ConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType.Arrows);
@@ -525,49 +525,6 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void UserTest()
-        {
-            using (var pck = OpenPackage("UserTestConditionalFormatting.xlsx", true))
-            {
-                var sheet = pck.Workbook.Worksheets.Add("UserTest");
-
-                sheet.Cells["B2:D2"].Merge = true;
-
-                sheet.Cells["B2"].Value = "Zombie";
-
-                sheet.Cells["B3"].Value = "HP";
-                sheet.Cells["A3"].Value = "Spell level";
-                sheet.Cells["A3"].AutoFitColumns();
-
-                for (int i = 1; i < 9; i++) 
-                {
-                    sheet.Cells[i + 3, 1].Value = i;
-                    sheet.Cells[i + 3, 2].Value = i * 8;
-                }
-
-                sheet.Cells["A3:A12"].ConditionalFormatting.AddAboveAverage().Style.Fill.BackgroundColor.Color = Color.Orange;
-
-                sheet.Cells["A3:A12"].ConditionalFormatting.AddThreeColorScale();
-
-                sheet.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("A3:A12"), eExcelconditionalFormatting5IconsSetType.Boxes);
-
-                //var cfExpression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("A3:A12"));
-
-                //cfExpression.Formula = "Row()+3=>5";
-
-                //cfExpression.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.DashDot, Color.Orange);
-
-                SaveAndCleanup(pck);
-
-                var pck2 = OpenPackage("UserTestConditionalFormatting.xlsx");
-
-                var sheet2 = pck2.Workbook.Worksheets[0];
-
-                SaveAndCleanup(pck2);
-            }
-        }
-
-        [TestMethod]
         public void TestInsertRowsToPushConditionalFormattingOffSheet()
         {
             using (var pck = new ExcelPackage())
@@ -593,7 +550,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void TestNewConditionalFormatting()
         {
-            using (var pck = new ExcelPackage())
+            using (var pck = OpenPackage("conditionalTest.xlsx", true))
             {
                 // Add a sheet with conditional formatting on the last two rows of column A
                 var wks = pck.Workbook.Worksheets.Add("Sheet1");
@@ -609,7 +566,7 @@ namespace EPPlusTest.ConditionalFormatting
                 cf.Style.Fill.BackgroundColor.SetColor(Color.Red);
                 cf.Style.Font.Color.SetColor(Color.White);
 
-                pck.SaveAs("C:\\epplusTest\\Workbooks\\conditionalTest.xlsx");
+                SaveAndCleanup(pck);
             }
         }
 
@@ -617,24 +574,33 @@ namespace EPPlusTest.ConditionalFormatting
         public void CustomIconsWriteRead()
         {
 
-            using (var pck = new ExcelPackage())
+            using (var pck = OpenPackage("FlagTest.xlsx", true))
             {
                 var wks = pck.Workbook.Worksheets.Add("FormattingTest");
 
-                var threeIcon = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("A1"), eExcelconditionalFormatting3IconsSetType.Triangles);
+                for(int i = 1; i < 21; i++)
+                {
+                    wks.Cells[i, 1].Value = i;
+                }
+
+                wks.Cells[1, 1, 20, 1].Copy(wks.Cells[1, 2, 20, 2]);
+                wks.Cells[1, 1, 20, 1].Copy(wks.Cells[1, 3, 20, 3]);
+                wks.Cells[1, 1, 20, 1].Copy(wks.Cells[1, 4, 20, 4]);
+
+                var threeIcon = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("A1:A20"), eExcelconditionalFormatting3IconsSetType.Triangles);
 
                 threeIcon.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.RedFlag;
                 threeIcon.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.NoIcon;
                 threeIcon.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow;
 
-                var fourIcon = wks.ConditionalFormatting.AddFourIconSet(new ExcelAddress("A2"), eExcelconditionalFormatting4IconsSetType.Rating);
+                var fourIcon = wks.ConditionalFormatting.AddFourIconSet(new ExcelAddress("B1:B20"), eExcelconditionalFormatting4IconsSetType.Rating);
 
                 fourIcon.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.PinkCircle;
                 fourIcon.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder;
                 fourIcon.Icon3.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircleWithBorder;
                 fourIcon.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircle;
 
-                var fiveIcon = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("B1"), eExcelconditionalFormatting5IconsSetType.Boxes);
+                var fiveIcon = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("C1:C20"), eExcelconditionalFormatting5IconsSetType.Boxes);
 
                 fiveIcon.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.PinkCircle;
                 fiveIcon.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircleWithBorder;
@@ -642,7 +608,7 @@ namespace EPPlusTest.ConditionalFormatting
                 fiveIcon.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.BlackCircle;
                 fiveIcon.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.RedCircle;
 
-                var specialCase = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("B1"), eExcelconditionalFormatting5IconsSetType.Boxes);
+                var specialCase = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress("D1:D20"), eExcelconditionalFormatting5IconsSetType.Boxes);
 
                 specialCase.Icon1.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithNoFilledBars;
                 specialCase.Icon2.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithOneFilledBar;
@@ -650,16 +616,16 @@ namespace EPPlusTest.ConditionalFormatting
                 specialCase.Icon4.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithThreeFilledBars;
                 specialCase.Icon5.CustomIcon = eExcelconditionalFormattingCustomIcon.SignalMeterWithFourFilledBars;
 
-                MemoryStream stream = new MemoryStream();
-                pck.SaveAs(stream);
+                SaveAndCleanup(pck);
 
-                ExcelPackage package2 = new ExcelPackage(stream);
-
+                ExcelPackage package2 = OpenPackage("FlagTest.xlsx");
                 var threeIconRead = (ExcelConditionalFormattingThreeIconSet)package2.Workbook.Worksheets[0].ConditionalFormatting[0];
 
                 Assert.AreEqual(threeIconRead.Icon1.CustomIcon, eExcelconditionalFormattingCustomIcon.RedFlag);
+                Assert.AreEqual(threeIconRead.Icon2.CustomIcon, eExcelconditionalFormattingCustomIcon.NoIcon);
+                Assert.AreEqual(threeIconRead.Icon3.CustomIcon, eExcelconditionalFormattingCustomIcon.GrayDownInclineArrow);
 
-                package2.SaveAs("C:/epplusTest/Workbooks/FlagTest.xlsx");
+                SaveAndCleanup(package2);
             }
         }
 
@@ -1950,8 +1916,25 @@ namespace EPPlusTest.ConditionalFormatting
                 var sheet = pck.Workbook.Worksheets.Add("formulas");
                 var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
 
+                refSheet.Cells["B5"].Value = 5;
+
+                sheet.Cells["B1:B5"].Value = 5;
+                sheet.Cells["B3"].Value = 2;
+
+                //var validation = sheet.Cells["C5"].DataValidation.AddIntegerDataValidation();
+                //validation.Operator = OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal;
+                //validation.Formula.ExcelFormula = "formulasReference!$B$5";
+
+                //sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "formulasReference!$B$5";
+                equal.Style.Fill.BackgroundColor.Color = Color.Blue;
+                equal.Style.Font.Italic = true;
+
+                //sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("C1:C205"), Color.Beige);
+
+                SaveAndCleanup(pck);
             }
         }
-
     }
 }

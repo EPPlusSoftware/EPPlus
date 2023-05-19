@@ -5,6 +5,8 @@ using OfficeOpenXml.Style.Dxf;
 using System;
 using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Linq;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -97,16 +99,38 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        internal string _uid = null;
+
+        internal virtual string Uid
+        { 
+            get
+            {
+                if (_uid == null)
+                {
+                    return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
+                }
+
+                return _uid;
+            }
+            set
+            {
+                _uid = value;
+            }
+            
+          
+        }
+
+        bool _isExtLst = false;
+
         internal virtual bool IsExtLst 
         { 
             get 
             {
                 //Only databars, iconsets and anything with custom formulas can be extLst
-                if (Type == eExcelConditionalFormattingRuleType.DataBar)
+                if (Type == eExcelConditionalFormattingRuleType.DataBar || _isExtLst)
                 {
                     return true;
                 }
-
                 return false;
             } 
         }
@@ -301,7 +325,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         public string Formula 
         { 
             get { return _formula; } 
-            set { _formula = value; } 
+            set 
+            { 
+                if (RefersToOtherWorksheet(value)) 
+                {
+                    _isExtLst = true;
+                }
+                _formula = ConvertUtil.ExcelEscapeAndEncodeString(value); 
+            } 
         }
 
         /// <summary>
@@ -312,7 +343,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         public string Formula2
         {
             get { return _formula2; }
-            set { _formula2 = ConvertUtil.ExcelEscapeAndEncodeString(value); }
+            set 
+            {
+                if (RefersToOtherWorksheet(value))
+                {
+                    _isExtLst = true;
+                }
+                _formula2 = ConvertUtil.ExcelEscapeAndEncodeString(value);
+            }
         }
         private ExcelConditionalFormattingAsType _as = null;
         /// <summary>
@@ -340,6 +378,27 @@ namespace OfficeOpenXml.ConditionalFormatting
             return ExcelConditionalFormattingRuleType.GetAttributeByType(Type);
         }
 
+        private bool RefersToOtherWorksheet(string address)
+        {
+            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
+            {
+                var adr = new ExcelAddress(address);
+                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name;
+            }
+            else if (!string.IsNullOrEmpty(address))
+            {
+                var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(address, _ws.Name);
+                if (!tokens.Any()) return false;
+                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
+                foreach (var token in addressTokens)
+                {
+                    var adr = new ExcelAddress(token.Value);
+                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name)
+                        return true;
+                }
+            }
+            return false;
+        }
 
         internal abstract ExcelConditionalFormattingRule Clone();
     }

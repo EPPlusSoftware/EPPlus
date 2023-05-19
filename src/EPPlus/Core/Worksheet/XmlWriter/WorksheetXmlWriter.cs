@@ -20,6 +20,7 @@ using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
@@ -29,6 +30,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -1211,6 +1213,94 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
 
                         cache.Append($"</{prefix}iconSet>");
+                    }
+                    else
+                    {
+                        cache.Append($"<{prefix}cfRule type=\"{format.GetAttributeType()}\"" +
+                            $" priority=\"{format.Priority}\" operator=\"{format.Operator.ToEnumString()}\" id=\"{format.Uid}\">");
+
+                        if(!string.IsNullOrEmpty(format.Formula))
+                        {
+                            cache.Append($"<xm:f>{format.Formula}</xm:f>");
+                        }
+
+                        if (!string.IsNullOrEmpty(format.Formula2))
+                        {
+                            cache.Append($"<xm:f>{format.Formula2}</xm:f>");
+                        }
+
+                        if (format.Style.HasValue)
+                        {
+                            cache.Append($"<{prefix}dxf>");
+
+                            if(format.Style.NumberFormat.HasValue)
+                            {
+                                cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
+                                    $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                            }
+
+                            if (format.Style.Font.HasValue)
+                            {
+                                cache.Append($"<font>");
+                                
+                                if (format.Style.Font.Bold == true)
+                                {
+                                    cache.Append($"<b/>");
+                                }
+
+                                if (format.Style.Font.Italic == true)
+                                {
+                                    if(format.Style.Font.Bold == false || format.Style.Font.Bold == null)
+                                    {
+                                        cache.Append("<b val =\"0\"/>");
+                                    }
+                                    cache.Append($"<i/>");
+                                }
+
+                                if(format.Style.Font.Bold == false && format.Style.Font.Italic == false)
+                                {
+                                    cache.Append("<b val =\"0\"/>");
+                                    cache.Append("<i val =\"0\"/>");
+                                }
+
+                                if (format.Style.Font.Strike == true)
+                                {
+                                    cache.Append($"<strike/>");
+
+                                }
+
+                                if(format.Style.Font.Underline.HasValue == true)
+                                {
+                                    cache.Append($"<u");
+                                    if(format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
+                                    {
+                                        cache.Append(" val=\"double\"");
+                                    }
+                                    cache.Append($"/>");
+                                }
+
+                                if(format.Style.Font.Color.HasValue == true)
+                                {
+                                    cache.Append("<color");
+                                    if(format.Style.Font.Color.Theme != null)
+                                    {
+                                        cache.Append($"theme=\"{(int)format.Style.Font.Color.Theme}\"");
+                                    }
+                                    else
+                                    {
+                                        Color color = (Color)format.Style.Font.Color.Color;
+                                        cache.Append($"rgb=\"" +
+                                            $"{(color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"");
+
+                                    }
+                                    cache.Append("/>");
+                                }
+
+                                cache.Append($"</font>");
+                            }
+
+                            cache.Append($"</{prefix}dxf>");
+                        }
                     }
 
                     cache.Append($"</{prefix}cfRule>");

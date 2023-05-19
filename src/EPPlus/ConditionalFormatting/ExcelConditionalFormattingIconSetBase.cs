@@ -20,7 +20,7 @@ namespace OfficeOpenXml.ConditionalFormatting
     {
         private string _uid = null;
 
-        internal string Uid { 
+        internal override string Uid { 
             get 
             {
                 if(_uid == null)
@@ -30,7 +30,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 return _uid;
             } 
-            private set
+            set
             {
                 _uid = value;
             }

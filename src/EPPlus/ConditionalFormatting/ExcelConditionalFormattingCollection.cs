@@ -340,7 +340,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cfRule).Uid, cfRule);
                                     break;
                                 default:
-                                    throw new InvalidOperationException($"{cfRule.Type} is not a known iconSet type.");
+                                    _extLstDict.Add(cfRule.Uid, cfRule);
+                                    break;
                             }
                         }
                     }
@@ -378,7 +379,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cfRule).Uid, cfRule);
                                 break;
                             default:
-                                throw new InvalidOperationException($"{cfRule.Type} is not a known iconSet type.");
+                                _extLstDict.Add(cfRule.Uid, cfRule);
+                                break;
                         }
                     }
                 }
