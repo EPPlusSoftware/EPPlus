@@ -18,6 +18,12 @@ namespace OfficeOpenXml.ExcelXMLWriter
     {
         internal static void Pos(string xml, string tag, ref int start, ref int end)
         {
+            bool isPlaceholder = false;
+            Pos(xml, tag, ref start, ref end, ref isPlaceholder);
+        }
+
+        internal static void Pos(string xml, string tag, ref int start, ref int end, ref bool isPlaceholder)
+        {
             Match startmMatch, endMatch;
             startmMatch = Regex.Match(xml.Substring(start), string.Format("(<[^>]*{0}[^>]*>)", tag)); //"<[a-zA-Z:]*" + tag + "[?]*>");
 
@@ -30,6 +36,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
             var startPos = startmMatch.Index + start;
             if (startmMatch.Value.Substring(startmMatch.Value.Length - 2, 1) == "/")
             {
+                isPlaceholder = true;
                 end = startPos + startmMatch.Length;
             }
             else

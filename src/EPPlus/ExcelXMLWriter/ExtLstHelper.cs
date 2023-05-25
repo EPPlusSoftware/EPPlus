@@ -29,10 +29,10 @@ namespace OfficeOpenXml.ExcelXMLWriter
         private void ParseIntialXmlToList(string xml)
         {
             int start = 0, end = 0;
-            GetBlock.Pos(xml, "extLst", ref start, ref end);
+            bool isPlaceholder = false;
+            GetBlock.Pos(xml, "extLst", ref start, ref end, ref isPlaceholder);
 
-            //If the node isn't just a placeholder
-            if (end - start > 10)
+            if (!isPlaceholder)
             {
                 int contentStart = start + "<ExtLst>".Length;
                 string extNodesOnly = xml.Substring(contentStart, end - contentStart - "</ExtLst>".Length);
