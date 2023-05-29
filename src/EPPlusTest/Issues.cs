@@ -4847,6 +4847,21 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+
+        [TestMethod]
+        public void Issue888()
+        {
+            using (var package = OpenPackage("i888.xlsx", true))
+            {
+                var ws1 = package.Workbook.Worksheets.Add("ws1");
+
+                ws1.DataValidations.AddAnyValidation("A1");
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         public void s466()
         {
