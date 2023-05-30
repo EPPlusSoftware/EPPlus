@@ -67,6 +67,19 @@ namespace EPPlusTest.DataValidation
         }
 
         [TestMethod]
+        public void DataValidation_CanReadNoneValidation()
+        {
+            var pck = OpenTemplatePackage("i888.xlsx");
+
+            var validation = pck.Workbook.Worksheets[0].DataValidations[0];
+
+            Assert.IsNotNull(validation);
+            Assert.AreEqual("A1", validation.Address.ToString());
+            Assert.AreEqual("test", validation.PromptTitle);
+            Assert.AreEqual("message", validation.Prompt);
+        }
+
+        [TestMethod]
         public void DataValidations_ShouldWriteReadAllValidOperatorsOnAllTypes()
         {
 
