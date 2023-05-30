@@ -185,7 +185,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
             }
             var valuesAsString = GetValueAsString();
             // Excel supports max 255 characters in this field.
-            if (valuesAsString.Length > 255)
+            if (valuesAsString?.Length > 255)
             {
                 throw new InvalidOperationException("The total length of a DataValidation list cannot exceed 255 characters");
             }
@@ -198,9 +198,22 @@ namespace OfficeOpenXml.DataValidation.Formulas
 
         protected override string GetValueAsString()
         {
-            var sb = new StringBuilder();
-            foreach (var val in Values)
+            if (Values.Count == 0)
             {
+                return null;
+            }
+
+            var sb = new StringBuilder();
+
+            for(int i = 0; i < Values.Count; i++)
+            {
+                var val = Values[i];
+
+                if (string.IsNullOrEmpty(val) == false)
+                {
+                    val = val.Replace("\"", "\"\"");
+                }
+
                 if (sb.Length == 0)
                 {
                     sb.Append("\"");

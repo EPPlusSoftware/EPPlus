@@ -858,6 +858,54 @@ namespace EPPlusTest.DataValidation
             }
         }
 
-        //C11:D30
+        [TestMethod]
+        public void EmptyFormulasTest()
+        {
+            using (var pck = OpenPackage("corruptData.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("EmptyFormulaTest");
+
+                //var validation = sheet.DataValidations.AddDecimalValidation("A1");
+                //validation.Operator = ExcelDataValidationOperator.equal;
+
+                //validation.Formula.ExcelFormula = "\"";
+                ////validation.Operator = ExcelDataValidationOperator.between;
+                ///
+
+                var validation = sheet.DataValidations.AddDecimalValidation("A1");
+
+                validation.Operator = ExcelDataValidationOperator.equal;
+
+                //validation.Formula.ExcelFormula = "\"";
+
+                validation.Formula.ExcelFormula = "tiger";
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void EmptyFormulas()
+        {
+            using (var pck = OpenPackage("EmptyFormulaTest.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("EmptyFormulaTest");
+
+                //var validation = sheet.DataValidations.AddDecimalValidation("A1");
+                //validation.Operator = ExcelDataValidationOperator.equal;
+
+                //validation.Formula.ExcelFormula = "\"";
+                ////validation.Operator = ExcelDataValidationOperator.between;
+                ///
+
+                var validation = sheet.DataValidations.AddListValidation("A1");
+
+                //validation.Formula.ExcelFormula = "\"";
+
+                validation.Formula.Values.Add("\"\"tiger\"\"");
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }
