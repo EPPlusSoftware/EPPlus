@@ -578,7 +578,7 @@ namespace EPPlusTest.ConditionalFormatting
             {
                 var wks = pck.Workbook.Worksheets.Add("FormattingTest");
 
-                for(int i = 1; i < 21; i++)
+                for (int i = 1; i < 21; i++)
                 {
                     wks.Cells[i, 1].Value = i;
                 }
@@ -1015,7 +1015,7 @@ namespace EPPlusTest.ConditionalFormatting
         public void ReadWriteNotEqual() { }
 
         [TestMethod]
-        public void ReadWriteTextContains() 
+        public void ReadWriteTextContains()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("TextContains");
@@ -1053,7 +1053,7 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.Last7Days);
         }
 
-        [TestMethod] public void ReadWriteYesterday() 
+        [TestMethod] public void ReadWriteYesterday()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("Yesterday");
@@ -1110,7 +1110,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void ReadWriteLastWeek() 
+        public void ReadWriteLastWeek()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("LastWeek");
@@ -1219,7 +1219,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void ReadWriteDuplicate() 
+        public void ReadWriteDuplicate()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("Duplicate");
@@ -1402,7 +1402,7 @@ namespace EPPlusTest.ConditionalFormatting
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("BelowOrEqualAverage");
 
-            var belowEqualAverage = sheet.ConditionalFormatting.AddBelowOrEqualAverage(new ExcelAddress(1, 29 , 10, 29));
+            var belowEqualAverage = sheet.ConditionalFormatting.AddBelowOrEqualAverage(new ExcelAddress(1, 29, 10, 29));
 
             belowEqualAverage.Style.Fill.BackgroundColor.Color = Color.Black;
             belowEqualAverage.Style.Font.Color.Color = Color.Violet;
@@ -1480,7 +1480,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void ReadWriteTwoColorScale() 
+        public void ReadWriteTwoColorScale()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("twoColorScale");
@@ -1534,7 +1534,7 @@ namespace EPPlusTest.ConditionalFormatting
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("threeIcon");
 
-            var threeColor = sheet.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 39, 10, 39), 
+            var threeColor = sheet.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 39, 10, 39),
                                                                          eExcelconditionalFormatting3IconsSetType.Symbols2);
 
             var cf = SavePackageReadCollection(pck)[0];
@@ -1558,7 +1558,7 @@ namespace EPPlusTest.ConditionalFormatting
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("fourIcon");
 
-            var fourIcons = sheet.ConditionalFormatting.AddFourIconSet(new ExcelAddress(1, 40, 10, 40), 
+            var fourIcons = sheet.ConditionalFormatting.AddFourIconSet(new ExcelAddress(1, 40, 10, 40),
                                                                        eExcelconditionalFormatting4IconsSetType.RedToBlack);
             var cf = SavePackageReadCollection(pck)[0];
             var ws = _pck.Workbook.Worksheets.GetByName("Overview");
@@ -1684,7 +1684,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void MultipleValidationsOneRange() 
+        public void MultipleValidationsOneRange()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("MultipleOneRange");
@@ -1932,6 +1932,38 @@ namespace EPPlusTest.ConditionalFormatting
                 equal.Style.Font.Italic = true;
 
                 //sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("C1:C205"), Color.Beige);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+
+        [TestMethod]
+        public void ExtLstWithDxf() 
+        {
+            using (var pck = OpenPackage("ExtLstFormulasDxf.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
+
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "formulasReference!$B$5";
+                equal.Style.Fill.BackgroundColor.Color = Color.Blue;
+                equal.Style.Font.Italic = true;
+                equal.Style.Font.Bold = true;
+
+                var equal2 = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("C1:C5"));
+                equal2.Formula = "formulasReference!$B$1";
+                equal2.Style.Fill.Style = OfficeOpenXml.Style.eDxfFillStyle.GradientFill;
+                var c1 = equal2.Style.Fill.Gradient.Colors.Add(0);
+                var c2 = equal2.Style.Fill.Gradient.Colors.Add(100);
+
+                equal2.Style.Fill.Gradient.Degree = 90;
+
+                c1.Color.SetColor(Color.LightGreen);
+                c2.Color.SetColor(Color.MediumPurple);
+
+                //equal.Style.Fill.Gradient.Colors[0] = new ExcelDxfGradientFill(ExcelStyles.st;
 
                 SaveAndCleanup(pck);
             }

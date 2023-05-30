@@ -10,7 +10,6 @@
  *************************************************************************************************
   02/10/2023       EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
-using Microsoft.Extensions.Primitives;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
@@ -1318,40 +1317,15 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                             cache.Append($"<patternFill>");
                                         }
 
-                                        if(format.Style.Fill.PatternColor != null)
+                                        if(format.Style.Fill.PatternColor.Color != null)
                                         {
                                             cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
                                         }
 
-                                        if(format.Style.Fill.BackgroundColor != null)
+                                        if(format.Style.Fill.BackgroundColor.Color != null)
                                         {
                                             cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
                                         }
-
-
-                                        //if (format.Style.Fill.PatternColor.Theme != null)
-                                        //{
-                                        //    cache.Append($"<fgColor theme=\"{(int)format.Style.Fill.PatternColor.Theme}\"/>");
-                                        //}
-                                        //else if(format.Style.Fill.PatternColor.Auto != null)
-                                        //{
-                                        //    cache.Append($"<fgColor auto={format.Style.Fill.PatternColor.Auto}/>");
-                                        //}
-                                        //else
-                                        //{
-                                        //    Color color = (Color)format.Style.Fill.BackgroundColor.Color;
-                                        //    cache.Append($"<fgColor rgb=\"{(color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"/>");
-                                        //}
-
-                                        //if(format.Style.Fill.BackgroundColor.Theme != null)
-                                        //{
-                                        //    cache.Append($"<bgColor theme=\"{(int)format.Style.Fill.BackgroundColor.Theme}\"/>");
-                                        //}
-                                        //else
-                                        //{
-                                        //    Color color = (Color)format.Style.Fill.BackgroundColor.Color;
-                                        //    cache.Append($"<bgColor rgb=\"{(color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"/>");
-                                        //}
 
                                         cache.Append($"</patternFill>");
                                         break;
@@ -1361,12 +1335,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                         cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
 
-                                        cache.Append("/stop");
-                                        cache.Append("stop position=\"1\"");
+                                        cache.Append("</stop>");
+                                        cache.Append("<stop position=\"1\">");
 
                                         cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
 
-                                        cache.Append("/stop");
+                                        cache.Append("</stop>");
 
                                         cache.Append($"</gradientFill>");
 
