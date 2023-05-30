@@ -118,6 +118,14 @@ namespace EPPlusTest.Excel.Functions.Text
         }
 
         [TestMethod]
+        public void ReplaceShouldHandleNumCharsLargerThanTextLength()
+        {
+            var func = new Replace();
+            var result = func.Execute(FunctionsHelper.CreateArgs("OLDTEXT", 5, 20, "NEW"), _parsingContext);
+            Assert.AreEqual("OLDTNEW", result.Result);
+        }
+
+        [TestMethod]
         public void SubstituteShouldReturnAReplacedStringAccordingToParamsWhen()
         {
             var func = new Substitute();
