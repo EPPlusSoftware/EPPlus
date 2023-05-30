@@ -24,7 +24,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "7",
         Description = "Returns an array with a sequence of numbers",
-        IntroducedInExcelVersion = "2021")]
+        IntroducedInExcelVersion = "2021",
+        SupportsArrays = true)]
     internal class Sequence : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";

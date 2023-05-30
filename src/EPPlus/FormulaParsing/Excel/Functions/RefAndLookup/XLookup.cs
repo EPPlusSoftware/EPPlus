@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
             Category = ExcelFunctionCategory.LookupAndReference,
-            EPPlusVersion = "6.0",
+            EPPlusVersion = "7",
             IntroducedInExcelVersion = "2016",
             Description = "Searches a range or an array, and then returns the item corresponding to the first match it finds.",
             SupportsArrays = true)]

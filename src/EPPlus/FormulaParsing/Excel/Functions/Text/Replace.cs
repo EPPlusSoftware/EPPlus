@@ -46,6 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         private string GetLastPart(string text, int startPos, int nCharactersToReplace)
         {
             int startIx = startPos -1;
+            if (nCharactersToReplace > (text.Length - startIx)) nCharactersToReplace = text.Length - startIx;
             startIx += nCharactersToReplace;
             return text.Substring(startIx, text.Length - startIx);
         }

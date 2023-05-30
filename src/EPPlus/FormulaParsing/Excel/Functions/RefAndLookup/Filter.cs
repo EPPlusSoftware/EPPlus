@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     [FunctionMetadata(
         Category = ExcelFunctionCategory.LookupAndReference,
         EPPlusVersion = "7",
-        Description = "Allows filtering of a range or array data based on criteria.")]
+        Description = "Allows filtering of a range or array data based on criteria.",
+        SupportsArrays = true)]
     internal class FilterFunction : ExcelFunction
     {
         public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
