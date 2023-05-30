@@ -33,7 +33,7 @@ namespace OfficeOpenXml.ExcelXMLWriter
 
             bool isPlaceHolder = false;
 
-            if(!xml.Substring(start + 1, end-start).Contains("<"))
+            if(!xml.Substring(start + 1, end - start - 1).Contains("<"))
             {
                 isPlaceHolder = true;
             }
