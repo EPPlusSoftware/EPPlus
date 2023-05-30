@@ -163,10 +163,14 @@ namespace OfficeOpenXml.DataValidation.Formulas
             {
                 if (@value.StartsWith("\"", StringComparison.OrdinalIgnoreCase) && @value.EndsWith("\"", StringComparison.OrdinalIgnoreCase))
                 {
-                    @value = @value.TrimStart('"').TrimEnd('"');
+                    @value = @value.Substring(1 ,@value.Length - 1).TrimEnd('"');
                     var items = @value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var item in items)
+                    
+                    for (int i = 0; i< items.Length; i++)
                     {
+                        var item = items[i];
+
+                        item = item.Replace("\"\"", "\"");
                         Values.Add(item);
                     }
                 }

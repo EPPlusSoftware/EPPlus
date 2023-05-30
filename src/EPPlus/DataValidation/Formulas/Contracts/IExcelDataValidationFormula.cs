@@ -19,7 +19,16 @@ namespace OfficeOpenXml.DataValidation.Formulas.Contracts
     public interface IExcelDataValidationFormula
     {
         /// <summary>
-        /// An excel formula
+        /// An excel formula 
+        /// <para />
+        /// Keep in mind that special signs like " and ( Must be made double to work.
+        /// <para />
+        /// ExcelFormula = "\"Epplus\"" will work. And show up as Epplus in excel
+        /// <para />
+        /// ExcelFormula = "\"Epplus" will generate a corrupt workbook. As there is no double.
+        /// <para />
+        /// And "\"\"\"Epplus\"" would show up as "Epplus in excel.
+        /// <para />
         /// </summary>
         string ExcelFormula { get; set; }
     }
