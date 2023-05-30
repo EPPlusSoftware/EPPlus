@@ -83,8 +83,8 @@ namespace EPPlusTest.DataValidation
             Assert.AreEqual(1, _validation.Formula.Values.Count);
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
-        public void ListDataValidation_ShouldThrowWhenNoFormulaOrValueIsSet()
+        [TestMethod]
+        public void ListDataValidation_ShouldNotThrowWhenNoFormulaOrValueIsSet()
         {
             _validation.Validate();
         }
@@ -185,8 +185,8 @@ namespace EPPlusTest.DataValidation
             }
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
-        public void CompletelyEmptyListValidationsShouldThrow()
+        [TestMethod]
+        public void CompletelyEmptyListValidationsShouldNotThrow()
         {
             var excel = new ExcelPackage();
             var sheet = excel.Workbook.Worksheets.Add("Sheet1");

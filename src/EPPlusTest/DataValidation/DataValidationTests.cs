@@ -58,13 +58,15 @@ namespace EPPlusTest.DataValidation
             CleanupTestData();
         }
 
-        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
-        public void DataValidations_ShouldThrowIfOperatorIsEqualAndFormula1IsEmpty()
+        [TestMethod]
+        public void DataValidations_ShouldNotThrowIfOperatorIsEqualAndFormula1IsEmpty()
         {
             var validation = _sheet.DataValidations.AddIntegerValidation("A1");
             validation.Operator = ExcelDataValidationOperator.equal;
+
             validation.Validate();
         }
+
 
         [TestMethod]
         public void DataValidations_ShouldWriteReadAllValidOperatorsOnAllTypes()
@@ -856,6 +858,47 @@ namespace EPPlusTest.DataValidation
             }
         }
 
-        //C11:D30
+        [TestMethod]
+        public void FormulasWithQuotationsInExcelFormulaReadWrite()
+        {
+            using (var pck = OpenPackage("DV_ExcelFormulaQuotations.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("EmptyFormulaTest");
+                var validation = sheet.DataValidations.AddDecimalValidation("A1");
+
+                validation.Operator = ExcelDataValidationOperator.equal;
+                validation.Formula.ExcelFormula = "\"\"\"tiger\"";
+
+                SaveAndCleanup(pck);
+                ExcelPackage readPck = OpenPackage("DV_ExcelFormulaQuotations.xlsx");
+                var validationRead = readPck.Workbook.Worksheets[0].DataValidations[0];
+
+                Assert.AreEqual("\"\"\"tiger\"", validationRead.As.DecimalValidation.Formula.ExcelFormula);
+            }
+        }
+
+
+        [TestMethod]
+        public void FormulasWithQuotationsInListReadWrite()
+        {
+            using (var pck = OpenPackage("DV_ListQuotations.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("EmptyFormulaTest");
+                var validation = sheet.DataValidations.AddListValidation("A1");
+
+                validation.Formula.Values.Add("\"tiger");
+                validation.Formula.Values.Add("5'7\"");
+                //Ensure Empty values are not read or read wrong
+                validation.Formula.Values.Add("");
+
+                SaveAndCleanup(pck);
+                ExcelPackage readPck = OpenPackage("DV_ListQuotations.xlsx");
+                var validationRead = readPck.Workbook.Worksheets[0].DataValidations[0];
+
+                Assert.AreEqual("\"tiger", validationRead.As.ListValidation.Formula.Values[0]);
+                Assert.AreEqual("5'7\"", validationRead.As.ListValidation.Formula.Values[1]);
+                Assert.AreEqual(2, validationRead.As.ListValidation.Formula.Values.Count);
+            }
+        }
     }
 }
