@@ -1963,9 +1963,40 @@ namespace EPPlusTest.ConditionalFormatting
                 c1.Color.SetColor(Color.LightGreen);
                 c2.Color.SetColor(Color.MediumPurple);
 
-                //equal.Style.Fill.Gradient.Colors[0] = new ExcelDxfGradientFill(ExcelStyles.st;
+                SaveAndCleanup(pck);
+            }
+        }
+
+
+        [TestMethod]
+        public void ExtLstWithDxfBorderAndNumFmt()
+        {
+            using (var pck = OpenPackage("ExtLstBordersNumFmt.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
+
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "formulasReference!$B$5";
+                equal.Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+                equal.Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                equal.Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dotted;
+                equal.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
+                equal.Style.NumberFormat.Format = "YYYY";
+
+                var equal2 = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("C1:C5"));
+                equal2.Formula = "formulasReference!$B$1";
+                equal2.Style.Border.BorderAround();
 
                 SaveAndCleanup(pck);
+
+                var pck2 = OpenPackage("ExtLstBordersNumFmt.xlsx");
+
+                var sheet2 = pck2.Workbook.Worksheets[0];
+
+                var formatting = sheet2.ConditionalFormatting[0];
+
+                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thick, formatting.Style.Border.Left.Style);
             }
         }
     }

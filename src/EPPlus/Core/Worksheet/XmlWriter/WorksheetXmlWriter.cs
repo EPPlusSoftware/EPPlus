@@ -1300,7 +1300,50 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 cache.Append($"</font>"); 
                             }
 
-                            if(format.Style.Fill.HasValue == true) 
+                            //if(format.Style.NumberFormat.HasValue == true) 
+                            //{
+                            //    cache.Append($"<numFmt numFmtId=\"{format.Style.NumberFormat.NumFmtID}\" formatCode=\"{format.Style.NumberFormat.Format}\"/>");
+                            //}
+
+                            if(format.Style.Border.HasValue == true)
+                            {
+                                cache.Append($"<border>");
+
+                                if (format.Style.Border.Left.HasValue == true)
+                                {
+                                    cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
+                                    cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
+                                    cache.Append($"</left>");
+                                }
+
+
+                                if (format.Style.Border.Right.HasValue == true)
+                                {
+                                    cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
+                                    cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
+                                    cache.Append($"</right>");
+                                }
+
+                                if (format.Style.Border.Top.HasValue == true)
+                                {
+                                    cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
+                                    cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
+                                    cache.Append($"</top>");
+                                }
+
+                                if (format.Style.Border.Bottom.HasValue == true)
+                                {
+                                    cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
+                                    cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
+                                    cache.Append($"</bottom>");
+                                }
+
+                                cache.Append($"<vertical/>");
+                                cache.Append($"<horizontal/>");
+                                cache.Append($"</border>");
+                            }
+
+                            if (format.Style.Fill.HasValue == true) 
                             {
                                 cache.Append("<fill>");
 
@@ -1378,18 +1421,30 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             {
                 returnString = $"<{nodeName} theme=\"{color.Theme}\"";
             }
-            else
-            {
+
+            if(color.Color != null)
+            { 
                 Color baseColor = (Color)color.Color;
                 returnString = $"<{nodeName} rgb=\"{(baseColor.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"";
             }
 
-            if(color.Tint != null)
+            ////If we Need to write out the auto that should be default when node empty
+            //if (returnString == "")
+            //{
+            //    returnString = $"<{nodeName} auto=\"1\"";
+            //}
+
+            if (color.Tint != null)
             {
                 returnString += $" tint=\"{color.Tint}\"";
             }
 
-            return returnString += "/>";
+            if(returnString != "")
+            {
+                returnString += "/>";
+            }
+
+            return returnString;
         }
 
         private string WriteCfIcon(ExcelConditionalFormattingIconDataBarValue icon, bool gteCheck = true)
@@ -1577,13 +1632,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     cache.Append($"</iconSet>");
                 }
 
-                if (new[]{
-                    eExcelConditionalFormattingRuleType.ThreeIconSet,
-                    eExcelConditionalFormattingRuleType.FourIconSet,
-                    eExcelConditionalFormattingRuleType.FiveIconSet }.Contains(conditionalFormat.Type))
-                {
+                //if (new[]{
+                //    eExcelConditionalFormattingRuleType.ThreeIconSet,
+                //    eExcelConditionalFormattingRuleType.FourIconSet,
+                //    eExcelConditionalFormattingRuleType.FiveIconSet }.Contains(conditionalFormat.Type))
+                //{
 
-                }
+                //}
 
                 //TODO: Add support for potential extLst reference in normal formatting
 

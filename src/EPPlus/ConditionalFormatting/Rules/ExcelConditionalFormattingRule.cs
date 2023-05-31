@@ -142,6 +142,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="xr"></param>
         internal ExcelConditionalFormattingRule(eExcelConditionalFormattingRuleType type, ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
         {
+            _ws = ws;
+
             Address = address;
 
             Priority = int.Parse(xr.GetAttribute("priority"));
@@ -182,8 +184,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                     xr.Read();
                 }
             }
-
-            _ws = ws;
 
             if (DxfId >= 0 && DxfId < _ws.Workbook.Styles.Dxfs.Count)
             {
