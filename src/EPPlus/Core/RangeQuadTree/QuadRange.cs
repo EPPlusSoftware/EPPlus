@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Core.RangeQuadTree
 {
@@ -16,6 +18,14 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                 return ToRow - FromRow < MinSize &&
                     ToCol - FromCol < MinSize;
             }
+        }
+        public QuadRange(FormulaRangeAddress range) : this(range.FromRow, range.FromCol, range.ToRow, range.ToCol)
+        {
+
+        }
+        public QuadRange(ExcelAddressBase address) : this(address._fromRow, address._fromCol, address._toRow, address._toCol)
+        {
+
         }
         public QuadRange(int fromRow, int fromCol, int toRow, int toCol)
         {
@@ -46,5 +56,5 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
             return IntersectType.OutSide;
         }
-    }
+        }
 }

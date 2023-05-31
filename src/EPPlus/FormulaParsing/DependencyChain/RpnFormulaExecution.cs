@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
@@ -16,72 +17,6 @@ using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.FormulaParsing
 {
-    internal struct CircularReference
-    {
-        public CircularReference(ulong fromCell, ulong toCell)
-        {
-            FromCell = fromCell;
-            ToCell = toCell;
-        }
-        internal ulong FromCell;
-        internal ulong ToCell;
-    }
-    internal class RpnOptimizedDependencyChain
-    {
-        internal List<RpnFormula> _formulas = new List<RpnFormula>();
-        internal Stack<RpnFormula> _formulaStack=new Stack<RpnFormula>();
-        internal Dictionary<int, RangeHashset> accessedRanges = new Dictionary<int, RangeHashset>();
-        internal HashSet<ulong> processedCells = new HashSet<ulong>();
-        internal List<CircularReference> _circularReferences = new List<CircularReference>();
-        internal ISourceCodeTokenizer _tokenizer;
-        internal FormulaExecutor _formulaExecutor;
-        internal ParsingContext _parsingContext;
-        internal FunctionCompilerFactory _functionCompilerFactory;
-        internal List<int> _startOfChain= new List<int>();
-        internal bool HasDynamicArrayFormula=false;
-        public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
-        {
-            _tokenizer = SourceCodeTokenizer.Default;
-            _parsingContext = wb.FormulaParser.ParsingContext;
-            _formulaExecutor = new FormulaExecutor(_parsingContext);
-
-            var parser = wb.FormulaParser;
-            var filterInfo = new FilterInfo(wb);
-            parser.InitNewCalc(filterInfo);
-
-            _functionCompilerFactory = new FunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
-            
-            wb.FormulaParser.Configure(config =>
-            {
-                config.AllowCircularReferences = options.AllowCircularReferences;
-                config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
-            });
-
-        }
-
-        internal void Add(RpnFormula f)
-        {
-            _formulas.Add(f);
-        }
-        internal RpnOptimizedDependencyChain Execute()
-        {
-            return RpnFormulaExecution.Execute(_parsingContext.Package.Workbook, new ExcelCalculationOption());
-        }
-        internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws)
-        {
-            return RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
-        }
-        internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
-        {
-            return RpnFormulaExecution.Execute(ws, options);
-        }
-
-        //Adds the position where a chain of formulas start.
-        internal void StartOfChain()
-        {
-            _startOfChain.Add(_formulas.Count);
-        }
-    }
     internal class RpnFormulaExecution
     {
         internal static ArgumentParser _boolArgumentParser = new BoolArgumentParser();
@@ -444,7 +379,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var id = ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, f._row, f._column);
                 depChain.processedCells.Add(id);
 
-                depChain._formulas.Add(f);
+                depChain.AddFormulaToChain(f);
                 if (depChain._formulaStack.Count > 0)
                 {
                     f = depChain._formulaStack.Pop();

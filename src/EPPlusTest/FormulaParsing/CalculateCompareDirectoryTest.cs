@@ -94,9 +94,9 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate();
+                    //p.Workbook.Calculate();
                     //p.Workbook.Names["SizePort"].Calculate();
-                    //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate();
+                    p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate();
                     //p.Workbook.Worksheets["CELP Change Tool Index"].Cells["AJ7"].Calculate(); 
                     //p.Workbook.Worksheets["RptEC"].Cells["DC63"].Calculate(); 
                     //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate(); 
