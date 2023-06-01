@@ -23,9 +23,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the inverse of the right-tailed probability of the Chi-Square Distribution. Same implementation as CHISQ.INV.RT")]
     internal class ChiInv : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var n = ArgToDecimal(arguments, 0);
             var degreesOfFreedom = ArgToInt(arguments, 1);
             if (n < 0d || degreesOfFreedom < 1 || degreesOfFreedom > System.Math.Pow(10, 10))

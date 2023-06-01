@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         Description = "Returns a date, from a user-supplied year, month and day")]
     internal class Date : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var year = ArgToInt(arguments, 0);
             var month = ArgToInt(arguments, 1);
             var day = ArgToInt(arguments, 2);

@@ -25,11 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the point at which a line will intersect the y-axis by using existing x-values and y-values.")]
     internal class Intercept : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var arg1 = arguments.ElementAt(0);
-            var arg2 = arguments.ElementAt(1);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
             var knownYs = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).Select(x => x.Value).ToArray();
             var knownXs = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg2 }, context).Select(x => x.Value).ToArray();
             if (knownYs.Count() != knownXs.Count()) return CreateResult(eErrorType.NA);

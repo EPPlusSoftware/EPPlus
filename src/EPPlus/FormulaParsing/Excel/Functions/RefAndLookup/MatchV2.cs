@@ -29,12 +29,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
 
-            var searchedValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
-            var arg2 = arguments.ElementAt(1);
+            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var arg2 = arguments[1];
             if (!arg2.IsExcelRange) return CreateResult(eErrorType.Value);
             var lookupRange = arg2.ValueAsRangeInfo;
             var matchType = 1;
@@ -62,7 +62,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             if(index < 0)
             {
-                return CreateResult(eErrorType.NA);
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
             return CreateResult(index + 1, DataType.Integer);
         }

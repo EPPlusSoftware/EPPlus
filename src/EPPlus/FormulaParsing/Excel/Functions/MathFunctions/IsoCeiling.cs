@@ -28,15 +28,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class IsoCeiling : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
             var significance = 1d;
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
                 significance = ArgToDecimal(arguments, 1);
-            if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CreateResult(eErrorType.Num);
+            if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CompileResult.GetErrorResult(eErrorType.Num);
             return CreateResult(RoundingHelper.Round(number, significance, RoundingHelper.Direction.AlwaysUp), DataType.Decimal);
         }
     }

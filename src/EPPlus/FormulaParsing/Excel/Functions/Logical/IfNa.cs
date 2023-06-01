@@ -26,11 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2019")]
     internal class IfNa : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var firstArg = arguments.First();
-            return GetResultByObject(firstArg.Value);
+            return GetResultByObject(arguments[0].Value);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

@@ -26,24 +26,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the interest rate required to pay off a specified amount of a loan, or reach a target amount on an investment over a given period")]
     internal class Rate : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var nPer = ArgToDecimal(arguments, 0);
             var pmt = ArgToDecimal(arguments, 1);
             var pv = ArgToDecimal(arguments, 2);
             var fv = 0d;
-            if (arguments.Count() >= 4)
+            if (arguments.Count >= 4)
             {
                 fv = ArgToDecimal(arguments, 3);
             }
             var type = 0;
-            if (arguments.Count() >= 5)
+            if (arguments.Count >= 5)
             {
                 type = ArgToInt(arguments, 4);
             }
             var guess = 0d;
-            if (arguments.Count() >= 6)
+            if (arguments.Count >= 6)
             {
                 guess = ArgToDecimal(arguments, 5);
             }

@@ -15,22 +15,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns a specified number of contiguous rows or columns from the start or end of an array.")]
     internal class Take : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             int? rowsParam = default;
             int? colsParam = default;
             int rows = 0, cols = 0;
-            var rowsArg = arguments.ElementAt(1);
+            var rowsArg = arguments[1];
             if(rowsArg.Value != null) 
             {
                 rowsParam = ArgToInt(arguments, 1);
             }
             
-            if (arguments.Count() > 2)
+            if (arguments.Count > 2)
             {
-                if(arguments.ElementAt(2).Value != null)
+                if(arguments[2].Value != null)
                 {
                     colsParam = ArgToInt(arguments, 2);
                 }

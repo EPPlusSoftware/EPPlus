@@ -498,7 +498,7 @@ namespace EPPlusTest.Excel.Functions
             var parsingContext = ParsingContext.Create();
             var rangeAddressFactory = new RangeAddressFactory(A.Fake<ExcelDataProvider>(), ParsingContext.Create());
             parsingContext.CurrentCell = new FormulaCellAddress(0, 2, 1);
-            var result = func.Execute(Enumerable.Empty<FunctionArgument>(), parsingContext);
+            var result = func.Execute(new List<FunctionArgument>(), parsingContext);
             Assert.AreEqual(2, result.Result);
         }
 
@@ -519,7 +519,7 @@ namespace EPPlusTest.Excel.Functions
             var parsingContext = ParsingContext.Create();
             var rangeAddressFactory = new RangeAddressFactory(A.Fake<ExcelDataProvider>(), ParsingContext.Create());
             parsingContext.CurrentCell = new FormulaCellAddress(0, 2, 2);
-            var result = func.Execute(Enumerable.Empty<FunctionArgument>(), parsingContext);
+            var result = func.Execute(new List<FunctionArgument>(), parsingContext);
             Assert.AreEqual(2, result.Result);
         }
 

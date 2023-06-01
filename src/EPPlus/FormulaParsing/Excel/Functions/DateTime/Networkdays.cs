@@ -26,17 +26,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         Description = "Returns the number of whole networkdays (excluding weekends & holidays), between two supplied dates")]
     internal class Networkdays : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 2);
-            var startDate = System.DateTime.FromOADate(ArgToInt(functionArguments, 0));
-            var endDate = System.DateTime.FromOADate(ArgToInt(functionArguments, 1));
+            var startDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
+            var endDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var calculator = new WorkdayCalculator();
             var result = calculator.CalculateNumberOfWorkdays(startDate, endDate);
-            if (functionArguments.Length > 2)
+            if (arguments.Count > 2)
             {
-                result = calculator.ReduceWorkdaysWithHolidays(result, functionArguments[2]);
+                result = calculator.ReduceWorkdaysWithHolidays(result, arguments[2]);
             }
             
             return new CompileResult(result.NumberOfWorkdays, DataType.Integer);

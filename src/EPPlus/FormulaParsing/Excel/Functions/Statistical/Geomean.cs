@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns the geometric mean of an array or range of positive data.")]
     internal class Geomean : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(arguments, context);
-            if (numbers.Any(x => x.Value <= 0d)) return CreateResult(eErrorType.Num);
+            if (numbers.Any(x => x.Value <= 0d)) return CompileResult.GetErrorResult(eErrorType.Num);
             var p = 1d;
             for(var x = 0; x < numbers.Count(); x++)
             {

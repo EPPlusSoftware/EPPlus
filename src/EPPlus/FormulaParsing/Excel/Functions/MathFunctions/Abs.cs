@@ -29,20 +29,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 1);
-            if (functionArguments.ElementAt(0).Value == null)
+            if (arguments[0].Value == null)
             {
                 return CreateResult(0d, DataType.Decimal);
             }
-            var val = ArgToDecimal(functionArguments, 0);
+            var val = ArgToDecimal(arguments, 0);
             if (val < 0)
             {
                 val *= -1;
             }
             return CreateResult(val, DataType.Decimal);
         }
+        public override int ArgumentMinLength => 1;
     }
 }

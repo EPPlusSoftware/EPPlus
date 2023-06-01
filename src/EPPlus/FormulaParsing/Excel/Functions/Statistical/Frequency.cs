@@ -29,11 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         SupportsArrays = true)]
     internal class Frequency : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var arg1 = arguments.First();
-            var arg2 = arguments.ElementAt(1);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
             if(!arg1.IsExcelRange || !arg2.IsExcelRange)
             {
                 return CompileResult.GetDynamicArrayResultError(eErrorType.Value);

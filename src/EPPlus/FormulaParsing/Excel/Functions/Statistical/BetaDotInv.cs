@@ -26,19 +26,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the inverse of the beta cumulative probability density function")]
     internal class BetaDotInv : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var probability = ArgToDecimal(arguments, 0);
             var alpha = ArgToDecimal(arguments, 1);
             var beta = ArgToDecimal(arguments, 2);
             var A = 0d;
             var B = 1d;
-            if(arguments.Count() > 3)
+            if(arguments.Count > 3)
             {
                 A = ArgToDecimal(arguments, 3);
             }
-            if (arguments.Count() > 4)
+            if (arguments.Count > 4)
             {
                 B = ArgToDecimal(arguments, 4);
             }

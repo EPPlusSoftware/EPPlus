@@ -29,10 +29,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            if (arguments.Count() > 255) return CreateResult(eErrorType.Value);
+            if (arguments.Count() > 255) return CompileResult.GetErrorResult(eErrorType.Value);
             var numbers = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
             var counts = new Dictionary<double, int>();
             double? maxCountValue = default;

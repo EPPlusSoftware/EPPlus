@@ -28,14 +28,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class FloorMath : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            if (arguments.ElementAt(0).Value == null) return CreateResult(0d, DataType.Decimal);
+            if (arguments[0].Value == null) return CreateResult(0d, DataType.Decimal);
             var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
-            var significance = (arguments.Count() > 1) ? ArgToDecimal(arguments, 1) : 1;
-            var mode = (arguments.Count() > 2) ? ArgToDecimal(arguments, 2) : 0d;
+            var significance = (arguments.Count > 1) ? ArgToDecimal(arguments, 1) : 1;
+            var mode = (arguments.Count > 2) ? ArgToDecimal(arguments, 2) : 0d;
             if (RoundingHelper.IsInvalidNumberAndSign(number, significance)) return CreateResult(eErrorType.Num);
             return CreateResult(RoundingHelper.Round(number, significance, mode != 0d ? RoundingHelper.Direction.Down : RoundingHelper.Direction.AlwaysDown), DataType.Decimal);
         }

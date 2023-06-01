@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Returns the interest paid during a specified period of an investment")]
     internal class IsPmt : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var rate = ArgToDecimal(arguments, 0);
             var per = ArgToInt(arguments, 1);
             var nper = ArgToInt(arguments, 2);

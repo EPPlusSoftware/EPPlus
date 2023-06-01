@@ -28,10 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns the number of columns in a supplied range")]
     internal class Columns : LookupFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var r=arguments.ElementAt(0).ValueAsRangeInfo;
+            var r = arguments[0].ValueAsRangeInfo;
             if (r != null)
             {
                 return CreateResult(r.Address.ToCol - r.Address.FromCol + 1, DataType.Integer);
@@ -53,6 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return FunctionParameterInformation.IgnoreAddress;
         }
         public override bool HasNormalArguments => false;
+        public override int ArgumentMinLength => 1;
 
     }
 }

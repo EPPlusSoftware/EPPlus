@@ -31,32 +31,6 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
     /// <summary>
-    /// Information about an argument passed to a function used in the formula parser. 
-    /// </summary>
-    public enum FunctionParameterInformation
-    { 
-        /// <summary>
-        /// The argument will be handled as a normally.
-        /// </summary>
-        Normal,
-        /// <summary>
-        /// If the argument is an address this address will be ignored in the dependency chain.
-        /// </summary>
-        IgnoreAddress,
-        /// <summary>
-        /// This argument is a condition returning a boolean expression
-        /// </summary>
-        Condition,
-        /// <summary>
-        /// Use this argument if the condtion is true. Requires a previous parameter to be <see cref="Condition"/>
-        /// </summary>
-        UseIfConditionIsTrue,
-        /// <summary>
-        /// Use this argument if the condtion is false. Requires a previous parameter to be <see cref="Condition"/>
-        /// </summary>
-        UseIfConditionIsFalse
-    }
-    /// <summary>
     /// Base class for Excel function implementations.
     /// </summary>
     public abstract class ExcelFunction
@@ -88,7 +62,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments">Arguments to the function, each argument can contain primitive types, lists or <see cref="IRangeInfo">Excel ranges</see></param>
         /// <param name="context">The <see cref="ParsingContext"/> contains various data that can be useful in functions.</param>
         /// <returns>A <see cref="CompileResult"/> containing the calculated value</returns>
-        public abstract CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context);
+        public abstract CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context);
+
+        internal CompileResult ExecuteInternal(IList<FunctionArgument> arguments, ParsingContext context)
+        {
+            if(arguments==null || arguments.Count < ArgumentMinLength)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+            for (int i = 0; i < arguments.Count; i++)
+            {
+                var pi = GetParameterInfo(i);
+                if (arguments[i].DataType == DataType.ExcelError && 
+                    (pi & FunctionParameterInformation.IgnoreErrorInPreExecute) != FunctionParameterInformation.IgnoreErrorInPreExecute)
+                {
+                    return CompileResult.GetErrorResult(arguments[i].ValueAsExcelErrorValue.Type);
+                }
+            }
+
+            return Execute(arguments, context);
+        }
+
+        /// <summary>
+        /// Returns the minimum arguments for the function. Number of arguments are validated before calling the execute. If lesser arguments are supplied a #VALUE! error will be returned.
+        /// </summary>
+        public abstract int ArgumentMinLength { get; }
 
         /// <summary>
         /// If overridden, this method is called before Execute is called.
@@ -357,14 +355,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             switch (arg.DataType)
             {
                 case DataType.ExcelError:
-                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
+                    return double.NaN;
                 case DataType.Empty:
                     return 0D;
                 default:
                     return ArgToDecimal(arg.Value, precisionAndRoundingStrategy);
             }
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -376,11 +373,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             return arguments.ElementAt(index).Value as IRangeInfo;
         }
 
-        protected object Divide(double left, double right)
+        protected double Divide(double left, double right)
         {
-            if (System.Math.Abs(right - 0d) < double.Epsilon)
+            if (Math.Abs(right - 0d) < double.Epsilon)
             {
-                return ExcelErrorValue.Create(eErrorType.Div0);
+                return double.PositiveInfinity;
             }
             return left / right;
         }

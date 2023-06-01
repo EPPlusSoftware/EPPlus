@@ -39,9 +39,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         private readonly DoubleEnumerableArgConverter _converter;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var results = new List<bool>();
             var values = _converter.ConvertArgsIncludingOtherTypes(arguments, false);
             var nTrue = 0;

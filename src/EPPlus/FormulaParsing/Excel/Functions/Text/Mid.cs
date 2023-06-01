@@ -38,9 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var text = ArgToString(arguments, 0);
             var startIx = ArgToInt(arguments, 1);
             var length = ArgToInt(arguments, 2);

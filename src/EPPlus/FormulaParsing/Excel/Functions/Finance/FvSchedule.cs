@@ -25,11 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the future value of an initial principal, after applying a series of compound interest rates")]
     internal class FvSchedule : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var principal = ArgToDecimal(arguments, 0);
-            var scheduleArg = new List<FunctionArgument> { arguments.ElementAt(1) };
+            var scheduleArg = new List<FunctionArgument> { arguments[1] };
             var schedule = ArgsToDoubleEnumerable(scheduleArg, context);
             var result = principal;
             foreach(var interest in schedule)

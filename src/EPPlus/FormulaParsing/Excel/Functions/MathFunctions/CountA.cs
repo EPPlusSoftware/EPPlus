@@ -30,9 +30,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var nItems = 0d;
             Calculate(arguments, context, ref nItems);
             return CreateResult(nItems, DataType.Integer);

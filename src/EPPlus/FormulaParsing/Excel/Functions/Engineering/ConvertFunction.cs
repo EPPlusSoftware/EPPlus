@@ -24,18 +24,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             Description = "Calculates the modified Bessel function Yn(x)")]
     public class ConvertFunction : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var number = ArgToDecimal(arguments, 0);
             var fromUnit = ArgToString(arguments, 1);
             var toUnit = ArgToString(arguments, 2);
-            if (!Conversions.IsValidUnit(fromUnit)) return CreateResult(eErrorType.NA);
-            if (!Conversions.IsValidUnit(toUnit)) return CreateResult(eErrorType.NA);
+            if (!Conversions.IsValidUnit(fromUnit)) return CompileResult.GetErrorResult(eErrorType.NA);
+            if (!Conversions.IsValidUnit(toUnit)) return CompileResult.GetErrorResult(eErrorType.NA);
             var result = Conversions.Convert(number, fromUnit, toUnit);
             if(double.IsNaN(result))
             {
-                return CreateResult(eErrorType.NA);
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
             return CreateResult(result, DataType.Decimal);
         }

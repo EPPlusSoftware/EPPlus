@@ -27,28 +27,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         Description = "Calculates the fraction of the year represented by the number of whole days between two dates")]
     internal class Yearfrac : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 2);
-            var date1Num = ArgToDecimal(functionArguments, 0);
-            var date2Num = ArgToDecimal(functionArguments, 1);
+            var date1Num = ArgToDecimal(arguments, 0);
+            var date2Num = ArgToDecimal(arguments, 1);
             if (date1Num > date2Num) //Switch to make date1 the lowest date
             {
                 var t = date1Num;
                 date1Num = date2Num;
                 date2Num = t;
-                var fa = functionArguments[1];
-                functionArguments[1] = functionArguments[0];
-                functionArguments[0] = fa;
+                var fa = arguments[1];
+                arguments[1] = arguments[0];
+                arguments[0] = fa;
             }
             var date1 = System.DateTime.FromOADate(date1Num);
             var date2 = System.DateTime.FromOADate(date2Num);
 
             var basis = 0;
-            if (functionArguments.Count() > 2)
+            if (arguments.Count > 2)
             {
-                basis = ArgToInt(functionArguments, 2);
+                basis = ArgToInt(arguments, 2);
                 if (basis < 0 || basis > 4) return CreateResult(eErrorType.Num);
             }
             var func = context.Configuration.FunctionRepository.GetFunction("days360");
@@ -56,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             switch (basis)
             {
                 case 0:
-                    var d360Result = System.Math.Abs(func.Execute(functionArguments, context).ResultNumeric);
+                    var d360Result = System.Math.Abs(func.Execute(arguments, context).ResultNumeric);
                     // reproducing excels behaviour
                     if (date1.Month == 2 && date2.Day==31)
                     {
@@ -71,9 +70,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
                 case 3:
                     return CreateResult(System.Math.Abs((date2 - date1).TotalDays / 365d), DataType.Decimal);
                 case 4:
-                    var args = functionArguments.ToList();
-                    args.Add(new FunctionArgument(true));
-                    double? result = System.Math.Abs(func.Execute(args, context).ResultNumeric / 360d);
+                    arguments.Add(new FunctionArgument(true));
+                    double? result = System.Math.Abs(func.Execute(arguments, context).ResultNumeric / 360d);
                     return CreateResult(result.Value, DataType.Decimal);
                 default:
                     return null;

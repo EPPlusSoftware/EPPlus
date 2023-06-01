@@ -25,10 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Converts a supplied value into text, using a user-specified format")]
     public class Text : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var value = arguments.First().ValueFirst;
+            var value = arguments[0].ValueFirst;
             var format = ArgToString(arguments, 1);
             format = format.Replace(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, ".");
             format = format.Replace(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator.Replace((char)160,' '), ","); //Special handling for No-Break Space

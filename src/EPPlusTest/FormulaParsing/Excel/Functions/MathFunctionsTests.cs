@@ -765,19 +765,11 @@ namespace EPPlusTest.Excel.Functions
         [TestMethod]
         public void AverageShouldThrowDivByZeroExcelErrorValueIfEmptyArgs()
         {
-            eErrorType errorType = eErrorType.Value;
-
             var func = new Average();
             var args = new FunctionArgument[0];
-            try
-            {
-                func.Execute(args, _parsingContext);
-            }
-            catch (ExcelErrorValueException e)
-            {
-                errorType = e.ErrorValue.Type;
-            }
-            Assert.AreEqual(eErrorType.Div0, errorType);
+            var cr = func.Execute(args, _parsingContext);
+                
+            Assert.AreEqual(eErrorType.Div0, ((ExcelErrorValue)cr.Result).Type);
         }
 
         [TestMethod]

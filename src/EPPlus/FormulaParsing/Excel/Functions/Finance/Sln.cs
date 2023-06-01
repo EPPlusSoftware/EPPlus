@@ -25,22 +25,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Returns the straight-line depreciation of an asset for one period")]
     internal class Sln : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var cost = ArgToDecimal(arguments, 0);
             var salvage = ArgToDecimal(arguments, 1);
             var life = ArgToDecimal(arguments, 2);
 
             if (life == 0)
-                return CreateResult(eErrorType.Div0);
+                return CompileResult.GetErrorResult(eErrorType.Div0);
 
             return CreateResult((cost - salvage) / life, DataType.Decimal);
-        }
-
-        private static double GetInterest(double rate, double remainingAmount)
-        {
-            return remainingAmount * rate;
         }
     }
 }

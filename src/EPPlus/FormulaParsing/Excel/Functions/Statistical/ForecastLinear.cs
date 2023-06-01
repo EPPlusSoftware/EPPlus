@@ -25,16 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculate, or predict, a future value by using existing values. The future value is a y-value for a given x-value.")]
     internal class ForecastLinear : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var x = ArgToDecimal(arguments, 0);
-            var arg1 = arguments.ElementAt(1);
-            var arg2 = arguments.ElementAt(2);
+            var arg1 = arguments[1];
+            var arg2 = arguments[2];
             var arrayY = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg1 }, context).Select(a => a.Value).ToArray();
             var arrayX = ArgsToDoubleEnumerable(false, false, new FunctionArgument[] { arg2 }, context).Select(b => b.Value).ToArray();
-            if (arrayY.Count() != arrayX.Count()) return CreateResult(eErrorType.NA);
-            if (!arrayY.Any()) return CreateResult(eErrorType.NA);
+            if (arrayY.Count() != arrayX.Count()) return CompileResult.GetErrorResult(eErrorType.NA);
+            if (!arrayY.Any()) return CompileResult.GetErrorResult(eErrorType.NA);
             var result = Forecast.ForecastImpl(x, arrayY, arrayX);
             return CreateResult(result, DataType.Decimal);
         }

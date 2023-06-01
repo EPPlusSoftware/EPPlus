@@ -31,23 +31,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var firstArg = arguments.ElementAt(0).Value.ToString();
-            if(arguments.Count() == 1 && TimeStringParser.CanParse(firstArg))
-            {
-                var result = TimeStringParser.Parse(firstArg);
-                return new CompileResult(result, DataType.Time);
-            }
-            ValidateArguments(arguments, 3);
             var hour = ArgToInt(arguments, 0);
             var min = ArgToInt(arguments, 1);
             var sec = ArgToInt(arguments, 2);
 
-            if (sec < 0 || sec > 59) return CreateResult(eErrorType.Value);
-            if (min < 0 || min > 59) return CreateResult(eErrorType.Value);
-            if (min < 0 || hour > 23) return CreateResult(eErrorType.Value);
+            if (sec < 0 || sec > 59) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (min < 0 || min > 59) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (min < 0 || hour > 23) return CompileResult.GetErrorResult(eErrorType.Value);
 
 
             var secondsOfThisTime = (double)(hour * 60 * 60 + min * 60 + sec);

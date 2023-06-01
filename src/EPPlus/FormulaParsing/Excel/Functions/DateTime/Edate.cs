@@ -35,14 +35,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
                 ArrayParameterIndexes = new List<int> { 1 }
             };
         }
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var dateSerial = ArgToDecimal(arguments, 0);
             var date = System.DateTime.FromOADate(dateSerial);
             var nMonthsToAdd = ArgToInt(arguments, 1);
             var resultDate = date.AddMonths(nMonthsToAdd);
             return CreateResult(resultDate.ToOADate(), DataType.Date);
         }
+        public override int ArgumentMinLength => 2;
     }
 }

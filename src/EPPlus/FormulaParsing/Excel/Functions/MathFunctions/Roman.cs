@@ -29,14 +29,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class Roman : ExcelFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToInt(arguments, 0, RoundingMethod.Floor);            
             var type = arguments.Count() > 1 ? FirstArgumentToInt(arguments) : 0;
-            if (type < 0 || type > 4) return CreateResult(eErrorType.Value);
-            if (number < 0 || number > 3999) return CreateResult(eErrorType.Value);
+            if (type < 0 || type > 4) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (number < 0 || number > 3999) return CompileResult.GetErrorResult(eErrorType.Value);
             RomanBase func = new RomanClassic();
             switch (type)
             {
@@ -57,9 +56,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return CreateResult(func.Execute(number), DataType.String);
         }
-        private int FirstArgumentToInt(IEnumerable<FunctionArgument> arguments)
+        private int FirstArgumentToInt(IList<FunctionArgument> arguments)
         {
-            var arg = arguments.ElementAt(1);
+            var arg = arguments[1];
 
             if (arg.DataType == DataType.Boolean
                 && arg.ValueFirst is bool boolValue)

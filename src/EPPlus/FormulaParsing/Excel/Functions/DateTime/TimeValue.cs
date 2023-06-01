@@ -32,9 +32,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var dateString = ArgToString(arguments, 0);
             return Execute(dateString);
         }
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             System.DateTime.TryParse(dateString, out result);
             return result != System.DateTime.MinValue ?
                 CreateResult(GetTimeValue(result), DataType.Date) :
-                CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+                CompileResult.GetErrorResult(eErrorType.Value);
         }
 
         private double GetTimeValue(System.DateTime result)

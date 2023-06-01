@@ -25,15 +25,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Converts a dollar price expressed as a decimal, into a dollar price expressed as a fraction")]
     internal class DollarFr : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var decimalDollar = ArgToDecimal(arguments, 0);
             var fractionDec = ArgToDecimal(arguments, 1);
-            var fraction = System.Math.Floor(fractionDec);
-            if (fraction < 0d) return CreateResult(eErrorType.Num);
-            if (fraction == 0d) return CreateResult(eErrorType.Div0);
-            var result = System.Math.Floor(decimalDollar);
+            var fraction = Math.Floor(fractionDec);
+            if (fraction < 0d) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (fraction == 0d) return CompileResult.GetErrorResult(eErrorType.Div0);
+            var result = Math.Floor(decimalDollar);
             result += (decimalDollar % 1) * System.Math.Pow(10, -System.Math.Ceiling(System.Math.Log(fraction) / System.Math.Log(10))) * fraction;
             return CreateResult(result, DataType.Decimal);
         }

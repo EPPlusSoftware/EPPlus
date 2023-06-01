@@ -28,21 +28,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
     internal class Dcount : ExcelFunction
     {
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var rowMatcher = new RowMatcher(context);
-            var dbAddress = arguments.ElementAt(0).ValueAsRangeInfo.Address.ToString();
+            var dbAddress = arguments[0].ValueAsRangeInfo.Address.ToString();
             string field = null;
-            string criteriaRange = null;
-            if (arguments.Count() == 2)
+            string criteriaRange;
+            if (arguments.Count == 2)
             {
-                criteriaRange = arguments.ElementAt(1).ValueAsRangeInfo.Address.ToString();
+                criteriaRange = arguments[1].ValueAsRangeInfo.Address.ToString();
             }
             else
             {
                 field = ArgToString(arguments, 1).ToLower(CultureInfo.InvariantCulture);
-                criteriaRange = arguments.ElementAt(2).ValueAsRangeInfo.Address.ToString();
+                criteriaRange = arguments[2].ValueAsRangeInfo.Address.ToString();
             } 
             var db = new ExcelDatabase(context.ExcelDataProvider, dbAddress);
             var criteria = new ExcelDatabaseCriteria(context.ExcelDataProvider, criteriaRange);

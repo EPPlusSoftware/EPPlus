@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         Description = "Returns a date that is the last day of the month which is a specified number of months before or after an initial supplied start date")]
     internal class Eomonth : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var date = System.DateTime.FromOADate(ArgToDecimal(arguments, 0));
             var monthsToAdd = ArgToInt(arguments, 1);
             var resultDate = new System.DateTime(date.Year, date.Month, 1).AddMonths(monthsToAdd + 1).AddDays(-1);

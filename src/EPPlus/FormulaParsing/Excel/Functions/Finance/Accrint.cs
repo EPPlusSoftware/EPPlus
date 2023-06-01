@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the accrued interest for a security that pays periodic interest.")]
     internal class Accrint : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 6;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 6);
             // collect input
             var issueDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var firstInterestDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
@@ -38,12 +38,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var par = ArgToDecimal(arguments, 4);
             var frequency = ArgToInt(arguments, 5);
             var basis = 0;
-            if(arguments.Count() >= 7)
+            if(arguments.Count >= 7)
             {
                 basis = ArgToInt(arguments, 6);
             }
             var issueToSettlement = true;
-            if(arguments.Count() >= 8)
+            if(arguments.Count >= 8)
             {
                 issueToSettlement = ArgToBool(arguments, 7);
             }

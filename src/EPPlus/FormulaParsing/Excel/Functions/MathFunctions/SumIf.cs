@@ -30,11 +30,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class SumIf : HiddenValuesHandlingFunction
     {
         private ExpressionEvaluator _evaluator;
+        public override int ArgumentMinLength => 2;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             _evaluator = new ExpressionEvaluator(context);
-            ValidateArguments(arguments, 2);
             var argRange = ArgToRangeInfo(arguments, 0);
 
             // Criteria can either be a string or an array of strings
@@ -42,10 +42,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var retVal = 0d;
             if (argRange == null)
             {
-                var val = arguments.ElementAt(0).Value;
+                var val = arguments[0].Value;
                 if (_evaluator.Evaluate(val, criteria))
                 {
-                    if (arguments.Count() > 2)
+                    if (arguments.Count > 2)
                     {
                         var sumRange = ArgToRangeInfo(arguments, 2);
                         retVal = sumRange.First().ValueDouble;
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     }
                 }
             }
-            else if (arguments.Count() > 2)
+            else if (arguments.Count > 2)
             {
                 var sumRange = ArgToRangeInfo(arguments, 2);
                 retVal = CalculateWithSumRange(argRange, criteria, sumRange, context);

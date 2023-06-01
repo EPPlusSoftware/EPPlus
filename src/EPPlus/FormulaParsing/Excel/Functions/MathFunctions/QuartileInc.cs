@@ -12,7 +12,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             Description = "Returns the K'th percentile of values in a supplied range, where K is in the range 0 - 1 (inclusive)")]
     internal class QuartileInc : PercentileInc
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var arrArg = arguments.Take(1);
@@ -36,7 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
         }
 
-        private IEnumerable<FunctionArgument> BuildArgs(IEnumerable<FunctionArgument> arrArg, double quart)
+        private IList<FunctionArgument> BuildArgs(IEnumerable<FunctionArgument> arrArg, double quart)
         {
             var argList = new List<FunctionArgument>();
             argList.AddRange(arrArg);

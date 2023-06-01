@@ -31,10 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     {        
         private readonly InMemoryRangeSorter _sorter = new InMemoryRangeSorter();
         public override string NamespacePrefix => "_xlfn._xlws.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var arg1 = arguments.ElementAt(0);
+            var arg1 = arguments[0];
             if(!arg1.IsExcelRange)
             {
                 return CompileResultFactory.CreateDynamicArray(arg1.Value);
@@ -42,17 +42,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             var range = arg1.ValueAsRangeInfo;
             var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
             var sortIndex = 1;
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
             {
                 sortIndex = ArgToInt(arguments, 1);
             }
             var sortOrder = 1;
-            if(arguments.Count() > 2)
+            if(arguments.Count > 2)
             {
                 sortOrder = ArgToInt(arguments, 2);
             }
             var byCol = false;
-            if(arguments.Count() > 3)
+            if(arguments.Count > 3)
             {
                 byCol = ArgToBool(arguments, 3);
             }

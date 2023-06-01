@@ -30,13 +30,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class Row : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 0;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments == null || arguments.Count() == 0)
+            if (arguments == null || arguments.Count == 0)
             {
                 return CreateResult(context.CurrentCell.Row, DataType.Integer);
             }
-            var arg1 = arguments.First();
+            var arg1 = arguments[0];
             if(arg1.IsExcelRange)
             {
                 var range = arg1.ValueAsRangeInfo;
@@ -61,7 +62,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 var rangeAddress = ArgToAddress(arguments, 0);
                 if (!ExcelAddressUtil.IsValidAddress(rangeAddress))
-                    return new CompileResult(eErrorType.Name);
+                    return CompileResult.GetErrorResult(eErrorType.Name);
                 var factory = new RangeAddressFactory(context.ExcelDataProvider, context);
                 var address = factory.Create(rangeAddress);
                 return CreateResult(address.FromRow, DataType.Integer);

@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the value of the density function for a standard normal distribution for a supplied number.")]
     internal class Phi : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var n = ArgToDecimal(arguments, 0);
-            var result = System.Math.Exp(-0.5 * System.Math.Pow(n, 2)) / System.Math.Sqrt(System.Math.PI * 2);
+            var result = Math.Exp(-0.5 * Math.Pow(n, 2)) / Math.Sqrt(System.Math.PI * 2);
             return CreateResult(result, DataType.Decimal);
         }
     }

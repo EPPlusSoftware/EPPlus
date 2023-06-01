@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the net present value of an investment, based on a supplied discount rate, and a series of periodic cash flows")]
     internal class Npv : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var rate = ArgToDecimal(arguments, 0);
             var args = ArgsToDoubleEnumerable(false, true, arguments, context).ToList();
             var retVal = CashFlowHelper.Npv(rate, args.Skip(1).Select(x => (double)x));

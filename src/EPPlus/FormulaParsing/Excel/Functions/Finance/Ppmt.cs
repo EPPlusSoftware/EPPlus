@@ -26,31 +26,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the payments required to reduce a loan, from a supplied present value to a specified future value")]
     internal class Ppmt : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var rate = ArgToDecimal(arguments, 0);
             var per = ArgToInt(arguments, 1);
             var nPer = ArgToInt(arguments, 2);
             var presentValue = ArgToDecimal(arguments, 3);
             var fv = 0d;
-            if (arguments.Count() >= 5)
+            if (arguments.Count >= 5)
             {
                 fv = ArgToDecimal(arguments, 4);
             }
             var type = PmtDue.EndOfPeriod;
-            if (arguments.Count() >= 6)
+            if (arguments.Count >= 6)
             {
                 type = (PmtDue)ArgToInt(arguments, 5);
             }
             var result = PpmtImpl.Ppmt(rate, per, nPer, presentValue, fv, type);
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             return CreateResult(result.Result, DataType.Decimal);
-        }
-
-        private static double GetInterest(double rate, double remainingAmount)
-        {
-            return remainingAmount * rate;
         }
     }
 }

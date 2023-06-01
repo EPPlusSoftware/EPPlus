@@ -29,18 +29,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class Indirect : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
             var address = ArgToAddress(arguments, 0);
             FormulaRangeAddress adr;
             IRangeInfo result;
-            var arg = arguments.First();
-            if(arg.DataType==DataType.ExcelError)
-            {
-                return CompileResultFactory.Create(arg.ValueAsExcelErrorValue);
-            }
-            else if (ExcelCellBase.IsValidAddress(address))
+            var arg = arguments[0];
+            if (ExcelCellBase.IsValidAddress(address))
             {                
                 adr = new FormulaRangeAddress(context, address);
                 result = context.ExcelDataProvider.GetRange(adr);

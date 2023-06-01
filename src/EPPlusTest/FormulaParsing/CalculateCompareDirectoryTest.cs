@@ -95,8 +95,9 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     //p.Workbook.Calculate();
+                    p.Workbook.Worksheets["MISC"].Cells["M2"].Calculate();
                     //p.Workbook.Names["SizePort"].Calculate();
-                    p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate();
+                    //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate();
                     //p.Workbook.Worksheets["CELP Change Tool Index"].Cells["AJ7"].Calculate(); 
                     //p.Workbook.Worksheets["RptEC"].Cells["DC63"].Calculate(); 
                     //p.Workbook.Worksheets["RiskReport_CoarsePerils"].Cells["D27"].Calculate(); 

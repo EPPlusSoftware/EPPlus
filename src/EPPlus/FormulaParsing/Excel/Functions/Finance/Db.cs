@@ -26,23 +26,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the depreciation of an asset for a specified period, using the fixed-declining balance method")]
     internal class Db : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var cost = ArgToDecimal(arguments, 0);
             var salvage = ArgToDecimal(arguments, 1);
             var life = ArgToDecimal(arguments, 2);
             var period = ArgToDecimal(arguments, 3);
             var month = 12;
-            if (arguments.Count() >= 5)
+            if (arguments.Count >= 5)
             {
                 month = ArgToInt(arguments, 4);
             }
 
             if (cost < 0 || salvage < 0 || life <= 0 || period <= 0 || month <= 0 || month > 12)
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             if (period > life && month == 12 || period > (life + 1))
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
 
             // calculations below as described at https://support.microsoft.com/en-us/office/db-function-354e7d28-5f93-4ff1-8a52-eb4ee549d9d7?ui=en-us&rs=en-us&ad=us
 

@@ -25,16 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the Normal Probability Density Function or the Cumulative Normal Distribution. Function for a supplied set of parameters.")]
     internal class Normdist : NormalDistributionBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var probability = ArgToDecimal(arguments, 0);
             var mean = ArgToDecimal(arguments, 1);
             var stdev = ArgToDecimal(arguments, 2);
             var cumulative = ArgToBool(arguments, 3);
             if (stdev <= 0)
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var result = cumulative ? CumulativeDistribution(probability, mean, stdev) : ProbabilityDensity(probability, mean, stdev);
             return CreateResult(result, DataType.Decimal);

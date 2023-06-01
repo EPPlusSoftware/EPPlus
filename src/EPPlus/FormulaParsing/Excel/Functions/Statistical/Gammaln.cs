@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the natural logarithm of the gamma function for a supplied value")]
     internal class Gammaln : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var n = ArgToDecimal(arguments, 0);
-            if (n <= 0) return CreateResult(eErrorType.Num);
+            if (n <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = GammaHelper.logGamma(n);
             return CreateResult(result, DataType.Decimal);
         }

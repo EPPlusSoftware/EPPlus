@@ -24,13 +24,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the number of permutations for a given number of objects")]
     internal class Permut : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var number = ArgToDecimal(arguments, 0);
-            number = System.Math.Floor(number);
+            number = Math.Floor(number);
             var numberChosen = ArgToDecimal(arguments, 1);
-            if (number <= 0d || numberChosen <= 0 || number < numberChosen) return CreateResult(eErrorType.Num);
+            if (number <= 0d || numberChosen <= 0 || number < numberChosen) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = MathHelper.Factorial(number) / MathHelper.Factorial(number - numberChosen);
             return CreateResult(result, DataType.Decimal);
         }

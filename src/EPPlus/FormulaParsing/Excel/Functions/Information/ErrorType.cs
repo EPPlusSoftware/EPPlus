@@ -28,10 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var error = arguments.ElementAt(0);
+            var error = arguments[0];
             var isErrorFunc = context.Configuration.FunctionRepository.GetFunction("iserror");
             var isErrorResult = isErrorFunc.Execute(arguments, context);
             if (!(bool) isErrorResult.Result)
@@ -57,6 +57,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                     return CreateResult(7, DataType.Integer);
             }
             return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

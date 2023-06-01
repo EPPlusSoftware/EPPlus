@@ -29,11 +29,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class Sequence : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var rows = ArgToInt(arguments, 0); 
-            var argCount = arguments.Count();
+            var argCount = arguments.Count;
             var columns = argCount > 1 ? ArgToInt(arguments, 1) : 1;
             var start = argCount > 2 ? ArgToDecimal(arguments, 2) : 1;
             var step = argCount > 3 ? ArgToDecimal(arguments, 3) : 1;

@@ -25,11 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns the Fisher transformation at x. This transformation produces a function that is normally distributed rather than skewed.")]
     internal class Fisher : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var x = ArgToDecimal(arguments, 0);
-            if (x <= 0d || x >= 1d) return CreateResult(eErrorType.Num);
+            if (x <= 0d || x >= 1d) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = System.Math.Log((1 + x) / (1 - x)) / 2;
             return CreateResult(result, DataType.Decimal);
         }

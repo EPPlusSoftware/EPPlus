@@ -25,12 +25,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         Description = "Tests a number of user-defined conditions and returns TRUE if ALL of the conditions evaluate to TRUE, or FALSE otherwise")]
     internal class And : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            for (var x = 0; x < arguments.Count(); x++)
+            for (var x = 0; x < arguments.Count; x++)
             {
-                var arg = arguments.ElementAt(x);
+                var arg = arguments[x];
                 if (arg.DataType == DataType.ExcelError) return new CompileResult(arg.Value, arg.DataType);
                 if (!ArgToBool(arguments, x))
                {

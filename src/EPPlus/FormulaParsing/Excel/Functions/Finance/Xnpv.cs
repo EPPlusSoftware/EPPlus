@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
        Description = "Calculates the net present value for a schedule of cash flows occurring at a series of supplied dates")]
     internal class Xnpv : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var rate = ArgToDecimal(arguments, 0);
             var arg2 = new List<FunctionArgument> { arguments.ElementAt(1) };
             var values = ArgsToDoubleEnumerable(arg2, context);

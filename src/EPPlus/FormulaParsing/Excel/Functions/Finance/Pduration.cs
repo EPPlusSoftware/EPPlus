@@ -27,14 +27,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         IntroducedInExcelVersion = "2013")]
     internal class Pduration : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var rate = ArgToDecimal(arguments, 0);
             var pv = ArgToDecimal(arguments, 1);
             var fv = ArgToDecimal(arguments, 2);
-            if (rate <= 0d || pv <= 0d || fv <= 0d) return CreateResult(eErrorType.Num);
-            var retVal = (System.Math.Log(fv) - System.Math.Log(pv)) / System.Math.Log(1 + rate);
+            if (rate <= 0d || pv <= 0d || fv <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);
+            var retVal = (Math.Log(fv) - Math.Log(pv)) / Math.Log(1 + rate);
             return CreateResult(retVal, DataType.Decimal);
         }
     }

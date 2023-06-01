@@ -14,16 +14,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         Description = "Returns the sheet number relating to a supplied reference")]
     internal class Sheet : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 0;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var result = -1;
-            if(arguments.Count() == 0)
+            if(arguments.Count == 0)
             {
                 result = context.CurrentCell.WorksheetIx + 1;
             }
             else
             {
-                var arg = arguments.ElementAt(0);
+                var arg = arguments[0];
                 if(arg.Address!=null)
                 {
                     if (arg.Address.WorksheetIx>=0)
@@ -91,7 +92,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             }
             if(result == -1)
             {
-                return CreateResult(eErrorType.NA);
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
             return CreateResult(result, DataType.Integer);
         }

@@ -36,36 +36,36 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return LookupBinarySearch.GetMatchIndex(ix, returnArray, matchMode, asc);
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (context.Debug)
             {
                 _stopwatch = new Stopwatch();
                 _stopwatch.Start();
             }
-            ValidateArguments(arguments, 3);
-            var lookupValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var lookupValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
 
             // lookup range
-            if (!arguments.ElementAt(1).IsExcelRange) return CreateResult(eErrorType.Value);
-            var lookupRange = arguments.ElementAt(1).ValueAsRangeInfo;
+            if (!arguments[1].IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
+            var lookupRange = arguments[1].ValueAsRangeInfo;
             var lookupDirection = XlookupUtil.GetLookupDirection(lookupRange);
             if (lookupRange.Size.NumberOfRows > 1 && lookupRange.Size.NumberOfCols > 1) return CreateResult(eErrorType.Value);
 
             // return range
-            if (!arguments.ElementAt(2).IsExcelRange) return CreateResult(eErrorType.Value);
-            var returnArray = arguments.ElementAt(2).ValueAsRangeInfo;
+            if (!arguments[2].IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
+            var returnArray = arguments[2].ValueAsRangeInfo;
             var notFoundText = string.Empty;
 
             // not found text
-            if (arguments.Count() > 3 && arguments.ElementAt(3) != null)
+            if (arguments.Count() > 3 && arguments[3] != null)
             {
                 notFoundText = ArgToString(arguments, 3);
             }
 
             // match mode
             var matchMode = LookupMatchMode.ExactMatch;
-            if (arguments.Count() > 4 && arguments.ElementAt(4) != null)
+            if (arguments.Count > 4 && arguments[4] != null)
             {
                 var mm = ArgToInt(arguments, 4);
                 matchMode = XlookupUtil.GetMatchMode(mm);
@@ -101,7 +101,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             if (ix < 0 || ix > (lookupDirection == LookupRangeDirection.Vertical ? returnArray.Size.NumberOfRows - 1 : returnArray.Size.NumberOfCols - 1))
             {
-                return string.IsNullOrEmpty(notFoundText) ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
+                return string.IsNullOrEmpty(notFoundText) ? CompileResult.GetDynamicArrayResultError(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
             }
             var result = default(IRangeInfo);
             if (lookupDirection == LookupRangeDirection.Vertical)

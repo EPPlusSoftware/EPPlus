@@ -36,12 +36,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var arg = ArgToString(arguments, 0);
             SetArgAndPercentage(arg);
-            if(!ValidateAndSetSeparators(arguments.ToArray()))
+            if(!ValidateAndSetSeparators(arguments))
             {
                 return CreateResult(ExcelErrorValue.Values.Value, DataType.ExcelError);
             }
@@ -76,16 +76,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             }
         }
 
-        private bool ValidateAndSetSeparators(FunctionArgument[] arguments)
+        private bool ValidateAndSetSeparators(IList<FunctionArgument> arguments)
         {
-            if (arguments.Length == 1) return true;
+            if (arguments.Count == 1) return true;
             var decimalSeparator = ArgToString(arguments, 1).Substring(0, 1);
             if (!DecimalSeparatorIsValid(decimalSeparator))
             {
                 return false;
             }
             _decimalSeparator = decimalSeparator;
-            if (arguments.Length > 2)
+            if (arguments.Count > 2)
             {
                 var groupSeparator = ArgToString(arguments, 2).Substring(0, 1);
                 if(!GroupSeparatorIsValid(decimalSeparator, groupSeparator))

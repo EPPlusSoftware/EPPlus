@@ -26,15 +26,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         IntroducedInExcelVersion = "2016")]
     internal class Concat : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments == null)
             {
                 return CreateResult(string.Empty, DataType.String);
             }
-            else if(arguments.Count() > 254)
+            else if(arguments.Count > 254)
             {
-                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+                return CompileResult.GetErrorResult(eErrorType.Value);
             }
             var sb = new StringBuilder();
             foreach (var arg in arguments)
@@ -58,7 +59,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var result = sb.ToString();
             if(!string.IsNullOrEmpty(result) && result.Length > 32767)
             {
-                return CreateResult(ExcelErrorValue.Create(eErrorType.Value), DataType.ExcelError);
+                return CompileResult.GetErrorResult(eErrorType.Value); 
             }
             return CreateResult(sb.ToString(), DataType.String);
         }

@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
        Description = "Calculates the yield of a security that pays periodic interest")]
     internal class Yield : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 6;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 6);
             var settlement = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturity = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var rate = ArgToDecimal(arguments, 2);
@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var redemption = ArgToDecimal(arguments, 4);
             var frequency = ArgToInt(arguments, 5);
             var basis = DayCountBasis.US_30_360;
-            if(arguments.Count() > 6)
+            if(arguments.Count > 6)
             {
                 basis = (DayCountBasis)ArgToInt(arguments, 6);
             }

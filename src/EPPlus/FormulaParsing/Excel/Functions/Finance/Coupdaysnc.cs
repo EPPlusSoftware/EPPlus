@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the number of days from the settlement date to the next coupon date")]
     internal class Coupdaysnc : CoupFunctionBase<double>
     {
+        public override int ArgumentMinLength => 3;
         protected override FinanceCalcResult<double> ExecuteFunction(FinancialDay settlementDate, FinancialDay maturityDate, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
         {
             var impl = new CoupdaysncImpl(settlementDate, maturityDate, frequency, basis);

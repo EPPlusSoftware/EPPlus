@@ -45,7 +45,8 @@ namespace EPPlusTest.FormulaParsing
 
         private class MyFunction : ExcelFunction
         {
-            public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+            public override int ArgumentMinLength => 0;
+            public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
             {
                 throw new NotImplementedException();
             }

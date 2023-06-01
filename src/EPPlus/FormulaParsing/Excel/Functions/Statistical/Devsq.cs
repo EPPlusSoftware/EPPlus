@@ -25,11 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns the sum of the squares of the deviations of a set of data points from their sample mean")]
     internal class Devsq : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var arr = ArgsToDoubleEnumerable(arguments, context);
-            if (!arr.Any()) return CreateResult(eErrorType.Num);
+            if (!arr.Any()) return CompileResult.GetErrorResult(eErrorType.Num);
             var mean = arr.Select(x => (double)x).Average();
             var result = arr.Aggregate(0d, (val, x) => val += System.Math.Pow(x - mean, 2));
             return CreateResult(result, DataType.Decimal);

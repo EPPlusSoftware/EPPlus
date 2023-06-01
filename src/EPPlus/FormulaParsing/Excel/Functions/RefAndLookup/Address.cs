@@ -27,21 +27,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns a reference, in text format, for a supplied row and column number")]
     internal class Address : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var row = ArgToInt(arguments, 0);
             var col = ArgToInt(arguments, 1);
             if (row < 0 && col < 0) return CreateResult(eErrorType.Value);
             var referenceType = ExcelReferenceType.AbsoluteRowAndColumn;
             var worksheetSpec = string.Empty;
-            if (arguments.Count() > 2)
+            if (arguments.Count > 2)
             {
                 var arg3 = ArgToInt(arguments, 2);
                 if (arg3 < 1 || arg3 > 4) return CreateResult(eErrorType.Value);
                 referenceType = (ExcelReferenceType)arg3;
             }
-            if (arguments.Count() > 3)
+            if (arguments.Count > 3)
             {
                 var fourthArg = arguments.ElementAt(3).Value;
                 if (fourthArg is bool && !(bool)fourthArg)
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     throw new InvalidOperationException("Excelformulaparser does not support the R1C1 format!");
                 }
             }
-            if (arguments.Count() > 4)
+            if (arguments.Count > 4)
             {
                 var fifthArg = arguments.ElementAt(4).Value;
                 if (fifthArg is string && !string.IsNullOrEmpty(fifthArg.ToString()))

@@ -28,17 +28,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         IntroducedInExcelVersion = "2010")]
     internal class WorkdayIntl : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 2);
-            var startDate = System.DateTime.FromOADate(ArgToInt(functionArguments, 0));
-            var nWorkDays = ArgToInt(functionArguments, 1);
+            var startDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
+            var nWorkDays = ArgToInt(arguments, 1);
             WorkdayCalculator calculator = new WorkdayCalculator();
             var weekdayFactory = new HolidayWeekdaysFactory();
-            if (functionArguments.Length > 2)
+            if (arguments.Count > 2)
             {
-                var holidayArg = functionArguments[2].Value;
+                var holidayArg = arguments[2].Value;
                 if (Regex.IsMatch(holidayArg.ToString(), "^[01]{7}"))
                 {
                     calculator = new WorkdayCalculator(weekdayFactory.Create(holidayArg.ToString()));
@@ -54,9 +53,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
                 }
             }
             var result = calculator.CalculateWorkday(startDate, nWorkDays);
-            if (functionArguments.Length > 3)
+            if (arguments.Count > 3)
             {
-                result = calculator.AdjustResultWithHolidays(result, functionArguments[3]);
+                result = calculator.AdjustResultWithHolidays(result, arguments[3]);
             }
             return new CompileResult(result.EndDate.ToOADate(), DataType.Integer);
         }

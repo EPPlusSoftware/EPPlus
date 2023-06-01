@@ -52,7 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 }
                 
             }
-            return Function.Execute(args, Context);
+            return Function.ExecuteInternal(args, Context);
         }
     }
 }

@@ -27,19 +27,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         Description = "Returns a date that is a supplied number of working days (excluding weekends & holidays) ahead of a given start date")]
     internal class Workday : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 2);
-            var startDate = System.DateTime.FromOADate(ArgToInt(functionArguments, 0));
-            var nWorkDays = ArgToInt(functionArguments, 1);
-            var resultDate = System.DateTime.MinValue;
+            var startDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
+            var nWorkDays = ArgToInt(arguments, 1);
             
             var calculator = new WorkdayCalculator();
             var result = calculator.CalculateWorkday(startDate, nWorkDays);
-            if (functionArguments.Length > 2)
+            if (arguments.Count > 2)
             {
-                result = calculator.AdjustResultWithHolidays(result, functionArguments[2]);
+                result = calculator.AdjustResultWithHolidays(result, arguments[2]);
             }
             return CreateResult(result.EndDate.ToOADate(), DataType.Date);
         }   

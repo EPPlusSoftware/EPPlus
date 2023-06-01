@@ -26,16 +26,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns the skewness of a distribution")]
     internal class Skew : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(arguments, context).Select(x => x.Value).ToArray();
             var n = numbers.Length;
             var avg = numbers.Average();
             var s = 0d;
             for (var ix = 0; ix < n; ix++)
             {
-                s += System.Math.Pow(numbers[ix] - avg, 3);
+                s += Math.Pow(numbers[ix] - avg, 3);
             }
             var div = new Stdev().StandardDeviation(numbers);
             if (div.DataType==DataType.ExcelError) return div;

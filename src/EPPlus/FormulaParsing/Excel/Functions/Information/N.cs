@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         Description = "Converts a non-number value to a number, a date to a serial number, the logical value TRUE to 1 and all other values to 0")]
     internal class N : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var arg = GetFirstValue(arguments);
             
             if (arg is bool)
@@ -46,9 +46,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
             {
                 return CreateResult(0d, DataType.Decimal);
             }
-            else if (arg is ExcelErrorValue)
+            else if (arg is ExcelErrorValue err)
             {
-                return CreateResult(arg, DataType.ExcelError);
+                return CompileResult.GetErrorResult(err.Type);
             }
             throw new ExcelErrorValueException(eErrorType.Value);
         }

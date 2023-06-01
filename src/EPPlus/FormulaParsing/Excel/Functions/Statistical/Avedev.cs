@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns the average of the absolute deviations of data points from their mean")]
     internal class Avedev : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var arr = ArgsToDoubleEnumerable(arguments, context);
             if (!arr.Any()) return CreateResult(eErrorType.Div0);
             var dArr = arr.Select(x => (double)x);

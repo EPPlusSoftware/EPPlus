@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             Description = "Calculates the modified Bessel function Yn(x)")]
     internal class BesselY : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var x = ArgToDecimal(arguments, 0);
             var n = ArgToInt(arguments, 1);
             var result = new BesselYImpl().BesselY(x, n);

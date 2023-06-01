@@ -26,20 +26,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the cumulative beta probability density function")]
     internal class BetaDotDist : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var x = ArgToDecimal(arguments, 0);
             var alpha = ArgToDecimal(arguments, 1);
             var beta = ArgToDecimal(arguments, 2);
             var cumulative = ArgToBool(arguments, 3);
             var A = 0d;
             var B = 1d;
-            if (arguments.Count() > 4)
+            if (arguments.Count > 4)
             {
                 A = ArgToDecimal(arguments, 4);
             }
-            if (arguments.Count() > 5)
+            if (arguments.Count > 5)
             {
                 B = ArgToDecimal(arguments, 5);
             }

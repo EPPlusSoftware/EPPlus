@@ -25,9 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the constant value of pi")]
     internal class Pi : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 0;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var result = System.Math.Round((double)System.Math.PI, 14);
+            var result = Math.Round((double)System.Math.PI, 14);
             return CreateResult(result, DataType.Decimal);
         }
     }

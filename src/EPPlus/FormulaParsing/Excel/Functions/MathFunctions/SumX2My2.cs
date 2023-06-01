@@ -24,6 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the sum of the difference of squares of corresponding values in two supplied arrays")]
     internal class SumX2mY2 : SumxBase
     {
+        public override int ArgumentMinLength => 2;
         public override double Calculate(double[] set1, double[] set2)
         {
             var result = 0d;

@@ -26,14 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "The Excel Percentrank.Inc function calculates the relative position, between 0 and 1 (inclusive), of a specified value within a supplied array.")]
     internal class PercentrankInc : RankFunctionBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var array = GetNumbersFromArgs(arguments, 0, context);
             var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
+            if (number < array.First() || number > array.Last()) return CompileResult.GetErrorResult(eErrorType.NA);
             var significance = 3;
-            if(arguments.Count() > 2)
+            if(arguments.Count > 2)
             {
                 significance = ArgToInt(arguments, 2);
             }

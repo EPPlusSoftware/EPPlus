@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns covariance, the average of the products of deviations for each data point pair in two data sets.")]
     internal class CovarianceS : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var array1 = ArgsToDoubleEnumerable(arguments.Take(1), context).ToArray();

@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Returns the annual yield of a security that pays interest at maturity.")]
     internal class Yieldmat : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 5;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 5);
             var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             if (settlementDate >= maturityDate) return CreateResult(eErrorType.Num);
@@ -37,16 +37,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var issueDate = System.DateTime.FromOADate(ArgToInt(arguments, 2));
             
             var rate = ArgToDecimal(arguments, 3);
-            if (rate < 0) return CreateResult(eErrorType.Num);
+            if (rate < 0) return CompileResult.GetErrorResult(eErrorType.Num);
             
             var price = ArgToDecimal(arguments, 4);
-            if (price <= 0) return CreateResult(eErrorType.Num);
+            if (price <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
             
             var basis = 0;
-            if(arguments.Count() > 5)
+            if(arguments.Count > 5)
             {
                 basis = ArgToInt(arguments, 5);
-                if (basis < 0 || basis > 4) return CreateResult(eErrorType.Num);
+                if (basis < 0 || basis > 4) return CompileResult.GetErrorResult(eErrorType.Num);
             }
 
             var yearFracProvider = new YearFracProvider(context);

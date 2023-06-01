@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns a normalized value from a distribution characterized by mean and standard_dev.")]
     internal class Standardize : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var val = ArgToDecimal(arguments, 0);
             var avg = ArgToDecimal(arguments, 1);
             var stdev = ArgToDecimal(arguments, 2);

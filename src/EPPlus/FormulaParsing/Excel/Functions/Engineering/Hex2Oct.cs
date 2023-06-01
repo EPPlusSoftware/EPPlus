@@ -26,15 +26,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Converts a hexadecimal number to octal")]
     internal class Hex2Oct : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToString(arguments, 0);
             var padding = default(int?);
-            if (arguments.Count() > 1)
+            if (arguments.Count > 1)
             {
                 padding = ArgToInt(arguments, 1);
-                if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
+                if (padding.Value < 0 ^ padding.Value > 10) return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var decNumber = TwoComplementHelper.ParseDecFromString(number, 16);
             var result = Convert.ToString(Convert.ToInt32(decNumber), 8);

@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric
         Description = "Rounds a number down to the next integer")]
     internal class CInt : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var num = ArgToDecimal(arguments, 0);
             return CreateResult((int)System.Math.Floor(num), DataType.Integer);
         }

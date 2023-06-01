@@ -38,10 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            ValidateArguments(arguments, 2);
             var numDate1 = ArgToDecimal(arguments, 0);
             var numDate2 = ArgToDecimal(arguments, 1);
             var endDate = System.DateTime.FromOADate(numDate1);

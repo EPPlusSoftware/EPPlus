@@ -26,12 +26,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the internal rate of return for a series of periodic cash flows")]
     internal class Irr : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 1);
-            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(0) }, context);
+            var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments[0] }, context);
             var result = default(FinanceCalcResult<double>);
-            if(arguments.Count() == 1)
+            if(arguments.Count == 1)
             {
                 result = IrrImpl.Irr(values.Select(x => (double)x).ToArray());
             }
@@ -40,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
                 var guess = ArgToDecimal(arguments, 1);
                 result = IrrImpl.Irr(values.Select(x => (double)x).ToArray(), guess);
             }
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             return CreateResult(result.Result, DataType.Decimal);
         }
     }

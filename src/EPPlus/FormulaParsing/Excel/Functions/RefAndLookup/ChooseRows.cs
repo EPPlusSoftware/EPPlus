@@ -27,12 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class ChooseRows : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             var rows = new List<int>();
-            for (var x = 1; x < arguments.Count(); x++)
+            for (var x = 1; x < arguments.Count; x++)
             {
                 var r = ArgToInt(arguments, x);
                 rows.Add(r);

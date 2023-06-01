@@ -26,13 +26,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2019")]
     internal class Ifs : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var maxArgs = arguments.Count() < (127 * 2) ? arguments.Count() : 127 * 2; 
+            var maxArgs = arguments.Count < (127 * 2) ? arguments.Count : 127 * 2; 
             if(maxArgs % 2 != 0) 
             {
-                return CreateResult(ErrorValues.ValueError, DataType.ExcelError);
+                return CompileResult.GetErrorResult(eErrorType.Value);
             }
             for(var x = 0; x < maxArgs; x += 2)
             {
@@ -49,18 +49,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                     }
                 }
             }
-            return CreateResult(ErrorValues.NAError, DataType.ExcelError);
+            return CompileResult.GetErrorResult(eErrorType.NA);
         }
         public override bool ReturnsReference => true;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {
             if (argumentIndex % 2 == 0)
             {
-                return FunctionParameterInformation.Condition;
+                return FunctionParameterInformation.Condition | FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             else
             {
-                return FunctionParameterInformation.UseIfConditionIsTrue;
+                return FunctionParameterInformation.UseIfConditionIsTrue | FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
         }
         public override bool HasNormalArguments => false;

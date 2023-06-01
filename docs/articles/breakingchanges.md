@@ -75,7 +75,9 @@ Updating data validations via the XML DOM will not work as read and write is per
 
 ### Breaking Change From EPPlus 7.0
 The formula parser has changed significantly in EPPlus 7, requiring all custom functions that are inherited from the `ExcelFunction` class to be reviewed. 
-The `ExcelFunction` class now exposes new properties used to handle array results and condition behaviour. 
+The `ExcelFunction` class has changed, now exposes new properties used to handle array results and condition behaviour. 
+* The `Execute` method has changed signature changing the `IEnumarable` in the first parameter to `IList`. New signature is: Execute(IList, ParsingContext).
+* `ArgumentMinLength` - Required. Minimum number of parameters supplied to the function. Suppling less parameters to the function will result in a #VALUE! error.
 * `NamespacePrefix` - If the function requires a prefix when saved, for example "_xlfn." or "_xlfn._xlws."
 * `HasNormalArguments` A Boolean indicating if the formula only has normal arguments. If false, the `GetParameterInfo` method must be implemented. The default is true.
 * `ReturnsReference` - If true the function can return a reference to a range. Use the `CreateAddressResult` to return the result with a reference. Returning a reference will cause the dependency chain to check the address and will allow the colon operator to be used with the function.

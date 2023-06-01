@@ -24,19 +24,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the bond-equivalent yield for a treasury bill")]
     internal class Tbilleq : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var discount = ArgToDecimal(arguments, 2);
-            if (settlementDate >= maturityDate) return CreateResult(eErrorType.Num);
-            if (discount <= 0d) return CreateResult(eErrorType.Num);
+            if (settlementDate >= maturityDate) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (discount <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);
             var finDays = FinancialDaysFactory.Create(DayCountBasis.Actual_360);
             var nDaysInPeriod = finDays.GetDaysBetweenDates(settlementDate, maturityDate);
             if(nDaysInPeriod > 366)
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             else if(nDaysInPeriod > 182)
             {

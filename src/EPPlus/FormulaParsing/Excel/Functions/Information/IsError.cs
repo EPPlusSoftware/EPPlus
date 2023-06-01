@@ -29,13 +29,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     internal class IsError : ErrorHandlingFunction
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments == null || arguments.Count() == 0)
-            {
-                return CreateResult(false, DataType.Boolean);
-            }
             foreach (var argument in arguments)
             {
                 if (argument.Value is IRangeInfo)
@@ -60,6 +56,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         public override CompileResult HandleError(string errorCode)
         {
             return CreateResult(true, DataType.Boolean);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

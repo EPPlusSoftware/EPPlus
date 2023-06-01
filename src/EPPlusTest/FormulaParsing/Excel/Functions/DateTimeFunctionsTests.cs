@@ -191,10 +191,10 @@ namespace EPPlusTest.Excel.Functions
         }
 
         [TestMethod]
-        public void TimeShouldParseStringCorrectly()
+        public void TimeValueShouldParseStringCorrectly()
         {
             var expectedResult = GetTime(10, 11, 12);
-            var func = new Time();
+            var func = new TimeValue();
             var result = func.Execute(FunctionsHelper.CreateArgs("10:11:12"), _parsingContext);
             Assert.AreEqual(expectedResult, result.Result);
         }

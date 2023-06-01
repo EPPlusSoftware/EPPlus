@@ -28,12 +28,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class ToRow : ToRowColBase
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             var ignore = 0;
-            if(arguments.Count() > 1 && arguments.ElementAt(1).Value != null) 
+            if(arguments.Count > 1 && arguments[1].Value != null) 
             {
                 ignore = ArgToInt(arguments, 1);
                 if(ignore < 0 || ignore > 4)
@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
             var scanByColumn = false;
-            if (arguments.Count() > 2 && arguments.ElementAt(2).Value != null)
+            if (arguments.Count > 2 && arguments[2].Value != null)
             {
                 scanByColumn = ArgToBool(arguments, 2);
             }

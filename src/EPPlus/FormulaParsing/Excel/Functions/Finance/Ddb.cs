@@ -26,15 +26,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the depreciation of an asset for a specified period, using the double-declining balance method, or some other user-specified method")]
     internal class Ddb : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var cost = ArgToDecimal(arguments, 0);
             var salvage = ArgToDecimal(arguments, 1);
             var life = ArgToDecimal(arguments, 2);
             var period = ArgToDecimal(arguments, 3);
             var factor = 2d;
-            if(arguments.Count() >= 5)
+            if(arguments.Count >= 5)
             {
                 factor = ArgToDecimal(arguments, 4);
             }

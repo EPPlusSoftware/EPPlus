@@ -39,16 +39,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var numDate1 = ArgToDecimal(arguments, 0);
             var numDate2 = ArgToDecimal(arguments, 1);
             var dt1 = System.DateTime.FromOADate(numDate1);
             var dt2 = System.DateTime.FromOADate(numDate2);
 
             var calcType = Days360Calctype.Us;
-            if (arguments.Count() > 2)
+            if (arguments.Count > 2)
             {
                 var european = ArgToBool(arguments, 2);
                 if (european) calcType = Days360Calctype.European;

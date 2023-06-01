@@ -26,10 +26,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         Description = "Returns information about the data type of a supplied value")]
     internal class TypeFunction : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var val = arguments.ElementAt(0).Value;
+            var val = arguments[0].Value;
             if (val is bool)
                 return CreateResult(4, DataType.Integer);
             if (IsNumeric(val) || val == null)
@@ -40,7 +40,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 return CreateResult(2, DataType.Integer);
             if (val.GetType().IsArray || val is IEnumerable)
                 return CreateResult(64, DataType.Integer);
-            return new CompileResult(eErrorType.Value);
+            return CompileResult.GetErrorResult(eErrorType.Value);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

@@ -24,9 +24,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns the inverse of the Fisher transformation")]
     internal class FisherInv : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var y = ArgToDecimal(arguments, 0);
             var n = MathObj.Exp(2 * y);
             var result = (n - 1) / (n + 1);

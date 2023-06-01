@@ -25,38 +25,37 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns a reference to a range of cells that is a specified number of rows and columns from an initial supplied range")]
     internal class Offset : LookupFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
-        {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 3);
-            var arg0 = functionArguments.First();
-            var rowOffset = ArgToInt(functionArguments, 1);
-            var colOffset = ArgToInt(functionArguments, 2);
-
-            var startRange = ArgToAddress(functionArguments, 0);
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
+        {           
+            var arg0 = arguments[0];
+            var rowOffset = ArgToDecimal(arguments, 1);
+            var colOffset = ArgToDecimal(arguments, 2);
+            var startRange = ArgToAddress(arguments, 0);
             
             int width = 0, height = 0;
-            if (functionArguments.Length > 3)
+            if (arguments.Count > 3)
             {
-                height = ArgToInt(functionArguments, 3);
+                height = ArgToInt(arguments, 3);
                 if (height == 0) return new CompileResult(eErrorType.Ref);
             }
-            if (functionArguments.Length > 4)
+            if (arguments.Count > 4)
             {
-                width = ArgToInt(functionArguments, 4);
+                width = ArgToInt(arguments, 4);
                 if (width == 0) return new CompileResult(eErrorType.Ref);
             }
             var adr = arg0.Address;
             if(adr==null) return new CompileResult(eErrorType.Value);
-            var fromRow = adr.FromRow + rowOffset;
-            var fromCol = adr.FromCol + colOffset;
-            var toRow = (height != 0 ? adr.FromRow + height - 1 : adr.ToRow) + rowOffset;
-            var toCol = (width != 0 ? adr.FromCol + width - 1 : adr.ToCol) + colOffset;
+            var fromRow = adr.FromRow + (int)rowOffset;
+            var fromCol = adr.FromCol + (int)colOffset;
+            var toRow = (height != 0 ? adr.FromRow + height - 1 : adr.ToRow) + (int)rowOffset;
+            var toCol = (width != 0 ? adr.FromCol + width - 1 : adr.ToCol) + (int)colOffset;
 
             var newRange = context.ExcelDataProvider.GetRange(adr.WorksheetName, fromRow, fromCol, toRow, toCol);
             
             return CreateAddressResult(newRange, DataType.ExcelRange);
         }
+        public override int ArgumentMinLength => 3;
+
         public override bool ReturnsReference => true;
         public override bool HasNormalArguments => false;
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)

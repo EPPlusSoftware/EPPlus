@@ -25,11 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the square root of a supplied number multiplied by pi")]
     internal class SqrtPi : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
-            return CreateResult(System.Math.Sqrt(number * System.Math.PI), DataType.Decimal);
+            return CreateResult(Math.Sqrt(number * Math.PI), DataType.Decimal);
         }
     }
 }

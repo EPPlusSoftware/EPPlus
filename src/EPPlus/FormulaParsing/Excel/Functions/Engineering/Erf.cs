@@ -26,12 +26,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Returns the error function integrated between two supplied limits")]
     public class Erf : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var lowerLimit = ArgToDecimal(arguments, 0);
             var upperLimit = default(double?);
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
             {
                 upperLimit = ArgToDecimal(arguments, 1);
             }

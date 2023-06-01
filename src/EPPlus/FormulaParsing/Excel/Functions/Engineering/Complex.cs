@@ -25,16 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Converts user-supplied real and imaginary coefficients into a complex number")]
     internal class Complex : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var real = ArgToDecimal(arguments, 0);
             var img = ArgToDecimal(arguments, 1);
             var suffix = "i";
             if(arguments.Count() > 2)
             {
                 suffix = ArgToString(arguments, 2);
-                if (suffix != "i" && suffix != "j") return CreateResult(eErrorType.Value);
+                if (suffix != "i" && suffix != "j") return CompileResult.GetErrorResult(eErrorType.Value);
             }
             var result = real.ToString();
             if(img > 0)

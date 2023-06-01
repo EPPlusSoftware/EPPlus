@@ -27,13 +27,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Excludes a specified number of rows or columns from the start or end of an array")]
     internal class Drop : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             int rows, cols;
             rows = ArgToInt(arguments, 1);
-            if (arguments.Count() > 2)
+            if (arguments.Count > 2)
             {
                 cols = ArgToInt(arguments, 2);
             }

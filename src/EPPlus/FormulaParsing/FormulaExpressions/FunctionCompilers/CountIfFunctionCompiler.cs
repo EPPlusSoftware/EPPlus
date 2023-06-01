@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     var arguments = new List<FunctionArgument> { arg1 };
                     var cr = CompileResultFactory.Create(funcArg.Value);
                     BuildFunctionArguments(cr, arguments);
-                    var r = Function.Execute(arguments, Context);
+                    var r = Function.ExecuteInternal(arguments, Context);
                     result.Add(r.Result);
                 }
                 return new CompileResult(result, DataType.ExcelRange);

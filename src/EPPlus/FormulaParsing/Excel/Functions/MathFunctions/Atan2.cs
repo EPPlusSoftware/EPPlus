@@ -38,9 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var arg1 = ArgToDecimal(arguments, 0);
             var arg2 = ArgToDecimal(arguments, 1);
             // Had to switch order of the arguments to get the same result as in excel /MA

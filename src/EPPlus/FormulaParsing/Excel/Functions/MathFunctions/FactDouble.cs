@@ -24,11 +24,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the Double Factorial of a given number")]
     internal class FactDouble : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
-            if (number < 0) return CreateResult(eErrorType.NA);
+            if (number < 0) return CompileResult.GetErrorResult(eErrorType.NA);
             var downTo = number % 2 == 0 ? 2 : 1;
             var result = 1d;
             for(var x = number; x >= downTo; x-=2)

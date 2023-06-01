@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Converts a binary number to a decimal")]
     internal class Bin2Dec : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToString(arguments, 0);
             if (number.Length > 10) return CreateResult(eErrorType.Num);
             if (number.Length < 10)

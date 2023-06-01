@@ -42,9 +42,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             _argConverter = argConverter;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments, IgnoreHiddenValues).Select(x => (double)x);
             return StandardDeviation(values);
         }
@@ -62,7 +62,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 double sum = values.Sum(d => MathObj.Pow(d - avg, 2));
                 //Put it all together       
                 var div = Divide(sum, (values.Count() - 1));
-                if (div is ExcelErrorValue e) return CreateResult(e, DataType.ExcelError);
+                if (double.IsPositiveInfinity(div))
+                {
+                    return CompileResult.GetErrorResult(eErrorType.Div0);
+                }
 
                 ret = MathObj.Sqrt((double)div);
             }

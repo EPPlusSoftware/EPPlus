@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             Description = "Returns the specified quartile of a set of supplied numbers, based on percentile value 0 - 1 (exclusive) ")]
     internal class QuartileExc : PercentileExc
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 2);
             var arrArg = arguments.Take(1);
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
         }
 
-        private IEnumerable<FunctionArgument> BuildArgs(IEnumerable<FunctionArgument> arrArg, double quart)
+        private IList<FunctionArgument> BuildArgs(IEnumerable<FunctionArgument> arrArg, double quart)
         {
             var argList = new List<FunctionArgument>();
             argList.AddRange(arrArg);

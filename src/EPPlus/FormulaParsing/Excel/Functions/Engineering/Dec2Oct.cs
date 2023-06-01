@@ -27,12 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Converts a decimal number to octal")]
     internal class Dec2Oct : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToInt(arguments, 0);
             var padding = default(int?);
-            if (arguments.Count() > 1)
+            if (arguments.Count > 1)
             {
                 padding = ArgToInt(arguments, 1);
                 if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);

@@ -22,12 +22,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal abstract class SumxBase : ExcelFunction
     {
         private ParsingContext _context;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             _context = context;
-            ValidateArguments(arguments, 2);
-            var arg1 = arguments.ElementAt(0);
-            var arg2 = arguments.ElementAt(1);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
             CreateSets(arg1, arg2, out double[] set1, out double[] set2);
             if (set1.Length != set2.Length) return CreateResult(eErrorType.NA);
             var result = Calculate(set1.ToArray(), set2.ToArray());

@@ -45,9 +45,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         private readonly DateValue _dateValueFunc = new DateValue();
         private readonly TimeValue _timeValueFunc = new TimeValue();
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var val = ArgToString(arguments, 0);
             double result = 0d;
             if (string.IsNullOrEmpty(val)) return CreateResult(result, DataType.Integer);

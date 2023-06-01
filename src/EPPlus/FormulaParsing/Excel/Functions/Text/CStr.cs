@@ -20,9 +20,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
 {
     internal class CStr : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             return CreateResult(ArgToString(arguments, 0), DataType.String);
         }
     }

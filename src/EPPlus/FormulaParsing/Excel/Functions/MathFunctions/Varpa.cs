@@ -40,9 +40,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             _argConverter = argConverter;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (!arguments.Any() || arguments.Count() < 2) return CreateResult(eErrorType.Div0);
+            if (!arguments.Any() || arguments.Count < 2) return CompileResult.GetErrorResult(eErrorType.Div0);
             var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments, false);
             var result = VarMethods.VarP(values);
             return CreateResult(result, DataType.Decimal);

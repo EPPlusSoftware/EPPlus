@@ -46,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     BuildFunctionArguments(compileResult, args);     
                 }
             }
-            return Function.Execute(args, Context);
+            return Function.ExecuteInternal(args, Context);
         }
     }
 }

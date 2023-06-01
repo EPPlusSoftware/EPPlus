@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Converts a hexadecimal number to a decimal")]
     internal class Hex2Dec : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToString(arguments, 0);
             var result = TwoComplementHelper.ParseDecFromString(number, 16);
             return CreateResult(result, DataType.Integer);

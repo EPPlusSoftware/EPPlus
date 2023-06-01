@@ -26,12 +26,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Converts a binary number to hexadecimal")]
     internal class Bin2Hex : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToString(arguments, 0);
             var formatString = "X";
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
             {
                 var padding = ArgToInt(arguments, 1);
                 if (padding < 0 ^ padding > 10) return CreateResult(eErrorType.Num);

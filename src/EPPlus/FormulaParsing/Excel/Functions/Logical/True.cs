@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         Description = "Returns the logical value TRUE")]
     internal class True : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 0;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             return CreateResult(true, DataType.Boolean);
         }

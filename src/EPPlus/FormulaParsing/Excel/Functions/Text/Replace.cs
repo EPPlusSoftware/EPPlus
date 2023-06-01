@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Replaces all or part of a text string with another string (from a user supplied position)")]
     internal class Replace : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var oldText = ArgToString(arguments, 0);
             var startPos = ArgToInt(arguments, 1);
             var nCharsToReplace = ArgToInt(arguments, 2);

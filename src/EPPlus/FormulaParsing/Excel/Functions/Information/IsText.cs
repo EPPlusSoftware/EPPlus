@@ -28,14 +28,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
     {
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            if (arguments.Count() == 1 && arguments.ElementAt(0).Value != null)
+            if (arguments.Count == 1 && arguments[0].Value != null)
             {
                 return CreateResult((GetFirstValue(arguments) is string), DataType.Boolean);
             }
             return CreateResult(false, DataType.Boolean);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
        Description = "Calculates the Macauley modified duration for a security with an assumed par value of $100")]
     internal class Mduration : Duration
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             ValidateArguments(arguments, 5);
             var durationResult = base.Execute(arguments, context);

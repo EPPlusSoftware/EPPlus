@@ -25,11 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the Least Common Multiple of two or more supplied numbers")]
     internal class Lcm : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(arguments, context).Select(x => (int)x);
-            foreach (var number in numbers) if (number < 0) return CreateResult(eErrorType.Num);
+            foreach (var number in numbers) if (number < 0) return CompileResult.GetErrorResult(eErrorType.Num);
             return CreateResult(MathHelper.LeastCommonMultiple(numbers.ToArray()), DataType.Integer);
         }
     }
