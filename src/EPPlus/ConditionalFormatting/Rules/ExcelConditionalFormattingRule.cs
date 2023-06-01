@@ -7,6 +7,10 @@ using System.Xml;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Linq;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.Drawing;
+using OfficeOpenXml.Packaging;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -145,6 +149,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             _ws = ws;
 
             Address = address;
+            if(Address == null)
+            {
+                _isExtLst = true;
+            }
 
             Priority = int.Parse(xr.GetAttribute("priority"));
 
@@ -173,16 +181,39 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             xr.Read();
 
-            if (xr.LocalName == "formula")
+            if (xr.LocalName == "formula" || xr.LocalName == "f")
             {
                 Formula = xr.ReadString();
                 xr.Read();
 
-                if (xr.LocalName == "formula")
+                if (xr.LocalName == "formula" || xr.LocalName == "f")
                 {
                     Formula2 = xr.ReadString();
                     xr.Read();
                 }
+            }
+
+            if (address == null)
+            {
+                if(xr.LocalName == "dxf")
+                {
+                    ReadExtDxf(xr);
+                }
+            }
+
+            var tempAddress = "";
+            if (address == null && xr.ReadUntil("sqref", "conditionalFormatting", "extLst"))
+            {
+                tempAddress = xr.ReadString();
+                if (tempAddress == null)
+                {
+                    throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
+                }
+            }
+
+            if(!string.IsNullOrEmpty(tempAddress))
+            {
+                Address = new ExcelAddress(tempAddress);
             }
 
             if (DxfId >= 0 && DxfId < _ws.Workbook.Styles.Dxfs.Count)
@@ -192,11 +223,199 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="original"></param>
-        protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original)
+        void ReadExtDxf(XmlReader xr)
+        {
+            xr.Read();
+
+            if(xr.LocalName == "numFmt")
+            {
+                Style.NumberFormat.NumFmtID = int.Parse(xr.GetAttribute("numFmtId"));
+                Style.NumberFormat.Format = xr.GetAttribute("formatCode");
+                xr.Read();
+            }
+
+            if (xr.LocalName == "font")
+            {
+                xr.Read();
+                if(xr.LocalName == "b")
+                {
+                    Style.Font.Bold = ParseXMlBoolValue(xr);
+                    xr.Read();
+                }
+
+                if(xr.LocalName == "i")
+                {
+                    Style.Font.Italic = ParseXMlBoolValue(xr);
+                    xr.Read();
+                }
+
+                if(xr.LocalName == "strike")
+                {
+                    Style.Font.Strike = ParseXMlBoolValue(xr);
+                    xr.Read();
+                }
+
+                if(xr.LocalName == "u")
+                {
+                    if(xr.GetAttribute("val") == "double")
+                    {
+                        Style.Font.Underline = ExcelUnderLineType.Double;
+                    }
+                    else
+                    {
+                        Style.Font.Underline = ExcelUnderLineType.Single;
+                    }
+                    xr.Read();
+                }
+
+                if(xr.LocalName == "color")
+                {
+                    ParseBorderColor(Style.Font.Color, xr);
+                }
+            }
+
+            //if (format.Style.HasValue)
+            //{
+            //    cache.Append($"<{prefix}dxf>");
+
+            //    if (format.Style.NumberFormat.HasValue)
+            //    {
+            //        cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
+            //            $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+            //    }
+
+            //    if (format.Style.Font.HasValue)
+            //    {
+            //        cache.Append($"<font>");
+
+            //        if (format.Style.Font.Bold == true)
+            //        {
+            //            cache.Append($"<b/>");
+            //        }
+
+            //        if (format.Style.Font.Italic == true)
+            //        {
+            //            if (format.Style.Font.Bold == false || format.Style.Font.Bold == null)
+            //            {
+            //                cache.Append("<b val =\"0\"/>");
+            //            }
+            //            cache.Append($"<i/>");
+            //        }
+
+            //        if (format.Style.Font.Bold == false && format.Style.Font.Italic == false)
+            //        {
+            //            cache.Append("<b val =\"0\"/>");
+            //            cache.Append("<i val =\"0\"/>");
+            //        }
+
+            //        if (format.Style.Font.Strike == true)
+            //        {
+            //            cache.Append($"<strike/>");
+
+            //        }
+
+            //        if (format.Style.Font.Underline.HasValue == true)
+            //        {
+            //            cache.Append($"<u");
+            //            if (format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
+            //            {
+            //                cache.Append(" val=\"double\"");
+            //            }
+            //            cache.Append($"/>");
+            //        }
+
+            //        if (format.Style.Font.Color.HasValue == true)
+            //        {
+            //            cache.Append("<color");
+            //            if (format.Style.Font.Color.Theme != null)
+            //            {
+            //                cache.Append($"theme=\"{(int)format.Style.Font.Color.Theme}\"");
+            //            }
+            //            else
+            //            {
+            //                Color color = (Color)format.Style.Font.Color.Color;
+            //                cache.Append($"rgb=\"" +
+            //                    $"{(color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"");
+
+            //            }
+            //            cache.Append("/>");
+            //        }
+
+            //        cache.Append($"</font>");
+            //    }
+
+            if (xr.Name == "border")
+            {
+                do
+                {
+                    xr.Read();
+                    var name = xr.Name;
+
+                    if (name == "left")
+                    {
+                        Style.Border.Left.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
+                        ParseBorderColor(Style.Border.Left.Color, xr);
+                    }
+                    if (name == "right")
+                    {
+                        Style.Border.Right.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
+                        ParseBorderColor(Style.Border.Right.Color, xr);
+                    }
+                    if (name == "top")
+                    {
+                        Style.Border.Top.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
+                        ParseBorderColor(Style.Border.Top.Color, xr);
+                    }
+                    if (name == "bottom")
+                    {
+                        Style.Border.Bottom.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
+                        ParseBorderColor(Style.Border.Bottom.Color, xr);
+                    }
+
+                } while (xr.Name != "border" || xr.Name != "None");
+            }
+        }
+
+        void ParseBorderColor(ExcelDxfColor col, XmlReader xr)
+        {
+            xr.Read();
+            if (xr.Name == "color")
+            {
+                if (xr.GetAttribute("theme") != null)
+                {
+                    col.Theme = xr.GetAttribute("theme")
+                        .ToEnum<Drawing.eThemeSchemeColor>();
+                }
+                else if (xr.GetAttribute("rgb") != null)
+                {
+                    col.Color = ExcelConditionalFormattingHelper.
+                        ConvertFromColorCode(xr.GetAttribute("rgb"));
+                }
+                else if (xr.GetAttribute("auto") != null)
+                {
+                    col.Auto = xr.GetAttribute("auto") == "1" ? true : false;
+                }
+            }
+        }
+
+        bool ParseXMlBoolValue(XmlReader xr)
+        {
+            string val = xr.GetAttribute("val");
+            if (!string.IsNullOrEmpty(val) && val != "1")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="original"></param>
+            protected ExcelConditionalFormattingRule(ExcelConditionalFormattingRule original)
         {
             _ws = original._ws;
             Rank = original.Rank;

@@ -52,11 +52,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                         throw new InvalidOperationException("XML invalid. cfRule without Id found");
                     }
 
-                    //cfRule->Type
-                    xr.Read();
-
                     if(xr.LocalName == "dataBar")
                     {
+                        //cfRule->Type
+                        xr.Read();
+
                         var dataBar = (ExcelConditionalFormattingDataBar)_extLstDict[id];
                         dataBar.LowValue.minLength = int.Parse(xr.GetAttribute("minLength"));
                         dataBar.HighValue.maxLength = int.Parse(xr.GetAttribute("maxLength"));
@@ -148,6 +148,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                     }
                     else if(xr.LocalName == "iconSet")
                     {
+                        //cfRule->Type
+                        xr.Read();
+
                         string iconSet = xr.GetAttribute("iconSet");
 
                         int numIcons = int.Parse(iconSet[0].ToString());
@@ -243,8 +246,54 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 break;
                         }
                     }
+                    else
+                    {
+
+                        var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
+                        //string type = xr.GetAttribute("type");
+                        //string op = xr.GetAttribute("operator");
+                        //var priority = xr.GetAttribute("priority");
+
+                        ///*nt numIcons = int.Parse(iconSet[0].ToString());*/
+
+                        ////cfRule -> xm:f
+                        //xr.Read();
+                        //xr.Read();
+
+                        //var formula1 = xr.ReadContentAsString();
+
+                        //xr.Read();
+
+                        //string formula2 = "";
+                        //if (xr.Name == "xm:f")
+                        //{
+                        //    xr.Read();
+                        //    formula2 = xr.ReadContentAsString();
+                        //    xr.Read();
+                        //}
+
+                        ////if(xr.LocalName == "")
+
+                        //if(xr.LocalName == "dxf")
+                        //{
+                        //    xr.ReadUntil("sqref", "conditionalFormatting", "ext", "worksheet");
+                        //}
+
+                        //string address = "";
+                        //if(xr.LocalName == "sqref")
+                        //{
+                        //    xr.Read();
+                        //    address = xr.ReadContentAsString();
+                        //    xr.Read();
+                        //}
+                    }
                 }
             }
+        }
+
+        void ReadExtDxf(XmlReader xr)
+        {
+
         }
 
         void ApplyIconSetExtValues(

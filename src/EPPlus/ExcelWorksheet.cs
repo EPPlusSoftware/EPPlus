@@ -2528,8 +2528,6 @@ namespace OfficeOpenXml
             SaveXml(stream);
         }
 
-
-
         /// <summary>
         /// Delete the printersettings relationship and part.
         /// </summary>

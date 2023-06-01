@@ -1950,7 +1950,7 @@ namespace EPPlusTest.ConditionalFormatting
                 equal.Formula = "formulasReference!$B$5";
                 equal.Style.Fill.BackgroundColor.Color = Color.Blue;
                 equal.Style.Font.Italic = true;
-                equal.Style.Font.Bold = true;
+                equal.Style.Font.Bold = false;
 
                 var equal2 = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("C1:C5"));
                 equal2.Formula = "formulasReference!$B$1";
