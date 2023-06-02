@@ -1997,6 +1997,15 @@ namespace EPPlusTest.ConditionalFormatting
                 var formatting = sheet2.ConditionalFormatting[0];
 
                 Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thick, formatting.Style.Border.Left.Style);
+                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thin, formatting.Style.Border.Right.Style);
+                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Dotted, formatting.Style.Border.Top.Style);
+                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Dashed, formatting.Style.Border.Bottom.Style);
+                Assert.AreEqual("YYYY", formatting.Style.NumberFormat.Format);
+
+                var formatting2 = sheet2.ConditionalFormatting[1];
+
+                Assert.AreEqual("formulasReference!$B$1", formatting2.Formula);
+                Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thin, formatting2.Style.Border.Right.Style);
             }
         }
     }

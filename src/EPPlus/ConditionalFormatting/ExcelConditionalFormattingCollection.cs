@@ -248,44 +248,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                     }
                     else
                     {
-
                         var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
-                        //string type = xr.GetAttribute("type");
-                        //string op = xr.GetAttribute("operator");
-                        //var priority = xr.GetAttribute("priority");
-
-                        ///*nt numIcons = int.Parse(iconSet[0].ToString());*/
-
-                        ////cfRule -> xm:f
-                        //xr.Read();
-                        //xr.Read();
-
-                        //var formula1 = xr.ReadContentAsString();
-
-                        //xr.Read();
-
-                        //string formula2 = "";
-                        //if (xr.Name == "xm:f")
-                        //{
-                        //    xr.Read();
-                        //    formula2 = xr.ReadContentAsString();
-                        //    xr.Read();
-                        //}
-
-                        ////if(xr.LocalName == "")
-
-                        //if(xr.LocalName == "dxf")
-                        //{
-                        //    xr.ReadUntil("sqref", "conditionalFormatting", "ext", "worksheet");
-                        //}
-
-                        //string address = "";
-                        //if(xr.LocalName == "sqref")
-                        //{
-                        //    xr.Read();
-                        //    address = xr.ReadContentAsString();
-                        //    xr.Read();
-                        //}
+                        _rules.Add(cf);
+                        _extLstDict.Add(cf.Uid, cf);
                     }
                 }
             }

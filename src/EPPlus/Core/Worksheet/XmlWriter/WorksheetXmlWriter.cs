@@ -1253,15 +1253,15 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 {
                                     if(format.Style.Font.Bold == false || format.Style.Font.Bold == null)
                                     {
-                                        cache.Append("<b val =\"0\"/>");
+                                        cache.Append("<b val=\"0\"/>");
                                     }
                                     cache.Append($"<i/>");
                                 }
 
                                 if(format.Style.Font.Bold == false && format.Style.Font.Italic == false)
                                 {
-                                    cache.Append("<b val =\"0\"/>");
-                                    cache.Append("<i val =\"0\"/>");
+                                    cache.Append("<b val=\"0\"/>");
+                                    cache.Append("<i val=\"0\"/>");
                                 }
 
                                 if (format.Style.Font.Strike == true)

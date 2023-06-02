@@ -227,13 +227,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             xr.Read();
 
-            if(xr.LocalName == "numFmt")
-            {
-                Style.NumberFormat.NumFmtID = int.Parse(xr.GetAttribute("numFmtId"));
-                Style.NumberFormat.Format = xr.GetAttribute("formatCode");
-                xr.Read();
-            }
-
             if (xr.LocalName == "font")
             {
                 xr.Read();
@@ -270,79 +263,63 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 if(xr.LocalName == "color")
                 {
-                    ParseBorderColor(Style.Font.Color, xr);
+                    ParseColor(Style.Font.Color, xr);
                 }
             }
 
-            //if (format.Style.HasValue)
-            //{
-            //    cache.Append($"<{prefix}dxf>");
 
-            //    if (format.Style.NumberFormat.HasValue)
-            //    {
-            //        cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
-            //            $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
-            //    }
+            if (xr.LocalName == "numFmt")
+            {
+                Style.NumberFormat.NumFmtID = int.Parse(xr.GetAttribute("numFmtId"));
+                Style.NumberFormat.Format = xr.GetAttribute("formatCode");
+                xr.Read();
+            }
 
-            //    if (format.Style.Font.HasValue)
-            //    {
-            //        cache.Append($"<font>");
+            if (xr.LocalName == "fill")
+            {
+                xr.Read();
+                if (xr.LocalName == "patternFill")
+                {
+                    Style.Fill.Style = eDxfFillStyle.PatternFill;
+                    string type = xr.GetAttribute("patternType");
+                    Style.Fill.PatternType = string.IsNullOrEmpty(type) ?
+                        ExcelFillStyle.None : type.ToEnum<ExcelFillStyle>();
+                    xr.Read();
 
-            //        if (format.Style.Font.Bold == true)
-            //        {
-            //            cache.Append($"<b/>");
-            //        }
+                    if (xr.LocalName == "fgColor")
+                    {
+                        ParseColor(Style.Fill.PatternColor, xr);
+                        xr.Read();
+                    }
 
-            //        if (format.Style.Font.Italic == true)
-            //        {
-            //            if (format.Style.Font.Bold == false || format.Style.Font.Bold == null)
-            //            {
-            //                cache.Append("<b val =\"0\"/>");
-            //            }
-            //            cache.Append($"<i/>");
-            //        }
+                    if (xr.LocalName == "bgColor")
+                    {
+                        ParseColor(Style.Fill.BackgroundColor, xr);
 
-            //        if (format.Style.Font.Bold == false && format.Style.Font.Italic == false)
-            //        {
-            //            cache.Append("<b val =\"0\"/>");
-            //            cache.Append("<i val =\"0\"/>");
-            //        }
+                        if(!string.IsNullOrEmpty(xr.GetAttribute("tint")))
+                        {
+                            Style.Fill.BackgroundColor.Tint = double.Parse(xr.GetAttribute("tint"));
+                        }
+                        
+                        xr.Read();
+                    }
+                }
+                else
+                {
+                    Style.Fill.Style = eDxfFillStyle.GradientFill;
+                    string degree = xr.GetAttribute("degree");
+                    Style.Fill.Gradient.Degree = string.IsNullOrEmpty(degree) ?
+                        null : (double?)double.Parse(degree);
 
-            //        if (format.Style.Font.Strike == true)
-            //        {
-            //            cache.Append($"<strike/>");
+                    xr.Read();
+                    ParseColor(Style.Fill.Gradient.Colors.Add(0).Color, xr);
+                    xr.Read();
 
-            //        }
-
-            //        if (format.Style.Font.Underline.HasValue == true)
-            //        {
-            //            cache.Append($"<u");
-            //            if (format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
-            //            {
-            //                cache.Append(" val=\"double\"");
-            //            }
-            //            cache.Append($"/>");
-            //        }
-
-            //        if (format.Style.Font.Color.HasValue == true)
-            //        {
-            //            cache.Append("<color");
-            //            if (format.Style.Font.Color.Theme != null)
-            //            {
-            //                cache.Append($"theme=\"{(int)format.Style.Font.Color.Theme}\"");
-            //            }
-            //            else
-            //            {
-            //                Color color = (Color)format.Style.Font.Color.Color;
-            //                cache.Append($"rgb=\"" +
-            //                    $"{(color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"");
-
-            //            }
-            //            cache.Append("/>");
-            //        }
-
-            //        cache.Append($"</font>");
-            //    }
+                    xr.Read();
+                    ParseColor(Style.Fill.Gradient.Colors.Add(1).Color, xr);
+                    xr.Read();
+                }
+            }
 
             if (xr.Name == "border")
             {
@@ -354,32 +331,32 @@ namespace OfficeOpenXml.ConditionalFormatting
                     if (name == "left")
                     {
                         Style.Border.Left.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
-                        ParseBorderColor(Style.Border.Left.Color, xr);
+                        ParseColor(Style.Border.Left.Color, xr);
                     }
                     if (name == "right")
                     {
                         Style.Border.Right.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
-                        ParseBorderColor(Style.Border.Right.Color, xr);
+                        ParseColor(Style.Border.Right.Color, xr);
                     }
                     if (name == "top")
                     {
                         Style.Border.Top.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
-                        ParseBorderColor(Style.Border.Top.Color, xr);
+                        ParseColor(Style.Border.Top.Color, xr);
                     }
                     if (name == "bottom")
                     {
                         Style.Border.Bottom.Style = xr.GetAttribute("style").ToEnum<ExcelBorderStyle>();
-                        ParseBorderColor(Style.Border.Bottom.Color, xr);
+                        ParseColor(Style.Border.Bottom.Color, xr);
                     }
 
-                } while (xr.Name != "border" || xr.Name != "None");
+                } while (xr.Name != "border");
             }
         }
 
-        void ParseBorderColor(ExcelDxfColor col, XmlReader xr)
+        void ParseColor(ExcelDxfColor col, XmlReader xr)
         {
             xr.Read();
-            if (xr.Name == "color")
+            if (xr.Name == "color" || xr.Name == "bgColor" || xr.Name == "fgColor")
             {
                 if (xr.GetAttribute("theme") != null)
                 {
