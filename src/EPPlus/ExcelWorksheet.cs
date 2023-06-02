@@ -1626,7 +1626,7 @@ namespace OfficeOpenXml
                             string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                             if (formula != "")
                             {
-                                _sharedFormulas.Add(sfIndex, new SharedFormula(this, fAddress, formula) { Index = sfIndex, FormulaType=FormulaType.Shared });
+                                _sharedFormulas.Add(sfIndex, new SharedFormula(this, row, col, fAddress, formula) { Index = sfIndex, FormulaType=FormulaType.Shared });
                             }
                         }
                         else
@@ -1644,7 +1644,7 @@ namespace OfficeOpenXml
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
 
-                        _sharedFormulas.Add(afIndex, new SharedFormula(this, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });
+                        _sharedFormulas.Add(afIndex, new SharedFormula(this, row, col, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });
                     }
                     else if (t=="dataTable") 
                     {
@@ -1657,7 +1657,7 @@ namespace OfficeOpenXml
                         var r2 = xr.GetAttribute("r2") ?? "";
                         var formula = xr.ReadElementContentAsString();
 
-                        var f = new SharedFormula(this, refAddress, formula)
+                        var f = new SharedFormula(this, row, col, refAddress, formula)
                         {
                             Index = afIndex,
                             StartRow = address._fromRow,

@@ -83,11 +83,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         public SharedFormula(ExcelWorksheet ws) : base(ws)
         {
         }
-        public SharedFormula(ExcelWorksheet ws, string address, string formula) : base(ws)
+        public SharedFormula(ExcelWorksheet ws, int row, int col, string address, string formula) : base(ws)
         {
             _ws = ws;
             Formula = formula;
             ExcelCellBase.GetRowColFromAddress(address, out StartRow, out StartCol, out EndRow, out EndCol);
+            StartRow = row;
+            StartCol = col;
         }
         public SharedFormula(ExcelRangeBase range) : base(range.Worksheet, range._fromRow, range._fromCol)
         {

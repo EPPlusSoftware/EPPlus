@@ -95,6 +95,7 @@ namespace EPPlusTest.FormulaParsing
                 try
                 {
                     p.Workbook.Calculate();
+                    //p.Workbook.Worksheets["T SMP"].Cells["M73"].Calculate();    
                     //p.Workbook.Worksheets["Holdings"].Cells["D210"].Calculate();
                     //p.Workbook.Worksheets["MISC"].Cells["M2"].Calculate();
                     //p.Workbook.Names["SizePort"].Calculate();
