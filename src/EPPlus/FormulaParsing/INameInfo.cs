@@ -20,11 +20,10 @@ namespace OfficeOpenXml.FormulaParsing
 {
     public interface INameInfo
     {
-        ulong Id { get; set; }
-        int wsIx { get; set; }
-        string Name { get; set; }
-        string Formula { get; set; }
-        IList<Token> Tokens { get; }
-        object Value { get; set; }
+        ulong Id { get;  }
+        int wsIx { get; }
+        string Name { get; }
+        string Formula { get;  }
+        object Value { get; }
     }
 }

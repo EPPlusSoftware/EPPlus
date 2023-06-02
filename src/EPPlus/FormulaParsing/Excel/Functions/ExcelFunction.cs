@@ -209,9 +209,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                     return true;
                 }, "Expecting at least {0} arguments", minLength.ToString());
         }
-        protected string ArgToAddress(IEnumerable<FunctionArgument> arguments, int index)
+        protected string ArgToAddress(IList<FunctionArgument> arguments, int index)
         {
-            var arg = arguments.ElementAt(index);
+            var arg = arguments[index];
 
             if (arg.Address != null)
             {
@@ -239,9 +239,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="index"></param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IEnumerable<FunctionArgument> arguments, int index)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index)
         {
-            var arg = arguments.ElementAt(index);
+            var arg = arguments[index];
             switch (arg.DataType)
             {
                 case DataType.ExcelError:
@@ -262,9 +262,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="ignoreErrors">If true an Excel error in the cell will be ignored</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IEnumerable<FunctionArgument> arguments, int index, bool ignoreErrors)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index, bool ignoreErrors)
         {
-            var arg = arguments.ElementAt(index);
+            var arg = arguments[index];
             if (arg.ValueIsExcelError && !ignoreErrors)
             {
                 throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue.Type);
@@ -285,9 +285,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="roundingMethod"></param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected int ArgToInt(IEnumerable<FunctionArgument> arguments, int index, RoundingMethod roundingMethod)
+        protected int ArgToInt(IList<FunctionArgument> arguments, int index, RoundingMethod roundingMethod)
         {
-            var arg = arguments.ElementAt(index);
+            var arg = arguments[index];
             switch (arg.DataType)
             {
                 case DataType.ExcelError:
@@ -307,9 +307,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <returns>Value of the argument as a string.</returns>
-        protected string ArgToString(IEnumerable<FunctionArgument> arguments, int index)
+        protected string ArgToString(IList<FunctionArgument> arguments, int index)
         {
-            var obj = arguments.ElementAt(index).ValueFirst;
+            var obj = arguments[index].ValueFirst;
             return obj != null ? obj.ToString() : string.Empty;
         }
 
@@ -349,13 +349,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="precisionAndRoundingStrategy">strategy for handling precision and rounding of double values</param>
         /// <returns>Value of the argument as an integer.</returns>
         /// <exception cref="ExcelErrorValueException"></exception>
-        protected double ArgToDecimal(IEnumerable<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet)
+        protected double ArgToDecimal(IList<FunctionArgument> arguments, int index, PrecisionAndRoundingStrategy precisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet)
         {
-            var arg = arguments.ElementAt(index);
+            var arg = arguments[index];
             switch (arg.DataType)
             {
                 case DataType.ExcelError:
-                    return double.NaN;
+                    throw new ExcelErrorValueException(arg.ValueAsExcelErrorValue);
                 case DataType.Empty:
                     return 0D;
                 default:
@@ -368,9 +368,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         /// <param name="arguments"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        protected IRangeInfo ArgToRangeInfo(IEnumerable<FunctionArgument> arguments, int index)
+        protected IRangeInfo ArgToRangeInfo(IList<FunctionArgument> arguments, int index)
         {
-            return arguments.ElementAt(index).Value as IRangeInfo;
+            return arguments[index].Value as IRangeInfo;
         }
 
         protected double Divide(double left, double right)

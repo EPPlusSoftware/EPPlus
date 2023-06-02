@@ -45,7 +45,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return _expressionEvaluator.Evaluate(obj, expression);
         }
 
-        private string GetCriteraFromArg(IEnumerable<FunctionArgument> arguments)
+        private string GetCriteraFromArg(IList<FunctionArgument> arguments)
         {
             return arguments.ElementAt(1).ValueFirst != null ? ArgToString(arguments, 1) : null;
         }

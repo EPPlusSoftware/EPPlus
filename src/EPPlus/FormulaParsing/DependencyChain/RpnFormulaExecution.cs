@@ -477,13 +477,13 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if (f._ws == null)
                 {
-                    depChain._parsingContext.Package.Workbook.Names[f._row].Value = cr.ResultValue;
+                    depChain._parsingContext.Package.Workbook.Names[f._row].NameValue = cr.ResultValue;
                 }
                 else
                 {
                     if (f._column == 0)
                     {
-                        f._ws.Names[f._row].Value = cr.ResultValue;
+                        f._ws.Names[f._row].NameValue = cr.ResultValue;
                     }
                     else
                     {

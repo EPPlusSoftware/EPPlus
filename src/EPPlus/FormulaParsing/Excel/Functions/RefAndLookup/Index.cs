@@ -29,9 +29,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns a reference to a cell (or range of cells) for requested rows and columns within a supplied range")]
     internal class Index : ExcelFunction
     {
+        public override int ArgumentMinLength => 2;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var arg1 = arguments[0];
             var row = ArgToInt(arguments, 1, RoundingMethod.Floor);
             var col = arguments.Count > 2 ? ArgToInt(arguments, 2, RoundingMethod.Floor) : 1;
@@ -70,7 +70,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
         }
-        public override int ArgumentMinLength => 2;
         private static IRangeInfo GetResultRange(int row, int col, IRangeInfo ri)
         {
 

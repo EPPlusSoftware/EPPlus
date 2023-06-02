@@ -29,7 +29,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments[0] }, context);
             var result = default(FinanceCalcResult<double>);
             if(arguments.Count == 1)

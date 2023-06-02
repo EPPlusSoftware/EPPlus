@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 }
                 return new CompileResult(result, DataType.ExcelRange);
             }
-            return Function.Execute(args, Context);
+            return Function.ExecuteInternal(args, Context);
         }
     }
 }

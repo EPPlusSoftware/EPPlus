@@ -27,7 +27,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 5);
             var durationResult = base.Execute(arguments, context);
             if (durationResult.DataType == DataType.ExcelError) return durationResult;
             var dur = durationResult.ResultNumeric;
