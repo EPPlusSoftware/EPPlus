@@ -52,7 +52,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         throw new InvalidOperationException("XML invalid. cfRule without Id found");
                     }
 
-                    if(xr.LocalName == "dataBar")
+                    if(xr.GetAttribute("type") == "dataBar")
                     {
                         //cfRule->Type
                         xr.Read();
@@ -146,7 +146,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         xr.Read();
 
                     }
-                    else if(xr.LocalName == "iconSet")
+                    else if(xr.GetAttribute("type") == "iconSet")
                     {
                         //cfRule->Type
                         xr.Read();
