@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using System.Text;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -129,6 +131,42 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 _endPos = _endPos
             };
         }
+
+        internal string GetExpressionKey(RpnFormula f)
+        {
+            var key = new StringBuilder();
+            for (int i=_startPos;i<_endPos;i++)
+            {
+                if (f._expressions.TryGetValue(i, out Expression e ))
+                {
+                    if(e.ExpressionType==ExpressionType.Function)
+                    {
+                        var fe = (FunctionExpression)e;
+                        if (fe._function != null && fe._function.IsVolatile) return null;
+                        key.Append(f._tokens[i].Value);
+                    }
+                    else
+                    {
+                        var fa = e.GetAddress();
+                        if(fa==null)
+                        {
+                            key.Append(f._tokens[i].Value);
+                        }
+                        else
+                        {
+                            var adr = ExcelCellBase.GetAddress(fa.FromRow, fa.FromCol, fa.ToRow, fa.ToCol);
+                            key.Append(adr);
+                        }
+                    }
+                }
+                else
+                {
+                    key.Append(f._tokens[i].Value);
+                }
+            }
+            return key.ToString();
+        }
+
         private ExpressionStatus _status= ExpressionStatus.NoSet;
         internal override ExpressionStatus Status
         {

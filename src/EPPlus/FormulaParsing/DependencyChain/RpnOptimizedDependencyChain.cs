@@ -22,6 +22,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal FunctionCompilerFactory _functionCompilerFactory;
         internal List<int> _startOfChain = new List<int>();
         internal bool HasDynamicArrayFormula=false;
+        internal Dictionary<int, Dictionary<string, CompileResult>> _expressionCache = new Dictionary<int, Dictionary<string, CompileResult>>();
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             _tokenizer = SourceCodeTokenizer.Default;
@@ -37,6 +38,7 @@ namespace OfficeOpenXml.FormulaParsing
             wb.FormulaParser.Configure(config =>
             {
                 config.AllowCircularReferences = options.AllowCircularReferences;
+                config.CacheExpressions = options.CacheExpressions;
                 config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
             });
 
@@ -87,6 +89,18 @@ namespace OfficeOpenXml.FormulaParsing
         internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
         {
             return RpnFormulaExecution.Execute(ws, options);
+        }
+
+        internal Dictionary<string, CompileResult> GetCache(ExcelWorksheet ws)
+        {
+            var ix = ws == null ? -1 : ws.IndexInList;
+
+            if(!_expressionCache.TryGetValue(ix, out Dictionary<string, CompileResult> cache))
+            {
+                cache = new Dictionary<string, CompileResult>();
+                _expressionCache.Add(ix, cache);
+            }
+            return cache;
         }
 
         //Adds the position where a chain of formulas start.

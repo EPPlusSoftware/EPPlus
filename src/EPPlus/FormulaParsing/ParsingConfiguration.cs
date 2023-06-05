@@ -32,6 +32,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// Configures the formula calc engine to allow circular references.
         /// </summary>
         public bool AllowCircularReferences { get; internal set; }
+        public bool CacheExpressions { get; internal set; }
         /// <summary>
         /// In some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.
         /// </summary>

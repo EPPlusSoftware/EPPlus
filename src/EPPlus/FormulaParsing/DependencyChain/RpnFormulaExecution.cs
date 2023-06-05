@@ -12,6 +12,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
 
@@ -20,8 +21,10 @@ namespace OfficeOpenXml.FormulaParsing
     internal class RpnFormulaExecution
     {
         internal static ArgumentParser _boolArgumentParser = new BoolArgumentParser();
+        internal static bool _cacheExpressions = true;
         internal static RpnOptimizedDependencyChain Execute(ExcelWorkbook wb, ExcelCalculationOption options)
         {
+            _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(wb, options);
             foreach (var ws in wb.Worksheets)
             {
@@ -37,8 +40,8 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
         {
+            _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
-
             ExecuteChain(depChain, ws.Cells, options);
             ExecuteChain(depChain, ws.Names, options);
 
@@ -46,6 +49,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelRangeBase cells, ExcelCalculationOption options)
         {
+            _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(cells._workbook, options);
 
             if (cells is ExcelNamedRange name)
@@ -61,11 +65,13 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static object ExecuteFormula(ExcelWorksheet ws, string formula, ExcelCalculationOption options)
         {
+            _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
             return ExecuteChain(depChain, ws, formula, options);
         }
         internal static object ExecuteFormula(ExcelWorkbook wb, string formula, FormulaCellAddress cell, ExcelCalculationOption options)
         {
+            _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(wb, options);
             ExcelWorksheet ws;
             if (cell.WorksheetIx < 0 || cell.WorksheetIx >= wb.Worksheets.Count)
@@ -80,6 +86,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         internal static object ExecuteFormula(ExcelWorkbook wb, string formula, ExcelCalculationOption options)
         {
+            _cacheExpressions = options.CacheExpressions;
             var depChain = new RpnOptimizedDependencyChain(wb, options);
 
             return ExecuteChain(depChain, null, formula, options);
@@ -765,7 +772,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.Function:
-                        var r = ExecFunc(depChain, t, f);
+                        var r = ExecFunc(depChain, f);
                         if(r.DataType==DataType.ExcelRange && returnAddresses)
                         {
                             if ((f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && r.Address!=null)
@@ -879,11 +886,15 @@ namespace OfficeOpenXml.FormulaParsing
             return f._tokenIndex;
         }
 
+#if (!NET35)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         private static void ApplyOperator(ParsingContext context, Token opToken, RpnFormula f)
         {
             var v1 = f._expressionStack.Pop();
             var v2 = f._expressionStack.Pop();
 
+            
             var c1 = v1.Compile();
             var c2 = v2.Compile();
 
@@ -893,16 +904,36 @@ namespace OfficeOpenXml.FormulaParsing
                 PushResult(context, f, result);
             }
         }
-
-        private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, Token t, RpnFormula f)
+#if (!NET35)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private static CompileResult ExecFunc(RpnOptimizedDependencyChain depChain, RpnFormula f)
         {
             var funcExp = f._funcStack.Pop();
             CompileResult result;
             try
             {
-                var args = GetFunctionArguments(f, funcExp);
-                funcExp.SetArguments(args);
-                result = funcExp.Compile();
+                if (_cacheExpressions)
+                {
+                    var cache = depChain.GetCache(f._ws);
+                    var key = funcExp.GetExpressionKey(f);
+                    if (string.IsNullOrEmpty(key) || !cache.TryGetValue(key, out result))
+                    {
+                        var args = GetFunctionArguments(f, funcExp);
+                        funcExp.SetArguments(args);
+                        result = funcExp.Compile();
+                        if (!string.IsNullOrEmpty(key))
+                        {
+                            cache.Add(key, result);
+                        }
+                    }
+                }
+                else
+                {
+                    var args = GetFunctionArguments(f, funcExp);
+                    funcExp.SetArguments(args);
+                    result = funcExp.Compile();
+                }
                 PushResult(depChain._parsingContext, f, result);
             }
             catch(ExcelErrorValueException e)

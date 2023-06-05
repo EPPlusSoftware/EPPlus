@@ -66,5 +66,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             return FunctionParameterInformation.Normal;
         }
+        public override bool IsVolatile => true; 
     }
 }

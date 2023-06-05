@@ -79,6 +79,12 @@ namespace OfficeOpenXml.FormulaParsing
         /// Do not throw an exception if the formula parser encounters a circular reference
         /// </summary>
         public bool AllowCircularReferences { get; set; }
+        /// <summary>
+        /// Expressions in the formula calculation will be cached, to be resused. 
+        /// This increases speed, if having multiple formulas using the same expressions. 
+        /// Canching increases memory consumtion on calculate.
+        /// </summary>
+        public bool CacheExpressions { get; set; } = true;
 
         /// <summary>
         /// In some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.
