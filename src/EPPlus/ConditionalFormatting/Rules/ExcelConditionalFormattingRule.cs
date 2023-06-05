@@ -326,6 +326,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 do
                 {
                     xr.Read();
+
                     var name = xr.Name;
 
                     if (name == "left")
@@ -372,6 +373,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 {
                     col.Auto = xr.GetAttribute("auto") == "1" ? true : false;
                 }
+                xr.Read();
             }
         }
 

@@ -2008,5 +2008,38 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(OfficeOpenXml.Style.ExcelBorderStyle.Thin, formatting2.Style.Border.Right.Style);
             }
         }
+
+        [TestMethod]
+        public void EnsureExtLstDXFBorderColorsReadWrite()
+        {
+            using (var pck = OpenPackage("ExtLstBordersDXFColor.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
+
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "formulasReference!$B$5";
+                equal.Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thick;
+                equal.Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                equal.Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dotted;
+                equal.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
+
+                equal.Style.Border.Left.Color.Color = Color.Coral;
+                equal.Style.Border.Top.Color.Theme = OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3;
+                equal.Style.Border.Bottom.Color.Auto = true;
+
+                SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("ExtLstBordersDXFColor.xlsx");
+
+                var readSheet = readPackage.Workbook.Worksheets[0];
+                var formatting = readSheet.ConditionalFormatting[0];
+
+                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(0,Color.Coral.R,Color.Coral.G,Color.Coral.B));
+                Assert.AreEqual(formatting.Style.Border.Right.Color.HasValue, false);
+                Assert.AreEqual(formatting.Style.Border.Top.Color.Theme, OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3);
+                Assert.AreEqual(formatting.Style.Border.Bottom.Color.Auto, true);
+            }
+        }
     }
 }
