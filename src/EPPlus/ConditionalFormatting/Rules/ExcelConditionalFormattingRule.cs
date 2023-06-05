@@ -361,8 +361,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if (xr.GetAttribute("theme") != null)
                 {
-                    col.Theme = xr.GetAttribute("theme")
-                        .ToEnum<Drawing.eThemeSchemeColor>();
+                    col.Theme = (Drawing.eThemeSchemeColor)int.Parse(xr.GetAttribute("theme"));
                 }
                 else if (xr.GetAttribute("rgb") != null)
                 {

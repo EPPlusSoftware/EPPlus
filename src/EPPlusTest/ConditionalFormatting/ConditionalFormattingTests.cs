@@ -31,6 +31,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.ConditionalFormatting.Rules;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -2037,8 +2038,39 @@ namespace EPPlusTest.ConditionalFormatting
 
                 Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(0,Color.Coral.R,Color.Coral.G,Color.Coral.B));
                 Assert.AreEqual(formatting.Style.Border.Right.Color.HasValue, false);
-                Assert.AreEqual(formatting.Style.Border.Top.Color.Theme, OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3);
+                Assert.AreEqual(formatting.Style.Border.Top.Color.Theme, eThemeSchemeColor.Accent3);
                 Assert.AreEqual(formatting.Style.Border.Bottom.Color.Auto, true);
+
+                SaveAndCleanup(readPackage);
+            }
+        }
+
+        [TestMethod]
+        public void EnsureExtLstDXFBorderColorsThemeReadWrite()
+        {
+            using (var pck = OpenPackage("ExtLstBordersDXFTheme.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
+
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "formulasReference!$B$5";
+
+                sheet.Workbook.ThemeManager.CreateDefaultTheme();
+
+                equal.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin, eThemeSchemeColor.Accent5);
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("ExtLstBordersDXFTheme.xlsx");
+
+                var readSheet = readPck.Workbook.Worksheets[0];
+                var formatting = readSheet.ConditionalFormatting[0];
+
+                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Left.Color.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Right.Color.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Top.Color.Theme);
+                Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Bottom.Color.Theme);
             }
         }
     }

@@ -1419,7 +1419,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (color.Theme != null)
             {
-                returnString = $"<{nodeName} theme=\"{color.Theme}\"";
+                returnString = $"<{nodeName} theme=\"{(int)color.Theme}\"";
             }
 
             if(color.Color != null)
