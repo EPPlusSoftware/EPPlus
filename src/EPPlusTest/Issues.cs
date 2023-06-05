@@ -29,6 +29,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -4852,13 +4854,20 @@ namespace EPPlusTest
         [TestMethod]
         public void Issue888()
         {
-            using (var package = OpenPackage("i888.xlsx", true))
+            using (var package = OpenPackage("issue888.xlsx", true))
             {
                 var ws1 = package.Workbook.Worksheets.Add("ws1");
 
                 ws1.DataValidations.AddAnyValidation("A1");
 
                 SaveAndCleanup(package);
+
+                var readPackage = OpenPackage("issue888.xlsx");
+
+                var sheet = readPackage.Workbook.Worksheets[0];
+                var formatting = sheet.DataValidations[0];
+
+                Assert.AreEqual(eDataValidationType.Any, formatting.ValidationType.Type);
             }
         }
 
