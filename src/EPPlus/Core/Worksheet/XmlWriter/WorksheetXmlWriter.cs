@@ -1202,15 +1202,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 int iconIndex = iconList[i].CustomIcon == null ? i : iconList[i].GetCustomIconIndex();
                                 cache.Append($"<{prefix}cfIcon iconSet=\"{iconType}\" iconId=\"{iconIndex}\"/>");
                             }
-
-                            //  int indexCounter = 0;
-                            //    for (int i = iconList.Count -1; i >= 0; i--) 
-                            //{
-                            //    string iconType = iconList[i].CustomIcon == null ? iconSetString : iconList[i].GetCustomIconStringValue();
-                            //    int iconIndex = iconList[i].CustomIcon == null ? indexCounter : iconList[i].GetCustomIconIndex();
-                            //    cache.Append($"<{prefix}cfIcon iconSet=\"{iconType}\" iconId=\"{iconIndex}\"/>");
-                            //    indexCounter++;
-                            //}
                         }
 
                         cache.Append($"</{prefix}iconSet>");
@@ -1218,9 +1209,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     else
                     {
                         cache.Append($"<{prefix}cfRule type=\"{format.GetAttributeType()}\"" +
-                            $" priority=\"{format.Priority}\" operator=\"{format.Operator.ToEnumString()}\" id=\"{format.Uid}\">");
+                            $" priority=\"{format.Priority}\" ");
 
-                        if(!string.IsNullOrEmpty(format.Formula))
+                        if(format.Operator != null)
+                        {
+                            cache.Append($"operator=\"{format.Operator.ToEnumString()}\" ");
+                        }
+
+                        cache.Append($"id=\"{format.Uid}\">");
+
+                        if (!string.IsNullOrEmpty(format.Formula))
                         {
                             cache.Append($"<xm:f>{format.Formula}</xm:f>");
                         }
@@ -1291,7 +1289,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     {
                                         Color color = (Color)format.Style.Font.Color.Color;
                                         cache.Append($"rgb=\"" +
-                                            $"{(color.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"");
+                                            $"{color.ToColorString()}\"");
 
                                     }
                                     cache.Append("/>");
@@ -1373,7 +1371,40 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                         cache.Append($"</patternFill>");
                                         break;
                                     case Style.eDxfFillStyle.GradientFill:
-                                        cache.Append($"<gradientFill degree=\"{format.Style.Fill.Gradient.Degree}\">");
+
+                                        cache.Append($"<gradientFill");
+
+                                        if(format.Style.Fill.Gradient.GradientType != null)
+                                        {
+                                            cache.Append($" type=\"{format.Style.Fill.Gradient.GradientType.ToString().ToLower()}\"");
+                                        }
+
+                                        if (format.Style.Fill.Gradient.Degree != null)
+                                        {
+                                            cache.Append(string.Format(CultureInfo.InvariantCulture," degree=\"{0}\"", format.Style.Fill.Gradient.Degree.Value));
+                                        }
+
+                                        if(format.Style.Fill.Gradient.Left != null)
+                                        {
+                                            cache.Append(string.Format(CultureInfo.InvariantCulture," left=\"{0}\"", format.Style.Fill.Gradient.Left.Value));
+                                        }
+
+                                        if (format.Style.Fill.Gradient.Right != null)
+                                        {
+                                            cache.Append(string.Format(CultureInfo.InvariantCulture," right=\"{0}\"", format.Style.Fill.Gradient.Right.Value));
+                                        }
+
+                                        if (format.Style.Fill.Gradient.Top != null)
+                                        {
+                                            cache.Append(string.Format(CultureInfo.InvariantCulture," top=\"{0}\"", format.Style.Fill.Gradient.Top.Value));
+                                        }
+
+                                        if (format.Style.Fill.Gradient.Bottom != null)
+                                        {
+                                            cache.Append(string.Format(CultureInfo.InvariantCulture," bottom=\"{0}\"", format.Style.Fill.Gradient.Bottom.Value));
+                                        }
+
+                                        cache.Append(">");
                                         cache.Append("<stop position=\"0\">");
 
                                         cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
@@ -1425,7 +1456,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             if(color.Color != null)
             { 
                 Color baseColor = (Color)color.Color;
-                returnString = $"<{nodeName} rgb=\"{(baseColor.ToArgb() & 0xFFFFFF).ToString("X").PadLeft(6, '0')}\"";
+                returnString = $"<{nodeName} rgb=\"{baseColor.ToColorString()}\"";
             }
 
             ////If we Need to write out the auto that should be default when node empty
@@ -1436,7 +1467,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (color.Tint != null)
             {
-                returnString += $" tint=\"{color.Tint}\"";
+                returnString += string.Format(CultureInfo.InvariantCulture, " tint=\"{0}\"", color.Tint);
             }
 
             if(returnString != "")

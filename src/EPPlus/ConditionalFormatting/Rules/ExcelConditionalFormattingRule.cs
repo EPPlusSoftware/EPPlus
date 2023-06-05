@@ -11,6 +11,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Drawing;
 using OfficeOpenXml.Packaging;
+using System.Globalization;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -157,6 +158,11 @@ namespace OfficeOpenXml.ConditionalFormatting
             Priority = int.Parse(xr.GetAttribute("priority"));
 
             Type = type;
+
+            if(!string.IsNullOrEmpty(xr.GetAttribute("id")))
+            {
+                Uid = xr.GetAttribute("id");
+            }
 
             // Type = (eExcelConditionalFormattingRuleType)Enum.Parse(typeof(eExcelConditionalFormattingRuleType), xr.GetAttribute("type"));
 
@@ -311,11 +317,37 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Style.Fill.Gradient.Degree = string.IsNullOrEmpty(degree) ?
                         null : (double?)double.Parse(degree);
 
+                    if(!string.IsNullOrEmpty(xr.GetAttribute("type")))
+                    {
+                        Style.Fill.Gradient.GradientType = xr.GetAttribute("type").ToEnum<eDxfGradientFillType>();
+                    }
+
+                    var doubleString = xr.GetAttribute("left");
+
+                    if (!string.IsNullOrEmpty(doubleString))
+                    {
+                        Style.Fill.Gradient.Left = double.Parse(doubleString, CultureInfo.InvariantCulture);
+                    }
+
+                    if (!string.IsNullOrEmpty(xr.GetAttribute("right")))
+                    {
+                        Style.Fill.Gradient.Right = double.Parse(xr.GetAttribute("right"), CultureInfo.InvariantCulture);
+                    }
+
+                    if (!string.IsNullOrEmpty(xr.GetAttribute("top")))
+                    {
+                        Style.Fill.Gradient.Top = double.Parse(xr.GetAttribute("top"), CultureInfo.InvariantCulture);
+                    }
+
+                    if (!string.IsNullOrEmpty(xr.GetAttribute("bottom")))
+                    {
+                        Style.Fill.Gradient.Bottom = double.Parse(xr.GetAttribute("bottom"), CultureInfo.InvariantCulture);
+                    }
+
                     xr.Read();
                     ParseColor(Style.Fill.Gradient.Colors.Add(0).Color, xr);
                     xr.Read();
 
-                    xr.Read();
                     ParseColor(Style.Fill.Gradient.Colors.Add(1).Color, xr);
                     xr.Read();
                 }
@@ -371,6 +403,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                 else if (xr.GetAttribute("auto") != null)
                 {
                     col.Auto = xr.GetAttribute("auto") == "1" ? true : false;
+                }
+
+                if(!string.IsNullOrEmpty(xr.GetAttribute("tint")))
+                {
+                    col.Tint = double.Parse(xr.GetAttribute("tint"), CultureInfo.InvariantCulture);
                 }
                 xr.Read();
             }
