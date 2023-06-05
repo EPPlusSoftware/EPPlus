@@ -264,7 +264,7 @@ namespace OfficeOpenXml.FormulaParsing
                     {
                         name = name.Substring(name.IndexOf("]") + 1);
                         if (name.StartsWith("!")) name = name.Substring(1);
-                        return GetLocalName(externalWorkbook.Package, -1, name, ctx);
+                        return GetLocalName(externalWorkbook.Package, ix, -1, name, ctx);
                     }
                 }
             }
@@ -284,7 +284,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                     else
                     {
-                        return GetLocalName(externalWorkbook.Package, wsIx, name, ctx);
+                        return GetLocalName(externalWorkbook.Package, extIx, wsIx, name, ctx);
                     }
                 }
                 return new NameInfoWithValue(name, ExcelErrorValue.Create(eErrorType.Name));
@@ -292,7 +292,7 @@ namespace OfficeOpenXml.FormulaParsing
             return null;
         }
 
-        private INameInfo GetLocalName(ExcelPackage package, int wsIx, string name, ParsingContext ctx)
+        private INameInfo GetLocalName(ExcelPackage package, int extIx, int wsIx, string name, ParsingContext ctx)
         {
             ExcelNamedRange extName=null;
             if(wsIx==int.MinValue)
@@ -311,16 +311,11 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                var ni = new NameInfo(extName);
                 if (extName._fromRow > 0)
                 {
-                    extName.Value = new RangeInfo(extName.Worksheet ?? package.Workbook.Worksheets[extName.WorkSheetName], extName._fromRow, extName._fromCol, extName._toRow, extName._toCol, ctx, extName.ExternalReferenceIndex + 1);
+                    extName.NameValue = new RangeInfo(extName.Worksheet ?? ParsingContext.CurrentWorksheet, extName._fromRow, extName._fromCol, extName._toRow, extName._toCol, ParsingContext, extIx + 1);
                 }
-                else
-                {
-                    extName.Value = extName.NameValue;
-                }
-                return ni;
+                return new NameInfo(extName);
             }
         }
         private static INameInfo GetNameFromCache(ExcelExternalWorkbook externalWorkbook, int wsIx, string name, ParsingContext ctx)

@@ -99,5 +99,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             
         }
+        public override bool IsVolatile => true;
     }
 }

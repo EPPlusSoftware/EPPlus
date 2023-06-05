@@ -275,6 +275,8 @@ namespace EPPlusTest.Core
         {
             var p = OpenTemplatePackage("ExternalReferences\\ExtRef.xlsx");
 
+            
+            
             var er = p.Workbook.ExternalLinks[0].As.ExternalWorkbook;
             var excelCache = GetExternalCache(er);
 

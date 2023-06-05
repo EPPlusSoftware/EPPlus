@@ -30,5 +30,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         {
             return CreateResult(System.DateTime.Today.ToOADate(), DataType.Date);
         }
+        public override bool IsVolatile => true;
     }
 }

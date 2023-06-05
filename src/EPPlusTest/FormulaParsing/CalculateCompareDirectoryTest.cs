@@ -93,8 +93,8 @@ namespace EPPlusTest.FormulaParsing
                 p.Workbook.ClearFormulaValues();
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
-                {
-                    p.Workbook.Calculate();
+                {                    
+                    p.Workbook.Calculate(x=>x.CacheExpressions=true);
                     //p.Workbook.Worksheets["T SMP"].Cells["M73"].Calculate();    
                     //p.Workbook.Worksheets["Holdings"].Cells["D210"].Calculate();
                     //p.Workbook.Worksheets["MISC"].Cells["M2"].Calculate();

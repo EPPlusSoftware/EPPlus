@@ -74,6 +74,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return FunctionParameterInformation.IgnoreAddress;
         }
         public override bool HasNormalArguments => false;
-
+        public override bool IsVolatile => true; //Blank argument will return the current cells row, so set volatile
     }
 }

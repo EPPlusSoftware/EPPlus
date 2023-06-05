@@ -46,6 +46,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml
 {
@@ -3346,7 +3347,8 @@ namespace OfficeOpenXml
 
         ExcelPackage IPictureRelationDocument.Package { get { return _package; } }
 
-        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
+        Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();        
+
         Dictionary<string, HashInfo> IPictureRelationDocument.Hashes { get { return _hashes; } }
 
         Packaging.ZipPackagePart IPictureRelationDocument.RelatedPart { get { return Part; }}
