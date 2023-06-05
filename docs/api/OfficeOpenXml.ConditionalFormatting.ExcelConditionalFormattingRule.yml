@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingRule
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Node
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTable
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -273,7 +273,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Priority
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -312,7 +312,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StopIfTrue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -351,7 +351,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -390,7 +390,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDev
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -427,7 +427,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rank
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -464,7 +464,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AboveAverage
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -501,7 +501,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EqualAverage
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -538,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -575,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -612,7 +612,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TimePeriod
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -649,7 +649,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -686,7 +686,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -723,7 +723,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula2
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -760,7 +760,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs

@@ -26,14 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Returns the value of the exponential distribution for a give value of x.")]
     internal class ExponDotDist : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var x = ArgToDecimal(arguments, 0);
             var lambda = ArgToDecimal(arguments, 1);
             var cumulative = ArgToBool(arguments, 2);
-            if (lambda <= 0d) return CreateResult(eErrorType.Num);
-            if (x < 0d) return CreateResult(eErrorType.Num);
+            if (lambda <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (x < 0d) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = 0d;
             if (cumulative && x >= 0)
             {

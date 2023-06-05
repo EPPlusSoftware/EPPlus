@@ -25,15 +25,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the inverse of the Cumulative Normal Distribution Function for a supplied value of x, and a supplied distribution mean & standard deviation.")]
     internal class NormInv : NormInvBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var probability = ArgToDecimal(arguments, 0);
             var mean = ArgToDecimal(arguments, 1);
             var stdev = ArgToDecimal(arguments, 2);
             if(probability < 0 || probability > 1 || stdev <= 0)
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var result = NormsInv(probability, mean, stdev);
             return CreateResult(result, DataType.Decimal);

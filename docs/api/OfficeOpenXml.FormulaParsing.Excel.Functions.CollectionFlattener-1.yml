@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/CollectionFlattener.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollectionFlattener
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/CollectionFlattener.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/CollectionFlattener.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FuncArgsToFlatEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/CollectionFlattener.cs

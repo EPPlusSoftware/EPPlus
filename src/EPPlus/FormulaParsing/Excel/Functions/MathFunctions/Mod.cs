@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         SupportsArrays = true)]
     internal class Mod : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var n1 = ArgToDecimal(arguments, 0);
             var n2 = ArgToDecimal(arguments, 1);
             return new CompileResult(n1 % n2, DataType.Decimal);

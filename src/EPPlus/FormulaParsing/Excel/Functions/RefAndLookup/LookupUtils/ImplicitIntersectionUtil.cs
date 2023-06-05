@@ -23,6 +23,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
     {
         public static CompileResult GetResult(IRangeInfo range, FormulaCellAddress currentCell, ParsingContext context)
         {
+            return GetResult(range, currentCell.Row, currentCell.Column, context);
+        }
+        public static CompileResult GetResult(IRangeInfo range, int ccr, int ccc, ParsingContext context)
+        {
             if (range.IsInMemoryRange) return CompileResult.GetErrorResult(eErrorType.Value);
             var fr = range.Address.FromRow;
             var tr = range.Address.ToRow;
@@ -31,15 +35,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             // always return #VALUE if both multiple rows and multiple cols
             if (tr - fr > 0 && tc - fc > 0) return CompileResult.GetErrorResult(eErrorType.Value);
             // if current cell is outside rows and cols of the range
-            var ccr = currentCell.Row;
-            var ccc = currentCell.Column;
             // are we outside the allowed area?
             if ((ccr < fr || ccr > tr) && (ccc < fc || ccc > tc)) return CompileResult.GetErrorResult(eErrorType.Value);
 
             // do implicit intersection
 
-            object result = default;
-            FormulaRangeAddress addr = default;
+            object result;
+            FormulaRangeAddress addr;
             // vertical direction
             if (tr - fr > 0)
             {

@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataFieldFunctions
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Average
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CountNums
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Max
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Min
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Product
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDev
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDevP
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sum
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Var
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
@@ -434,7 +434,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VarP
     path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs

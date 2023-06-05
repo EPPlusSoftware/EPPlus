@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDoubleCellValue
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellRow
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellCol
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Implicit
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -274,7 +274,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Implicit
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareTo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -351,7 +351,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareTo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -388,7 +388,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -426,7 +426,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -461,7 +461,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Equality
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -500,7 +500,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Equality
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Inequality
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
@@ -578,7 +578,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Inequality
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelDoubleCellValue.cs

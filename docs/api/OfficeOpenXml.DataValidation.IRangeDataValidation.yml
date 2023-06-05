@@ -13,6 +13,7 @@ items:
   - OfficeOpenXml.DataValidation.IRangeDataValidation.AddListDataValidation
   - OfficeOpenXml.DataValidation.IRangeDataValidation.AddTextLengthDataValidation
   - OfficeOpenXml.DataValidation.IRangeDataValidation.AddTimeDataValidation
+  - OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation(System.Boolean)
   langs:
   - csharp
   - vb
@@ -23,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IRangeDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -56,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAnyDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -87,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddIntegerDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -95,7 +96,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> to the range\n"
   example: []
   syntax:
     content: IExcelDataValidationInt AddIntegerDataValidation()
@@ -118,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDecimalDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -149,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateTimeDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -180,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddListDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -211,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTextLengthDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -219,7 +220,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> regarding text length validation to the range.\n"
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> regarding text length validation to the range.\n"
   example: []
   syntax:
     content: IExcelDataValidationInt AddTextLengthDataValidation()
@@ -242,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTimeDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -273,7 +274,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/IRangeDataValidation.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCustomDataValidation
     path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
@@ -290,6 +291,42 @@ items:
       description: A <xref href="OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom" data-throw-if-not-resolved="false"></xref> that can be configured for custom validation
     content.vb: Function AddCustomDataValidation As IExcelDataValidationCustom
   overload: OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation*
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation(System.Boolean)
+  commentId: M:OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation(System.Boolean)
+  id: ClearDataValidation(System.Boolean)
+  parent: OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: ClearDataValidation(Boolean)
+  nameWithType: IRangeDataValidation.ClearDataValidation(Boolean)
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/IRangeDataValidation.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClearDataValidation
+    path: ../src/EPPlus/DataValidation/IRangeDataValidation.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nRemoves validation from the cell/range\n"
+  example: []
+  syntax:
+    content: void ClearDataValidation(bool deleteIfEmpty = false)
+    parameters:
+    - id: deleteIfEmpty
+      type: System.Boolean
+      description: Delete the validation if it has no more addresses its being applied to. If set to false an <xref href="System.InvalidOperationException" data-throw-if-not-resolved="false"></xref> will be thrown if all addresses of a datavalidation has been cleared.
+    content.vb: Sub ClearDataValidation(deleteIfEmpty As Boolean = False)
+  overload: OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: Thrown if <code data-dev-comment-type="paramref" class="paramref">deleteIfEmpty</code> is false and all addresses of a datavalidation has been cleared.
 references:
 - uid: OfficeOpenXml.ExcelRangeBase
   commentId: T:OfficeOpenXml.ExcelRangeBase
@@ -328,14 +365,9 @@ references:
   name: OfficeOpenXml.DataValidation.Contracts
   nameWithType: OfficeOpenXml.DataValidation.Contracts
   fullName: OfficeOpenXml.DataValidation.Contracts
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
-  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
-  parent: OfficeOpenXml.DataValidation.Contracts
-  name: IExcelDataValidationInt
-  nameWithType: IExcelDataValidationInt
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
   commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation
   name: ExcelDataValidationInt
   nameWithType: ExcelDataValidationInt
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidationInt
@@ -344,6 +376,12 @@ references:
   name: AddIntegerDataValidation
   nameWithType: IRangeDataValidation.AddIntegerDataValidation
   fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddIntegerDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationInt
+  nameWithType: IExcelDataValidationInt
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
   commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
   name: ExcelDataValidationDecimal
@@ -419,3 +457,28 @@ references:
   name: AddCustomDataValidation
   nameWithType: IRangeDataValidation.AddCustomDataValidation
   fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.AddCustomDataValidation
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation
+  name: ClearDataValidation
+  nameWithType: IRangeDataValidation.ClearDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation.ClearDataValidation
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

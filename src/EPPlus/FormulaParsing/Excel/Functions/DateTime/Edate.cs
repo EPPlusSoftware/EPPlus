@@ -26,23 +26,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         SupportsArrays = true)]
     internal class Edate : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return new ArrayBehaviourConfig
             {
                 ArrayParameterIndexes = new List<int> { 1 }
             };
         }
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var dateSerial = ArgToDecimal(arguments, 0);
             var date = System.DateTime.FromOADate(dateSerial);
             var nMonthsToAdd = ArgToInt(arguments, 1);
             var resultDate = date.AddMonths(nMonthsToAdd);
             return CreateResult(resultDate.ToOADate(), DataType.Date);
         }
+        public override int ArgumentMinLength => 2;
     }
 }

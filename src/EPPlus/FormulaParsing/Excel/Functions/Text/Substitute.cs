@@ -25,13 +25,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Substitutes all occurrences of a search text string, within an original text string, with the supplied replacement text")]
     internal class Substitute : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var text = ArgToString(arguments, 0);
             var find = ArgToString(arguments, 1);
             var replaceWith = ArgToString(arguments, 2);
-            var result = arguments.Count() > 3 ? ReplaceFirst(text, find, replaceWith, ArgToInt(arguments, 3)) : text.Replace(find, replaceWith);
+            var result = arguments.Count > 3 ? ReplaceFirst(text, find, replaceWith, ArgToInt(arguments, 3)) : text.Replace(find, replaceWith);
             return CreateResult(result, DataType.String);
         }
 

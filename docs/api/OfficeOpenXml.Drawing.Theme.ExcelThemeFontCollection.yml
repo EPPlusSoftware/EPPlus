@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThemeFontCollection
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetLatinFont
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetComplexFont
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -306,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetEastAsianFont
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -342,7 +342,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSpecialFont
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -384,7 +384,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -421,7 +421,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
@@ -459,7 +459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeFontCollection.cs

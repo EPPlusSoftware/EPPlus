@@ -15,9 +15,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the discount rate for a security")]
     internal class Disc : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var settlementNum = ArgToDecimal(arguments, 0);
             var maturityNum = ArgToDecimal(arguments, 1);
             var settlement = System.DateTime.FromOADate(settlementNum);
@@ -25,13 +25,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var pr = ArgToDecimal(arguments, 2);
             var redemption = ArgToDecimal(arguments, 3);
             int basis = 0;
-            if(arguments.Count() > 4)
+            if(arguments.Count > 4)
             {
                 basis = ArgToInt(arguments, 4);
             }
             if(maturity <= settlement || pr <= 0 || redemption <= 0 || (basis < 0 || basis > 4))
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var yearFrac = new YearFracProvider(context);
             var result = (1d - pr / redemption) / yearFrac.GetYearFrac(settlement, maturity, (DayCountBasis)basis);

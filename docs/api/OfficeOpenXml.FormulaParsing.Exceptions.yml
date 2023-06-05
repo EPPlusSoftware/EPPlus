@@ -7,6 +7,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Exceptions.CircularReferenceException
   - OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorCodes
   - OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
+  - OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
   - OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
   langs:
   - csharp
@@ -34,6 +35,11 @@ references:
   name: ExcelErrorValueException
   nameWithType: ExcelErrorValueException
   fullName: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
+- uid: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
+  commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
+  name: InvalidFormulaException
+  nameWithType: InvalidFormulaException
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
 - uid: OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
   commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
   name: UnrecognizedTokenException

@@ -27,11 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         SupportsArrays = true)]
     internal class IsBlank : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 0;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments == null || arguments.Count() == 0)
+            if (arguments == null || arguments.Count == 0)
             {
                 return CreateResult(true, DataType.Boolean);
             }
@@ -56,6 +57,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 }
             }
             return CreateResult(result, DataType.Boolean);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

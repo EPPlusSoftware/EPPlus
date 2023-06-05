@@ -42,13 +42,13 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
     [TestClass]
     public class SourceCodeTokenizerTests
     {
-        private OptimizedSourceCodeTokenizer _tokenizer;
+        private SourceCodeTokenizer _tokenizer;
 
         [TestInitialize]
         public void Setup()
         {
             var context = ParsingContext.Create();
-            _tokenizer = new OptimizedSourceCodeTokenizer(context.Configuration.FunctionRepository, OfficeOpenXml.FormulaParsing.NameValueProvider.Empty);
+            _tokenizer = new SourceCodeTokenizer(context.Configuration.FunctionRepository, OfficeOpenXml.FormulaParsing.NameValueProvider.Empty);
         }
 
         [TestCleanup]

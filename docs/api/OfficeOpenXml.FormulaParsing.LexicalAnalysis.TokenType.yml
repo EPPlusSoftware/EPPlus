@@ -5,7 +5,9 @@ items:
   id: TokenType
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   children:
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Array
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Boolean
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.CellAddress
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.CircularReference
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ClosingBracket
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ClosingEnumerable
@@ -16,9 +18,14 @@ items:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Enumerable
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ExcelAddress
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ExcelAddressR1C1
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ExternalReference
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullColumnAddress
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullRowAddress
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Function
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.HashMark
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Integer
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.InvalidReference
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NAError
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NameValue
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Negator
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Null
@@ -30,10 +37,16 @@ items:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Percent
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.RangeOffset
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.SemiColon
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.SingleQuote
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.StartFunctionArguments
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.String
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.StringContent
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableColumn
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableName
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TablePart
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Unrecognized
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ValueDataTypeError
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.WhiteSpace
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.WorksheetName
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.WorksheetNameContent
   langs:
@@ -46,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TokenType
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -60,11 +73,11 @@ items:
     content: >-
       [Flags]
 
-      public enum TokenType : uint
+      public enum TokenType : ulong
     content.vb: >-
       <Flags>
 
-      Public Enum TokenType As UInteger
+      Public Enum TokenType As ULong
   attributes:
   - type: System.FlagsAttribute
     ctor: System.FlagsAttribute.#ctor
@@ -89,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -100,10 +113,9 @@ items:
   summary: "\nThe parsed token represents an operator\n"
   example: []
   syntax:
-    content: Operator = 1U
+    content: Operator = 1UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Operator = 1UI
   modifiers.csharp:
   - public
   - const
@@ -124,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Negator
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -135,10 +147,9 @@ items:
   summary: "\nThe parsed token represents an negator (negates a numeric expression)\n"
   example: []
   syntax:
-    content: Negator = 2U
+    content: Negator = 2UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Negator = 2UI
   modifiers.csharp:
   - public
   - const
@@ -159,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OpeningParenthesis
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -170,10 +181,9 @@ items:
   summary: "\nThe parsed token represents an opening parenthesis\n"
   example: []
   syntax:
-    content: OpeningParenthesis = 4U
+    content: OpeningParenthesis = 4UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: OpeningParenthesis = 4UI
   modifiers.csharp:
   - public
   - const
@@ -194,7 +204,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClosingParenthesis
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -205,10 +215,9 @@ items:
   summary: "\nThe parsed token represents a clising parenthesis\n"
   example: []
   syntax:
-    content: ClosingParenthesis = 8U
+    content: ClosingParenthesis = 8UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: ClosingParenthesis = 8UI
   modifiers.csharp:
   - public
   - const
@@ -229,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OpeningEnumerable
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -240,10 +249,9 @@ items:
   summary: "\nThe parsed token represents a opening enumerable (&apos;{&apos;)\n"
   example: []
   syntax:
-    content: OpeningEnumerable = 16U
+    content: OpeningEnumerable = 16UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: OpeningEnumerable = 16UI
   modifiers.csharp:
   - public
   - const
@@ -264,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClosingEnumerable
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -275,10 +283,9 @@ items:
   summary: "\nThe parsed token represents a closing enumerable (&apos;}&apos;)\n"
   example: []
   syntax:
-    content: ClosingEnumerable = 32U
+    content: ClosingEnumerable = 32UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: ClosingEnumerable = 32UI
   modifiers.csharp:
   - public
   - const
@@ -299,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OpeningBracket
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -310,10 +317,9 @@ items:
   summary: "\nThe parsed token represents an opening bracket (&apos;[&apos;)\n"
   example: []
   syntax:
-    content: OpeningBracket = 64U
+    content: OpeningBracket = 64UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: OpeningBracket = 64UI
   modifiers.csharp:
   - public
   - const
@@ -334,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClosingBracket
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -345,10 +351,9 @@ items:
   summary: "\nThe parsed token represents a closing bracket (&apos;]&apos;)\n"
   example: []
   syntax:
-    content: ClosingBracket = 128U
+    content: ClosingBracket = 128UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: ClosingBracket = 128UI
   modifiers.csharp:
   - public
   - const
@@ -369,7 +374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Enumerable
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -380,10 +385,9 @@ items:
   summary: "\nThe parsed token represents an enumerable\n"
   example: []
   syntax:
-    content: Enumerable = 256U
+    content: Enumerable = 256UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Enumerable = 256UI
   modifiers.csharp:
   - public
   - const
@@ -404,7 +408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comma
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -415,10 +419,9 @@ items:
   summary: "\nThe parsed token represents a comma\n"
   example: []
   syntax:
-    content: Comma = 512U
+    content: Comma = 512UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Comma = 512UI
   modifiers.csharp:
   - public
   - const
@@ -439,7 +442,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SemiColon
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -450,10 +453,9 @@ items:
   summary: "\nThe parsed token represents a semicolon\n"
   example: []
   syntax:
-    content: SemiColon = 1024U
+    content: SemiColon = 1024UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: SemiColon = 1024UI
   modifiers.csharp:
   - public
   - const
@@ -474,7 +476,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: String
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -485,10 +487,9 @@ items:
   summary: "\nThe parsed token represents a string\n"
   example: []
   syntax:
-    content: String = 2048U
+    content: String = 2048UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: String = 2048UI
   modifiers.csharp:
   - public
   - const
@@ -509,7 +510,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StringContent
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -520,10 +521,9 @@ items:
   summary: "\nThe parsed token represents content within a string\n"
   example: []
   syntax:
-    content: StringContent = 4096U
+    content: StringContent = 4096UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: StringContent = 4096UI
   modifiers.csharp:
   - public
   - const
@@ -544,7 +544,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetName
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -555,10 +555,9 @@ items:
   summary: "\nThe parsed token represents a worksheet name\n"
   example: []
   syntax:
-    content: WorksheetName = 8192U
+    content: WorksheetName = 8192UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: WorksheetName = 8192UI
   modifiers.csharp:
   - public
   - const
@@ -579,7 +578,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetNameContent
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -590,10 +589,9 @@ items:
   summary: "\nThe parsed token represents the content of a worksheet name\n"
   example: []
   syntax:
-    content: WorksheetNameContent = 16384U
+    content: WorksheetNameContent = 16384UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: WorksheetNameContent = 16384UI
   modifiers.csharp:
   - public
   - const
@@ -614,7 +612,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Integer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -625,10 +623,9 @@ items:
   summary: "\nThe parsed token represents an integer value\n"
   example: []
   syntax:
-    content: Integer = 32768U
+    content: Integer = 32768UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Integer = 32768UI
   modifiers.csharp:
   - public
   - const
@@ -649,7 +646,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Boolean
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -660,10 +657,9 @@ items:
   summary: "\nThe parsed token represents a boolean value\n"
   example: []
   syntax:
-    content: Boolean = 65536U
+    content: Boolean = 65536UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Boolean = 65536UI
   modifiers.csharp:
   - public
   - const
@@ -684,7 +680,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Decimal
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -695,10 +691,9 @@ items:
   summary: "\nThe parsed token represents a decimal value\n"
   example: []
   syntax:
-    content: Decimal = 131072U
+    content: Decimal = 131072UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Decimal = 131072UI
   modifiers.csharp:
   - public
   - const
@@ -719,7 +714,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -730,10 +725,9 @@ items:
   summary: "\nThe parsed token represents a percentage value\n"
   example: []
   syntax:
-    content: Percent = 262144U
+    content: Percent = 262144UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Percent = 262144UI
   modifiers.csharp:
   - public
   - const
@@ -754,7 +748,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Function
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -765,10 +759,9 @@ items:
   summary: "\nThe parsed token represents an excel function\n"
   example: []
   syntax:
-    content: Function = 524288U
+    content: Function = 524288UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Function = 524288UI
   modifiers.csharp:
   - public
   - const
@@ -789,7 +782,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -800,10 +793,9 @@ items:
   summary: "\nThe parsed token represents an excel address\n"
   example: []
   syntax:
-    content: ExcelAddress = 1048576U
+    content: ExcelAddress = 1048576UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: ExcelAddress = 1048576UI
   modifiers.csharp:
   - public
   - const
@@ -824,7 +816,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValue
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -835,10 +827,9 @@ items:
   summary: "\nThe parsed token represents a NameValue\n"
   example: []
   syntax:
-    content: NameValue = 2097152U
+    content: NameValue = 2097152UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: NameValue = 2097152UI
   modifiers.csharp:
   - public
   - const
@@ -859,7 +850,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InvalidReference
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -870,10 +861,9 @@ items:
   summary: "\nThe parsed token represents an InvalidReference error (#REF)\n"
   example: []
   syntax:
-    content: InvalidReference = 4194304U
+    content: InvalidReference = 4194304UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: InvalidReference = 4194304UI
   modifiers.csharp:
   - public
   - const
@@ -894,7 +884,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumericError
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -905,10 +895,9 @@ items:
   summary: "\nThe parsed token represents a Numeric error (#NUM)\n"
   example: []
   syntax:
-    content: NumericError = 8388608U
+    content: NumericError = 8388608UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: NumericError = 8388608UI
   modifiers.csharp:
   - public
   - const
@@ -929,7 +918,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDataTypeError
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -940,10 +929,9 @@ items:
   summary: "\nThe parsed tokens represents an Value error (#VAL)\n"
   example: []
   syntax:
-    content: ValueDataTypeError = 16777216U
+    content: ValueDataTypeError = 16777216UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: ValueDataTypeError = 16777216UI
   modifiers.csharp:
   - public
   - const
@@ -964,7 +952,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -975,10 +963,9 @@ items:
   summary: "\nThe parsed token represents the NULL value\n"
   example: []
   syntax:
-    content: Null = 33554432U
+    content: Null = 33554432UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Null = 33554432UI
   modifiers.csharp:
   - public
   - const
@@ -999,7 +986,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unrecognized
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1010,10 +997,9 @@ items:
   summary: "\nThe parsed token represent an unrecognized value\n"
   example: []
   syntax:
-    content: Unrecognized = 67108864U
+    content: Unrecognized = 67108864UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Unrecognized = 67108864UI
   modifiers.csharp:
   - public
   - const
@@ -1034,7 +1020,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddressR1C1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1045,10 +1031,9 @@ items:
   summary: "\nThe parsed token represents an R1C1 address\n"
   example: []
   syntax:
-    content: ExcelAddressR1C1 = 134217728U
+    content: ExcelAddressR1C1 = 134217728UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: ExcelAddressR1C1 = 134217728UI
   modifiers.csharp:
   - public
   - const
@@ -1069,7 +1054,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CircularReference
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1080,10 +1065,9 @@ items:
   summary: "\nThe parsed token represents a circular reference\n"
   example: []
   syntax:
-    content: CircularReference = 268435456U
+    content: CircularReference = 268435456UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: CircularReference = 268435456UI
   modifiers.csharp:
   - public
   - const
@@ -1104,7 +1088,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colon
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1115,10 +1099,9 @@ items:
   summary: "\nThe parsed token represents a colon (address separator). Used for handling the offset function adress handling\n"
   example: []
   syntax:
-    content: Colon = 536870912U
+    content: Colon = 536870912UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: Colon = 536870912UI
   modifiers.csharp:
   - public
   - const
@@ -1139,7 +1122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeOffset
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1150,10 +1133,447 @@ items:
   summary: "\nThe parsed token represents an address with the OFFSET function, either before, after or on both sides of the colon.\n"
   example: []
   syntax:
-    content: RangeOffset = 1073741824U
+    content: RangeOffset = 1073741824UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
-    content.vb: RangeOffset = 1073741824UI
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.WhiteSpace
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.WhiteSpace
+  id: WhiteSpace
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: WhiteSpace
+  nameWithType: TokenType.WhiteSpace
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.WhiteSpace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WhiteSpace
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 152
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nWhite space - Intersect operator will be set a operatar with the value &quot; &quot;\n"
+  example: []
+  syntax:
+    content: WhiteSpace = 2147483648UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ExternalReference
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ExternalReference
+  id: ExternalReference
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: ExternalReference
+  nameWithType: TokenType.ExternalReference
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ExternalReference
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalReference
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents an external reference\n"
+  example: []
+  syntax:
+    content: ExternalReference = 4294967296UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableName
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableName
+  id: TableName
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: TableName
+  nameWithType: TokenType.TableName
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableName
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableName
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 160
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRefrence a table name in an address\n"
+  example: []
+  syntax:
+    content: TableName = 8589934592UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TablePart
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TablePart
+  id: TablePart
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: TablePart
+  nameWithType: TokenType.TablePart
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TablePart
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TablePart
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a table part in an address, for example &quot;#this row&quot;\n"
+  example: []
+  syntax:
+    content: TablePart = 17179869184UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableColumn
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableColumn
+  id: TableColumn
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: TableColumn
+  nameWithType: TokenType.TableColumn
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.TableColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableColumn
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a table column name in an address.\n"
+  example: []
+  syntax:
+    content: TableColumn = 34359738368UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.CellAddress
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.CellAddress
+  id: CellAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: CellAddress
+  nameWithType: TokenType.CellAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.CellAddress
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellAddress
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 172
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a cell address.\n"
+  example: []
+  syntax:
+    content: CellAddress = 68719476736UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullColumnAddress
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullColumnAddress
+  id: FullColumnAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: FullColumnAddress
+  nameWithType: TokenType.FullColumnAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullColumnAddress
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FullColumnAddress
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 176
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nAlphnumeric characters representing a full column\n"
+  example: []
+  syntax:
+    content: FullColumnAddress = 137438953472UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullRowAddress
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullRowAddress
+  id: FullRowAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: FullRowAddress
+  nameWithType: TokenType.FullRowAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.FullRowAddress
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FullRowAddress
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nAn integer representing a full row\n"
+  example: []
+  syntax:
+    content: FullRowAddress = 274877906944UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.StartFunctionArguments
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.StartFunctionArguments
+  id: StartFunctionArguments
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: StartFunctionArguments
+  nameWithType: TokenType.StartFunctionArguments
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.StartFunctionArguments
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StartFunctionArguments
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 184
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nReprensenting a the start of a function argument\n"
+  example: []
+  syntax:
+    content: StartFunctionArguments = 549755813888UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Array
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Array
+  id: Array
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: Array
+  nameWithType: TokenType.Array
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Array
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Array
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 188
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nAn array\n"
+  example: []
+  syntax:
+    content: Array = 1099511627776UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NAError
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NAError
+  id: NAError
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: NAError
+  nameWithType: TokenType.NAError
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NAError
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NAError
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a N/A error\n"
+  example: []
+  syntax:
+    content: NAError = 2199023255552UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.SingleQuote
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.SingleQuote
+  id: SingleQuote
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: SingleQuote
+  nameWithType: TokenType.SingleQuote
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.SingleQuote
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SingleQuote
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 193
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: SingleQuote = 4398046511104UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.HashMark
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.HashMark
+  id: HashMark
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: HashMark
+  nameWithType: TokenType.HashMark
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.HashMark
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HashMark
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: HashMark = 8796093022208UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
   modifiers.csharp:
   - public
   - const

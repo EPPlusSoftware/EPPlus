@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelBarChartSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs
@@ -167,7 +167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataPoints
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChartSerie.cs

@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DayCountBasis
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: US_30_360
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
@@ -83,7 +83,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Actual_Actual
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Actual_360
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Actual_365
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: European_30_360
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTimeUnit
     path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Years
     path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Months
     path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Days
     path: ../src/EPPlus/Drawing/Chart/enums/eTimeUnit.cs

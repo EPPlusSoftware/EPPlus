@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eFillStyle
     path: ../src/EPPlus/Drawing/Enums/eFillStyle.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoFill
     path: ../src/EPPlus/Drawing/Enums/eFillStyle.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SolidFill
     path: ../src/EPPlus/Drawing/Enums/eFillStyle.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientFill
     path: ../src/EPPlus/Drawing/Enums/eFillStyle.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternFill
     path: ../src/EPPlus/Drawing/Enums/eFillStyle.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlipFill
     path: ../src/EPPlus/Drawing/Enums/eFillStyle.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupFill
     path: ../src/EPPlus/Drawing/Enums/eFillStyle.cs

@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
   - OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
   - OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
   - OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
@@ -19,8 +20,10 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule
   - OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction
@@ -63,6 +66,12 @@ references:
   name: ArgumentParsers
   nameWithType: ArgumentParsers
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ArrayBehaviourConfig
+  nameWithType: ArrayBehaviourConfig
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
   name: BoolArgumentParser
@@ -148,12 +157,24 @@ references:
   name: ExcelDoubleCellValue
   nameWithType: ExcelDoubleCellValue
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: FunctionParameterInformation
+  nameWithType: FunctionParameterInformation
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: ExcelFunction
   nameWithType: ExcelFunction
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunctionArrayBehaviour
+  nameWithType: ExcelFunctionArrayBehaviour
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions

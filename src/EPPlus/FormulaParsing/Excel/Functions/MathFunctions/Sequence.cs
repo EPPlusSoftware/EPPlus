@@ -24,26 +24,27 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Category = ExcelFunctionCategory.MathAndTrig,
         EPPlusVersion = "7",
         Description = "Returns an array with a sequence of numbers",
-        IntroducedInExcelVersion = "2021")]
+        IntroducedInExcelVersion = "2021",
+        SupportsArrays = true)]
     internal class Sequence : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var rows = ArgToInt(arguments, 0); 
-            var argCount = arguments.Count();
+            var argCount = arguments.Count;
             var columns = argCount > 1 ? ArgToInt(arguments, 1) : 1;
             var start = argCount > 2 ? ArgToDecimal(arguments, 2) : 1;
             var step = argCount > 3 ? ArgToDecimal(arguments, 3) : 1;
             
             if (rows<0 || columns < 0)
             {
-                return CompileResult.GetErrorResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             else if(rows==0 || columns==0)
             {
-                return CompileResult.GetErrorResult(eErrorType.Calc);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
             }
 
             var size = new RangeDefinition(rows, (short)columns);
@@ -51,7 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             SetSequence(range, start, step);
 
-            return CreateResult(range, DataType.ExcelRange);
+            return CreateDynamicArrayResult(range, DataType.ExcelRange);
         }
 
         private void SetSequence(InMemoryRange range, double start, double step)

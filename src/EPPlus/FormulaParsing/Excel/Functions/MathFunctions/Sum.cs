@@ -33,7 +33,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             IgnoreErrors = false;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var retVal = 0d;
             if (arguments != null)
@@ -43,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     var c = Calculate(arg, context);
                     if (c is ExcelErrorValue e)
                     {
-                        return CreateResult(e, DataType.ExcelError) ;
+                        return CompileResult.GetErrorResult(e.Type) ;
                     }
                     else
                     {
@@ -66,9 +67,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 return arg.Value;
             }
-            if (arg.Value is IEnumerable<FunctionArgument>)
+            if (arg.Value is IEnumerable<FunctionArgument> args)
             {
-                foreach (var item in (IEnumerable<FunctionArgument>)arg.Value)
+                foreach (var item in args)
                 {
                     if(!ShouldIgnore(arg, context))
                     {
@@ -102,6 +103,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 retVal += ConvertUtil.GetValueDouble(arg.Value, true);
             }
             return retVal;
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

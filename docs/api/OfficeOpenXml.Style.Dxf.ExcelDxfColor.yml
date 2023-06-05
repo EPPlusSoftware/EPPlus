@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -221,7 +221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -330,7 +330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAuto
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -398,7 +398,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs
@@ -438,7 +438,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfColor.cs

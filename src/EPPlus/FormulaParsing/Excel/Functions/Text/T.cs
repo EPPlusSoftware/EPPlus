@@ -25,10 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Tests whether a supplied value is text and if so, returns the supplied text; If not, returns an empty text string.")]
     internal class T : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var val = arguments.ElementAt(0).ValueFirst;
+            var val = arguments[0].ValueFirst;
             if (val is string) return CreateResult(val, DataType.String);
             return CreateResult(string.Empty, DataType.String);
         }

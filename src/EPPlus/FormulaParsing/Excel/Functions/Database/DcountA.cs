@@ -27,12 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Description = "Returns the number of non-blank cells in a field of a list or database, that satisfy specified conditions")]
     internal class DcountA : DatabaseFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var dbAddress = arguments.ElementAt(0).ValueAsRangeInfo.Address.ToString();
             string field = null;
-            string criteriaRange = null;
+            string criteriaRange;
             if (arguments.Count() == 2)
             {
                 criteriaRange = arguments.ElementAt(1).ValueAsRangeInfo.Address.ToString();

@@ -20,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueMatcher
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 20
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -64,11 +64,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncompatibleOperands
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -97,11 +97,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMatch
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -136,11 +136,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 79
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -175,11 +175,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToObject
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 84
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -214,11 +214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareObjectToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-    startLine: 101
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities

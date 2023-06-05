@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the ratio of the factorial of a sum of values to the product of factorials.")]
     internal class Multinomial : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(arguments, context);
             var part1 = 0d;
             var part2 = 1d;

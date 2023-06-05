@@ -29,23 +29,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var args = arguments.ToList();
             if(!IgnoreErrors && arguments.Any(x => x.ValueIsExcelError))
             {
                 return CreateResult(arguments.First(x => x.ValueIsExcelError).ValueAsExcelErrorValue.Type);
             }
-            args.RemoveAll(x => ShouldIgnore(x, context));
+            ((List<FunctionArgument>)arguments).RemoveAll(x => ShouldIgnore(x, context));
             var result = 1d;
-            var values = ArgsToObjectEnumerable(true, args, context);
+            var values = ArgsToObjectEnumerable(true, arguments, context);
             foreach (var obj in values.Where(x => x != null && IsNumeric(x)))
             {
                 result *= Convert.ToDouble(obj);
             }
             return CreateResult(result, DataType.Decimal);
         }
-
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
+        }
     }
 }

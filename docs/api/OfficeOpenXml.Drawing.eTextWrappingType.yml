@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextWrappingType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTextWrappingType
     path: ../src/EPPlus/Drawing/Enums/eTextWrappingType.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextWrappingType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/eTextWrappingType.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextWrappingType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Square
     path: ../src/EPPlus/Drawing/Enums/eTextWrappingType.cs

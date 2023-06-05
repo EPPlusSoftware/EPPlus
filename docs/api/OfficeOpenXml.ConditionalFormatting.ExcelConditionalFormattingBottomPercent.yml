@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingBottomPercent.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingBottomPercent
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingBottomPercent.cs

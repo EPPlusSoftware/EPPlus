@@ -26,24 +26,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Returns the number of periods for an investment with periodic constant payments and a constant interest rate")]
     internal class Nper : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var rate = ArgToDecimal(arguments, 0);
             var pmt = ArgToDecimal(arguments, 1);
             var pv = ArgToDecimal(arguments, 2);
             var fv = 0d;
-            if (arguments.Count() >= 4)
+            if (arguments.Count >= 4)
             {
                 fv = ArgToDecimal(arguments, 3);
             }
             var type = 0;
-            if (arguments.Count() >= 5)
+            if (arguments.Count >= 5)
             {
                 type = ArgToInt(arguments, 4);
             }
             var retVal = NperImpl.NPer(rate, pmt, pv, fv, (PmtDue)type);
-            if (retVal.HasError) return CreateResult(retVal.ExcelErrorType);
+            if (retVal.HasError) return CompileResult.GetErrorResult(retVal.ExcelErrorType);
             return CreateResult(retVal.Result, DataType.Decimal);
         }
     }

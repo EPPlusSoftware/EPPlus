@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingRule
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Node
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Priority
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -194,7 +194,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StopIfTrue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -228,7 +228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTable
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingRule.cs

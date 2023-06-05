@@ -49,25 +49,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return -1;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (context.Debug)
             {
                 _stopwatch = new Stopwatch();
                 _stopwatch.Start();
             }
-            ValidateArguments(arguments, 2);
-            var lookupValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var lookupValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
 
             // lookup range
-            if (!arguments.ElementAt(1).IsExcelRange) return CreateResult(eErrorType.Value);
-            var lookupRange = arguments.ElementAt(1).ValueAsRangeInfo;
+            if (!arguments[1].IsExcelRange) return CompileResult.GetErrorResult(eErrorType.Value);
+            var lookupRange = arguments[1].ValueAsRangeInfo;
             var lookupDirection = XlookupUtil.GetLookupDirection(lookupRange);
             if (lookupRange.Size.NumberOfRows > 1 && lookupRange.Size.NumberOfCols > 1) return CreateResult(eErrorType.Value);
 
             // match mode
             var matchMode = LookupMatchMode.ExactMatch;
-            if (arguments.Count() > 2 && arguments.ElementAt(2) != null)
+            if (arguments.Count > 2 && arguments[2] != null)
             {
                 var mm = ArgToInt(arguments, 2);
                 matchMode = XlookupUtil.GetMatchMode(mm);
@@ -75,7 +75,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
             // search mode
             var searchMode = LookupSearchMode.StartingAtFirst;
-            if (arguments.Count() > 3)
+            if (arguments.Count > 3)
             {
                 var sm = ArgToInt(arguments, 3);
                 searchMode = XlookupUtil.GetSearchMode(sm);
@@ -98,7 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             if (ix < 0)
             {
-                return CreateResult(eErrorType.NA);
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
             return CreateResult(ix + 1, DataType.Integer);
         }

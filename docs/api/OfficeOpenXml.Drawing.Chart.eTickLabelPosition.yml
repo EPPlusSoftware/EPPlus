@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTickLabelPosition
     path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: High
     path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Low
     path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextTo
     path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Chart/enums/eTickLabelPosition.cs

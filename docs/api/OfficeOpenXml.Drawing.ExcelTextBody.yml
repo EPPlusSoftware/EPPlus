@@ -36,7 +36,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextBody
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Anchor
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AnchorCenter
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -341,7 +341,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -378,7 +378,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SpaceBetweenColumns
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -415,7 +415,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParagraphSpacing
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -452,7 +452,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextUpright
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -489,7 +489,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompatibleLineSpacing
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -526,7 +526,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ForceAntiAlias
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -563,7 +563,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromWordArt
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -600,7 +600,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalText
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -637,7 +637,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalTextOverflow
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -674,7 +674,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalTextOverflow
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -711,7 +711,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WrapText
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -748,7 +748,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAutofit
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -785,7 +785,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitNormalFontScale
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
@@ -822,7 +822,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineSpaceReduction
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs

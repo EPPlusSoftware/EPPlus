@@ -27,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Looks up a supplied value in the first column of a table, and returns the corresponding value from another column")]
     internal class VLookup : LookupFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             Stopwatch sw = null;
             if (context.Debug)
@@ -35,8 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 sw = new Stopwatch();
                 sw.Start();
             }
-            ValidateArguments(arguments, 3);
-            var arg1 = arguments.ElementAt(1);
+            var arg1 = arguments[1];
             if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
             var lookupArgs = new LookupArguments(arguments, context);
             var navigator = LookupNavigatorFactory.Create(LookupDirection.Vertical, lookupArgs, context);

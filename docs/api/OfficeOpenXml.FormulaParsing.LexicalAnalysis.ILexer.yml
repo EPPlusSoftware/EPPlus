@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ILexer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
@@ -48,7 +48,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
@@ -57,13 +57,13 @@ items:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   syntax:
-    content: IEnumerable<Token> Tokenize(string input)
+    content: IList<Token> Tokenize(string input)
     parameters:
     - id: input
       type: System.String
     return:
-      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
-    content.vb: Function Tokenize(input As String) As IEnumerable(Of Token)
+      type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: Function Tokenize(input As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer.Tokenize*
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer.Tokenize(System.String,System.String)
   commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer.Tokenize(System.String,System.String)
@@ -79,7 +79,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ILexer.cs
@@ -88,15 +88,15 @@ items:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   syntax:
-    content: IEnumerable<Token> Tokenize(string input, string worksheet)
+    content: IList<Token> Tokenize(string input, string worksheet)
     parameters:
     - id: input
       type: System.String
     - id: worksheet
       type: System.String
     return:
-      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
-    content.vb: Function Tokenize(input As String, worksheet As String) As IEnumerable(Of Token)
+      type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: Function Tokenize(input As String, worksheet As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer.Tokenize*
 references:
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -116,21 +116,21 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
-  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+- uid: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  commentId: T:System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
   parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<Token>
-  nameWithType: IEnumerable<Token>
-  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
-  nameWithType.vb: IEnumerable(Of Token)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
-  name.vb: IEnumerable(Of Token)
+  definition: System.Collections.Generic.IList`1
+  name: IList<Token>
+  nameWithType: IList<Token>
+  fullName: System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
+  nameWithType.vb: IList(Of Token)
+  fullName.vb: System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  name.vb: IList(Of Token)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: <
     nameWithType: <
@@ -143,10 +143,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -164,20 +164,20 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.Collections.Generic.IEnumerable`1
-  commentId: T:System.Collections.Generic.IEnumerable`1
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
   isExternal: true
-  name: IEnumerable<T>
-  nameWithType: IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  nameWithType.vb: IEnumerable(Of T)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: IEnumerable(Of T)
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: <
     nameWithType: <
@@ -189,10 +189,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '

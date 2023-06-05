@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartLegend
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Entries
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overlay
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -374,7 +374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -411,7 +411,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
@@ -443,7 +443,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartLegend.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/Chart/ExcelChartLegend.cs

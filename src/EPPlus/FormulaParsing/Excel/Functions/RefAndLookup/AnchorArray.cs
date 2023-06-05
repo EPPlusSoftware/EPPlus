@@ -26,10 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns the range of the dynamic array starting at the cell-address supplied")]
     internal class AnchorArray : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var address = arguments.First().Address;
+            var address = arguments[0].Address;
             if(address != null && address.WorksheetIx >= 0 && address.IsSingleCell && address.ExternalReferenceIx < 0)  //Not supported in external files yet
             {
                 if (address.WorksheetIx>=0)
@@ -47,12 +46,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                             ToCol = sf.EndCol,
                         };
                         var ri = new RangeInfo(rangeAddress, context);
-                        return new AddressCompileResult(ri, DataType.ExcelRange, rangeAddress);
+                        return new DynamicArrayCompileResult(ri, DataType.ExcelRange, rangeAddress);
                     }
                 }
             }
-            return CompileResult.GetErrorResult(eErrorType.Ref);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Ref);
         }
+        public override int ArgumentMinLength => 1;
         public override string NamespacePrefix
         {
             get

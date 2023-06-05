@@ -1,6 +1,8 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -15,72 +17,6 @@ using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.FormulaParsing
 {
-    internal struct CircularReference
-    {
-        public CircularReference(ulong fromCell, ulong toCell)
-        {
-            FromCell = fromCell;
-            ToCell = toCell;
-        }
-        internal ulong FromCell;
-        internal ulong ToCell;
-    }
-    internal class RpnOptimizedDependencyChain
-    {
-        internal List<RpnFormula> _formulas = new List<RpnFormula>();
-        internal Stack<RpnFormula> _formulaStack=new Stack<RpnFormula>();
-        internal Dictionary<int, RangeHashset> accessedRanges = new Dictionary<int, RangeHashset>();
-        internal HashSet<ulong> processedCells = new HashSet<ulong>();
-        internal List<CircularReference> _circularReferences = new List<CircularReference>();
-        internal ISourceCodeTokenizer _tokenizer;
-        internal FormulaExecutor _formulaExecutor;
-        internal ParsingContext _parsingContext;
-        internal FunctionCompilerFactory _functionCompilerFactory;
-        internal List<int> _startOfChain= new List<int>();
-        internal bool HasDynamicArrayFormula=false;
-        public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
-        {
-            _tokenizer = OptimizedSourceCodeTokenizer.Default;
-            _parsingContext = wb.FormulaParser.ParsingContext;
-            _formulaExecutor = new FormulaExecutor(_parsingContext);
-
-            var parser = wb.FormulaParser;
-            var filterInfo = new FilterInfo(wb);
-            parser.InitNewCalc(filterInfo);
-
-            _functionCompilerFactory = new FunctionCompilerFactory(_parsingContext.Configuration.FunctionRepository, _parsingContext);
-            
-            wb.FormulaParser.Configure(config =>
-            {
-                config.AllowCircularReferences = options.AllowCircularReferences;
-                config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
-            });
-
-        }
-
-        internal void Add(RpnFormula f)
-        {
-            _formulas.Add(f);
-        }
-        internal RpnOptimizedDependencyChain Execute()
-        {
-            return RpnFormulaExecution.Execute(_parsingContext.Package.Workbook, new ExcelCalculationOption());
-        }
-        internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws)
-        {
-            return RpnFormulaExecution.Execute(ws, new ExcelCalculationOption());
-        }
-        internal RpnOptimizedDependencyChain Execute(ExcelWorksheet ws, ExcelCalculationOption options)
-        {
-            return RpnFormulaExecution.Execute(ws, options);
-        }
-
-        //Adds the position where a chain of formulas start.
-        internal void StartOfChain()
-        {
-            _startOfChain.Add(_formulas.Count);
-        }
-    }
     internal class RpnFormulaExecution
     {
         internal static ArgumentParser _boolArgumentParser = new BoolArgumentParser();
@@ -443,7 +379,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var id = ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, f._row, f._column);
                 depChain.processedCells.Add(id);
 
-                depChain._formulas.Add(f);
+                depChain.AddFormulaToChain(f);
                 if (depChain._formulaStack.Count > 0)
                 {
                     f = depChain._formulaStack.Pop();
@@ -466,8 +402,13 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return cr.ResultValue;
             FollowChain:
-                
+
                 ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
+                if (ws == null)
+                {
+                    f._tokenIndex++;
+                    goto ExecuteFormula;
+                }
                 if (address.IsSingleCell)
                 {
                     if (depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws?.IndexInList??ushort.MaxValue, address.FromRow, address.FromCol)) == false)
@@ -536,17 +477,17 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if (f._ws == null)
                 {
-                    depChain._parsingContext.Package.Workbook.Names[f._row].Value = cr.ResultValue;
+                    depChain._parsingContext.Package.Workbook.Names[f._row].NameValue = cr.ResultValue;
                 }
                 else
                 {
                     if (f._column == 0)
                     {
-                        f._ws.Names[f._row].Value = cr.ResultValue;
+                        f._ws.Names[f._row].NameValue = cr.ResultValue;
                     }
                     else
                     {
-                        if (cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).IsMulti) //A range. When we add support for dynamic array formulas we will alter this.
+                        if ((cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).Address.IsSingleCell==false)) //A range. When we add support for dynamic array formulas we will alter this.
                         {
                             var ri = (IRangeInfo)cr.Result;
                             if (f._arrayIndex >= 0 && f._isDynamic == false) //A legacy array formula, Fill the referenced range.
@@ -555,12 +496,28 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else
                             {
-                                //Add dynamic array formula support here.
-                                var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
-                                if (dirtyRange!=null && dirtyRange.Length > 0)
+                                if (f.CanBeDynamicArray) //Create a dynamic array formula if allowed. 
                                 {
-                                    RecalculateDirtyCells(dirtyRange, depChain, rd);
+                                    //Add dynamic array formula support here.
+                                    var dirtyRange = ArrayFormulaOutput.FillDynamicArrayFromRangeInfo(f, ri, rd, depChain);
+                                    if (dirtyRange != null && dirtyRange.Length > 0)
+                                    {
+                                        RecalculateDirtyCells(dirtyRange, depChain, rd);
+                                    }
                                 }
+                                else //Set implicit intersection
+                                {
+                                    var icr = ImplicitIntersectionUtil.GetResult(ri, f._row, f._column, depChain._parsingContext);
+                                    f._ws.SetValueInner(f._row, f._column, icr.ResultValue ?? 0D);
+                                }
+                            }
+                        }
+                        else if (cr.ResultType == CompileResultType.DynamicArray)
+                        {
+                            var dirtyRange = ArrayFormulaOutput.FillDynamicArraySingleValue(f, cr, rd, depChain);
+                            if (dirtyRange != null && dirtyRange.Length > 0)
+                            {
+                                RecalculateDirtyCells(dirtyRange, depChain, rd);
                             }
                         }
                         else

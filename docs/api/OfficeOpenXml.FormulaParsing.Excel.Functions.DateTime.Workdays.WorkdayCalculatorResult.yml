@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkdayCalculatorResult
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfWorkdays
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartDate
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndDate
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
@@ -205,7 +205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Direction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/WorkdayCalculatorResult.cs

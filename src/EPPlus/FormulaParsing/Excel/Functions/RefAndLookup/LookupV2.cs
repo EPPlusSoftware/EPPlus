@@ -15,24 +15,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class LookupV2 : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var searchedValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
-            var arg2 = arguments.ElementAt(1);
+            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var arg2 = arguments[1];
             if(!arg2.IsExcelRange)
             {
-                return CreateResult(eErrorType.Value);
+                return CompileResult.GetErrorResult(eErrorType.Value);
             }
             var lookupRange = arg2.ValueAsRangeInfo;
             var returnVector = lookupRange;
             var separateReturnVector = false;
-            if(arguments.Count() > 2 && arguments.ElementAt(2).IsExcelRange)
+            if(arguments.Count > 2 && arguments[2].IsExcelRange)
             {
                 separateReturnVector = true;
-                returnVector = arguments.ElementAt(2).ValueAsRangeInfo;
+                returnVector = arguments[2].ValueAsRangeInfo;
             }
             var nLookupRows = lookupRange.Size.NumberOfRows;
             var nLookupCols = lookupRange.Size.NumberOfCols;
@@ -40,7 +40,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             index = LookupBinarySearch.GetMatchIndex(index, returnVector, LookupMatchMode.ExactMatchReturnNextSmaller, true);
             if(index < 0)
             {
-                return CreateResult(eErrorType.NA);
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
             var nReturnRows = returnVector.Size.NumberOfRows;
             var nReturnCols = returnVector.Size.NumberOfCols;
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if(separateReturnVector && nReturnCols > 1)
                 {
-                    return CreateResult(eErrorType.NA);
+                    return CompileResult.GetErrorResult(eErrorType.NA);
                 }
                 return CompileResultFactory.Create(returnVector.GetOffset(index, nReturnCols - 1));
             }
@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 if (separateReturnVector && nReturnRows > 1)
                 {
-                    return CreateResult(eErrorType.NA);
+                    return CompileResult.GetErrorResult(eErrorType.NA);
                 }
                 return CompileResultFactory.Create(returnVector.GetOffset(nReturnRows - 1, index));
             }

@@ -17,11 +17,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelGroupShape.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelGroupShape
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 277
+    startLine: 276
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -98,11 +98,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelGroupShape.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Drawings
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 293
+    startLine: 292
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -135,11 +135,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelGroupShape.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
-    startLine: 416
+    startLine: 445
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

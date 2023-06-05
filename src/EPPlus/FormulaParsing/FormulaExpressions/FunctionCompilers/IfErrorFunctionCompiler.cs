@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
             {
                 args.Add(new FunctionArgument(lastChild.Compile().Result));
             }
-            return Function.Execute(args, Context);
+            return Function.ExecuteInternal(args, Context);
         }
     }
 }

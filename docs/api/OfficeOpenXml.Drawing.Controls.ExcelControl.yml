@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControl
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlPropertiesXml
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -231,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlternativeText
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -268,7 +268,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Macro
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -305,7 +305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Print
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Locked
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -385,7 +385,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFill
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -422,7 +422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoPict
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -459,7 +459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultSize
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -496,7 +496,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Disabled
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -533,7 +533,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeDEffects
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -570,7 +570,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkedCell
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs
@@ -607,7 +607,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControl.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/Controls/ExcelControl.cs

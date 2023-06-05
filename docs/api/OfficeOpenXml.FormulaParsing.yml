@@ -4,14 +4,13 @@ items:
   commentId: N:OfficeOpenXml.FormulaParsing
   id: OfficeOpenXml.FormulaParsing
   children:
-  - OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo
   - OfficeOpenXml.FormulaParsing.ExcelAddressCache
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption
   - OfficeOpenXml.FormulaParsing.ExcelCell
-  - OfficeOpenXml.FormulaParsing.ExternalCellInfo
   - OfficeOpenXml.FormulaParsing.FormulaCellInfo
   - OfficeOpenXml.FormulaParsing.FormulaParser
   - OfficeOpenXml.FormulaParsing.FormulaParserManager
+  - OfficeOpenXml.FormulaParsing.IAddressInfo
   - OfficeOpenXml.FormulaParsing.ICellInfo
   - OfficeOpenXml.FormulaParsing.IFormulaCellInfo
   - OfficeOpenXml.FormulaParsing.INameInfo
@@ -45,19 +44,8 @@ references:
   name: IFormulaCellInfo
   nameWithType: IFormulaCellInfo
   fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
-- uid: OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo
-  commentId: T:OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo
-  name: EpplusExcelExternalRangeInfo
-  nameWithType: EpplusExcelExternalRangeInfo
-  fullName: OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo
-- uid: OfficeOpenXml.FormulaParsing.ExternalCellInfo
-  commentId: T:OfficeOpenXml.FormulaParsing.ExternalCellInfo
-  name: ExternalCellInfo
-  nameWithType: ExternalCellInfo
-  fullName: OfficeOpenXml.FormulaParsing.ExternalCellInfo
 - uid: OfficeOpenXml.FormulaParsing.ExcelAddressCache
   commentId: T:OfficeOpenXml.FormulaParsing.ExcelAddressCache
-  parent: OfficeOpenXml.FormulaParsing
   name: ExcelAddressCache
   nameWithType: ExcelAddressCache
   fullName: OfficeOpenXml.FormulaParsing.ExcelAddressCache
@@ -92,6 +80,7 @@ references:
   fullName: OfficeOpenXml.FormulaParsing.ICellInfo
 - uid: OfficeOpenXml.FormulaParsing.INameInfo
   commentId: T:OfficeOpenXml.FormulaParsing.INameInfo
+  parent: OfficeOpenXml.FormulaParsing
   name: INameInfo
   nameWithType: INameInfo
   fullName: OfficeOpenXml.FormulaParsing.INameInfo
@@ -113,6 +102,12 @@ references:
   name: IRangeInfo
   nameWithType: IRangeInfo
   fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IAddressInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo
 - uid: OfficeOpenXml.FormulaParsing.NameValueProvider
   commentId: T:OfficeOpenXml.FormulaParsing.NameValueProvider
   name: NameValueProvider

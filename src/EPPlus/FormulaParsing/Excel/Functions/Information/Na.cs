@@ -25,9 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         Description = "Returns the Excel #N/A error")]
     internal class Na : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 0;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            return CreateResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+            return CompileResult.GetErrorResult(eErrorType.NA);
         }
     }
 }

@@ -30,20 +30,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             ArrayParameterIndexes = new List<int> { 0, 1 }
         };
 
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var number = ArgToDecimal(arguments, 0);
-            number = System.Math.Floor(number);
+            number = Math.Floor(number);
             var numberChosen = ArgToDecimal(arguments, 1);
-            if (number <= 0d || numberChosen <= 0 || number < numberChosen) return CreateResult(eErrorType.Num);
+            if (number <= 0d || numberChosen <= 0 || number < numberChosen) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = MathHelper.Factorial(number, number - numberChosen) / MathHelper.Factorial(numberChosen);
             return CreateResult(result, DataType.Decimal);
         }

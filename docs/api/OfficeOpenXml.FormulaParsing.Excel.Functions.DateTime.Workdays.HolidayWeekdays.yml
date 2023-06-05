@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HolidayWeekdays
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
@@ -92,7 +92,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfWorkdaysPerWeek
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHolidayWeekday
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdjustResultWithHolidays
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNextWorkday
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DateTime/Workdays/HolidayWeekdays.cs

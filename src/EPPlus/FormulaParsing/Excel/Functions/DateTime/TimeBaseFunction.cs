@@ -39,7 +39,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 
         public void ValidateAndInitSerialNumber(IEnumerable<FunctionArgument> arguments)
         {
-            ValidateArguments(arguments, 1);
             SerialNumber = (double)ArgToDecimal(arguments, 0);
         }
 

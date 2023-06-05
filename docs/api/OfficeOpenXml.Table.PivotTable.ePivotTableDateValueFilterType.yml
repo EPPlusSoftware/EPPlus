@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePivotTableDateValueFilterType
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNewerThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNewerThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNotBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNotEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateOlderThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateOlderThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs

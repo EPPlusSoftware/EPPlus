@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Events.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CloseDelegate
     path: ../src/EPPlus/Packaging/DotNetZip/Events.cs

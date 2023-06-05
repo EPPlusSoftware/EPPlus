@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAModuleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaModuleCollection
     path: ../src/EPPlus/Vba/ExcelVBAModuleCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAModuleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddModule
     path: ../src/EPPlus/Vba/ExcelVBAModuleCollection.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAModuleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddClass
     path: ../src/EPPlus/Vba/ExcelVBAModuleCollection.cs

@@ -24,15 +24,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the yield for a treasury bill")]
     internal class TbillYield : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var pr = ArgToDecimal(arguments, 2);
-            if (settlementDate >= maturityDate) return CreateResult(eErrorType.Num);
-            if (maturityDate.Subtract(settlementDate).TotalDays > 365) return CreateResult(eErrorType.Num);
-            if (pr <= 0d) return CreateResult(eErrorType.Num);
+            if (settlementDate >= maturityDate) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (maturityDate.Subtract(settlementDate).TotalDays > 365) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (pr <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);
             var finDays = FinancialDaysFactory.Create(DayCountBasis.Actual_360);
             var nDaysInPeriod = finDays.GetDaysBetweenDates(settlementDate, maturityDate);
             var result = ((100d - pr)/pr) * (360d/nDaysInPeriod);

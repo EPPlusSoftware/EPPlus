@@ -26,10 +26,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         SupportsArrays = true)]
     internal class Left : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var str = ArgToString(arguments, 0);
             var length = ArgToInt(arguments, 1);
             if (length < 0)

@@ -26,10 +26,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         SupportsArrays = true)]
     internal class Upper : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var arg = ArgToString(arguments, 0);
             return CreateResult(Utils.ConvertUtil._invariantTextInfo.ToUpper(arg), DataType.String);
         }

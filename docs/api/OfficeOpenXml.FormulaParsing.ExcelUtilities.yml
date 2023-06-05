@@ -4,7 +4,6 @@ items:
   commentId: N:OfficeOpenXml.FormulaParsing.ExcelUtilities
   id: OfficeOpenXml.FormulaParsing.ExcelUtilities
   children:
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.CellReferenceProvider
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
@@ -25,11 +24,6 @@ items:
   assemblies:
   - EPPlus
 references:
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.CellReferenceProvider
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.CellReferenceProvider
-  name: CellReferenceProvider
-  nameWithType: CellReferenceProvider
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.CellReferenceProvider
 - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
   commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
   parent: OfficeOpenXml.FormulaParsing.ExcelUtilities

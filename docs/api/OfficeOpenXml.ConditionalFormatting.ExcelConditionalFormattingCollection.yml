@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingCollection
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -273,7 +273,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAll
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -305,7 +305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -341,7 +341,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -377,7 +377,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveByPriority
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -413,7 +413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RulesByPriority
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -452,7 +452,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAboveAverage
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -491,7 +491,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAboveOrEqualAverage
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -530,7 +530,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBelowAverage
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -569,7 +569,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBelowOrEqualAverage
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -608,7 +608,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAboveStdDev
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -647,7 +647,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBelowStdDev
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -686,7 +686,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBottom
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -725,7 +725,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBottomPercent
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -764,7 +764,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -803,7 +803,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTopPercent
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -842,7 +842,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLast7Days
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -881,7 +881,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLastMonth
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -920,7 +920,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLastWeek
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -959,7 +959,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNextMonth
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -998,7 +998,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNextWeek
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1037,7 +1037,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThisMonth
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1076,7 +1076,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThisWeek
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1115,7 +1115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddToday
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1154,7 +1154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTomorrow
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1193,7 +1193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddYesterday
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1232,7 +1232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBeginsWith
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1271,7 +1271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBetween
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1310,7 +1310,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddContainsBlanks
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1349,7 +1349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddContainsErrors
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1388,7 +1388,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddContainsText
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1427,7 +1427,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDuplicateValues
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1466,7 +1466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddEndsWith
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1505,7 +1505,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddEqual
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1544,7 +1544,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExpression
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1583,7 +1583,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGreaterThan
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1622,7 +1622,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGreaterThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1661,7 +1661,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLessThan
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1700,7 +1700,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLessThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1739,7 +1739,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotBetween
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1778,7 +1778,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotContainsBlanks
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1817,7 +1817,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotContainsErrors
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1856,7 +1856,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotContainsText
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1895,7 +1895,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNotEqual
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1934,7 +1934,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddUniqueValues
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -1973,7 +1973,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThreeColorScale
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -2012,7 +2012,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTwoColorScale
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -2051,7 +2051,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThreeIconSet
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -2093,7 +2093,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFourIconSet
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -2135,7 +2135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFiveIconSet
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
@@ -2177,7 +2177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDatabar
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs

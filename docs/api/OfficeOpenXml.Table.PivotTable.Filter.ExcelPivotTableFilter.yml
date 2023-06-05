@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EvalOrder
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value1
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value2
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilter.cs

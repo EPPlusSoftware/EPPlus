@@ -32,11 +32,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml;
 
 namespace EPPlusTest.FormulaParsing
 {
     [TestClass]
-    public class NameValueProviderTests
+    public class NameValueProviderTests : TestBase
     {
         //private ExcelDataProvider _excelDataProvider;
 
@@ -101,5 +102,23 @@ namespace EPPlusTest.FormulaParsing
         //    nameValueProvider.Reload();
         //    Assert.IsFalse(nameValueProvider.IsNamedValue("A"));
         //}
+
+        [TestMethod]
+        public void CalculateWorkbookNameFormula()
+        {
+            using(var p=OpenPackage("NameWorkbook"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                LoadTestdata(ws);
+
+                p.Workbook.Names.AddFormula("SumOfSheet1", "Sum(Sheet1!A2:A10)");
+                ws.Cells["L1"].Formula = "Sheet1!B2+SumOfSheet1+15";
+                ws.Calculate();
+
+                Assert.AreEqual(403830D, p.Workbook.Names["SumOfSheet1"].Value);
+                Assert.AreEqual(403847D, ws.Cells["L1"].Value);
+            }
+        }
+
     }
 }

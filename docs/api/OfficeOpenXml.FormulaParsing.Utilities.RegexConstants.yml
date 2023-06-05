@@ -5,10 +5,7 @@ items:
   id: RegexConstants
   parent: OfficeOpenXml.FormulaParsing.Utilities
   children:
-  - OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Boolean
-  - OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Decimal
   - OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.ExcelAddress
-  - OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Integer
   - OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.SingleCellAddress
   langs:
   - csharp
@@ -20,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegexConstants
     path: ../src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
@@ -64,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SingleCellAddress
     path: ../src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
@@ -99,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddress
     path: ../src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
@@ -114,111 +111,6 @@ items:
     return:
       type: System.String
     content.vb: Public Const ExcelAddress As String = "^(('[^/\\?*\[\]]{1,31}'|[A-Za-z_]{1,31})!)?[\$]{0,1}([A-Z]|[A-Z]{1,3}[\$]{0,1}[1-9]{1}[0-9]{0,7})(\:({0,1}[A-Z]|[A-Z]{1,3}[\$]{0,1}[1-9]{1}[0-9]{0,7})){0,1}$"
-  modifiers.csharp:
-  - public
-  - const
-  modifiers.vb:
-  - Public
-  - Const
-- uid: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Boolean
-  commentId: F:OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Boolean
-  id: Boolean
-  parent: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
-  langs:
-  - csharp
-  - vb
-  name: Boolean
-  nameWithType: RegexConstants.Boolean
-  fullName: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Boolean
-  type: Field
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Boolean
-    path: ../src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-    startLine: 36
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Utilities
-  summary: "\nRegex constant matching a boolean expression (true or false)\n"
-  example: []
-  syntax:
-    content: public const string Boolean = "^(true|false)$"
-    return:
-      type: System.String
-    content.vb: Public Const Boolean As String = "^(true|false)$"
-  modifiers.csharp:
-  - public
-  - const
-  modifiers.vb:
-  - Public
-  - Const
-- uid: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Decimal
-  commentId: F:OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Decimal
-  id: Decimal
-  parent: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
-  langs:
-  - csharp
-  - vb
-  name: Decimal
-  nameWithType: RegexConstants.Decimal
-  fullName: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Decimal
-  type: Field
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Decimal
-    path: ../src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-    startLine: 40
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Utilities
-  summary: "\nRegex constant matching a decimal expression\n"
-  example: []
-  syntax:
-    content: public const string Decimal = "^[0-9]+\\.[0-9]+$"
-    return:
-      type: System.String
-    content.vb: Public Const Decimal As String = "^[0-9]+\.[0-9]+$"
-  modifiers.csharp:
-  - public
-  - const
-  modifiers.vb:
-  - Public
-  - Const
-- uid: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Integer
-  commentId: F:OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Integer
-  id: Integer
-  parent: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
-  langs:
-  - csharp
-  - vb
-  name: Integer
-  nameWithType: RegexConstants.Integer
-  fullName: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants.Integer
-  type: Field
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Integer
-    path: ../src/EPPlus/FormulaParsing/Utilities/RegexConstants.cs
-    startLine: 44
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Utilities
-  summary: "\nRegex constant matching an integer expression\n"
-  example: []
-  syntax:
-    content: public const string Integer = "^[0-9]+$"
-    return:
-      type: System.String
-    content.vb: Public Const Integer As String = "^[0-9]+$"
   modifiers.csharp:
   - public
   - const

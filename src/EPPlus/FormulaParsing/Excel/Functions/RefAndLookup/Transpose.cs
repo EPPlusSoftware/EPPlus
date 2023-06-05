@@ -27,15 +27,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class Transpose : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 1);
-
-            var arg0 = functionArguments.First();
+            var arg0 = arguments[0];
             if(arg0.DataType!=DataType.ExcelRange)
             {
-                return CreateResult(arg0.Value, arg0.DataType);
+                return CreateDynamicArrayResult(arg0.Value, arg0.DataType);
             }
             
             var range = arg0.ValueAsRangeInfo;
@@ -48,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 }
             }
 
-            return CreateAddressResult(newRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(newRange, DataType.ExcelRange);
         }
     }
 }

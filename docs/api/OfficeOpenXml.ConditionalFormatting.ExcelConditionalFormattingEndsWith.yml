@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingEndsWith.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingEndsWith
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingEndsWith.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingEndsWith.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingEndsWith.cs

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableAreaStyle
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Conditions
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs

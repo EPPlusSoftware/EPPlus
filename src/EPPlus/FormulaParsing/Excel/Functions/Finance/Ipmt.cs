@@ -26,25 +26,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the interest payment for a given period of an investment, with periodic constant payments and a constant interest rate")]
     internal class Ipmt : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var rate = ArgToDecimal(arguments, 0);
             var per = ArgToInt(arguments, 1);
             var nPer = ArgToInt(arguments, 2);
             var presentValue = ArgToDecimal(arguments, 3);
             var fv = 0d;
-            if (arguments.Count() >= 5)
+            if (arguments.Count >= 5)
             {
                 fv = ArgToDecimal(arguments, 4);
             }
             var type = PmtDue.EndOfPeriod;
-            if (arguments.Count() >= 6)
+            if (arguments.Count >= 6)
             {
                 type = (PmtDue)ArgToInt(arguments, 5);
             }
             var result = IPmtImpl.Ipmt(rate, per, nPer, presentValue, fv, type);
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             return CreateResult(result.Result, DataType.Decimal);
         }
 

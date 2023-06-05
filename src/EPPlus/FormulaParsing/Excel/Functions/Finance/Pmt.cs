@@ -26,18 +26,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the payments required to reduce a loan, from a supplied present value to a specified future value")]
     internal class Pmt : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var rate = ArgToDecimal(arguments, 0);
             var nPer = ArgToInt(arguments, 1);
             var presentValue = ArgToDecimal(arguments, 2);
             var payEndOfPeriod = 0;
             var futureValue = 0d;
-            if (arguments.Count() > 3) futureValue = ArgToDecimal(arguments, 3);
-            if (arguments.Count() > 4) payEndOfPeriod = ArgToInt(arguments, 4);
+            if (arguments.Count > 3) futureValue = ArgToDecimal(arguments, 3);
+            if (arguments.Count > 4) payEndOfPeriod = ArgToInt(arguments, 4);
             var result = InternalMethods.PMT_Internal(rate, nPer, presentValue, futureValue, payEndOfPeriod == 0 ? PmtDue.EndOfPeriod : PmtDue.BeginningOfPeriod);
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
 
             return CreateResult(result.Result, DataType.Decimal);
         }

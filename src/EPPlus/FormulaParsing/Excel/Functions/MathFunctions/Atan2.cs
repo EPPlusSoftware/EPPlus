@@ -31,16 +31,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             ArrayParameterIndexes = new List<int> { 0, 1 }
         };
 
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var arg1 = ArgToDecimal(arguments, 0);
             var arg2 = ArgToDecimal(arguments, 1);
             // Had to switch order of the arguments to get the same result as in excel /MA

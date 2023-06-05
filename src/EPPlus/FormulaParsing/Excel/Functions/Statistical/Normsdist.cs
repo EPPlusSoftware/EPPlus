@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the Standard Normal Cumulative Distribution Function for a supplied value.")]
     internal class Normsdist : NormalDistributionBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var z = ArgToDecimal(arguments, 0);
             var result = CumulativeDistribution(z, 0, 1);
             return CreateResult(result, DataType.Decimal);

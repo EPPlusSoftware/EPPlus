@@ -28,7 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
     internal class RandArray : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 0;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var nRows = 1;
             short nCols = 1;
@@ -37,28 +38,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             bool useInteger = false;
             if (arguments != null && arguments.Any())
             {
-                if (arguments.Count() > 0)
+                if (arguments.Count > 0)
                 {
                     nRows = ArgToInt(arguments, 0);
                 }
-                if (arguments.Count() > 1)
+                if (arguments.Count > 1)
                 {
                     var c = ArgToInt(arguments, 1);
                     if (c > short.MaxValue || c < short.MinValue)
                     {
-                        return CreateResult(eErrorType.Value);
+                        return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                     }
                     nCols = Convert.ToInt16(c);
                 }
-                if (arguments.Count() > 2)
+                if (arguments.Count > 2)
                 {
                     min = ArgToDecimal(arguments, 2);
                 }
-                if (arguments.Count() > 3)
+                if (arguments.Count > 3)
                 {
                     max = ArgToDecimal(arguments, 3);
                 }
-                if (arguments.Count() > 4)
+                if (arguments.Count > 4)
                 {
                     useInteger = ArgToBool(arguments, 4);
                 }
@@ -66,11 +67,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             // 50 million cells in the array is the max value
             if(nRows * nCols > 50000000)
             {
-                return CreateResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             else if(max < min)
             {
-                return CreateResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var rnd = new Random();
             var result = new InMemoryRange(new RangeDefinition(nRows, nCols));
@@ -82,7 +83,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     result.SetValue(row, col, num);
                 }
             }
-            return CreateResult(result, DataType.ExcelRange);
+            return CreateDynamicArrayResult(result, DataType.ExcelRange);
         }
         private double GetRandomNumber(Random rnd, double min, double max, bool useInteger)
         {

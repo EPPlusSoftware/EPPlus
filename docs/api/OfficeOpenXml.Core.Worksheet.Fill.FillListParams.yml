@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillListParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillListParams
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillListParams.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillListParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartIndex
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillListParams.cs

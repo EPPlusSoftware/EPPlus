@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         SupportsArrays = true)]
     internal class Csc : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
             return CreateResult(MathHelper.Cosec(number), DataType.Decimal);
         }

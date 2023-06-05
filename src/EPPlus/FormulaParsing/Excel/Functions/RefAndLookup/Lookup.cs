@@ -30,9 +30,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Searches for a specific value in one data vector, and returns a value from the corresponding position of a second data vector")]
     internal class Lookup : LookupFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             if (HaveTwoRanges(arguments))
             {
                 return HandleTwoRanges(arguments, context);
@@ -40,16 +40,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return HandleSingleRange(arguments, context);
         }
 
-        private bool HaveTwoRanges(IEnumerable<FunctionArgument> arguments)
+        private bool HaveTwoRanges(IList<FunctionArgument> arguments)
         {
-            if (arguments.Count() < 3) return false;
-            return (arguments.ElementAt(2).Value is RangeInfo);
+            if (arguments.Count < 3) return false;
+            return (arguments[2].Value is RangeInfo);
         }
 
-        private CompileResult HandleSingleRange(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        private CompileResult HandleSingleRange(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var searchedValue = arguments.ElementAt(0).Value;
-            Require.That(arguments.ElementAt(1).Value).Named("firstAddress").IsNotNull();
+            var searchedValue = arguments[0].Value;
             var firstAddress = ArgToAddress(arguments, 1);
             var rangeAddressFactory = new RangeAddressFactory(context.ExcelDataProvider, context);
             var address = rangeAddressFactory.Create(firstAddress);
@@ -62,21 +61,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 lookupIndex = nRows + 1;
                 lookupDirection = LookupDirection.Horizontal;
             }
-            var lookupArgs = new LookupArguments(searchedValue, firstAddress, lookupIndex, 0, true, arguments.ElementAt(1).ValueAsRangeInfo);
+            var lookupArgs = new LookupArguments(searchedValue, firstAddress, lookupIndex, 0, true, arguments[1].ValueAsRangeInfo);
             var navigator = LookupNavigatorFactory.Create(lookupDirection, lookupArgs, context);
             return Lookup(navigator, lookupArgs);
         }
 
-        private CompileResult HandleTwoRanges(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        private CompileResult HandleTwoRanges(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var arg0 = arguments.ElementAt(0);
-            var arg1 = arguments.ElementAt(1);
-            var arg2 = arguments.ElementAt(2);
-            Require.That(arg1.Value).Named("firstAddress").IsNotNull();
-            Require.That(arg2.Value).Named("secondAddress").IsNotNull();
-            if (arg0.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg0.Value).Type);
-            if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
-            if (arg2.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg2.Value).Type);
+            var arg0 = arguments[0];
+            var arg1 = arguments[1];
+            var arg2 = arguments[2];
 
             var firstAddress = ArgToAddress(arguments, 1);
             var secondAddress = ArgToAddress(arguments, 2);
@@ -91,7 +85,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 lookupIndex = (address2.FromRow - address1.FromRow) + 1;
                 lookupOffset = address2.FromCol - address1.FromCol;
             }
-            var lookupArgs = new LookupArguments(arg0.Value, firstAddress, lookupIndex, lookupOffset,  true, arguments.ElementAt(1).ValueAsRangeInfo);
+            var lookupArgs = new LookupArguments(arg0.Value, firstAddress, lookupIndex, lookupOffset, true, arguments[1].ValueAsRangeInfo);
             var navigator = LookupNavigatorFactory.Create(lookupDirection, lookupArgs, context);
             return Lookup(navigator, lookupArgs);
         }

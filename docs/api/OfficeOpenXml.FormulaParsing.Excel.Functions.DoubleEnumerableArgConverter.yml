@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableArgConverter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoubleEnumerableArgConverter
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableArgConverter.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableArgConverter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConvertArgs
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableArgConverter.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableArgConverter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConvertArgsIncludingOtherTypes
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/DoubleEnumerableArgConverter.cs

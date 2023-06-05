@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         Description = "Returns an integer representing the week number (from 1 to 53) of the year from a user-supplied date")]
     internal class Weeknum : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1, eErrorType.Value);
             var dateSerial = ArgToDecimal(arguments, 0);
             var date = System.DateTime.FromOADate(dateSerial);
             var startDay = DayOfWeek.Sunday;

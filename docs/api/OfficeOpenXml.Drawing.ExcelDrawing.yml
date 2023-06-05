@@ -47,7 +47,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawing
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_PIXEL
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_POINT
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_CM
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_MM
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -243,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_US_INCH
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -278,7 +278,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_PICA
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -352,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -391,7 +391,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -428,7 +428,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EditAs
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -465,7 +465,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Locked
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -504,7 +504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Print
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -543,7 +543,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: From
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -580,7 +580,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -617,7 +617,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: To
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -691,7 +691,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hyperlink
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -728,7 +728,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -765,7 +765,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPosition
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -804,7 +804,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -843,7 +843,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeCellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -891,7 +891,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeCellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -927,7 +927,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPosition
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -972,7 +972,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1010,7 +1010,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1049,7 +1049,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SendToBack
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1081,7 +1081,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BringToFront
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1113,7 +1113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1155,7 +1155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnGroup
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1191,7 +1191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentGroup
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1228,7 +1228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -1264,7 +1264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdjustPositionAndSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs

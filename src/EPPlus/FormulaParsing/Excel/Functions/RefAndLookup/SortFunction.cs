@@ -31,28 +31,28 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     {        
         private readonly InMemoryRangeSorter _sorter = new InMemoryRangeSorter();
         public override string NamespacePrefix => "_xlfn._xlws.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var arg1 = arguments.ElementAt(0);
+            var arg1 = arguments[0];
             if(!arg1.IsExcelRange)
             {
-                return CompileResultFactory.Create(arg1.Value);
+                return CompileResultFactory.CreateDynamicArray(arg1.Value);
             }
             var range = arg1.ValueAsRangeInfo;
             var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
             var sortIndex = 1;
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
             {
                 sortIndex = ArgToInt(arguments, 1);
             }
             var sortOrder = 1;
-            if(arguments.Count() > 2)
+            if(arguments.Count > 2)
             {
                 sortOrder = ArgToInt(arguments, 2);
             }
             var byCol = false;
-            if(arguments.Count() > 3)
+            if(arguments.Count > 3)
             {
                 byCol = ArgToBool(arguments, 3);
             }
@@ -61,7 +61,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (sortIndex < 1 || sortIndex > maxIndex) return CreateResult(eErrorType.Value);
             if (sortOrder != -1 && sortOrder != 1) return CreateResult(eErrorType.Value);
             var sortedRange = GetSortedRange(range, sortIndex, sortOrder, byCol);
-            return CreateResult(sortedRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(sortedRange, DataType.ExcelRange);
         }
 
         private InMemoryRange GetSortedRange(IRangeInfo sourceRange, int sortIndex, int sortOrder, bool byCol)

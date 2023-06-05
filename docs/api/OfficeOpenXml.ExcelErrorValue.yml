@@ -23,11 +23,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 59
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -41,6 +41,8 @@ items:
     commentId: T:OfficeOpenXml.eErrorType
   inheritance:
   - System.Object
+  derivedClasses:
+  - OfficeOpenXml.ExcelRichDataErrorValue
   inheritedMembers:
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetType
@@ -66,11 +68,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 150
+    startLine: 195
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -107,11 +109,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 162
+    startLine: 208
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -135,6 +137,9 @@ items:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
     description: Is thrown when <code data-dev-comment-type="paramref" class="paramref">val</code> is not a valid Excel error.
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: If the argument cannot be converted.
   modifiers.csharp:
   - public
   - static
@@ -155,11 +160,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 180
+    startLine: 231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -192,11 +197,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 186
+    startLine: 237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -230,11 +235,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 214
+    startLine: 269
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -274,11 +279,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 224
+    startLine: 279
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -318,11 +323,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 233
+    startLine: 288
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -356,11 +361,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 242
+    startLine: 297
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

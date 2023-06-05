@@ -8,12 +8,10 @@ items:
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.AllowCircularReferences
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.DetachLogger
-  - OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.FunctionRepository
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.Lexer
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.Logger
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.PrecisionAndRoundingStrategy
-  - OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler(OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler)
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetLexer(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer)
   langs:
   - csharp
@@ -25,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingConfiguration
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -68,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowCircularReferences
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -105,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -142,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Lexer
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -181,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -204,43 +202,6 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler
-  commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler
-  id: ExpressionCompiler
-  parent: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-  langs:
-  - csharp
-  - vb
-  name: ExpressionCompiler
-  nameWithType: ParsingConfiguration.ExpressionCompiler
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ExpressionCompiler
-    path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 56
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nThe <xref href=\"OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler\" data-throw-if-not-resolved=\"false\"></xref> of the parser\n"
-  example: []
-  syntax:
-    content: public IExpressionCompiler ExpressionCompiler { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler
-    content.vb: Public ReadOnly Property ExpressionCompiler As IExpressionCompiler
-  overload: OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.FunctionRepository
   commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.FunctionRepository
   id: FunctionRepository
@@ -255,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionRepository
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -292,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetLexer
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -317,45 +278,6 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler(OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler)
-  commentId: M:OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler(OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler)
-  id: SetExpresionCompiler(OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler)
-  parent: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-  langs:
-  - csharp
-  - vb
-  name: SetExpresionCompiler(IExpressionCompiler)
-  nameWithType: ParsingConfiguration.SetExpresionCompiler(IExpressionCompiler)
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler(OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: SetExpresionCompiler
-    path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-    startLine: 107
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nReplaces the expression compiler with any instance implementing the <xref href=\"OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler\" data-throw-if-not-resolved=\"false\"></xref> interface.\n"
-  example: []
-  syntax:
-    content: public ParsingConfiguration SetExpresionCompiler(IExpressionCompiler expressionCompiler)
-    parameters:
-    - id: expressionCompiler
-      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler
-      description: ''
-    return:
-      type: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-      description: ''
-    content.vb: Public Function SetExpresionCompiler(expressionCompiler As IExpressionCompiler) As ParsingConfiguration
-  overload: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
   commentId: M:OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
   id: AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
@@ -370,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AttachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -409,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DetachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -789,22 +711,6 @@ references:
   name: OfficeOpenXml.FormulaParsing.Logging
   nameWithType: OfficeOpenXml.FormulaParsing.Logging
   fullName: OfficeOpenXml.FormulaParsing.Logging
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler
-  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler
-  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: IExpressionCompiler
-  nameWithType: IExpressionCompiler
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler
-  name: ExpressionCompiler
-  nameWithType: ParsingConfiguration.ExpressionCompiler
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.ExpressionCompiler
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.FunctionRepository
   commentId: P:OfficeOpenXml.FormulaParsing.ParsingConfiguration.FunctionRepository
   isExternal: true
@@ -835,11 +741,6 @@ references:
   name: ParsingConfiguration
   nameWithType: ParsingConfiguration
   fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration
-- uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler
-  name: SetExpresionCompiler
-  nameWithType: ParsingConfiguration.SetExpresionCompiler
-  fullName: OfficeOpenXml.FormulaParsing.ParsingConfiguration.SetExpresionCompiler
 - uid: OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingConfiguration.AttachLogger
   name: AttachLogger

@@ -565,7 +565,7 @@ namespace OfficeOpenXml.ExternalReferences
         public eExternalWorkbookCacheStatus CacheStatus { get; private set; }
         private void UpdateCacheForFormula(ExcelWorkbook wb, string formula, string address)
         {
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
 
             IList<Token> rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
             var expressions = FormulaExecutor.CompileExpressions(ref rpnTokens, wb.FormulaParser.ParsingContext);

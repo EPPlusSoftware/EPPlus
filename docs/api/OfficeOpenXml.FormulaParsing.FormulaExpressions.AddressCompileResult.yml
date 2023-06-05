@@ -1,0 +1,745 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  id: AddressCompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType
+  langs:
+  - csharp
+  - vb
+  name: AddressCompileResult
+  nameWithType: AddressCompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddressCompileResult
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 347
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: 'public class AddressCompileResult : CompileResult'
+    content.vb: >-
+      Public Class AddressCompileResult
+          Inherits CompileResult
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  derivedClasses:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
+  inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  langs:
+  - csharp
+  - vb
+  name: AddressCompileResult(Object, DataType, FormulaRangeAddress)
+  nameWithType: AddressCompileResult.AddressCompileResult(Object, DataType, FormulaRangeAddress)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.AddressCompileResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType, OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 349
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public AddressCompileResult(object result, DataType dataType, FormulaRangeAddress address)
+    parameters:
+    - id: result
+      type: System.Object
+    - id: dataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    - id: address
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: Public Sub New(result As Object, dataType As DataType, address As FormulaRangeAddress)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  langs:
+  - csharp
+  - vb
+  name: AddressCompileResult(Object, DataType)
+  nameWithType: AddressCompileResult.AddressCompileResult(Object, DataType)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.AddressCompileResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 353
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public AddressCompileResult(object result, DataType dataType)
+    parameters:
+    - id: result
+      type: System.Object
+    - id: dataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+    content.vb: Public Sub New(result As Object, dataType As DataType)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(OfficeOpenXml.eErrorType)
+  id: '#ctor(OfficeOpenXml.eErrorType)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  langs:
+  - csharp
+  - vb
+  name: AddressCompileResult(eErrorType)
+  nameWithType: AddressCompileResult.AddressCompileResult(eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.AddressCompileResult(OfficeOpenXml.eErrorType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 357
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public AddressCompileResult(eErrorType error)
+    parameters:
+    - id: error
+      type: OfficeOpenXml.eErrorType
+    content.vb: Public Sub New(error As eErrorType)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
+  id: '#ctor(OfficeOpenXml.ExcelErrorValue)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  langs:
+  - csharp
+  - vb
+  name: AddressCompileResult(ExcelErrorValue)
+  nameWithType: AddressCompileResult.AddressCompileResult(ExcelErrorValue)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.AddressCompileResult(OfficeOpenXml.ExcelErrorValue)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 361
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public AddressCompileResult(ExcelErrorValue errorValue)
+    parameters:
+    - id: errorValue
+      type: OfficeOpenXml.ExcelErrorValue
+    content.vb: Public Sub New(errorValue As ExcelErrorValue)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: AddressCompileResult.Address
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 365
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public override FormulaRangeAddress Address { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: Public Overrides ReadOnly Property Address As FormulaRangeAddress
+  overridden: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType
+  id: ResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+  langs:
+  - csharp
+  - vb
+  name: ResultType
+  nameWithType: AddressCompileResult.ResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResultType
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 369
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  syntax:
+    content: public override CompileResultType ResultType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+    content.vb: Public Overrides ReadOnly Property ResultType As CompileResultType
+  overridden: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResultBase
+  nameWithType: CompileResultBase
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: Empty
+  nameWithType: CompileResult.Empty
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Empty
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: ZeroDecimal
+  nameWithType: CompileResult.ZeroDecimal
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroDecimal
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: ZeroInt
+  nameWithType: CompileResult.ZeroInt
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ZeroInt
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: Result
+  nameWithType: CompileResult.Result
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Result
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: ResultValue
+  nameWithType: CompileResult.ResultValue
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultValue
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: ResultNumeric
+  nameWithType: CompileResult.ResultNumeric
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultNumeric
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: DataType
+  nameWithType: CompileResult.DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.DataType
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: IsNumeric
+  nameWithType: CompileResult.IsNumeric
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumeric
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: IsNumericString
+  nameWithType: CompileResult.IsNumericString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsNumericString
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: IsPercentageString
+  nameWithType: CompileResult.IsPercentageString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsPercentageString
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: IsDateString
+  nameWithType: CompileResult.IsDateString
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsDateString
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: IsResultOfSubtotal
+  nameWithType: CompileResult.IsResultOfSubtotal
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfSubtotal
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: IsHiddenCell
+  nameWithType: CompileResult.IsHiddenCell
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsHiddenCell
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: IsResultOfResolvedExcelRange
+  nameWithType: CompileResult.IsResultOfResolvedExcelRange
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.IsResultOfResolvedExcelRange
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor
+  name: AddressCompileResult
+  nameWithType: AddressCompileResult.AddressCompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.AddressCompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: DataType
+  nameWithType: DataType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.eErrorType
+  commentId: T:OfficeOpenXml.eErrorType
+  parent: OfficeOpenXml
+  name: eErrorType
+  nameWithType: eErrorType
+  fullName: OfficeOpenXml.eErrorType
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ExcelErrorValue
+  commentId: T:OfficeOpenXml.ExcelErrorValue
+  parent: OfficeOpenXml
+  name: ExcelErrorValue
+  nameWithType: ExcelErrorValue
+  fullName: OfficeOpenXml.ExcelErrorValue
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: Address
+  nameWithType: CompileResult.Address
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.Address
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address
+  name: Address
+  nameWithType: AddressCompileResult.Address
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.Address
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+  name: ResultType
+  nameWithType: CompileResult.ResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult.ResultType
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType
+  name: ResultType
+  nameWithType: AddressCompileResult.ResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.ResultType
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResultType
+  nameWithType: CompileResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType

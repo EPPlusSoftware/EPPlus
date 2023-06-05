@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoGarbageCollectOnDispose
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs

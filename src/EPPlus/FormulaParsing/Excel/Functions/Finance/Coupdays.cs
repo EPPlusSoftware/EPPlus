@@ -27,6 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the number of days in the coupon period that contains the settlement date")]
     internal class Coupdays : CoupFunctionBase<double>
     {
+        public override int ArgumentMinLength => 3;
         protected override FinanceCalcResult<double> ExecuteFunction(FinancialDay settlementDate, FinancialDay maturityDate, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
         {
             var impl = new CoupdaysImpl(settlementDate, maturityDate, frequency, basis);

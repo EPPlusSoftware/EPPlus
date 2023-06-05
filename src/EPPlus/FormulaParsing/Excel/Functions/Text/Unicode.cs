@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         SupportsArrays = true)]
     internal class Unicode : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var arg = ArgToString(arguments, 0);
             if (!IsString(arg, allowNullOrEmpty: false)) return CreateResult(ExcelErrorValue.Values.Value, DataType.ExcelError);
             var firstChar = arg.Substring(0, 1);

@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eChartExType
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Treemap
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Histogram
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Waterfall
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sunburst
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhisker
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pareto
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Funnel
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartExType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionMap
     path: ../src/EPPlus/Drawing/Chart/enums/eChartExType.cs

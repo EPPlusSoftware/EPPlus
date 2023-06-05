@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHeaderFooterText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftAlignedText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CenteredText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightAlignedText
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertPicture
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertPicture
     path: ../src/EPPlus/ExcelHeaderFooter.cs

@@ -29,14 +29,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         SupportsArrays = true)]
     internal class Frequency : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var arg1 = arguments.First();
-            var arg2 = arguments.ElementAt(1);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
             if(!arg1.IsExcelRange || !arg2.IsExcelRange)
             {
-                return CreateResult(eErrorType.Value);
+                return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             }
             var dataRange = arg1.ValueAsRangeInfo;
             var binsRange = arg2.ValueAsRangeInfo;
@@ -65,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             {
                 result.SetValue(row, 0, resultValues[row]);
             }
-            return CreateResult(result, DataType.ExcelRange);
+            return CreateDynamicArrayResult(result, DataType.ExcelRange);
         }
 
         private List<int> Calculate(List<object> objData, List<object> objBinsArray)

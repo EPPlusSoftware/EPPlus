@@ -131,6 +131,8 @@
     name: ExcelRangeCopyOptionFlags
   - uid: OfficeOpenXml.ExcelRangeRow
     name: ExcelRangeRow
+  - uid: OfficeOpenXml.ExcelRichDataErrorValue
+    name: ExcelRichDataErrorValue
   - uid: OfficeOpenXml.ExcelRow
     name: ExcelRow
   - uid: OfficeOpenXml.ExcelRowsCollection
@@ -461,6 +463,8 @@
     name: eDataValidationType
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidation
     name: ExcelDataValidation
+  - uid: OfficeOpenXml.DataValidation.ExcelDatavalidationAddress
+    name: ExcelDatavalidationAddress
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationAny
     name: ExcelDataValidationAny
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationAsType
@@ -473,10 +477,8 @@
     name: ExcelDataValidationDateTime
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
     name: ExcelDataValidationDecimal
-  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
-    name: ExcelDataValidationExtCustom
-  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtList
-    name: ExcelDataValidationExtList
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationImeMode
+    name: ExcelDataValidationImeMode
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
     name: ExcelDataValidationInt
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationList
@@ -495,8 +497,6 @@
   - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
     name: ExcelDataValidationWithFormula2<T>
     name.vb: ExcelDataValidationWithFormula2(Of T)
-  - uid: OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
-    name: ExcelExLstDataValidationCollection
   - uid: OfficeOpenXml.DataValidation.ExcelTime
     name: ExcelTime
   - uid: OfficeOpenXml.DataValidation.IRangeDataValidation
@@ -528,6 +528,11 @@
     name.vb: IExcelDataValidationWithFormula2(Of T)
   - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
     name: IExcelDataValidationWithOperator
+- uid: OfficeOpenXml.DataValidation.Events
+  name: OfficeOpenXml.DataValidation.Events
+  items:
+  - uid: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+    name: OnFormulaChangedEventArgs
 - uid: OfficeOpenXml.DataValidation.Exceptions
   name: OfficeOpenXml.DataValidation.Exceptions
   items:
@@ -846,6 +851,8 @@
     name: ExcelChartSurface
   - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
     name: ExcelChartTitle
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+    name: ExcelChartTitleStandard
   - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
     name: ExcelChartTrendline
   - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineCollection
@@ -1474,22 +1481,20 @@
 - uid: OfficeOpenXml.FormulaParsing
   name: OfficeOpenXml.FormulaParsing
   items:
-  - uid: OfficeOpenXml.FormulaParsing.EpplusExcelExternalRangeInfo
-    name: EpplusExcelExternalRangeInfo
   - uid: OfficeOpenXml.FormulaParsing.ExcelAddressCache
     name: ExcelAddressCache
   - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
     name: ExcelCalculationOption
   - uid: OfficeOpenXml.FormulaParsing.ExcelCell
     name: ExcelCell
-  - uid: OfficeOpenXml.FormulaParsing.ExternalCellInfo
-    name: ExternalCellInfo
   - uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo
     name: FormulaCellInfo
   - uid: OfficeOpenXml.FormulaParsing.FormulaParser
     name: FormulaParser
   - uid: OfficeOpenXml.FormulaParsing.FormulaParserManager
     name: FormulaParserManager
+  - uid: OfficeOpenXml.FormulaParsing.IAddressInfo
+    name: IAddressInfo
   - uid: OfficeOpenXml.FormulaParsing.ICellInfo
     name: ICellInfo
   - uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
@@ -1530,6 +1535,8 @@
     name: ArgumentParserFactory
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
     name: ArgumentParsers
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
+    name: ArrayBehaviourConfig
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
     name: BoolArgumentParser
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
@@ -1553,10 +1560,14 @@
     name: ExcelDoubleCellValue
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
     name: ExcelFunction
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+    name: ExcelFunctionArrayBehaviour
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
     name: FunctionArgument
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
     name: FunctionNameProvider
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+    name: FunctionParameterInformation
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
     name: FunctionRepository
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule
@@ -1659,10 +1670,10 @@
   items:
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase
     name: IfsWithMultipleMatchesBase
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Math
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Math
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
   items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Math.RangeOrValue
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RangeOrValue
     name: RangeOrValue
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
   name: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
@@ -1687,11 +1698,11 @@
     name: Operators
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
     name: OperatorsDict
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsEnumDict
+    name: OperatorsEnumDict
 - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
   name: OfficeOpenXml.FormulaParsing.ExcelUtilities
   items:
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.CellReferenceProvider
-    name: CellReferenceProvider
   - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
     name: ExcelAddressInfo
   - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
@@ -1721,119 +1732,55 @@
     name: ExcelErrorCodes
   - uid: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
     name: ExcelErrorValueException
+  - uid: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException
+    name: InvalidFormulaException
   - uid: OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
     name: UnrecognizedTokenException
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions
   items:
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.AtomicExpression
-    name: AtomicExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.BooleanExpression
-    name: BooleanExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult
+    name: AddressCompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
     name: CompileResult
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResultFactory
-    name: CompileResultFactory
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ConstantExpression
-    name: ConstantExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ConstantExpressions
-    name: ConstantExpressions
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultBase
+    name: CompileResultBase
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+    name: CompileResultType
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
     name: DataType
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DateExpression
-    name: DateExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DecimalExpression
-    name: DecimalExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.EnumerableExpression
-    name: EnumerableExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExcelErrorExpression
-    name: ExcelErrorExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExcelRangeExpression
-    name: ExcelRangeExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
+    name: DynamicArrayCompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
     name: Expression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionCompiler
-    name: ExpressionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionConverter
-    name: ExpressionConverter
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.ExpressionGraph
-    name: ExpressionGraph
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionCompiler
-    name: IExpressionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IExpressionConverter
-    name: IExpressionConverter
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.IntegerExpression
-    name: IntegerExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.NamedValueExpression
-    name: NamedValueExpression
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.StringExpression
-    name: StringExpression
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   items:
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
-    name: CompileStrategy
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategyFactory
-    name: CompileStrategyFactory
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.DefaultCompileStrategy
-    name: DefaultCompileStrategy
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
-    name: ICompileStrategyFactory
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.StringConcatStrategy
-    name: StringConcatStrategy
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.DefaultCompiler
-    name: DefaultCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.ErrorHandlingFunctionCompiler
-    name: ErrorHandlingFunctionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
     name: FunctionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompilerFactory
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
     name: FunctionCompilerFactory
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler
-    name: IfErrorFunctionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfFunctionCompiler
-    name: IfFunctionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfNaFunctionCompiler
-    name: IfNaFunctionCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IgnoreCircularRefLookupCompiler
-    name: IgnoreCircularRefLookupCompiler
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.LookupFunctionCompiler
-    name: LookupFunctionCompiler
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   items:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaAddressBase
+    name: FormulaAddressBase
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+    name: FormulaCellAddress
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaTableAddress
+    name: FormulaTableAddress
   - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ILexer
     name: ILexer
   - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
     name: ISourceCodeTokenizer
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISyntacticAnalyzer
-    name: ISyntacticAnalyzer
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory
-    name: ITokenFactory
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenIndexProvider
-    name: ITokenIndexProvider
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenSeparatorProvider
-    name: ITokenSeparatorProvider
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Lexer
-    name: Lexer
   - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer
     name: SourceCodeTokenizer
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SyntacticAnalyzer
-    name: SyntacticAnalyzer
   - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
     name: Token
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorProvider
-    name: TokenSeparatorProvider
   - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
     name: TokenType
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
-  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing.TokenNavigator
-    name: TokenNavigator
 - uid: OfficeOpenXml.FormulaParsing.Logging
   name: OfficeOpenXml.FormulaParsing.Logging
   items:
@@ -1841,6 +1788,21 @@
     name: IFormulaParserLogger
   - uid: OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
     name: LoggerFactory
+- uid: OfficeOpenXml.FormulaParsing.Ranges
+  name: OfficeOpenXml.FormulaParsing.Ranges
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.CellInfo
+    name: CellInfo
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
+    name: EpplusExcelExternalRangeInfo
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+    name: ExternalCellInfo
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+    name: NameInfo
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+    name: RangeDefinition
+  - uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
+    name: RangeInfo
 - uid: OfficeOpenXml.FormulaParsing.Utilities
   name: OfficeOpenXml.FormulaParsing.Utilities
   items:
@@ -2027,6 +1989,8 @@
     name: ExcelRichText
   - uid: OfficeOpenXml.Style.ExcelRichTextCollection
     name: ExcelRichTextCollection
+  - uid: OfficeOpenXml.Style.ExcelRichTextColor
+    name: ExcelRichTextColor
   - uid: OfficeOpenXml.Style.ExcelSlicerTableStyleElement
     name: ExcelSlicerTableStyleElement
   - uid: OfficeOpenXml.Style.ExcelStyle

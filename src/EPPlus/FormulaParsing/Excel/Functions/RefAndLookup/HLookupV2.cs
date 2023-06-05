@@ -27,13 +27,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class HLookupV2 : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
-            var searchedValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
-            var arg1 = arguments.ElementAt(1);
-            if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
+            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var arg1 = arguments[1];
             var lookupRange = arg1.ValueAsRangeInfo;
             var lookupIndex = ArgToInt(arguments, 2);
             var rangeLookup = true;
@@ -62,5 +60,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             return CompileResultFactory.Create(lookupRange.GetOffset(lookupIndex - 1, index));
         }
+        public override int ArgumentMinLength => 3;
     }
 }

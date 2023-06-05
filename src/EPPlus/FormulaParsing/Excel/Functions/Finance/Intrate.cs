@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the interest rate for a fully invested security")]
     internal class Intrate : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var investment = ArgToDecimal(arguments, 2);
@@ -39,9 +39,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             {
                 basis = ArgToInt(arguments, 4);
             }
-            if (basis < 0 || basis > 4) return CreateResult(eErrorType.Num);
+            if (basis < 0 || basis > 4) return CompileResult.GetErrorResult(eErrorType.Num);
             var result = IntRateImpl.Intrate(settlementDate, maturityDate, investment, redemption, (DayCountBasis)basis);
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             return CreateResult(result.Result, result.DataType);
         }
     }

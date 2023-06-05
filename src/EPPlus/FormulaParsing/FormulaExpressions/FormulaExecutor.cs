@@ -68,6 +68,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.Operator:
                     case TokenType.Negator:
+                        if(token.TokenType== TokenType.Operator && i > 0 && i < tokens.Count-2 && token.Value==":" && tokens[i-1].Value=="]" && tokens[i+1].Value=="[")
+                        {
+                            expressions.Add(token);
+                            break;
+                        }
                         if (operatorStack.Count > 0)
                         {
                             var o2 = operatorStack.Peek();
@@ -181,7 +186,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         break;
                     case TokenType.TableName:
-                        ExtractTableAddress(extRefIx, tokens, i, out FormulaTableAddress tableAddress, parsingContext);
+                        
+                        
+                        ExtractTableAddress(extRefIx, wsIx, tokens, i, out FormulaTableAddress tableAddress, parsingContext);
                         
                         expressions.Add(i, new TableAddressExpression(tableAddress, parsingContext));
                         break;
@@ -364,10 +371,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         //    return null;
         //}
 
-        private static void ExtractTableAddress(int extRef, IList<Token> exps, int i, out FormulaTableAddress tableAddress, ParsingContext parsingContext)
+        private static void ExtractTableAddress(int extRef, int wsIx, IList<Token> exps, int i, out FormulaTableAddress tableAddress, ParsingContext parsingContext)
         {
             //var adr = exps[i].Value;
-            tableAddress = new FormulaTableAddress(parsingContext) {ExternalReferenceIx = extRef, TableName = exps[i].Value };
+            tableAddress = new FormulaTableAddress(parsingContext) {ExternalReferenceIx = extRef, WorksheetIx=wsIx, TableName = exps[i].Value };
             exps.RemoveAt(i);
             int bracketCount=0;
             while (i < exps.Count)
@@ -400,17 +407,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         {
                             tableAddress.TablePart2 = t.Value;
                         }
-                        break;
-                    case TokenType.Colon:
+                        break;                    
                     case TokenType.Comma:
                         break;
                     default:
+                        if (t.TokenType == TokenType.Operator && t.Value == ":") break;
                         throw new InvalidFormulaException($"Invalid Table Formula in cell {parsingContext.CurrentCell.Address}");
                 }
                 //adr += exps[i];
                 exps.RemoveAt(i);
                 if (bracketCount == 0) break;
             }
+            
             if (extRef <= 0)
             {
                 tableAddress.SetTableAddress(parsingContext.Package);

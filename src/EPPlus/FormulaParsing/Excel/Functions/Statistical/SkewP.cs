@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the skewness of a distribution based on a population")]
     internal class SkewP : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(arguments, context).Select(x => x.Value).ToArray();
             var n = numbers.Length;
             var avg = numbers.Average();

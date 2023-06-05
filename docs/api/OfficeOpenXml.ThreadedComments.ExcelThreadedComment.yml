@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThreadedComment
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContainsMentions
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAddress
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateCreated
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PersonId
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Author
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentId
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -368,7 +368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EditText
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -404,7 +404,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EditText
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Mentions
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedComment.cs

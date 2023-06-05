@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaParser
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
@@ -105,11 +105,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 193
+    startLine: 120
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -149,11 +149,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 203
+    startLine: 130
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -190,11 +190,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseAt
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 213
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -231,11 +231,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseAt
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 227
+    startLine: 154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -278,11 +278,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 260
+    startLine: 188
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -315,11 +315,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
-    startLine: 268
+    startLine: 196
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing

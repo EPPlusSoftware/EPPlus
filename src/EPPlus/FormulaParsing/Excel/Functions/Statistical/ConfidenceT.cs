@@ -27,16 +27,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Returns the confidence interval for a population mean, using a Student's t distribution")]
     internal class ConfidenceT : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var alpha = ArgToDecimal(arguments, 0);
             var sigma = ArgToDecimal(arguments, 1);
             var size = ArgToInt(arguments, 2);
 
-            if (alpha <= 0d || alpha >= 1d) return CreateResult(eErrorType.Num);
-            if (sigma <= 0d) return CreateResult(eErrorType.Num);
-            if (size < 1d) return CreateResult(eErrorType.Num);
+            if (alpha <= 0d || alpha >= 1d) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (sigma <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (size < 1d) return CompileResult.GetErrorResult(eErrorType.Num);
 
             var result = System.Math.Abs(StudentInv(alpha / 2, size - 1) * sigma / System.Math.Sqrt(size));
             return CreateResult(result, DataType.Decimal);

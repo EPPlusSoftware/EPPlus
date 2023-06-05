@@ -27,11 +27,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
         SupportsArrays = true)]
     internal class IsoWeekNum : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var dateInt = ArgToInt(arguments, 0);
             var date = System.DateTime.FromOADate(dateInt);
             return CreateResult(WeekNumber(date), DataType.Integer);

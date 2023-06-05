@@ -20,6 +20,15 @@ namespace OfficeOpenXml.FormulaParsing
         internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
         internal bool _isDynamic = false;
+
+        public bool CanBeDynamicArray 
+        {
+            get
+            {
+                return _ws._flags.GetFlagValue(_row, _column, CellFlags.CanBeDynamicArray);
+            }
+        }
+
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
         {
             _ws = ws;

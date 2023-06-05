@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionariesParams
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Keys
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetKeys
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Culture
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderParsingType
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataTypes
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs

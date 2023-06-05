@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Returns the complementary error function integrated between a supplied lower limit and infinity")]
     public class Erfc : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var x = ArgToDecimal(arguments, 0);
             var retVal = ErfHelper.Erfc(x);
             return CreateResult(retVal, DataType.Decimal);

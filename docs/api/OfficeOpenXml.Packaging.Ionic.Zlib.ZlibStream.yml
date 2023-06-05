@@ -38,7 +38,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZlibStream
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -90,7 +90,13 @@ items:
   - System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
   - System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
   - System.IO.Stream.ReadAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+  - System.IO.Stream.ReadAtLeast(System.Span{System.Byte},System.Int32,System.Boolean)
+  - System.IO.Stream.ReadAtLeastAsync(System.Memory{System.Byte},System.Int32,System.Boolean,System.Threading.CancellationToken)
   - System.IO.Stream.ReadByte
+  - System.IO.Stream.ReadExactly(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.ReadExactly(System.Span{System.Byte})
+  - System.IO.Stream.ReadExactlyAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.ReadExactlyAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
   - System.IO.Stream.Synchronized(System.IO.Stream)
   - System.IO.Stream.ValidateBufferArguments(System.Byte[],System.Int32,System.Int32)
   - System.IO.Stream.ValidateCopyToArguments(System.IO.Stream,System.Int32)
@@ -132,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -173,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -217,7 +223,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -266,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -313,7 +319,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlushMode
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -352,7 +358,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BufferSize
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -390,7 +396,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalIn
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -429,7 +435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalOut
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -468,7 +474,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -508,7 +514,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CanRead
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -549,7 +555,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CanSeek
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -590,7 +596,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CanWrite
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -631,7 +637,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Flush
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -666,7 +672,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Length
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -706,7 +712,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -747,7 +753,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Read
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -799,7 +805,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Seek
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -844,7 +850,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetLength
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -883,7 +889,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Write
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -932,7 +938,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompressString
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -981,7 +987,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompressBuffer
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -1031,7 +1037,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UncompressString
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -1080,7 +1086,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UncompressBuffer
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibStream.cs
@@ -2364,6 +2370,218 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.IO.Stream.ReadAtLeast(System.Span{System.Byte},System.Int32,System.Boolean)
+  commentId: M:System.IO.Stream.ReadAtLeast(System.Span{System.Byte},System.Int32,System.Boolean)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAtLeast(Span<Byte>, Int32, Boolean)
+  nameWithType: Stream.ReadAtLeast(Span<Byte>, Int32, Boolean)
+  fullName: System.IO.Stream.ReadAtLeast(System.Span<System.Byte>, System.Int32, System.Boolean)
+  nameWithType.vb: Stream.ReadAtLeast(Span(Of Byte), Int32, Boolean)
+  fullName.vb: System.IO.Stream.ReadAtLeast(System.Span(Of System.Byte), System.Int32, System.Boolean)
+  name.vb: ReadAtLeast(Span(Of Byte), Int32, Boolean)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAtLeast(System.Span{System.Byte},System.Int32,System.Boolean)
+    name: ReadAtLeast
+    nameWithType: Stream.ReadAtLeast
+    fullName: System.IO.Stream.ReadAtLeast
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAtLeast(System.Span{System.Byte},System.Int32,System.Boolean)
+    name: ReadAtLeast
+    nameWithType: Stream.ReadAtLeast
+    fullName: System.IO.Stream.ReadAtLeast
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadAtLeastAsync(System.Memory{System.Byte},System.Int32,System.Boolean,System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.ReadAtLeastAsync(System.Memory{System.Byte},System.Int32,System.Boolean,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAtLeastAsync(Memory<Byte>, Int32, Boolean, CancellationToken)
+  nameWithType: Stream.ReadAtLeastAsync(Memory<Byte>, Int32, Boolean, CancellationToken)
+  fullName: System.IO.Stream.ReadAtLeastAsync(System.Memory<System.Byte>, System.Int32, System.Boolean, System.Threading.CancellationToken)
+  nameWithType.vb: Stream.ReadAtLeastAsync(Memory(Of Byte), Int32, Boolean, CancellationToken)
+  fullName.vb: System.IO.Stream.ReadAtLeastAsync(System.Memory(Of System.Byte), System.Int32, System.Boolean, System.Threading.CancellationToken)
+  name.vb: ReadAtLeastAsync(Memory(Of Byte), Int32, Boolean, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAtLeastAsync(System.Memory{System.Byte},System.Int32,System.Boolean,System.Threading.CancellationToken)
+    name: ReadAtLeastAsync
+    nameWithType: Stream.ReadAtLeastAsync
+    fullName: System.IO.Stream.ReadAtLeastAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Memory`1
+    name: Memory
+    nameWithType: Memory
+    fullName: System.Memory
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAtLeastAsync(System.Memory{System.Byte},System.Int32,System.Boolean,System.Threading.CancellationToken)
+    name: ReadAtLeastAsync
+    nameWithType: Stream.ReadAtLeastAsync
+    fullName: System.IO.Stream.ReadAtLeastAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Memory`1
+    name: Memory
+    nameWithType: Memory
+    fullName: System.Memory
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.IO.Stream.ReadByte
   commentId: M:System.IO.Stream.ReadByte
   parent: System.IO.Stream
@@ -2392,6 +2610,334 @@ references:
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadExactly(System.Byte[],System.Int32,System.Int32)
+  commentId: M:System.IO.Stream.ReadExactly(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadExactly(Byte[], Int32, Int32)
+  nameWithType: Stream.ReadExactly(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.ReadExactly(System.Byte[], System.Int32, System.Int32)
+  nameWithType.vb: Stream.ReadExactly(Byte(), Int32, Int32)
+  fullName.vb: System.IO.Stream.ReadExactly(System.Byte(), System.Int32, System.Int32)
+  name.vb: ReadExactly(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadExactly(System.Byte[],System.Int32,System.Int32)
+    name: ReadExactly
+    nameWithType: Stream.ReadExactly
+    fullName: System.IO.Stream.ReadExactly
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadExactly(System.Byte[],System.Int32,System.Int32)
+    name: ReadExactly
+    nameWithType: Stream.ReadExactly
+    fullName: System.IO.Stream.ReadExactly
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadExactly(System.Span{System.Byte})
+  commentId: M:System.IO.Stream.ReadExactly(System.Span{System.Byte})
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadExactly(Span<Byte>)
+  nameWithType: Stream.ReadExactly(Span<Byte>)
+  fullName: System.IO.Stream.ReadExactly(System.Span<System.Byte>)
+  nameWithType.vb: Stream.ReadExactly(Span(Of Byte))
+  fullName.vb: System.IO.Stream.ReadExactly(System.Span(Of System.Byte))
+  name.vb: ReadExactly(Span(Of Byte))
+  spec.csharp:
+  - uid: System.IO.Stream.ReadExactly(System.Span{System.Byte})
+    name: ReadExactly
+    nameWithType: Stream.ReadExactly
+    fullName: System.IO.Stream.ReadExactly
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadExactly(System.Span{System.Byte})
+    name: ReadExactly
+    nameWithType: Stream.ReadExactly
+    fullName: System.IO.Stream.ReadExactly
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadExactlyAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.ReadExactlyAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadExactlyAsync(Byte[], Int32, Int32, CancellationToken)
+  nameWithType: Stream.ReadExactlyAsync(Byte[], Int32, Int32, CancellationToken)
+  fullName: System.IO.Stream.ReadExactlyAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  nameWithType.vb: Stream.ReadExactlyAsync(Byte(), Int32, Int32, CancellationToken)
+  fullName.vb: System.IO.Stream.ReadExactlyAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  name.vb: ReadExactlyAsync(Byte(), Int32, Int32, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadExactlyAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadExactlyAsync
+    nameWithType: Stream.ReadExactlyAsync
+    fullName: System.IO.Stream.ReadExactlyAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadExactlyAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadExactlyAsync
+    nameWithType: Stream.ReadExactlyAsync
+    fullName: System.IO.Stream.ReadExactlyAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IO.Stream.ReadExactlyAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+  commentId: M:System.IO.Stream.ReadExactlyAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadExactlyAsync(Memory<Byte>, CancellationToken)
+  nameWithType: Stream.ReadExactlyAsync(Memory<Byte>, CancellationToken)
+  fullName: System.IO.Stream.ReadExactlyAsync(System.Memory<System.Byte>, System.Threading.CancellationToken)
+  nameWithType.vb: Stream.ReadExactlyAsync(Memory(Of Byte), CancellationToken)
+  fullName.vb: System.IO.Stream.ReadExactlyAsync(System.Memory(Of System.Byte), System.Threading.CancellationToken)
+  name.vb: ReadExactlyAsync(Memory(Of Byte), CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadExactlyAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+    name: ReadExactlyAsync
+    nameWithType: Stream.ReadExactlyAsync
+    fullName: System.IO.Stream.ReadExactlyAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Memory`1
+    name: Memory
+    nameWithType: Memory
+    fullName: System.Memory
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadExactlyAsync(System.Memory{System.Byte},System.Threading.CancellationToken)
+    name: ReadExactlyAsync
+    nameWithType: Stream.ReadExactlyAsync
+    fullName: System.IO.Stream.ReadExactlyAsync
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Memory`1
+    name: Memory
+    nameWithType: Memory
+    fullName: System.Memory
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    nameWithType: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )

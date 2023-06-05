@@ -27,7 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the sum of the squares of a supplied list of numbers")]
     internal class Sumsq : HiddenValuesHandlingFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var retVal = 0d;
             if (arguments != null)
@@ -65,7 +66,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         if (ShouldIgnore(c, context) == false)
                         {
                             CheckForAndHandleExcelError(c);
-                            retVal += System.Math.Pow(c.ValueDouble, 2);
+                            retVal += Math.Pow(c.ValueDouble, 2);
                         }
                     }
                 }
@@ -75,10 +76,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     if (IsNumericString(arg.Value) && !isInArray)
                     {
                         var value = ConvertUtil.GetValueDouble(arg.Value);
-                        return System.Math.Pow(value, 2);
+                        return Math.Pow(value, 2);
                     }
                     var ignoreBool = isInArray;
-                    retVal += System.Math.Pow(ConvertUtil.GetValueDouble(arg.Value, ignoreBool), 2);
+                    retVal += Math.Pow(ConvertUtil.GetValueDouble(arg.Value, ignoreBool), 2);
                 }
             }
             return retVal;

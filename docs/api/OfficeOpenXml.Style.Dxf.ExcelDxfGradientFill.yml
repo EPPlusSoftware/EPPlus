@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfGradientFill
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colors
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientType
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Degree
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
@@ -368,7 +368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Style/Dxf/ExcelDxfGradientFill.cs

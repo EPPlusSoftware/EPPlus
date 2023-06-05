@@ -5,8 +5,7 @@ items:
   id: SourceCodeTokenizer
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   children:
-  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean)
-  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Default
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.R1C1
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize(System.String)
@@ -21,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceCodeTokenizer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 23
+    startLine: 9
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -66,14 +65,16 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 25
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nThe default tokenizer. This tokenizer will remove and ignore whitespaces.\n"
+  example: []
   syntax:
     content: public static ISourceCodeTokenizer Default { get; }
     parameters: []
@@ -103,14 +104,16 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: R1C1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 29
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nThe tokenizer used for r1c1 format. This tokenizer will keep whitespaces and add them as tokens.\n"
+  example: []
   syntax:
     content: public static ISourceCodeTokenizer R1C1 { get; }
     parameters: []
@@ -126,30 +129,30 @@ items:
   - Public
   - Shared
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean)
-  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean)
-  id: '#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean)'
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider,OfficeOpenXml.FormulaParsing.INameValueProvider,System.Boolean,System.Boolean)'
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer
   langs:
   - csharp
   - vb
-  name: SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean)
-  nameWithType: SourceCodeTokenizer.SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean)
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.SourceCodeTokenizer(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider, OfficeOpenXml.FormulaParsing.INameValueProvider, System.Boolean)
+  name: SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean, Boolean)
+  nameWithType: SourceCodeTokenizer.SourceCodeTokenizer(IFunctionNameProvider, INameValueProvider, Boolean, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.SourceCodeTokenizer(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider, OfficeOpenXml.FormulaParsing.INameValueProvider, System.Boolean, System.Boolean)
   type: Constructor
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 35
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   syntax:
-    content: public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false)
+    content: public SourceCodeTokenizer(IFunctionNameProvider functionRepository, INameValueProvider nameValueProvider, bool r1c1 = false, bool keepWhitespace = false)
     parameters:
     - id: functionRepository
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
@@ -157,40 +160,9 @@ items:
       type: OfficeOpenXml.FormulaParsing.INameValueProvider
     - id: r1c1
       type: System.Boolean
-    content.vb: Public Sub New(functionRepository As IFunctionNameProvider, nameValueProvider As INameValueProvider, r1c1 As Boolean = False)
-  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory)
-  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory)
-  id: '#ctor(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory)'
-  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer
-  langs:
-  - csharp
-  - vb
-  name: SourceCodeTokenizer(ITokenFactory)
-  nameWithType: SourceCodeTokenizer.SourceCodeTokenizer(ITokenFactory)
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.SourceCodeTokenizer(OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory)
-  type: Constructor
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: .ctor
-    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 40
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  syntax:
-    content: public SourceCodeTokenizer(ITokenFactory tokenFactory)
-    parameters:
-    - id: tokenFactory
-      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory
-    content.vb: Public Sub New(tokenFactory As ITokenFactory)
+    - id: keepWhitespace
+      type: System.Boolean
+    content.vb: Public Sub New(functionRepository As IFunctionNameProvider, nameValueProvider As INameValueProvider, r1c1 As Boolean = False, keepWhitespace As Boolean = False)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.#ctor*
   modifiers.csharp:
   - public
@@ -210,23 +182,29 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 48
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nSplit the input string into tokens used by the formula parser\n"
+  example: []
   syntax:
-    content: public IEnumerable<Token> Tokenize(string input)
+    content: public IList<Token> Tokenize(string input)
     parameters:
     - id: input
       type: System.String
+      description: ''
     return:
-      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
-    content.vb: Public Function Tokenize(input As String) As IEnumerable(Of Token)
+      type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+      description: ''
+    content.vb: Public Function Tokenize(input As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize*
+  implements:
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -245,24 +223,24 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 52
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   syntax:
-    content: public IEnumerable<Token> Tokenize(string input, string worksheet)
+    content: public IList<Token> Tokenize(string input, string worksheet)
     parameters:
     - id: input
       type: System.String
     - id: worksheet
       type: System.String
     return:
-      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
-    content.vb: Public Function Tokenize(input As String, worksheet As String) As IEnumerable(Of Token)
+      type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: Public Function Tokenize(input As String, worksheet As String) As IList(Of Token)
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize*
   implements:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
@@ -618,17 +596,50 @@ references:
   name: OfficeOpenXml.FormulaParsing
   nameWithType: OfficeOpenXml.FormulaParsing
   fullName: OfficeOpenXml.FormulaParsing
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory
-  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory
-  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
-  name: ITokenFactory
-  nameWithType: ITokenFactory
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ITokenFactory
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize*
   commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize
   name: Tokenize
   nameWithType: SourceCodeTokenizer.Tokenize
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.SourceCodeTokenizer.Tokenize
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String)
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+  isExternal: true
+  name: Tokenize(String)
+  nameWithType: ISourceCodeTokenizer.Tokenize(String)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String)
+    name: Tokenize
+    nameWithType: ISourceCodeTokenizer.Tokenize
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String)
+    name: Tokenize
+    nameWithType: ISourceCodeTokenizer.Tokenize
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -636,21 +647,21 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
-  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+- uid: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  commentId: T:System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
   parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<Token>
-  nameWithType: IEnumerable<Token>
-  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
-  nameWithType.vb: IEnumerable(Of Token)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
-  name.vb: IEnumerable(Of Token)
+  definition: System.Collections.Generic.IList`1
+  name: IList<Token>
+  nameWithType: IList<Token>
+  fullName: System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
+  nameWithType.vb: IList(Of Token)
+  fullName.vb: System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  name.vb: IList(Of Token)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: <
     nameWithType: <
@@ -663,10 +674,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -678,20 +689,20 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.IEnumerable`1
-  commentId: T:System.Collections.Generic.IEnumerable`1
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
   isExternal: true
-  name: IEnumerable<T>
-  nameWithType: IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  nameWithType.vb: IEnumerable(Of T)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: IEnumerable(Of T)
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: <
     nameWithType: <
@@ -703,10 +714,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '

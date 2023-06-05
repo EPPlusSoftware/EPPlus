@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the sum of the products of corresponding values in two or more supplied arrays")]
     internal class SumProduct : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             double result = 0d;
             List<List<double>> results = new List<List<double>>();
             foreach(var arg in arguments)

@@ -26,12 +26,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Calculates the inverse of the Cumulative Normal Distribution Function for a supplied value of x, and a supplied distribution mean & standard deviation. Note that this is the same implementation as NORMINV.")]
     internal class NormDotSdotDist : NormalDistributionBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var z = ArgToDecimal(arguments, 0);
             var cumulative = ArgToBool(arguments, 1);
-            var result = default(double);
+            double result;
             if (cumulative)
             { 
                 result = CumulativeDistribution(z, 0, 1); 

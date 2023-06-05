@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -25,7 +26,7 @@ namespace OfficeOpenXml.RichData
             }
             foreach(var v in Values)
             {
-                sw.Write($"<v>{v}</v>");
+                sw.Write($"<v>{ConvertUtil.ExcelEscapeString(v)}</v>");
             }
             sw.Write("</rv>");
         }

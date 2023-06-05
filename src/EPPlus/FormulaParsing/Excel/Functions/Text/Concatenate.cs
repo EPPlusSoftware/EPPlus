@@ -25,7 +25,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Joins together two or more text strings")]
     internal class Concatenate : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments == null)
             {

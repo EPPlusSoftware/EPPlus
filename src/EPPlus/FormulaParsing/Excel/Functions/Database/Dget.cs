@@ -27,13 +27,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
     internal class Dget : DatabaseFunction
     {
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var rowMatcher = new RowMatcher(context);
-            var dbAddress = arguments.ElementAt(0).ValueAsRangeInfo.Address.ToString();
+            var dbAddress = arguments[0].ValueAsRangeInfo.Address.ToString();
             var field = ArgToString(arguments, 1).ToLower(CultureInfo.InvariantCulture);
-            var criteriaRange = arguments.ElementAt(2).ValueAsRangeInfo.Address.ToString();
+            var criteriaRange = arguments[2].ValueAsRangeInfo.Address.ToString();
 
             var db = new ExcelDatabase(context.ExcelDataProvider, dbAddress);
             var criteria = new ExcelDatabaseCriteria(context.ExcelDataProvider, criteriaRange);

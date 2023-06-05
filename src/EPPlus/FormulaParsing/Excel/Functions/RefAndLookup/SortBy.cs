@@ -28,9 +28,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class SortBy : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var range = ArgToRangeInfo(arguments, 0);
             var nArgs = arguments.Count();
             var nRows = range.Size.NumberOfRows;
@@ -54,15 +54,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     (direction == LookupDirection.Vertical && byRange.Size.NumberOfCols > byRange.Size.NumberOfRows))
                 {
                     // two "by-ranges" goes in different direction (i.e. vertical/horizontal) which is not allowed.
-                    return CreateResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 if (byRange.Size.NumberOfCols != nCols && byRange.Size.NumberOfRows != nRows)
                 {
-                    return CreateResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 if(byRange.Size.NumberOfRows > 1 && byRange.Size.NumberOfCols > 1)
                 {
-                    return CreateResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 byRanges.Add(byRange);
                 var sortOrder = 1;
@@ -71,14 +71,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     sortOrder = ArgToInt(arguments, x + 1);
                     if(sortOrder != 1 && sortOrder != -1)
                     {
-                        return CreateResult(eErrorType.Value);
+                        return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                     }
                 }
                 sortOrders.Add((short)sortOrder);
             }
             var sortByImpl = new SortByImpl(range, byRanges, sortOrders, direction);
             var sortedRange = sortByImpl.Sort();
-            return CreateResult(sortedRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(sortedRange, DataType.ExcelRange);
         }
     }
 }

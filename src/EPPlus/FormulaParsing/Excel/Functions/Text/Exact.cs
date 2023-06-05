@@ -31,18 +31,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             ArrayParameterIndexes = new List<int> { 0, 1 }
         };
 
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var val1 = arguments.ElementAt(0).ValueFirst;
-            var val2 = arguments.ElementAt(1).ValueFirst;
+            var val1 = arguments[0].ValueFirst;
+            var val2 = arguments[1].ValueFirst;
 
             if (val1 == null && val2 == null)
             {

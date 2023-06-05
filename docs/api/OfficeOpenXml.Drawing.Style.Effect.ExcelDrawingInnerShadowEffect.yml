@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingInnerShadowEffect.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingInnerShadowEffect
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingInnerShadowEffect.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingInnerShadowEffect.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlurRadius
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingInnerShadowEffect.cs

@@ -28,10 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class Expand : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             IRangeInfo range;
             if (!firstArg.IsExcelRange)
             {
@@ -44,34 +44,34 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 range = firstArg.ValueAsRangeInfo;
             }
             var rows = range.Size.NumberOfRows;
-            var secondArg = arguments.ElementAt(1);
+            var secondArg = arguments[1];
             if(secondArg.Value != null)
             {
                 rows = ArgToInt(arguments, 1);
                 if(rows < range.Size.NumberOfRows)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
             }
             var cols = range.Size.NumberOfCols;
-            if(arguments.Count() > 2 && arguments.ElementAt(2) != null)
+            if(arguments.Count > 2 && arguments[2] != null)
             {
                 cols = (short)ArgToInt(arguments, 2);
                 if(cols < range.Size.NumberOfCols)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 else if(cols + context.CurrentCell.Column > ExcelPackage.MaxColumns
                     ||
                     rows + context.CurrentCell.Row > ExcelPackage.MaxRows)
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Spill);
+                    return new DynamicArrayCompileResult(new ExcelRichDataErrorValue(0, 0));
                 }
             }
             object padWith = ErrorValues.NAError;
-            if(arguments.Count() > 3 && arguments.ElementAt(3) != null)
+            if(arguments.Count > 3 && arguments[3] != null)
             {
-                padWith = arguments.ElementAt(3).Value;
+                padWith = arguments[3].Value;
             }
             // create return range
             var rr = new InMemoryRange(new RangeDefinition(rows, cols));
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     }
                 }
             }
-            return CreateResult(rr, DataType.ExcelRange);
+            return CreateDynamicArrayResult(rr, DataType.ExcelRange);
         }
     }
 }

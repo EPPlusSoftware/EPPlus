@@ -26,16 +26,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates he accrued interest for a security that pays interest at maturity.")]
     internal class AccrintM : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             // collect input
             var issueDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var rate = ArgToDecimal(arguments, 2);
             var par = ArgToDecimal(arguments, 3);
             var basis = 0;
-            if (arguments.Count() > 4)
+            if (arguments.Count > 4)
             {
                 basis = ArgToInt(arguments, 4);
             }

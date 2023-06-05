@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns a random number between two given integers")]
     internal class RandBetween : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var low = ArgToDecimal(arguments, 0);
             var high = ArgToDecimal(arguments, 1);
             var rand = new Rand().Execute(new FunctionArgument[0], context).Result;

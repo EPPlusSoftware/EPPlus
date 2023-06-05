@@ -10,13 +10,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     public abstract class IfsWithMultipleMatchesBase : ExcelFunction
     {
-        protected IEnumerable<double> GetMatches(string functionName, IEnumerable<FunctionArgument> arguments, ParsingContext ctx, out CompileResult errorResult)
+        protected IEnumerable<double> GetMatches(string functionName, IList<FunctionArgument> arguments, ParsingContext ctx, out CompileResult errorResult)
         {
-            ValidateArguments(arguments, 3);
+            //ValidateArguments(arguments, 3);
             var expressionEvaluator = new ExpressionEvaluator(ctx);
             errorResult = null;
-            var maxRange = arguments.ElementAt(0).ValueAsRangeInfo;
-            var maxArgs = arguments.Count() < (126 * 2 + 1) ? arguments.Count() : 126 * 2 + 1;
+            var maxRange = arguments[0].ValueAsRangeInfo;
+            var maxArgs = arguments.Count < (126 * 2 + 1) ? arguments.Count : 126 * 2 + 1;
             var matches = new List<double>();
             var rangeSizeEvaluated = false;
             for (var valueIx = 0; valueIx < maxRange.Count(); valueIx++)
@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                 for (var criteriaIx = 1; criteriaIx < maxArgs; criteriaIx += 2)
                 {
 
-                    var criteriaRange = arguments.ElementAt(criteriaIx).ValueAsRangeInfo;
+                    var criteriaRange = arguments[criteriaIx].ValueAsRangeInfo;
                     if (!rangeSizeEvaluated)
                     {
                         if (criteriaRange.Count() < maxRange.Count())
@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                             return Enumerable.Empty<double>();
                         }
                     }
-                    var matchCriteria = arguments.ElementAt(criteriaIx + 1).Value;
+                    var matchCriteria = arguments[criteriaIx + 1].Value;
 
                     var candidate = criteriaRange.ElementAt(valueIx).Value;
                     if (!expressionEvaluator.Evaluate(candidate, Convert.ToString(matchCriteria, CultureInfo.InvariantCulture)))

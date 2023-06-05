@@ -10,7 +10,7 @@ items:
   - OfficeOpenXml.FormulaParsing.INameInfo.Name
   - OfficeOpenXml.FormulaParsing.INameInfo.Tokens
   - OfficeOpenXml.FormulaParsing.INameInfo.Value
-  - OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+  - OfficeOpenXml.FormulaParsing.INameInfo.wsIx
   langs:
   - csharp
   - vb
@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: INameInfo
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -70,35 +70,35 @@ items:
   modifiers.csharp:
   - get
   - set
-- uid: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
-  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
-  id: Worksheet
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.wsIx
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.wsIx
+  id: wsIx
   parent: OfficeOpenXml.FormulaParsing.INameInfo
   langs:
   - csharp
   - vb
-  name: Worksheet
-  nameWithType: INameInfo.Worksheet
-  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+  name: wsIx
+  nameWithType: INameInfo.wsIx
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.wsIx
   type: Property
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Worksheet
+    id: wsIx
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
     startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
   syntax:
-    content: string Worksheet { get; set; }
+    content: int wsIx { get; set; }
     parameters: []
     return:
-      type: System.String
-    content.vb: Property Worksheet As String
-  overload: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet*
+      type: System.Int32
+    content.vb: Property wsIx As Integer
+  overload: OfficeOpenXml.FormulaParsing.INameInfo.wsIx*
   modifiers.csharp:
   - get
   - set
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokens
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -255,11 +255,23 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
-  name: Worksheet
-  nameWithType: INameInfo.Worksheet
-  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.wsIx*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.wsIx
+  name: wsIx
+  nameWithType: INameInfo.wsIx
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.wsIx
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Name*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Name
+  name: Name
+  nameWithType: INameInfo.Name
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Name
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -267,11 +279,6 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: OfficeOpenXml.FormulaParsing.INameInfo.Name*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Name
-  name: Name
-  nameWithType: INameInfo.Name
-  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Name
 - uid: OfficeOpenXml.FormulaParsing.INameInfo.Formula*
   commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Formula
   name: Formula

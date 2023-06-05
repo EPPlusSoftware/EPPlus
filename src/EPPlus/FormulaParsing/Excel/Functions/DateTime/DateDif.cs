@@ -30,17 +30,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             ArrayParameterIndexes = new List<int> { 0, 1, 2 }
         };
 
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
-            var startDateObj = arguments.ElementAt(0).Value;
+            var startDateObj = arguments[0].Value;
             var startDate = ParseDate(arguments, startDateObj);
             var endDateObj = arguments.ElementAt(1).Value;
             var endDate = ParseDate(arguments, endDateObj, 1);
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
                     var daysMd = GetStartYearEndDateMd(startDate, endDate).Subtract(startDate).TotalDays;
                     return CreateResult(daysMd, DataType.Integer);
                 default:
-                    return CreateResult(eErrorType.Num);
+                    return CompileResult.GetErrorResult(eErrorType.Num);
             }
         }
 

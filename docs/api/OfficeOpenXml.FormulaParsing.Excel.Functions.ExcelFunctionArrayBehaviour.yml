@@ -1,0 +1,187 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  id: ExcelFunctionArrayBehaviour
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.Custom
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.FirstArgCouldBeARange
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.None
+  langs:
+  - csharp
+  - vb
+  name: ExcelFunctionArrayBehaviour
+  nameWithType: ExcelFunctionArrayBehaviour
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFunctionArrayBehaviour
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nUsed to indicate if a function can return an array of values.\n"
+  example: []
+  syntax:
+    content: public enum ExcelFunctionArrayBehaviour
+    content.vb: Public Enum ExcelFunctionArrayBehaviour
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.None
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.None
+  id: None
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ExcelFunctionArrayBehaviour.None
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe function does not support arrays\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.Custom
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.Custom
+  id: Custom
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: ExcelFunctionArrayBehaviour.Custom
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe function supports arrays, but not according to any of the options in this enum. If a function returns this value\nit should also implement the <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig\" data-throw-if-not-resolved=\"false\"></xref> function.\n"
+  example: []
+  syntax:
+    content: Custom = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.FirstArgCouldBeARange
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.FirstArgCouldBeARange
+  id: FirstArgCouldBeARange
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  langs:
+  - csharp
+  - vb
+  name: FirstArgCouldBeARange
+  nameWithType: ExcelFunctionArrayBehaviour.FirstArgCouldBeARange
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour.FirstArgCouldBeARange
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstArgCouldBeARange
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nThe function supports arrays and the first argument could be a range.\n"
+  example: []
+  syntax:
+    content: FirstArgCouldBeARange = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunctionArrayBehaviour
+  nameWithType: ExcelFunctionArrayBehaviour
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: GetArrayBehaviourConfig()
+  nameWithType: ExcelFunction.GetArrayBehaviourConfig()
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+    name: GetArrayBehaviourConfig
+    nameWithType: ExcelFunction.GetArrayBehaviourConfig
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+    name: GetArrayBehaviourConfig
+    nameWithType: ExcelFunction.GetArrayBehaviourConfig
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetArrayBehaviourConfig
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunction
+  nameWithType: ExcelFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction

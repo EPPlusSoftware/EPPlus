@@ -26,14 +26,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         SupportsArrays = true)]
     internal class IsNonText : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var firstArg = arguments.ElementAt(0);
+            var firstArg = arguments[0];
             if (firstArg.Value == null || firstArg.ValueIsExcelError) return CreateResult(true, DataType.Boolean);
             return CreateResult(!(firstArg.Value is string), DataType.Boolean);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

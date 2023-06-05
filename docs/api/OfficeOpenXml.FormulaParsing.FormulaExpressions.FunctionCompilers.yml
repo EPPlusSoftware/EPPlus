@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  id: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
+  name: FunctionCompiler
+  nameWithType: FunctionCompiler
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompiler
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory
+  name: FunctionCompilerFactory
+  nameWithType: FunctionCompilerFactory
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers.FunctionCompilerFactory

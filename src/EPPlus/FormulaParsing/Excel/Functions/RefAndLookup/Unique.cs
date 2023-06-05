@@ -31,25 +31,25 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     {
         private readonly LookupComparer _comparer = new LookupComparer(LookupMatchMode.ExactMatch);
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var arg1 = arguments.ElementAt(0);
-            if (!arg1.IsExcelRange) return CreateResult(eErrorType.Value);
+            var arg1 = arguments[0];
+            if (!arg1.IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             var range = arg1.ValueAsRangeInfo;
 
             var byCol = false;
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
             {
                 byCol = ArgToBool(arguments, 1);
             }
             var exactlyOnce = false;
-            if(arguments.Count() > 2)
+            if(arguments.Count > 2)
             {
                 exactlyOnce= ArgToBool(arguments, 2);
             }
             var resultRange = byCol ? GetByCols(range, exactlyOnce) : GetByRows(range, exactlyOnce);
-            return CreateResult(resultRange, DataType.ExcelRange);
+            return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
         }
 
         private bool ListContainsArray(List<object[]> items, object[] candidate, out int collisionIx)

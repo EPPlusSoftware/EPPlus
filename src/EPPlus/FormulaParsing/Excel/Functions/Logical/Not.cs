@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         Description = "Returns a logical value that is the opposite of a user supplied logical value or expression (i.e.returns FALSE is the supplied argument is TRUE and returns TRUE if the supplied argument is FALSE)")]
     internal class Not : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var result = !ArgToBool(arguments, 0);
             return new CompileResult(result, DataType.Boolean);
         }

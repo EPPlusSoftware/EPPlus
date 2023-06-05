@@ -22,5 +22,18 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual("#DIV/0!", ws.Cells["A1"].Value.ToString());
             }
         }
+        [TestMethod]
+        public void ShouldSetNAInSum()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["A1"].Formula = "NA()";
+                ws.Cells["A2"].Formula = "SUM(A1)";
+                ws.Calculate();
+                Assert.AreEqual("#N/A", ws.Cells["A1"].Value.ToString());
+                Assert.AreEqual("#N/A", ws.Cells["A2"].Value.ToString());
+            }
+        }
     }
 }

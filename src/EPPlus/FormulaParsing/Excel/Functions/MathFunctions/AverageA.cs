@@ -32,15 +32,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             IgnoreErrors = false;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1, eErrorType.Div0);
             double nValues = 0d, result = 0d;
             foreach (var arg in arguments)
             {
                 Calculate(arg, context, ref result, ref nValues);
             }
-            return CreateResult(Divide(result, nValues), DataType.Decimal);
+            if(nValues == 0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Div0);
+            }
+            var div = Divide(result, nValues);
+            if (double.IsPositiveInfinity(div))
+            {
+                return CompileResult.GetErrorResult(eErrorType.Div0);
+            }
+            return CreateResult(div, DataType.Decimal);
         }
 
         private void Calculate(FunctionArgument arg, ParsingContext context, ref double retVal, ref double nValues, bool isInArray = false)
@@ -60,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             {
                 foreach (var c in arg.ValueAsRangeInfo)
                 {
-                    if (ShouldIgnore(c, context)) continue;
+                    if(c.Value==null || ShouldIgnore(c, context)) continue;
                     CheckForAndHandleExcelError(c);
                     if (IsBool(c.Value))
                     {

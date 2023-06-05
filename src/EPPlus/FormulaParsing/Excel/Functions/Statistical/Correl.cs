@@ -25,11 +25,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             Description = "Returns the correlation coefficient of two cell ranges")]
     internal class Correl : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var arg1 = arguments.ElementAt(0);
-            var arg2 = arguments.ElementAt(1);
+            var arg1 = arguments[0];
+            var arg2 = arguments[1];
             var arr1 = ArgsToDoubleEnumerable(new FunctionArgument[] { arg1 }, context).ToArray();
             var arr2 = ArgsToDoubleEnumerable(new FunctionArgument[] { arg2 }, context).ToArray();
             if (arr2.Count() != arr1.Count()) return CreateResult(eErrorType.NA);

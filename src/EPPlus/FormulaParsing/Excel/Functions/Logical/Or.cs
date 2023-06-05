@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         Description = "Returns the logical value FALSE")]
     internal class Or : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             for (var x = 0; x < arguments.Count(); x++)
             {
                 if (ArgToBool(arguments, x))

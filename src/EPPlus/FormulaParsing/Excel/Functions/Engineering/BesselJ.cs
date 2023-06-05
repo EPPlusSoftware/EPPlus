@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Calculates the Bessel function Jn(x)")]
     internal class BesselJ : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var x = ArgToDecimal(arguments, 0);
             var n = ArgToInt(arguments, 1);
             var result = new BesselJImpl().BesselJ(x, n);

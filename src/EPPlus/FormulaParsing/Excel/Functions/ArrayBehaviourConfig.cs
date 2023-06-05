@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
-    internal class ArrayBehaviourConfig
+    public class ArrayBehaviourConfig
     {
         public List<int> ArrayParameterIndexes { get; set; }
     }

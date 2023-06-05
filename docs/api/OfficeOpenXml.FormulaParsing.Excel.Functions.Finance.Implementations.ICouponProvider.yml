@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ICouponProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupdaybs
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupdays
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupdaysnc
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupsncd
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
@@ -200,7 +200,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCoupnum
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
@@ -237,7 +237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCouppcd
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs

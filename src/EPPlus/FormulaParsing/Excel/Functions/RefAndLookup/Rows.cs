@@ -28,10 +28,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns the number of rows in a supplied range")]
     internal class Rows : LookupFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var r=arguments.ElementAt(0).ValueAsRangeInfo;
+            var r = arguments[0].ValueAsRangeInfo;
             if (r != null)
             {
                 return CreateResult(r.Address.ToRow - r.Address.FromRow + 1, DataType.Integer);
@@ -46,7 +46,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     return CreateResult(address.ToRow - address.FromRow + 1, DataType.Integer);
                 }
             }
-            throw new ArgumentException("Invalid range supplied");
+            if(context.Debug)
+            {
+                context.Configuration.Logger.Log("Rows function:Invalid range supplied. Cell {context.CurrentWorksheet?.Name}!{context.CurrentCell?.Address}");
+            }
+            return CompileResult.GetErrorResult(eErrorType.Value);
         }
         public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
         {

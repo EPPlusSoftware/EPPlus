@@ -27,11 +27,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         SupportsArrays = true)]
     internal class Odd : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            var arg = arguments.ElementAt(0).Value;
+            var arg = arguments[0].Value;
             if (!IsNumeric(arg)) return new CompileResult(eErrorType.Value);
             var number = ConvertUtil.GetValueDouble(arg);
             if(number % 1 != 0)

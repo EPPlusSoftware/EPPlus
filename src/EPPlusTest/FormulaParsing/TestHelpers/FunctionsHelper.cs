@@ -37,7 +37,7 @@ namespace EPPlusTest.FormulaParsing.TestHelpers
 {
     public static class FunctionsHelper
     {
-        public static IEnumerable<FunctionArgument> CreateArgs(params object[] args)
+        public static IList<FunctionArgument> CreateArgs(params object[] args)
         {
             var list = new List<FunctionArgument>();
             foreach (var arg in args)
@@ -47,7 +47,7 @@ namespace EPPlusTest.FormulaParsing.TestHelpers
             return list;
         }
 
-        public static IEnumerable<FunctionArgument> Empty()
+        public static IList<FunctionArgument> Empty()
         {
             return new List<FunctionArgument>() {new FunctionArgument(null)};
         }

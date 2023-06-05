@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Returns the character that corresponds to a supplied numeric value")]
     internal class CharFunction : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToInt(arguments, 0);
             if (number < 1 || number > 255) return CreateResult(eErrorType.Value);
             return CreateResult(((char) number).ToString(), DataType.String);

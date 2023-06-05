@@ -1606,17 +1606,6 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(cf.As.FiveIconSet.Icon5.Value, 80);
         }
 
-        //var threeIcons = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 43, 10, 43), eExcelconditionalFormatting3IconsSetType.Symbols2);
-
-        //var fourIcons = wks.ConditionalFormatting.AddFourIconSet(new ExcelAddress(1, 44, 10, 44), eExcelconditionalFormatting4IconsSetType.RedToBlack);
-
-        //var fiveIcons = wks.ConditionalFormatting.AddFiveIconSet(new ExcelAddress(1, 45, 10, 45), eExcelconditionalFormatting5IconsSetType.Rating);
-
-        //var threeGreatherThan = wks.ConditionalFormatting.AddThreeIconSet(new ExcelAddress(1, 48, 10, 48), eExcelconditionalFormatting3IconsSetType.TrafficLights2);
-
-        //threeGreatherThan.Icon2.GreaterThanOrEqualTo = false;
-        //        threeGreatherThan.Icon3.GreaterThanOrEqualTo = false;
-
         [TestMethod]
         public void PriorityChangeTest()
         {
@@ -1911,7 +1900,6 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void ExtLstFormulaValidations()
         {
-
             using (var pck = OpenPackage("ExtLstFormulas.xlsx", true))
             {
                 var sheet = pck.Workbook.Worksheets.Add("formulas");
@@ -1922,17 +1910,10 @@ namespace EPPlusTest.ConditionalFormatting
                 sheet.Cells["B1:B5"].Value = 5;
                 sheet.Cells["B3"].Value = 2;
 
-                //var validation = sheet.Cells["C5"].DataValidation.AddIntegerDataValidation();
-                //validation.Operator = OfficeOpenXml.DataValidation.ExcelDataValidationOperator.equal;
-                //validation.Formula.ExcelFormula = "formulasReference!$B$5";
-
-                //sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
                 var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
                 equal.Formula = "formulasReference!$B$5";
                 equal.Style.Fill.BackgroundColor.Color = Color.Blue;
                 equal.Style.Font.Italic = true;
-
-                //sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("C1:C205"), Color.Beige);
 
                 SaveAndCleanup(pck);
             }

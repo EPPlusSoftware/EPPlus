@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePictureInclude
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exclude
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeInCssOnly
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Include
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePictureInclude.cs

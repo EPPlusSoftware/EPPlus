@@ -16,11 +16,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/BuiltInFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuiltInFunctions
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/BuiltInFunctions.cs
-    startLine: 31
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -65,11 +65,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/BuiltInFunctions.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/BuiltInFunctions.cs
-    startLine: 36
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions

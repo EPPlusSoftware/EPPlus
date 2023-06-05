@@ -27,7 +27,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void VerifyTokensExternalRefWithApostrophes()
         {
             var f = @"'[1]This ''Sheet'!$A$1";
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(f);
 
             Assert.AreEqual(8, tokens.Count);
         }
@@ -35,7 +35,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void VerifyExponentialNegativeNumericValue()
         {
             var f = @"4.165468498E-06+-8E+20";
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(f);
 
             Assert.AreEqual(3, tokens.Count);
             Assert.AreEqual(TokenType.Decimal, tokens[0].TokenType);
@@ -47,7 +47,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void VerifyExponentialPositiveNumericValue()
         {
             var f = @"4.165468498e+06";
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(f);
 
             Assert.AreEqual(1, tokens.Count);
         }
@@ -55,7 +55,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void VerifyTokensExternalRefWithOutApostrophes()
         {
             var f = @"[1]ThisSheet!$A$1";
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(f);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(f);
 
             Assert.AreEqual(6, tokens.Count);
         }

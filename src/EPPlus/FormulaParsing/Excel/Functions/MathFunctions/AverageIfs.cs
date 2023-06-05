@@ -26,22 +26,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         IntroducedInExcelVersion = "2007")]
     internal class AverageIfs : MultipleRangeCriteriasFunction
     {
-        private string GetCriteraFromArgsByIndex(FunctionArgument[] arguments, int index)
+        private string GetCriteraFromArgsByIndex(IList<FunctionArgument> arguments, int index)
         {
             return arguments[index + 1].Value != null ? arguments[index + 1].Value.ToString() : null;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 3);
-            var sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { functionArguments[0] }, context).ToList();
+            var sumRange = ArgsToDoubleEnumerable(false, new List<FunctionArgument> { arguments[0] }, context).ToList();
             var argRanges = new List<RangeOrValue>();
             var criterias = new List<string>();
             for (var ix = 1; ix < 31; ix += 2)
             {
-                if (functionArguments.Length <= ix) break;
-                var arg = functionArguments[ix];
+                if (arguments.Count <= ix) break;
+                var arg = arguments[ix];
                 if (arg.IsExcelRange)
                 {
                     var rangeInfo = arg.ValueAsRangeInfo;
@@ -51,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                var v = GetCriteraFromArgsByIndex(functionArguments, ix);
+                var v = GetCriteraFromArgsByIndex(arguments, ix);
                 criterias.Add(v);
             }
             IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context);

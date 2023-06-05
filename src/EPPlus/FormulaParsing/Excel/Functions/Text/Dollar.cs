@@ -26,23 +26,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
        Description = "Converts a supplied number into text, using a currency format")]
     internal class Dollar : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0, context.Configuration.PrecisionAndRoundingStrategy);
             var decimals = 2;
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
             {
                 decimals = ArgToInt(arguments, 1);
             }
-            var result = 0d;
+            double result;
             if(decimals >= 0)
             {
-                result = System.Math.Round(number, decimals);
+                result = Math.Round(number, decimals);
             }
             else
             {
-                result = System.Math.Round(number * System.Math.Pow(10, decimals)) / System.Math.Pow(10, decimals);
+                result = Math.Round(number * System.Math.Pow(10, decimals)) / System.Math.Pow(10, decimals);
             }
             return CreateResult(result.ToString(GetFormatString(decimals), CultureInfo.CurrentCulture), DataType.String);
         }

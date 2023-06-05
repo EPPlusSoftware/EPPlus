@@ -38,9 +38,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             Require.That(argConverter).Named("argConverter").IsNotNull();
             _argConverter = argConverter;
         }
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var values = _argConverter.ConvertArgsIncludingOtherTypes(arguments, false);
             return CreateResult(values.Max(), DataType.Decimal);
         }

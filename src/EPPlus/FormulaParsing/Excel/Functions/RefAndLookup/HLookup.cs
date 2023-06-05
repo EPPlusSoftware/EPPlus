@@ -26,18 +26,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Looks up a supplied value in the first row of a table, and returns the corresponding value from another row")]
     internal class HLookup : LookupFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
-            var arg0 = arguments.ElementAt(0);
-            var arg1 = arguments.ElementAt(1);
-            if (arg0.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg0.Value).Type);
-            if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
-
             var lookupArgs = new LookupArguments(arguments, context);
             if (lookupArgs.LookupIndex < 1) return CreateResult(eErrorType.Value);
             var navigator = LookupNavigatorFactory.Create(LookupDirection.Horizontal, lookupArgs, context);
             return Lookup(navigator, lookupArgs);
         }
+        public override int ArgumentMinLength => 3;
     }
 }

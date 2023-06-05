@@ -25,18 +25,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Converts a dollar price expressed as a fraction, into a dollar price expressed as a decimal")]
     internal class DollarDe : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var fractionalDollar = ArgToDecimal(arguments, 0);
             var fractionDec = ArgToDecimal(arguments, 1);
-            var fraction = System.Math.Floor(fractionDec);
-            if (fraction <= 0d) return CreateResult(eErrorType.Num);
-            if (fraction < 1d) return CreateResult(eErrorType.Div0);
-            var intResult = System.Math.Floor(fractionalDollar);
+            var fraction = Math.Floor(fractionDec);
+            if (fraction <= 0d) return CompileResult.GetErrorResult(eErrorType.Num);
+            if (fraction < 1d) return CompileResult.GetErrorResult(eErrorType.Div0);
+            var intResult = Math.Floor(fractionalDollar);
             var result = ((double)intResult) + (fractionalDollar % 1) * System.Math.Pow(10d, (double)System.Math.Ceiling(System.Math.Log(fraction) / System.Math.Log(10))) / fraction;
-            var power = System.Math.Pow(10d, (double)System.Math.Ceiling(System.Math.Log(fraction) / System.Math.Log(2)) + 1);
-            return CreateResult(System.Math.Round(result * power) / power, DataType.Decimal);
+            var power = Math.Pow(10d, (double)Math.Ceiling(System.Math.Log(fraction) / System.Math.Log(2)) + 1);
+            return CreateResult(Math.Round(result * power) / power, DataType.Decimal);
         }
     }
 }

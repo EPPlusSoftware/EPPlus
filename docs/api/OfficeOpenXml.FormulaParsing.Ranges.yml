@@ -1,0 +1,58 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Ranges
+  commentId: N:OfficeOpenXml.FormulaParsing.Ranges
+  id: OfficeOpenXml.FormulaParsing.Ranges
+  children:
+  - OfficeOpenXml.FormulaParsing.Ranges.CellInfo
+  - OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
+  - OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  - OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  - OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Ranges
+  nameWithType: OfficeOpenXml.FormulaParsing.Ranges
+  fullName: OfficeOpenXml.FormulaParsing.Ranges
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Ranges.CellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.CellInfo
+  name: CellInfo
+  nameWithType: CellInfo
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.CellInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
+  name: EpplusExcelExternalRangeInfo
+  nameWithType: EpplusExcelExternalRangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+  name: ExternalCellInfo
+  nameWithType: ExternalCellInfo
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.ExternalCellInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+  name: NameInfo
+  nameWithType: NameInfo
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.NameInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  name: RangeDefinition
+  nameWithType: RangeDefinition
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
+  name: RangeInfo
+  nameWithType: RangeInfo
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
+- uid: OfficeOpenXml.FormulaParsing.Ranges
+  commentId: N:OfficeOpenXml.FormulaParsing.Ranges
+  name: OfficeOpenXml.FormulaParsing.Ranges
+  nameWithType: OfficeOpenXml.FormulaParsing.Ranges
+  fullName: OfficeOpenXml.FormulaParsing.Ranges

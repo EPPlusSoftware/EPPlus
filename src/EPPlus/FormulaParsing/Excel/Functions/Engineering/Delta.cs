@@ -25,12 +25,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Tests whether two supplied numbers are equal")]
     internal class Delta : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var n1 = ArgToDecimal(arguments, 0);
             var n2 = 0d;
-            if(arguments.Count() > 1)
+            if(arguments.Count > 1)
             {
                 n2 = ArgToDecimal(arguments, 1);
             }

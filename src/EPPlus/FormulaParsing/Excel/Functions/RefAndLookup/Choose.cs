@@ -29,10 +29,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class Choose : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var indexArg = arguments.ElementAt(0);
+            var indexArg = arguments[0];
             if (indexArg.DataType==DataType.ExcelRange)
             {
                 var ri = indexArg.ValueAsRangeInfo;
@@ -44,13 +44,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     for (int c = 0; c < ri.Size.NumberOfCols; c++)
                     {
                         var ix = ConvertUtil.ParseInt(ri.GetValue(rowFrom + r, colFrom + c), RoundingMethod.Convert);
-                        if(ix<0 && ix >= arguments.Count())
+                        if(ix<0 && ix >= arguments.Count)
                         {
                             values.SetValue(r, c, ErrorValues.ValueError);
                         }
                         else
                         {
-                            values.SetValue(r, c, arguments.ElementAt(ix).Value);
+                            values.SetValue(r, c, arguments[ix].Value);
                         }
                     }
                 }
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             else
             {
                 var index = ArgToInt(arguments, 0);
-                var choosedValue = arguments.ElementAt(index).Value;
+                var choosedValue = arguments[index].Value;
                 if(choosedValue is IRangeInfo ri)
                 {
                     return CreateAddressResult(ri, DataType.ExcelRange);

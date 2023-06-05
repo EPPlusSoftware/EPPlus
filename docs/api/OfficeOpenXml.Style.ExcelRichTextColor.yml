@@ -1,0 +1,675 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelRichTextColor
+  commentId: T:OfficeOpenXml.Style.ExcelRichTextColor
+  id: ExcelRichTextColor
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelRichTextColor.Color
+  - OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+  - OfficeOpenXml.Style.ExcelRichTextColor.Theme
+  - OfficeOpenXml.Style.ExcelRichTextColor.Tint
+  langs:
+  - csharp
+  - vb
+  name: ExcelRichTextColor
+  nameWithType: ExcelRichTextColor
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichTextColor.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRichTextColor
+    path: ../src/EPPlus/Style/ExcelRichTextColor.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  syntax:
+    content: 'public class ExcelRichTextColor : XmlHelper'
+    content.vb: >-
+      Public Class ExcelRichTextColor
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Color
+  commentId: P:OfficeOpenXml.Style.ExcelRichTextColor.Color
+  id: Color
+  parent: OfficeOpenXml.Style.ExcelRichTextColor
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: ExcelRichTextColor.Color
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Color
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichTextColor.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/Style/ExcelRichTextColor.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGets the rgb color depending in <xref href=\"OfficeOpenXml.Style.ExcelRichTextColor.Rgb\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"OfficeOpenXml.Style.ExcelRichTextColor.Theme\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"OfficeOpenXml.Style.ExcelRichTextColor.Tint\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public Color Color { get; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Public ReadOnly Property Color As Color
+  overload: OfficeOpenXml.Style.ExcelRichTextColor.Color*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+  commentId: P:OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+  id: Rgb
+  parent: OfficeOpenXml.Style.ExcelRichTextColor
+  langs:
+  - csharp
+  - vb
+  name: Rgb
+  nameWithType: ExcelRichTextColor.Rgb
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichTextColor.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rgb
+    path: ../src/EPPlus/Style/ExcelRichTextColor.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe rgb color value set in the file.\n"
+  example: []
+  syntax:
+    content: public Color Rgb { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Public Property Rgb As Color
+  overload: OfficeOpenXml.Style.ExcelRichTextColor.Rgb*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Theme
+  commentId: P:OfficeOpenXml.Style.ExcelRichTextColor.Theme
+  id: Theme
+  parent: OfficeOpenXml.Style.ExcelRichTextColor
+  langs:
+  - csharp
+  - vb
+  name: Theme
+  nameWithType: ExcelRichTextColor.Theme
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Theme
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichTextColor.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Theme
+    path: ../src/EPPlus/Style/ExcelRichTextColor.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe color theme.\n"
+  example: []
+  syntax:
+    content: public eThemeSchemeColor? Theme { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Drawing.eThemeSchemeColor}
+    content.vb: Public Property Theme As eThemeSchemeColor?
+  overload: OfficeOpenXml.Style.ExcelRichTextColor.Theme*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Tint
+  commentId: P:OfficeOpenXml.Style.ExcelRichTextColor.Tint
+  id: Tint
+  parent: OfficeOpenXml.Style.ExcelRichTextColor
+  langs:
+  - csharp
+  - vb
+  name: Tint
+  nameWithType: ExcelRichTextColor.Tint
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Tint
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelRichTextColor.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tint
+    path: ../src/EPPlus/Style/ExcelRichTextColor.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe tint value for the color.\n"
+  example: []
+  syntax:
+    content: public double? Tint { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Tint As Double?
+  overload: OfficeOpenXml.Style.ExcelRichTextColor.Tint*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+  commentId: P:OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+  isExternal: true
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Theme
+  commentId: P:OfficeOpenXml.Style.ExcelRichTextColor.Theme
+  isExternal: true
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Tint
+  commentId: P:OfficeOpenXml.Style.ExcelRichTextColor.Tint
+  isExternal: true
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Color*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichTextColor.Color
+  name: Color
+  nameWithType: ExcelRichTextColor.Color
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Color
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Rgb*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+  name: Rgb
+  nameWithType: ExcelRichTextColor.Rgb
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Rgb
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Theme*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichTextColor.Theme
+  name: Theme
+  nameWithType: ExcelRichTextColor.Theme
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Theme
+- uid: System.Nullable{OfficeOpenXml.Drawing.eThemeSchemeColor}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.eThemeSchemeColor}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eThemeSchemeColor>
+  nameWithType: Nullable<eThemeSchemeColor>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.eThemeSchemeColor>
+  nameWithType.vb: Nullable(Of eThemeSchemeColor)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.eThemeSchemeColor)
+  name.vb: Nullable(Of eThemeSchemeColor)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+    name: eThemeSchemeColor
+    nameWithType: eThemeSchemeColor
+    fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+    name: eThemeSchemeColor
+    nameWithType: eThemeSchemeColor
+    fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.ExcelRichTextColor.Tint*
+  commentId: Overload:OfficeOpenXml.Style.ExcelRichTextColor.Tint
+  name: Tint
+  nameWithType: ExcelRichTextColor.Tint
+  fullName: OfficeOpenXml.Style.ExcelRichTextColor.Tint
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )

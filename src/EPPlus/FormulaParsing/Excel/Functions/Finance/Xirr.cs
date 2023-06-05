@@ -26,18 +26,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the internal rate of return for a schedule of cash flows occurring at a series of supplied dates")]
     internal class Xirr : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(0) }, context).Select(x => (double)x);
             var dates = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(1) }, context).Select(x => System.DateTime.FromOADate(x));
             var guess = 0.1;
-            if(arguments.Count() > 2)
+            if(arguments.Count > 2)
             {
                 guess = ArgToDecimal(arguments, 2);
             }
             var result = XirrImpl.GetXirr(values, dates, guess);
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             return CreateResult(result.Result, DataType.Decimal);
         }
     }

@@ -26,13 +26,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         SupportsArrays = true)]
     internal class Csch : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
-            if (number == 0) return CreateResult(eErrorType.Div0);
+            if (number == 0) return CompileResult.GetErrorResult(eErrorType.Div0);
             return CreateResult(MathHelper.HCosec(number), DataType.Decimal);
         }
     }

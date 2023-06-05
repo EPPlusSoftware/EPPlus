@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTextHorizontalOverflow
     path: ../src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clip
     path: ../src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overflow
     path: ../src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs

@@ -6,8 +6,7 @@ items:
   parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
   children:
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.#ctor(OfficeOpenXml.FormulaParsing.ParsingScope)
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.Address
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.ScopeId
   langs:
@@ -20,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaDependency
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-    startLine: 20
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -61,11 +60,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -94,11 +93,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScopeId
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
@@ -129,20 +128,20 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-    startLine: 29
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
   syntax:
-    content: public RangeAddress Address { get; }
+    content: public FormulaRangeAddress Address { get; }
     parameters: []
     return:
-      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-    content.vb: Public ReadOnly Property Address As RangeAddress
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: Public ReadOnly Property Address As FormulaRangeAddress
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.Address*
   modifiers.csharp:
   - public
@@ -150,70 +149,35 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  id: AddReferenceFrom(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  id: AddReferenceFrom(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
   langs:
   - csharp
   - vb
-  name: AddReferenceFrom(RangeAddress)
-  nameWithType: FormulaDependency.AddReferenceFrom(RangeAddress)
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
+  name: AddReferenceFrom(FormulaRangeAddress)
+  nameWithType: FormulaDependency.AddReferenceFrom(FormulaRangeAddress)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   type: Method
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddReferenceFrom
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
   syntax:
-    content: public virtual void AddReferenceFrom(RangeAddress rangeAddress)
+    content: public virtual void AddReferenceFrom(FormulaRangeAddress rangeAddress)
     parameters:
     - id: rangeAddress
-      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-    content.vb: Public Overridable Sub AddReferenceFrom(rangeAddress As RangeAddress)
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    content.vb: Public Overridable Sub AddReferenceFrom(rangeAddress As FormulaRangeAddress)
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom*
-  modifiers.csharp:
-  - public
-  - virtual
-  modifiers.vb:
-  - Public
-  - Overridable
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  id: AddReferenceTo(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
-  langs:
-  - csharp
-  - vb
-  name: AddReferenceTo(RangeAddress)
-  nameWithType: FormulaDependency.AddReferenceTo(RangeAddress)
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo(OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: AddReferenceTo
-    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/FormulaDependency.cs
-    startLine: 44
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  syntax:
-    content: public virtual void AddReferenceTo(RangeAddress rangeAddress)
-    parameters:
-    - id: rangeAddress
-      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-    content.vb: Public Overridable Sub AddReferenceTo(rangeAddress As RangeAddress)
-  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo*
   modifiers.csharp:
   - public
   - virtual
@@ -551,19 +515,19 @@ references:
   name: Address
   nameWithType: FormulaDependency.Address
   fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.Address
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
-  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  name: RangeAddress
-  nameWithType: RangeAddress
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: FormulaRangeAddress
+  nameWithType: FormulaRangeAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
 - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom
   name: AddReferenceFrom
   nameWithType: FormulaDependency.AddReferenceFrom
   fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceFrom
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo
-  name: AddReferenceTo
-  nameWithType: FormulaDependency.AddReferenceTo
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency.AddReferenceTo

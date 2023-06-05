@@ -24,13 +24,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the effective annual interest rate from a supplied Nominal interest rate and number of periods")]
     internal class Effect : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var nominalRate = ArgToDecimal(arguments, 0);
             var npery = ArgToInt(arguments, 1);
             if (nominalRate <= 0 || npery < 1)
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             var result = (System.Math.Pow(nominalRate/npery + 1d, npery) - 1d);
             return CreateResult(result, DataType.Decimal);
         }

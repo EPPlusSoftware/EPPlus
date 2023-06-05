@@ -35,7 +35,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartAsType
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -273,7 +273,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -311,7 +311,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -349,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -387,7 +387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -425,7 +425,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -463,7 +463,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -501,7 +501,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SurfaceChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -577,7 +577,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -615,7 +615,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -653,7 +653,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhiskerChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -691,7 +691,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HistogramChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -729,7 +729,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -767,7 +767,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs
@@ -805,7 +805,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelChartAsType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionMapChart
     path: ../src/EPPlus/Drawing/ExcelChartAsType.cs

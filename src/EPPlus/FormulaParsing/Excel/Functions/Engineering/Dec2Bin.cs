@@ -26,9 +26,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         Description = "Converts a decimal number to binary")]
     internal class Dec2Bin : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToInt(arguments, 0);
             var padding = default(int?);
             if (arguments.Count() > 1)
@@ -47,5 +46,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
             }
             return CreateResult(result, DataType.String);
         }
+        public override int ArgumentMinLength => 1;
     }
 }

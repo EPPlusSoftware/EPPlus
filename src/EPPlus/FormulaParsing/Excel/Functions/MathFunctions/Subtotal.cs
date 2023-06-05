@@ -75,9 +75,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var funcNum = ArgToInt(arguments, 0);
             //if (context.Scopes.Current.Parent != null && context.Scopes.Current.Parent.IsSubtotal)
             //{
@@ -85,9 +85,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             //}
             context.IsSubtotal = true;
             var actualArgs = arguments.Skip(1);
-            ExcelFunction function = null;
-            function = GetFunctionByCalcType(funcNum);
-            var compileResult = function.Execute(actualArgs, context);
+            var function = GetFunctionByCalcType(funcNum);
+            var compileResult = function.Execute(actualArgs.ToList(), context);
             compileResult.IsResultOfSubtotal = true;
             return compileResult;
         }

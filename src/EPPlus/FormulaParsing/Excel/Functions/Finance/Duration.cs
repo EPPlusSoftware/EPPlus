@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the Macauley duration of a security with an assumed par value of $100")]
     internal class Duration : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 5;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 5);
             var settlementNum = ArgToDecimal(arguments, 0);
             var maturityNum = ArgToDecimal(arguments, 1);
             var settlement = System.DateTime.FromOADate(settlementNum);
@@ -38,21 +38,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
             var yield = ArgToDecimal(arguments, 3);
             if(coupon < 0 || yield < 0)
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var frequency = ArgToInt(arguments, 4);
             if(frequency != 1 && frequency != 2 && frequency != 4)
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var basis = 0;
-            if(arguments.Count() > 5)
+            if(arguments.Count > 5)
             {
                 basis = ArgToInt(arguments, 5);
             }
             if(basis < 0 || basis > 4)
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var func = new DurationImpl(new YearFracProvider(context), new CouponProvider());
             var result = func.GetDuration(settlement, maturity, coupon, yield, frequency, (DayCountBasis)basis);

@@ -38,12 +38,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         private readonly bool _isAvg;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var number = ArgToDecimal(arguments, 0);
-            var refArg = arguments.ElementAt(1);
-            var sortAscending = arguments.Count() > 2 ? ArgToBool(arguments, 2) : false;
+            var refArg = arguments[1];
+            var sortAscending = arguments.Count > 2 ? ArgToBool(arguments, 2) : false;
             var numbers = GetNumbersFromRange(refArg, sortAscending);
             double rank = numbers.IndexOf(number) + 1;
             if(_isAvg)
@@ -54,7 +54,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             
             if (rank <= 0 || rank > numbers.Count)
             {
-                return new CompileResult(ExcelErrorValue.Create(eErrorType.NA), DataType.ExcelError);
+                return CompileResult.GetErrorResult(eErrorType.NA);
             }
             return CreateResult(rank, DataType.Decimal);
         }

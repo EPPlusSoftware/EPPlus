@@ -15,22 +15,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns a specified number of contiguous rows or columns from the start or end of an array.")]
     internal class Take : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             int? rowsParam = default;
             int? colsParam = default;
             int rows = 0, cols = 0;
-            var rowsArg = arguments.ElementAt(1);
+            var rowsArg = arguments[1];
             if(rowsArg.Value != null) 
             {
                 rowsParam = ArgToInt(arguments, 1);
             }
             
-            if (arguments.Count() > 2)
+            if (arguments.Count > 2)
             {
-                if(arguments.ElementAt(2).Value != null)
+                if(arguments[2].Value != null)
                 {
                     colsParam = ArgToInt(arguments, 2);
                 }
@@ -43,10 +43,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 cols = colsParam ?? r.Size.NumberOfCols;
                 rows = rows > r.Size.NumberOfRows ? r.Size.NumberOfRows : rows;
                 cols = cols > r.Size.NumberOfCols ? r.Size.NumberOfCols : cols;
-                if (rows == 0 || cols == 0) return CompileResult.GetErrorResult(eErrorType.Calc);
+                if (rows == 0 || cols == 0) return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
                 if (r.Size.NumberOfRows < Math.Abs(rows) || r.Size.NumberOfCols < Math.Abs(cols))
                 {
-                    return CompileResult.GetErrorResult(eErrorType.Calc);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
                 }
 
                 int fromRow, fromCol, toRow, toCol;
@@ -78,21 +78,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if (r.IsInMemoryRange)
                 {
                     retRange = r.GetOffset(fromRow, fromCol, toRow, toCol);
-                    return CreateResult(retRange, DataType.ExcelRange);
+                    return CreateDynamicArrayResult(retRange, DataType.ExcelRange);
                 }
                 else
                 {
                     var address = new FormulaRangeAddress(context, fromRow, fromCol, toRow, toCol);
                     retRange = new RangeInfo(r.Worksheet, fromRow, fromCol, toRow, toCol, context, r.Address.ExternalReferenceIx); //External references must be check how they work.
-                    return CreateResult(retRange, DataType.ExcelRange, address);
+                    return CreateDynamicArrayResult(retRange, DataType.ExcelRange, address);
                 }
             }
             // arg was not a range
             if (rows != 0 && cols != 0)
             {
-                return CompileResultFactory.Create(firstArg.Value);
+                return CompileResultFactory.CreateDynamicArray(firstArg.Value);
             }
-            return CompileResult.GetErrorResult(eErrorType.Calc);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
         }
 
         public override string NamespacePrefix => "_xlfn.";

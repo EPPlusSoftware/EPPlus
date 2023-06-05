@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCommentCollection
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CommentXml
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -273,7 +273,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -317,7 +317,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -362,7 +362,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -399,7 +399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.IDisposable.Dispose
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -429,7 +429,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/ExcelCommentCollection.cs
@@ -466,7 +466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCommentCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelCommentCollection.cs

@@ -71,6 +71,29 @@ namespace EPPlusTest.FormulaParsing
             _ws.Cells["F20"].Formula = "Filter(A2:D100,D2:D100 > F17)";
             _ws.Cells["F19:I59"].AutoFitColumns();
             _ws.Cells["F100"].Formula = "AnchorArray(F20)"; //F20# in Excel GUI
+
+            _ws.Calculate();
+        }
+
+        [TestMethod]
+        public void DynamicArrayFormulaFilterAndAnchorArrayFunctionWithSpill()
+        {
+            _ws.Cells["Q17"].Value = 20000;
+            _ws.Cells["Q17"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Dotted);
+            _ws.Cells["A1:D1"].Copy(_ws.Cells["Q19"]);
+
+            _ws.Cells["Q19:T19"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+            _ws.Cells["Q19:T19"].Style.Fill.BackgroundColor.SetColor(Color.LightGreen);
+            _ws.Cells["Q19:T19"].Style.Font.Color.SetColor(Color.White);
+                       
+            _ws.Cells["Q19:T59"].Style.Font.Name = "Arial";
+            _ws.Cells["Q19:T59"].Style.Font.Size = 12;
+                       
+            _ws.Cells["Q20"].Formula = "Filter(A2:D100,D2:D100 > Q17, \"No matches found.\")";
+            _ws.Cells["Q19:T59"].AutoFitColumns();
+            _ws.Cells["Q100"].Formula = "AnchorArray(Q20)"; //F20# in Excel GUI
+
+            _ws.Cells["R110"].Value = 88; //result in spill
             _ws.Calculate();
         }
         [TestMethod]
@@ -105,6 +128,5 @@ namespace EPPlusTest.FormulaParsing
             Assert.AreEqual(0, spillError.SpillRowOffset);
             Assert.AreEqual(1, spillError.SpillColOffset);
         }
-
     }
 }

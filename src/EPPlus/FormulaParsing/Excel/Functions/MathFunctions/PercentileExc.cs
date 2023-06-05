@@ -26,14 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
      Description = "Returns the K'th percentile of values in a supplied range, where K is in the range 0 - 1 (exclusive)")]
     internal class PercentileExc : HiddenValuesHandlingFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var arr = ArgsToDoubleEnumerable(arguments.Take(1), context).Select(x => (double)x).ToList();
             var k = ArgToDecimal(arguments, 1);
             if (k <= 0 || k >= 1) return CreateResult(eErrorType.Num);
             var n = arr.Count;
-            if (k < 1d / (n + 1d) || k > 1 - 1d / (n + 1d)) return CreateResult(eErrorType.Num);
+            if (k < 1d / (n + 1d) || k > 1 - 1d / (n + 1d)) return CompileResult.GetErrorResult(eErrorType.Num);
             arr.Sort();
             var l = k * (n + 1d) - 1;
             var fl = (int)System.Math.Floor(l);

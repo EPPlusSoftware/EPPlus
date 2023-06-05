@@ -31,16 +31,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             ArrayParameterIndexes = new List<int> { 0, 1, 2 }
         };
 
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var text = ArgToString(arguments, 0);
             var startIx = ArgToInt(arguments, 1);
             var length = ArgToInt(arguments, 2);

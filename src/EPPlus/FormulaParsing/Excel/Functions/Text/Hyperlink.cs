@@ -25,10 +25,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Creates a hyperlink to a document in a supplied location.")]
     internal class Hyperlink : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
-            if (arguments.Count() > 1)
+            if (arguments.Count > 1)
             {
                 return CreateResult(ArgToString(arguments, 1), DataType.String);
             }

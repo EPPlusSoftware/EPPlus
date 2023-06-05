@@ -134,7 +134,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                     }
                     if (!isError)
                     {
-                        var result = Function.Execute(argList, Context);
+                        var result = Function.ExecuteInternal(argList, Context);
                         resultRange.SetValue(row, col, result.Result);
                     }
                 }

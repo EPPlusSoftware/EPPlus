@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheetThreadedComments
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Persons
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Threads
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedCommentsXml
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -306,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -350,7 +350,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -394,7 +394,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -438,7 +438,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -474,7 +474,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
@@ -510,7 +510,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ThreadedComments/ExcelWorksheetThreadedComments.cs

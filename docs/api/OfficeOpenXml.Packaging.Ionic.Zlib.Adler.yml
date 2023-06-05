@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Adler
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Adler32
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs

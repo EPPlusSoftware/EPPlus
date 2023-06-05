@@ -27,12 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
     internal class ChooseRows : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             var rows = new List<int>();
-            for (var x = 1; x < arguments.Count(); x++)
+            for (var x = 1; x < arguments.Count; x++)
             {
                 var r = ArgToInt(arguments, x);
                 rows.Add(r);
@@ -42,7 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 var source = firstArg.ValueAsRangeInfo;
                 if(rows.Any(r => Math.Abs(r - 1) > source.Size.NumberOfRows || r == 0))
                 {
-                    return CreateResult(eErrorType.Value);
+                    return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
                 }
                 var nCols = source.Size.NumberOfCols;
                 var resultRange = new InMemoryRange(new RangeDefinition(rows.Count, source.Size.NumberOfCols));
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     }
                     rIx++;
                 }
-                return CreateResult(resultRange, DataType.ExcelRange);
+                return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
             }
             else if (!rows.Any(x => x > 1))
             {
@@ -68,9 +68,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 {
                     resultRange.SetValue(rIx++, 0, firstArg.Value);
                 }
-                return CreateResult(resultRange, DataType.ExcelRange);
+                return CreateDynamicArrayResult(resultRange, DataType.ExcelRange);
             }
-            return CompileResult.GetErrorResult(eErrorType.Value);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
         }
     }
 }

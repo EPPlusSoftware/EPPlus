@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotNull
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs

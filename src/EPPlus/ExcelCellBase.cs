@@ -942,7 +942,7 @@ namespace OfficeOpenXml
             {
                 if (tokens == null)
                 {
-                    tokens = tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula);
+                    tokens = tokens = SourceCodeTokenizer.Default.Tokenize(formula);
                 }
                 var f = "";
                 //string wsName = "";
@@ -1121,7 +1121,7 @@ namespace OfficeOpenXml
             {
                 var afterRow = range._fromRow;
                 var afterColumn = range._fromCol;
-                var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var tokens = sct.Tokenize(formula);
                 var f = "";
                 foreach (var t in tokens)
@@ -1236,7 +1236,7 @@ namespace OfficeOpenXml
 
             try
             {
-                var sct = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
+                var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
                 var retFormula = "";
                 foreach (var token in sct.Tokenize(formula))
                 {

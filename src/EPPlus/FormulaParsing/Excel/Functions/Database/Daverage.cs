@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
         Description = "Calculates the average of values in a field of a list or database, that satisfy specified conditions")]
     internal class Daverage : DatabaseFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var values = GetMatchingValues(arguments, context);
             if (!values.Any()) return CreateResult(0d, DataType.Integer);
             return CreateResult(values.Average(), DataType.Integer);

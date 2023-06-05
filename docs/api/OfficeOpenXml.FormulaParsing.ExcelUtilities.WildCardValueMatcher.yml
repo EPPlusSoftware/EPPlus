@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/WildCardValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WildCardValueMatcher
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/WildCardValueMatcher.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/WildCardValueMatcher.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/WildCardValueMatcher.cs

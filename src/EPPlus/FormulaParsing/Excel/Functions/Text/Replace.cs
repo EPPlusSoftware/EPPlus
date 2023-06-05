@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Replaces all or part of a text string with another string (from a user supplied position)")]
     internal class Replace : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var oldText = ArgToString(arguments, 0);
             var startPos = ArgToInt(arguments, 1);
             var nCharsToReplace = ArgToInt(arguments, 2);
@@ -46,6 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         private string GetLastPart(string text, int startPos, int nCharactersToReplace)
         {
             int startIx = startPos -1;
+            if (nCharactersToReplace > (text.Length - startIx)) nCharactersToReplace = text.Length - startIx;
             startIx += nCharactersToReplace;
             return text.Substring(startIx, text.Length - startIx);
         }

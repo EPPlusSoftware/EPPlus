@@ -27,11 +27,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         SupportsArrays = true)]
     internal class Round : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var arg1 = arguments.ElementAt(0);
+            var arg1 = arguments[0];
             if (arg1.Value == null) return CreateResult(0d, DataType.Decimal);
             var nDigits = ArgToInt(arguments, 1);
             var positivDigits = nDigits * -1;
@@ -43,5 +42,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return CreateResult(System.Math.Round(number, nDigits, MidpointRounding.AwayFromZero), DataType.Decimal);
         }
+        public override int ArgumentMinLength => 2;
     }
 }

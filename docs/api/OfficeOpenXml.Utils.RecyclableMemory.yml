@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/RecyclableMemory.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RecyclableMemory
     path: ../src/EPPlus/Utils/RecyclableMemory.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/RecyclableMemory.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRecyclableMemoryStreamManager
     path: ../src/EPPlus/Utils/RecyclableMemory.cs

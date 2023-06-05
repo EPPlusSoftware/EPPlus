@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAutoFilter
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFilter
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs

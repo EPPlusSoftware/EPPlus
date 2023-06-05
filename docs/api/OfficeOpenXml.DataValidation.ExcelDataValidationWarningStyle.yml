@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationWarningStyle
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-    startLine: 22
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -52,15 +52,15 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: undefined
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-    startLine: 27
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
-  summary: "\nwarning style will be excluded\n"
+  summary: "\nwarning style will be excluded.\nExcel will default this to Stop warning style.\n"
   example: []
   syntax:
     content: undefined = 0
@@ -86,11 +86,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: stop
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-    startLine: 31
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -120,11 +120,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: warning
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-    startLine: 35
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -154,11 +154,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: information
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-    startLine: 39
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

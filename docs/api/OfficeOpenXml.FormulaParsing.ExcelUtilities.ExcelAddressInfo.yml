@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddressInfo
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetIsSpecified
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMultipleCells
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartCell
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndCell
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
@@ -287,7 +287,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressOnSheet
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EncryptionAlgorithm
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AES128
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AES192
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AES256
     path: ../src/EPPlus/ExcelEncryption.cs

@@ -17,11 +17,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/IntArgumentParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IntArgumentParser
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/IntArgumentParser.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -61,11 +61,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/IntArgumentParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/IntArgumentParser.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -99,11 +99,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/IntArgumentParser.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/IntArgumentParser.cs
-    startLine: 29
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions

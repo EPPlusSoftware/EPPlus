@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Core
         /// <returns>The formula in A1 notation</returns>
         public static string FromR1C1Formula(string formula, int row, int col)
         {
-            var tokens = OptimizedSourceCodeTokenizer.R1C1.Tokenize(formula);
+            var tokens = SourceCodeTokenizer.R1C1.Tokenize(formula);
             for(var ix = 0; ix < tokens.Count; ix++)
             {
                 var token = tokens[ix];
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Core
         {
             //var lexer = new Lexer(SourceCodeTokenizer.Default, new SyntacticAnalyzer());
             //var tokens = lexer.Tokenize(formula, null).ToArray();
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
             for (var ix = 0; ix < tokens.Count; ix++)
             {
                 var token = tokens[ix];

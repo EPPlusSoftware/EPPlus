@@ -18,8 +18,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     {
         internal ExcelWorksheet _ws;
         internal int StartRow, StartCol;
-        internal static ISourceCodeTokenizer _tokenizer = OptimizedSourceCodeTokenizer.Default;
-        internal static ISourceCodeTokenizer _tokenizerNWS = new OptimizedSourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
+        internal static ISourceCodeTokenizer _tokenizer = SourceCodeTokenizer.Default;
+        internal static ISourceCodeTokenizer _tokenizerNWS = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty, false, true);
         internal IList<Token> Tokens;
         internal IList<Token> RpnTokens;
         internal int AddressExpressionIndex;
@@ -83,11 +83,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         public SharedFormula(ExcelWorksheet ws) : base(ws)
         {
         }
-        public SharedFormula(ExcelWorksheet ws, string address, string formula) : base(ws)
+        public SharedFormula(ExcelWorksheet ws, int row, int col, string address, string formula) : base(ws)
         {
             _ws = ws;
             Formula = formula;
             ExcelCellBase.GetRowColFromAddress(address, out StartRow, out StartCol, out EndRow, out EndCol);
+            StartRow = row;
+            StartCol = col;
         }
         public SharedFormula(ExcelRangeBase range) : base(range.Worksheet, range._fromRow, range._fromCol)
         {
@@ -597,9 +599,20 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {
             get
             {
-                if(WorksheetIx > -1 && _context != null && _context.Package != null)
+                if(WorksheetIx > -1 && ExternalReferenceIx > 0)
                 {
-                    if(_context.Package.Workbook.Worksheets[WorksheetIx] != null)
+                    if (_context.Package.Workbook.ExternalLinks.Count >= ExternalReferenceIx)
+                    {
+                        var ewb = _context.Package.Workbook.ExternalLinks[ExternalReferenceIx - 1].As.ExternalWorkbook;
+                        if (ewb.CachedWorksheets.Count > WorksheetIx)
+                        {
+                            return ewb.CachedWorksheets[WorksheetIx].Name;
+                        }
+                    }
+                }
+                else if(WorksheetIx > -1 && _context != null && _context.Package != null)
+                {
+                    if(_context.Package.Workbook.Worksheets.Count > WorksheetIx)
                     {
                         return _context.Package.Workbook.Worksheets[WorksheetIx].Name;
                     }
@@ -695,7 +708,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         public FormulaTableAddress(ParsingContext ctx, string tableAddress)
         {
-            foreach (var t in OptimizedSourceCodeTokenizer.Default.Tokenize(tableAddress))
+            foreach (var t in SourceCodeTokenizer.Default.Tokenize(tableAddress))
             {
                 switch (t.TokenType)
                 {

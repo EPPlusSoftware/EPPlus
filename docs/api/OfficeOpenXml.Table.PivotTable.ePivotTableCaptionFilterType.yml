@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePivotTableCaptionFilterType
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionBeginsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionContains
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionEndsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -232,7 +232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionGreaterThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionGreaterThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionLessThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -334,7 +334,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionLessThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -368,7 +368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotBeginsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -402,7 +402,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -436,7 +436,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotContains
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -470,7 +470,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotEndsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
@@ -504,7 +504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableCaptionFilterType.cs

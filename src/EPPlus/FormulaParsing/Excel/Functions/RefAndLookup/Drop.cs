@@ -27,13 +27,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Excludes a specified number of rows or columns from the start or end of an array")]
     internal class Drop : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            var firstArg = arguments.First();
+            var firstArg = arguments[0];
             int rows, cols;
             rows = ArgToInt(arguments, 1);
-            if (arguments.Count() > 2)
+            if (arguments.Count > 2)
             {
                 cols = ArgToInt(arguments, 2);
             }
@@ -79,21 +79,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if(r.IsInMemoryRange)
                 {
                     retRange = r.GetOffset(fromRow, fromCol, toRow, toCol);
-                    return CreateResult(retRange, DataType.ExcelRange);
+                    return CreateDynamicArrayResult(retRange, DataType.ExcelRange);
                 }
                 else
                 {
                     var address = new FormulaRangeAddress(context, fromRow, fromCol, toRow, toCol);
                     retRange = new RangeInfo(r.Worksheet, fromRow, fromCol, toRow, toCol, context, r.Address.ExternalReferenceIx); //External references must be check how they work.
-                    return CreateResult(retRange, DataType.ExcelRange, address);
+                    return CreateDynamicArrayResult(retRange, DataType.ExcelRange, address);
                 }
             }
             // arg was not a range
             if(rows == 0 && cols == 0)
-            {
-                return CompileResultFactory.Create(firstArg.Value);
+            {                
+                return CompileResultFactory.CreateDynamicArray(firstArg.Value);
             }
-            return CompileResult.GetErrorResult(eErrorType.Calc);
+            return CompileResult.GetDynamicArrayResultError(eErrorType.Calc);
             
         }
         public override string NamespacePrefix => "_xlfn.";

@@ -40,7 +40,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetExcelGlowType
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent1_5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent1_8Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent1_11Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent1_18Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -243,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent2_5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -277,7 +277,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent2_8Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -311,7 +311,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent2_11Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent2_18Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -379,7 +379,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent3_5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -413,7 +413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent3_8Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -447,7 +447,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent3_11Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -481,7 +481,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent3_18Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -515,7 +515,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent4_5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -549,7 +549,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent4_8Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -583,7 +583,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent4_11Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -617,7 +617,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent4_18Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -651,7 +651,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent5_5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -685,7 +685,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent5_8Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -719,7 +719,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent5_11Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -753,7 +753,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent5_18Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -787,7 +787,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent6_5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -821,7 +821,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent6_8Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -855,7 +855,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent6_11Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
@@ -889,7 +889,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent6_18Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelGlowType.cs

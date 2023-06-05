@@ -45,7 +45,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSystemColor
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScrollBar
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -112,7 +112,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Background
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActiveCaption
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InactiveCaption
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Menu
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -248,7 +248,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Window
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -282,7 +282,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WindowFrame
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -316,7 +316,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MenuText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -350,7 +350,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WindowText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -384,7 +384,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActiveBorder
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -452,7 +452,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InactiveBorder
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -486,7 +486,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AppWorkspace
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -520,7 +520,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Highlight
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -554,7 +554,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HighlightText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -588,7 +588,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ButtonFace
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -622,7 +622,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ButtonShadow
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -656,7 +656,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrayText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -690,7 +690,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ButtonText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -724,7 +724,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InactiveCaptionText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -758,7 +758,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ButtonHighlight
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -792,7 +792,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DarkShadow3d
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -826,7 +826,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light3d
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -860,7 +860,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InfoText
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -894,7 +894,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InfoBackground
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -928,7 +928,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HotLight
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -962,7 +962,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientActiveCaption
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -996,7 +996,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientInactiveCaption
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -1030,7 +1030,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MenuHighlight
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs
@@ -1064,7 +1064,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSystemColor.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MenuBar
     path: ../src/EPPlus/Drawing/Enums/eSystemColor.cs

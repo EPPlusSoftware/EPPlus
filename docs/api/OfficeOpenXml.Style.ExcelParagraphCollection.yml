@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelParagraphCollection
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -301,7 +301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Style.ExcelParagraph>.GetEnumerator
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs
@@ -372,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelParagraphCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Style/ExcelParagraphCollection.cs

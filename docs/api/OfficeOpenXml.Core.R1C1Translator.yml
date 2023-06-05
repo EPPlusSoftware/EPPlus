@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: R1C1Translator
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 21
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
@@ -63,11 +63,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromR1C1Formula
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 39
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
@@ -110,11 +110,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToR1C1Formula
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 63
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
@@ -157,11 +157,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromR1C1
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 87
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core
@@ -204,11 +204,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToR1C1
     path: ../src/EPPlus/Core/R1C1Translator.cs
-    startLine: 206
+    startLine: 259
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Core

@@ -25,9 +25,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Returns a string consisting of a supplied text string, repeated a specified number of times")]
     internal class Rept : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var str = ArgToString(arguments, 0);
             var n = ArgToInt(arguments, 1);
             var sb = new StringBuilder();

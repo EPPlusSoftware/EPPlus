@@ -45,14 +45,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             return _expressionEvaluator.Evaluate(obj, expression);
         }
 
-        private string GetCriteraFromArg(IEnumerable<FunctionArgument> arguments)
+        private string GetCriteraFromArg(IList<FunctionArgument> arguments)
         {
             return arguments.ElementAt(1).ValueFirst != null ? ArgToString(arguments, 1) : null;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             _expressionEvaluator = new ExpressionEvaluator(context);
             var argRange = ArgToRangeInfo(arguments, 0);
             var criteria = GetCriteraFromArg(arguments);
@@ -69,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    throw new ExcelErrorValueException(eErrorType.Div0);
+                    return CompileResult.GetErrorResult(eErrorType.Div0);
                 }
             }
             else if (arguments.Count() > 2)
@@ -105,14 +105,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         var val = sumRange.GetOffset(rowOffset, columnOffset);
                         if (val is ExcelErrorValue)
                         {
-                            ThrowExcelErrorValueException(((ExcelErrorValue)val));
+                            return val;
                         }
                         nMatches++;
                         returnValue += ConvertUtil.GetValueDouble(val, true);
                     }
                 }
             }
-            return Divide(returnValue, nMatches);            
+            var div = Divide(returnValue, nMatches);
+            if (double.IsPositiveInfinity(div))
+            {
+                return CompileResult.GetErrorResult(eErrorType.Div0);
+            }
+            return div;
         }
 
         private object CalculateSingleRange(IRangeInfo range, string expression, ParsingContext context)
@@ -126,13 +131,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                     
                     if (candidate.IsExcelError)
                     {
-                        ThrowExcelErrorValueException(((ExcelErrorValue)candidate.Value));
+                        return candidate.Value;
                     }
                     returnValue += candidate.ValueDouble;
                     nMatches++;
                 }
             }
-            return Divide(returnValue, nMatches);
+            var div = Divide(returnValue, nMatches);
+            if (double.IsPositiveInfinity(div))
+            {
+                return CompileResult.GetErrorResult(eErrorType.Div0);
+            }
+            return div;
         }
     }
 }

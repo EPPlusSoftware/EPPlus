@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Utils
         internal static string ShiftAddressRowsInFormula(string worksheetName, string formula, int currentRow, int rows)
         {
             if (string.IsNullOrEmpty(formula)) return formula;
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
             if (!tokens.Any(x => x.TokenTypeIsAddress)) return formula;
             var resultTokens = new List<Token>();
             foreach (var token in tokens)
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.Utils
         internal static string ShiftAddressColumnsInFormula(string worksheetName, string formula, int currentColumn, int columns)
         {
             if (string.IsNullOrEmpty(formula)) return formula;
-            var tokens = OptimizedSourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
+            var tokens = SourceCodeTokenizer.Default.Tokenize(formula, worksheetName);
             if (tokens.Any(x => x.TokenTypeIsAddress)==false) return formula;
             var resultTokens = new List<Token>();
             foreach (var token in tokens)

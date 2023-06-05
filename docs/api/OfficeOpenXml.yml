@@ -68,6 +68,7 @@ items:
   - OfficeOpenXml.ExcelRangeColumn
   - OfficeOpenXml.ExcelRangeCopyOptionFlags
   - OfficeOpenXml.ExcelRangeRow
+  - OfficeOpenXml.ExcelRichDataErrorValue
   - OfficeOpenXml.ExcelRow
   - OfficeOpenXml.ExcelRowsCollection
   - OfficeOpenXml.ExcelSheetProtection
@@ -691,6 +692,11 @@ references:
   name: eErrorType
   nameWithType: eErrorType
   fullName: OfficeOpenXml.eErrorType
+- uid: OfficeOpenXml.ExcelRichDataErrorValue
+  commentId: T:OfficeOpenXml.ExcelRichDataErrorValue
+  name: ExcelRichDataErrorValue
+  nameWithType: ExcelRichDataErrorValue
+  fullName: OfficeOpenXml.ExcelRichDataErrorValue
 - uid: OfficeOpenXml.ExcelErrorValue
   commentId: T:OfficeOpenXml.ExcelErrorValue
   parent: OfficeOpenXml

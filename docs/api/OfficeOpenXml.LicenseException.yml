@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LicenseException.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseException
     path: ../src/EPPlus/LicenseException.cs

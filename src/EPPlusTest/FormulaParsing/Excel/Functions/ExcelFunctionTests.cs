@@ -43,12 +43,13 @@ namespace EPPlusTest.Excel.Functions
     {
         private class ExcelFunctionTester : ExcelFunction
         {
+            public override int ArgumentMinLength => 0;
             public IEnumerable<ExcelDoubleCellValue> ArgsToDoubleEnumerableImpl(IEnumerable<FunctionArgument> args)
             {
                 return ArgsToDoubleEnumerable(args, ParsingContext.Create());
             }
             #region Other members
-            public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+            public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
             {
                 throw new NotImplementedException();
             }

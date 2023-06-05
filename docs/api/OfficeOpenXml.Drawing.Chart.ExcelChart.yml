@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _chartXmlHelper
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleManager
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -222,7 +222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseSecondaryAxis
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkSheet
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChartXml
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -373,7 +373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChartType
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -410,7 +410,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _chartNode
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -443,7 +443,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
@@ -482,11 +482,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 216
+    startLine: 211
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -521,11 +521,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLegend
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 223
+    startLine: 218
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -560,11 +560,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 230
+    startLine: 225
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -594,11 +594,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 234
+    startLine: 229
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -633,28 +633,30 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Axis
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 238
+    startLine: 233
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
   summary: "\nAn array containg all axis of all Charttypes\n"
   example: []
   syntax:
-    content: public ExcelChartAxis[] Axis { get; }
+    content: public virtual ExcelChartAxis[] Axis { get; }
     parameters: []
     return:
       type: OfficeOpenXml.Drawing.Chart.ExcelChartAxis[]
-    content.vb: Public ReadOnly Property Axis As ExcelChartAxis()
+    content.vb: Public Overridable ReadOnly Property Axis As ExcelChartAxis()
   overload: OfficeOpenXml.Drawing.Chart.ExcelChart.Axis*
   modifiers.csharp:
   - public
+  - virtual
   - get
   modifiers.vb:
   - Public
+  - Overridable
   - ReadOnly
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
@@ -670,29 +672,31 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XAxis
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 248
+    startLine: 243
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
   summary: "\nThe X Axis\n"
   example: []
   syntax:
-    content: public ExcelChartAxis XAxis { get; protected set; }
+    content: public virtual ExcelChartAxis XAxis { get; protected set; }
     parameters: []
     return:
       type: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
-    content.vb: Public Property XAxis As ExcelChartAxis
+    content.vb: Public Overridable Property XAxis As ExcelChartAxis
   overload: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis*
   modifiers.csharp:
   - public
+  - virtual
   - get
   - protected set
   modifiers.vb:
   - Public
+  - Overridable
   - Get
   - Protected Set
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
@@ -709,29 +713,31 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: YAxis
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 256
+    startLine: 251
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
   summary: "\nThe Y Axis\n"
   example: []
   syntax:
-    content: public ExcelChartAxis YAxis { get; protected set; }
+    content: public virtual ExcelChartAxis YAxis { get; protected set; }
     parameters: []
     return:
       type: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
-    content.vb: Public Property YAxis As ExcelChartAxis
+    content.vb: Public Overridable Property YAxis As ExcelChartAxis
   overload: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis*
   modifiers.csharp:
   - public
+  - virtual
   - get
   - protected set
   modifiers.vb:
   - Public
+  - Overridable
   - Get
   - Protected Set
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.Style
@@ -748,11 +754,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 265
+    startLine: 260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -787,11 +793,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PlotArea
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 274
+    startLine: 269
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -826,11 +832,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Legend
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 282
+    startLine: 277
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -865,11 +871,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 303
+    startLine: 298
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -904,11 +910,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 310
+    startLine: 305
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -943,11 +949,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 317
+    startLine: 312
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -982,11 +988,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 324
+    startLine: 319
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1021,11 +1027,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 331
+    startLine: 326
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1060,11 +1066,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 338
+    startLine: 333
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1099,11 +1105,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableSource
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 346
+    startLine: 341
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1138,11 +1144,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsType3D
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 423
+    startLine: 418
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1173,11 +1179,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeLine
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 431
+    startLine: 426
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1208,11 +1214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeRadar
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 444
+    startLine: 439
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1243,11 +1249,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeScatter
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 455
+    startLine: 450
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1278,11 +1284,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeBubble
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 467
+    startLine: 462
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1313,11 +1319,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeArea
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 476
+    startLine: 471
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1348,11 +1354,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeSurface
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 489
+    startLine: 484
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1383,11 +1389,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasThirdAxis
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 500
+    startLine: 495
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1418,11 +1424,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeShape
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 511
+    startLine: 506
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1453,11 +1459,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypePercentStacked
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 554
+    startLine: 549
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1488,11 +1494,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeStacked
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 574
+    startLine: 569
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1523,11 +1529,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeClustered
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 595
+    startLine: 590
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1558,11 +1564,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypePieDoughnut
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 612
+    startLine: 607
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1593,11 +1599,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeDoughnut
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 620
+    startLine: 615
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1628,11 +1634,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypePie
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 629
+    startLine: 624
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1663,11 +1669,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTypeStock
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 642
+    startLine: 637
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1698,11 +1704,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VaryColors
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 669
+    startLine: 664
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1737,11 +1743,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Floor
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 674
+    startLine: 669
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1776,11 +1782,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SideWall
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 679
+    startLine: 674
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1815,11 +1821,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackWall
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 684
+    startLine: 679
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1854,11 +1860,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RoundedCorners
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 700
+    startLine: 695
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1893,11 +1899,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHiddenData
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 708
+    startLine: 703
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1932,11 +1938,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayBlanksAs
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 716
+    startLine: 711
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -1971,11 +1977,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDataLabelsOverMaximum
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 724
+    startLine: 719
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -2010,11 +2016,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View3D
     path: ../src/EPPlus/Drawing/Chart/ExcelChart.cs
-    startLine: 732
+    startLine: 727
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

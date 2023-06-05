@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfStyleLimitedFont
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyleLimitedFont.cs

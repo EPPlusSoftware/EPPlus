@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelBackgroundImage.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelBackgroundImage
     path: ../src/EPPlus/ExcelBackgroundImage.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelBackgroundImage.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Image
     path: ../src/EPPlus/ExcelBackgroundImage.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelBackgroundImage.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFromFile
     path: ../src/EPPlus/ExcelBackgroundImage.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelBackgroundImage.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFromFile
     path: ../src/EPPlus/ExcelBackgroundImage.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelBackgroundImage.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ExcelBackgroundImage.cs

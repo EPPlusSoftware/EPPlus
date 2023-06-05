@@ -26,12 +26,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         Description = "Returns the rank of a value in a data set, as a percentage (0 - 1 exclusive)")]
     internal class PercentrankExc : RankFunctionBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             var array = GetNumbersFromArgs(arguments, 0, context);
             var number = ArgToDecimal(arguments, 1);
-            if (number < array.First() || number > array.Last()) return CreateResult(eErrorType.NA);
+            if (number < array.First() || number > array.Last()) return CompileResult.GetErrorResult(eErrorType.NA);
             var significance = 3;
             if (arguments.Count() > 2)
             {

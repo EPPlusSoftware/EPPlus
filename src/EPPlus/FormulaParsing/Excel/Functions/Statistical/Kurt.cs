@@ -26,12 +26,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the kurtosis of a data set")]
     internal class Kurt : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var numbers = ArgsToDoubleEnumerable(true, arguments, context, true);
             var n = (double)numbers.Count();
-            if (n < 4) return CreateResult(eErrorType.Div0);
+            if (n < 4) return CompileResult.GetErrorResult(eErrorType.Div0);
             var stdev = new Stdev().StandardDeviation(numbers.Select(x => x.Value));
             if(stdev.DataType == DataType.ExcelError)
             {

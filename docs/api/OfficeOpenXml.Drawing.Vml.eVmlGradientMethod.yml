@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eVmlGradientMethod
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Linear
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinearSigma
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sigma
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Any
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlGradientMethod.cs

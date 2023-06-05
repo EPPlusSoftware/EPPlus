@@ -29,16 +29,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         Description = "Tests a user-defined condition and returns one result if the condition is TRUE, and another result if the condition is FALSE")]
     internal class If : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
             if (arguments.ElementAt(0).ValueIsExcelError)
             {
                 return CompileResultFactory.Create(arguments.ElementAt(0).Value);
             }
-            var arg0 = arguments.ElementAt(0).Value;
-            var arg1 = arguments.ElementAt(1);
-            var arg2 = arguments.Count() < 3 ? new FunctionArgument(false,DataType.Boolean) : arguments.ElementAt(2);
+            var arg0 = arguments[0].Value;
+            var arg1 = arguments[1];
+            var arg2 = arguments.Count < 3 ? new FunctionArgument(false,DataType.Boolean) : arguments[2];
             if (arg0 is IRangeInfo ri)
             {
                 var arg1Type = GetType(arg1.Value);
@@ -59,14 +59,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             else
             {
                 var condition = ConvertUtil.GetValueBool(arg0);
-                if (arguments.Count() < 3)
+                if (arguments.Count < 3)
                 {
-                    return condition ? CompileResultFactory.Create(arg1.Value, arg1.Address) : CompileResultFactory.Create(false, null);
+                    return condition ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : CompileResultFactory.Create(false, null);
                 }
                 else
                 {
-                    var secondStatement = arguments.ElementAt(2);
-                    return condition ? CompileResultFactory.Create(arg1.Value, arg1.Address) : CompileResultFactory.Create(secondStatement.Value, secondStatement?.Address);
+                    var secondStatement = arguments[2];                    
+                    return condition ? new AddressCompileResult(arg1.Value, arg1.DataType, arg1.Address) : new AddressCompileResult(secondStatement.Value, secondStatement.DataType, secondStatement.Address);
                 }
 
             }

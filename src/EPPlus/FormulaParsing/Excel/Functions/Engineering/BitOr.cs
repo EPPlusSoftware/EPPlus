@@ -26,11 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         IntroducedInExcelVersion = "2013")]
     internal class BitOr : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            if (!IsNumeric(arguments.ElementAt(0).Value) || !IsNumeric(arguments.ElementAt(1).Value)) return CreateResult(eErrorType.Value);
-            if (!IsInteger(arguments.ElementAt(0).Value) || !IsInteger(arguments.ElementAt(1).Value)) return CreateResult(eErrorType.Num);
+            if (!IsNumeric(arguments[0].Value) || !IsNumeric(arguments[1].Value)) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (!IsInteger(arguments[0].Value) || !IsInteger(arguments[1].Value)) return CompileResult.GetErrorResult(eErrorType.Num);
             var number1 = ArgToInt(arguments, 0);
             var number2 = ArgToInt(arguments, 1);
             if (number1 < 0 || number2 < 0) return CreateResult(eErrorType.Num);

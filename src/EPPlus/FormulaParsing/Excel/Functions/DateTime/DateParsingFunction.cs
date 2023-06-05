@@ -21,7 +21,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 {
     internal abstract class DateParsingFunction : ExcelFunction
     {
-        protected System.DateTime ParseDate(IEnumerable<FunctionArgument> arguments, object dateObj, int argIndex)
+        protected System.DateTime ParseDate(IList<FunctionArgument> arguments, object dateObj, int argIndex)
         {
             System.DateTime date = System.DateTime.MinValue;
             if (dateObj is string)
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             return date;
         }
 
-        protected System.DateTime ParseDate(IEnumerable<FunctionArgument> arguments, object dateObj)
+        protected System.DateTime ParseDate(IList<FunctionArgument> arguments, object dateObj)
         {
             return ParseDate(arguments, dateObj, 0);
         }

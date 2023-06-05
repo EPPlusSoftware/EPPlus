@@ -22,25 +22,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
 {
     internal abstract class CoupFunctionBase<T> : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var settlementDate = System.DateTime.FromOADate(ArgToInt(arguments, 0));
             var maturityDate = System.DateTime.FromOADate(ArgToInt(arguments, 1));
             var frequency = ArgToInt(arguments, 2);
             var basis = 0;
-            if (arguments.Count() >= 4)
+            if (arguments.Count >= 4)
             {
                 basis = ArgToInt(arguments, 3);
             }
             // validate input
             if((settlementDate > maturityDate) || (frequency != 1 && frequency != 2 && frequency != 4) || (basis < 0 || basis > 4))
             {
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
             }
             
             var result = ExecuteFunction(FinancialDayFactory.Create(settlementDate, (DayCountBasis)basis), FinancialDayFactory.Create(maturityDate, (DayCountBasis)basis), frequency, (DayCountBasis)basis);
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             if (typeof(T) == typeof(System.DateTime))
             {
                 return CreateResult(Convert.ToDateTime(result.Result).ToOADate(), DataType.Date);

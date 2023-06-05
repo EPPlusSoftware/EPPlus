@@ -34,7 +34,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartExAxis
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorTickMark
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorTickMark
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AxisPosition
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -223,7 +223,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Crosses
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossBetween
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossesAt
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -343,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LabelPosition
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -383,7 +383,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Deleted
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -423,7 +423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TickLabelPosition
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -463,7 +463,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayUnit
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -503,7 +503,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -540,7 +540,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinValue
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -580,7 +580,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxValue
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -620,7 +620,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorUnit
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -660,7 +660,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -700,7 +700,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorUnit
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -740,7 +740,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -780,7 +780,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LogBase
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
@@ -820,7 +820,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExAxis.cs

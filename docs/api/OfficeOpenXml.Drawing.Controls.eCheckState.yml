@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eCheckState
     path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unchecked
     path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Checked
     path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Mixed
     path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs

@@ -27,12 +27,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class VLookupV2 : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
-            var searchedValue = arguments.ElementAt(0).Value ?? 0;     //If Search value is null, we should search for 0 instead
-            var arg1 = arguments.ElementAt(1);
+            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var arg1 = arguments[1];
             if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
             var lookupRange = arg1.GetAsRangeInfo(context);
             var lookupIndex = ArgToInt(arguments, 2);
@@ -48,7 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 index = scanner.FindIndex();
                 if (index < 0)
                 {
-                    return CreateResult(eErrorType.NA);
+                    return CompileResult.GetErrorResult(eErrorType.NA);
                 }
             }
             else
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 index = LookupBinarySearch.GetMatchIndex(index, lookupRange, LookupMatchMode.ExactMatchReturnNextSmaller, true);
                 if (index < 0)
                 {
-                    return CreateResult(eErrorType.NA);
+                    return CompileResult.GetErrorResult(eErrorType.NA);
                 }
             }
             return CompileResultFactory.Create(lookupRange.GetOffset(index, lookupIndex - 1));

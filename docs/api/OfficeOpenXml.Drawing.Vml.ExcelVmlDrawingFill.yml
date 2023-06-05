@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingFill
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Opacity
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondColor
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondColorOpacity
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientSettings
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -292,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternPictureSettings
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Recolor
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotate
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingFill.cs

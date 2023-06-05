@@ -26,13 +26,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         SupportsArrays = true)]
     internal class IsLogical : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var functionArguments = arguments as FunctionArgument[] ?? arguments.ToArray();
-            ValidateArguments(functionArguments, 1);
             var v = GetFirstValue(arguments);
             return CreateResult(v is bool, DataType.Boolean);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

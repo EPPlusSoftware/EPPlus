@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelComment
     path: ../src/EPPlus/ExcelComment.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Author
     path: ../src/EPPlus/ExcelComment.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/ExcelComment.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/ExcelComment.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelComment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/ExcelComment.cs

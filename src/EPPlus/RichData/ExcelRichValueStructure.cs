@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -45,12 +46,21 @@ namespace OfficeOpenXml.RichData
 
         internal void WriteXml(StreamWriter sw)
         {
-            sw.Write($"<s t=\"{Type}\">");
+            sw.Write($"<s t=\"{Type.EncodeXMLAttribute()}\">");
             foreach(var key in Keys)
             {
-                sw.Write($"<k n=\"{key.Name}\" t=\"{key.GetDataTypeString()}\"/>");
+                sw.Write($"<k n=\"{key.Name.EncodeXMLAttribute()}\" {GetTypeAttribute(key)}/>");
             }
             sw.Write("</s>");
+        }
+
+        private string GetTypeAttribute(ExcelRichValueStructureKey key)
+        {
+            if (key.DataType != RichValueDataType.Decimal)
+            {
+                return $"t =\"{key.GetDataTypeString()}\"";
+            }
+            return "";
         }
 
         //See MS-XLSX (Extension) 2.3.6.1.3 Error Types for details
@@ -65,7 +75,7 @@ namespace OfficeOpenXml.RichData
             Type = "_error";
             Keys.AddRange(RichValueTypes[Type][1]);
         }
-        public void SetAsError()
+        public void SetAsErrorWithSubType()
         {
             Type = "_error";
             Keys.AddRange(RichValueTypes[Type][2]);

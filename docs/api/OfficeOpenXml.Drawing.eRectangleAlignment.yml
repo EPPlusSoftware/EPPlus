@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eRectangleAlignment
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomLeft
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomRight
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Center
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeft
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eRectangleAlignment.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopRight
     path: ../src/EPPlus/Drawing/Enums/eRectangleAlignment.cs

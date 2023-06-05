@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTableParams
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintHeaders
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs

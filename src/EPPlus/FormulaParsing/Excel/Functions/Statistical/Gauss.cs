@@ -27,9 +27,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         Description = "Calculates the probability that a member of a standard normal population will fall between the mean and z standard deviations from the mean.")]
     internal class Gauss : NormalDistributionBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var z = ArgToDecimal(arguments, 0);
             var result = CumulativeDistribution(z, 0, 1) - 0.5;
             return CreateResult(result, DataType.Decimal);

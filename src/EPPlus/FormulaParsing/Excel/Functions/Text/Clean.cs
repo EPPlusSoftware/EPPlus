@@ -24,11 +24,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Removes all non-printable characters from a supplied text string")]
     internal class Clean : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var str = ArgToString(arguments, 0);
             if(!string.IsNullOrEmpty(str))
             {

@@ -26,9 +26,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         Description = "Returns a value using implicit intersection")]
     internal class SingleFunction : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var arg1 = arguments.First();
             if (!arg1.IsExcelRange) return CreateResult(eErrorType.Value);
             var range = arg1.ValueAsRangeInfo;

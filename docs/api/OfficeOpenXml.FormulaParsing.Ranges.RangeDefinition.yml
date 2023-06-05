@@ -1,0 +1,508 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  commentId: T:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  id: RangeDefinition
+  parent: OfficeOpenXml.FormulaParsing.Ranges
+  children:
+  - OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor(System.Int16,System.Int32,System.Int16,System.Int32)
+  - OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor(System.Int32,System.Int16)
+  - OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols
+  - OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows
+  langs:
+  - csharp
+  - vb
+  name: RangeDefinition
+  nameWithType: RangeDefinition
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  type: Struct
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RangeDefinition
+    path: ../src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nRepresents the size of a range\n"
+  example: []
+  syntax:
+    content: public struct RangeDefinition
+    content.vb: Public Structure RangeDefinition
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor(System.Int32,System.Int16)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor(System.Int32,System.Int16)
+  id: '#ctor(System.Int32,System.Int16)'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  langs:
+  - csharp
+  - vb
+  name: RangeDefinition(Int32, Int16)
+  nameWithType: RangeDefinition.RangeDefinition(Int32, Int16)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.RangeDefinition(System.Int32, System.Int16)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public RangeDefinition(int nRows, short nCols)
+    parameters:
+    - id: nRows
+      type: System.Int32
+      description: Number of rows
+    - id: nCols
+      type: System.Int16
+      description: Number of columns
+    content.vb: Public Sub New(nRows As Integer, nCols As Short)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor(System.Int16,System.Int32,System.Int16,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor(System.Int16,System.Int32,System.Int16,System.Int32)
+  id: '#ctor(System.Int16,System.Int32,System.Int16,System.Int32)'
+  parent: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  langs:
+  - csharp
+  - vb
+  name: RangeDefinition(Int16, Int32, Int16, Int32)
+  nameWithType: RangeDefinition.RangeDefinition(Int16, Int32, Int16, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.RangeDefinition(System.Int16, System.Int32, System.Int16, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public RangeDefinition(short fromCol, int fromRow, short toCol, int toRow)
+    parameters:
+    - id: fromCol
+      type: System.Int16
+      description: From column
+    - id: fromRow
+      type: System.Int32
+      description: From row
+    - id: toCol
+      type: System.Int16
+      description: To column
+    - id: toRow
+      type: System.Int32
+      description: To row
+    content.vb: Public Sub New(fromCol As Short, fromRow As Integer, toCol As Short, toRow As Integer)
+  overload: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols
+  id: NumberOfCols
+  parent: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  langs:
+  - csharp
+  - vb
+  name: NumberOfCols
+  nameWithType: RangeDefinition.NumberOfCols
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberOfCols
+    path: ../src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nNumber of columns in the range\n"
+  example: []
+  syntax:
+    content: public short NumberOfCols { readonly get; }
+    parameters: []
+    return:
+      type: System.Int16
+    content.vb: Public ReadOnly Property NumberOfCols As Short
+  overload: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols*
+  modifiers.csharp:
+  - public
+  - readonly get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows
+  id: NumberOfRows
+  parent: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition
+  langs:
+  - csharp
+  - vb
+  name: NumberOfRows
+  nameWithType: RangeDefinition.NumberOfRows
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberOfRows
+    path: ../src/EPPlus/FormulaParsing/Ranges/RangeDefinition.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nNumber of rows in the range\n"
+  example: []
+  syntax:
+    content: public int NumberOfRows { readonly get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property NumberOfRows As Integer
+  overload: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows*
+  modifiers.csharp:
+  - public
+  - readonly get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.Ranges
+  commentId: N:OfficeOpenXml.FormulaParsing.Ranges
+  name: OfficeOpenXml.FormulaParsing.Ranges
+  nameWithType: OfficeOpenXml.FormulaParsing.Ranges
+  fullName: OfficeOpenXml.FormulaParsing.Ranges
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.#ctor
+  name: RangeDefinition
+  nameWithType: RangeDefinition.RangeDefinition
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.RangeDefinition
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Int16
+  commentId: T:System.Int16
+  parent: System
+  isExternal: true
+  name: Int16
+  nameWithType: Int16
+  fullName: System.Int16
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols
+  name: NumberOfCols
+  nameWithType: RangeDefinition.NumberOfCols
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfCols
+- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows
+  name: NumberOfRows
+  nameWithType: RangeDefinition.NumberOfRows
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeDefinition.NumberOfRows

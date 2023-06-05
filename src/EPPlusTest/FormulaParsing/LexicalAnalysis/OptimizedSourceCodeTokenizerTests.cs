@@ -22,7 +22,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void Setup()
         {
             //_tokenizer = SourceCodeTokenizer.Default;
-            _tokenizer = OptimizedSourceCodeTokenizer.Default;
+            _tokenizer = SourceCodeTokenizer.Default;
             _iterations = 1000;
         }
 
@@ -202,7 +202,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = "SUM(OFFSET(A3, -1, 0):A1)";
             var tokens = _tokenizer.Tokenize(input).ToList();
-            var tokens2 = OptimizedSourceCodeTokenizer.Default.Tokenize(input).ToList();
+            var tokens2 = SourceCodeTokenizer.Default.Tokenize(input).ToList();
             for(int i=0;i<tokens.Count();i++)
             {
                 Assert.IsTrue(tokens[i].TokenTypeIsSet(tokens2[i].TokenType));
@@ -507,7 +507,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         public void TokenizeKeepWhiteSpace()
         {
             var input = @"A1:B3  B2:C5";
-            var tokenizer = new OptimizedSourceCodeTokenizer(null, null, false, true);
+            var tokenizer = new SourceCodeTokenizer(null, null, false, true);
             var tokens = tokenizer.Tokenize(input);
             Assert.AreEqual(TokenType.WhiteSpace, tokens[3].TokenType);
             Assert.AreEqual(8, tokens.Count);

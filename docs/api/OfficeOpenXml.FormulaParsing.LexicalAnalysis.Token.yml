@@ -13,6 +13,8 @@ items:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.IsNegated
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.op_Equality(OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token,OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.op_Inequality(OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token,OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsSet(OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.ToString
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value
@@ -26,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Token
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
@@ -63,11 +65,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 29
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -102,11 +104,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 40
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -131,7 +133,7 @@ items:
   modifiers.vb:
   - Public
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value
-  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value
   id: Value
   parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
   langs:
@@ -140,33 +142,29 @@ items:
   name: Value
   nameWithType: Token.Value
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value
-  type: Property
+  type: Field
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 50
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   summary: "\nThe formula character\n"
   example: []
   syntax:
-    content: public string Value { readonly get; }
-    parameters: []
+    content: public string Value
     return:
       type: System.String
-    content.vb: Public ReadOnly Property Value As String
-  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value*
+    content.vb: Public Value As String
   modifiers.csharp:
   - public
-  - readonly get
   modifiers.vb:
   - Public
-  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.IsNegated
   commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.IsNegated
   id: IsNegated
@@ -181,18 +179,18 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNegated
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 57
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   summary: "\nIndicates whether a numeric value should be negated when compiled\n"
   example: []
   syntax:
-    content: public bool IsNegated { readonly get; }
+    content: public readonly bool IsNegated { get; }
     parameters: []
     return:
       type: System.Boolean
@@ -200,7 +198,8 @@ items:
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.IsNegated*
   modifiers.csharp:
   - public
-  - readonly get
+  - readonly
+  - get
   modifiers.vb:
   - Public
   - ReadOnly
@@ -218,11 +217,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Equality
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 65
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -262,11 +261,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Inequality
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 76
+    startLine: 89
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -306,11 +305,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 86
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -348,11 +347,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 95
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -386,11 +385,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TokenTypeIsSet
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 105
+    startLine: 118
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -411,6 +410,82 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress
+  id: TokenTypeIsAddress
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  langs:
+  - csharp
+  - vb
+  name: TokenTypeIsAddress
+  nameWithType: Token.TokenTypeIsAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TokenTypeIsAddress
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nReturns true if the token contains a address token that should be updated in insert/delete operations.\n"
+  example: []
+  syntax:
+    content: public readonly bool TokenTypeIsAddress { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property TokenTypeIsAddress As Boolean
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress*
+  modifiers.csharp:
+  - public
+  - readonly
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken
+  id: TokenTypeIsAddressToken
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  langs:
+  - csharp
+  - vb
+  name: TokenTypeIsAddressToken
+  nameWithType: Token.TokenTypeIsAddressToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TokenTypeIsAddressToken
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nReturns true if the token is a token building an address.\n"
+  example: []
+  syntax:
+    content: public readonly bool TokenTypeIsAddressToken { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property TokenTypeIsAddressToken As Boolean
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken*
+  modifiers.csharp:
+  - public
+  - readonly
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.AreEqualTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
   commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.AreEqualTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
   id: AreEqualTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
@@ -425,11 +500,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreEqualTo
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 110
+    startLine: 161
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -460,11 +535,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 163
+    startLine: 214
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -673,11 +748,6 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value
-  name: Value
-  nameWithType: Token.Value
-  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.Value
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.IsNegated*
   commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.IsNegated
   name: IsNegated
@@ -800,6 +870,16 @@ references:
   name: TokenTypeIsSet
   nameWithType: Token.TokenTypeIsSet
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsSet
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress
+  name: TokenTypeIsAddress
+  nameWithType: Token.TokenTypeIsAddress
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddress
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken
+  name: TokenTypeIsAddressToken
+  nameWithType: Token.TokenTypeIsAddressToken
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.TokenTypeIsAddressToken
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.AreEqualTo*
   commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.AreEqualTo
   name: AreEqualTo

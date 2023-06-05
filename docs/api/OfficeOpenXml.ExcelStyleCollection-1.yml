@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelStyleCollection
     path: ../src/EPPlus/ExcelStyleCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopNode
     path: ../src/EPPlus/ExcelStyleCollection.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelStyleCollection.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelStyleCollection.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelStyleCollection.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelStyleCollection.cs

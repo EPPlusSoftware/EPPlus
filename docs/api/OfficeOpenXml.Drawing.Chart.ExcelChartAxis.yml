@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartAxis
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorTickMark
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorTickMark
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AxisPosition
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -222,7 +222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Crosses
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossBetween
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossesAt
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -376,7 +376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceLinked
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -413,7 +413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LabelPosition
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -452,7 +452,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -489,7 +489,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -526,7 +526,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -563,7 +563,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -600,7 +600,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -637,7 +637,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -674,7 +674,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Deleted
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -713,7 +713,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TickLabelPosition
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -752,7 +752,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -791,7 +791,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _title
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -824,7 +824,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -863,7 +863,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -902,7 +902,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -941,7 +941,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -980,7 +980,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1019,7 +1019,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1058,7 +1058,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1097,7 +1097,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LogBase
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1136,7 +1136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1175,7 +1175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1212,7 +1212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorGridlineEffects
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1249,7 +1249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1286,7 +1286,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorGridlineEffects
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1323,7 +1323,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMajorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1360,7 +1360,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMinorGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1397,7 +1397,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1429,7 +1429,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1468,7 +1468,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGridlines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1507,7 +1507,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
@@ -1543,7 +1543,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxis.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveTitle
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxis.cs

@@ -26,6 +26,8 @@ items:
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.Title
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.VaryColors
   - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.View3D
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
   langs:
   - csharp
   - vb
@@ -36,7 +38,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartEx
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -76,8 +78,6 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChart.DrawingType
   - OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType
   - OfficeOpenXml.Drawing.Chart.ExcelChart._chartNode
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
   - OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsType3D
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsTypeLine
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteTitle
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PlotArea
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Axis
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -270,11 +270,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 247
+    startLine: 246
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -307,11 +307,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Legend
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 261
+    startLine: 264
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -344,11 +344,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 277
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -384,11 +384,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 292
+    startLine: 295
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -424,11 +424,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 307
+    startLine: 310
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -464,11 +464,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 322
+    startLine: 325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -504,11 +504,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 337
+    startLine: 340
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -544,11 +544,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 352
+    startLine: 355
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -584,11 +584,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 366
+    startLine: 369
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -621,11 +621,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VaryColors
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 370
+    startLine: 373
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -661,11 +661,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 384
+    startLine: 387
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -701,11 +701,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTitle
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 392
+    startLine: 395
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -741,11 +741,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLegend
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 403
+    startLine: 406
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -781,11 +781,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View3D
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 413
+    startLine: 416
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -821,11 +821,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayBlanksAs
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 425
+    startLine: 428
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -861,11 +861,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RoundedCorners
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 440
+    startLine: 443
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -901,11 +901,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDataLabelsOverMaximum
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 456
+    startLine: 459
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -941,11 +941,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHiddenData
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-    startLine: 471
+    startLine: 474
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.ChartEx
@@ -967,6 +967,80 @@ items:
   modifiers.vb:
   - Public
   - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  id: XAxis
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+  langs:
+  - csharp
+  - vb
+  name: XAxis
+  nameWithType: ExcelChartEx.XAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XAxis
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
+    startLine: 488
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe X Axis\n"
+  example: []
+  syntax:
+    content: public ExcelChartExAxis XAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
+    content.vb: Public ReadOnly Property XAxis As ExcelChartExAxis
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
+  id: YAxis
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx
+  langs:
+  - csharp
+  - vb
+  name: YAxis
+  nameWithType: ExcelChartEx.YAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YAxis
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
+    startLine: 502
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe Y Axis\n"
+  example: []
+  syntax:
+    content: public ExcelChartExAxis YAxis { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
+    content.vb: Public ReadOnly Property YAxis As ExcelChartExAxis
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.Drawing.Chart.ChartEx
   commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
@@ -1053,18 +1127,6 @@ references:
   name: _chartNode
   nameWithType: ExcelChart._chartNode
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChart._chartNode
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: XAxis
-  nameWithType: ExcelChart.XAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: YAxis
-  nameWithType: ExcelChart.YAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   parent: OfficeOpenXml.Drawing.Chart.ExcelChart
@@ -2943,3 +3005,19 @@ references:
   name: ShowHiddenData
   nameWithType: ExcelChartEx.ShowHiddenData
   fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.ShowHiddenData
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+  name: XAxis
+  nameWithType: ExcelChartEx.XAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.XAxis
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExAxis
+  nameWithType: ExcelChartExAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExAxis
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis
+  name: YAxis
+  nameWithType: ExcelChartEx.YAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartEx.YAxis

@@ -26,15 +26,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
         SupportsArrays = true)]
     internal class IsNa : ExcelFunction
     {
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.FirstArgCouldBeARange;
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments == null || arguments.Count() == 0)
-            {
-                return CreateResult(false, DataType.Boolean);
-            }
-
             var v = GetFirstValue(arguments);
 
             if (v is ExcelErrorValue && ((ExcelErrorValue)v).Type==eErrorType.NA)
@@ -42,6 +38,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Information
                 return CreateResult(true, DataType.Boolean);
             }
             return CreateResult(false, DataType.Boolean);
+        }
+        public override FunctionParameterInformation GetParameterInfo(int argumentIndex)
+        {
+            return FunctionParameterInformation.IgnoreErrorInPreExecute;
         }
     }
 }

@@ -30,11 +30,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaProject
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -72,11 +72,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemKind
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 57
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -109,11 +109,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompatVersion
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 61
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -146,11 +146,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 66
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -183,11 +183,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 70
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -220,11 +220,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpFile1
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 74
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -257,11 +257,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpFile2
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 78
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -294,11 +294,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpContextID
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 82
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -331,11 +331,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Constants
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 86
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -368,11 +368,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CodePage
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 90
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -405,11 +405,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: References
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 101
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -442,11 +442,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Modules
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 105
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -479,11 +479,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Signature
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 110
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -516,11 +516,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 125
+    startLine: 127
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -553,11 +553,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 1155
+    startLine: 1189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA
@@ -585,11 +585,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
-    startLine: 1187
+    startLine: 1221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.VBA

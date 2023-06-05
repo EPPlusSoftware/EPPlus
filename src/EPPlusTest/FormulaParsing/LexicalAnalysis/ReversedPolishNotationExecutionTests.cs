@@ -28,7 +28,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             _parsingContext.RangeAddressFactory = new RangeAddressFactory(dataProvider, _parsingContext);
 
             _formulaExecutor = new FormulaExecutor(_parsingContext);
-            _tokenizer = OptimizedSourceCodeTokenizer.Default;
+            _tokenizer = SourceCodeTokenizer.Default;
             
             
             SetUpWorksheet1();

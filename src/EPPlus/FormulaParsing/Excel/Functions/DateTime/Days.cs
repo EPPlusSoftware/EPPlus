@@ -31,17 +31,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
             ArrayParameterIndexes = new List<int> { 0, 1, 2 }
         };
 
-        internal override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
+        public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
 
-        internal override ArrayBehaviourConfig GetArrayBehaviourConfig()
+        public override ArrayBehaviourConfig GetArrayBehaviourConfig()
         {
             return _arrayConfig;
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 2;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 2);
-            ValidateArguments(arguments, 2);
             var numDate1 = ArgToDecimal(arguments, 0);
             var numDate2 = ArgToDecimal(arguments, 1);
             var endDate = System.DateTime.FromOADate(numDate1);

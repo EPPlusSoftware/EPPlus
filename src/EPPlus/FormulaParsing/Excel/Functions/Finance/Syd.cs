@@ -25,16 +25,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Returns the sum-of-years' digits depreciation of an asset for a specified period")]
     internal class Syd : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 4;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 4);
             var cost = ArgToDecimal(arguments, 0);
             var salvage = ArgToDecimal(arguments, 1);
             var life = ArgToDecimal(arguments, 2);
             var period = ArgToDecimal(arguments, 3);
 
             if (salvage < 0 || life <= 0 || period <= 0)
-                return CreateResult(eErrorType.Num);
+                return CompileResult.GetErrorResult(eErrorType.Num);
 
             var result = (cost - salvage) / (life * (life + 1));
             return CreateResult((result * (life + 1 - period) * 2), DataType.Decimal);

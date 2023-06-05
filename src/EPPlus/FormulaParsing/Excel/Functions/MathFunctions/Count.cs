@@ -34,15 +34,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             SingleArg
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var nItems = 0d;
             Calculate(arguments, ref nItems, context, ItemContext.SingleArg);
             return CreateResult(nItems, DataType.Integer);
         }
 
-        private void Calculate(IEnumerable<FunctionArgument> items, ref double nItems, ParsingContext context, ItemContext itemContext)
+        private void Calculate(IList<FunctionArgument> items, ref double nItems, ParsingContext context, ItemContext itemContext)
         {
             foreach (var item in items)
             {
@@ -60,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    var value = item.Value as IEnumerable<FunctionArgument>;
+                    var value = item.Value as IList<FunctionArgument>;
                     if (value != null)
                     {
                         Calculate(value, ref nItems, context, ItemContext.InArray);

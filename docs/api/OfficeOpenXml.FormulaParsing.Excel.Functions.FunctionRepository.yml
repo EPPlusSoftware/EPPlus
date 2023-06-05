@@ -8,11 +8,11 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.AddOrReplaceFunction(System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.Clear
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.Create
-  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.FunctionNames
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.GetFunction(System.String)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.IsFunctionName(System.String)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.LoadModule(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions
   langs:
   - csharp
   - vb
@@ -23,11 +23,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionRepository
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 27
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -56,43 +56,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers
-  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers
-  id: CustomCompilers
-  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
-  langs:
-  - csharp
-  - vb
-  name: CustomCompilers
-  nameWithType: FunctionRepository.CustomCompilers
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: CustomCompilers
-    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 36
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
-  summary: "\nGets a <xref href=\"System.Collections.Generic.Dictionary%602\" data-throw-if-not-resolved=\"false\"></xref> of custom <xref href=\"OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler\" data-throw-if-not-resolved=\"false\"></xref>s.\n"
-  example: []
-  syntax:
-    content: public Dictionary<Type, FunctionCompiler> CustomCompilers { get; }
-    parameters: []
-    return:
-      type: System.Collections.Generic.Dictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
-    content.vb: Public ReadOnly Property CustomCompilers As Dictionary(Of Type, FunctionCompiler)
-  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.Create
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.Create
   id: Create
@@ -107,11 +70,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 46
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -141,11 +104,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadModule
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 57
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -179,11 +142,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 70
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -216,11 +179,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 84
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -250,11 +213,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFunctionName
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 94
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -291,11 +254,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionNames
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 102
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -328,11 +291,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOrReplaceFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-    startLine: 112
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -353,6 +316,43 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions
+  id: NamespaceFunctions
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
+  langs:
+  - csharp
+  - vb
+  name: NamespaceFunctions
+  nameWithType: FunctionRepository.NamespaceFunctions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NamespaceFunctions
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nContains all functions that needs a namespace prefix in Excel.\nFor example: The Filter function must have the prefix &quot;_xlfn._xlws.&quot;\n"
+  example: []
+  syntax:
+    content: public Dictionary<string, string> NamespaceFunctions { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+    content.vb: Public ReadOnly Property NamespaceFunctions As Dictionary(Of String, String)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 references:
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -657,137 +657,6 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: System.Collections.Generic.Dictionary`2
-  commentId: T:System.Collections.Generic.Dictionary`2
-  isExternal: true
-  name: Dictionary<TKey, TValue>
-  nameWithType: Dictionary<TKey, TValue>
-  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
-  nameWithType.vb: Dictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
-  name.vb: Dictionary(Of TKey, TValue)
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: TKey
-    nameWithType: TKey
-    fullName: TKey
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: TValue
-    nameWithType: TValue
-    fullName: TValue
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: TKey
-    nameWithType: TKey
-    fullName: TKey
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: TValue
-    nameWithType: TValue
-    fullName: TValue
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
-  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
-  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-  name: FunctionCompiler
-  nameWithType: FunctionCompiler
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers
-  name: CustomCompilers
-  nameWithType: FunctionRepository.CustomCompilers
-  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.CustomCompilers
-- uid: System.Collections.Generic.Dictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
-  commentId: T:System.Collections.Generic.Dictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.Dictionary`2
-  name: Dictionary<Type, FunctionCompiler>
-  nameWithType: Dictionary<Type, FunctionCompiler>
-  fullName: System.Collections.Generic.Dictionary<System.Type, OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler>
-  nameWithType.vb: Dictionary(Of Type, FunctionCompiler)
-  fullName.vb: System.Collections.Generic.Dictionary(Of System.Type, OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler)
-  name.vb: Dictionary(Of Type, FunctionCompiler)
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Type
-    name: Type
-    nameWithType: Type
-    fullName: System.Type
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
-    name: FunctionCompiler
-    nameWithType: FunctionCompiler
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Type
-    name: Type
-    nameWithType: Type
-    fullName: System.Type
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
-    name: FunctionCompiler
-    nameWithType: FunctionCompiler
-    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.Create*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.Create
   name: Create
@@ -972,8 +841,130 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.AddOrReplaceFunction*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.AddOrReplaceFunction
   name: AddOrReplaceFunction
   nameWithType: FunctionRepository.AddOrReplaceFunction
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.AddOrReplaceFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions
+  name: NamespaceFunctions
+  nameWithType: FunctionRepository.NamespaceFunctions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository.NamespaceFunctions
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<String, String>
+  nameWithType: Dictionary<String, String>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.String>
+  nameWithType.vb: Dictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.String)
+  name.vb: Dictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )

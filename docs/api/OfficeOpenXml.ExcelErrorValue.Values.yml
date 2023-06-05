@@ -5,6 +5,7 @@ items:
   id: ExcelErrorValue.Values
   parent: OfficeOpenXml
   children:
+  - OfficeOpenXml.ExcelErrorValue.Values.Calc
   - OfficeOpenXml.ExcelErrorValue.Values.Div0
   - OfficeOpenXml.ExcelErrorValue.Values.IsErrorValue(System.Object)
   - OfficeOpenXml.ExcelErrorValue.Values.NA
@@ -12,6 +13,7 @@ items:
   - OfficeOpenXml.ExcelErrorValue.Values.Null
   - OfficeOpenXml.ExcelErrorValue.Values.Num
   - OfficeOpenXml.ExcelErrorValue.Values.Ref
+  - OfficeOpenXml.ExcelErrorValue.Values.Spill
   - OfficeOpenXml.ExcelErrorValue.Values.StringIsErrorValue(System.String)
   - OfficeOpenXml.ExcelErrorValue.Values.ToErrorType(System.String)
   - OfficeOpenXml.ExcelErrorValue.Values.Value
@@ -25,11 +27,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Values
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 65
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -69,11 +71,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Div0
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 70
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -104,11 +106,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NA
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 74
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -139,11 +141,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 78
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -174,11 +176,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 82
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -209,11 +211,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Num
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 86
+    startLine: 121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -244,11 +246,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ref
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 90
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -279,11 +281,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 94
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -294,6 +296,76 @@ items:
     return:
       type: System.String
     content.vb: Public Const Value As String = "#VALUE!"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelErrorValue.Values.Calc
+  commentId: F:OfficeOpenXml.ExcelErrorValue.Values.Calc
+  id: Calc
+  parent: OfficeOpenXml.ExcelErrorValue.Values
+  langs:
+  - csharp
+  - vb
+  name: Calc
+  nameWithType: ExcelErrorValue.Values.Calc
+  fullName: OfficeOpenXml.ExcelErrorValue.Values.Calc
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calc
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 133
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA constant for the Calc error in Excel\n"
+  example: []
+  syntax:
+    content: public const string Calc = "#CALC!"
+    return:
+      type: System.String
+    content.vb: Public Const Calc As String = "#CALC!"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelErrorValue.Values.Spill
+  commentId: F:OfficeOpenXml.ExcelErrorValue.Values.Spill
+  id: Spill
+  parent: OfficeOpenXml.ExcelErrorValue.Values
+  langs:
+  - csharp
+  - vb
+  name: Spill
+  nameWithType: ExcelErrorValue.Values.Spill
+  fullName: OfficeOpenXml.ExcelErrorValue.Values.Spill
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Spill
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 137
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA constant for the Spill error in Excel\n"
+  example: []
+  syntax:
+    content: public const string Spill = "#SPILL!"
+    return:
+      type: System.String
+    content.vb: Public Const Spill As String = "#SPILL!"
   modifiers.csharp:
   - public
   - const
@@ -314,11 +386,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 112
+    startLine: 157
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -355,11 +427,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StringIsErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 124
+    startLine: 169
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -396,11 +468,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToErrorType
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 135
+    startLine: 180
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

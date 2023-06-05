@@ -29,12 +29,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             IgnoreErrors = false;
         }
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var nums = ArgsToDoubleEnumerable(IgnoreHiddenValues, IgnoreErrors, arguments, context);
             var arr = nums.ToArray();
             Array.Sort(arr);
-            if (arr.Length == 0) return CreateResult(eErrorType.Num);
+            if (arr.Length == 0) return CompileResult.GetErrorResult(eErrorType.Num);
             double result;
             if (arr.Length % 2 == 1)
             {

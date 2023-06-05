@@ -5,6 +5,7 @@ items:
   id: ExcelChartAxisStandard
   parent: OfficeOpenXml.Drawing.Chart
   children:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle(OfficeOpenXml.ExcelRangeBase)
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AxisPosition
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.CrossBetween
   - OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Crosses
@@ -34,7 +35,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartAxisStandard
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
@@ -103,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorTickMark
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
@@ -143,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorTickMark
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
@@ -183,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AxisPosition
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
@@ -223,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
@@ -234,20 +235,17 @@ items:
   summary: "\nChart axis title\n"
   example: []
   syntax:
-    content: public override ExcelChartTitle Title { get; }
+    content: public ExcelChartTitleStandard Title { get; }
     parameters: []
     return:
-      type: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
-    content.vb: Public Overrides ReadOnly Property Title As ExcelChartTitle
-  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
+      type: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+    content.vb: Public ReadOnly Property Title As ExcelChartTitleStandard
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title*
   modifiers.csharp:
   - public
-  - override
   - get
   modifiers.vb:
   - Public
-  - Overrides
   - ReadOnly
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.MinValue
@@ -263,11 +261,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 171
+    startLine: 170
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -303,11 +301,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 194
+    startLine: 193
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -343,11 +341,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LabelPosition
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 216
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -383,11 +381,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Crosses
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 247
+    startLine: 246
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -423,11 +421,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossBetween
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 280
+    startLine: 279
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -463,11 +461,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossesAt
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 313
+    startLine: 312
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -503,11 +501,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Deleted
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 334
+    startLine: 333
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -543,11 +541,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TickLabelPosition
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 349
+    startLine: 348
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -583,11 +581,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 375
+    startLine: 374
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -623,11 +621,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 431
+    startLine: 430
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -663,11 +661,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 469
+    startLine: 468
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -703,11 +701,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 501
+    startLine: 500
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -743,11 +741,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorTimeUnit
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 539
+    startLine: 538
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -783,11 +781,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LogBase
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 570
+    startLine: 569
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -823,11 +821,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
-    startLine: 597
+    startLine: 596
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -849,6 +847,41 @@ items:
   modifiers.vb:
   - Public
   - Overrides
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle(OfficeOpenXml.ExcelRangeBase)
+  id: AddTitle(OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard
+  langs:
+  - csharp
+  - vb
+  name: AddTitle(ExcelRangeBase)
+  nameWithType: ExcelChartAxisStandard.AddTitle(ExcelRangeBase)
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle(OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTitle
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartAxisStandard.cs
+    startLine: 638
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAdds the axis title and styles it according to the style selected in the StyleManager\n"
+  example: []
+  syntax:
+    content: public void AddTitle(ExcelRangeBase linkedCell)
+    parameters:
+    - id: linkedCell
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public Sub AddTitle(linkedCell As ExcelRangeBase)
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.Drawing.Chart
   commentId: N:OfficeOpenXml.Drawing.Chart
@@ -1504,23 +1537,17 @@ references:
   name: eAxisPosition
   nameWithType: eAxisPosition
   fullName: OfficeOpenXml.Drawing.Chart.eAxisPosition
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
-  name: Title
-  nameWithType: ExcelChartAxis.Title
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.Title
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
   name: Title
   nameWithType: ExcelChartAxisStandard.Title
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.Title
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
-  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
   parent: OfficeOpenXml.Drawing.Chart
-  name: ExcelChartTitle
-  nameWithType: ExcelChartTitle
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: ExcelChartTitleStandard
+  nameWithType: ExcelChartTitleStandard
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitleStandard
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinValue
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartAxis.MinValue
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartAxis
@@ -1849,3 +1876,14 @@ references:
   name: eAxisOrientation
   nameWithType: eAxisOrientation
   fullName: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle
+  name: AddTitle
+  nameWithType: ExcelChartAxisStandard.AddTitle
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartAxisStandard.AddTitle
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase

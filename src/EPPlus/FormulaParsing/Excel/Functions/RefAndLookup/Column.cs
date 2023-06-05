@@ -30,13 +30,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         SupportsArrays = true)]
     internal class Column : LookupFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            if (arguments == null || arguments.Count() == 0)
+            if (arguments == null || arguments.Count == 0)
             {
                 return CreateResult(context.CurrentCell.Column, DataType.Integer);
             }
-            var arg1 = arguments.First();
+            var arg1 = arguments[0];
             if(arg1.IsExcelRange)
             {
                 var range = arg1.ValueAsRangeInfo;
@@ -72,5 +72,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             return FunctionParameterInformation.IgnoreAddress;
         }
         public override bool HasNormalArguments => false;
+        public override int ArgumentMinLength => 0;
     }
 }

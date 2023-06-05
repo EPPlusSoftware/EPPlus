@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Events
+  commentId: N:OfficeOpenXml.DataValidation.Events
+  id: OfficeOpenXml.DataValidation.Events
+  children:
+  - OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.DataValidation.Events
+  nameWithType: OfficeOpenXml.DataValidation.Events
+  fullName: OfficeOpenXml.DataValidation.Events
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+  commentId: T:OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs
+  name: OnFormulaChangedEventArgs
+  nameWithType: OnFormulaChangedEventArgs
+  fullName: OfficeOpenXml.DataValidation.Events.OnFormulaChangedEventArgs

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeValueCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalDdeValueCollection
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeValueCollection.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeValueCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rows
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeValueCollection.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeValueCollection.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeValueCollection.cs

@@ -26,7 +26,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2019")]
     internal class MinIfs : IfsWithMultipleMatchesBase
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var matches = GetMatches("MINIFS", arguments, context, out CompileResult errorResult);
             if (errorResult != null)

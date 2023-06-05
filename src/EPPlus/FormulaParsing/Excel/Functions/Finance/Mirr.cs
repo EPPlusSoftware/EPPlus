@@ -26,14 +26,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
         Description = "Calculates the internal rate of return for a series of periodic cash flows, considering the cost of the investment and the interest on the reinvestment of cash")]
     internal class Mirr : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
             var values = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments.ElementAt(0) }, context);
             var financeRate = ArgToDecimal(arguments, 1);
             var reinvestState = ArgToDecimal(arguments, 2);
             var result = MirrImpl.MIRR(values.Select(x => (double)x).ToArray(), financeRate, reinvestState);
-            if (result.HasError) return CreateResult(result.ExcelErrorType);
+            if (result.HasError) return CompileResult.GetErrorResult(result.ExcelErrorType);
             return CreateResult(result.Result, DataType.Decimal);
         }
     }

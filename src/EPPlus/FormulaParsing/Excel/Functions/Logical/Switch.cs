@@ -31,24 +31,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         }
 
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 3;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 3);
-            var expression = arguments.ElementAt(0).ValueFirst;
+            var expression = arguments[0].ValueFirst;
             var maxLength = 1 + 126 * 2;
-            for(var x = 1; x < (arguments.Count() - 1) || x >= maxLength; x += 2)
+            for(var x = 1; x < (arguments.Count - 1) || x >= maxLength; x += 2)
             {
-                var candidate = arguments.ElementAt(x).Value;
+                var candidate = arguments[x].Value;
                 if(IsMatch(expression, candidate))
                 {
-                    return GetResult(arguments.ElementAt(x + 1));
+                    return GetResult(arguments[x + 1]);
                 }
             }
-            if (arguments.Count() % 2 == 0)
+            if (arguments.Count % 2 == 0)
             {
-                return GetResult(arguments.Last());
+                return GetResult(arguments[arguments.Count-1]);
             }
-            return new CompileResult(eErrorType.NA);
+            return CompileResult.GetErrorResult(eErrorType.NA);
         }
 
         private static CompileResult GetResult(FunctionArgument arg)

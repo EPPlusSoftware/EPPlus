@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eDxfFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDxfFillStyle
     path: ../src/EPPlus/Style/enums/eDxfFillStyle.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eDxfFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternFill
     path: ../src/EPPlus/Style/enums/eDxfFillStyle.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eDxfFillStyle.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientFill
     path: ../src/EPPlus/Style/enums/eDxfFillStyle.cs

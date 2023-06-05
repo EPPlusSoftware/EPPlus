@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelStandardChartWithLines
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -78,6 +78,9 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.View3D
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Grouping
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.VaryColors
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
   - OfficeOpenXml.Drawing.Chart.ExcelChart._chartXmlHelper
   - OfficeOpenXml.Drawing.Chart.ExcelChart.StyleManager
   - OfficeOpenXml.Drawing.Chart.ExcelChart.UseSecondaryAxis
@@ -86,9 +89,6 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChart.DrawingType
   - OfficeOpenXml.Drawing.Chart.ExcelChart.ChartType
   - OfficeOpenXml.Drawing.Chart.ExcelChart._chartNode
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  - OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
   - OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsType3D
   - OfficeOpenXml.Drawing.Chart.ExcelChart.IsTypeLine
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Marker
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -206,7 +206,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Smooth
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -243,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -282,7 +282,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -321,7 +321,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpDownBarGapWidth
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -358,7 +358,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpBar
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -395,7 +395,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DownBar
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -432,7 +432,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HighLowLine
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -469,7 +469,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DropLine
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -506,7 +506,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddUpDownBars
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -545,7 +545,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDropLines
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -579,7 +579,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddHighLowLines
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -613,7 +613,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs
@@ -856,6 +856,24 @@ references:
   name: VaryColors
   nameWithType: ExcelChartStandard.VaryColors
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.VaryColors
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandard
+  name: Axis
+  nameWithType: ExcelChartStandard.Axis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.Axis
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandard
+  name: XAxis
+  nameWithType: ExcelChartStandard.XAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.XAxis
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandard
+  name: YAxis
+  nameWithType: ExcelChartStandard.YAxis
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandard.YAxis
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart._chartXmlHelper
   commentId: F:OfficeOpenXml.Drawing.Chart.ExcelChart._chartXmlHelper
   parent: OfficeOpenXml.Drawing.Chart.ExcelChart
@@ -904,24 +922,6 @@ references:
   name: _chartNode
   nameWithType: ExcelChart._chartNode
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChart._chartNode
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: Axis
-  nameWithType: ExcelChart.Axis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.Axis
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: XAxis
-  nameWithType: ExcelChart.XAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.XAxis
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChart
-  name: YAxis
-  nameWithType: ExcelChart.YAxis
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart.YAxis
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChart.PivotTableSource
   parent: OfficeOpenXml.Drawing.Chart.ExcelChart

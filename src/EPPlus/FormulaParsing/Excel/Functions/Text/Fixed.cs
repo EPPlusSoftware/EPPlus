@@ -26,17 +26,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         Description = "Rounds a supplied number to a specified number of decimal places, and then converts this into text")]
     internal class Fixed : ExcelFunction
     {
-        public override CompileResult Execute(IEnumerable<FunctionArgument> arguments, ParsingContext context)
+        public override int ArgumentMinLength => 1;
+        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            ValidateArguments(arguments, 1);
             var number = ArgToDecimal(arguments, 0);
             var nDecimals = 2;
             var noCommas = false;
-            if (arguments.Count() > 1)
+            if (arguments.Count > 1)
             {
                 nDecimals = ArgToInt(arguments, 1);
             }
-            if (arguments.Count() > 2)
+            if (arguments.Count > 2)
             {
                 noCommas = ArgToBool(arguments, 2);
             }

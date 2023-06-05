@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingCoordinate
     path: ../src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: X
     path: ../src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
@@ -131,7 +131,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Y
     path: ../src/EPPlus/Drawing/ExcelDrawingCoordinate.cs

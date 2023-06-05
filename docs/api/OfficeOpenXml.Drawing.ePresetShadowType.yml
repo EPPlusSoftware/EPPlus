@@ -35,7 +35,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetShadowType
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeftDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopRightDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackLeftPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackRightPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -204,7 +204,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomLeftDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomRightDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FrontLeftPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -306,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FrontRightPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -340,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeftSmallDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -374,7 +374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeftLargeDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -408,7 +408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackLeftLongPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -442,7 +442,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackRightLongPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -476,7 +476,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeftDoubleDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -510,7 +510,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomRightSmallDropShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -544,7 +544,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FrontLeftLongPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -578,7 +578,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FrontRightLongPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -612,7 +612,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterBoxShadow3D
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -646,7 +646,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerBoxShadow3D
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -680,7 +680,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackCenterPerspectiveShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
@@ -714,7 +714,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetShadowType.cs
-      branch: develop
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FrontBottomShadow
     path: ../src/EPPlus/Drawing/Enums/ePresetShadowType.cs
