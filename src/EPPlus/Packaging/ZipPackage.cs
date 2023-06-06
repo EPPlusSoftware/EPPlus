@@ -19,6 +19,9 @@ using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Constants;
+#if !NET35 && !NET45
+using System.Collections.Concurrent;
+#endif
 
 namespace OfficeOpenXml.Packaging
 {
@@ -39,8 +42,13 @@ namespace OfficeOpenXml.Packaging
                 Match = match;
             }
         }
+#if NET35 || NET45
         Dictionary<string, ZipPackagePart> Parts = new Dictionary<string, ZipPackagePart>(StringComparer.OrdinalIgnoreCase);
         internal Dictionary<string, ContentType> _contentTypes = new Dictionary<string, ContentType>(StringComparer.OrdinalIgnoreCase);
+#else
+        ConcurrentDictionary<string, ZipPackagePart> Parts = new ConcurrentDictionary<string, ZipPackagePart>(StringComparer.OrdinalIgnoreCase);
+        internal ConcurrentDictionary<string, ContentType> _contentTypes = new ConcurrentDictionary<string, ContentType>(StringComparer.OrdinalIgnoreCase);
+#endif
         internal char _dirSeparator='0';
         internal ZipPackage()
         {
@@ -49,8 +57,14 @@ namespace OfficeOpenXml.Packaging
 
         private void AddNew()
         {
+#if NET35 || NET45
             _contentTypes.Add("xml", new ContentType(ExcelPackage.schemaXmlExtension, true, "xml"));
             _contentTypes.Add("rels", new ContentType(ExcelPackage.schemaRelsExtension, true, "rels"));
+#else
+            _contentTypes.TryAdd("xml", new ContentType(ExcelPackage.schemaXmlExtension, true, "xml"));
+            _contentTypes.TryAdd("rels", new ContentType(ExcelPackage.schemaRelsExtension, true, "rels"));
+#endif
+
         }
         internal ZipInputStream _zip;
         internal ZipPackage(Stream stream)
@@ -164,7 +178,11 @@ namespace OfficeOpenXml.Packaging
                     rest -= size;
                 }
             }
+#if NET35 || NET45
             Parts.Add(GetUriKey(e.FileName), part);
+#else
+            Parts.TryAdd(GetUriKey(e.FileName), part);
+#endif
         }
 
         private void GetDirSeparator(ZipEntry e)
@@ -193,12 +211,20 @@ namespace OfficeOpenXml.Packaging
                 if (string.IsNullOrEmpty(c.GetAttribute("Extension")))
                 {
                     ct = new ContentType(c.GetAttribute("ContentType"), false, c.GetAttribute("PartName"));
+#if NET35 || NET45
                     _contentTypes.Add(GetUriKey(ct.Match), ct);
+#else
+                    _contentTypes.TryAdd(GetUriKey(ct.Match), ct);
+#endif
                 }
                 else
                 {
                     ct = new ContentType(c.GetAttribute("ContentType"), true, c.GetAttribute("Extension"));
+#if NET35 || NET45
                     _contentTypes.Add(ct.Match, ct);
+#else
+                    _contentTypes.TryAdd(ct.Match, ct);
+#endif
                 }
             }
         }
@@ -218,16 +244,28 @@ namespace OfficeOpenXml.Packaging
             var part = new ZipPackagePart(this, partUri, contentType, compressionLevel);
             if(string.IsNullOrEmpty(extension))
             {
+#if NET35 || NET45
                 _contentTypes.Add(GetUriKey(part.Uri.OriginalString), new ContentType(contentType, false, part.Uri.OriginalString));
+#else
+                _contentTypes.TryAdd(GetUriKey(part.Uri.OriginalString), new ContentType(contentType, false, part.Uri.OriginalString));
+#endif
             }
             else
             {
                 if (!_contentTypes.ContainsKey(extension))
                 {
+#if NET35 || NET45
                     _contentTypes.Add(extension, new ContentType(contentType, true, extension));
+#else
+                    _contentTypes.TryAdd(extension, new ContentType(contentType, true, extension));
+#endif
                 }
             }
+#if NET35 || NET45
             Parts.Add(GetUriKey(part.Uri.OriginalString), part);
+#else
+            Parts.TryAdd(GetUriKey(part.Uri.OriginalString), part);
+#endif
             return part;
         }
         internal ZipPackagePart CreatePart(Uri partUri, ZipPackagePart sourcePart)
@@ -300,10 +338,15 @@ namespace OfficeOpenXml.Packaging
                 rels.Remove(rels.First().Id);
             }
             rels=null;
+
+#if NET35 || NET45
             _contentTypes.Remove(GetUriKey(Uri.OriginalString));
             //remove all relations
             Parts.Remove(GetUriKey(Uri.OriginalString));
-            
+#else
+            _contentTypes.TryRemove(GetUriKey(Uri.OriginalString), out _);
+            Parts.TryRemove(GetUriKey(Uri.OriginalString), out _);
+#endif
         }
         internal void Save(Stream stream)
         {

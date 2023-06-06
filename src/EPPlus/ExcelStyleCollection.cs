@@ -17,6 +17,9 @@ using System.Text;
 using System.Xml;
 using System.Linq;
 using OfficeOpenXml.Style.XmlAccess;
+#if !NET35 && !NET45
+using System.Collections.Concurrent;
+#endif
 
 namespace OfficeOpenXml
 {
@@ -63,7 +66,11 @@ namespace OfficeOpenXml
         /// </summary>
         public XmlNode TopNode { get; set; }
         internal List<T> _list = new List<T>();
+#if NET35 || NET45
         internal Dictionary<string, int> _dic = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+#else
+        internal ConcurrentDictionary<string, int> _dic = new ConcurrentDictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+#endif
         internal int NextId=0;
         #region IEnumerable<T> Members
         /// <summary>
@@ -112,7 +119,14 @@ namespace OfficeOpenXml
         internal int Add(string key, T item)
         {
             _list.Add(item);
-            if (!_dic.ContainsKey(key.ToLower(CultureInfo.InvariantCulture))) _dic.Add(key.ToLower(CultureInfo.InvariantCulture), _list.Count - 1);
+            if (!_dic.ContainsKey(key.ToLower(CultureInfo.InvariantCulture)))
+            {
+#if NET35 || NET45
+                _dic.Add(key.ToLower(CultureInfo.InvariantCulture), _list.Count - 1);
+#else
+                _dic.TryAdd(key.ToLower(CultureInfo.InvariantCulture), _list.Count - 1);
+#endif
+            }
             if (_setNextIdManual) NextId++;
             return _list.Count-1;
         }
