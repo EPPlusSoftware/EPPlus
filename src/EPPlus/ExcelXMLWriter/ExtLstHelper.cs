@@ -31,8 +31,15 @@ namespace OfficeOpenXml.ExcelXMLWriter
             int start = 0, end = 0;
             GetBlock.Pos(xml, "extLst", ref start, ref end);
 
+            bool isPlaceHolder = false;
+
+            if(!xml.Substring(start + 1, end - start - 1).Contains("<"))
+            {
+                isPlaceHolder = true;
+            }
+
             //If the node isn't just a placeholder
-            if (end - start > 10)
+            if (!isPlaceHolder)
             {
                 int contentStart = start + "<ExtLst>".Length;
                 string extNodesOnly = xml.Substring(contentStart, end - contentStart - "</ExtLst>".Length);
