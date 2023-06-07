@@ -4928,26 +4928,6 @@ namespace EPPlusTest
 
                 SaveAndCleanup(p);
             }
-
-            //using (var p = OpenTemplatePackage("s473Workaround.xlsx"))
-            //{
-            //    int additionalRows = 2;
-            //    int startRow = 2;
-
-            //    var workbook = p.Workbook;
-            //    var worksheet = workbook.Worksheets[0];
-
-            //    worksheet.InsertRow(3, additionalRows);
-            //    for (int i = 0; i < additionalRows; i++)
-            //    {
-            //        int copyToRow = startRow + 1 + i;
-            //        var temp = worksheet.Cells[startRow, 1, startRow, worksheet.Dimension.Columns];
-
-            //        worksheet.Cells[startRow, 1, startRow, worksheet.Dimension.Columns].Copy(worksheet.Cells[copyToRow, 1, copyToRow, worksheet.Dimension.Columns]);
-            //    }
-
-            //    SaveAndCleanup(p);
-            //}
         }
     }
 }
