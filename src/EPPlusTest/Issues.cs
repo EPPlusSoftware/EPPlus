@@ -4877,5 +4877,18 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i898()
+        {
+            using (var package = OpenTemplatePackage("i898DoubleGroup.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+
+                sheet.Cells["A1"].Value = 1;
+
+                //Ensure saving of drawings with same name when read from file is possible
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

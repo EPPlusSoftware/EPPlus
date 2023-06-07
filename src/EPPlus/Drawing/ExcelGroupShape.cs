@@ -47,7 +47,10 @@ namespace OfficeOpenXml.Drawing
                 {
                     var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent);
                     _groupDrawings.Add(grpDraw);
-                    _drawingNames.Add(grpDraw.Name, _groupDrawings.Count - 1);
+                    if (_drawingNames.ContainsKey(grpDraw.Name) == false)
+                    {
+                        _drawingNames.Add(grpDraw.Name, _groupDrawings.Count - 1);
+                    }
                 }
             }
         }
