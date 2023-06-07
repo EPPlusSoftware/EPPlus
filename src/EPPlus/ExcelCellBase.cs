@@ -915,7 +915,8 @@ namespace OfficeOpenXml
                     if (t.TokenTypeIsSet(TokenType.ExcelAddress))
                     {
                         var address = new ExcelAddressBase(t.Value);
-                        if ((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
+                        if ((!string.IsNullOrEmpty(address._wb) || (!IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
+                            || address.Table != null)
                         {
                             f += address.Address;
                             continue;

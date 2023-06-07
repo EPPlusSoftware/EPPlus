@@ -29,6 +29,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
@@ -4859,6 +4861,28 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+
+        [TestMethod]
+        public void Issue888()
+        {
+            using (var package = OpenPackage("issue888.xlsx", true))
+            {
+                var ws1 = package.Workbook.Worksheets.Add("ws1");
+
+                ws1.DataValidations.AddAnyValidation("A1");
+
+                SaveAndCleanup(package);
+
+                var readPackage = OpenPackage("issue888.xlsx");
+
+                var sheet = readPackage.Workbook.Worksheets[0];
+                var formatting = sheet.DataValidations[0];
+
+                Assert.AreEqual(eDataValidationType.Any, formatting.ValidationType.Type);
+            }
+        }
+
         [TestMethod]
         public void s466()
         {
@@ -4888,6 +4912,57 @@ namespace EPPlusTest
 
                 //Ensure saving of drawings with same name when read from file is possible
                 SaveAndCleanup(package);
+            }
+        }
+        public void s473()
+        {
+            using (var p = OpenPackage("tableCopyTest.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");
+
+                
+
+                tableSheet.Cells[1, 1].Value = "Country";
+                tableSheet.Cells[2, 1].Value = "England";
+                tableSheet.Cells[3, 1].Value = "Wales";
+                tableSheet.Cells[4, 1].Value = "Scotland";
+                tableSheet.Cells[5, 1].Value = "Isle of Man";
+                tableSheet.Cells[6, 1].Value = "France";
+
+                tableSheet.Cells[1, 2].Value = "City";
+                tableSheet.Cells[2, 2].Value = "London";
+                tableSheet.Cells[3, 2].Value = "Cardiff";
+                tableSheet.Cells[4, 2].Value = "Edinburgh";
+                tableSheet.Cells[5, 2].Value = "Douglas";
+                tableSheet.Cells[6, 2].Value = "Paris";
+
+                var table = tableSheet.Tables.Add(new ExcelAddress("A1:B11"), "Table1");
+                //table.ToDataTable
+
+                for (int i =  2; i < 7; i++)
+                {
+                    ws.Cells[i, 1].Value = tableSheet.Cells[i, 1].Value;
+                    //If column 2 row i has the correct city to the country in A/table
+                    ws.Cells[i, 3].Formula = $"IF(B{i}=\"\",\"\",IF(B{i}=INDEX(Table1[City],MATCH(Sheet1!A{i},Table1[Country],0),1),TRUE,FALSE))";
+                }
+
+                int additionalRows = 2;
+                int startRow = 2;
+                ws.InsertRow(3, additionalRows);
+
+                for (int i = 0; i < additionalRows; i++)
+                {
+                    int copyToRow = startRow + 1 + i;
+
+                    ws.Cells[startRow, 1, startRow, ws.Dimension.Columns].Copy(ws.Cells[copyToRow, 1, copyToRow, ws.Dimension.Columns]);
+                }
+
+                //Ensure inserted rows copied formula correctly
+                Assert.AreEqual($"IF(B{2}=\"\",\"\",IF(B{2}=INDEX(Table1[City],MATCH(Sheet1!A{2},Table1[Country],0),1),TRUE,FALSE))", ws.Cells[2, 3].Formula);
+                Assert.AreEqual($"IF(B{3}=\"\",\"\",IF(B{3}=INDEX(Table1[City],MATCH(Sheet1!A{3},Table1[Country],0),1),TRUE,FALSE))", ws.Cells[3, 3].Formula);
+
+                SaveAndCleanup(p);
             }
         }
     }
