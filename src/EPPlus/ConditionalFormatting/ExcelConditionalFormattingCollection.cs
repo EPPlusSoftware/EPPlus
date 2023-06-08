@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml;
 
@@ -248,12 +249,27 @@ namespace OfficeOpenXml.ConditionalFormatting
                     }
                     else
                     {
+                        var adressLessCFs = new List<ExcelConditionalFormattingRule>();
+
                         do
                         {
                             var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
                             _rules.Add(cf);
                             _extLstDict.Add(cf.Uid, cf);
+
+                            if(cf.Address == null)
+                            {
+                                adressLessCFs.Add(cf);
+                            }
                         } while (xr.LocalName != "sqref");
+
+                        if(adressLessCFs.Count != 0)
+                        {
+                            foreach (var cf in adressLessCFs)
+                            {
+                                cf.Address = _rules.LastOrDefault().Address;
+                            }
+                        }
                     }
                 }
             }
