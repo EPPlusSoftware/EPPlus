@@ -234,15 +234,18 @@ namespace OfficeOpenXml.Core.CellStore
                         var fr = (int)(ri.RowSpan >> 20) + 1;
                         var tr = (int)(ri.RowSpan & 0xFFFFF) + 1;
 
-                        if(fr>=fromRow)
+                        if(tr >= fromRow) 
                         {
-                            ri.RowSpan = ((fr + noRows - 1) << 20) | (tr + noRows - 1);
+                            if (fr >= fromRow)
+                            {
+                                ri.RowSpan = ((fr + noRows - 1) << 20) | (tr + noRows - 1);
+                            }
+                            else
+                            {
+                                ri.RowSpan = ((fr - 1) << 20) | (tr + noRows - 1);
+                            }
+                            rows[ix] = ri;
                         }
-                        else
-                        {
-                            ri.RowSpan = ((fr - 1) << 20) | (tr + noRows - 1);
-                        }
-                        rows[ix] = ri;
                     }
                     var add = (noRows << 20) | (noRows);
                     for (int i=ix+1;i<rows.Count;i++)

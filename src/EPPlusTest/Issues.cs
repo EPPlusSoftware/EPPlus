@@ -4953,5 +4953,46 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void s474()
+        {
+            using (var p = OpenPackage("dataValidationInsertTest.xlsx", true))
+            {
+
+                int CustomTemplateRowsOffset = 0, START_ROW = 5, START_COLUMN = 8;
+
+                var sheet = p.Workbook.Worksheets.Add("dataValidationsInsert");
+
+                var validation = sheet.DataValidations.AddDecimalValidation("H3");
+                var rangeValidation = sheet.DataValidations.AddDecimalValidation("H4");
+                var rangeValidationH2 = sheet.DataValidations.AddDecimalValidation("H5");
+
+                var rangeValidation2 = sheet.DataValidations.AddDecimalValidation("G10");
+
+                validation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation.Operator = ExcelDataValidationOperator.equal;
+                rangeValidation2.Operator = ExcelDataValidationOperator.equal;
+                rangeValidationH2.Operator = ExcelDataValidationOperator.equal;
+
+
+                int rowCnt = START_ROW + CustomTemplateRowsOffset;
+                int startRow = rowCnt;
+                int startColumn = START_COLUMN;
+                int sheetRows = 30;
+
+
+                sheet.SetValue("A" + (2 + CustomTemplateRowsOffset), "Code");
+                sheet.SetValue("A" + (4 + CustomTemplateRowsOffset), "Description");
+
+                int columnCount = startColumn;
+                sheet.InsertRow(5, sheetRows - 1);
+
+                OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList validationList = 
+                    sheet.DataValidations.AddListValidation(sheet.Cells[startRow, columnCount, sheetRows - 1, columnCount].Address);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
