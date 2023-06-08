@@ -208,12 +208,33 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
 
             var tempAddress = "";
-            if (address == null && xr.ReadUntil("sqref", "conditionalFormatting", "extLst"))
+            if (address == null && xr.ReadUntil("cfRule", "sqref", "conditionalFormatting", "extLst"))
             {
-                tempAddress = xr.ReadString();
-                if (tempAddress == null)
+                xr.Read();
+
+                if (xr.LocalName == "sqref")
                 {
-                    throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
+                    tempAddress = xr.ReadString();
+                    if (tempAddress == null)
+                    {
+                        throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
+                    }
+                }
+            }
+            else
+            {
+                if(address == null && xr.LocalName == "cfRule")
+                {
+                    xr.Read();
+                }
+
+                if(xr.LocalName == "sqref")
+                {
+                    tempAddress = xr.ReadString();
+                    if (tempAddress == null)
+                    {
+                        throw new NullReferenceException($"Unable to locate ExtList adress for DataValidation with uid:{Uid}");
+                    }
                 }
             }
 

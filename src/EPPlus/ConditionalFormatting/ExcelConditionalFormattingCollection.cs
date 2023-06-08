@@ -248,9 +248,12 @@ namespace OfficeOpenXml.ConditionalFormatting
                     }
                     else
                     {
-                        var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
-                        _rules.Add(cf);
-                        _extLstDict.Add(cf.Uid, cf);
+                        do
+                        {
+                            var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
+                            _rules.Add(cf);
+                            _extLstDict.Add(cf.Uid, cf);
+                        } while (xr.LocalName != "sqref");
                     }
                 }
             }
@@ -331,6 +334,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                     }
                 }
 
+                var adressLessCFs = new List<ExcelConditionalFormattingRule>();
+
                 //identify ExtLst cfRules
                 foreach (var cfRule in _rules)
                 {
@@ -357,6 +362,19 @@ namespace OfficeOpenXml.ConditionalFormatting
                                     _extLstDict.Add(cfRule.Uid, cfRule);
                                     break;
                             }
+                        }
+
+                        if(string.IsNullOrEmpty(cfRule.Address.ToString()))
+                        {
+                            adressLessCFs.Add(cfRule);
+                        }
+                        else if(adressLessCFs.Count != 0)
+                        {
+                            foreach(var cf in adressLessCFs)
+                            {
+                                cf.Address = cfRule.Address;
+                            }
+                            adressLessCFs.Clear();
                         }
                     }
                 }
