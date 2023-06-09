@@ -345,7 +345,6 @@ namespace OfficeOpenXml.DataValidation
         {
             var dvAddress = AddressUtility.ParseEntireColumnSelections(address);
             _address = new ExcelDatavalidationAddress(address, this);
-            _ws.DataValidations.UpdateRangeDictionary(this);
         }
 
         /// <summary>

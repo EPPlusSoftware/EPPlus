@@ -598,9 +598,9 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     dv.SetAddress(newAddress.Address);
                 }
-                ws.DataValidations.DeleteRangeDictionary(range, shift == eShiftTypeDelete.Left || shift == eShiftTypeDelete.EntireColumn);
             }
             deletedDV.ForEach(dv => ws.DataValidations.Remove(dv));
+            ws.DataValidations.DeleteRangeDictionary(range, shift == eShiftTypeDelete.Left || shift == eShiftTypeDelete.EntireColumn);
         }
 
         private static ExcelAddressBase DeleteSplitAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeDelete shift)

@@ -270,12 +270,12 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     
                 }
-                ws.DataValidations.InsertRangeDictionary(range, shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn);
             }
             foreach (var dv in delDV)
             {
                 ws.DataValidations.Remove(dv);
             }
+            ws.DataValidations.InsertRangeDictionary(range, shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn);
         }
 
         private static void InsertFilterAddress(ExcelRangeBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift)

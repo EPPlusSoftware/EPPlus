@@ -127,6 +127,7 @@ namespace OfficeOpenXml.Core
                         if (_sourceRange._worksheet == _destination._worksheet)
                         {
                             dv.SetAddress(dv.Address + "," + newAddress);
+                            dv._ws.DataValidations.UpdateRangeDictionary(dv);
                         }
                         else
                         {
