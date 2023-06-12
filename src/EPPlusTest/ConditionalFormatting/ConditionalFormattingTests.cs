@@ -2054,5 +2054,44 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(eThemeSchemeColor.Accent5, formatting.Style.Border.Bottom.Color.Theme);
             }
         }
+
+        [TestMethod]
+        public void ConditionalFormattingOnSameAddressExt()
+        {
+            using (var pck = OpenPackage("CF_SameAddressExt.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var refSheet = pck.Workbook.Worksheets.Add("formulasReference");
+
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "formulasReference!$B$5";
+
+                var rule2 = sheet.ConditionalFormatting.AddBetween(new ExcelAddress("B1:B5"));
+
+                rule2.Formula = "formulasReference!$B$5";
+                rule2.Formula2 = "formulasReference!$B$6";
+
+                //var formatting = sheet.Cells["B1:B5"].ConditionalFormatting.;
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ConditionalFormattingOnSameAddress()
+        {
+            using (var pck = OpenPackage("CF_SameAddressLocal.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "5";
+
+                var rule2 = sheet.ConditionalFormatting.AddBottomPercent(new ExcelAddress("B1:B5"));
+
+                //var formatting = sheet.Cells["B1:B5"].ConditionalFormatting.;
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }

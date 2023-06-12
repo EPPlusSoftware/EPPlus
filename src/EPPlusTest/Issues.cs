@@ -4769,8 +4769,28 @@ namespace EPPlusTest
                 {
                     otherInputTab.DataValidations.InternalValidationEnabled = false;
                 }
+                // Saving
+                SaveAndCleanup(p);
+            }
+        }
 
-                //
+        [TestMethod]
+        public void testSaveOneAddress()
+        {
+            using (var p = OpenPackage("testOneAddress.xlsx", true))
+            {
+
+                var s = p.Workbook.Worksheets.Add("TestSheet");
+                s.ConditionalFormatting.AddAboveAverage(new ExcelAddress("A1"));
+                s.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
+                //// Removed insertion of PHI data, just re-saving the template for sample purposes
+
+                //// Workaround - Issue with "Inputs" tab - Validation of T60:T64 failed: Formula2 must be set if operator is 'between' or 'notBetween' when cells are not using between or notBetween
+                //var otherInputTab = p.Workbook.Worksheets.FirstOrDefault(ws => ws.Name.Equals("Inputs"));
+                //if (otherInputTab != null)
+                //{
+                //    otherInputTab.DataValidations.InternalValidationEnabled = false;
+                //}
                 // Saving
                 SaveAndCleanup(p);
             }

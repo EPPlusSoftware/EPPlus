@@ -1046,7 +1046,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         {
             var cache = new StringBuilder();
 
-            List<ExcelConditionalFormattingRule> cfExtLst = new List<ExcelConditionalFormattingRule>();
+            var addressDict = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
 
             foreach (var format in _ws.ConditionalFormatting)
             {
@@ -1054,388 +1054,400 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     if (cf.IsExtLst)
                     {
-                        cfExtLst.Add(cf);
+                        if(addressDict.ContainsKey(cf.Address.Address))
+                        {
+                            addressDict[cf.Address.Address].Add(cf);
+                        }
+                        else
+                        {
+                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                        }
                     }
                 }
             }
 
-            if (cfExtLst.Count > 0)
+            if (addressDict.Count > 0)
             {
                 string prefix = "x14:";
                 cache.Append($"<ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ConditionalFormattingUri}\">");
 
                 cache.Append($"<{prefix}conditionalFormattings>");
 
-                foreach (var format in cfExtLst)
+                foreach (var ruleList in addressDict)
                 {
-                    cache.Append($"<{prefix}conditionalFormatting xmlns:xm=\"{ExcelPackage.schemaMainXm}\">");
-
-                    string uid;
-
-                    if (format.Type == eExcelConditionalFormattingRuleType.DataBar)
+                    for (int i = 0; i < ruleList.Value.Count; i++)
                     {
-                        var dataBar = (ExcelConditionalFormattingDataBar)format;
-                        uid = dataBar.Uid.ToString();
+                        var format = ruleList.Value[i];
 
-                        cache.Append($"<{prefix}cfRule type=\"{format.Type.ToString().UnCapitalizeFirstLetter()}\" id=\"{uid}\">");
-
-                        cache.Append($"<{prefix}dataBar minLength=\"{dataBar.LowValue.minLength}\" ");
-                        cache.Append($"maxLength=\"{dataBar.HighValue.maxLength}\">");
-
-                        cache.Append($"<{prefix}cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"");
-
-                        if (dataBar.LowValue.HasValueOrFormula)
+                        if (i == 0)
                         {
-                            cache.Append(">");
-                            cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
-                            cache.Append($"</x14:cfvo>");
-                        }
-                        else
-                        {
-                            cache.Append("/>");
+                            cache.Append($"<{prefix}conditionalFormatting xmlns:xm=\"{ExcelPackage.schemaMainXm}\">");
                         }
 
-                        cache.Append($"<{prefix}cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"");
+                        string uid;
 
-                        if (dataBar.HighValue.HasValueOrFormula)
+                        if (format.Type == eExcelConditionalFormattingRuleType.DataBar)
                         {
-                            cache.Append(">");
-                            cache.Append($"<xm:f>{dataBar.HighValue.Value}</xm:f>");
-                            cache.Append($"</x14:cfvo>");
-                        }
-                        else
-                        {
-                            cache.Append("/>");
-                        }
+                            var dataBar = (ExcelConditionalFormattingDataBar)format;
+                            uid = dataBar.Uid.ToString();
 
-                        cache.Append($"<{prefix}negativeFillColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
-                        cache.Append($"<{prefix}axisColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
+                            cache.Append($"<{prefix}cfRule type=\"{format.Type.ToString().UnCapitalizeFirstLetter()}\" id=\"{uid}\">");
 
-                        cache.Append($"</{prefix}dataBar>");
-                    }
-                    else if (format.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
-                             format.Type == eExcelConditionalFormattingRuleType.FourIconSet ||
-                             format.Type == eExcelConditionalFormattingRuleType.FiveIconSet)
-                    {
-                        var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
-                        string iconSetString = "";
-                        bool isCustom = false;
+                            cache.Append($"<{prefix}dataBar minLength=\"{dataBar.LowValue.minLength}\" ");
+                            cache.Append($"maxLength=\"{dataBar.HighValue.maxLength}\">");
 
-                        switch (format.Type)
-                        {
-                            case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                var threeIcon = (ExcelConditionalFormattingThreeIconSet)format;
-                                iconList.Add(threeIcon.Icon1);
-                                iconList.Add(threeIcon.Icon2);
-                                iconList.Add(threeIcon.Icon3);
+                            cache.Append($"<{prefix}cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"");
 
-                                uid = threeIcon.Uid;
-                                iconSetString = threeIcon.GetIconSetString();
-                                break;
-
-                            case eExcelConditionalFormattingRuleType.FourIconSet:
-                                var fourIcon = (ExcelConditionalFormattingFourIconSet)format;
-
-                                iconList.Add(fourIcon.Icon1);
-                                iconList.Add(fourIcon.Icon2);
-                                iconList.Add(fourIcon.Icon3);
-                                iconList.Add(fourIcon.Icon4);
-
-                                uid = fourIcon.Uid;
-                                iconSetString = fourIcon.GetIconSetString();
-                                break;
-
-                            case eExcelConditionalFormattingRuleType.FiveIconSet:
-                                var fiveIcon = (ExcelConditionalFormattingFiveIconSet)format;
-
-                                iconList.Add(fiveIcon.Icon1);
-                                iconList.Add(fiveIcon.Icon2);
-                                iconList.Add(fiveIcon.Icon3);
-                                iconList.Add(fiveIcon.Icon4);
-                                iconList.Add(fiveIcon.Icon5);
-
-                                uid = fiveIcon.Uid;
-                                iconSetString = fiveIcon.GetIconSetString();
-                                break;
-                            default:
-                                throw new InvalidOperationException($"Impossible case found {format.Type} is not an iconSet");
-                        }
-
-                        foreach (var icon in iconList)
-                        {
-                            if (icon.CustomIcon != null)
+                            if (dataBar.LowValue.HasValueOrFormula)
                             {
-                                isCustom = true;
+                                cache.Append(">");
+                                cache.Append($"<xm:f>{dataBar.LowValue.Value}</xm:f>");
+                                cache.Append($"</x14:cfvo>");
                             }
-                        }
-
-                        cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
-
-                        cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\" ");
-
-                        if (isCustom)
-                        {
-                            cache.Append("custom=\"1\"");
-                        }
-
-                        cache.Append(">");
-
-                        foreach (var icon in iconList)
-                        {
-                            cache.Append($"<{prefix}cfvo type=\"{icon.Type.ToString().UnCapitalizeFirstLetter()}\"");
-
-                            if (icon.GreaterThanOrEqualTo == false && icon != iconList[0])
+                            else
                             {
-                                cache.Append(" gte=\"0\"");
+                                cache.Append("/>");
                             }
 
-                            cache.Append(">");
-                            cache.Append($"<xm:f>{icon.Value}</xm:f>");
-                            cache.Append($"</{prefix}cfvo>");
-                        }
+                            cache.Append($"<{prefix}cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"");
 
-                        if (isCustom)
-                        {
-                            for (int i = 0; i < iconList.Count; i++)
+                            if (dataBar.HighValue.HasValueOrFormula)
                             {
-                                string iconType = iconList[i].CustomIcon == null ? iconSetString : iconList[i].GetCustomIconStringValue();
-                                int iconIndex = iconList[i].CustomIcon == null ? i : iconList[i].GetCustomIconIndex();
-                                cache.Append($"<{prefix}cfIcon iconSet=\"{iconType}\" iconId=\"{iconIndex}\"/>");
+                                cache.Append(">");
+                                cache.Append($"<xm:f>{dataBar.HighValue.Value}</xm:f>");
+                                cache.Append($"</x14:cfvo>");
                             }
-                        }
-
-                        cache.Append($"</{prefix}iconSet>");
-                    }
-                    else
-                    {
-                        cache.Append($"<{prefix}cfRule type=\"{format.GetAttributeType()}\"" +
-                            $" priority=\"{format.Priority}\" ");
-
-                        if(format.Operator != null)
-                        {
-                            cache.Append($"operator=\"{format.Operator.ToEnumString()}\" ");
-                        }
-
-                        cache.Append($"id=\"{format.Uid}\">");
-
-                        if (!string.IsNullOrEmpty(format.Formula))
-                        {
-                            cache.Append($"<xm:f>{format.Formula}</xm:f>");
-                        }
-
-                        if (!string.IsNullOrEmpty(format.Formula2))
-                        {
-                            cache.Append($"<xm:f>{format.Formula2}</xm:f>");
-                        }
-
-                        if (format.Style.HasValue)
-                        {
-                            cache.Append($"<{prefix}dxf>");
-
-                            if(format.Style.NumberFormat.HasValue)
+                            else
                             {
-                                cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
-                                    $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                                cache.Append("/>");
                             }
 
-                            if (format.Style.Font.HasValue)
+                            cache.Append($"<{prefix}negativeFillColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
+                            cache.Append($"<{prefix}axisColor rgb=\"{Convert.ToString(dataBar.NegativeFillColor.ToArgb(), 16).ToUpper()}\"/>");
+
+                            cache.Append($"</{prefix}dataBar>");
+                        }
+                        else if (format.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
+                                 format.Type == eExcelConditionalFormattingRuleType.FourIconSet ||
+                                 format.Type == eExcelConditionalFormattingRuleType.FiveIconSet)
+                        {
+                            var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
+                            string iconSetString = "";
+                            bool isCustom = false;
+
+                            switch (format.Type)
                             {
-                                cache.Append($"<font>");
-                                
-                                if (format.Style.Font.Bold == true)
+                                case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                                    var threeIcon = (ExcelConditionalFormattingThreeIconSet)format;
+                                    iconList.Add(threeIcon.Icon1);
+                                    iconList.Add(threeIcon.Icon2);
+                                    iconList.Add(threeIcon.Icon3);
+
+                                    uid = threeIcon.Uid;
+                                    iconSetString = threeIcon.GetIconSetString();
+                                    break;
+
+                                case eExcelConditionalFormattingRuleType.FourIconSet:
+                                    var fourIcon = (ExcelConditionalFormattingFourIconSet)format;
+
+                                    iconList.Add(fourIcon.Icon1);
+                                    iconList.Add(fourIcon.Icon2);
+                                    iconList.Add(fourIcon.Icon3);
+                                    iconList.Add(fourIcon.Icon4);
+
+                                    uid = fourIcon.Uid;
+                                    iconSetString = fourIcon.GetIconSetString();
+                                    break;
+
+                                case eExcelConditionalFormattingRuleType.FiveIconSet:
+                                    var fiveIcon = (ExcelConditionalFormattingFiveIconSet)format;
+
+                                    iconList.Add(fiveIcon.Icon1);
+                                    iconList.Add(fiveIcon.Icon2);
+                                    iconList.Add(fiveIcon.Icon3);
+                                    iconList.Add(fiveIcon.Icon4);
+                                    iconList.Add(fiveIcon.Icon5);
+
+                                    uid = fiveIcon.Uid;
+                                    iconSetString = fiveIcon.GetIconSetString();
+                                    break;
+                                default:
+                                    throw new InvalidOperationException($"Impossible case found {format.Type} is not an iconSet");
+                            }
+
+                            foreach (var icon in iconList)
+                            {
+                                if (icon.CustomIcon != null)
                                 {
-                                    cache.Append($"<b/>");
+                                    isCustom = true;
+                                }
+                            }
+
+                            cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
+
+                            cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\" ");
+
+                            if (isCustom)
+                            {
+                                cache.Append("custom=\"1\"");
+                            }
+
+                            cache.Append(">");
+
+                            foreach (var icon in iconList)
+                            {
+                                cache.Append($"<{prefix}cfvo type=\"{icon.Type.ToString().UnCapitalizeFirstLetter()}\"");
+
+                                if (icon.GreaterThanOrEqualTo == false && icon != iconList[0])
+                                {
+                                    cache.Append(" gte=\"0\"");
                                 }
 
-                                if (format.Style.Font.Italic == true)
+                                cache.Append(">");
+                                cache.Append($"<xm:f>{icon.Value}</xm:f>");
+                                cache.Append($"</{prefix}cfvo>");
+                            }
+
+                            if (isCustom)
+                            {
+                                for (int j = 0; j < iconList.Count; j++)
                                 {
-                                    if(format.Style.Font.Bold == false || format.Style.Font.Bold == null)
+                                    string iconType = iconList[j].CustomIcon == null ? iconSetString : iconList[j].GetCustomIconStringValue();
+                                    int iconIndex = iconList[j].CustomIcon == null ? i : iconList[j].GetCustomIconIndex();
+                                    cache.Append($"<{prefix}cfIcon iconSet=\"{iconType}\" iconId=\"{iconIndex}\"/>");
+                                }
+                            }
+
+                            cache.Append($"</{prefix}iconSet>");
+                        }
+                        else
+                        {
+                            cache.Append($"<{prefix}cfRule type=\"{format.GetAttributeType()}\"" +
+                                $" priority=\"{format.Priority}\" ");
+
+                            if (format.Operator != null)
+                            {
+                                cache.Append($"operator=\"{format.Operator.ToEnumString()}\" ");
+                            }
+
+                            cache.Append($"id=\"{format.Uid}\">");
+
+                            if (!string.IsNullOrEmpty(format.Formula))
+                            {
+                                cache.Append($"<xm:f>{format.Formula}</xm:f>");
+                            }
+
+                            if (!string.IsNullOrEmpty(format.Formula2))
+                            {
+                                cache.Append($"<xm:f>{format.Formula2}</xm:f>");
+                            }
+
+                            if (format.Style.HasValue)
+                            {
+                                cache.Append($"<{prefix}dxf>");
+
+                                if (format.Style.NumberFormat.HasValue)
+                                {
+                                    cache.Append($"<numFmt numFmtId =\"{format.Style.NumberFormat.NumFmtID}\" " +
+                                        $"formatCode = \"{format.Style.NumberFormat.Format}\"/>");
+                                }
+
+                                if (format.Style.Font.HasValue)
+                                {
+                                    cache.Append($"<font>");
+
+                                    if (format.Style.Font.Bold == true)
+                                    {
+                                        cache.Append($"<b/>");
+                                    }
+
+                                    if (format.Style.Font.Italic == true)
+                                    {
+                                        if (format.Style.Font.Bold == false || format.Style.Font.Bold == null)
+                                        {
+                                            cache.Append("<b val=\"0\"/>");
+                                        }
+                                        cache.Append($"<i/>");
+                                    }
+
+                                    if (format.Style.Font.Bold == false && format.Style.Font.Italic == false)
                                     {
                                         cache.Append("<b val=\"0\"/>");
+                                        cache.Append("<i val=\"0\"/>");
                                     }
-                                    cache.Append($"<i/>");
-                                }
 
-                                if(format.Style.Font.Bold == false && format.Style.Font.Italic == false)
-                                {
-                                    cache.Append("<b val=\"0\"/>");
-                                    cache.Append("<i val=\"0\"/>");
-                                }
-
-                                if (format.Style.Font.Strike == true)
-                                {
-                                    cache.Append($"<strike/>");
-
-                                }
-
-                                if(format.Style.Font.Underline.HasValue == true)
-                                {
-                                    cache.Append($"<u");
-                                    if(format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
+                                    if (format.Style.Font.Strike == true)
                                     {
-                                        cache.Append(" val=\"double\"");
-                                    }
-                                    cache.Append($"/>");
-                                }
+                                        cache.Append($"<strike/>");
 
-                                if(format.Style.Font.Color.HasValue == true)
-                                {
-                                    cache.Append("<color");
-                                    if(format.Style.Font.Color.Theme != null)
+                                    }
+
+                                    if (format.Style.Font.Underline.HasValue == true)
                                     {
-                                        cache.Append($"theme=\"{(int)format.Style.Font.Color.Theme}\"");
-                                    }
-                                    else
-                                    {
-                                        Color color = (Color)format.Style.Font.Color.Color;
-                                        cache.Append($"rgb=\"" +
-                                            $"{color.ToColorString()}\"");
-
-                                    }
-                                    cache.Append("/>");
-                                }
-
-                                cache.Append($"</font>"); 
-                            }
-
-                            //if(format.Style.NumberFormat.HasValue == true) 
-                            //{
-                            //    cache.Append($"<numFmt numFmtId=\"{format.Style.NumberFormat.NumFmtID}\" formatCode=\"{format.Style.NumberFormat.Format}\"/>");
-                            //}
-
-                            if(format.Style.Border.HasValue == true)
-                            {
-                                cache.Append($"<border>");
-
-                                if (format.Style.Border.Left.HasValue == true)
-                                {
-                                    cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
-                                    cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
-                                    cache.Append($"</left>");
-                                }
-
-
-                                if (format.Style.Border.Right.HasValue == true)
-                                {
-                                    cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
-                                    cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
-                                    cache.Append($"</right>");
-                                }
-
-                                if (format.Style.Border.Top.HasValue == true)
-                                {
-                                    cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
-                                    cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
-                                    cache.Append($"</top>");
-                                }
-
-                                if (format.Style.Border.Bottom.HasValue == true)
-                                {
-                                    cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
-                                    cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
-                                    cache.Append($"</bottom>");
-                                }
-
-                                cache.Append($"<vertical/>");
-                                cache.Append($"<horizontal/>");
-                                cache.Append($"</border>");
-                            }
-
-                            if (format.Style.Fill.HasValue == true) 
-                            {
-                                cache.Append("<fill>");
-
-                                switch (format.Style.Fill.Style)
-                                {
-                                    case Style.eDxfFillStyle.PatternFill:
-
-                                        if(format.Style.Fill.PatternType != null)
+                                        cache.Append($"<u");
+                                        if (format.Style.Font.Underline.Value == Style.ExcelUnderLineType.Double)
                                         {
-                                            cache.Append($"<patternFill patternType=\"{format.Style.Fill.PatternType}\">");
+                                            cache.Append(" val=\"double\"");
+                                        }
+                                        cache.Append($"/>");
+                                    }
+
+                                    if (format.Style.Font.Color.HasValue == true)
+                                    {
+                                        cache.Append("<color");
+                                        if (format.Style.Font.Color.Theme != null)
+                                        {
+                                            cache.Append($"theme=\"{(int)format.Style.Font.Color.Theme}\"");
                                         }
                                         else
                                         {
-                                            cache.Append($"<patternFill>");
+                                            Color color = (Color)format.Style.Font.Color.Color;
+                                            cache.Append($"rgb=\"" +
+                                                $"{color.ToColorString()}\"");
+
                                         }
+                                        cache.Append("/>");
+                                    }
 
-                                        if(format.Style.Fill.PatternColor.Color != null)
-                                        {
-                                            cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
-                                        }
-
-                                        if(format.Style.Fill.BackgroundColor.Color != null)
-                                        {
-                                            cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
-                                        }
-
-                                        cache.Append($"</patternFill>");
-                                        break;
-                                    case Style.eDxfFillStyle.GradientFill:
-
-                                        cache.Append($"<gradientFill");
-
-                                        if(format.Style.Fill.Gradient.GradientType != null)
-                                        {
-                                            cache.Append($" type=\"{format.Style.Fill.Gradient.GradientType.ToString().ToLower()}\"");
-                                        }
-
-                                        if (format.Style.Fill.Gradient.Degree != null)
-                                        {
-                                            cache.Append(string.Format(CultureInfo.InvariantCulture," degree=\"{0}\"", format.Style.Fill.Gradient.Degree.Value));
-                                        }
-
-                                        if(format.Style.Fill.Gradient.Left != null)
-                                        {
-                                            cache.Append(string.Format(CultureInfo.InvariantCulture," left=\"{0}\"", format.Style.Fill.Gradient.Left.Value));
-                                        }
-
-                                        if (format.Style.Fill.Gradient.Right != null)
-                                        {
-                                            cache.Append(string.Format(CultureInfo.InvariantCulture," right=\"{0}\"", format.Style.Fill.Gradient.Right.Value));
-                                        }
-
-                                        if (format.Style.Fill.Gradient.Top != null)
-                                        {
-                                            cache.Append(string.Format(CultureInfo.InvariantCulture," top=\"{0}\"", format.Style.Fill.Gradient.Top.Value));
-                                        }
-
-                                        if (format.Style.Fill.Gradient.Bottom != null)
-                                        {
-                                            cache.Append(string.Format(CultureInfo.InvariantCulture," bottom=\"{0}\"", format.Style.Fill.Gradient.Bottom.Value));
-                                        }
-
-                                        cache.Append(">");
-                                        cache.Append("<stop position=\"0\">");
-
-                                        cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
-
-                                        cache.Append("</stop>");
-                                        cache.Append("<stop position=\"1\">");
-
-                                        cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
-
-                                        cache.Append("</stop>");
-
-                                        cache.Append($"</gradientFill>");
-
-                                        break;
+                                    cache.Append($"</font>");
                                 }
-                                cache.Append("</fill>");
-                            }
 
-                            cache.Append($"</{prefix}dxf>");
+                                if (format.Style.Border.HasValue == true)
+                                {
+                                    cache.Append($"<border>");
+
+                                    if (format.Style.Border.Left.HasValue == true)
+                                    {
+                                        cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
+                                        cache.Append($"</left>");
+                                    }
+
+
+                                    if (format.Style.Border.Right.HasValue == true)
+                                    {
+                                        cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
+                                        cache.Append($"</right>");
+                                    }
+
+                                    if (format.Style.Border.Top.HasValue == true)
+                                    {
+                                        cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
+                                        cache.Append($"</top>");
+                                    }
+
+                                    if (format.Style.Border.Bottom.HasValue == true)
+                                    {
+                                        cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
+                                        cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
+                                        cache.Append($"</bottom>");
+                                    }
+
+                                    cache.Append($"<vertical/>");
+                                    cache.Append($"<horizontal/>");
+                                    cache.Append($"</border>");
+                                }
+
+                                if (format.Style.Fill.HasValue == true)
+                                {
+                                    cache.Append("<fill>");
+
+                                    switch (format.Style.Fill.Style)
+                                    {
+                                        case Style.eDxfFillStyle.PatternFill:
+
+                                            if (format.Style.Fill.PatternType != null)
+                                            {
+                                                cache.Append($"<patternFill patternType=\"{format.Style.Fill.PatternType}\">");
+                                            }
+                                            else
+                                            {
+                                                cache.Append($"<patternFill>");
+                                            }
+
+                                            if (format.Style.Fill.PatternColor.Color != null)
+                                            {
+                                                cache.Append(WriteColorOption("fgColor", format.Style.Fill.PatternColor));
+                                            }
+
+                                            if (format.Style.Fill.BackgroundColor.Color != null)
+                                            {
+                                                cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
+                                            }
+
+                                            cache.Append($"</patternFill>");
+                                            break;
+                                        case Style.eDxfFillStyle.GradientFill:
+
+                                            cache.Append($"<gradientFill");
+
+                                            if (format.Style.Fill.Gradient.GradientType != null)
+                                            {
+                                                cache.Append($" type=\"{format.Style.Fill.Gradient.GradientType.ToString().ToLower()}\"");
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Degree != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " degree=\"{0}\"", format.Style.Fill.Gradient.Degree.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Left != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " left=\"{0}\"", format.Style.Fill.Gradient.Left.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Right != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " right=\"{0}\"", format.Style.Fill.Gradient.Right.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Top != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " top=\"{0}\"", format.Style.Fill.Gradient.Top.Value));
+                                            }
+
+                                            if (format.Style.Fill.Gradient.Bottom != null)
+                                            {
+                                                cache.Append(string.Format(CultureInfo.InvariantCulture, " bottom=\"{0}\"", format.Style.Fill.Gradient.Bottom.Value));
+                                            }
+
+                                            cache.Append(">");
+                                            cache.Append("<stop position=\"0\">");
+
+                                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[0].Color));
+
+                                            cache.Append("</stop>");
+                                            cache.Append("<stop position=\"1\">");
+
+                                            cache.Append(WriteColorOption("color", format.Style.Fill.Gradient.Colors[1].Color));
+
+                                            cache.Append("</stop>");
+
+                                            cache.Append($"</gradientFill>");
+
+                                            break;
+                                    }
+                                    cache.Append("</fill>");
+                                }
+
+                                cache.Append($"</{prefix}dxf>");
+                            }
+                        }
+                        cache.Append($"</{prefix}cfRule>");
+
+                        if (i == ruleList.Value.Count - 1)
+                        {
+                            cache.Append($"<xm:sqref>{format.Address}</xm:sqref>");
+                            cache.Append($"</{prefix}conditionalFormatting>");
                         }
                     }
-
-                    cache.Append($"</{prefix}cfRule>");
-                    cache.Append($"<xm:sqref>{format.Address}</xm:sqref>");
-                    cache.Append($"</{prefix}conditionalFormatting>");
                 }
 
                 cache.Append($"</{prefix}conditionalFormattings>");
                 cache.Append("</ext>");
             }
-
             return cache.ToString();
         }
 
@@ -1524,7 +1536,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                 if (string.IsNullOrEmpty(conditionalFormat.Formula) == false)
                 {
-                    cache.Append("<formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat.Formula) + "</formula>");
+                    cache.Append("<formula>" + conditionalFormat.Formula + "</formula>");
                     if (string.IsNullOrEmpty(conditionalFormat.Formula2) == false)
                     {
                         cache.Append("<formula>" + conditionalFormat.Formula2 + "</formula>");

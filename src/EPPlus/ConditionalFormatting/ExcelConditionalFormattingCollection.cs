@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -19,7 +18,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         ExcelWorksheet _ws;
         int LastPriority = 1;
         internal Dictionary<string, ExcelConditionalFormattingRule> _extLstDict = new Dictionary<string, ExcelConditionalFormattingRule>();
-
 
         internal ExcelConditionalFormattingCollection(ExcelWorksheet ws)
         {
@@ -269,6 +267,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                             {
                                 cf.Address = _rules.LastOrDefault().Address;
                             }
+                            adressLessCFs.Clear();
                         }
                     }
                 }
@@ -386,7 +385,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         }
                         else if(adressLessCFs.Count != 0)
                         {
-                            foreach(var cf in adressLessCFs)
+                            foreach (var cf in adressLessCFs)
                             {
                                 cf.Address = cfRule.Address;
                             }
@@ -394,8 +393,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                         }
                     }
                 }
-
-           
             }
         }
 
@@ -432,6 +429,13 @@ namespace OfficeOpenXml.ConditionalFormatting
                         }
                     }
                 }
+
+                ////TODO: the sameAddressDict MUST be updated when users add addresses and must check 
+                ////if anything outside of the dict has the address already
+                //if(rulesOfSameAddressDict.ContainsKey(cfRule.Address))
+                //{
+
+                //}
             }
         }
 
