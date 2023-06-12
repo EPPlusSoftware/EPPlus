@@ -1518,174 +1518,185 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             _ws.ConditionalFormatting.UpdateExtDict();
 
-            for (int j = 0; j < _ws.ConditionalFormatting.Count; j++)
+            var addressDict = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
+
+            foreach (var format in _ws.ConditionalFormatting)
             {
-                var conditionalFormat = _ws.ConditionalFormatting[j];
-
-                if (conditionalFormat.IsExtLst && conditionalFormat.Type != eExcelConditionalFormattingRuleType.DataBar)
+                if (format is ExcelConditionalFormattingRule cf)
                 {
-                    continue;
-                }
-
-                cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address}\">");
-                cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
-
-                cache.Append(UpdateConditionalFormattingAttributes(conditionalFormat));
-                cache.Append($">");
-
-
-                if (string.IsNullOrEmpty(conditionalFormat.Formula) == false)
-                {
-                    cache.Append("<formula>" + conditionalFormat.Formula + "</formula>");
-                    if (string.IsNullOrEmpty(conditionalFormat.Formula2) == false)
+                    if (!cf.IsExtLst || cf.Type == eExcelConditionalFormattingRuleType.DataBar)
                     {
-                        cache.Append("<formula>" + conditionalFormat.Formula2 + "</formula>");
-                    }
-                }
-
-                if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.TwoColorScale ||
-                    conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
-                {
-                    cache.Append("<colorScale>");
-
-                    var low = ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).LowValue;
-                    var high = ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).HighValue;
-
-                    cache.Append($"<cfvo type=\"{low.Type.ToString().UnCapitalizeFirstLetter()}\" ");
-
-                    if (!double.IsNaN(low.Value))
-                    {
-                        cache.Append($"val=\"{low.Value}\"");
-                    }
-                    cache.Append("/>");
-
-                    if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
-                    {
-                        var middleValue = conditionalFormat.As.ThreeColorScale.MiddleValue;
-                        cache.Append($"<cfvo type=\"{middleValue.Type.ToString().UnCapitalizeFirstLetter()}\" ");
-                        if (!double.IsNaN(middleValue.Value))
+                        if (addressDict.ContainsKey(cf.Address.Address))
                         {
-                            cache.Append($"val=\"{middleValue.Value}\"");
-                        }
-                        cache.Append("/>");
-                    }
-
-                    cache.Append($"<cfvo type=\"{high.Type.ToString().UnCapitalizeFirstLetter()}\" ");
-                    if (!double.IsNaN(high.Value))
-                    {
-                        cache.Append($"val=\"{high.Value}\"");
-                    }
-                    cache.Append("/>");
-
-                    cache.Append($"<color rgb=\"{low.Color.ToColorString()}\"/>");
-
-                    if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
-                    {
-                        var middleValue = conditionalFormat.As.ThreeColorScale.MiddleValue;
-                        cache.Append($"<color rgb=\"{middleValue.Color.ToColorString()}\"/>");
-                    }
-
-                    cache.Append($"<color rgb=\"{high.Color.ToColorString()}\"/>");
-
-                    cache.Append("</colorScale>");
-                }
-
-                if (conditionalFormat.IsExtLst)
-                {
-                    if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.DataBar)
-                    {
-                        var dataBar = (ExcelConditionalFormattingDataBar)conditionalFormat;
-                        cache.Append($"<dataBar>");
-
-                        cache.Append($"<cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
-                        cache.Append($"<cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
-
-                        cache.Append($"<color rgb=\"{dataBar.Color.ToColorString()}\"/>");
-
-                        cache.Append($"</dataBar>");
-
-                        cache.Append($"<extLst>");
-
-                        prefix = "x14";
-                        cache.Append($"<ext xmlns:{prefix}=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ExtChildUri}\">");
-                        cache.Append($"<{prefix}:id>{dataBar.Uid}</{prefix}:id>");
-                        cache.Append($"</ext>");
-
-                        cache.Append($"</extLst>");
-                    }
-                    //IconSet is only written in extLst. We need no "local" node.
-                }
-                else if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
-                         conditionalFormat.Type == eExcelConditionalFormattingRuleType.FourIconSet ||
-                         conditionalFormat.Type == eExcelConditionalFormattingRuleType.FiveIconSet)
-                {
-
-                    var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
-                    string iconSetString = "";
-
-                    switch (conditionalFormat.Type)
-                    {
-                        case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                            var threeIcon = (ExcelConditionalFormattingThreeIconSet)conditionalFormat;
-                            iconList.Add(threeIcon.Icon1);
-                            iconList.Add(threeIcon.Icon2);
-                            iconList.Add(threeIcon.Icon3);
-
-                            iconSetString = threeIcon.GetIconSetString();
-                            break;
-
-                        case eExcelConditionalFormattingRuleType.FourIconSet:
-                            var fourIcon = (ExcelConditionalFormattingFourIconSet)conditionalFormat;
-                            iconList.Add(fourIcon.Icon1);
-                            iconList.Add(fourIcon.Icon2);
-                            iconList.Add(fourIcon.Icon3);
-                            iconList.Add(fourIcon.Icon4);
-
-                            iconSetString = fourIcon.GetIconSetString();
-                            break;
-
-                        case eExcelConditionalFormattingRuleType.FiveIconSet:
-                            var fiveIcon = (ExcelConditionalFormattingFiveIconSet)conditionalFormat;
-
-                            iconList.Add(fiveIcon.Icon1);
-                            iconList.Add(fiveIcon.Icon2);
-                            iconList.Add(fiveIcon.Icon3);
-                            iconList.Add(fiveIcon.Icon4);
-                            iconList.Add(fiveIcon.Icon5);
-
-                            iconSetString = fiveIcon.GetIconSetString();
-                            break;
-                    }
-
-                    cache.Append($"<iconSet iconSet=\"{iconSetString}\">");
-
-                    for (int i = 0; i < iconList.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            cache.Append(WriteCfIcon(iconList[i], false));
-
+                            addressDict[cf.Address.Address].Add(cf);
                         }
                         else
                         {
-                            cache.Append(WriteCfIcon(iconList[i]));
+                            addressDict.Add(cf.Address.Address, new List<ExcelConditionalFormattingRule>() { cf });
+                        }
+                    }
+                }
+            }
+
+            foreach( var formatList in addressDict)
+            {
+                for (int i = 0; i < formatList.Value.Count; i++)
+                {
+                    var conditionalFormat = formatList.Value[i];
+
+                    if(i == 0)
+                    {
+                        cache.Append($"<conditionalFormatting sqref=\"{conditionalFormat.Address}\">");
+                    }
+
+                    cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
+
+                    cache.Append(UpdateConditionalFormattingAttributes(conditionalFormat));
+                    cache.Append($">");
+
+
+                    if (string.IsNullOrEmpty(conditionalFormat.Formula) == false)
+                    {
+                        cache.Append("<formula>" + conditionalFormat.Formula + "</formula>");
+                        if (string.IsNullOrEmpty(conditionalFormat.Formula2) == false)
+                        {
+                            cache.Append("<formula>" + conditionalFormat.Formula2 + "</formula>");
                         }
                     }
 
-                    cache.Append($"</iconSet>");
+                    if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.TwoColorScale ||
+                        conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                    {
+                        cache.Append("<colorScale>");
+
+                        var low = ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).LowValue;
+                        var high = ((ExcelConditionalFormattingTwoColorScale)conditionalFormat).HighValue;
+
+                        cache.Append($"<cfvo type=\"{low.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+
+                        if (!double.IsNaN(low.Value))
+                        {
+                            cache.Append($"val=\"{low.Value}\"");
+                        }
+                        cache.Append("/>");
+
+                        if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                        {
+                            var middleValue = conditionalFormat.As.ThreeColorScale.MiddleValue;
+                            cache.Append($"<cfvo type=\"{middleValue.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+                            if (!double.IsNaN(middleValue.Value))
+                            {
+                                cache.Append($"val=\"{middleValue.Value}\"");
+                            }
+                            cache.Append("/>");
+                        }
+
+                        cache.Append($"<cfvo type=\"{high.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+                        if (!double.IsNaN(high.Value))
+                        {
+                            cache.Append($"val=\"{high.Value}\"");
+                        }
+                        cache.Append("/>");
+
+                        cache.Append($"<color rgb=\"{low.Color.ToColorString()}\"/>");
+
+                        if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                        {
+                            var middleValue = conditionalFormat.As.ThreeColorScale.MiddleValue;
+                            cache.Append($"<color rgb=\"{middleValue.Color.ToColorString()}\"/>");
+                        }
+
+                        cache.Append($"<color rgb=\"{high.Color.ToColorString()}\"/>");
+
+                        cache.Append("</colorScale>");
+                    }
+
+                    if (conditionalFormat.IsExtLst)
+                    {
+                        if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.DataBar)
+                        {
+                            var dataBar = (ExcelConditionalFormattingDataBar)conditionalFormat;
+                            cache.Append($"<dataBar>");
+
+                            cache.Append($"<cfvo type=\"{dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
+                            cache.Append($"<cfvo type=\"{dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter()}\"/>");
+
+                            cache.Append($"<color rgb=\"{dataBar.Color.ToColorString()}\"/>");
+
+                            cache.Append($"</dataBar>");
+
+                            cache.Append($"<extLst>");
+
+                            prefix = "x14";
+                            cache.Append($"<ext xmlns:{prefix}=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ExtChildUri}\">");
+                            cache.Append($"<{prefix}:id>{dataBar.Uid}</{prefix}:id>");
+                            cache.Append($"</ext>");
+
+                            cache.Append($"</extLst>");
+                        }
+                        //IconSet is only written in extLst. We need no "local" node.
+                    }
+                    else if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
+                             conditionalFormat.Type == eExcelConditionalFormattingRuleType.FourIconSet ||
+                             conditionalFormat.Type == eExcelConditionalFormattingRuleType.FiveIconSet)
+                    {
+
+                        var iconList = new List<ExcelConditionalFormattingIconDataBarValue>();
+                        string iconSetString = "";
+
+                        switch (conditionalFormat.Type)
+                        {
+                            case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                                var threeIcon = (ExcelConditionalFormattingThreeIconSet)conditionalFormat;
+                                iconList.Add(threeIcon.Icon1);
+                                iconList.Add(threeIcon.Icon2);
+                                iconList.Add(threeIcon.Icon3);
+
+                                iconSetString = threeIcon.GetIconSetString();
+                                break;
+
+                            case eExcelConditionalFormattingRuleType.FourIconSet:
+                                var fourIcon = (ExcelConditionalFormattingFourIconSet)conditionalFormat;
+                                iconList.Add(fourIcon.Icon1);
+                                iconList.Add(fourIcon.Icon2);
+                                iconList.Add(fourIcon.Icon3);
+                                iconList.Add(fourIcon.Icon4);
+
+                                iconSetString = fourIcon.GetIconSetString();
+                                break;
+
+                            case eExcelConditionalFormattingRuleType.FiveIconSet:
+                                var fiveIcon = (ExcelConditionalFormattingFiveIconSet)conditionalFormat;
+
+                                iconList.Add(fiveIcon.Icon1);
+                                iconList.Add(fiveIcon.Icon2);
+                                iconList.Add(fiveIcon.Icon3);
+                                iconList.Add(fiveIcon.Icon4);
+                                iconList.Add(fiveIcon.Icon5);
+
+                                iconSetString = fiveIcon.GetIconSetString();
+                                break;
+                        }
+
+                        cache.Append($"<iconSet iconSet=\"{iconSetString}\">");
+
+                        for (int j = 0; j < iconList.Count; j++)
+                        {
+                            if (j == 0)
+                            {
+                                cache.Append(WriteCfIcon(iconList[j], false));
+
+                            }
+                            else
+                            {
+                                cache.Append(WriteCfIcon(iconList[j]));
+                            }
+                        }
+
+                        cache.Append($"</iconSet>");
+                    }
+                    cache.Append($"</cfRule>");
                 }
-
-                //if (new[]{
-                //    eExcelConditionalFormattingRuleType.ThreeIconSet,
-                //    eExcelConditionalFormattingRuleType.FourIconSet,
-                //    eExcelConditionalFormattingRuleType.FiveIconSet }.Contains(conditionalFormat.Type))
-                //{
-
-                //}
-
-                //TODO: Add support for potential extLst reference in normal formatting
-
-                cache.Append($"</cfRule>");
                 cache.Append($"</conditionalFormatting>");
             }
 

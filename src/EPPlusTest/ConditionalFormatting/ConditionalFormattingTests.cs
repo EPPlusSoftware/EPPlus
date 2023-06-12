@@ -2071,8 +2071,6 @@ namespace EPPlusTest.ConditionalFormatting
                 rule2.Formula = "formulasReference!$B$5";
                 rule2.Formula2 = "formulasReference!$B$6";
 
-                //var formatting = sheet.Cells["B1:B5"].ConditionalFormatting.;
-
                 SaveAndCleanup(pck);
             }
         }
