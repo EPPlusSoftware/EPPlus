@@ -38,6 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal static List<Token> CreateRPNTokens(IList<Token> tokens)
         {
+            var bracketCount = 0;
             var operators = OperatorsDict.Instance;
             Stack<Token> operatorStack = new Stack<Token>();
             var expressions = new List<Token>();
@@ -92,7 +93,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         operatorStack.Push(token);
                         break;
                     case TokenType.Comma:
-                        if(operatorStack.Count > 0 && tokens[i-1].TokenType != TokenType.ClosingBracket) //If inside a table 
+                        if(operatorStack.Count > 0 && bracketCount == 0) //If inside a table 
                         {
                             var op = operatorStack.Peek().TokenType;
                             while (op == TokenType.Operator || op == TokenType.Negator)
@@ -102,6 +103,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 op = operatorStack.Peek().TokenType;
                             }
                         }
+                        expressions.Add(token);
+                        break;
+                    case TokenType.OpeningBracket:
+                        bracketCount++;
+                        expressions.Add(token);
+                        break;
+                    case TokenType.ClosingBracket:
+                        bracketCount--;
                         expressions.Add(token);
                         break;
                     default:

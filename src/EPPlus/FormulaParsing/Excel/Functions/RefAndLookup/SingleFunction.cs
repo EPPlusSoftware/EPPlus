@@ -42,5 +42,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return "_xlfn.";
             }
         }
+        public override bool IsVolatile => true;
     }
 }

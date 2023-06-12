@@ -691,6 +691,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
+                
                 throw new CircularReferenceException($"Circular reference in cell {f.GetAddress()}");
             }
         }
@@ -925,6 +926,14 @@ namespace OfficeOpenXml.FormulaParsing
                         if (!string.IsNullOrEmpty(key))
                         {
                             cache.Add(key, result);
+                        }
+                    }
+                    else
+                    {
+                        //Remove all function arguments from the stack
+                        for (int i = 0; i < funcExp._arguments.Count; i++)
+                        {
+                            var si = f._expressionStack.Pop();
                         }
                     }
                 }
