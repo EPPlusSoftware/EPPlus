@@ -1110,7 +1110,8 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(cf.TimePeriod, eExcelConditionalFormattingTimePeriodType.Last7Days);
         }
 
-        [TestMethod] public void ReadWriteYesterday()
+        [TestMethod]
+        public void ReadWriteYesterday()
         {
             var pck = new ExcelPackage();
             var sheet = pck.Workbook.Worksheets.Add("Yesterday");
@@ -1977,7 +1978,7 @@ namespace EPPlusTest.ConditionalFormatting
 
 
         [TestMethod]
-        public void ExtLstWithDxf() 
+        public void ExtLstWithDxf()
         {
             using (var pck = OpenPackage("ExtLstFormulasDxf.xlsx", true))
             {
@@ -2073,7 +2074,7 @@ namespace EPPlusTest.ConditionalFormatting
                 var readSheet = readPackage.Workbook.Worksheets[0];
                 var formatting = readSheet.ConditionalFormatting[0];
 
-                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(0,Color.Coral.R,Color.Coral.G,Color.Coral.B));
+                Assert.AreEqual(formatting.Style.Border.Left.Color.Color, Color.FromArgb(0, Color.Coral.R, Color.Coral.G, Color.Coral.B));
                 Assert.AreEqual(formatting.Style.Border.Right.Color.HasValue, false);
                 Assert.AreEqual(formatting.Style.Border.Top.Color.Theme, eThemeSchemeColor.Accent3);
                 Assert.AreEqual(formatting.Style.Border.Bottom.Color.Auto, true);
@@ -2190,7 +2191,6 @@ namespace EPPlusTest.ConditionalFormatting
                 sheet.ConditionalFormatting.AddExpression(new ExcelAddress("B1:B5"));
                 sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
 
-
                 SaveAndCleanup(pck);
 
                 var readPackage = OpenPackage("CF_DataBarOrder.xlsx");
@@ -2200,6 +2200,53 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual(eExcelConditionalFormattingRuleType.Expression, formats[0].Type);
                 Assert.AreEqual(eExcelConditionalFormattingRuleType.GreaterThan, formats[1].Type);
                 Assert.AreEqual(eExcelConditionalFormattingRuleType.DataBar, formats[2].Type);
+            }
+        }
+
+
+        [TestMethod]
+        public void ConditionalFormattingSameAddressBasics()
+        {
+            using (var pck = OpenPackage("CF_AddressBasics.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+
+                var range = new ExcelAddress("B1:B5");
+
+                var cf = sheet.ConditionalFormatting.AddBeginsWith(range);
+                cf.ContainText = "=formulasRef!$A$1";
+
+                var between = sheet.ConditionalFormatting.AddBetween(range);
+                between.Formula = "=formulasRef!$A$5";
+                between.Formula2 = "=formulasRef!$B$7";
+
+                var text = sheet.ConditionalFormatting.AddContainsText(range);
+
+                text.ContainText = "=formulasRef!$A$1";
+
+                var greaterThan = sheet.ConditionalFormatting.AddGreaterThan(range);
+                greaterThan.Formula = "=formulasRef!$B$7";
+
+                var lessThan = sheet.ConditionalFormatting.AddLessThan(range);
+                lessThan.Formula = "=formulasRef!$B$5";
+
+                var notBetween = sheet.ConditionalFormatting.AddNotBetween(range);
+                notBetween.Formula = "=formulasRef!$B$5";
+                notBetween.Formula2 = "=formulasRef!$B$7";
+
+                var scale = sheet.ConditionalFormatting.AddThreeColorScale(range);
+                scale.LowValue.Formula = "=formulasRef!$B$5";
+
+                var expression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("B1:B5"));
+
+                sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
+
+                SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("CF_AddressBasics.xlsx");
+
+                var formats = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
+
             }
         }
     }
