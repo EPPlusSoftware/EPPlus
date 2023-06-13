@@ -44,6 +44,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                     //ConditionalFormatting->cfRule
                     xr.Read();
 
+                    //var addressLessIconsets = new List<ExcelConditionalFormattingRule>();
+                    //var iconSetIconValues = new List<ExcelConditionalFormattingIconDataBarValue>();
+
+                    var iconIdDict = new Dictionary<string, ExcelConditionalFormattingIconDataBarValue[]>();
                     do
                     {
 
@@ -198,86 +202,163 @@ namespace OfficeOpenXml.ConditionalFormatting
                             //var dataBar = (ExcelConditionalFormattingDataBar)_extLstDict[id];
 
                             //iconSet->cfRule->sqref
-                            xr.Read();
+                            string address = null;
                             xr.Read();
                             xr.Read();
 
-                            string address = xr.ReadContentAsString();
-                            //Content -> EndSqref -> /conditionalFormatting
-                            xr.Read();
-
-                            if (customIconTypes == null)
+                            if (xr.LocalName != "cfRule")
                             {
                                 xr.Read();
+
+                                address = xr.ReadContentAsString();
+
+                                //foreach(var iconset in addressLessIconsets)
+                                //{
+                                //    iconset.Address = new ExcelAddress(address);
+                                //}
+                                //Content -> EndSqref -> /conditionalFormatting
+                                xr.Read();
+
+                                if (customIconTypes == null)
+                                {
+                                    xr.Read();
+                                }
                             }
+
+                            ExcelAddress iconAddress = null;
+                            if (address != null)
+                            {
+                                iconAddress = new ExcelAddress(address);
+                            }
+
+                            var type = eExcelConditionalFormattingRuleType.AboveAverage;
 
                             switch (iconSet[0])
                             {
                                 case '3':
-                                    var threeIconSet = AddThreeIconSet(
-                                         new ExcelAddress(address),
+                                    if (iconAddress != null)
+                                    {
+                                        var threeIconSet = AddThreeIconSet(
+                                         iconAddress,
                                          iconSet.Substring(1).ToEnum<eExcelconditionalFormatting3IconsSetType>().Value);
 
-                                    ApplyIconSetExtValues(
-                                        new ExcelConditionalFormattingIconDataBarValue[]
-                                        { threeIconSet.Icon1, threeIconSet.Icon2, threeIconSet.Icon3 },
-                                        types, values, customIconTypes, customIconIds);
-
+                                        ApplyIconSetExtValues(
+                                            new ExcelConditionalFormattingIconDataBarValue[]
+                                            { threeIconSet.Icon1, threeIconSet.Icon2, threeIconSet.Icon3 },
+                                            types, values, customIconTypes, customIconIds);
+                                    }
+                                    else
+                                    {
+                                        type = eExcelConditionalFormattingRuleType.ThreeIconSet;
+                                    }
                                     break;
 
                                 case '4':
-                                    var fourSet = AddFourIconSet(
-                                     new ExcelAddress(address),
-                                     iconSet.Substring(1).ToEnum<eExcelconditionalFormatting4IconsSetType>().Value);
+                                    if (iconAddress != null)
+                                    {
+                                        var fourSet = AddFourIconSet(
+                                        iconAddress,
+                                        iconSet.Substring(1).ToEnum<eExcelconditionalFormatting4IconsSetType>().Value);
 
-                                    ApplyIconSetExtValues(
-                                        new ExcelConditionalFormattingIconDataBarValue[]
-                                        { fourSet.Icon1, fourSet.Icon2, fourSet.Icon3, fourSet.Icon4 },
-                                        types, values, customIconTypes, customIconIds);
+                                        ApplyIconSetExtValues(
+                                            new ExcelConditionalFormattingIconDataBarValue[]
+                                            { fourSet.Icon1, fourSet.Icon2, fourSet.Icon3, fourSet.Icon4 },
+                                            types, values, customIconTypes, customIconIds);
+                                    }
+                                    else
+                                    {
+                                        type = eExcelConditionalFormattingRuleType.ThreeIconSet;
+                                    }
 
                                     break;
 
                                 case '5':
-                                    var fiveSet = AddFiveIconSet(
-                                     new ExcelAddress(address),
-                                     iconSet.Substring(1).ToEnum<eExcelconditionalFormatting5IconsSetType>().Value);
+                                    if (iconAddress != null)
+                                    {
+                                        var fiveSet = AddFiveIconSet(
+                                         iconAddress,
+                                         iconSet.Substring(1).ToEnum<eExcelconditionalFormatting5IconsSetType>().Value);
 
-                                    ApplyIconSetExtValues(
-                                        new ExcelConditionalFormattingIconDataBarValue[]
-                                        { fiveSet.Icon1, fiveSet.Icon2, fiveSet.Icon3, fiveSet.Icon4 , fiveSet.Icon5 },
-                                        types, values, customIconTypes, customIconIds);
+                                        ApplyIconSetExtValues(
+                                            new ExcelConditionalFormattingIconDataBarValue[]
+                                            { fiveSet.Icon1, fiveSet.Icon2, fiveSet.Icon3, fiveSet.Icon4 , fiveSet.Icon5 },
+                                            types, values, customIconTypes, customIconIds);
+                                    }
+                                    else
+                                    {
+                                        type = eExcelConditionalFormattingRuleType.FiveIconSet;
+                                    }
 
                                     break;
                             }
-                        }
-                        else
-                        {
-                            var adressLessCFs = new List<ExcelConditionalFormattingRule>();
 
-                            do
+                            if (iconAddress == null && type != eExcelConditionalFormattingRuleType.AboveAverage)
                             {
-                                var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
-                                _rules.Add(cf);
-                                _extLstDict.Add(cf.Uid, cf);
+                                var arr = CreateBaseIconArr(type);
 
-                                if (cf.Address == null)
-                                {
-                                    adressLessCFs.Add(cf);
-                                }
-                            } while (xr.LocalName != "sqref");
+                                ApplyIconSetExtValues
+                                   (arr, types, values, customIconTypes, customIconIds);
 
-                            if (adressLessCFs.Count != 0)
+                                iconIdDict.Add(id, arr);
+                            }
+                            else
                             {
-                                foreach (var cf in adressLessCFs)
+                                var adressLessCFs = new List<ExcelConditionalFormattingRule>();
+
+                                do
                                 {
-                                    cf.Address = _rules.LastOrDefault().Address;
+                                    var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
+                                    _rules.Add(cf);
+                                    _extLstDict.Add(cf.Uid, cf);
+
+                                    if (cf.Address == null)
+                                    {
+                                        adressLessCFs.Add(cf);
+                                    }
+                                } while (xr.LocalName != "sqref");
+
+                                if (adressLessCFs.Count != 0)
+                                {
+                                    foreach (var cf in adressLessCFs)
+                                    {
+                                        cf.Address = _rules.LastOrDefault().Address;
+                                    }
+                                    adressLessCFs.Clear();
                                 }
-                                adressLessCFs.Clear();
                             }
                         }
                     } while (xr.LocalName == "cfRule");
                 }
+        }
+
+        ExcelConditionalFormattingIconDataBarValue[] CreateBaseIconArr(eExcelConditionalFormattingRuleType type)
+        {
+            int nrOfIcons;
+            switch (type)
+            {
+                case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                    nrOfIcons = 3;
+                    break;
+                case eExcelConditionalFormattingRuleType.FourIconSet:
+                    nrOfIcons = 4;
+                    break;
+                case eExcelConditionalFormattingRuleType.FiveIconSet:
+                    nrOfIcons = 5;
+                    break;
+
+                default:
+                    throw new NotImplementedException("CreateBaseIconArr Can only handle Iconset types");
+            };
+
+            var arr = new ExcelConditionalFormattingIconDataBarValue[nrOfIcons];
+
+            for (int i = 0; i < nrOfIcons; i++)
+            {
+                arr[i] = new ExcelConditionalFormattingIconDataBarValue
+                    (eExcelConditionalFormattingValueObjectType.Percent, type);
             }
+
+            return arr;
         }
 
         void ReadExtDxf(XmlReader xr)

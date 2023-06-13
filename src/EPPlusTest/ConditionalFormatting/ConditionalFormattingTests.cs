@@ -325,6 +325,66 @@ namespace EPPlusTest.ConditionalFormatting
                 }
             }
         }
+
+        [TestMethod]
+        public void WriteReadThreeIconSameAddress()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("FiveIcon");
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
+                var cf2 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights1);
+                var cf3 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.ArrowsGray);
+
+                p.Save();
+
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.ThreeIconSet;
+                    cf2 = ws.ConditionalFormatting[1].As.ThreeIconSet;
+                    cf3 = ws.ConditionalFormatting[2].As.ThreeIconSet;
+
+                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights2, cf.IconSet);
+                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights1, cf2.IconSet);
+                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.ArrowsGray, cf3.IconSet);
+
+                    p2.SaveAs("C:\\Users\\OssianEdström\\Documents\\iconSameAddressTest.xlsx");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WriteReadThreeIconExtSameAddress()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("FiveIcon");
+                var cf = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.TrafficLights2);
+                var cf2 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.Stars);
+                var cf3 = ws.Cells["A1"].ConditionalFormatting.AddThreeIconSet(eExcelconditionalFormatting3IconsSetType.ArrowsGray);
+                var cf4 = ws.Cells["A1"].ConditionalFormatting.AddFiveIconSet(eExcelconditionalFormatting5IconsSetType.Boxes);
+
+                p.Save();
+
+                using (var p2 = new ExcelPackage(p.Stream))
+                {
+                    ws = p2.Workbook.Worksheets[0];
+                    cf = ws.ConditionalFormatting[0].As.ThreeIconSet;
+                    cf2 = ws.ConditionalFormatting[1].As.ThreeIconSet;
+                    cf3 = ws.ConditionalFormatting[2].As.ThreeIconSet;
+                    cf4 = ws.ConditionalFormatting[3].As.FiveIconSet;
+
+                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights2, cf.IconSet);
+                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.Stars, cf3.IconSet);
+                    Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.ArrowsGray, cf2.IconSet);
+                    Assert.AreEqual(eExcelconditionalFormatting5IconsSetType.Boxes, cf4.IconSet);
+
+                    p2.SaveAs("C:\\Users\\OssianEdström\\Documents\\iconSameAddressTest.xlsx");
+                }
+            }
+        }
+
         [TestMethod]
         public void WriteReadFourIcon()
         {
