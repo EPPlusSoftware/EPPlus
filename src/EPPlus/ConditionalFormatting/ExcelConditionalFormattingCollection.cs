@@ -5,6 +5,7 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         ExcelWorksheet _ws;
         int LastPriority = 1;
         internal Dictionary<string, ExcelConditionalFormattingRule> _extLstDict = new Dictionary<string, ExcelConditionalFormattingRule>();
+        List<ExcelConditionalFormattingRule> _dataBarStorage = new List<ExcelConditionalFormattingRule>();
+
 
         internal ExcelConditionalFormattingCollection(ExcelWorksheet ws)
         {
@@ -150,6 +153,8 @@ namespace OfficeOpenXml.ConditionalFormatting
                                 xr.Read();
                                 xr.Read();
                             }
+
+                            _rules.Add(dataBar);
                         }
                         else if (xr.GetAttribute("type") == "iconSet")
                         {
@@ -443,7 +448,14 @@ namespace OfficeOpenXml.ConditionalFormatting
                             }
                             else
                             {
-                                address = _rules[_rules.Count - 1].Address.Address;
+                                if(_rules.Count == 0)
+                                {
+                                    address = _dataBarStorage[_dataBarStorage.Count - 1].Address.Address;
+                                }
+                                else
+                                {
+                                    address = _rules[_rules.Count - 1].Address.Address;
+                                }
                             }
 
                             if (address != null)
@@ -457,7 +469,15 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                                     var cf = ExcelConditionalFormattingRuleFactory.Create(new ExcelAddress(address), _ws, xr);
 
-                                    _rules.Add(cf);
+                                    if (cf.Type == eExcelConditionalFormattingRuleType.DataBar)
+                                    {
+                                        _dataBarStorage.Add(cf);
+                                        _extLstDict.Add(((ExcelConditionalFormattingDataBar)cf).Uid, cf);
+                                    }
+                                    else
+                                    {
+                                        _rules.Add(cf);
+                                    }
                                 }
                                 xr.Read();
                             }
@@ -480,7 +500,10 @@ namespace OfficeOpenXml.ConditionalFormatting
                     {
                         if (cfRule.Type == eExcelConditionalFormattingRuleType.DataBar)
                         {
-                            _extLstDict.Add(((ExcelConditionalFormattingDataBar)cfRule).Uid, cfRule);
+                            if(_extLstDict.ContainsKey(((ExcelConditionalFormattingDataBar)cfRule).Uid) == false)
+                            {
+                                _extLstDict.Add(((ExcelConditionalFormattingDataBar)cfRule).Uid, cfRule);
+                            }
                         }
                         else
                         {
@@ -558,6 +581,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                 //{
 
                 //}
+            }
+
+            foreach(var dataBar in _dataBarStorage)
+            {
+                _extLstDict.Add(((ExcelConditionalFormattingDataBar)dataBar).Uid, dataBar);
             }
         }
 
@@ -674,34 +702,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
         delegate ExcelConditionalFormattingRule Rule(ExcelAddress address, int priority, ExcelWorksheet ws);
-
-        ///// <summary>
-        ///// Add rule (internal)
-        ///// </summary>
-        ///// <param name="type"></param>
-        ///// <param name="address"></param>
-        ///// <returns></returns>F
-        //internal IExcelConditionalFormattingRule AddRule(
-        //  eExcelConditionalFormattingRuleType type,
-        //  ExcelAddress address)
-        //{
-        //    Require.Argument(address).IsNotNull("address");
-
-        //    // address = ValidateAddress(address);
-
-        //    // Create the Rule according to the correct type, address and priority
-        //    ExcelConditionalFormattingRule cfRule = ExcelConditionalFormattingRuleFactory.Create(
-        //      type,
-        //      address,
-        //      LastPriority++,
-        //      _ws);
-
-        //    // Add the newly created rule to the list
-        //    _rules.Add(cfRule);
-
-        //    // Return the newly created rule
-        //    return cfRule;
-        //}
 
         /// <summary>
         /// Add rule (internal)

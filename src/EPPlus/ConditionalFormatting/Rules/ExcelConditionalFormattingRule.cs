@@ -207,8 +207,15 @@ namespace OfficeOpenXml.ConditionalFormatting
                 }
             }
 
+            if (DxfId >= 0 && DxfId < _ws.Workbook.Styles.Dxfs.Count)
+            {
+                _ws.Workbook.Styles.Dxfs[DxfId].AllowChange = true;  //This Id is referenced by CF, so we can use it when we save.
+                _style = ((ExcelDxfStyleBase)_ws.Workbook.Styles.Dxfs[DxfId]).ToDxfConditionalFormattingStyle();    //Clone, so it can be altered without affecting other dxf styles
+            }
+
             var tempAddress = "";
-            if (address == null && xr.ReadUntil("cfRule", "sqref", "conditionalFormatting", "extLst"))
+
+            if (address == null && xr.ReadUntil("cfRule", "sqref", "conditionalFormatting", "extLst") && xr.NodeType == XmlNodeType.EndElement)
             {
                 xr.Read();
 
@@ -223,12 +230,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             else
             {
-                if(address == null && xr.LocalName == "cfRule")
+                if (address == null && xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.EndElement)
                 {
                     xr.Read();
                 }
 
-                if(xr.LocalName == "sqref")
+                if (xr.LocalName == "sqref")
                 {
                     tempAddress = xr.ReadString();
                     if (tempAddress == null)
@@ -241,12 +248,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             if(!string.IsNullOrEmpty(tempAddress))
             {
                 Address = new ExcelAddress(tempAddress);
-            }
-
-            if (DxfId >= 0 && DxfId < _ws.Workbook.Styles.Dxfs.Count)
-            {
-                _ws.Workbook.Styles.Dxfs[DxfId].AllowChange = true;  //This Id is referenced by CF, so we can use it when we save.
-                _style = ((ExcelDxfStyleBase)_ws.Workbook.Styles.Dxfs[DxfId]).ToDxfConditionalFormattingStyle();    //Clone, so it can be altered without affecting other dxf styles
             }
         }
 

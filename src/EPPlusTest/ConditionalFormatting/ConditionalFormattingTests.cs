@@ -2112,7 +2112,7 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         [TestMethod]
-        public void ConditionalFormattingOnSameAddressExt()
+        public void ConditionalFormattingOnSameAddressExtWriteRead()
         {
             using (var pck = OpenPackage("CF_SameAddressExt.xlsx", true))
             {
@@ -2128,13 +2128,19 @@ namespace EPPlusTest.ConditionalFormatting
                 rule2.Formula2 = "formulasReference!$B$6";
 
                 SaveAndCleanup(pck);
+
+                //Can it be read
+                var readPackage = OpenPackage("CF_SameAddressExt.xlsx");
+                var sheet2 = readPackage.Workbook.Worksheets[0];
+                Assert.AreEqual(sheet2.ConditionalFormatting[0].Type, eExcelConditionalFormattingRuleType.Equal);
+                Assert.AreEqual(sheet2.ConditionalFormatting[1].Type, eExcelConditionalFormattingRuleType.Between);
             }
         }
 
         [TestMethod]
         public void ConditionalFormattingOnSameAddress()
         {
-            using (var pck = OpenPackage("CF_SameAddressLocal.xlsx", true))
+            using (var pck = OpenPackage("CF_SameAddressExtBasic.xlsx", true))
             {
                 var sheet = pck.Workbook.Worksheets.Add("formulas");
                 var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
@@ -2142,9 +2148,58 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var rule2 = sheet.ConditionalFormatting.AddBottomPercent(new ExcelAddress("B1:B5"));
 
-                //var formatting = sheet.Cells["B1:B5"].ConditionalFormatting.;
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void ConditionalFormattingMultipleKindsOnSameAddressReadWrite()
+        {
+            using (var pck = OpenPackage("CF_SameAddressExtManyTypes.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var extSheet = pck.Workbook.Worksheets.Add("formulasRef");
+
+                var equal = sheet.ConditionalFormatting.AddEqual(new ExcelAddress("B1:B5"));
+                equal.Formula = "formulasRef!$A$1";
+
+                var rule2 = sheet.ConditionalFormatting.AddThreeIconSet(new ExcelAddress("B1:B5"), eExcelconditionalFormatting3IconsSetType.Stars);
+
+                var rule3 = sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("B1:B5"), Color.BlueViolet);
 
                 SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("CF_SameAddressExtManyTypes.xlsx");
+
+                var formats = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
+
+                Assert.AreEqual(eExcelConditionalFormattingRuleType.Equal, formats[0].Type);
+                Assert.AreEqual(eExcelConditionalFormattingRuleType.ThreeIconSet, formats[1].Type);
+                Assert.AreEqual(eExcelConditionalFormattingRuleType.DataBar, formats[2].Type);
+            }
+        }
+
+        [TestMethod]
+        public void ConditionalFormattingOrderDatabar()
+        {
+            using (var pck = OpenPackage("CF_DataBarOrder.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+
+                sheet.ConditionalFormatting.AddDatabar(new ExcelAddress("B1:B5"), Color.BlueViolet);
+                sheet.ConditionalFormatting.AddExpression(new ExcelAddress("B1:B5"));
+                sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
+
+
+                SaveAndCleanup(pck);
+
+                var readPackage = OpenPackage("CF_DataBarOrder.xlsx");
+
+                var formats = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
+
+                Assert.AreEqual(eExcelConditionalFormattingRuleType.Expression, formats[0].Type);
+                Assert.AreEqual(eExcelConditionalFormattingRuleType.GreaterThan, formats[1].Type);
+                Assert.AreEqual(eExcelConditionalFormattingRuleType.DataBar, formats[2].Type);
             }
         }
     }
