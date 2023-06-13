@@ -486,7 +486,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="worksheet"></param>
         internal ExcelConditionalFormattingRule(eExcelConditionalFormattingRuleType type, ExcelAddress address, int priority, ExcelWorksheet worksheet)
         {
-            FormulaParsing.Utilities.Require.That(address).IsNotNull();
+            //FormulaParsing.Utilities.Require.That(address).IsNotNull();
             FormulaParsing.Utilities.Require.That(worksheet).IsNotNull();
 
             _ws = worksheet;

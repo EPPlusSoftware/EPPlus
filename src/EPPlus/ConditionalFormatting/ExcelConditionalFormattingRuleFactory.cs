@@ -13,11 +13,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 {
     internal static class ExcelConditionalFormattingRuleFactory
     {
-        //public static ExcelConditionalFormattingRule Create<T>(
-        //    ExcelAddress address, int priority, ExcelWorksheet worksheet) where T : ExcelConditionalFormattingRule, new()
-        //{
-        //    return new T(address, priority, worksheet);
-        //}
 
         public static ExcelConditionalFormattingRule Create(
         eExcelConditionalFormattingRuleType type,
@@ -25,7 +20,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         int priority, ExcelWorksheet worksheet)
         {
             Require.Argument(type);
-            Require.Argument(address).IsNotNull("address");
             Require.Argument(worksheet).IsNotNull("worksheet");
 
             switch (type)
@@ -351,12 +345,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             if(cfType == "iconSet")
             {
                 return IconReadHandler.ReadIcons(address, xr, ws);
-                //xr.Read();
-                //var set = xr.GetAttribute("iconSet");
-                //if (set[0] == '3')
-                //{
-                //    cfType = "ThreeIconSet";
-                //}
             }
 
             var eType = cfType.ToEnum<eExcelConditionalFormattingRuleType>().Value;
@@ -468,9 +456,6 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 case eExcelConditionalFormattingRuleType.DataBar:
                     return new ExcelConditionalFormattingDataBar(address, ws, xr);
-
-                //case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                //    return new ExcelConditionalFormattingThreeIconSet(address, ws, xr);
             }
 
             throw new InvalidOperationException(
@@ -478,38 +463,5 @@ namespace OfficeOpenXml.ConditionalFormatting
              ExcelConditionalFormattingConstants.Errors.NonSupportedRuleType,
              eType.ToString()));
         }
-
-        //static eExcelConditionalFormattingRuleType ColorScaleHandler(XmlReader xr, ExcelWorksheet ws)
-        //{
-        //    var info = (IXmlLineInfo)xr;
-
-        //    int postion = info.LinePosition;
-        //    ws.nam
-            
-
-        //    var innerReader = xr.ReadSubtree();
-        //    innerReader.Read();
-        //    innerReader.Read();
-
-        //    int count = 0;
-
-        //    while(innerReader.Read())
-        //    {
-        //        if(innerReader.Name == "colorScale")
-        //        {
-        //            break;
-        //        }
-        //        count++;
-        //    }
-
-        //    innerReader.Close();
-
-        //    return count > 4 ? eExcelConditionalFormattingRuleType.ThreeColorScale : eExcelConditionalFormattingRuleType.TwoColorScale;
-
-        //    //xr.ReadStartElement();
-        //    //Read number of nodes and data from them to determine type
-        //    //Parse data directly into constructor/return node
-        //    //return cf of that type.
-        //}
     }
 }

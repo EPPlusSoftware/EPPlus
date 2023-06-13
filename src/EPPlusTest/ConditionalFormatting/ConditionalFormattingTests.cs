@@ -348,8 +348,6 @@ namespace EPPlusTest.ConditionalFormatting
                     Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights2, cf.IconSet);
                     Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.TrafficLights1, cf2.IconSet);
                     Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.ArrowsGray, cf3.IconSet);
-
-                    p2.SaveAs("C:\\Users\\OssianEdström\\Documents\\iconSameAddressTest.xlsx");
                 }
             }
         }
@@ -379,8 +377,6 @@ namespace EPPlusTest.ConditionalFormatting
                     Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.Stars, cf3.IconSet);
                     Assert.AreEqual(eExcelconditionalFormatting3IconsSetType.ArrowsGray, cf2.IconSet);
                     Assert.AreEqual(eExcelconditionalFormatting5IconsSetType.Boxes, cf4.IconSet);
-
-                    p2.SaveAs("C:\\Users\\OssianEdström\\Documents\\iconSameAddressTest.xlsx");
                 }
             }
         }
