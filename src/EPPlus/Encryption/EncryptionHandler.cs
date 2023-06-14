@@ -198,11 +198,7 @@ namespace OfficeOpenXml.Encryption
         private byte[] EncryptDataAgile(byte[] data, EncryptionInfoAgile encryptionInfo, HashAlgorithm hashProvider)
         {
             var ke = encryptionInfo.KeyEncryptors[0];
-#if Core
             var aes = Aes.Create();
-#else
-            RijndaelManaged aes = new RijndaelManaged();
-#endif
             aes.KeySize = ke.KeyBits;
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.Zeros;
@@ -472,11 +468,7 @@ namespace OfficeOpenXml.Encryption
         }
         private byte[] EncryptData(byte[] key, byte[] data, bool useDataSize)
         {
-#if (Core)
             var aes = Aes.Create();
-#else
-            RijndaelManaged aes = new RijndaelManaged();
-#endif
             aes.KeySize = key.Length * 8;
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.Zeros;
@@ -673,11 +665,7 @@ namespace OfficeOpenXml.Encryption
                 encryptionInfo.Header.AlgID == AlgorithmID.AES256
                 )
             {
-#if (Core)
                 var decryptKey = Aes.Create();
-#else
-            RijndaelManaged decryptKey = new RijndaelManaged();
-#endif
                 decryptKey.KeySize = encryptionInfo.Header.KeySize;
                 decryptKey.Mode = CipherMode.ECB;
                 decryptKey.Padding = PaddingMode.None;
@@ -716,11 +704,7 @@ namespace OfficeOpenXml.Encryption
         /// <returns></returns>
         private bool IsPasswordValid(byte[] key, EncryptionInfoBinary encryptionInfo)
         {
-#if (Core)
             var decryptKey = Aes.Create();
-#else
-                RijndaelManaged decryptKey = new RijndaelManaged();
-#endif
             decryptKey.KeySize = encryptionInfo.Header.KeySize;
             decryptKey.Mode = CipherMode.ECB;
             decryptKey.Padding = PaddingMode.None;
@@ -845,7 +829,7 @@ namespace OfficeOpenXml.Encryption
             switch (encr.CipherAlgorithm)
             {
                 case eCipherAlgorithm.AES:
-                    return new RijndaelManaged();
+                    return Aes.Create();
                 case eCipherAlgorithm.DES:
                     return new DESCryptoServiceProvider();
                 case eCipherAlgorithm.TRIPLE_DES:

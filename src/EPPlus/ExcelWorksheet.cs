@@ -1238,7 +1238,10 @@ namespace OfficeOpenXml
                 }
             }
         }
-
+        internal void SetNewUid()
+        {
+            SetXmlNodeString("@xr:uid", "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}");
+        }
         private void CreateXml()
         {
             _worksheetXml = new XmlDocument();

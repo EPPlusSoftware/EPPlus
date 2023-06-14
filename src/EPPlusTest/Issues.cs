@@ -5016,5 +5016,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void SaveDialogIssue890()
+        {
+            using (var package = OpenTemplatePackage("issue890.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                ExcelWorksheet newWorksheet = package.Workbook.Worksheets.Add("Sheet2", worksheet);
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
