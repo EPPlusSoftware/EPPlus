@@ -173,7 +173,8 @@ namespace OfficeOpenXml.FormulaParsing
                         adr.SetRCFromTable(ws._package, new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column));
                     }
 
-                    if (ws!=null && adr.WorkSheetName.Equals(ws.Name, StringComparison.OrdinalIgnoreCase) && string.IsNullOrEmpty(adr._wb) && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
+                    if (adr.WorkSheetName.Equals((f.ws ?? ws)?.Name,
+                        StringComparison.OrdinalIgnoreCase) && string.IsNullOrEmpty(adr._wb) && adr.Collide(new ExcelAddressBase(f.Row, f.Column, f.Row, f.Column))!=ExcelAddressBase.eAddressCollition.No)
                     {
                         var tt = t.GetTokenTypeFlags() | TokenType.CircularReference;
                         f.Tokens[f.tokenIx] = t.CloneWithNewTokenType(tt);

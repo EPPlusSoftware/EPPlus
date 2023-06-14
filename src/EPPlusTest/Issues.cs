@@ -5006,5 +5006,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I892()
+        {
+            using (var p = OpenTemplatePackage("TEST_20230607.xlsx"))
+            {
+                p.Encryption.Password = "P@ssw0rd";
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

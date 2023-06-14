@@ -164,5 +164,23 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(6, sheet.Cells["B4"].Value);
             }
         }
+        [TestMethod]
+        public void ReferenceToOtherSheetShouldNotGenerateACircularReference()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+
+                sheet1.Cells["A1"].Value = 1d;
+                sheet1.Cells["A2"].Value = 3d;
+                sheet1.Cells["A3"].Formula = "=Sheet2!A1";
+
+                sheet2.Cells["A1"].Formula = "=Sheet1!A1";
+
+                package.Workbook.Calculate();
+            }
+        }
+
     }
 }
