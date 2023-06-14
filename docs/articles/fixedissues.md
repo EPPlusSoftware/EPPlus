@@ -1,4 +1,14 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.5
+###Fixed issues
+* EPPlus now allows saving of drawing groups containing drawings with same name.
+* Copying a formula containing a table reference caused an invalid formula.
+* Deleting and inserting into worksheets with data validations sometimes blocked adding new data validations on valid ranges.
+* Data validations now allows empty formulas.
+* REPLACE function can now handle a num_char argument that exceeds the length of the text.
+* EPPlus threw an incorrect CircularReferenceException when referencing the same cell on a different worksheet in some cases.
+* When copying a worksheet, Excel displayed the save dialog on close, due to the worksheets having the same uid.
+
 ## Version 6.2.4
 ### Minor Features
 * Added IRangeDataValidation. ClearDataValidation to clear data validations from a range.
