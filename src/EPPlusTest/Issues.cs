@@ -4882,6 +4882,14 @@ namespace EPPlusTest
                 Assert.AreEqual(eDataValidationType.Any, formatting.ValidationType.Type);
             }
         }
+        [TestMethod]
+        public void Test1()
+        {
+            var package = new ExcelPackage();
+            package.Workbook.Styles.NamedStyles[0].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+            var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+            SaveWorkbook("testNormal.xlsx", package);
+        }
 
         [TestMethod]
         public void s466()
@@ -5026,6 +5034,14 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-
+        [TestMethod]
+        public void s476()
+        {
+            using (var package = OpenTemplatePackage("s476.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

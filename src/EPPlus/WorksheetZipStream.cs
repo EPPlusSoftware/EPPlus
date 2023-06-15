@@ -126,7 +126,14 @@ namespace OfficeOpenXml
         {
             var placeholderTag = xml.Substring(startIx, endIx - startIx);
             placeholderTag = placeholderTag.Replace("/", "");
-            placeholderTag = placeholderTag.Substring(0, placeholderTag.Length - 1) + "/>";
+            if (placeholderTag.EndsWith(">"))
+            {
+                placeholderTag = placeholderTag.Substring(0, placeholderTag.Length - 1) + "/>";
+            }
+            else
+            {
+                placeholderTag += "/>"; //This can happend if the tag is the last element without the ">" in the buffer
+            }
             return placeholderTag;
         }
 
@@ -154,6 +161,11 @@ namespace OfficeOpenXml
                         startIx--;
                     }
                     endIx = ix + element.Length;
+                    if (endIx >= xml.Length)
+                    {
+                        endIx = xml.Length;
+                        return;
+                    }
                     while (endIx < xml.Length && xml[endIx] == ' ')
                     {
                         endIx++;
