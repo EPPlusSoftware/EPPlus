@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>6.2.5.0</AssemblyVersion>
-    <FileVersion>6.2.5.0</FileVersion>
-    <Version>6.2.5</Version>
+    <AssemblyVersion>6.2.6.0</AssemblyVersion>
+    <FileVersion>6.2.6.0</FileVersion>
+    <Version>6.2.6</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
     <Authors>EPPlus Software AB</Authors>
@@ -18,7 +18,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
 	<Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
-		EPPlus 6.2.5
+		EPPlus 6.2.6
 
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -26,11 +26,15 @@
 		Commercial licenses can be purchased from https://epplussoftware.com
 		This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
 
+		## Version 6.2.6
+		* Updated System.Security.Cryptography.Pkcs for security vulnerability in .NET 6 and 7. See https://github.com/dotnet/runtime/issues/87498
+		* Bug fixes.
+
 		## Version 6.2.5
-		* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		* Bug fixes.
 
 		## Version 6.2.4
-		* Bug fixes. 
+		* Bug fixes.
 
 		## Version 6.2.3
 		* Bug fixes.
@@ -307,8 +311,9 @@
 		A list of fixed issues can be found here https://epplussoftware.com/docs/5.8/articles/fixedissues.html
 
 		Version history
-		6.2.5	20230614 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-		6.2.4	20230515 Minor bug fixes. 
+		6.2.6	20230615 Minor bug fixes.See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
+		6.2.5	20230614 Minor bug fixes. 
+		6.2.4	20230515 Minor bug fixes.
 		6.2.3	20230502 Minor bug fixes.
 		6.2.2	20230417 Minor bug fixes.
 		6.2.1	20230406 Minor bug fixes.
@@ -471,7 +476,7 @@
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>2.2.1</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.3" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 
@@ -480,7 +485,7 @@
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream">
       <Version>2.2.1</Version>
     </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.2" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
   </ItemGroup>
 

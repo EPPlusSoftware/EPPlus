@@ -1,6 +1,11 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.2.6
+### Fixed issues
+* Updated System.Security.Cryptography.Pkcs for security vulnerability in .NET 6 and 7. See https://github.com/dotnet/runtime/issues/87498
+* An ArgumentOutOfRangeException was sometimes thrown when loading a workbook.
+
 ## Version 6.2.5
-###Fixed issues
+### Fixed issues
 * EPPlus now allows saving of drawing groups containing drawings with same name.
 * Copying a formula containing a table reference caused an invalid formula.
 * Deleting and inserting into worksheets with data validations sometimes blocked adding new data validations on valid ranges.
