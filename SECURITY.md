@@ -13,3 +13,8 @@ EPPlus 5 and 6 are automatically scanned for vulnerabilities and static code ana
 ## Reporting a Vulnerability
 
 Create an issue in our [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues), describe the vulnerability (including relevant links) and what version of EPPlus that is affected.
+
+## Vulnerabilities
+|Detected|Resolved|Affected EPPlus versions|CVE|Our comment|Resolution|
+|--------|--------| ----------------------|---|----------|----------|
+|June 15, 2023|June 15, 2023|EPPlus 6.x prior to 6.2.6|[.NET Denial of Service vulnerability (CVE 2023-29331)](https://github.com/advisories/GHSA-555c-2p6r-68mm)|Affected area in EPPlus is VBA code signing with certificates.|Upgrade to EPPlus 6.2.6 or higher|
