@@ -164,13 +164,16 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         {
                             wsCnt++;
                         }
-                        var pt = GetLastToken(l);
-                        if (pt.TokenType == TokenType.CellAddress ||
-                            pt.TokenType == TokenType.ClosingParenthesis ||
-                            pt.TokenType == TokenType.NameValue ||
-                            pt.TokenType == TokenType.InvalidReference)
+                        if ((flags & statFlags.isNegator) != statFlags.isNegator)
                         {
-                            flags |= statFlags.isIntersect;
+                            var pt = GetLastToken(l);
+                            if (pt.TokenType == TokenType.CellAddress ||
+                                pt.TokenType == TokenType.ClosingParenthesis ||
+                                pt.TokenType == TokenType.NameValue ||
+                                pt.TokenType == TokenType.InvalidReference)
+                            {
+                                flags |= statFlags.isIntersect;
+                            }
                         }
 
                         if (_keepWhitespace)

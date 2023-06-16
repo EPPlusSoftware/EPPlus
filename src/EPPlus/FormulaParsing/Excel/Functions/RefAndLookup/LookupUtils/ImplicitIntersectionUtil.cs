@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         }
         public static CompileResult GetResult(IRangeInfo range, int ccr, int ccc, ParsingContext context)
         {
-            if (range.IsInMemoryRange) return CompileResult.GetErrorResult(eErrorType.Value);
+            if (range.Address==null) return CompileResult.GetErrorResult(eErrorType.Value);
             var fr = range.Address.FromRow;
             var tr = range.Address.ToRow;
             var fc = range.Address.FromCol;

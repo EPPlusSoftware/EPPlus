@@ -1150,6 +1150,7 @@ namespace OfficeOpenXml
 #endif            
             LoadColumns(xr);    //columnXml
             var lastXmlElement = "sheetData";
+            xr.ReadUntil(1, lastXmlElement);
             xml = stream.GetBufferAsStringRemovingElement(false, lastXmlElement);
             long start = stream.Position;
             LoadCells(xr);

@@ -227,6 +227,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static bool GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, int row, int column, object value, ref RpnFormula f)
         {
+            
             if (value is int ix)
             {
                 var sf = ws._sharedFormulas[ix];
@@ -892,6 +893,9 @@ namespace OfficeOpenXml.FormulaParsing
 #endif
         private static void ApplyOperator(ParsingContext context, Token opToken, RpnFormula f)
         {
+            if (f._expressionStack.Count == 1 && opToken.Value == "=" && f._tokenIndex == f._tokens.Count - 1) 
+                return;
+
             var v1 = f._expressionStack.Pop();
             var v2 = f._expressionStack.Pop();
 

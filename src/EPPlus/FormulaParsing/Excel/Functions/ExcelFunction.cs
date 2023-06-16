@@ -27,6 +27,7 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -465,6 +466,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             }
         }
 
+#if (!NET35)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         protected bool IsNumeric(object val)
         {
             if (val == null) return false;

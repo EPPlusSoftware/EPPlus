@@ -432,7 +432,7 @@ namespace OfficeOpenXml.Core.CellStore
 
                     if (newAddress.FromRow < fromRow && newAddress.ToRow <= toRow)
                     {
-                        spillRanges.Add(((newAddress.FromRow - 1) << 20) | (fromRow - 2));
+                        spillRanges.Add((((long)newAddress.FromRow - 1) << 20) | ((long)fromRow - 2));
                         //rows[ix] = (((long)newAddress.FromRow - 1) << 20) | ((long)toRow - 1);
                     }
                     if (newAddress.FromRow >= fromRow && newAddress.ToRow > toRow)
@@ -443,7 +443,7 @@ namespace OfficeOpenXml.Core.CellStore
                         }
                         else
                         {
-                            spillRanges.Add((toRow << 20) | (newAddress.ToRow - 1));
+                            spillRanges.Add(((long)toRow << 20) | ((long)newAddress.ToRow - 1));
                             //rows[ix] = (((long)fromRow - 1) << 20) | ((long)newAddress.ToRow - 1);
                         }
                     }
