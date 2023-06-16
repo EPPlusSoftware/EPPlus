@@ -24,8 +24,7 @@ namespace OfficeOpenXml.ConditionalFormatting
           : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.NotContains;
-            string test = Formula.Substring(16, 2);
-            if (test == "\"")
+            if ("\"" == Formula.Substring(15, 1))
             {
                 Text = Formula.GetSubstringStoppingAtSymbol("ISERROR(SEARCH(\"".Length);
             }

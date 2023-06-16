@@ -2204,6 +2204,11 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
+        public void ReadWriteAllIExcelConditionalFormattingWithText()
+        {
+
+        }
+
 
         [TestMethod]
         public void ConditionalFormattingSameAddressBasics()
@@ -2211,6 +2216,8 @@ namespace EPPlusTest.ConditionalFormatting
             using (var pck = OpenPackage("CF_AddressBasics.xlsx", true))
             {
                 var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var sheet2 = pck.Workbook.Worksheets.Add("formulasRef");
+
 
                 var range = new ExcelAddress("B1:B5");
 
@@ -2228,6 +2235,15 @@ namespace EPPlusTest.ConditionalFormatting
                 between.Formula = "=formulasRef!$A$5";
                 between.Formula2 = "=formulasRef!$B$7";
 
+                between.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                between.Style.Fill.BackgroundColor.Color = Color.MediumPurple;
+
+                sheet2.Cells["A5"].Value = 5;
+                sheet2.Cells["B7"].Value = 10;
+
+                sheet.Cells["B1"].Value = 6;
+
+
                 var text = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("B1:B2"));
 
                 text.ContainText = "Abc";
@@ -2240,7 +2256,7 @@ namespace EPPlusTest.ConditionalFormatting
                 text.Style.Fill.BackgroundColor.Color = Color.DarkRed;
                 text.Priority = 1;
 
-                sheet.Cells["A1:B5"].Value = "Abc";
+                sheet.Cells["A2:B5"].Value = "Abc";
 
                 // text.ContainText = "formulasRef!$A$1";
 
@@ -2261,6 +2277,8 @@ namespace EPPlusTest.ConditionalFormatting
                 scale.LowValue.Formula = "=formulasRef!$B$5";
 
                 var expression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("B1:B5"));
+
+                expression.Formula = "=formulasRef!$B$5 - 1";
 
                 sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
 

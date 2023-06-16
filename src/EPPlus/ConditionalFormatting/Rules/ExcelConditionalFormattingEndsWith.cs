@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -48,6 +49,11 @@ namespace OfficeOpenXml.ConditionalFormatting
                 xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.EndsWith;
+
+            if (Formula2 != null)
+            {
+                _formulaReference = Formula2;
+            }
         }
 
         internal ExcelConditionalFormattingEndsWith(ExcelConditionalFormattingEndsWith copy) : base(copy)

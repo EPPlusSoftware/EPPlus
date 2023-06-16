@@ -50,7 +50,14 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             Operator = eExcelConditionalFormattingOperatorType.BeginsWith;
 
-            _containText = Text;
+            if (Formula2 != null)
+            {
+                _formulaReference = Formula2;
+            }
+            else if(Text != null)
+            {
+                _containText = Text;
+            }
         }
 
         internal ExcelConditionalFormattingBeginsWith(ExcelConditionalFormattingBeginsWith copy) : base(copy)
