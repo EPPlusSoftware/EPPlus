@@ -64,6 +64,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingBeginsWith(this);
         }
 
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (_formulaReference != null)
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
+            }
+        }
+
         string _formulaReference = null;
 
         public string FormulaReference
@@ -80,6 +93,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     "LEFT({0},LEN({1}))={1}",
                     Address.Start.Address,
                     value.Replace("\"", "\"\""));
+                Formula2 = value;
             }
         }
 
@@ -92,6 +106,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 _containText = value;
                 Text = value;
                 _formulaReference = null;
+                Formula2 = null;
 
                 Formula = string.Format(
                   "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
@@ -109,7 +124,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     Address.Start.Address,
                     Text);
             }
-            else
+            else if(_formulaReference != null)
             {
                 Formula = string.Format(
                     "LEFT({0},LEN({1}))={1}",

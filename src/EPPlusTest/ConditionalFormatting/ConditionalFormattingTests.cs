@@ -43,6 +43,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Xml.Linq;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -2216,20 +2217,32 @@ namespace EPPlusTest.ConditionalFormatting
                 var cf = sheet.ConditionalFormatting.AddBeginsWith(range);
                 cf.ContainText = "=formulasRef!$A$1";
 
-                //var astring = cf.Formula;
+                cf.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                cf.Style.Fill.BackgroundColor.Color = Color.Aquamarine;
+
+                cf.FormulaReference = "A1";
+
+                cf.Priority = 5;
 
                 var between = sheet.ConditionalFormatting.AddBetween(range);
                 between.Formula = "=formulasRef!$A$5";
                 between.Formula2 = "=formulasRef!$B$7";
 
-                var text = sheet.ConditionalFormatting.AddContainsText(range);
+                var text = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("B1:B2"));
 
                 text.ContainText = "Abc";
 
                 text.ContainText = "\"A1\"";
 
+                text.FormulaReference = "A5";
 
-               // text.ContainText = "formulasRef!$A$1";
+                text.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                text.Style.Fill.BackgroundColor.Color = Color.DarkRed;
+                text.Priority = 1;
+
+                sheet.Cells["A1:B5"].Value = "Abc";
+
+                // text.ContainText = "formulasRef!$A$1";
 
                 //text.FormulaReference = "formulasRef!$A$1";
 

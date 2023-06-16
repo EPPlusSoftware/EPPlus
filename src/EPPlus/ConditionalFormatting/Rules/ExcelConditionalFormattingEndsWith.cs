@@ -59,6 +59,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingEndsWith(this);
         }
 
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (_formulaReference != null)
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
+            }
+        }
+
         string _formulaReference = null;
 
         public string FormulaReference
@@ -71,6 +84,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Text = null;
                 _formulaReference = value;
+                Formula2 = value;
 
                 Formula = string.Format(
                     "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
@@ -92,6 +106,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Text = value;
                 _formulaReference = null;
+                Formula2 = null;
                 Formula = string.Format(
                   "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
                   Address.Start.Address,
@@ -107,10 +122,20 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            Formula = string.Format(
-              "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
-              Address.Start.Address,
-              Text);
+            if (Text != null)
+            {
+                Formula = string.Format(
+                    "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
+                    Address.Start.Address,
+                    Text);
+            }
+            else if (Formula2 != null)
+            {
+                Formula = string.Format(
+                    "RIGHT({0},LEN({1}))={1}",
+                    Address.Start.Address,
+                    Formula2);
+            }
         }
 
         #endregion Constructors

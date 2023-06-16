@@ -24,8 +24,17 @@ namespace OfficeOpenXml.ConditionalFormatting
           : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.NotContains;
-
-            Text = Formula.GetSubstringStoppingAtSymbol("ISERROR(SEARCH(\"".Length);
+            string test = Formula.Substring(16, 2);
+            if (test == "\"")
+            {
+                Text = Formula.GetSubstringStoppingAtSymbol("ISERROR(SEARCH(\"".Length);
+            }
+            else
+            {
+                //TODO: Will this create problems in different cultures with different seperators?
+                _formulaReference = Formula.GetSubstringStoppingAtSymbol("ISERROR(SEARCH(".Length,",");
+                Formula2 = _formulaReference;
+            }
         }
 
         ExcelConditionalFormattingNotContainsText(ExcelConditionalFormattingNotContainsText copy) :base(copy)
@@ -48,6 +57,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Text = value;
                 _formulaReference = null;
+                Formula2 = null;
 
                 //TODO: Error check/Throw when formula does not follow this format and is a ContainsText.
                 Formula = string.Format(
@@ -69,6 +79,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Text = null;
                 _formulaReference = value;
+                Formula2 = value;
+
                 Formula = string.Format(
                     "ISERROR(SEARCH({1},{0}))",
                     Address.Start.Address,
@@ -91,6 +103,19 @@ namespace OfficeOpenXml.ConditionalFormatting
                     "ISERROR(SEARCH({1},{0}))",
                     Address.Start.Address,
                     _formulaReference.Replace("\"", "\"\""));
+            }
+        }
+
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (_formulaReference != null)
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
             }
         }
 
