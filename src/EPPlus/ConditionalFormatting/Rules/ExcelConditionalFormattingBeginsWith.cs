@@ -64,6 +64,25 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingBeginsWith(this);
         }
 
+        string _formulaReference = null;
+
+        public string FormulaReference
+        {
+            get
+            {
+                return _formulaReference;
+            }
+            set
+            {
+                Text = null;
+                _formulaReference = value;
+                Formula = string.Format(
+                    "LEFT({0},LEN({1}))={1}",
+                    Address.Start.Address,
+                    value.Replace("\"", "\"\""));
+            }
+        }
+
         private string _containText = ""; 
 
         public string ContainText {
@@ -72,6 +91,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 _containText = value;
                 Text = value;
+                _formulaReference = null;
 
                 Formula = string.Format(
                   "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
@@ -82,10 +102,20 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            Formula = string.Format(
-            "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
-            Address.Start.Address,
-            Text);
+            if (Text != null)
+            {
+                Formula = string.Format(
+                    "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
+                    Address.Start.Address,
+                    Text);
+            }
+            else
+            {
+                Formula = string.Format(
+                    "LEFT({0},LEN({1}))={1}",
+                    Address.Start.Address,
+                    _formulaReference);
+            }
         }
 
         public override ExcelAddress Address

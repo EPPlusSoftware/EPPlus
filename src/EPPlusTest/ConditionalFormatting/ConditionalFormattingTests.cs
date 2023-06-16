@@ -2216,13 +2216,22 @@ namespace EPPlusTest.ConditionalFormatting
                 var cf = sheet.ConditionalFormatting.AddBeginsWith(range);
                 cf.ContainText = "=formulasRef!$A$1";
 
+                //var astring = cf.Formula;
+
                 var between = sheet.ConditionalFormatting.AddBetween(range);
                 between.Formula = "=formulasRef!$A$5";
                 between.Formula2 = "=formulasRef!$B$7";
 
                 var text = sheet.ConditionalFormatting.AddContainsText(range);
 
-                text.ContainText = "=formulasRef!$A$1";
+                text.ContainText = "Abc";
+
+                text.ContainText = "\"A1\"";
+
+
+               // text.ContainText = "formulasRef!$A$1";
+
+                //text.FormulaReference = "formulasRef!$A$1";
 
                 var greaterThan = sheet.ConditionalFormatting.AddGreaterThan(range);
                 greaterThan.Formula = "=formulasRef!$B$7";
@@ -2235,6 +2244,7 @@ namespace EPPlusTest.ConditionalFormatting
                 notBetween.Formula2 = "=formulasRef!$B$7";
 
                 var scale = sheet.ConditionalFormatting.AddThreeColorScale(range);
+                scale.LowValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
                 scale.LowValue.Formula = "=formulasRef!$B$5";
 
                 var expression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("B1:B5"));

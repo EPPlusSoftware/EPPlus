@@ -47,6 +47,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             set
             {
                 Text = value;
+                _formulaReference = null;
+
                 //TODO: Error check/Throw when formula does not follow this format and is a ContainsText.
                 Formula = string.Format(
                   "ISERROR(SEARCH(\"{1}\",{0}))",
@@ -55,12 +57,41 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        string _formulaReference = null;
+
+        public string FormulaReference
+        {
+            get
+            {
+                return _formulaReference;
+            }
+            set
+            {
+                Text = null;
+                _formulaReference = value;
+                Formula = string.Format(
+                    "ISERROR(SEARCH({1},{0}))",
+                    Address.Start.Address,
+                    value.Replace("\"", "\"\""));
+            }
+        }
+
         void UpdateFormula()
         {
-            Formula = string.Format(
-              "ISERROR(SEARCH(\"{1}\",{0}))",
-              Address.Start.Address,
-              Text);
+            if (Text != null)
+            {
+                Formula = string.Format(
+                    "ISERROR(SEARCH(\"{1}\",{0}))",
+                    Address.Start.Address,
+                    Text);
+            }
+            else if (_formulaReference != null)
+            {
+                Formula = string.Format(
+                    "ISERROR(SEARCH({1},{0}))",
+                    Address.Start.Address,
+                    _formulaReference.Replace("\"", "\"\""));
+            }
         }
 
         public override ExcelAddress Address

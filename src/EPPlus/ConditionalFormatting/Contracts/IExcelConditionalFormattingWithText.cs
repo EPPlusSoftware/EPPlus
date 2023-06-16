@@ -29,6 +29,11 @@ namespace OfficeOpenXml.ConditionalFormatting.Contracts
     /// Text Attribute
     /// </summary>
     string ContainText { get; set; }
-    #endregion Public Properties
-  }
+        /// <summary>
+        /// The format may look strange when getting it after setting.
+        /// For ease of use the setter will handle it for you.
+        /// </summary>
+        string FormulaReference { get; set; }
+        #endregion Public Properties
+    }
 }

@@ -59,6 +59,26 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingEndsWith(this);
         }
 
+        string _formulaReference = null;
+
+        public string FormulaReference
+        {
+            get
+            {
+                return _formulaReference;
+            }
+            set
+            {
+                Text = null;
+                _formulaReference = value;
+
+                Formula = string.Format(
+                    "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
+                    Address.Start.Address,
+                    value.Replace("\"", "\"\""));
+            }
+        }
+
         /// <summary>
         /// The text to search in the end of the cell
         /// </summary>
@@ -71,7 +91,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             set
             {
                 Text = value;
-
+                _formulaReference = null;
                 Formula = string.Format(
                   "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
                   Address.Start.Address,
