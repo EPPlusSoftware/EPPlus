@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.Packaging.Ionic.Zlib;
 using OfficeOpenXml.Utils;
@@ -9,6 +10,11 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
+
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Statistical,
+        EPPlusVersion = "7.0",
+        Description = "Returns test for independence with help of chi-square statistic and appropriate degrees of freedom.")]
     internal class ChisqTest : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
