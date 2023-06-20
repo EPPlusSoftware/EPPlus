@@ -78,7 +78,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal string Text = null;
 
-        private ExcelWorksheet _ws;
+        protected ExcelWorksheet _ws;
 
         private int _dxfId = -1;
 
@@ -132,12 +132,12 @@ namespace OfficeOpenXml.ConditionalFormatting
             get 
             {
                 //Only databars, iconsets and anything with custom formulas can be extLst
-                if (Type == eExcelConditionalFormattingRuleType.DataBar || _isExtLst)
+                if (Type == eExcelConditionalFormattingRuleType.DataBar)
                 {
                     return true;
                 }
-                return false;
-            } 
+                return _isExtLst;
+            }
         }
 
         #region Constructors
@@ -581,9 +581,9 @@ namespace OfficeOpenXml.ConditionalFormatting
         public string Formula 
         { 
             get { return _formula; } 
-            set 
-            { 
-                if (RefersToOtherWorksheet(value)) 
+            set
+            {
+                if (ExcelAddressBase.RefersToOtherWorksheet(value, _ws.Name)) 
                 {
                     _isExtLst = true;
                 }
@@ -601,7 +601,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             get { return _formula2; }
             set 
             {
-                if (RefersToOtherWorksheet(value))
+                if (ExcelAddressBase.RefersToOtherWorksheet(value, _ws.Name))
                 {
                     _isExtLst = true;
                 }
@@ -634,27 +634,27 @@ namespace OfficeOpenXml.ConditionalFormatting
             return ExcelConditionalFormattingRuleType.GetAttributeByType(Type);
         }
 
-        private bool RefersToOtherWorksheet(string address)
-        {
-            if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
-            {
-                var adr = new ExcelAddress(address);
-                return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name;
-            }
-            else if (!string.IsNullOrEmpty(address))
-            {
-                var tokens = SourceCodeTokenizer.Default.Tokenize(address, _ws.Name);
-                if (!tokens.Any()) return false;
-                var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
-                foreach (var token in addressTokens)
-                {
-                    var adr = new ExcelAddress(token.Value);
-                    if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name)
-                        return true;
-                }
-            }
-            return false;
-        }
+        //private bool RefersToOtherWorksheet(string address)
+        //{
+        //    if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
+        //    {
+        //        var adr = new ExcelAddress(address);
+        //        return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name;
+        //    }
+        //    else if (!string.IsNullOrEmpty(address))
+        //    {
+        //        var tokens = SourceCodeTokenizer.Default.Tokenize(address, _ws.Name);
+        //        if (!tokens.Any()) return false;
+        //        var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
+        //        foreach (var token in addressTokens)
+        //        {
+        //            var adr = new ExcelAddress(token.Value);
+        //            if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name)
+        //                return true;
+        //        }
+        //    }
+        //    return false;
+        //}
 
         internal abstract ExcelConditionalFormattingRule Clone();
     }

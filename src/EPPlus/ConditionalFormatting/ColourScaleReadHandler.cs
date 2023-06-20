@@ -19,15 +19,17 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             xr.Read();
 
-            var rule = ws.ConditionalFormatting.AddContainsBlanks(address);
-
             xr.Read();
             var lowType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>();
             string lowVal = xr.GetAttribute("val");
 
+            lowVal = ReadExtFormulaOrValue(xr, lowVal, lowType);
+
             xr.Read();
             var middleOrHigh = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>();
             string middleOrHighVal = xr.GetAttribute("val");
+
+            middleOrHighVal = ReadExtFormulaOrValue(xr, middleOrHighVal, middleOrHigh);
 
             xr.Read();
 
@@ -38,18 +40,49 @@ namespace OfficeOpenXml.ConditionalFormatting
 
                 twoColor.Type = eExcelConditionalFormattingRuleType.TwoColorScale;
 
+                if (xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.EndElement)
+                {
+                    xr.Read();
+                }
+
                 return twoColor;
             }
 
             var highType = xr.GetAttribute("type").ToEnum<eExcelConditionalFormattingValueObjectType>();
             string highVal = xr.GetAttribute("val");
 
+            highVal = ReadExtFormulaOrValue(xr, highVal, highType);
+
             xr.Read();
 
             var threeColor = new ExcelConditionalFormattingThreeColorScale(
                 address, priority, ws, stopIfTrue, lowType, middleOrHigh, highType, lowVal, middleOrHighVal, highVal, xr);
 
+            if (xr.LocalName == "cfRule" && xr.NodeType == XmlNodeType.EndElement)
+            {
+                xr.Read();
+            }
+
             return threeColor;
+        }
+
+        private static string ReadExtFormulaOrValue(XmlReader xr, string valueNode, eExcelConditionalFormattingValueObjectType? type)
+        {
+            if (string.IsNullOrEmpty(valueNode) &&
+                type != eExcelConditionalFormattingValueObjectType.Min &&
+                type != eExcelConditionalFormattingValueObjectType.Max)
+            {
+                xr.Read();
+                xr.Read();
+
+                var content = xr.ReadContentAsString();
+
+                xr.Read();
+
+                return content;
+            }
+
+            return valueNode;
         }
     }
 }

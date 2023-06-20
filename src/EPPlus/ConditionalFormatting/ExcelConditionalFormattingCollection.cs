@@ -551,27 +551,26 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 if (cfRule.IsExtLst)
                 {
-                    if (cfRule.Type == eExcelConditionalFormattingRuleType.DataBar)
+                    switch (cfRule.Type)
                     {
-                        _extLstDict.Add(((ExcelConditionalFormattingDataBar)cfRule).Uid, cfRule);
-                    }
-                    else
-                    {
-                        switch (cfRule.Type)
-                        {
-                            case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cfRule).Uid, cfRule);
-                                break;
-                            case eExcelConditionalFormattingRuleType.FourIconSet:
-                                _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting4IconsSetType>)cfRule).Uid, cfRule);
-                                break;
-                            case eExcelConditionalFormattingRuleType.FiveIconSet:
-                                _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cfRule).Uid, cfRule);
-                                break;
-                            default:
-                                _extLstDict.Add(cfRule.Uid, cfRule);
-                                break;
-                        }
+                        case eExcelConditionalFormattingRuleType.ThreeIconSet:
+                            _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting3IconsSetType>)cfRule).Uid, cfRule);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FourIconSet:
+                            _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting4IconsSetType>)cfRule).Uid, cfRule);
+                            break;
+                        case eExcelConditionalFormattingRuleType.FiveIconSet:
+                            _extLstDict.Add(((ExcelConditionalFormattingIconSetBase<eExcelconditionalFormatting5IconsSetType>)cfRule).Uid, cfRule);
+                            break;
+                        case eExcelConditionalFormattingRuleType.DataBar:
+                            _extLstDict.Add(((ExcelConditionalFormattingDataBar)cfRule).Uid, cfRule);
+                            break;
+                        case eExcelConditionalFormattingRuleType.TwoColorScale:
+                            _extLstDict.Add(((ExcelConditionalFormattingTwoColorScale)cfRule).Uid, cfRule);
+                            break;
+                        default:
+                            _extLstDict.Add(cfRule.Uid, cfRule);
+                            break;
                     }
                 }
 

@@ -94,7 +94,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                 // Only store the formula if the Object Value type is Formula
                 if (Type == eExcelConditionalFormattingValueObjectType.Formula)
                 {
-                   _formula= value;
+                   _formula = value;
                 }
             }
         }

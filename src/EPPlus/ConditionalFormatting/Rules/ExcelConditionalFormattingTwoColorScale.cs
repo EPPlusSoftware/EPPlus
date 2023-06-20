@@ -11,6 +11,7 @@ using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
+
     public class ExcelConditionalFormattingTwoColorScale : ExcelConditionalFormattingRule,
     IExcelConditionalFormattingTwoColorScale
     {
@@ -73,14 +74,28 @@ namespace OfficeOpenXml.ConditionalFormatting
             ExcelConditionalFormattingConstants.Colors.CfvoHighValue,
             Priority);
 
-            if(lowVal != null)
+            if (!string.IsNullOrEmpty(lowVal))
             {
-                LowValue.Value = double.Parse(lowVal, CultureInfo.InvariantCulture);
+                if (low == eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    LowValue.Formula = lowVal;
+                }
+                else
+                {
+                    LowValue.Value = double.Parse(lowVal, CultureInfo.InvariantCulture);
+                }
             }
 
-            if(highVal!= null) 
+            if (!string.IsNullOrEmpty(highVal)) 
             {
-                HighValue.Value = double.Parse(highVal, CultureInfo.InvariantCulture);
+                if (high == eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    HighValue.Formula = highVal;
+                }
+                else
+                {
+                    HighValue.Value = double.Parse(highVal, CultureInfo.InvariantCulture);
+                }
             }
         }
 
@@ -94,6 +109,21 @@ namespace OfficeOpenXml.ConditionalFormatting
         internal override ExcelConditionalFormattingRule Clone()
         {
             return new ExcelConditionalFormattingTwoColorScale(this);
+        }
+
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (ExcelAddressBase.RefersToOtherWorksheet(LowValue.Formula, _ws.Name) || 
+                    ExcelAddressBase.RefersToOtherWorksheet(HighValue.Formula, _ws.Name))
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
+            } 
+
         }
 
         internal virtual void ReadColors(XmlReader xr)

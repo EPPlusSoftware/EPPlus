@@ -2276,11 +2276,13 @@ namespace EPPlusTest.ConditionalFormatting
                 scale.LowValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
                 scale.LowValue.Formula = "=formulasRef!$B$5";
 
-                var expression = sheet.ConditionalFormatting.AddExpression(new ExcelAddress("B1:B5"));
+                var address = sheet2.Cells["A1:A5"];
 
-                expression.Formula = "=formulasRef!$B$5 - 1";
+                var expression = sheet.ConditionalFormatting.AddExpression(address);
 
-                sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
+                expression.Formula = "formulasRef!$B$5 - 1";
+
+                //sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
 
                 SaveAndCleanup(pck);
 

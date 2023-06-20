@@ -58,9 +58,16 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             MiddleValue.Type = eExcelConditionalFormattingValueObjectType.Percentile;
 
-            if(middleVal != "") 
+            if (!string.IsNullOrEmpty(middleVal))
             {
-                MiddleValue.Value = double.Parse(middleVal, CultureInfo.InvariantCulture);
+                if (middle == eExcelConditionalFormattingValueObjectType.Formula)
+                {
+                    MiddleValue.Formula = middleVal;
+                }
+                else
+                {
+                    MiddleValue.Value = double.Parse(middleVal, CultureInfo.InvariantCulture);
+                }
             }
 
             MiddleValue.Color = tempColor;
@@ -79,6 +86,19 @@ namespace OfficeOpenXml.ConditionalFormatting
             return new ExcelConditionalFormattingThreeColorScale(this);
         }
 
+        internal override bool IsExtLst
+        {
+            get
+            {
+                if (ExcelAddressBase.RefersToOtherWorksheet(MiddleValue.Formula, _ws.Name))
+                {
+                    return true;
+                }
+
+                return base.IsExtLst;
+            }
+
+        }
 
         internal override void ReadColors(XmlReader xr)
         {

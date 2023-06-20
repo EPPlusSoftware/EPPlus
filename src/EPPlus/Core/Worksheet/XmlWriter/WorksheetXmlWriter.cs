@@ -114,10 +114,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 extLst.InsertExt(ExtLstUris.DataValidationsUri, UpdateExtLstDataValidations(prefix), "");
             }
 
-            if (_ws.ConditionalFormatting._extLstDict.Count != 0)
-            {
-                extLst.InsertExt(ExtLstUris.ConditionalFormattingUri, UpdateExtLstConditionalFormatting(), "");
-            }
+            extLst.InsertExt(ExtLstUris.ConditionalFormattingUri, UpdateExtLstConditionalFormatting(), "");
 
             if (extLst.extCount != 0)
             {
@@ -1048,6 +1045,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             var addressDict = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
 
+            //Find each extLst cfRule for given address
             foreach (var format in _ws.ConditionalFormatting)
             {
                 if (format is ExcelConditionalFormattingRule cf)
@@ -1232,6 +1230,57 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                             cache.Append($"id=\"{format.Uid}\">");
 
+                            if (format.Type == eExcelConditionalFormattingRuleType.TwoColorScale ||
+                                format.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                            {
+
+                                cache.Append($"<{prefix}colorScale>");
+
+                                var values = new List<ExcelConditionalFormattingColorScaleValue>()
+                                    {format.As.TwoColorScale.LowValue, format.As.TwoColorScale.HighValue };
+
+                                if (format.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
+                                {
+                                    values.Add(format.As.ThreeColorScale.MiddleValue);
+                                }
+
+                                for (int j = 0; j < values.Count; j++)
+                                {
+                                    cache.Append($"<{prefix}cfvo type=\"{values[j].Type.ToEnumString()}\"");
+
+                                    switch (values[j].Type)
+                                    {
+                                        case eExcelConditionalFormattingValueObjectType.Min:
+                                        case eExcelConditionalFormattingValueObjectType.Max:
+                                            cache.Append("/>");
+                                            break;
+                                        case eExcelConditionalFormattingValueObjectType.Formula:
+                                            cache.Append(">");
+                                            cache.Append($"<xm:f>{values[j].Formula}</xm:f>");
+                                            cache.Append($"</{prefix}cfvo>");
+                                            break;
+                                        case eExcelConditionalFormattingValueObjectType.Percent:
+                                        case eExcelConditionalFormattingValueObjectType.Percentile:
+                                        case eExcelConditionalFormattingValueObjectType.Num:
+                                            cache.Append(">");
+                                            cache.Append($"<xm:f>{values[j].Value}</xm:f>");
+                                            cache.Append($"</{prefix}cfvo>");
+                                            break;
+                                        default:
+                                            throw new InvalidDataException(
+                                                "WorksheetWriterXML detected unhandled eExcelConditionalFormattingValueObjectType");
+                                    }
+                                }
+
+                                for (int j = 0; j < values.Count; j++)
+                                {
+                                    //TODO: Handle auto, indexed, theme and tint here.
+                                    cache.Append($"<{prefix}color rgb=\"{values[j].Color.ToColorString()}\"/>");
+                                }
+
+                                cache.Append($"</{prefix}colorScale>");
+                            }
+
                             if (!string.IsNullOrEmpty(format.Formula))
                             {
                                 cache.Append($"<xm:f>{format.Formula}</xm:f>");
@@ -1309,48 +1358,48 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                         cache.Append("/>");
                                     }
 
-                                    cache.Append($"</font>");
+                                    cache.Append("</font>");
                                 }
 
-                                if (format.Style.Border.HasValue == true)
+                                if (format.Style.Border.HasValue)
                                 {
-                                    cache.Append($"<border>");
+                                    cache.Append("<border>");
 
-                                    if (format.Style.Border.Left.HasValue == true)
+                                    if (format.Style.Border.Left.HasValue)
                                     {
                                         cache.Append($"<left style=\"{format.Style.Border.Left.Style.ToString().ToLower()}\">");
                                         cache.Append(WriteColorOption("color", format.Style.Border.Left.Color));
-                                        cache.Append($"</left>");
+                                        cache.Append("</left>");
                                     }
 
 
-                                    if (format.Style.Border.Right.HasValue == true)
+                                    if (format.Style.Border.Right.HasValue)
                                     {
                                         cache.Append($"<right style=\"{format.Style.Border.Right.Style.ToString().ToLower()}\">");
                                         cache.Append(WriteColorOption("color", format.Style.Border.Right.Color));
-                                        cache.Append($"</right>");
+                                        cache.Append("</right>");
                                     }
 
-                                    if (format.Style.Border.Top.HasValue == true)
+                                    if (format.Style.Border.Top.HasValue)
                                     {
                                         cache.Append($"<top style=\"{format.Style.Border.Top.Style.ToString().ToLower()}\">");
                                         cache.Append(WriteColorOption("color", format.Style.Border.Top.Color));
-                                        cache.Append($"</top>");
+                                        cache.Append("</top>");
                                     }
 
-                                    if (format.Style.Border.Bottom.HasValue == true)
+                                    if (format.Style.Border.Bottom.HasValue)
                                     {
                                         cache.Append($"<bottom style=\"{format.Style.Border.Bottom.Style.ToString().ToLower()}\">");
                                         cache.Append(WriteColorOption("color", format.Style.Border.Bottom.Color));
-                                        cache.Append($"</bottom>");
+                                        cache.Append("</bottom>");
                                     }
 
-                                    cache.Append($"<vertical/>");
-                                    cache.Append($"<horizontal/>");
-                                    cache.Append($"</border>");
+                                    cache.Append("<vertical/>");
+                                    cache.Append("<horizontal/>");
+                                    cache.Append("</border>");
                                 }
 
-                                if (format.Style.Fill.HasValue == true)
+                                if (format.Style.Fill.HasValue)
                                 {
                                     cache.Append("<fill>");
 
@@ -1364,7 +1413,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                             }
                                             else
                                             {
-                                                cache.Append($"<patternFill>");
+                                                cache.Append("<patternFill>");
                                             }
 
                                             if (format.Style.Fill.PatternColor.Color != null)
@@ -1377,11 +1426,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                                 cache.Append(WriteColorOption("bgColor", format.Style.Fill.BackgroundColor));
                                             }
 
-                                            cache.Append($"</patternFill>");
+                                            cache.Append("</patternFill>");
                                             break;
                                         case Style.eDxfFillStyle.GradientFill:
 
-                                            cache.Append($"<gradientFill");
+                                            cache.Append("<gradientFill");
 
                                             if (format.Style.Fill.Gradient.GradientType != null)
                                             {
@@ -1425,7 +1474,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                             cache.Append("</stop>");
 
-                                            cache.Append($"</gradientFill>");
+                                            cache.Append("</gradientFill>");
 
                                             break;
                                     }
@@ -1513,11 +1562,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
         private string UpdateConditionalFormattings(string prefix)
         {
-
             var cache = new StringBuilder();
 
-            _ws.ConditionalFormatting.UpdateExtDict();
-
+            //Multiple cfRules may be applying to one address. Find out which
             var addressDict = new Dictionary<string, List<ExcelConditionalFormattingRule>>();
 
             foreach (var format in _ws.ConditionalFormatting)
@@ -1538,6 +1585,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 }
             }
 
+            //Iterate cfRules for each address
             foreach( var formatList in addressDict)
             {
                 for (int i = 0; i < formatList.Value.Count; i++)

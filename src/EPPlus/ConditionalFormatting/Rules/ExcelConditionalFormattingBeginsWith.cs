@@ -143,7 +143,12 @@ namespace OfficeOpenXml.ConditionalFormatting
         public override ExcelAddress Address
         {
             get { return base.Address; }
-            set { base.Address = value; UpdateFormula(); }
+            set { base.Address = value;
+                if (value != null)
+                {
+                    UpdateFormula();
+                }
+            }
         }
 
 
