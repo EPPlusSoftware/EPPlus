@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using System.Diagnostics;
 
 namespace EPPlusTest.ExcelUtilities
 {
@@ -110,6 +111,39 @@ namespace EPPlusTest.ExcelUtilities
             var result2 = _matcher.IsMatch("a~?c?e", string2);
 
             Assert.AreEqual(-1, result2);
+        }
+
+        [TestMethod]
+        public void PerformanceTest()
+        {
+            var vm = new WildCardValueMatcher();
+            var sw = new Stopwatch();
+            sw.Start();
+            for(var x = 0; x < 1000000; x++)
+            {
+                var s = "abBCde*12321";
+                if (x % 2 == 0)
+                {
+                    s = new Guid().ToString();
+                }
+                var isMatch = vm.IsMatch("a*BC??d~*12321", s);
+            }
+            sw.Stop();
+            var ms1 = sw.ElapsedMilliseconds;
+            sw.Reset();
+            var vm2 = new WildCardValueMatcher2();
+            sw.Start();
+            for (var x = 0; x < 1000000; x++)
+            {
+                var s = "abBCde*12321";
+                if (x% 2 == 0)
+                {
+                    s = new Guid().ToString();
+                }
+                var isMatch = vm2.IsMatch("a*BC??d~*12321", s);
+            }
+            sw.Stop();
+            var ms2 = sw.ElapsedMilliseconds;
         }
     }
 }
