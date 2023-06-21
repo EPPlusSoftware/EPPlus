@@ -147,15 +147,25 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else
                     {
-                        var fa = e.GetAddress();
-                        if(fa==null)
+                        if(e.ExpressionType == ExpressionType.CellAddress)
                         {
-                            key.Append(f._tokens[i].Value);
+                            var fa = e.GetAddress();
+                            var adr = ExcelCellBase.GetAddress(fa.FromRow, fa.FromCol, fa.ToRow, fa.ToCol);
+                            key.Append(adr);
                         }
                         else
                         {
-                            var adr = ExcelCellBase.GetAddress(fa.FromRow, fa.FromCol, fa.ToRow, fa.ToCol);
-                            key.Append(adr);
+                            var fa = e.GetAddress();
+                            if(fa==null)
+                            {
+                                key.Append(f._tokens[i].Value);
+                            }
+                            else
+                            {
+                                var adr = fa.Address;
+                                key.Append(adr);
+
+                            }
                         }
                     }
                 }

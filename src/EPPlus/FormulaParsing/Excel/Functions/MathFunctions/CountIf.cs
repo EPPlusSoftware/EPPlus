@@ -37,14 +37,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         private ExpressionEvaluator _expressionEvaluator;
         private bool Evaluate(object obj, string expression)
         {
-            double? candidate = default(double?);
             if (IsNumeric(obj))
             {
-                candidate = ConvertUtil.GetValueDouble(obj);
-            }
-            if (candidate.HasValue)
-            {
-                return _expressionEvaluator.Evaluate(candidate.Value, expression, false);
+                return _expressionEvaluator.Evaluate(ConvertUtil.GetValueDouble(obj), expression, false);
             }
             return _expressionEvaluator.Evaluate(obj, expression, false);
         }

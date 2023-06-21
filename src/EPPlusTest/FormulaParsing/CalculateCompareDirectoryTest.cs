@@ -59,7 +59,7 @@ namespace EPPlusTest.FormulaParsing
             sw.Start();            
             if(File.Exists(logFile))
             {
-                File.Delete(logFile);
+                File.Delete(logFile);   
             }
             var logWriter = new StreamWriter(File.OpenWrite(logFile));
             logWriter.WriteLine($"File {xlFile} starting");
@@ -69,6 +69,7 @@ namespace EPPlusTest.FormulaParsing
                 var values = new Dictionary<ulong, object>();
                 foreach(var ws in p.Workbook.Worksheets)
                 {
+                    if (ws.IsChartSheet) continue;
                     var cse = new CellStoreEnumerator<object>(ws._formulas);                    
                     foreach(var f in cse)
                     {
@@ -88,13 +89,17 @@ namespace EPPlusTest.FormulaParsing
                     values.Add(id, name.Value);
                 }
 
-                UpdateData(p);
+               // UpdateData(p);
                 
                 p.Workbook.ClearFormulaValues();
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
-                {                    
-                    p.Workbook.Calculate(x=>x.CacheExpressions=true);
+                {
+                    p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    //p.Workbook.Worksheets["Data"].Cells["D30"].Calculate(x => x.CacheExpressions = true);
+
+                    //p.Workbook.Worksheets["LeverancierOpties"].Cells["B3"].Calculate(x => x.CacheExpressions = true);
+                    //p.Workbook.Worksheets["Risk Report"].Cells["C13"].Calculate(x=>x.CacheExpressions=true);
                     //p.Workbook.Worksheets["T SMP"].Cells["M73"].Calculate();    
                     //p.Workbook.Worksheets["Holdings"].Cells["D210"].Calculate();
                     //p.Workbook.Worksheets["MISC"].Cells["M2"].Calculate();
@@ -140,19 +145,20 @@ namespace EPPlusTest.FormulaParsing
                             v = ws.GetValue(row, col);
                         }
                     }
-                    
+
                     if ((v==null && value.Value!=null) || !(v!=null && v.Equals(value.Value) || ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(value.Value)))
                     {
-                        //Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");
-                        var diff = ConvertUtil.GetValueDouble(v) - ConvertUtil.GetValueDouble(value.Value);
-                        if(col==0)
-                        {
-                            logWriter.WriteLine($"{ws?.Name}\t{row}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
-                        }
-                        else
-                        {
-                            logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
-                        }
+                    //Assert.Fail($"Value differs worksheet {ws.Name}\tRow {row}\tColumn  {col}\tDiff");
+                    var diff = ConvertUtil.GetValueDouble(v) - ConvertUtil.GetValueDouble(value.Value);
+                    if(col==0)
+                    {
+                        logWriter.WriteLine($"{ws?.Name}\t{row}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
+                    }
+                    else
+                    {
+                        logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value:0.0000000000}\t{v:0.0000000000}\t{diff}");
+                    }
+                    logWriter.WriteLine($"{ws?.Name}\t{ExcelCellBase.GetAddress(row, col)}\t{value.Value}\t{v}\t{diff}");
                     }
                 }
                 logWriter.WriteLine($"File end processing {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}. Elapsed {new TimeSpan(sw.ElapsedTicks).ToString()}");

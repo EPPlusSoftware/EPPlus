@@ -952,7 +952,8 @@ namespace OfficeOpenXml
                     if (t.TokenTypeIsAddressToken)
                     {
                         var address = GetFullAddressFromToken(tokens, ref i);
-                        if ((address.IsExternal || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
+                        if ((address.IsExternal || (!IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
+                            || address.Table != null)
                         {
                             f += address.Address;
                             continue;

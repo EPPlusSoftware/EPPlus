@@ -11,6 +11,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -788,7 +789,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 if(value.StartsWith("'#"))
                 {
-                    col = table.Columns[value.Substring(1)];
+                    var colName = ConvertUtil.ExcelDecodeString(value.Substring(1));
+                    col = table.Columns[colName];
                 }
                 if (col == null)
                     return;

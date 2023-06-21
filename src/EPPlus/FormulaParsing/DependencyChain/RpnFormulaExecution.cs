@@ -227,6 +227,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static bool GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, int row, int column, object value, ref RpnFormula f)
         {
+            
             if (value is int ix)
             {
                 var sf = ws._sharedFormulas[ix];
@@ -691,6 +692,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
+                
                 throw new CircularReferenceException($"Circular reference in cell {f.GetAddress()}");
             }
         }
@@ -891,6 +893,9 @@ namespace OfficeOpenXml.FormulaParsing
 #endif
         private static void ApplyOperator(ParsingContext context, Token opToken, RpnFormula f)
         {
+            if (f._expressionStack.Count == 1 && opToken.Value == "=" && f._tokenIndex == f._tokens.Count - 1) 
+                return;
+
             var v1 = f._expressionStack.Pop();
             var v2 = f._expressionStack.Pop();
 
@@ -925,6 +930,14 @@ namespace OfficeOpenXml.FormulaParsing
                         if (!string.IsNullOrEmpty(key))
                         {
                             cache.Add(key, result);
+                        }
+                    }
+                    else
+                    {
+                        //Remove all function arguments from the stack
+                        for (int i = 0; i < funcExp._arguments.Count; i++)
+                        {
+                            var si = f._expressionStack.Pop();
                         }
                     }
                 }

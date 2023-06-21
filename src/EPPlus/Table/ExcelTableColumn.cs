@@ -62,19 +62,22 @@ namespace OfficeOpenXml.Table
         {
             get
             {
-                var n=GetXmlNodeString("@name");
+                var n= GetXmlNodeString("@name");
                 if (string.IsNullOrEmpty(n))
                 {
                     if (_tbl.ShowHeader)
                     {
-                        n = ConvertUtil.ExcelDecodeString(_tbl.WorkSheet.GetValue<string>(_tbl.Address._fromRow, _tbl.Address._fromCol + this.Position));
+                        return ConvertUtil.ExcelDecodeString(_tbl.WorkSheet.GetValue<string>(_tbl.Address._fromRow, _tbl.Address._fromCol + this.Position));
                     }
                     else
                     {
-                        n = "Column" + (this.Position+1).ToString();
+                        return $"Column{Position+1}";
                     }
                 }
-                return n;
+                else
+                {
+                    return ConvertUtil.ExcelDecodeString(n);
+                }
             }
             set
             {

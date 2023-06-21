@@ -449,7 +449,7 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelDecodeString(string t)
         {
-            var match = Regex.Match(t, "(_x005F|_x[0-9A-F]{4,4}_)");
+            var match = Regex.Match(t, "(_x005F|_x[0-9A-Fa-f]{4,4}_)");
             if (!match.Success) return t;
 
             var useNextValue = false;
