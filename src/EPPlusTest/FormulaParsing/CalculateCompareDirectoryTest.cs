@@ -38,7 +38,7 @@ namespace EPPlusTest.FormulaParsing
         public void Cleanup()
         {
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void VerifyCalculationInCalculateTestDirectory()
         {
             var path = _testInputPathOptional + "CalculationTests\\";

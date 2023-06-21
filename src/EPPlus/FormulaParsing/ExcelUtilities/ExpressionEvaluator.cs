@@ -23,17 +23,17 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
     internal class ExpressionEvaluator
     {
-        private readonly WildCardValueMatcher _wildCardValueMatcher;
+        private readonly WildCardValueMatcher2 _wildCardValueMatcher;
         private readonly ParsingContext _parsingContext;
         private readonly TimeStringParser _timeStringParser = new TimeStringParser();
 
         public ExpressionEvaluator(ParsingContext ctx)
-            : this(new WildCardValueMatcher(), ctx)
+            : this(new WildCardValueMatcher2(), ctx)
         {
 
         }
 
-        public ExpressionEvaluator(WildCardValueMatcher wildCardValueMatcher, ParsingContext ctx)
+        public ExpressionEvaluator(WildCardValueMatcher2 wildCardValueMatcher, ParsingContext ctx)
         {
             _wildCardValueMatcher = wildCardValueMatcher;
             _parsingContext = ctx;

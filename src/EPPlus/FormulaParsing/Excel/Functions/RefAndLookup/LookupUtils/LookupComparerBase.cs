@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
         }
 
         private readonly LookupMatchMode _matchMode;
-        private readonly ValueMatcher _vm = new WildCardValueMatcher();
+        private readonly ValueMatcher _vm = new WildCardValueMatcher2();
 
         public abstract int Compare(object x, object y);
 
