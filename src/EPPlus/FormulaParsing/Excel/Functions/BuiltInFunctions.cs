@@ -235,6 +235,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["chisq.test"] = new ChisqTest();
             Functions["expondist"] = new Expondist();
             Functions["expon.dist"] = new ExponDotDist();
+            Functions["steyx"] = new Steyx();
             // Information
             Functions["isblank"] = new IsBlank();
             Functions["isnumber"] = new IsNumber();
