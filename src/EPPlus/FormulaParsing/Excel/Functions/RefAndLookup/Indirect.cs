@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var address = ArgToAddress(arguments, 0);
+            var address = ArgToString(arguments, 0);
             FormulaRangeAddress adr;
             IRangeInfo result;
             var arg = arguments[0];

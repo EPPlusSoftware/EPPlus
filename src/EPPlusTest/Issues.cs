@@ -4253,8 +4253,8 @@ namespace EPPlusTest
         [TestMethod]
         public void s803()
         {
-            using (var p = OpenPackage("s803.xlsx",true))
-            {                
+            using (var p = OpenPackage("s803.xlsx", true))
+            {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1:E100"].FillNumber(1, 1);
                 ws.Cells["A82"].Formula = "a1";
@@ -4359,34 +4359,34 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-            private void AddLineSeries(ExcelChart chart, string seriesAddress, string xSeriesAddress, string seriesName)
-            {
-                var lineSeries = chart.Series.Add(seriesAddress, xSeriesAddress);
-                lineSeries.Header = seriesName;
-            }
+        private void AddLineSeries(ExcelChart chart, string seriesAddress, string xSeriesAddress, string seriesName)
+        {
+            var lineSeries = chart.Series.Add(seriesAddress, xSeriesAddress);
+            lineSeries.Header = seriesName;
+        }
 
 
-            private DataTable Data()
-            {
-                var toReturn = new DataTable();
-                toReturn.Columns.Add("Month");
-                toReturn.Columns.Add("Serie1", typeof(decimal));
-                toReturn.Columns.Add("Serie2", typeof(decimal));
-                toReturn.Columns.Add("Serie3", typeof(decimal));
+        private DataTable Data()
+        {
+            var toReturn = new DataTable();
+            toReturn.Columns.Add("Month");
+            toReturn.Columns.Add("Serie1", typeof(decimal));
+            toReturn.Columns.Add("Serie2", typeof(decimal));
+            toReturn.Columns.Add("Serie3", typeof(decimal));
 
 
-                toReturn.Rows.Add("01/2022", 1.4, 2.4, 3.4);
-                toReturn.Rows.Add("02/2022", 1.4, 2.4, 3.4);
-                toReturn.Rows.Add("03/2022", 1.4, 2.4, 3.4);
-                toReturn.Rows.Add("04/2022", 1.7, 2.7, 3.7);
-                toReturn.Rows.Add("05/2022", 1.7, 2.7, 3.7);
-                toReturn.Rows.Add("06/2022", 1.7, 2.7, 3.7);
-                toReturn.Rows.Add("07/2022", 1.9, 2.9, 3.9);
-                toReturn.Rows.Add("08/2022", 1.9, 2.9, 3.9);
+            toReturn.Rows.Add("01/2022", 1.4, 2.4, 3.4);
+            toReturn.Rows.Add("02/2022", 1.4, 2.4, 3.4);
+            toReturn.Rows.Add("03/2022", 1.4, 2.4, 3.4);
+            toReturn.Rows.Add("04/2022", 1.7, 2.7, 3.7);
+            toReturn.Rows.Add("05/2022", 1.7, 2.7, 3.7);
+            toReturn.Rows.Add("06/2022", 1.7, 2.7, 3.7);
+            toReturn.Rows.Add("07/2022", 1.9, 2.9, 3.9);
+            toReturn.Rows.Add("08/2022", 1.9, 2.9, 3.9);
 
 
-                return toReturn;
-            }
+            return toReturn;
+        }
         [TestMethod]
         public void s437()
         {
@@ -4401,12 +4401,12 @@ namespace EPPlusTest
                     metroChart.YAxis.MinValue = 0d;
                     metroChart.YAxis.MajorUnit = 0.05d;
 
-                    
+
                     foreach (var ct in metroChart.PlotArea.ChartTypes)
                     {
                         ///The "Series" being returned in this is only the bar series
                         ///while the other two line series are not being returned.
-                        foreach(var serie in ct.Series)
+                        foreach (var serie in ct.Series)
                         {
 
                         }
@@ -4855,7 +4855,7 @@ namespace EPPlusTest
                 table.AddRow(2);
                 table.WorkSheet.Cells[8, 1].Value = "TST";
                 table.WorkSheet.Cells[9, 1].Value = "TST 2";
- 
+
                 SaveAndCleanup(p);
             }
         }
@@ -4869,7 +4869,74 @@ namespace EPPlusTest
                 ws.Calculate();
                 SaveAndCleanup(p);
             }
-            
+
+        }
+        [TestMethod]
+        public void Test1()
+        {
+            var package = new ExcelPackage();
+            package.Workbook.Styles.NamedStyles[0].Style.VerticalAlignment = ExcelVerticalAlignment.Top;
+
+            var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+            var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+
+            sheet1.Cells["A1"].Value = 1d;
+            sheet1.Cells["A2"].Value = 3d;
+            sheet1.Cells["A3"].Formula = "=Sheet2!A1";
+
+            sheet2.Cells["A1"].Formula = "=Sheet1!A1";
+
+            package.Workbook.Calculate();        
+        }
+        [TestMethod]
+        public void s473()
+        {
+            using (var p = OpenPackage("tableCopyTest.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                var tableSheet = p.Workbook.Worksheets.Add("tableSheet");
+
+                tableSheet.Cells[1, 1].Value = "Country";
+                tableSheet.Cells[2, 1].Value = "England";
+                tableSheet.Cells[3, 1].Value = "Wales";
+                tableSheet.Cells[4, 1].Value = "Scotland";
+                tableSheet.Cells[5, 1].Value = "Isle of Man";
+                tableSheet.Cells[6, 1].Value = "France";
+
+                tableSheet.Cells[1, 2].Value = "City";
+                tableSheet.Cells[2, 2].Value = "London";
+                tableSheet.Cells[3, 2].Value = "Cardiff";
+                tableSheet.Cells[4, 2].Value = "Edinburgh";
+                tableSheet.Cells[5, 2].Value = "Douglas";
+                tableSheet.Cells[6, 2].Value = "Paris";
+
+                var table = tableSheet.Tables.Add(new ExcelAddress("A1:B11"), "Table1");
+                //table.ToDataTable
+
+                for (int i = 2; i < 7; i++)
+                {
+                    ws.Cells[i, 1].Value = tableSheet.Cells[i, 1].Value;
+                    //If column 2 row i has the correct city to the country in A/table
+                    ws.Cells[i, 3].Formula = $"IF(B{i}=\"\",\"\",IF(B{i}=INDEX(Table1[City],MATCH(Sheet1!A{i},Table1[Country],0),1),TRUE,FALSE))";
+                }
+
+                int additionalRows = 2;
+                int startRow = 2;
+                ws.InsertRow(3, additionalRows);
+
+                for (int i = 0; i < additionalRows; i++)
+                {
+                    int copyToRow = startRow + 1 + i;
+
+                    ws.Cells[startRow, 1, startRow, ws.Dimension.Columns].Copy(ws.Cells[copyToRow, 1, copyToRow, ws.Dimension.Columns]);
+                }
+
+                //Ensure inserted rows copied formula correctly
+                Assert.AreEqual($"IF(B{2}=\"\",\"\",IF(B{2}=INDEX(Table1[City],MATCH(Sheet1!A{2},Table1[Country],0),1),TRUE,FALSE))", ws.Cells[2, 3].Formula);
+                Assert.AreEqual($"IF(B{3}=\"\",\"\",IF(B{3}=INDEX(Table1[City],MATCH(Sheet1!A{3},Table1[Country],0),1),TRUE,FALSE))", ws.Cells[3, 3].Formula);
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }

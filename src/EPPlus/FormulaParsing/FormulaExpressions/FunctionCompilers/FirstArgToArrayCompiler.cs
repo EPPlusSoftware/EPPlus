@@ -51,7 +51,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
                 if(range.Size.NumberOfCols > 1 || range.Size.NumberOfRows > 1)
                 {
                     var rangeDef = new RangeDefinition(range.Size.NumberOfRows, range.Size.NumberOfCols);
-                    var inMemoryRange = new InMemoryRange(rangeDef);
+                    var inMemoryRange = new InMemoryRange(range.Address, rangeDef, Context);
+                    
                     var errorCompileResult = default(CompileResult);
                     for(var row = 0; row < rangeDef.NumberOfRows; row++)
                     {

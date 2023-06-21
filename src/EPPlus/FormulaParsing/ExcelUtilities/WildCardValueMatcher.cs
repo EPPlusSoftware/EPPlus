@@ -18,8 +18,17 @@ using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
 {
+    /// <summary>
+    /// Compares values against wildcard strings
+    /// </summary>
     public class WildCardValueMatcher : ValueMatcher
     {
+        /// <summary>
+        /// Compares two strings
+        /// </summary>
+        /// <param name="searchedValue">The searched value, might contain wildcard characters</param>
+        /// <param name="candidate">The candidate to compare</param>
+        /// <returns>0 if match, otherwise -1 or 1</returns>
         protected override int CompareStringToString(string searchedValue, string candidate)
         {
             if (searchedValue.Contains("*") || searchedValue.Contains("?"))

@@ -1566,6 +1566,7 @@ namespace OfficeOpenXml
 			if (Worksheets == null || Worksheets.Count == 0) return;
 			foreach (var worksheet in this.Worksheets)
 			{
+				if (worksheet.IsChartSheet) continue;
 				worksheet.ClearFormulaValues();
 			}
 		}
