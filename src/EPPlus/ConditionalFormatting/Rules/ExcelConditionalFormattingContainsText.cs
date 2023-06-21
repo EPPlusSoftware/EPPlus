@@ -16,7 +16,7 @@ namespace OfficeOpenXml.ConditionalFormatting
           : base(eExcelConditionalFormattingRuleType.ContainsText, address, priority, worksheet)
         {
             Operator = eExcelConditionalFormattingOperatorType.ContainsText;
-            ContainText = string.Empty;
+            Text = string.Empty;
         }
 
         public ExcelConditionalFormattingContainsText(
@@ -24,26 +24,22 @@ namespace OfficeOpenXml.ConditionalFormatting
           : base(eExcelConditionalFormattingRuleType.ContainsText, address, ws, xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.ContainsText;
-
-            if (Formula2 != null)
-            {
-                _formulaReference = Formula2;
-            }
-            else if (Text != null)
-            {
-                Text = Formula.GetSubstringStoppingAtSymbol("NOT(ISERROR(SEARCH(\"".Length);
-            }
         }
 
         ExcelConditionalFormattingContainsText(ExcelConditionalFormattingContainsText copy) :base(copy)
         {
-            ContainText = copy.ContainText;
+            //Text = copy.Text;
+        }
+
+        internal override ExcelConditionalFormattingRule Clone()
+        {
+            return new ExcelConditionalFormattingContainsText(this);
         }
 
         internal override bool IsExtLst {
             get
             {
-                if (_formulaReference != null)
+                if (Formula2 != null)
                 {
                     return true;
                 }
@@ -52,22 +48,17 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        internal override ExcelConditionalFormattingRule Clone()
-        {
-            return new ExcelConditionalFormattingContainsText(this);
-        }
-
-        public string ContainText
+        public string Text
         {
             get
             {
-                return Text;
+                return _text;
             }
             set
             {
-                Text = value;
-                _formulaReference = null;
+                _text = value;
                 Formula2 = null;
+
                 //TODO: Error check/Throw when formula does not follow this format and is a ContainsText.
                 Formula = string.Format(
                   "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
@@ -76,18 +67,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        string _formulaReference = null;
-
         public string FormulaReference
         {
             get
             {
-                return _formulaReference;
+                return Formula2;
             }
             set
             {
-                Text = null;
-                _formulaReference = value;
+                _text = null;
                 Formula2 = value;
 
                 Formula = string.Format(
@@ -98,19 +86,19 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            if (Text != null)
+            if (_text != null)
             {
                 Formula = string.Format(
                   "NOT(ISERROR(SEARCH(\"{1}\",{0})))",
                   Address.Start.Address,
-                  Text);
+                  _text);
             }
-            else if(_formulaReference != null) 
+            else if(Formula2 != null) 
             {
                 Formula = string.Format(
                 "NOT(ISERROR(SEARCH({1},{0})))",
                 Address.Start.Address,
-                _formulaReference);
+                Formula2);
             }
         }
 

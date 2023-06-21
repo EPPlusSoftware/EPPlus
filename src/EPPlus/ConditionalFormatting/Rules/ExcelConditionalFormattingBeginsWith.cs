@@ -31,7 +31,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         }
 
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -49,21 +48,12 @@ namespace OfficeOpenXml.ConditionalFormatting
                 xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.BeginsWith;
-
-            if (Formula2 != null)
-            {
-                _formulaReference = Formula2;
-            }
-            else if(Text != null)
-            {
-                _containText = Text;
-            }
         }
 
         internal ExcelConditionalFormattingBeginsWith(ExcelConditionalFormattingBeginsWith copy) : base(copy)
         {
             Operator = copy.Operator;
-            ContainText = copy.Text;
+            Text = copy._text;
         }
 
         internal override ExcelConditionalFormattingRule Clone()
@@ -75,7 +65,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if (_formulaReference != null)
+                if (Formula2 != null)
                 {
                     return true;
                 }
@@ -84,35 +74,29 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        string _formulaReference = null;
-
         public string FormulaReference
         {
             get
             {
-                return _formulaReference;
+                return Formula2;
             }
             set
             {
-                Text = null;
-                _formulaReference = value;
+                _text = null;
+                Formula2 = value;
+
                 Formula = string.Format(
                     "LEFT({0},LEN({1}))={1}",
                     Address.Start.Address,
-                    value.Replace("\"", "\"\""));
-                Formula2 = value;
+                    value);
             }
         }
 
-        private string _containText = ""; 
-
-        public string ContainText {
-            get { return _containText; }
+        public string Text {
+            get { return _text; }
             set
             {
-                _containText = value;
-                Text = value;
-                _formulaReference = null;
+                _text = value;
                 Formula2 = null;
 
                 Formula = string.Format(
@@ -124,19 +108,19 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            if (Text != null)
+            if (_text != null)
             {
                 Formula = string.Format(
                     "LEFT({0},LEN(\"{1}\"))=\"{1}\"",
                     Address.Start.Address,
-                    Text);
+                    _text);
             }
-            else if(_formulaReference != null)
+            else if(Formula2 != null)
             {
                 Formula = string.Format(
                     "LEFT({0},LEN({1}))={1}",
                     Address.Start.Address,
-                    _formulaReference);
+                    Formula2);
             }
         }
 

@@ -910,7 +910,7 @@ namespace EPPlusTest.ConditionalFormatting
                 (sheet, address) =>
                 {
                     var cf = sheet.ConditionalFormatting.AddContainsText(address);
-                    cf.ContainText = "a";
+                    cf.Text = "a";
                     return (ExcelConditionalFormattingRule)cf;
                 });
         }
@@ -924,7 +924,7 @@ namespace EPPlusTest.ConditionalFormatting
                 (sheet, address) =>
                 {
                     var cf = sheet.ConditionalFormatting.AddNotContainsText(address);
-                    cf.ContainText = "a";
+                    cf.Text = "a";
                     return (ExcelConditionalFormattingRule)cf;
                 });
         }
@@ -992,7 +992,7 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(cf.Formula, cf2.Formula);
             Assert.AreEqual(cf.Formula2, cf2.Formula2);
 
-            Assert.AreEqual(cf.Text, cf2.Text);
+            Assert.AreEqual(cf._text, cf2._text);
             Assert.AreEqual(cf2.Type, type);
 
             var stream2 = new MemoryStream();
@@ -1079,14 +1079,14 @@ namespace EPPlusTest.ConditionalFormatting
             var sheet = pck.Workbook.Worksheets.Add("TextContains");
 
             var textContains = sheet.ConditionalFormatting.AddTextContains(new ExcelAddress(1, 6, 10, 6));
-            textContains.ContainText = "o";
+            textContains.Text = "o";
 
             textContains.Style.Fill.BackgroundColor.Color = Color.Blue;
             textContains.Style.Font.Color.Color = Color.Yellow;
 
             var cf = SavePackageReadCollection(pck)[0];
 
-            Assert.AreEqual(((IExcelConditionalFormattingContainsText)cf).ContainText, "o");
+            Assert.AreEqual(((IExcelConditionalFormattingContainsText)cf).Text, "o");
 
             var ws = _pck.Workbook.Worksheets.GetByName("Overview");
             ws.ConditionalFormatting.CopyRule(cf);
@@ -1867,17 +1867,17 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cfHighestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
 
-                cfHighestPriority.ContainText = "A";
+                cfHighestPriority.Text = "A";
                 cfHighestPriority.Style.Fill.BackgroundColor.Color = Color.Green;
 
                 var cfMiddlePriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A6"));
 
-                cfMiddlePriority.ContainText = "A";
+                cfMiddlePriority.Text = "A";
                 cfMiddlePriority.Style.Fill.BackgroundColor.Color = Color.Yellow;
 
                 var cfLowestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A7"));
                 cfLowestPriority.Style.Fill.BackgroundColor.Color = Color.Red;
-                cfLowestPriority.ContainText = "A";
+                cfLowestPriority.Text = "A";
 
                 SaveAndCleanup(pck);
             }
@@ -1936,17 +1936,17 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cfHighestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
 
-                cfHighestPriority.ContainText = "A";
+                cfHighestPriority.Text = "A";
                 cfHighestPriority.Style.Fill.BackgroundColor.Color = Color.Green;
 
                 var cfMiddlePriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
 
-                cfMiddlePriority.ContainText = "A";
+                cfMiddlePriority.Text = "A";
                 cfMiddlePriority.Style.Fill.BackgroundColor.Color = Color.Yellow;
 
                 var cfLowestPriority = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1:A5"));
                 cfLowestPriority.Style.Fill.BackgroundColor.Color = Color.Red;
-                cfLowestPriority.ContainText = "A";
+                cfLowestPriority.Text = "A";
 
                 cfLowestPriority.Priority = 1;
                 cfMiddlePriority.Priority = 3;
@@ -2204,9 +2204,91 @@ namespace EPPlusTest.ConditionalFormatting
             }
         }
 
+        [TestMethod]
+        public void CF_MinMaxColourScale()
+        {
+            using (var pck = OpenPackage("CF_ColourScaleInverseMinMax.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var sheet2 = pck.Workbook.Worksheets.Add("formulasExt");
+
+                var formatting = sheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress("A1:A5"));
+                formatting.HighValue.Type = eExcelConditionalFormattingValueObjectType.Formula;
+                formatting.LowValue.Type = eExcelConditionalFormattingValueObjectType.Max;
+                formatting.HighValue.Formula = "formulasExt!A1";
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("CF_ColourScaleInverseMinMax.xlsx");
+                var test = readPck.Workbook.Worksheets[0].ConditionalFormatting[0];
+
+                Assert.AreEqual("formulasExt!A1", test.As.ThreeColorScale.HighValue.Formula);
+            }
+        }
+
+        [TestMethod]
         public void ReadWriteAllIExcelConditionalFormattingWithText()
         {
+            using (var pck = OpenPackage("CF_TExt.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("formulas");
+                var sheet2 = pck.Workbook.Worksheets.Add("formulasRef");
 
+                var text = "\"IF(\"Yes\"=\"Yes\",\"Hi\",\"Bye\")\"";
+                var formula = "IF(\"Yes\"=\"Yes\",\"Hi\",\"Bye\")";
+
+                var formattingNot = sheet.ConditionalFormatting.AddNotContainsText(new ExcelAddress("A1"));
+                formattingNot.Text = text;
+                var extFormattingNot = sheet.ConditionalFormatting.AddNotContainsText(new ExcelAddress("B1:B5"));
+                extFormattingNot.FormulaReference = formula;
+
+                var formattingContains = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("A1"));
+                formattingContains.Text = text;
+                var extFormattingContains = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("B1:B5"));
+                extFormattingContains.FormulaReference = formula;
+
+                var formattingEnds = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("A1"));
+                formattingEnds.Text = text;
+                var extFormattingEnds = sheet.ConditionalFormatting.AddEndsWith(new ExcelAddress("B1:B5"));
+                extFormattingEnds.FormulaReference = formula;
+
+                var formattingBegins = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("A1"));
+                formattingBegins.Text = text;
+                var extFormattingBegins = sheet.ConditionalFormatting.AddBeginsWith(new ExcelAddress("B1:B5"));
+                extFormattingBegins.FormulaReference = formula;
+
+                SaveAndCleanup(pck);
+
+                var readPck = OpenPackage("CF_TExt.xlsx");
+
+                var count = readPck.Workbook.Worksheets[0].ConditionalFormatting.Count;
+
+                //Note that extLst items are read in after all "normal" items into the conditionalFormattingList.
+                //So we read in extLst items starting from index count - 4 as we have 4 "normal" items.
+                var textTestNot = readPck.Workbook.Worksheets[0].ConditionalFormatting[0];
+                var extTestNot = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 4];
+
+                Assert.AreEqual(text, textTestNot.As.NotContainsText.Text);
+                Assert.AreEqual(formula, extTestNot.As.NotContainsText.FormulaReference);
+
+                var textTestContains = readPck.Workbook.Worksheets[0].ConditionalFormatting[1];
+                var extTestContains = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 3];
+
+                Assert.AreEqual(text, textTestContains.As.ContainsText.Text);
+                Assert.AreEqual(formula, extTestContains.As.ContainsText.FormulaReference);
+
+                var textTestEnds = readPck.Workbook.Worksheets[0].ConditionalFormatting[2];
+                var extTestEnds = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 2];
+
+                Assert.AreEqual(text, textTestEnds.As.EndsWith.Text);
+                Assert.AreEqual(formula, extTestEnds.As.EndsWith.FormulaReference);
+
+                var textTestBegins = readPck.Workbook.Worksheets[0].ConditionalFormatting[3];
+                var extTestBegins = readPck.Workbook.Worksheets[0].ConditionalFormatting[count - 1];
+
+                Assert.AreEqual(text, textTestBegins.As.BeginsWith.Text);
+                Assert.AreEqual(formula, extTestBegins.As.BeginsWith.FormulaReference);
+            }
         }
 
 
@@ -2222,7 +2304,7 @@ namespace EPPlusTest.ConditionalFormatting
                 var range = new ExcelAddress("B1:B5");
 
                 var cf = sheet.ConditionalFormatting.AddBeginsWith(range);
-                cf.ContainText = "=formulasRef!$A$1";
+                cf.Text = "=formulasRef!$A$1";
 
                 cf.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 cf.Style.Fill.BackgroundColor.Color = Color.Aquamarine;
@@ -2246,9 +2328,9 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var text = sheet.ConditionalFormatting.AddContainsText(new ExcelAddress("B1:B2"));
 
-                text.ContainText = "Abc";
+                text.Text = "Abc";
 
-                text.ContainText = "\"A1\"";
+                text.Text = "\"A1\"";
 
                 text.FormulaReference = "A5";
 

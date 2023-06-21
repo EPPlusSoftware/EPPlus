@@ -1011,9 +1011,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 cache.Append($"operator=\"{conditionalFormat.Operator.ToEnumString()}\" ");
             }
 
-            if (string.IsNullOrEmpty(conditionalFormat.Text) == false)
+            if (string.IsNullOrEmpty(conditionalFormat._text) == false)
             {
-                cache.Append($"text=\"{conditionalFormat.Text}\" ");
+                cache.Append($"text=\"{conditionalFormat._text.EncodeXMLAttribute()}\" ");
             }
 
             if (conditionalFormat.TimePeriod != null)
@@ -1241,7 +1241,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                                 if (format.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
                                 {
-                                    values.Add(format.As.ThreeColorScale.MiddleValue);
+                                    values.Insert(1, format.As.ThreeColorScale.MiddleValue);
                                 }
 
                                 for (int j = 0; j < values.Count; j++)

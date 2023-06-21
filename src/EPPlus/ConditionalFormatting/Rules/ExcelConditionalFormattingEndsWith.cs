@@ -49,11 +49,6 @@ namespace OfficeOpenXml.ConditionalFormatting
                 xr)
         {
             Operator = eExcelConditionalFormattingOperatorType.EndsWith;
-
-            if (Formula2 != null)
-            {
-                _formulaReference = Formula2;
-            }
         }
 
         internal ExcelConditionalFormattingEndsWith(ExcelConditionalFormattingEndsWith copy) : base(copy)
@@ -69,7 +64,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             get
             {
-                if (_formulaReference != null)
+                if (Formula2 != null)
                 {
                     return true;
                 }
@@ -78,18 +73,15 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        string _formulaReference = null;
-
         public string FormulaReference
         {
             get
             {
-                return _formulaReference;
+                return Formula2;
             }
             set
             {
-                Text = null;
-                _formulaReference = value;
+                _text = null;
                 Formula2 = value;
 
                 Formula = string.Format(
@@ -102,16 +94,15 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <summary>
         /// The text to search in the end of the cell
         /// </summary>
-        public string ContainText
+        public string Text
         {
             get
             {
-                return Text;
+                return _text;
             }
             set
             {
-                Text = value;
-                _formulaReference = null;
+                _text = value;
                 Formula2 = null;
                 Formula = string.Format(
                   "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
@@ -128,12 +119,12 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         void UpdateFormula()
         {
-            if (Text != null)
+            if (_text != null)
             {
                 Formula = string.Format(
                     "RIGHT({0},LEN(\"{1}\"))=\"{1}\"",
                     Address.Start.Address,
-                    Text);
+                    _text);
             }
             else if (Formula2 != null)
             {

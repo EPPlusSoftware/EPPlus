@@ -76,7 +76,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
-        internal string Text = null;
+        internal string _text = null;
 
         protected ExcelWorksheet _ws;
 
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if(!string.IsNullOrEmpty(xr.GetAttribute("text")))
             {
-                Text = xr.GetAttribute("text");
+                _text = xr.GetAttribute("text");
             }
 
             string timePeriodString = xr.GetAttribute("timePeriod");
@@ -461,7 +461,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             Operator = original.Operator;
             Type = original.Type;
             PivotTable = original.PivotTable;
-            Text = original.Text;
+            _text = original._text;
             StdDev = original.StdDev;
             DxfId = original.DxfId;
             Address = original.Address;
@@ -633,28 +633,6 @@ namespace OfficeOpenXml.ConditionalFormatting
         {
             return ExcelConditionalFormattingRuleType.GetAttributeByType(Type);
         }
-
-        //private bool RefersToOtherWorksheet(string address)
-        //{
-        //    if (!string.IsNullOrEmpty(address) && ExcelCellBase.IsValidAddress(address))
-        //    {
-        //        var adr = new ExcelAddress(address);
-        //        return !string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name;
-        //    }
-        //    else if (!string.IsNullOrEmpty(address))
-        //    {
-        //        var tokens = SourceCodeTokenizer.Default.Tokenize(address, _ws.Name);
-        //        if (!tokens.Any()) return false;
-        //        var addressTokens = tokens.Where(x => x.TokenTypeIsSet(TokenType.ExcelAddress));
-        //        foreach (var token in addressTokens)
-        //        {
-        //            var adr = new ExcelAddress(token.Value);
-        //            if (!string.IsNullOrEmpty(adr.WorkSheetName) && adr.WorkSheetName != _ws.Name)
-        //                return true;
-        //        }
-        //    }
-        //    return false;
-        //}
 
         internal abstract ExcelConditionalFormattingRule Clone();
     }
