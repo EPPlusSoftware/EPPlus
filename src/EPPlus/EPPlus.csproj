@@ -524,6 +524,9 @@
 	</None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
+  </ItemGroup>
+  <ItemGroup>
 	  <ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
 	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
   </ItemGroup>
