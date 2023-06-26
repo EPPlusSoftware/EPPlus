@@ -428,8 +428,6 @@ namespace EPPlusTest.ConditionalFormatting
 
                 p.Save();
 
-                //SaveAndCleanup(p);
-
                 using (var p2 = new ExcelPackage(p.Stream))
                 {
                     ws = p2.Workbook.Worksheets[0];
@@ -996,7 +994,7 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(cf2.Type, type);
 
             var stream2 = new MemoryStream();
-            package2.SaveAs("C:\\epplusTest\\Workbooks\\cf.xlsx");
+            package2.SaveAs(stream2);
         }
 
         ExcelConditionalFormattingCollection SavePackageReadCollection(ExcelPackage pck)
@@ -1379,24 +1377,6 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(cf.Percent, true);
         }
 
-
-        //var belowAverage = wks.ConditionalFormatting.AddBelowAverage(new ExcelAddress(1, 32, 20, 32));
-
-        //belowAverage.Style.Fill.BackgroundColor.Color = Color.Black;
-        //        belowAverage.Style.Font.Color.Color = Color.Violet;
-
-        //        var belowEqualAverage = wks.ConditionalFormatting.AddBelowOrEqualAverage(new ExcelAddress(1, 33, 20, 33));
-
-        //belowEqualAverage.Style.Fill.BackgroundColor.Color = Color.Black;
-        //        belowEqualAverage.Style.Font.Color.Color = Color.Violet;
-
-        //        var aboveStdDev = wks.ConditionalFormatting.AddAboveStdDev(new ExcelAddress(1, 35, 10, 35));
-
-        //aboveStdDev.Style.Fill.BackgroundColor.Color = Color.Black;
-        //        aboveStdDev.Style.Font.Color.Color = Color.Violet;
-
-        //        aboveStdDev.StdDev = 1;
-
         [TestMethod]
         public void ReadWriteAboveAverage()
         {
@@ -1694,7 +1674,9 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(Color.FromArgb(255, Color.Gray.R, Color.Gray.G, Color.Gray.B), newPck.Workbook.Worksheets[0].
                             ConditionalFormatting[0].Style.Fill.
                             BackgroundColor.Color);
-            newPck.SaveAs("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest2.xlsx");
+            var streamResave = new MemoryStream();
+
+            newPck.SaveAs(streamResave);
         }
 
 
@@ -1721,22 +1703,16 @@ namespace EPPlusTest.ConditionalFormatting
             sheet.Cells[1, 11, 10, 11].Value = date;
 
             var stream = new MemoryStream();
-            pck.SaveAs("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest1.xlsx");
+            pck.SaveAs(stream);
 
-            var newPck = new ExcelPackage("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest1.xlsx");
+            var newPck = new ExcelPackage(stream);
 
             Assert.AreEqual(Color.FromArgb(255, Color.Gray.R, Color.Gray.G, Color.Gray.B), newPck.Workbook.Worksheets[0].
                             ConditionalFormatting[0].Style.Fill.
                             BackgroundColor.Color);
-            newPck.SaveAs("C:\\epplusTest\\Testoutput\\cfPriorityChangeTest2.xlsx");
-        }
+            var streamResave = new MemoryStream();
 
-        [TestMethod]
-        public void MultipleValidationsOneRange()
-        {
-            var pck = new ExcelPackage();
-            var sheet = pck.Workbook.Worksheets.Add("MultipleOneRange");
-
+            newPck.SaveAs(streamResave);
         }
 
         //TODO: We should most likely throw a clearer exception.
@@ -2340,10 +2316,6 @@ namespace EPPlusTest.ConditionalFormatting
 
                 sheet.Cells["A2:B5"].Value = "Abc";
 
-                // text.ContainText = "formulasRef!$A$1";
-
-                //text.FormulaReference = "formulasRef!$A$1";
-
                 var greaterThan = sheet.ConditionalFormatting.AddGreaterThan(range);
                 greaterThan.Formula = "=formulasRef!$B$7";
 
@@ -2364,15 +2336,14 @@ namespace EPPlusTest.ConditionalFormatting
 
                 expression.Formula = "formulasRef!$B$5 - 1";
 
-                //sheet.ConditionalFormatting.AddGreaterThan(new ExcelAddress("B1:B5"));
-
                 SaveAndCleanup(pck);
 
                 var readPackage = OpenPackage("CF_AddressBasics.xlsx");
 
                 var formats = readPackage.Workbook.Worksheets[0].ConditionalFormatting;
-
             }
         }
+
+
     }
 }
