@@ -349,5 +349,38 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
+        [TestMethod]
+        public void CopyWorksheetWithNamePointingToAnotherSheet()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Add two worksheets
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+                var sheet2 = pck.Workbook.Worksheets.Add("Sheet2");
+
+                // Add a name scoped to sheet 1 that points to sheet 2
+                sheet1.Names.Add("Name1", sheet2.Cells["A1"]);
+
+                // Create a new workbook
+                using (var newPck = new ExcelPackage())
+                {
+                    // Copy sheet 1 to the new workbook
+                    newPck.Workbook.Worksheets.Add("Sheet1", sheet1);
+                    var copiedSheet1 = newPck.Workbook.Worksheets["Sheet1"];
+                    Assert.IsNotNull(copiedSheet1);
+                    Assert.AreEqual(1, copiedSheet1.Names.Count);
+                    Assert.AreEqual("#REF!", copiedSheet1.Names[0].NameFormula);
+
+                    newPck.Save();
+
+                    using (var newPck2 = new ExcelPackage(newPck.Stream))
+                    {
+                        var wsSaved = newPck2.Workbook.Worksheets[0];
+                        Assert.AreEqual(1, wsSaved.Names.Count);
+                        Assert.AreEqual("#REF!", wsSaved.Names[0].NameFormula);
+                    }
+                }
+            }
+        }
     }
 }

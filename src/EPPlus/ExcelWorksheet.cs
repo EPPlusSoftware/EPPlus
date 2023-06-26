@@ -1504,6 +1504,7 @@ namespace OfficeOpenXml
             int style = 0;
             int row = 0;
             int col = 0;
+            int currentCm=0, currentVm = 0;
             xr.Read();
 
             while (!xr.EOF)
@@ -1579,15 +1580,22 @@ namespace OfficeOpenXml
                     var cm = xr.GetAttribute("cm");
                     var vm = xr.GetAttribute("vm");
                     if (cm != null || vm != null)
-                    {                          
+                    {
+                        currentCm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm);
+                        currentVm = string.IsNullOrEmpty(vm) ? 0 : int.Parse(vm);
                         _metadataStore.SetValue(
                             address._fromRow,
                             address._fromCol,
                             new MetaDataReference()
                             {
-                                cm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm),
-                                vm = string.IsNullOrEmpty(vm) ? 0 : int.Parse(vm)
+                                cm = currentCm,
+                                vm = currentVm
                             });
+                    }
+                    else
+                    {
+                        currentCm = 0;
+                        currentVm = 0;
                     }
 
                     xr.Read();
@@ -1655,8 +1663,11 @@ namespace OfficeOpenXml
                         {
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
-
-                        _sharedFormulas.Add(afIndex, new SharedFormula(this, row, col, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });
+                        if(currentCm>0 && Workbook.Metadata.IsDynamicArray(currentCm-1))
+                        {
+                            _flags.SetFlagValue(row, col, true, CellFlags.CanBeDynamicArray);
+                        }
+                        _sharedFormulas.Add(afIndex, new SharedFormula(this, row, col, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });                        
                     }
                     else if (t=="dataTable") 
                     {
