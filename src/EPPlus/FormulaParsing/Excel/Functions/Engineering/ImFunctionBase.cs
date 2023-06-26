@@ -28,7 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     {
         public override int ArgumentMinLength => 1;
 
-        internal void GetComplexNumbers(object arg, out double real, out double imag, out string imaginarySuffix)
+        protected void GetComplexNumbers(object arg, out double real, out double imag, out string imaginarySuffix)
         {
             if (arg is string formula)
             {
