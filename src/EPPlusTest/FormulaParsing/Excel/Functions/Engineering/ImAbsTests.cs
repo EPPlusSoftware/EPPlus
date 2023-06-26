@@ -24,6 +24,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 Assert.AreEqual(5.38516481, roundedResult);
             }
         }
+
         [TestMethod]
         public void ImAbsShouldReturnCorrectResultWithNumber()
         {
