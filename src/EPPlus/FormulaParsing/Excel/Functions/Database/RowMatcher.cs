@@ -22,16 +22,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
     internal class RowMatcher
     {
-        private readonly WildCardValueMatcher _wildCardValueMatcher;
+        private readonly WildCardValueMatcher2 _wildCardValueMatcher;
         private readonly ExpressionEvaluator _expressionEvaluator;
 
         public RowMatcher(ParsingContext ctx)
-            : this(new WildCardValueMatcher(), new ExpressionEvaluator(ctx))
+            : this(new WildCardValueMatcher2(), new ExpressionEvaluator(ctx))
         {
             
         }
 
-        public RowMatcher(WildCardValueMatcher wildCardValueMatcher, ExpressionEvaluator expressionEvaluator)
+        public RowMatcher(WildCardValueMatcher2 wildCardValueMatcher, ExpressionEvaluator expressionEvaluator)
         {
             _wildCardValueMatcher = wildCardValueMatcher;
             _expressionEvaluator = expressionEvaluator;

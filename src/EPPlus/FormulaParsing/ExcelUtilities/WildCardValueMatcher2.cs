@@ -82,7 +82,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                             svC = pattern[svIx];
                     }
                     var part = svPart.ToString();
-                    cIx = cand.IndexOf(part, cIx);
+                    if (cand.EndsWith(part) && svIx == pattern.Length) return true;
+                    cIx = cand.LastIndexOf(part);
                     if (cIx < 0) return false;
                     cIx += part.Length;
                 }
@@ -101,10 +102,11 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 }
                 else if (sv == '?' && !escapeNextWildCard)
                 {
+                    if (cIx > cand.Length - 1) return false;
                     cIx++;
                     svIx++;
                 }
-                else if (sv == cand[cIx])
+                else if (cIx < cand.Length && sv == cand[cIx])
                 {
                     cIx++;
                     svIx++;
@@ -115,7 +117,11 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                     return false;
                 }
             }
-            while (cIx < cand.Length);
+            while (svIx < pattern.Length);
+            if(cIx < cand.Length - 1 && pattern.Last() != '*')
+            {
+                return false;
+            }
             return true;
         }
     }

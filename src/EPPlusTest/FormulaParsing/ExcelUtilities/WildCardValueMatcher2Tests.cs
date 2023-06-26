@@ -32,6 +32,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using System.Diagnostics;
+using Microsoft.VisualBasic;
 
 namespace EPPlusTest.ExcelUtilities
 {
@@ -53,6 +55,52 @@ namespace EPPlusTest.ExcelUtilities
             var string2 = "abcd";
             var result = _matcher.IsMatch(string1, string2);
             Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_Match1()
+        {
+            var string1 = "a*c";
+            var string2 = "a123c654564abc";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod, Ignore]
+        public void ShouldHandleMultiCharMatch_Match2()
+        {
+            // TODO: make this work...
+            var string1 = "*c?a*";
+            var string2 = "ac2ac654564abc";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_Match3()
+        {
+            var string1 = "a*ca*cade?";
+            var string2 = "abcabcadef";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_NoMatch1()
+        {
+            var string1 = "a*c";
+            var string2 = "a123c654564abd";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreNotEqual(0, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandleMultiCharMatch_NoMatch2()
+        {
+            var string1 = "a*ca*cade?";
+            var string2 = "abcadddcade";
+            var result = _matcher.IsMatch(string1, string2);
+            Assert.AreNotEqual(0, result);
         }
 
         [TestMethod]
@@ -110,6 +158,22 @@ namespace EPPlusTest.ExcelUtilities
             var result2 = _matcher.IsMatch("a~?c?e", string2);
 
             Assert.AreEqual(-1, result2);
+        }
+
+        [TestMethod]
+        public void ShouldHandleNull()
+        {
+            string string2 = default;
+            var result2 = _matcher.IsMatch("a~?c?e", string2);
+            Assert.AreNotEqual(0, result2);
+        }
+
+        [TestMethod]
+        public void ShouldHandleEmptyString()
+        {
+            var string2 = string.Empty;
+            var result2 = _matcher.IsMatch("a~?c?e", string2);
+            Assert.AreNotEqual(0, result2);
         }
     }
 }
