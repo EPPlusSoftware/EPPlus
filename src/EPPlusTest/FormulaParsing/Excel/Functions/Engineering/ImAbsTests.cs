@@ -37,19 +37,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering
                 Assert.AreEqual(14D, roundedResult);
             }
         }
-        [TestMethod]
-        public void ImAbsShouldReturnNumError()
-        {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("sheet1");
-                sheet.Cells["A1"].Formula = "IMABS(\"8\")";
-                sheet.Calculate();
-                var result = sheet.Cells["A1"].Value;
-                var roundedResult = System.Math.Round(System.Convert.ToDouble(result), 6);
-                Assert.AreEqual(14.422205, roundedResult);
-            }
-        }
 
     }
 }

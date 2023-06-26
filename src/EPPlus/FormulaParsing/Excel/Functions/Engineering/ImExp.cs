@@ -31,8 +31,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                 return CompileResult.GetErrorResult(eErrorType.Num);
             }
             var realPart = (Math.Cos(imag)*Math.Exp(real));
+            realPart = RoundingHelper.RoundToSignificantFig(realPart, 15);
             var imagPart = (Math.Sin(imag)*Math.Exp(real));
-            var sign = imagPart < 0 ? "-" : "+";
+            imagPart = RoundingHelper.RoundToSignificantFig(imagPart, 15);
+            var sign = (imagPart < 0) ? "-" : "+";
             var result = string.Format("{0:F12}{1}{2:F12}{3}",realPart, sign, Math.Abs(imagPart), imaginarySuffix);
             return CreateResult(result, DataType.Decimal);
         }

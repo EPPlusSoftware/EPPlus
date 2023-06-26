@@ -75,7 +75,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
                     
                     if (imagString.Length > 1 && (imagString.Substring(1).Equals("i") || imagString.Substring(1).Equals("j")))
                     {
-                        imag = 1;
+                        if (imagString.Substring(0,1).Equals("-"))
+                        {
+                            imag = -1;
+                        }
+                        else
+                        {
+                            imag = 1;
+                        }    
                     }
                     else
                     {
